@@ -84,6 +84,8 @@ def test_mean_reversion_strategy_definitions():
 def test_factory_backtest_execution():
     parquet_path = Path("data/processed/DE30_EUR_15m_2019_2026.parquet")
     if not parquet_path.exists():
+        parquet_path = Path("/tmp/lse_15m_cache/DE30_EUR_15m_2019_2026.parquet")
+    if not parquet_path.exists():
         pytest.skip("Local test parquet data not available")
 
     df_raw = pl.read_parquet(parquet_path).slice(0, 1500)
