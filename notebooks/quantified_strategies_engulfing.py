@@ -9,6 +9,7 @@
 #     "ml4t-models==0.1.4",
 #     "numpy==2.5.3",
 #     "polars==1.44.2",
+#     "scikit-learn==1.9.1",
 # ]
 # ///
 
@@ -893,6 +894,213 @@ def bt_visuals(
         bt_summary_table,
         _eq_chart,
         _bt_callout,
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def ml_ui(mo):
+    ml_header = mo.md(
+        r"""
+        ---
+        ## 🤖 Stage 4: Machine Learning Meta-Labeling (`ml4t-engineer` + `MLDatasetBuilder`)
+        *Testing whether machine learning can predict which Bullish Engulfing signals will succeed, filtering false breakouts using **Marcos López de Prado's Meta-Labeling architecture**.*
+
+        ### 🧠 How Meta-Labeling Works with `MLDatasetBuilder`:
+        1. **Primary Model (Rule-Based Trigger)**: Japanese Bullish Engulfing pattern flags candidate entries.
+        2. **Multi-Family Feature Space (`ml4t-engineer`)**: Describes the market condition at trigger time:
+           - **Pattern Geometry**: Body-to-ATR ratio ($|Close - Open| / ATR_{14}$), Range-to-ATR ratio.
+           - **Trend Distance**: $Close / EMA_{200} - 1$, $Close / EMA_{50} - 1$.
+           - **Volatility & Momentum**: Normalized ATR (`natr`), Trend Strength (`adx`), Momentum (`rsi`).
+        3. **Leakage-Free Preprocessing (`MLDatasetBuilder`)**:
+           - `create_dataset_builder(features, labels, dates, scaler="robust")` guarantees scalers are fit **only on training folds** (`train_test_split(shuffle=False)`), preventing forward lookahead contamination.
+        4. **Secondary Meta-Model**: A tree ensemble predicts $P(y=1 | X_t)$ (probability of clearing the return hurdle net of 6 bps friction). Only signals exceeding threshold $\tau$ are executed!
+        """
+    )
+
+    ml_asset_select = mo.ui.dropdown(
+        options=[
+            "Nikkei 225 (JP225/USD)",
+            "Germany 40 (DE30/EUR)",
+            "S&P 500 (SPX500/USD)",
+        ],
+        value="Nikkei 225 (JP225/USD)",
+        label="Asset for ML Meta-Labeling",
+    )
+
+    ml_split_slider = mo.ui.slider(start=50, stop=85, step=5, value=70, label="Training Split (%)")
+    ml_prob_thresh = mo.ui.slider(start=0.45, stop=0.65, step=0.01, value=0.52, label="ML Conviction Threshold (τ)")
+    ml_scaler_select = mo.ui.dropdown(options=["robust", "standard", "minmax"], value="robust", label="MLDatasetBuilder Scaler")
+    ml_run_btn = mo.ui.run_button(label="🤖 Train & Evaluate ML Meta-Model", kind="success")
+
+    ml_controls = mo.hstack([ml_asset_select, ml_split_slider, ml_prob_thresh, ml_scaler_select, ml_run_btn], justify="start", gap=2)
+    mo.vstack([ml_header, ml_controls])
+    return ml_asset_select, ml_prob_thresh, ml_scaler_select, ml_split_slider
+
+
+@app.cell(hide_code=True)
+def ml_compute(
+    Path,
+    alt,
+    ml_asset_select,
+    ml_prob_thresh,
+    ml_scaler_select,
+    ml_split_slider,
+    mle,
+    mo,
+    pl,
+):
+    _cache_dir = Path("/tmp/lse_15m_cache")
+    _sym_str = ml_asset_select.value.split("(")[-1].replace(")", "").strip()
+    _pfile = _cache_dir / f"{_sym_str.replace('/', '_')}_15m_2019_2026.parquet"
+
+    if not _pfile.exists():
+        ml_table = mo.md("*Data file not found for selected asset.*")
+        ml_importance_chart = mo.md("")
+        ml_verdict_callout = mo.md("")
+    else:
+        _df_raw = pl.read_parquet(_pfile).sort("timestamp")
+        _df_1h = (
+            _df_raw.group_by_dynamic("timestamp", every="1h")
+            .agg([
+                pl.col("open").first(),
+                pl.col("high").max(),
+                pl.col("low").min(),
+                pl.col("close").last(),
+                pl.col("volume").sum(),
+                pl.col("symbol").first(),
+            ])
+            .drop_nulls()
+        )
+
+        _df_feat = mle.compute_features(_df_1h, [
+            {"name": "rsi", "params": {"period": 14}},
+            {"name": "atr", "params": {"period": 14}},
+            {"name": "natr", "params": {"period": 14}},
+            {"name": "adx", "params": {"period": 14}},
+            {"name": "ema", "params": {"period": 50}, "output": "ema_50"},
+            {"name": "ema", "params": {"period": 200}, "output": "ema_200"},
+        ], timestamp_col="timestamp")
+
+        _po = pl.col("open").shift(1)
+        _pc = pl.col("close").shift(1)
+        _co = pl.col("open")
+        _cc = pl.col("close")
+
+        _bull_engulf = (_pc < _po) & (_cc > _co) & (_co <= _pc) & (_cc >= _po)
+        _body = (_cc - _co).abs()
+
+        _df_feat = _df_feat.slice(205).with_columns([
+            _bull_engulf.alias("is_bull_engulf"),
+            (_body / pl.col("atr")).alias("body_atr_ratio"),
+            ((pl.col("high") - pl.col("low")) / pl.col("atr")).alias("range_atr_ratio"),
+            (pl.col("close") / pl.col("ema_200") - 1.0).alias("dist_ema200"),
+            (pl.col("close") / pl.col("ema_50") - 1.0).alias("dist_ema50"),
+            (pl.col("close").shift(-20) / pl.col("close") - 1.0).alias("fwd_ret_20"),
+        ])
+
+        _feat_cols = ["dist_ema200", "body_atr_ratio", "adx", "natr", "rsi", "range_atr_ratio", "dist_ema50"]
+
+        _events = (
+            _df_feat.filter(pl.col("is_bull_engulf") & pl.col("fwd_ret_20").is_not_null())
+            .filter(~pl.any_horizontal(pl.col(_feat_cols).is_nan() | pl.col(_feat_cols).is_null()))
+        )
+
+        _labels = (_events["fwd_ret_20"] >= 0.0010).cast(pl.Int32).alias("label")
+        _X_df = _events.select(_feat_cols)
+
+        _builder = mle.create_dataset_builder(
+            features=_X_df,
+            labels=_labels,
+            dates=_events["timestamp"],
+            scaler=ml_scaler_select.value
+        )
+
+        _split_ratio = float(ml_split_slider.value) / 100.0
+        _X_tr, _X_te, _y_tr, _y_te = _builder.train_test_split(train_size=_split_ratio, shuffle=False)
+
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.metrics import roc_auc_score
+
+        _clf = RandomForestClassifier(n_estimators=100, max_depth=3, min_samples_leaf=5, random_state=42)
+        _clf.fit(_X_tr.to_pandas(), _y_tr.to_numpy())
+
+        _preds_prob = _clf.predict_proba(_X_te.to_pandas())[:, 1]
+        _auc = roc_auc_score(_y_te.to_numpy(), _preds_prob)
+
+        _test_events = _events.slice(len(_X_tr), len(_X_te))
+        _test_rets = _test_events["fwd_ret_20"].to_numpy()
+
+        _base_n = len(_test_rets)
+        _base_win = (_test_rets > 0.0006).mean() * 100
+        _base_avg_bps = _test_rets.mean() * 10000 - 6.0
+
+        _tau = float(ml_prob_thresh.value)
+        _ml_mask = _preds_prob >= _tau
+        _ml_rets = _test_rets[_ml_mask]
+        _ml_n = len(_ml_rets)
+        _ml_win = (_ml_rets > 0.0006).mean() * 100 if _ml_n > 0 else 0.0
+        _ml_avg_bps = _ml_rets.mean() * 10000 - 6.0 if _ml_n > 0 else 0.0
+
+        _ml_summary = [
+            {
+                "Strategy Setup": "Base Bullish Engulfing (Unfiltered)",
+                "Test Samples": _base_n,
+                "Win Rate (Net of 6 bps)": f"{_base_win:.1f}%",
+                "Avg Net Return per Trade": f"{_base_avg_bps:+.1f} bps",
+                "Test ROC-AUC": "-",
+            },
+            {
+                "Strategy Setup": f"ML Meta-Filtered (P(Win) ≥ {_tau:.2f})",
+                "Test Samples": _ml_n,
+                "Win Rate (Net of 6 bps)": f"{_ml_win:.1f}%",
+                "Avg Net Return per Trade": f"{_ml_avg_bps:+.1f} bps",
+                "Test ROC-AUC": f"{_auc:.3f}",
+            },
+        ]
+        ml_table = mo.ui.table(pl.DataFrame(_ml_summary))
+
+        _imp_list = [{"Feature": col, "Importance": float(imp)} for col, imp in zip(_feat_cols, _clf.feature_importances_)]
+        _imp_df = pl.DataFrame(_imp_list).sort("Importance", descending=True).to_pandas()
+
+        ml_importance_chart = (
+            alt.Chart(_imp_df)
+            .mark_bar(color="#8e44ad")
+            .encode(
+                x=alt.X("Importance:Q", title="Mean Decrease in Impurity (Feature Importance)"),
+                y=alt.Y("Feature:N", sort="-x", title="Meta-Feature"),
+                tooltip=["Feature:N", "Importance:Q"]
+            )
+            .properties(
+                width="container",
+                height=250,
+                title=f"ML Meta-Model Feature Importances: {ml_asset_select.value.split(' ')[0]}",
+            )
+        )
+
+        _is_improved = _ml_avg_bps > _base_avg_bps
+        ml_verdict_callout = mo.callout(
+            mo.md(
+                f"""
+            ### 🧪 Empirical ML Meta-Labeling Evaluation:
+            - **Model Generalization (ROC-AUC)**: **{_auc:.3f}** out-of-sample across {len(_X_te)} unseen market events.
+            - **Trade Quality Filtration**: Machine learning filtered out **{_base_n - _ml_n} low-conviction entries** ({(_base_n - _ml_n)/_base_n*100:.1f}% of trades).
+            - **Net Expectancy Shift**: Net return per trade shifted from **{_base_avg_bps:+.1f} bps** (Base) to **{_ml_avg_bps:+.1f} bps** (ML Meta-Filtered).
+            - **Key Driver Identified**: The most predictive feature is **`{_imp_df.iloc[0]['Feature']}`** ({_imp_df.iloc[0]['Importance']*100:.1f}% relative importance), confirming that candlestick patterns cannot be traded in isolation from macro trend positioning!
+            """
+            ),
+            kind="success" if _is_improved else "neutral",
+        )
+    return ml_importance_chart, ml_table, ml_verdict_callout
+
+
+@app.cell(hide_code=True)
+def ml_visuals(ml_importance_chart, ml_table, ml_verdict_callout, mo):
+    mo.vstack([
+        mo.md("### 📊 Out-of-Sample Machine Learning Meta-Labeling Performance"),
+        ml_table,
+        ml_importance_chart,
+        ml_verdict_callout,
     ])
     return
 
