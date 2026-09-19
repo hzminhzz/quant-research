@@ -1,0 +1,380 @@
+[
+  {
+    "strategy": "B1: Donchian 10h Breakout + Trend",
+    "family": "Breakout",
+    "description": "New 10-bar high breakout with 200 EMA macro trend and RSI confirmation",
+    "hold_bars": 20,
+    "max_holding_hours": "20 hours (<= 1 day)",
+    "results": {
+      "Germany 40 (DAX)": {
+        "in_sample": {
+          "sharpe": 0.16204587993251893,
+          "total_return_pct": 4.520587214195859,
+          "win_rate_pct": 53.2967032967033,
+          "max_drawdown_pct": 17.824862744276267,
+          "trades": 182,
+          "rank_ic": -0.012360129577742358
+        },
+        "out_of_sample": {
+          "sharpe": 1.1075611126679445,
+          "sharpe_ci": [
+            -0.19326688821875318,
+            2.296411266055198
+          ],
+          "sortino": 2.009785160725915,
+          "total_return_pct": 23.860402678056225,
+          "win_rate_pct": 54.54545454545454,
+          "profit_factor": 1.6871411217320325,
+          "max_drawdown_pct": 7.335155120919944,
+          "trades": 88,
+          "rank_ic": -0.03279490386925574,
+          "p_value": 0.047939508554148635,
+          "dsr_probability": 0.9997802480751252,
+          "dsr_haircut_sharpe": 0.08956742181175392
+        }
+      },
+      "Nikkei 225": {
+        "in_sample": {
+          "sharpe": -0.04884153088334907,
+          "total_return_pct": -2.9833519346341597,
+          "win_rate_pct": 50.0,
+          "max_drawdown_pct": 23.876506362367582,
+          "trades": 126,
+          "rank_ic": 0.0005190713488831203
+        },
+        "out_of_sample": {
+          "sharpe": 1.3078871749773522,
+          "sharpe_ci": [
+            0.10052355952503124,
+            2.4757650239637634
+          ],
+          "sortino": 1.9348898438744375,
+          "total_return_pct": 47.21379554458207,
+          "win_rate_pct": 55.73770491803278,
+          "profit_factor": 1.7724999159452146,
+          "max_drawdown_pct": 9.494691176019309,
+          "trades": 122,
+          "rank_ic": -0.05205484999344989,
+          "p_value": 0.0001472758363393933,
+          "dsr_probability": 1.0,
+          "dsr_haircut_sharpe": 0.28989348412116156
+        }
+      }
+    }
+  },
+  {
+    "strategy": "B2: Trend Continuation Expansion",
+    "family": "Breakout",
+    "description": "Impulse break above prior high with body >= 0.5 ATR in bull trend",
+    "hold_bars": 20,
+    "max_holding_hours": "20 hours (<= 1 day)",
+    "results": {
+      "Germany 40 (DAX)": {
+        "in_sample": {
+          "sharpe": -0.3183620331084067,
+          "total_return_pct": -14.970507395459975,
+          "win_rate_pct": 47.05882352941176,
+          "max_drawdown_pct": 23.148249878457243,
+          "trades": 204,
+          "rank_ic": -0.020210196284005107
+        },
+        "out_of_sample": {
+          "sharpe": 1.4706756190065358,
+          "sharpe_ci": [
+            0.1787410732392011,
+            2.7297616680476726
+          ],
+          "sortino": 2.671250094144068,
+          "total_return_pct": 24.3261766379401,
+          "win_rate_pct": 61.627906976744185,
+          "profit_factor": 1.9142250915157075,
+          "max_drawdown_pct": 5.648362981542454,
+          "trades": 86,
+          "rank_ic": 0.010938809381173432,
+          "p_value": 0.5095256879430133,
+          "dsr_probability": 1.0,
+          "dsr_haircut_sharpe": 0.45268192815034514
+        }
+      },
+      "Nikkei 225": {
+        "in_sample": {
+          "sharpe": 0.10720276314395305,
+          "total_return_pct": 2.237608894152099,
+          "win_rate_pct": 49.166666666666664,
+          "max_drawdown_pct": 22.413540797586272,
+          "trades": 120,
+          "rank_ic": -0.017024365721536726
+        },
+        "out_of_sample": {
+          "sharpe": 0.8986575366890036,
+          "sharpe_ci": [
+            -0.2936189013805184,
+            2.049504662544607
+          ],
+          "sortino": 1.3071429163401285,
+          "total_return_pct": 26.958144934488047,
+          "win_rate_pct": 53.54330708661418,
+          "profit_factor": 1.3892098831480757,
+          "max_drawdown_pct": 10.436437747203014,
+          "trades": 127,
+          "rank_ic": -0.032092789970495805,
+          "p_value": 0.01933099069031102,
+          "dsr_probability": 2.702132136708464e-09,
+          "dsr_haircut_sharpe": -0.11933615416718701
+        }
+      }
+    }
+  },
+  {
+    "strategy": "B3: Bollinger Band Upper Thrust",
+    "family": "Breakout",
+    "description": "Closing thrust above 2.0-std upper Bollinger Band with ADX trend strength",
+    "hold_bars": 24,
+    "max_holding_hours": "24 hours (<= 1 day)",
+    "results": {
+      "Germany 40 (DAX)": {
+        "in_sample": {
+          "sharpe": 0.11432052706536035,
+          "total_return_pct": 2.445888843347954,
+          "win_rate_pct": 48.739495798319325,
+          "max_drawdown_pct": 16.674780960106347,
+          "trades": 119,
+          "rank_ic": -0.024123174486507405
+        },
+        "out_of_sample": {
+          "sharpe": 1.0357512641691597,
+          "sharpe_ci": [
+            -0.2513020292059704,
+            2.255573623299305
+          ],
+          "sortino": 1.8531733714413439,
+          "total_return_pct": 15.91353424764601,
+          "win_rate_pct": 59.64912280701754,
+          "profit_factor": 1.7529918046453543,
+          "max_drawdown_pct": 8.860952625118966,
+          "trades": 57,
+          "rank_ic": 0.002646315935739388,
+          "p_value": 0.8732275454621325,
+          "dsr_probability": 0.7570708645335571,
+          "dsr_haircut_sharpe": 0.01775757331296912
+        }
+      },
+      "Nikkei 225": {
+        "in_sample": {
+          "sharpe": 0.29096170905871155,
+          "total_return_pct": 7.544492387412038,
+          "win_rate_pct": 54.054054054054056,
+          "max_drawdown_pct": 9.177635805889464,
+          "trades": 74,
+          "rank_ic": -0.001693078796051875
+        },
+        "out_of_sample": {
+          "sharpe": 0.8834769804837307,
+          "sharpe_ci": [
+            -0.23543031362228264,
+            2.091131121614108
+          ],
+          "sortino": 1.2640343203626005,
+          "total_return_pct": 25.74190059066015,
+          "win_rate_pct": 65.27777777777779,
+          "profit_factor": 1.6785044442697794,
+          "max_drawdown_pct": 14.245427859008672,
+          "trades": 72,
+          "rank_ic": -0.009401428545955735,
+          "p_value": 0.4933044177903293,
+          "dsr_probability": 2.410165811793984e-11,
+          "dsr_haircut_sharpe": -0.13451671037245994
+        }
+      }
+    }
+  },
+  {
+    "strategy": "M1: Dual RSI Oversold Dip",
+    "family": "Mean Reversion",
+    "description": "Confluence of ultra-short RSI_2 < 15 and medium-term RSI_14 < 45",
+    "hold_bars": 20,
+    "max_holding_hours": "20 hours (<= 1 day)",
+    "results": {
+      "Germany 40 (DAX)": {
+        "in_sample": {
+          "sharpe": 0.03478582064045433,
+          "total_return_pct": -2.8306871511715292,
+          "win_rate_pct": 54.090909090909086,
+          "max_drawdown_pct": 37.89984070371617,
+          "trades": 220,
+          "rank_ic": 0.007134603887370705
+        },
+        "out_of_sample": {
+          "sharpe": 1.1119637726095803,
+          "sharpe_ci": [
+            -0.1909068020996507,
+            2.391571352824667
+          ],
+          "sortino": 1.761127163015332,
+          "total_return_pct": 23.922408003071926,
+          "win_rate_pct": 60.0,
+          "profit_factor": 1.6257146614336715,
+          "max_drawdown_pct": 7.032259175003751,
+          "trades": 80,
+          "rank_ic": 0.04222230690207683,
+          "p_value": 0.01086738954573795,
+          "dsr_probability": 0.9998869603320891,
+          "dsr_haircut_sharpe": 0.09397008175338972
+        }
+      },
+      "Nikkei 225": {
+        "in_sample": {
+          "sharpe": 0.18909804176836204,
+          "total_return_pct": 6.4201167638160195,
+          "win_rate_pct": 54.666666666666664,
+          "max_drawdown_pct": 22.128886035681962,
+          "trades": 150,
+          "rank_ic": 0.020007445987703428
+        },
+        "out_of_sample": {
+          "sharpe": 1.0124694873521527,
+          "sharpe_ci": [
+            -0.02827467367083442,
+            2.149918744378519
+          ],
+          "sortino": 1.50420743704065,
+          "total_return_pct": 49.73967104550607,
+          "win_rate_pct": 59.375,
+          "profit_factor": 1.575347674058243,
+          "max_drawdown_pct": 15.414544647149741,
+          "trades": 128,
+          "rank_ic": 0.011747354434988611,
+          "p_value": 0.3919889426757646,
+          "dsr_probability": 0.39355221530318885,
+          "dsr_haircut_sharpe": -0.005524203504037928
+        }
+      }
+    }
+  },
+  {
+    "strategy": "M2: Volatility-Filtered Engulfing Dip",
+    "family": "Mean Reversion",
+    "description": "Bullish engulfing with significant body (>=0.35 ATR) on intraday pullback (RSI < 55)",
+    "hold_bars": 20,
+    "max_holding_hours": "20 hours (<= 1 day)",
+    "results": {
+      "Germany 40 (DAX)": {
+        "in_sample": {
+          "sharpe": 0.027080705294149476,
+          "total_return_pct": -1.7488793920680479,
+          "win_rate_pct": 55.06329113924051,
+          "max_drawdown_pct": 20.226236869159607,
+          "trades": 158,
+          "rank_ic": 0.01752498455698335
+        },
+        "out_of_sample": {
+          "sharpe": 1.0706895382618653,
+          "sharpe_ci": [
+            -0.17311622573704247,
+            2.4547873267313296
+          ],
+          "sortino": 1.7015737420099173,
+          "total_return_pct": 11.653489397015981,
+          "win_rate_pct": 68.88888888888889,
+          "profit_factor": 2.3633355185915796,
+          "max_drawdown_pct": 3.5205212408984234,
+          "trades": 45,
+          "rank_ic": -0.0034810976895104997,
+          "p_value": 0.8337505639677444,
+          "dsr_probability": 0.9806844171654094,
+          "dsr_haircut_sharpe": 0.05269584740567468
+        }
+      },
+      "Nikkei 225": {
+        "in_sample": {
+          "sharpe": 0.5310253080651349,
+          "total_return_pct": 20.877567359970016,
+          "win_rate_pct": 48.10126582278481,
+          "max_drawdown_pct": 10.679049614039963,
+          "trades": 79,
+          "rank_ic": 0.024157402592810115
+        },
+        "out_of_sample": {
+          "sharpe": 1.0201203459587143,
+          "sharpe_ci": [
+            -0.055316354922463694,
+            2.1156883090507725
+          ],
+          "sortino": 1.6246696923141966,
+          "total_return_pct": 31.0472023737838,
+          "win_rate_pct": 59.45945945945946,
+          "profit_factor": 1.7064558898113311,
+          "max_drawdown_pct": 9.810527932018829,
+          "trades": 74,
+          "rank_ic": 0.005432309250088768,
+          "p_value": 0.6922265459121816,
+          "dsr_probability": 0.5414034042392967,
+          "dsr_haircut_sharpe": 0.0021266551025236335
+        }
+      }
+    }
+  },
+  {
+    "strategy": "M3: EMA Mean-Reversion Snapback",
+    "family": "Mean Reversion",
+    "description": "Severe downward stretch (< -1.4 ATR below EMA50) with oversold RSI_5 < 30",
+    "hold_bars": 20,
+    "max_holding_hours": "20 hours (<= 1 day)",
+    "results": {
+      "Germany 40 (DAX)": {
+        "in_sample": {
+          "sharpe": -0.23348643205691916,
+          "total_return_pct": -15.036900550481713,
+          "win_rate_pct": 55.12820512820513,
+          "max_drawdown_pct": 34.48752215594653,
+          "trades": 156,
+          "rank_ic": 0.013316220505382198
+        },
+        "out_of_sample": {
+          "sharpe": 1.541229771088732,
+          "sharpe_ci": [
+            0.18621497158077988,
+            2.918487770999262
+          ],
+          "sortino": 2.404019989093208,
+          "total_return_pct": 24.38973754387197,
+          "win_rate_pct": 57.14285714285714,
+          "profit_factor": 1.9670469549314527,
+          "max_drawdown_pct": 6.928869810866628,
+          "trades": 56,
+          "rank_ic": 0.0308367528910781,
+          "p_value": 0.06292124606878839,
+          "dsr_probability": 1.0,
+          "dsr_haircut_sharpe": 0.5232360802325413
+        }
+      },
+      "Nikkei 225": {
+        "in_sample": {
+          "sharpe": -0.30781021143116866,
+          "total_return_pct": -16.706847825480043,
+          "win_rate_pct": 50.0,
+          "max_drawdown_pct": 26.42672763098292,
+          "trades": 108,
+          "rank_ic": 0.02127514136334958
+        },
+        "out_of_sample": {
+          "sharpe": 0.8065387239774606,
+          "sharpe_ci": [
+            -0.28051794780219447,
+            2.004786089428682
+          ],
+          "sortino": 1.181873831095942,
+          "total_return_pct": 30.5667330652321,
+          "win_rate_pct": 63.04347826086957,
+          "profit_factor": 1.6940821256768477,
+          "max_drawdown_pct": 13.832065579872063,
+          "trades": 92,
+          "rank_ic": 0.0025407461076488295,
+          "p_value": 0.8531230654934284,
+          "dsr_probability": 2.3762902291788263e-25,
+          "dsr_haircut_sharpe": -0.21145496687873
+        }
+      }
+    }
+  }
+]

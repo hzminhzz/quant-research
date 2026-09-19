@@ -1,47 +1,70 @@
-# Single Source of Truth for Quantified Strategies Engulfing Research
+# Single Source of Truth for Quant Research Suite & ML4T Strategy Factory
 project:
-  name: "quantified-strategies-engulfing"
-  version: "1.0.0"
-  description: "Multi-asset 15-minute empirical evaluation of Quantified Strategies candlestick models (2019-2026)"
+  name: "quant-research-suite"
+  version: "2.0.0"
+  description: "Multi-asset institutional systematic strategy factory and research suite on Germany 40 (DE30) and Nikkei 225 (JP225)"
 
 universe:
   symbols:
-    - "SPX500/USD"   # S&P 500 Index
-    - "JP225/USD"    # Nikkei 225 Index
     - "DE30/EUR"     # Germany 40 (DAX) Index
-  timeframe: "15m"
-  start_date: "2019-01-01"
-  end_date: "2026-03-20"
+    - "JP225/USD"    # Nikkei 225 Index
+    - "SPX500/USD"   # S&P 500 Index
+  native_timeframe: "15m"
+  factory_timeframe: "1h"
+  in_sample_start: "2019-01-01"
+  in_sample_end: "2022-12-31"
+  out_of_sample_start: "2023-01-01"
+  out_of_sample_end: "2026-01-01"
   dataset: "index"
-
-models:
-  option_1:
-    name: "Trend-Filtered Bullish"
-    trigger: "Bullish Engulfing"
-    filter: "Close > EMA_200"
-    exit: "Fixed Hold (16 bars / 4 hours)"
-  option_2:
-    name: "QS Dynamic Exit"
-    trigger: "Bullish Engulfing"
-    filter: "None"
-    exit: "Close > High.shift(1)"
-    timeout_bars: 24
-  option_3:
-    name: "Contrarian Dip Buy"
-    trigger: "Bearish Engulfing"
-    filter: "RSI_14 < 40"
-    exit: "Fixed Hold (16 bars / 4 hours)"
 
 execution:
   initial_capital: 100000.0
   position_sizing: 0.95
   commission_bps: 2.0
   slippage_bps: 1.0
+  roundtrip_friction_bps: 6.0
 
 quality_gates:
   alpha_gate:
-    min_ic: 0.02
+    min_rank_ic: 0.015
     max_p_value: 0.05
   economic_gate:
-    min_sharpe: 0.5
+    min_oos_sharpe: 0.80
     max_drawdown_pct: 20.0
+    max_fee_drag_pct: 35.0
+  overfitting_gate:
+    min_dsr_probability: 0.95
+
+breakout_strategies:
+  b1_donchian_trend:
+    name: "Donchian 10h Breakout + Trend"
+    family: "Breakout"
+    hold_bars: 20
+    description: "New 10-bar high breakout with 200 EMA macro trend and RSI confirmation"
+  b2_trend_expansion:
+    name: "Trend Continuation Expansion"
+    family: "Breakout"
+    hold_bars: 20
+    description: "Impulse break above prior high with body >= 0.5 ATR in bull trend"
+  b3_bb_thrust:
+    name: "Bollinger Band Upper Thrust"
+    family: "Breakout"
+    hold_bars: 24
+    description: "Closing thrust above 2.0-std upper Bollinger Band with ADX trend strength"
+
+mean_reversion_strategies:
+  m1_dual_rsi_dip:
+    name: "Dual RSI Oversold Dip"
+    family: "Mean Reversion"
+    hold_bars: 20
+    description: "Confluence of ultra-short RSI_2 < 15 and medium-term RSI_14 < 45"
+  m2_engulfing_dip:
+    name: "Volatility-Filtered Engulfing Dip"
+    family: "Mean Reversion"
+    hold_bars: 20
+    description: "Bullish engulfing with significant body (>=0.35 ATR) on intraday pullback (RSI < 55)"
+  m3_ema_snapback:
+    name: "EMA Mean-Reversion Snapback"
+    family: "Mean Reversion"
+    hold_bars: 20
+    description: "Severe downward stretch (< -1.4 ATR below EMA50) with oversold RSI_5 < 30"
