@@ -1,61 +1,105 @@
-# Quant Research Suite: Machine Learning for Algorithmic Trading (ML4T)
+# Quantitative Research Suite: Machine Learning for Algorithmic Trading (ML4T)
 
-A production-grade quantitative research framework implementing systematic alpha factor evaluation, diagnostic stage-gating, and event-driven backtesting using **Marimo reactive notebooks** and **ML4T** (`ml4t-engineer`, `ml4t-diagnostic`, `ml4t-backtest`).
-
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/pytest-13%20passed-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)]()
-[![Framework](https://img.shields.io/badge/framework-marimo%20reactive-orange)]()
-[![Standards](https://img.shields.io/badge/standards-ML4T-purple)]()
+[![Architecture](https://img.shields.io/badge/framework-Marimo%20Reactive%20DAG-orange)]()
+[![Methodology](https://img.shields.io/badge/standards-ML4T%204--Stage%20Pipeline-purple)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+
+An institutional-grade systematic quantitative alpha research, factor diagnostics, and event-driven backtesting platform. Built on pure-Python **Marimo reactive notebooks**, **Polars** vectorization, and the **ML4T** (`ml4t-engineer`, `ml4t-diagnostic`, `ml4t-backtest`) methodology inspired by Stefan Jansen and Marcos López de Prado.
 
 ---
 
-## 🏗️ Repository Architecture
+## 1. Architectural Blueprint & Artifact Pipeline
 
-This repository adheres to the ML4T stage-gated artifact-contract pattern, enforcing separation of concerns between raw market data, computed feature stores, diagnostic audit logs, and event-driven backtest executions:
+This repository replaces monolithic Jupyter (`.ipynb`) workflows with the stage-gated ML4T artifact-contract pattern. Each stage possesses deterministic inputs, validated outputs, and clean rerun boundaries:
 
-```text
-.
-├── config/
-│   └── setup.yaml              # Single Source of Truth: symbols, dates, models, fees, quality gates
-├── data/                       # Staged data pipeline artifacts
-│   ├── raw/                    # Read-only vendor tick & bar feeds
-│   ├── processed/              # Canonical schema Parquet partitions
-│   ├── features/               # Versioned factor matrices
-│   └── labels/                 # Path-dependent triple-barrier target labels
-├── notebooks/                  # Pure-Python Marimo reactive notebooks
-│   └── quantified_strategies_engulfing.py # 12-cell verified reactive research lab
-├── run_log/                    # Experiment tracking ledger and audit records
-├── src/                        # Modular quant domain logic
-│   ├── __init__.py
-│   └── patterns.py             # Polars candlestick engine with TA-Lib parity
-├── tests/                      # Headless unit & integration test suites
-│   ├── __init__.py
-│   └── test_engulfing.py       # Pattern detection and mathematical parity tests
-├── pyproject.toml              # Dependencies, marimo runtime config, and pytest paths
-├── .gitignore                  # Strict ignoring of caches, virtual environments, and data
-└── README.md
+```mermaid
+flowchart TD
+    subgraph S1["Stage 1: Features & Labels (ml4t-engineer / src.features)"]
+        A["Canonical Parquet Data<br/>(data/processed/)"] --> B["Group-Aware Technical Indicators<br/>(RSI, EMA, ATR, Volatility)"]
+        B --> C["Path-Dependent Labeling<br/>(Triple Barrier with ATR Scaling)"]
+    end
+
+    subgraph S2["Stage 2: Factor Diagnostics (ml4t-diagnostic / src.pipeline)"]
+        C --> D["Cross-Sectional Rank IC<br/>(Spearman Correlation & Decay)"]
+        D --> E{"Quality Gate 1:<br/>IC >= 0.02 & p < 0.05?"}
+    end
+
+    subgraph S3["Stage 3: Event-Driven Backtest (ml4t-backtest / src.backtest)"]
+        E -->|Pass| F["Order Matching & Friction Simulation<br/>(2 bps Fee + 1 bps Slippage)"]
+        F --> G["Continuous Daily Equity Curve<br/>& True Bootstrap Sharpe Ratio"]
+    end
+
+    subgraph S4["Stage 4: Meta-Labeling & Trial Audit (src.experiment)"]
+        G --> H["Secondary ML Conviction Filter<br/>(MLDatasetBuilder / Chronological Split)"]
+        H --> I["Deflated Sharpe Ratio (DSR) Audit<br/>(run_log/trials.jsonl)"]
+        I --> J{"Quality Gate 2:<br/>DSR >= 0.95?"}
+        J -->|Pass| K["Institutional Deployment Candidate"]
+    end
+
+    E -->|Fail| R1["Reject Signal / Redesign"]
+    J -->|Fail| R2["Reject Configuration (Multiple-Testing Noise)"]
 ```
 
 ---
 
-## 🔬 Research Focus: Intraday Engulfing Candlestick Setups
+## 2. Directory Layout & Taxonomy
 
-We benchmark the three canonical setups from the [Quantified Strategies Candlestick Study](https://www.quantifiedstrategies.com/engulfing-trading-candlestick-pattern-backtest/) across **146,647 aggregate candles** spanning **2019 to 2026**:
-
-1. **Option 1 (Trend Filtered)**: Bullish Engulfing with $\text{Close} > \text{EMA}_{200}$.
-2. **Option 2 (Dynamic Exit)**: Bullish Engulfing with dynamic exit on bar close above prior high ($\text{Close} > \text{High}_{t-1}$).
-3. **Option 3 (Contrarian Dip Buy)**: Bearish Engulfing occurring during oversold momentum ($\text{RSI}_{14} < 40$).
-
-### Target Universe
-- **S&P 500 Index Futures** (`SPX500/USD`): 53,256 15m candles
-- **Nikkei 225 Index Futures** (`JP225/USD`): 42,887 15m candles
-- **DAX / Germany 40 Index Futures** (`DE30/EUR`): 50,504 15m candles
+```text
+.
+├── config/
+│   └── setup.yaml              # Single Source of Truth: universe, dates, costs, quality gates
+├── data/                       # Tiered data storage (read/write access controlled)
+│   ├── raw/                    # Read-only vendor tick/bar feeds (.gitkeep)
+│   ├── processed/              # Canonical Parquet datasets (.gitkeep)
+│   ├── features/               # Versioned factor matrices (.gitkeep)
+│   └── labels/                 # Path-dependent target labels (.gitkeep)
+├── notebooks/                  # Pure-Python Marimo reactive notebooks (.py)
+│   ├── quantified_strategies_engulfing.py # Multi-asset 15m empirical benchmark (12 cells)
+│   └── template_strategy_study.py         # Reusable 4-stage strategy study template
+├── run_log/                    # Experiment tracking ledger
+│   └── trials.jsonl            # Append-only trial ledger for Deflated Sharpe calculation
+├── src/                        # Modular, reusable quantitative domain logic
+│   ├── __init__.py             # Unified package exports
+│   ├── patterns.py             # Candlestick pattern recognition with TA-Lib parity
+│   ├── features.py             # Vectorized, group-aware Polars indicator engine
+│   ├── labeling.py             # Triple-Barrier & Meta-Labeling generators
+│   ├── backtest.py             # Institutional execution engine with cost modeling
+│   ├── pipeline.py             # Typed 4-stage pipeline contract & orchestrator
+│   └── experiment.py           # Experiment trial logger & Deflated Sharpe calculator
+├── tests/                      # Automated unit & integration test suites
+│   ├── __init__.py
+│   ├── test_engulfing.py       # Pattern recognition and TA-Lib parity tests
+│   ├── test_features_parity.py # Zero-lookahead guarantees and group-aware tests
+│   ├── test_pipeline.py        # 4-stage pipeline contract integration tests
+│   └── test_experiment.py      # Trial logging & Deflated Sharpe verification
+├── CLAUDE.md                   # Agent guidelines for Claude Code & Cursor
+├── AGENTS.md                   # Full engineering & agent behavior specification
+├── pyproject.toml              # Dependencies, Marimo runtime config, and pytest paths
+├── .gitignore                  # Exclusion rules for caches, virtual environments, and data
+└── README.md                   # Project whitepaper & reproduction runbook
+```
 
 ---
 
-## 📊 Empirical Findings (2019 – 2026)
+## 3. Quantitative Quality Gates
 
-All backtests incorporate institutional transaction friction: **2 bps commission + 1 bps slippage** per execution leg. Sharpe ratios are computed using continuous daily portfolio returns with 1,000 bootstrap resamples (eliminating retail trade-frequency inflation).
+Before an alpha candidate or strategy variant can be considered viable, it must satisfy all institutional quality gates:
+
+| Quality Gate | Metric | Minimum Acceptance Threshold | Failure Action |
+| :--- | :--- | :--- | :--- |
+| **Predictive Power** | Spearman Rank IC | $\ge 0.02$ with $p\text{-value} < 0.05$ | Reject feature; re-evaluate lookahead window or feature formulation. |
+| **Multiple-Testing Bias** | Deflated Sharpe Ratio (DSR) | $\ge 0.95$ (95% statistical confidence) | Penalize for trial count; discard overfit parameter configurations. |
+| **Overfitting Probability** | Probability of Backtest Overfitting (PBO) | $< 0.50$ via Combinatorial CV | Strategy winner is noise; simplify model and reduce parameter count. |
+| **Parameter Stability** | Sensitivity Surface Plateau | $> 60\%$ of parameter neighborhood profitable | Reject knife-edge optimum; identify stable parameter regions. |
+| **Transaction Survivability** | Net Return Post-Friction | Net positive after 2 bps fee + 1 bps slippage | Increase holding horizon or eliminate high-churn triggers. |
+
+---
+
+## 4. Empirical Findings: Quantified Strategies Candlestick Benchmark
+
+Empirical evaluation of the canonical setups from the [Quantified Strategies Candlestick Study](https://www.quantifiedstrategies.com/engulfing-trading-candlestick-pattern-backtest/) across **146,647 candles** on the **15-minute timeframe (2019–2026)** with institutional execution friction (**2 bps fee + 1 bps slippage**):
 
 | Instrument | Strategy Setup | Trade Count | Win Rate | Total Return | True Sharpe (95% CI) | Max Drawdown | Statistically Significant? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -69,39 +113,55 @@ All backtests incorporate institutional transaction friction: **2 bps commission
 | **Germany 40 (`DE30/EUR`)** | Option 3 (Dip Buy / RSI < 40) | 1,295 | 47.1% | -43.8% | -1.13 `[-1.87, -0.38]` | 45.9% | No |
 | **Germany 40 (`DE30/EUR`)** | Option 2 (Dynamic Exit / High$_{t-1}$) | 2,240 | 48.2% | -62.1% | -1.88 `[-2.65, -1.12]` | 63.8% | No (Friction drag) |
 
-### Key Quant Insights
-1. **Nikkei 225 Overreaction**: The only profitable intraday setup is Nikkei 225 Option 3. Japanese equities exhibit pronounced intraday mean-reversion following high-volume panic selloffs.
-2. **Transaction Friction Penalty**: On 15m intervals, dynamic exits (Option 2) generate >2,000 roundtrips over 7 years; cumulative execution friction erodes >50% of portfolio capital.
-3. **Trend Filtering Utility**: The $\text{EMA}_{200}$ trend filter cuts maximum drawdown by more than half compared to raw candlestick entries.
+### Core Quantitative Insights
+1. **The Intraday Churn Trap**: On 15m intervals, dynamic exits (Option 2) trigger over 2,000 trades. At 6 bps roundtrip friction, execution drag consumes over 50% of the account equity.
+2. **The "Sharpe 10+" Retail Fallacy**: Retail backtesters calculate Sharpe by scaling trade-level returns by $\sqrt{252 \times 26} \approx 81$, hallucinating independent uncollateralized trades every 15 minutes. Calculating Sharpe on continuous daily equity returns reveals true economic performance.
+3. **Nikkei 225 Mean Reversion**: Japanese index futures display pronounced intraday mean-reversion during heavy selloffs (Bearish Engulfing + $\text{RSI}_{14} < 40$), delivering the only positive net return and statistically significant Rank IC.
 
 ---
 
-## 🛠️ Getting Started
+## 5. Developer & Agent Runbook
 
-### 1. Installation
+### Environment Setup
 Clone the repository and install dependencies with `uv`:
-
 ```bash
 git clone https://github.com/hzminhzz/quant-research.git
 cd quant-research
 uv sync
 ```
 
-### 2. Launch Interactive Marimo Lab
-To interactively explore signals, diagnostic matrices, and backtest results:
-
+### Run Automated Unit & Integration Tests
+Execute the complete test suite (pattern parity, lookahead leakage, 4-stage pipeline, and DSR ledger):
 ```bash
-uv run marimo edit notebooks/quantified_strategies_engulfing.py
+uv run --with polars,scipy,pytest python -m pytest tests/
 ```
 
-### 3. Run Headless Tests
-Run test suites across candlestick detection and pipeline utilities:
-
+### Launch Interactive Marimo Lab
+Start the reactive research environment:
 ```bash
-uv run pytest
+# Quantified Strategies multi-asset benchmark
+uv run marimo edit notebooks/quantified_strategies_engulfing.py
+
+# Reusable 4-stage research study template
+uv run marimo edit notebooks/template_strategy_study.py
+```
+
+### Validate Reactive DAGs Headless
+Verify that notebooks compile cleanly without cyclic dependencies, duplicate globals, or syntax errors:
+```bash
+uv run marimo check notebooks/*.py
 ```
 
 ---
 
-## 🛡️ License
-MIT License. Developed following the *Machine Learning for Algorithmic Trading* (ML4T) methodology.
+## 6. Remote Container Deployment (Molab)
+
+When deploying to remote cloud sandbox environments (e.g. Molab):
+1. **Synchronize Directory Structure**: Ensure `config/`, `data/`, `src/`, `tests/`, and `run_log/` are present.
+2. **Verify Headless Execution**: Run `python3 -m pytest tests` and `marimo check notebook.py` inside the container.
+3. **Inspect Output Payload Budget**: Confirm all cell outputs serialize below the 10 MB limit (`output_max_bytes = 10_000_000`).
+
+---
+
+## 7. License & Citation
+MIT License. Developed in alignment with Stefan Jansen's *Machine Learning for Algorithmic Trading* (ML4T) methodology and Marcos López de Prado's *Advances in Financial Machine Learning*.
