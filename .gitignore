@@ -1,0 +1,23 @@
+# Environments & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+.env
+
+# Marimo & scratch
+__marimo__/
+.omg/
+
+# Data artifacts
+data/raw/*
+data/processed/*
+data/features/*
+data/labels/*
+!data/**/.gitkeep
+run_log/models/*
+run_log/*.db
+
+# macOS
+.DS_Store

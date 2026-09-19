@@ -1,0 +1,47 @@
+# Single Source of Truth for Quantified Strategies Engulfing Research
+project:
+  name: "quantified-strategies-engulfing"
+  version: "1.0.0"
+  description: "Multi-asset 15-minute empirical evaluation of Quantified Strategies candlestick models (2019-2026)"
+
+universe:
+  symbols:
+    - "SPX500/USD"   # S&P 500 Index
+    - "JP225/USD"    # Nikkei 225 Index
+    - "DE30/EUR"     # Germany 40 (DAX) Index
+  timeframe: "15m"
+  start_date: "2019-01-01"
+  end_date: "2026-03-20"
+  dataset: "index"
+
+models:
+  option_1:
+    name: "Trend-Filtered Bullish"
+    trigger: "Bullish Engulfing"
+    filter: "Close > EMA_200"
+    exit: "Fixed Hold (16 bars / 4 hours)"
+  option_2:
+    name: "QS Dynamic Exit"
+    trigger: "Bullish Engulfing"
+    filter: "None"
+    exit: "Close > High.shift(1)"
+    timeout_bars: 24
+  option_3:
+    name: "Contrarian Dip Buy"
+    trigger: "Bearish Engulfing"
+    filter: "RSI_14 < 40"
+    exit: "Fixed Hold (16 bars / 4 hours)"
+
+execution:
+  initial_capital: 100000.0
+  position_sizing: 0.95
+  commission_bps: 2.0
+  slippage_bps: 1.0
+
+quality_gates:
+  alpha_gate:
+    min_ic: 0.02
+    max_p_value: 0.05
+  economic_gate:
+    min_sharpe: 0.5
+    max_drawdown_pct: 20.0

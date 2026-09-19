@@ -1,0 +1,24 @@
+[project]
+name = "marimo-quant-research"
+version = "0.1.0"
+description = "ML4T Quantitative Research Suite with Marimo Reactive Notebooks"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "marimo>=0.24.0",
+    "polars>=1.20.0",
+    "altair>=5.0.0",
+    "ml4t-engineer>=0.1.4",
+    "ml4t-diagnostic>=0.1.6",
+    "ml4t-backtest>=0.1.7",
+    "lse-data>=0.1.0",
+    "ta-lib>=0.4.0",
+    "pyyaml>=6.0",
+]
+
+[tool.marimo.runtime]
+output_max_bytes = 10_000_000
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
