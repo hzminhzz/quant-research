@@ -29,6 +29,7 @@ with app.setup(hide_code=True):
     import ml4t.diagnostic.metrics as diag_metrics
     import numpy as np
     import polars as pl
+    import talib
 
     alt.data_transformers.enable("default")
 
@@ -114,33 +115,44 @@ def config_ui():
 
     trend_filter_toggle = mo.ui.checkbox(
         value=True,
-        label="Condition on 15m EMA-200 Trend Filter",
+        label="Condition on EMA-200 Trend Filter",
+    )
+
+    atr_filter_toggle = mo.ui.checkbox(
+        value=True,
+        label="OR Volatility Filter: Range >= 1.2 * ATR20",
+    )
+
+    spx_vwap_toggle = mo.ui.checkbox(
+        value=True,
+        label="Condition on S&P 500 VWAP Relative Strength",
     )
 
     min_range_slider = mo.ui.slider(
         start=0.0,
         stop=0.60,
         step=0.05,
-        value=0.20,
+        value=0.15,
         label="Min OR Range (% of price)",
     )
 
     comm_slider = mo.ui.slider(
-        start=0.0, stop=5.0, step=0.5, value=2.0, label="Commission (bps/leg)"
+        start=0.0, stop=5.0, step=0.5, value=0.0, label="Commission (bps/leg)"
     )
     slip_slider = mo.ui.slider(
-        start=0.0, stop=3.0, step=0.5, value=1.0, label="Slippage (bps/leg)"
+        start=0.0, stop=3.0, step=0.5, value=2.0, label="Slippage (bps/leg)"
     )
 
     controls_panel = mo.vstack([
         mo.md("### ⚙️ Day-Trading Strategy Configuration & Friction Model"),
         mo.hstack([asset_select, or_duration_select, period_select], justify="start", gap=2),
         mo.hstack([tp_mode_select, sl_mode_select, side_select], justify="start", gap=2),
-        mo.hstack([trend_filter_toggle, min_range_slider], justify="start", gap=2),
-        mo.hstack([comm_slider, slip_slider], justify="start", gap=2),
+        mo.hstack([trend_filter_toggle, atr_filter_toggle, spx_vwap_toggle], justify="start", gap=2),
+        mo.hstack([min_range_slider, comm_slider, slip_slider], justify="start", gap=2),
     ])
     return (
         asset_select,
+        atr_filter_toggle,
         comm_slider,
         controls_panel,
         min_range_slider,
@@ -149,6 +161,7 @@ def config_ui():
         side_select,
         sl_mode_select,
         slip_slider,
+        spx_vwap_toggle,
         tp_mode_select,
         trend_filter_toggle,
     )
@@ -163,6 +176,7 @@ def display_controls(controls_panel):
 @app.cell
 def run_orb_backtest(
     asset_select,
+    atr_filter_toggle,
     comm_slider,
     min_range_slider,
     or_duration_select,
@@ -170,6 +184,7 @@ def run_orb_backtest(
     side_select,
     sl_mode_select,
     slip_slider,
+    spx_vwap_toggle,
     tp_mode_select,
     trend_filter_toggle,
 ):
@@ -190,6 +205,21 @@ def run_orb_backtest(
 
     _df_raw = pl.read_parquet(_file_p).sort("timestamp")
 
+    # Load SPX for VWAP Relative Strength Conditioning
+    _spx_p = Path("data/processed/SPX500_USD_15m_2019_2026.parquet")
+    if _spx_p.exists():
+        _df_spx = pl.read_parquet(_spx_p).sort("timestamp")
+        _df_spx = _df_spx.with_columns([
+            pl.col("timestamp").dt.date().alias("date"),
+            ((pl.col("high") + pl.col("low") + pl.col("close")) / 3.0).alias("tp"),
+            pl.when(pl.col("volume") > 0).then(pl.col("volume")).otherwise(1.0).alias("eff_vol"),
+        ]).with_columns([
+            (pl.col("tp") * pl.col("eff_vol")).alias("pv")
+        ]).with_columns([
+            (pl.col("pv").cum_sum().over("date") / pl.col("eff_vol").cum_sum().over("date")).alias("spx_vwap")
+        ]).select(["timestamp", pl.col("close").alias("spx_close"), "spx_vwap"])
+        _df_raw = _df_raw.join_asof(_df_spx, on="timestamp", strategy="backward")
+
     # Date filtering
     if period_select.value == "Out-of-Sample (2023–2026)":
         _df = _df_raw.filter(
@@ -209,14 +239,22 @@ def run_orb_backtest(
     _sl_mode = "mid" if "Midpoint" in sl_mode_select.value else "full"
     _allow_short = side_select.value == "Long and Short"
     _use_trend = trend_filter_toggle.value
+    _use_atr = atr_filter_toggle.value
+    _use_spx_vwap = spx_vwap_toggle.value
     _min_rng_pct = float(min_range_slider.value)
     _friction = 2.0 * (float(comm_slider.value) + float(slip_slider.value)) / 10_000.0
 
     # Indicator precomputation
+    _h_arr = _df["high"].to_numpy()
+    _l_arr = _df["low"].to_numpy()
+    _c_arr = _df["close"].to_numpy()
+    _atr_arr = talib.ATR(_h_arr, _l_arr, _c_arr, timeperiod=20)
+
     _df = _df.with_columns([
         pl.col("timestamp").dt.date().alias("date"),
         pl.col("timestamp").dt.hour().alias("hour"),
         pl.col("close").ewm_mean(span=200).alias("ema_200"),
+        pl.Series("atr20_bar", _atr_arr).shift(1),
     ])
 
     _dates = _df["date"].unique().sort().to_list()
@@ -235,11 +273,17 @@ def run_orb_backtest(
         _or_close = _or_df["close"].last()
         _or_range = _or_high - _or_low
         _ema200 = _or_df["ema_200"].last()
+        _atr20 = _or_df["atr20_bar"].first()
 
         if _or_range is None or _or_close is None or _or_range <= 0:
             continue
         if (_or_range / _or_close) * 100.0 < _min_rng_pct:
             continue
+
+        # Opening Range Volatility Filter
+        if _use_atr:
+            if _atr20 is None or np.isnan(_atr20) or _or_range < 1.2 * _atr20:
+                continue
 
         _rest_df = _session_df.slice(_or_bars)
         _in_trade = False
@@ -256,6 +300,8 @@ def run_orb_backtest(
             _h = _bar["high"][0]
             _l = _bar["low"][0]
             _ts = _bar["timestamp"][0]
+            _spx_c = _bar["spx_close"][0] if "spx_close" in _bar.columns else None
+            _spx_v = _bar["spx_vwap"][0] if "spx_vwap" in _bar.columns else None
 
             if not _in_trade:
                 # Only enter within first 4 bars (1 hour) after OR completes
@@ -263,10 +309,14 @@ def run_orb_backtest(
                     _long_sig = _c > _or_high
                     if _use_trend and _ema200 is not None:
                         _long_sig = _long_sig and (_c > _ema200)
+                    if _use_spx_vwap and _spx_c is not None and _spx_v is not None:
+                        _long_sig = _long_sig and (_spx_c > _spx_v)
 
                     _short_sig = (_c < _or_low) and _allow_short
                     if _use_trend and _ema200 is not None:
                         _short_sig = _short_sig and (_c < _ema200)
+                    if _use_spx_vwap and _spx_c is not None and _spx_v is not None:
+                        _short_sig = _short_sig and (_spx_c < _spx_v)
 
                     if _long_sig:
                         _in_trade = True
