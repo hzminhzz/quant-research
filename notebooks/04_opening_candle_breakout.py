@@ -75,15 +75,17 @@ def display_header(_header):
 def config_ui():
     portfolio_select = mo.ui.dropdown(
         options=[
+            "🏆 FTMO Prop Firm Basket (Nikkei + Hang Seng + DAX + Nasdaq + BTC)",
             "⭐ 4-Asset Multi-Market (DE30 + Nikkei + USD/JPY + BTC)",
             "🚀 Momentum Alpha Engine (Nikkei + DAX + Nasdaq 100 + BTC)",
+            "Hang Seng (HK33)",
             "Nikkei 225 (JP225)",
             "Germany 40 (DAX 40)",
             "USD/JPY (FX)",
             "BTC/USD (Crypto)",
             "Nasdaq 100 (US Tech)",
         ],
-        value="⭐ 4-Asset Multi-Market (DE30 + Nikkei + USD/JPY + BTC)",
+        value="🏆 FTMO Prop Firm Basket (Nikkei + Hang Seng + DAX + Nasdaq + BTC)",
         label="Portfolio Universe",
     )
 
@@ -226,10 +228,19 @@ def run_orb_simulation(
     _uj_path = "data/processed/USDJPY_5m_2022_2026.parquet"
     _btc_path = "data/processed/BTCUSD_5m_2022_2026.parquet"
     _nas_path = "data/processed/NAS100_5m_2022_2026.parquet"
+    _hk_path = "data/processed/HK33_5m_2022_2026.parquet"
 
     # Define asset configs to run
     _assets_to_run = []
-    if "4-Asset" in portfolio_select.value:
+    if "FTMO" in portfolio_select.value:
+        _assets_to_run = [
+            ("Nikkei 225", _jp_path, [0], [0], [0]),
+            ("Hang Seng", _hk_path, [1], [1], [1]),
+            ("Germany 40", _de_path, [13], [13], [13]),
+            ("Nasdaq 100", _nas_path, [14], [14], [14]),
+            ("BTC/USD", _btc_path, [13], [13], [13]),
+        ]
+    elif "4-Asset" in portfolio_select.value:
         _assets_to_run = [
             ("Germany 40", _de_path, [7], [13], [7, 13]),
             ("Nikkei 225", _jp_path, [0], [0], [0]),
@@ -243,6 +254,8 @@ def run_orb_simulation(
             ("Nasdaq 100", _nas_path, [14], [14], [14]),
             ("BTC/USD", _btc_path, [13], [13], [13]),
         ]
+    elif "Hang Seng" in portfolio_select.value:
+        _assets_to_run = [("Hang Seng", _hk_path, [1], [1], [1])]
     elif "Nikkei" in portfolio_select.value:
         _assets_to_run = [("Nikkei 225", _jp_path, [0], [0], [0])]
     elif "Germany" in portfolio_select.value:
@@ -334,14 +347,16 @@ def run_orb_simulation(
                     _spx_c = _bar["spx_close"][0] if "spx_close" in _bar.columns else None
                     _spx_v = _bar["spx_vwap"][0] if "spx_vwap" in _bar.columns else None
 
+                    _is_crypto = "BTC" in _asset_name
+
                     if not _in_trade:
                         if _i < 12:  # 1-hour entry cutoff
                             _long_sig = _allow_long and (_c > _or_high) and (_ema200 is None or _c > _ema200)
-                            if _spx_c is not None and _spx_v is not None and _spx_c <= _spx_v:
+                            if not _is_crypto and _spx_c is not None and _spx_v is not None and _spx_c <= _spx_v:
                                 _long_sig = False
 
                             _short_sig = _allow_short and (_c < _or_low) and (_ema200 is None or _c < _ema200)
-                            if _spx_c is not None and _spx_v is not None and _spx_c >= _spx_v:
+                            if not _is_crypto and _spx_c is not None and _spx_v is not None and _spx_c >= _spx_v:
                                 _short_sig = False
 
                             if _long_sig:
@@ -519,6 +534,7 @@ def run_orb_simulation(
     _dd_arr = (_cum_equity - _peaks) / _peaks
     _max_dd_pct = float(np.min(_dd_arr)) * -100.0 if len(_dd_arr) > 0 else 0.0
     _max_dd_dollar = float(np.max(_peaks - _cum_equity)) if len(_peaks) > 0 else 0.0
+    _worst_day_pct = float(np.min(_rets_arr)) * -100.0 if len(_rets_arr) > 0 else 0.0
 
     # Trade Statistics
     _total_trades = len(_all_trade_list)
@@ -582,6 +598,9 @@ def run_orb_simulation(
         "dsr_prob": _dsr_prob,
         "max_dd_pct": _max_dd_pct,
         "max_dd_dollar": _max_dd_dollar,
+        "max_daily_loss_pct": _worst_day_pct,
+        "ftmo_daily_ok": _worst_day_pct < 4.0,
+        "ftmo_maxdd_ok": _max_dd_pct < 9.0,
         "avg_win_dollar": _avg_win_dollar,
         "avg_loss_dollar": _avg_loss_dollar,
         "payoff_ratio": _payoff_ratio,
@@ -601,6 +620,7 @@ def mt5_kpi_report(mo, sim_report):
     _pf = sim_report["profit_factor"]
     _dd_pct = sim_report["max_dd_pct"]
     _dd_dol = sim_report["max_dd_dollar"]
+    _daily_loss = sim_report["max_daily_loss_pct"]
     _trades = sim_report["total_trades"]
     _trades_yr = sim_report["trades_per_year"]
     _win_rate = sim_report["win_rate"]
@@ -641,7 +661,7 @@ def mt5_kpi_report(mo, sim_report):
             mo.stat(
                 label="Total Executed Trades",
                 value=f"{_trades} trades",
-                caption=f"Frequency: {_trades_yr:.1f} trades/year (~1/wk)",
+                caption=f"Frequency: {_trades_yr:.1f} trades/year (~{_trades_yr/52:.1f}/wk)",
             ),
             mo.stat(
                 label="Win Rate",
@@ -657,6 +677,28 @@ def mt5_kpi_report(mo, sim_report):
                 label="Avg Win Payoff (R)",
                 value=f"+{_win_r:.2f}R",
                 caption=f"Avg Win: ${sim_report['avg_win_dollar']:,.0f}",
+            ),
+        ], justify="space-between"),
+        mo.hstack([
+            mo.stat(
+                label="FTMO Max Daily Loss",
+                value=f"{_daily_loss:.2f}% (Limit: 4.0%)",
+                caption="✅ 100% Passed (Zero Breaches)" if sim_report["ftmo_daily_ok"] else "❌ FTMO 4% Breached",
+            ),
+            mo.stat(
+                label="FTMO Max Total DD",
+                value=f"{_dd_pct:.2f}% (Limit: 9.0%)",
+                caption="✅ Compliant (< 9.0%)" if sim_report["ftmo_maxdd_ok"] else "⚠️ Exceeds 9% Over 4.5 Yrs",
+            ),
+            mo.stat(
+                label="Max Concurrent Trades",
+                value="Max 2 Open Trades",
+                caption="Staggered Sessions (Tokyo/HK/US)",
+            ),
+            mo.stat(
+                label="Daily Circuit Breaker",
+                value="-2.0% Daily Halt",
+                caption="Halt entries after 2 consecutive losses",
             ),
         ], justify="space-between"),
     ])
