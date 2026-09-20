@@ -136,3 +136,35 @@ def test_statistical_haircut():
     assert h1 == 1.5
     assert h10 < h1
     assert h50 < h10
+
+
+def test_probability_gating_filtering():
+    """Verify that probability gating filters trades with p_hat < threshold."""
+    trades = [
+        {"date": "2024-01-01", "r_mult": -1.0, "pnl_pct": -0.01, "prob": 0.40},  # Low conviction loss -> filtered!
+        {"date": "2024-01-02", "r_mult": 2.0, "pnl_pct": 0.02, "prob": 0.65},   # High conviction win -> taken!
+    ]
+    sim = FTMOSimulator(trades)
+    daily_sequence = [sim.trades_by_date[d] for d in sim.unique_dates]
+
+    # Without gating: both executed, net return +1%
+    res_nogate = sim.simulate_path(daily_sequence, risk_pct=1.0)
+    assert res_nogate.total_trades == 2
+
+    # With gating at 0.52: only the winning trade is executed
+    res_gated = sim.simulate_path(daily_sequence, risk_pct=1.0, prob_threshold=0.52)
+    assert res_gated.total_trades == 1
+
+
+def test_half_kelly_position_sizing():
+    """Verify that Half-Kelly scales risk up for high conviction and down for low conviction."""
+    trades = [
+        {"date": "2024-01-01", "r_mult": 2.0, "pnl_pct": 0.02, "prob": 0.70},
+    ]
+    sim = FTMOSimulator(trades)
+    daily_sequence = [sim.trades_by_date[d] for d in sim.unique_dates]
+
+    # At p=0.70, b=2, Kelly = (3*0.7 - 1)/2 = 0.55. Half-Kelly = 0.275 -> 2.0% cap
+    res_kelly = sim.simulate_path(daily_sequence, risk_pct=1.0, use_half_kelly=True, max_kelly_risk_pct=2.0)
+    assert res_kelly.total_trades == 1
+

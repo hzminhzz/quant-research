@@ -92,9 +92,13 @@ class FTMOSimulator:
     def simulate_path(
         self,
         daily_trade_sequence: List[List[Dict[str, Any]]],
-        risk_pct: float,
+        risk_pct: float = 1.0,
         simulate_funded: bool = True,
         funded_sim_days: int = 60,
+        prob_threshold: Optional[float] = None,
+        use_half_kelly: bool = False,
+        base_risk_pct: float = 1.0,
+        max_kelly_risk_pct: float = 2.0,
     ) -> FTMOAttemptResult:
         """Simulate a single chronological attempt through Step 1, Step 2, and Funded."""
         cfg = self.config
@@ -128,10 +132,27 @@ class FTMOSimulator:
                     # Halt further trading for the rest of this day to protect daily limit
                     break
 
+                # Probability gating: skip trade if meta-model probability is below cutoff
+                p_hat = t.get("prob", t.get("meta_prob", None))
+                if prob_threshold is not None and p_hat is not None:
+                    if p_hat < prob_threshold:
+                        continue
+
+                # Determine trade risk sizing
+                if use_half_kelly and p_hat is not None:
+                    # Half-Kelly sizing for 2:1 reward-to-risk ratio (b = 2)
+                    # Full Kelly: f* = (b*p - q) / b = (2p - (1-p)) / 2 = (3p - 1) / 2
+                    # Half Kelly: 0.5 * f*
+                    full_kelly = max(0.0, (3.0 * p_hat - 1.0) / 2.0)
+                    half_kelly_frac = 0.5 * full_kelly
+                    trade_risk_pct = float(np.clip(half_kelly_frac * 10.0, 0.25, max_kelly_risk_pct))
+                else:
+                    trade_risk_pct = risk_pct
+
                 # Scale trade by current risk sizing
                 r = t.get("r_mult", t.get("pnl_pct", 0.0) * 100.0)
                 # Net percentage gained/lost on initial balance
-                scaled_trade_pct = r * (risk_pct / 100.0)
+                scaled_trade_pct = r * (trade_risk_pct / 100.0)
                 
                 day_pnl_pct += scaled_trade_pct
                 day_had_trade = True
@@ -143,6 +164,7 @@ class FTMOSimulator:
 
             # Track peak daily loss
             if day_pnl_pct < 0:
+
                 loss_mag = abs(day_pnl_pct)
                 if loss_mag > max_daily_observed:
                     max_daily_observed = loss_mag
@@ -276,6 +298,10 @@ class FTMOSimulator:
         block_size: int = 5,
         max_sim_days: int = 180,
         random_seed: int = 42,
+        prob_threshold: Optional[float] = None,
+        use_half_kelly: bool = False,
+        base_risk_pct: float = 1.0,
+        max_kelly_risk_pct: float = 2.0,
     ) -> Dict[str, Any]:
         """Perform stationary block bootstrap Monte Carlo of 2-Step Challenge attempts.
 
@@ -301,8 +327,17 @@ class FTMOSimulator:
                     d_str = date_list[idx]
                     sampled_days_trades.append(self.trades_by_date[d_str])
 
-            res = self.simulate_path(sampled_days_trades, risk_pct=risk_pct, simulate_funded=True)
+            res = self.simulate_path(
+                sampled_days_trades,
+                risk_pct=risk_pct,
+                simulate_funded=True,
+                prob_threshold=prob_threshold,
+                use_half_kelly=use_half_kelly,
+                base_risk_pct=base_risk_pct,
+                max_kelly_risk_pct=max_kelly_risk_pct,
+            )
             results.append(res)
+
 
         # Aggregate statistics
         total = len(results)
