@@ -17,6 +17,7 @@ __generated_with = "0.24.2"
 app = marimo.App(width="medium", auto_download=["html"])
 
 with app.setup(hide_code=True):
+    from datetime import datetime
     from pathlib import Path
     import altair as alt
     import marimo as mo
@@ -124,13 +125,13 @@ def run_breakout_evaluation(
 
     if period_select.value == "Out-of-Sample (2023–2026)":
         _df_eval = _df_feat.filter(
-            (pl.col("timestamp") >= pl.lit("2023-01-01"))
-            & (pl.col("timestamp") < pl.lit("2026-01-01"))
+            (pl.col("timestamp") >= datetime(2023, 1, 1))
+            & (pl.col("timestamp") < datetime(2026, 1, 1))
         )
     elif period_select.value == "In-Sample (2019–2022)":
         _df_eval = _df_feat.filter(
-            (pl.col("timestamp") >= pl.lit("2019-01-01"))
-            & (pl.col("timestamp") < pl.lit("2023-01-01"))
+            (pl.col("timestamp") >= datetime(2019, 1, 1))
+            & (pl.col("timestamp") < datetime(2023, 1, 1))
         )
     else:
         _df_eval = _df_feat
