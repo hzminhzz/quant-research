@@ -2,14 +2,15 @@
 
 [![Tests](https://img.shields.io/badge/pytest-33%20passed-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)]()
+[![Backtest](https://img.shields.io/badge/backtest-10%20Years%20(2017--2026)-blue)]()
 [![Framework](https://img.shields.io/badge/framework-Marimo%20Reactive%20DAG-orange)]()
 [![Methodology](https://img.shields.io/badge/standards-ML4T%204--Stage%20Pipeline-purple)]()
-[![Prop Firm](https://img.shields.io/badge/FTMO-59.1%25%20Funded%20Pass%20Rate-success)]()
+[![Prop Firm](https://img.shields.io/badge/FTMO-79.1%25%20Funded%20Pass%20Rate-success)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
 An institutional-grade systematic quantitative research, factor diagnostics, and event-driven backtesting platform. Built on pure-Python **Marimo reactive notebooks**, **Polars** vectorization, and the **Machine Learning for Algorithmic Trading (ML4T)** methodology inspired by Stefan Jansen and Marcos López de Prado.
 
-> 📄 **Core Research Publication**: Read the exhaustive mathematical whitepaper in [**`docs/research_whitepaper.md`**](docs/research_whitepaper.md) for full LaTeX derivations, failure post-mortems, and 2,000-trial Monte Carlo bootstrap distributions.
+> 📄 **Core Research Publication**: Read the exhaustive mathematical whitepaper in [**`docs/research_whitepaper.md`**](docs/research_whitepaper.md) for full LaTeX derivations, failure post-mortems, 10-year calendar breakdown, and 2,000-trial Monte Carlo bootstrap distributions.
 
 ---
 
@@ -55,28 +56,30 @@ flowchart TD
 
 $$\delta = \max\left(\text{Opening Range Width}, \, 0.5 \times \text{ATR}_{20}\right)$$
 
-| Strategy Milestone | 4.5-Yr Trades | Win Rate | Net PnL ($R$) | MT5 Ann. Sharpe | Multiple-Testing Status |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **1. Naive Intraday ORB (120m exit, 2.0R target)** | 951 | 41.2% | $-25.4R$ | $-0.34$ | Bleeds under friction |
-| **2. Crabel Stretch + S&P 500 VWAP Gate** | 951 | 51.5% | $+26.8R$ | $+0.65$ | Haircut Sharpe: $-0.12$ (Noise) |
-| **3. Multi-Day EOW + BE@1R (Unfiltered)** | 839 | 52.2% | **$+99.1R$** | **$+1.11$** | Haircut Sharpe: $+0.48$ (Passed) |
-| **4. Multi-Day EOW + Meta-Gated ($\hat{p} \ge 0.50$)** | **474** | **53.0%** | **$+70.2R$** | **$+1.06$** | **DSR: 88.5% (Production Winner)** |
+| Strategy Milestone | Testing Horizon | Trades | Win Rate | Net PnL ($R$) | Ann. Sharpe | Multiple-Testing Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1. Naive Intraday ORB (120m exit, 2.0R target)** | 2022–2026 | 951 | 41.2% | $-25.4R$ | $-0.34$ | Bleeds under friction |
+| **2. Crabel Stretch + S&P 500 VWAP Gate** | 2022–2026 | 951 | 51.5% | $+26.8R$ | $+0.65$ | Haircut Sharpe: $-0.12$ (Noise) |
+| **3. Multi-Day EOW + BE@1R (4.5-Yr Baseline)** | 2022–2026 | 839 | 52.2% | $+99.1R$ | $+1.11$ | Haircut Sharpe: $+0.48$ (Passed) |
+| **4. 10-Year Multi-Day EOW (Unfiltered)** | **2017–2026** | **1,492** | **53.8%** | **$+186.5R$** | **$+1.16$** | Haircut Sharpe: $+0.39$ (DSR: 89.8%) |
+| **5. 10-Year Multi-Day EOW + Meta-Gated ($p \ge 0.50$)** | **2017–2026** | **997** | **56.3%** | **$+193.4R$** | **$+1.47$** | **DSR: 99.0% (10/10 Profitable Years)** |
 
 ---
 
 ### B. Prop Firm Capital Stress Test (FTMO 2-Step Challenge)
 
-Evaluated via **2,000-trial stationary block-bootstrap Monte Carlo simulation** against FTMO's official evaluation barriers (+10% Step 1, +5% Step 2, -5% Daily Limit, -10% Max Drawdown):
+Evaluated via **2,000-trial stationary block-bootstrap Monte Carlo simulation** across the 10-year trade distribution against FTMO's official evaluation barriers (+10% Step 1, +5% Step 2, -5% Daily Limit, -10% Max Drawdown):
 
-| Evaluation Metric | Option A: Multi-Day EOW<br>*(Unfiltered Heuristic)* | Option B: Multi-Day EOW + Meta-Gated<br>*(p ≥ 0.50, Flat 1.0% Risk)* | Edge Delivered by Machine Learning |
+| Evaluation Metric | Option A: 10-Year Multi-Day EOW<br>*(Unfiltered Heuristic)* | Option B: 10-Year Multi-Day EOW + Meta-Gated<br>*(p ≥ 0.50, Flat 1.0% Risk)* | Edge Delivered by Machine Learning |
 | :--- | :---: | :---: | :--- |
-| **Step 1 Pass Rate (+10%)** | 49.2% | **69.1%** | **+19.9% higher pass rate** |
-| **Step 2 Pass Rate (+5%)** | 96.8% | **85.5%** | Robust verification |
-| **Complete 2-Step Funded Pass Rate** | 47.6% | **59.1%** | **Nearly 6 in 10 accounts get funded** |
-| **Max Drawdown Breach Risk (-10%)** | **49.6% (1 in 2 die)** | **23.9%** | **Breach risk cut by more than half** |
+| **Step 1 Pass Rate (+10%)** | 60.4% | **82.7%** | **+22.3% higher pass rate** |
+| **Step 2 Conditional Rate (+5%)** | 97.6% | **95.7%** | High verification consistency |
+| **Complete 2-Step Funded Pass Rate** | 59.0% | **79.1%** | **Nearly 8 in 10 accounts get funded** |
+| **Max Drawdown Breach Risk (-10%)** | **38.7%** | **15.9%** | **Breach risk cut in half (-59% relative)** |
 | **Daily Loss Limit Breach (-5%)** | **0.0% (Zero)** | **0.0% (Zero)** | Guaranteed circuit-breaker compliance |
-| **Median Days to Complete** | 59 trading days | **58 trading days** | ~2 calendar months |
-| **Expected Funded Payout** | $5,288 | **$4,926** | Stable institutional cash flow |
+| **Median Days to Complete** | 56 trading days | **50 trading days** | Faster path to active allocation |
+| **Expected Funded Payout** | $6,900 | **$9,332** | **+$2,432 (+35.2%) higher expected cash flow** |
+| **Expected ROI on $540 Fee** | +1,177.8% | **+1,628.2%** | Superior capital efficiency |
 
 ---
 
@@ -123,10 +126,11 @@ Before any model or rule modification is committed, it must pass all institution
 | Quality Gate | Metric | Acceptance Threshold | Result |
 | :--- | :--- | :--- | :---: |
 | **Predictive Power** | Spearman Rank IC | $\ge 0.02$ with $p < 0.05$ | **$+0.228$ ($p < 10^{-15}$)** |
-| **Multiple Testing Bias** | Deflated Sharpe Ratio (DSR) | $\ge 0.80$ across all 42 trials | **$88.5\%$ ($0.8854$)** |
-| **Sharpe Haircut** | Bailey & López de Prado Haircut | $> 0.0$ post selection bound penalty | **$+0.48$ ($1.26 - 0.77$)** |
+| **Multiple Testing Bias** | Deflated Sharpe Ratio (DSR) | $\ge 0.80$ across all 42 trials | **$99.0\%$ ($0.9903$)** |
+| **Sharpe Haircut** | Bailey & López de Prado Haircut | $> 0.0$ post selection bound penalty | **$+0.69$ ($1.47 - 0.77$)** |
 | **Temporal Integrity** | Combinatorial CV Embargo | Zero overlap leakage across folds | **5-bar embargo enforced** |
-| **Capital Survivability** | FTMO Max Drawdown Breach | $< 30\%$ on 2,000 Monte Carlo paths | **$23.9\%$ (Passed)** |
+| **Capital Survivability** | FTMO Max Drawdown Breach | $< 30\%$ on 2,000 Monte Carlo paths | **$15.9\%$ (Passed)** |
+
 
 ---
 

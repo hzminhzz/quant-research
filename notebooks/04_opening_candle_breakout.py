@@ -1114,16 +1114,16 @@ def run_ml_meta_pipeline(
     if "4-Index" in _portfolio_mode.value:
         _assets = [
             ("JP225", "data/processed/JP225_USD_5m_2017_2026.parquet", [0], False),
-            ("HK33", "data/processed/HK33_5m_2022_2026.parquet", [1], False),
+            ("HK33", "data/processed/HK33_5m_2017_2026.parquet", [1], False),
             ("DE30", "data/processed/DE30_EUR_5m_2017_2026.parquet", [13], False),
-            ("NAS100", "data/processed/NAS100_5m_2022_2026.parquet", [14], False),
+            ("NAS100", "data/processed/NAS100_5m_2017_2026.parquet", [14], False),
         ]
     else:
         _assets = [
             ("JP225", "data/processed/JP225_USD_5m_2017_2026.parquet", [0], False),
-            ("HK33", "data/processed/HK33_5m_2022_2026.parquet", [1], False),
+            ("HK33", "data/processed/HK33_5m_2017_2026.parquet", [1], False),
             ("DE30", "data/processed/DE30_EUR_5m_2017_2026.parquet", [13], False),
-            ("NAS100", "data/processed/NAS100_5m_2022_2026.parquet", [14], False),
+            ("NAS100", "data/processed/NAS100_5m_2017_2026.parquet", [14], False),
             ("BTCUSD", "data/processed/BTCUSD_5m_2022_2026.parquet", [13], True),
         ]
 
@@ -1150,7 +1150,7 @@ def run_ml_meta_pipeline(
     for _sym, _path, _s_hours, _is_crypto in _assets:
         _df = pl.read_parquet(_path).sort("timestamp")
         _df = _df.filter(
-            (pl.col("timestamp") >= pl.lit("2022-01-01").str.to_datetime())
+            (pl.col("timestamp") >= pl.lit("2017-01-01").str.to_datetime())
             & (pl.col("timestamp") <= pl.lit("2026-07-31").str.to_datetime())
         )
         _df = _df.join_asof(_df_spx, on="timestamp", strategy="backward")
