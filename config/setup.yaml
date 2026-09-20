@@ -1,70 +1,91 @@
-# Single Source of Truth for Quant Research Suite & ML4T Strategy Factory
-project:
-  name: "quant-research-suite"
-  version: "2.0.0"
-  description: "Multi-asset institutional systematic strategy factory and research suite on Germany 40 (DE30) and Nikkei 225 (JP225)"
+# ==============================================================================
+# ML4T Case Study Configuration: Single Source of Truth (SSOT)
+# Governed by: ml4t-case-study-pipeline & ml4t-strategy-workflow
+# ==============================================================================
+
+term_sheet:
+  title: "Multi-Asset Index Momentum Expansion & Mean-Reversion Meta-Model Study"
+  version: "3.0.0"
+  mechanism: >
+    Intraday price dislocations on major equity index futures (Germany 40 and Nikkei 225)
+    display dual regime characteristics: sharp trend continuation following multi-hour range breakouts,
+    and mean-reverting snapbacks following extreme statistical stretches away from moving averages.
+    A primary technical signal determines direction and timing, while a secondary ML meta-model
+    filters low-conviction trades to survive institutional execution friction.
+  kill_criteria:
+    min_rank_ic: 0.015
+    max_p_value: 0.05
+    min_oos_sharpe: 0.80
+    min_dsr_probability: 0.95
+    max_fee_drag_pct: 35.0
+    max_drawdown_pct: 20.0
+  capacity_estimate: "Institutional liquid index futures (> $100M daily notional volume)"
 
 universe:
   symbols:
-    - "DE30/EUR"     # Germany 40 (DAX) Index
-    - "JP225/USD"    # Nikkei 225 Index
-    - "SPX500/USD"   # S&P 500 Index
+    - "DE30/EUR"     # Germany 40 (DAX) Continuous Futures
+    - "JP225/USD"    # Nikkei 225 Continuous Futures
+  benchmark: "DE30/EUR"
   native_timeframe: "15m"
-  factory_timeframe: "1h"
-  in_sample_start: "2019-01-01"
-  in_sample_end: "2022-12-31"
-  out_of_sample_start: "2023-01-01"
-  out_of_sample_end: "2026-01-01"
-  dataset: "index"
+  resample_timeframe: "1h"
+  dates:
+    in_sample_start: "2019-01-01"
+    in_sample_end: "2022-12-31"
+    out_of_sample_start: "2023-01-01"
+    out_of_sample_end: "2026-01-01"
+
+artifacts:
+  prices_dir: "data/processed"
+  labels_dir: "data/labels"
+  features_dir: "data/features"
+  models_dir: "run_log/models"
+  strategy_dir: "run_log/strategy"
+  trials_ledger: "run_log/trials.jsonl"
+  leaderboard_file: "run_log/strategy_leaderboard.json"
+
+labeling:
+  horizon_bars: 20                  # ~1 trading day at 1H bars (max hold 20-24h)
+  triple_barrier:
+    upper_mult: 2.5                 # Take-profit ATR multiple
+    lower_mult: 1.2                 # Stop-loss ATR multiple (asymmetric reward/risk)
+    atr_period: 14
+    max_holding: 20
+
+features:
+  momentum:
+    rsi_periods: [2, 5, 14]
+    donchian_windows: [10, 20, 48]
+  trend:
+    ema_spans: [20, 50, 200]
+    adx_period: 14
+  volatility:
+    atr_period: 14
+    bollinger_period: 20
+    bollinger_std: 2.0
+
+validation:
+  cv_method: "combinatorial_purged_cv"
+  cpcv:
+    n_groups: 8                     # 8 groups
+    n_test_groups: 2                # C(8,2) = 28 combinations, 7 backtest paths
+    label_horizon: 20               # Must match label holding horizon for purge
+    embargo_size: 4                 # 20% of label horizon for serial correlation buffer
 
 execution:
   initial_capital: 100000.0
   position_sizing: 0.95
-  commission_bps: 2.0
-  slippage_bps: 1.0
-  roundtrip_friction_bps: 6.0
+  commission_bps: 2.0               # 2 bps per leg
+  slippage_bps: 1.0                 # 1 bps per leg
+  roundtrip_friction_bps: 6.0       # 6 bps total roundtrip friction
 
 quality_gates:
   alpha_gate:
     min_rank_ic: 0.015
     max_p_value: 0.05
+    min_ic_ir: 0.30
   economic_gate:
     min_oos_sharpe: 0.80
     max_drawdown_pct: 20.0
     max_fee_drag_pct: 35.0
   overfitting_gate:
     min_dsr_probability: 0.95
-
-breakout_strategies:
-  b1_donchian_trend:
-    name: "Donchian 10h Breakout + Trend"
-    family: "Breakout"
-    hold_bars: 20
-    description: "New 10-bar high breakout with 200 EMA macro trend and RSI confirmation"
-  b2_trend_expansion:
-    name: "Trend Continuation Expansion"
-    family: "Breakout"
-    hold_bars: 20
-    description: "Impulse break above prior high with body >= 0.5 ATR in bull trend"
-  b3_bb_thrust:
-    name: "Bollinger Band Upper Thrust"
-    family: "Breakout"
-    hold_bars: 24
-    description: "Closing thrust above 2.0-std upper Bollinger Band with ADX trend strength"
-
-mean_reversion_strategies:
-  m1_dual_rsi_dip:
-    name: "Dual RSI Oversold Dip"
-    family: "Mean Reversion"
-    hold_bars: 20
-    description: "Confluence of ultra-short RSI_2 < 15 and medium-term RSI_14 < 45"
-  m2_engulfing_dip:
-    name: "Volatility-Filtered Engulfing Dip"
-    family: "Mean Reversion"
-    hold_bars: 20
-    description: "Bullish engulfing with significant body (>=0.35 ATR) on intraday pullback (RSI < 55)"
-  m3_ema_snapback:
-    name: "EMA Mean-Reversion Snapback"
-    family: "Mean Reversion"
-    hold_bars: 20
-    description: "Severe downward stretch (< -1.4 ATR below EMA50) with oversold RSI_5 < 30"

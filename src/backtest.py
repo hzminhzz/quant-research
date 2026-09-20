@@ -143,12 +143,18 @@ def run_intraday_backtest(
         annualized_sharpe = 0.0
         sortino = 0.0
 
+    # Profit Factor
+    wins = sum(t["net_pnl_pct"] for t in trades if t["net_pnl_pct"] > 0)
+    losses = abs(sum(t["net_pnl_pct"] for t in trades if t["net_pnl_pct"] < 0))
+    profit_factor = float(wins / losses) if losses > 0 else (10.0 if wins > 0 else 1.0)
+
     return {
         "initial_capital": initial_capital,
         "ending_equity": float(cash),
         "total_return_pct": float(total_return * 100),
         "total_trades": total_trades,
         "win_rate_pct": float(win_rate * 100),
+        "profit_factor": profit_factor,
         "max_drawdown_pct": float(max_drawdown * 100),
         "annualized_sharpe": annualized_sharpe,
         "sortino_ratio": sortino,
