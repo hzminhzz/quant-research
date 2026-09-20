@@ -143,10 +143,20 @@ def config_ui():
         start=0.0, stop=3.0, step=0.5, value=2.0, label="Slippage (bps/leg)"
     )
 
+    session_select = mo.ui.dropdown(
+        options=[
+            "Dual-Session (Both Sessions Combined)",
+            "Primary Cash Open Only",
+            "US Overlap / Afternoon Session Only",
+        ],
+        value="Dual-Session (Both Sessions Combined)",
+        label="Session Scope",
+    )
+
     controls_panel = mo.vstack([
         mo.md("### ⚙️ Day-Trading Strategy Configuration & Friction Model"),
         mo.hstack([asset_select, or_duration_select, period_select], justify="start", gap=2),
-        mo.hstack([tp_mode_select, sl_mode_select, side_select], justify="start", gap=2),
+        mo.hstack([session_select, tp_mode_select, sl_mode_select, side_select], justify="start", gap=2),
         mo.hstack([trend_filter_toggle, atr_filter_toggle, spx_vwap_toggle], justify="start", gap=2),
         mo.hstack([min_range_slider, comm_slider, slip_slider], justify="start", gap=2),
     ])
@@ -158,6 +168,7 @@ def config_ui():
         min_range_slider,
         or_duration_select,
         period_select,
+        session_select,
         side_select,
         sl_mode_select,
         slip_slider,
@@ -181,6 +192,7 @@ def run_orb_backtest(
     min_range_slider,
     or_duration_select,
     period_select,
+    session_select,
     side_select,
     sl_mode_select,
     slip_slider,
@@ -188,16 +200,26 @@ def run_orb_backtest(
     tp_mode_select,
     trend_filter_toggle,
 ):
-    # Determine symbol and session open hour
+    # Determine symbol and session open hours
     if "DE30" in asset_select.value:
         _sym = "DE30_EUR"
-        _open_hour = 7
+        if "Primary" in session_select.value:
+            _session_hours = [7]
+        elif "US Overlap" in session_select.value or "Afternoon" in session_select.value:
+            _session_hours = [13]
+        else:
+            _session_hours = [7, 13]
     elif "JP225" in asset_select.value:
         _sym = "JP225_USD"
-        _open_hour = 0
+        if "Primary" in session_select.value:
+            _session_hours = [0]
+        elif "US Overlap" in session_select.value or "Afternoon" in session_select.value:
+            _session_hours = [3]
+        else:
+            _session_hours = [0, 3]
     else:
         _sym = "SPX500_USD"
-        _open_hour = 14
+        _session_hours = [14]
 
     _primary_p = Path(f"data/processed/{_sym}_15m_2019_2026.parquet")
     _fallback_p = Path(f"/tmp/lse_15m_cache/{_sym}_15m_2019_2026.parquet")
@@ -263,141 +285,142 @@ def run_orb_backtest(
 
     for _d in _dates:
         _day_df = _df.filter(pl.col("date") == _d)
-        _session_df = _day_df.filter(pl.col("hour") >= _open_hour)
-        if len(_session_df) < _or_bars + 4:
-            continue
-
-        _or_df = _session_df.slice(0, _or_bars)
-        _or_high = _or_df["high"].max()
-        _or_low = _or_df["low"].min()
-        _or_close = _or_df["close"].last()
-        _or_range = _or_high - _or_low
-        _ema200 = _or_df["ema_200"].last()
-        _atr20 = _or_df["atr20_bar"].first()
-
-        if _or_range is None or _or_close is None or _or_range <= 0:
-            continue
-        if (_or_range / _or_close) * 100.0 < _min_rng_pct:
-            continue
-
-        # Opening Range Volatility Filter
-        if _use_atr:
-            if _atr20 is None or np.isnan(_atr20) or _or_range < 1.2 * _atr20:
+        for _open_hour in _session_hours:
+            _session_df = _day_df.filter((pl.col("hour") >= _open_hour) & (pl.col("hour") < _open_hour + 6))
+            if len(_session_df) < _or_bars + 4:
                 continue
 
-        _rest_df = _session_df.slice(_or_bars)
-        _in_trade = False
-        _side = 0
-        _entry_p = 0.0
-        _entry_bar_idx = 0
-        _sl_p = 0.0
-        _tp_p = 0.0
-        _max_bars = min(len(_rest_df), 28)
+            _or_df = _session_df.slice(0, _or_bars)
+            _or_high = _or_df["high"].max()
+            _or_low = _or_df["low"].min()
+            _or_close = _or_df["close"].last()
+            _or_range = _or_high - _or_low
+            _ema200 = _or_df["ema_200"].last()
+            _atr20 = _or_df["atr20_bar"].first()
 
-        for _i in range(_max_bars):
-            _bar = _rest_df[_i]
-            _c = _bar["close"][0]
-            _h = _bar["high"][0]
-            _l = _bar["low"][0]
-            _ts = _bar["timestamp"][0]
-            _spx_c = _bar["spx_close"][0] if "spx_close" in _bar.columns else None
-            _spx_v = _bar["spx_vwap"][0] if "spx_vwap" in _bar.columns else None
+            if _or_range is None or _or_close is None or _or_range <= 0:
+                continue
+            if (_or_range / _or_close) * 100.0 < _min_rng_pct:
+                continue
 
-            if not _in_trade:
-                # Only enter within first 4 bars (1 hour) after OR completes
-                if _i < 4:
-                    _long_sig = _c > _or_high
-                    if _use_trend and _ema200 is not None:
-                        _long_sig = _long_sig and (_c > _ema200)
-                    if _use_spx_vwap and _spx_c is not None and _spx_v is not None:
-                        _long_sig = _long_sig and (_spx_c > _spx_v)
+            # Opening Range Volatility Filter
+            if _use_atr:
+                if _atr20 is None or np.isnan(_atr20) or _or_range < 1.2 * _atr20:
+                    continue
 
-                    _short_sig = (_c < _or_low) and _allow_short
-                    if _use_trend and _ema200 is not None:
-                        _short_sig = _short_sig and (_c < _ema200)
-                    if _use_spx_vwap and _spx_c is not None and _spx_v is not None:
-                        _short_sig = _short_sig and (_spx_c < _spx_v)
+            _rest_df = _session_df.slice(_or_bars)
+            _in_trade = False
+            _side = 0
+            _entry_p = 0.0
+            _entry_bar_idx = 0
+            _sl_p = 0.0
+            _tp_p = 0.0
+            _max_bars = min(len(_rest_df), 28)
 
-                    if _long_sig:
-                        _in_trade = True
-                        _side = 1
-                        _entry_p = _c
-                        _entry_bar_idx = _i
-                        _sl_p = _or_low if _sl_mode == "full" else (_or_high + _or_low) / 2.0
-                        if "1.5x" in tp_mode_select.value:
-                            _tp_p = _entry_p + 1.5 * _or_range
-                        elif "2.0x" in tp_mode_select.value:
-                            _tp_p = _entry_p + 2.0 * _or_range
-                        else:
-                            _tp_p = 999999.0
-                    elif _short_sig:
-                        _in_trade = True
-                        _side = -1
-                        _entry_p = _c
-                        _entry_bar_idx = _i
-                        _sl_p = _or_high if _sl_mode == "full" else (_or_high + _or_low) / 2.0
-                        if "1.5x" in tp_mode_select.value:
-                            _tp_p = _entry_p - 1.5 * _or_range
-                        elif "2.0x" in tp_mode_select.value:
-                            _tp_p = _entry_p - 2.0 * _or_range
-                        else:
-                            _tp_p = -999999.0
-            else:
-                # Active position management
-                if _side == 1:
-                    if "Breakeven" in tp_mode_select.value and _h >= _entry_p + 1.0 * _or_range:
-                        _sl_p = max(_sl_p, _entry_p)
+            for _i in range(_max_bars):
+                _bar = _rest_df[_i]
+                _c = _bar["close"][0]
+                _h = _bar["high"][0]
+                _l = _bar["low"][0]
+                _ts = _bar["timestamp"][0]
+                _spx_c = _bar["spx_close"][0] if "spx_close" in _bar.columns else None
+                _spx_v = _bar["spx_vwap"][0] if "spx_vwap" in _bar.columns else None
 
-                    _hit_tp = _h >= _tp_p
-                    _hit_sl = _l <= _sl_p
+                if not _in_trade:
+                    # Only enter within first 4 bars (1 hour) after OR completes
+                    if _i < 4:
+                        _long_sig = _c > _or_high
+                        if _use_trend and _ema200 is not None:
+                            _long_sig = _long_sig and (_c > _ema200)
+                        if _use_spx_vwap and _spx_c is not None and _spx_v is not None:
+                            _long_sig = _long_sig and (_spx_c > _spx_v)
 
-                    if _hit_tp and _hit_sl:
-                        _ret = (_sl_p - _entry_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "SL (Conflict)"})
-                        _daily_pnl[_d] += _ret
-                        break
-                    elif _hit_tp:
-                        _ret = (_tp_p - _entry_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _tp_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Take Profit"})
-                        _daily_pnl[_d] += _ret
-                        break
-                    elif _hit_sl:
-                        _ret = (_sl_p - _entry_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Stop Loss"})
-                        _daily_pnl[_d] += _ret
-                        break
-                    elif _i == _max_bars - 1:
-                        _ret = (_c - _entry_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _c, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Session Close"})
-                        _daily_pnl[_d] += _ret
-                        break
-                elif _side == -1:
-                    if "Breakeven" in tp_mode_select.value and _l <= _entry_p - 1.0 * _or_range:
-                        _sl_p = min(_sl_p, _entry_p)
+                        _short_sig = (_c < _or_low) and _allow_short
+                        if _use_trend and _ema200 is not None:
+                            _short_sig = _short_sig and (_c < _ema200)
+                        if _use_spx_vwap and _spx_c is not None and _spx_v is not None:
+                            _short_sig = _short_sig and (_spx_c < _spx_v)
 
-                    _hit_tp = _l <= _tp_p
-                    _hit_sl = _h >= _sl_p
+                        if _long_sig:
+                            _in_trade = True
+                            _side = 1
+                            _entry_p = _c
+                            _entry_bar_idx = _i
+                            _sl_p = _or_low if _sl_mode == "full" else (_or_high + _or_low) / 2.0
+                            if "1.5x" in tp_mode_select.value:
+                                _tp_p = _entry_p + 1.5 * _or_range
+                            elif "2.0x" in tp_mode_select.value:
+                                _tp_p = _entry_p + 2.0 * _or_range
+                            else:
+                                _tp_p = 999999.0
+                        elif _short_sig:
+                            _in_trade = True
+                            _side = -1
+                            _entry_p = _c
+                            _entry_bar_idx = _i
+                            _sl_p = _or_high if _sl_mode == "full" else (_or_high + _or_low) / 2.0
+                            if "1.5x" in tp_mode_select.value:
+                                _tp_p = _entry_p - 1.5 * _or_range
+                            elif "2.0x" in tp_mode_select.value:
+                                _tp_p = _entry_p - 2.0 * _or_range
+                            else:
+                                _tp_p = -999999.0
+                else:
+                    # Active position management
+                    if _side == 1:
+                        if "Breakeven" in tp_mode_select.value and _h >= _entry_p + 1.0 * _or_range:
+                            _sl_p = max(_sl_p, _entry_p)
 
-                    if _hit_tp and _hit_sl:
-                        _ret = (_entry_p - _sl_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "SL (Conflict)"})
-                        _daily_pnl[_d] += _ret
-                        break
-                    elif _hit_tp:
-                        _ret = (_entry_p - _tp_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _tp_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Take Profit"})
-                        _daily_pnl[_d] += _ret
-                        break
-                    elif _hit_sl:
-                        _ret = (_entry_p - _sl_p) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Stop Loss"})
-                        _daily_pnl[_d] += _ret
-                        break
-                    elif _i == _max_bars - 1:
-                        _ret = (_entry_p - _c) / _entry_p - _friction
-                        _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _c, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Session Close"})
-                        _daily_pnl[_d] += _ret
-                        break
+                        _hit_tp = _h >= _tp_p
+                        _hit_sl = _l <= _sl_p
+
+                        if _hit_tp and _hit_sl:
+                            _ret = (_sl_p - _entry_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "SL (Conflict)"})
+                            _daily_pnl[_d] += _ret
+                            break
+                        elif _hit_tp:
+                            _ret = (_tp_p - _entry_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _tp_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Take Profit"})
+                            _daily_pnl[_d] += _ret
+                            break
+                        elif _hit_sl:
+                            _ret = (_sl_p - _entry_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Stop Loss"})
+                            _daily_pnl[_d] += _ret
+                            break
+                        elif _i == _max_bars - 1:
+                            _ret = (_c - _entry_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "BUY", "Entry": _entry_p, "Exit": _c, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Session Close"})
+                            _daily_pnl[_d] += _ret
+                            break
+                    elif _side == -1:
+                        if "Breakeven" in tp_mode_select.value and _l <= _entry_p - 1.0 * _or_range:
+                            _sl_p = min(_sl_p, _entry_p)
+
+                        _hit_tp = _l <= _tp_p
+                        _hit_sl = _h >= _sl_p
+
+                        if _hit_tp and _hit_sl:
+                            _ret = (_entry_p - _sl_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "SL (Conflict)"})
+                            _daily_pnl[_d] += _ret
+                            break
+                        elif _hit_tp:
+                            _ret = (_entry_p - _tp_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _tp_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Take Profit"})
+                            _daily_pnl[_d] += _ret
+                            break
+                        elif _hit_sl:
+                            _ret = (_entry_p - _sl_p) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _sl_p, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Stop Loss"})
+                            _daily_pnl[_d] += _ret
+                            break
+                        elif _i == _max_bars - 1:
+                            _ret = (_entry_p - _c) / _entry_p - _friction
+                            _trades.append({"Date": str(_d), "Side": "SELL", "Entry": _entry_p, "Exit": _c, "NetRet%": _ret * 100.0, "HoldBars": _i - _entry_bar_idx, "ExitReason": "Session Close"})
+                            _daily_pnl[_d] += _ret
+                            break
 
     # Calculate equity curve
     _dates_list = sorted(_daily_pnl.keys())
