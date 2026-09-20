@@ -76,6 +76,7 @@ def config_ui():
     portfolio_select = mo.ui.dropdown(
         options=[
             "⭐ Combined Dual Portfolio (DAX + Nikkei)",
+            "🚀 Sweet-Spot Synergy (DAX US Overlap + Nikkei Tokyo Open)",
             "Germany 40 (DAX 40)",
             "Nikkei 225 (JP225)",
         ],
@@ -102,6 +103,15 @@ def config_ui():
         ],
         value="Fixed 2.0x Range Target",
         label="Take-Profit Target",
+    )
+
+    period_select = mo.ui.dropdown(
+        options=[
+            "⭐ Full History (2017 - 2026, 9.3 Years)",
+            "Recent Cycle (2023 - 2026, 3.2 Years)",
+        ],
+        value="⭐ Full History (2017 - 2026, 9.3 Years)",
+        label="Historical Horizon",
     )
 
     capital_input = mo.ui.number(
@@ -138,13 +148,14 @@ def config_ui():
 
     controls_panel = mo.vstack([
         mo.md("### ⚙️ Strategy Tester Settings & Account Parameters"),
-        mo.hstack([portfolio_select, session_select, tp_mode_select], justify="start", gap=2),
+        mo.hstack([portfolio_select, session_select, tp_mode_select, period_select], justify="start", gap=2),
         mo.hstack([capital_input, risk_slider, slip_slider, comm_slider], justify="start", gap=2),
     ])
     return (
         capital_input,
         comm_slider,
         controls_panel,
+        period_select,
         portfolio_select,
         risk_slider,
         session_select,
@@ -163,14 +174,15 @@ def display_controls(controls_panel):
 def run_orb_simulation(
     capital_input,
     comm_slider,
+    period_select,
     portfolio_select,
     risk_slider,
     session_select,
     slip_slider,
     tp_mode_select,
 ):
-    # Prepare SPX VWAP dataset
-    _spx_p = Path("data/processed/SPX500_USD_15m_2019_2026.parquet")
+    _use_full = "Full History" in period_select.value
+    _spx_p = Path("data/processed/SPX500_USD_15m_2017_2026.parquet") if _use_full else Path("data/processed/SPX500_USD_15m_2019_2026.parquet")
     _df_spx = pl.read_parquet(_spx_p).sort("timestamp")
     _df_spx = _df_spx.with_columns([
         pl.col("timestamp").dt.date().alias("date"),
@@ -187,20 +199,28 @@ def run_orb_simulation(
     _risk_fraction = _risk_pct / 100.0
     _friction = 2.0 * (float(comm_slider.value) + float(slip_slider.value)) / 10_000.0  # 4.0 bps RT default
 
+    _de_path = "data/processed/DE30_EUR_5m_2017_2026.parquet" if _use_full else "data/processed/DE30_EUR_5m_2023_2026.parquet"
+    _jp_path = "data/processed/JP225_USD_5m_2017_2026.parquet" if _use_full else "data/processed/JP225_USD_5m_2023_2026.parquet"
+
     # Define asset configs to run
     _assets_to_run = []
-    if "Combined" in portfolio_select.value:
+    if "Sweet-Spot" in portfolio_select.value:
         _assets_to_run = [
-            ("Germany 40", "data/processed/DE30_EUR_5m_2023_2026.parquet", [7], [13], [7, 13]),
-            ("Nikkei 225", "data/processed/JP225_USD_5m_2023_2026.parquet", [0], [3], [0, 3]),
+            ("Germany 40", _de_path, [13], [13], [13]),
+            ("Nikkei 225", _jp_path, [0], [0], [0]),
+        ]
+    elif "Combined" in portfolio_select.value:
+        _assets_to_run = [
+            ("Germany 40", _de_path, [7], [13], [7, 13]),
+            ("Nikkei 225", _jp_path, [0], [3], [0, 3]),
         ]
     elif "Germany" in portfolio_select.value:
         _assets_to_run = [
-            ("Germany 40", "data/processed/DE30_EUR_5m_2023_2026.parquet", [7], [13], [7, 13])
+            ("Germany 40", _de_path, [7], [13], [7, 13])
         ]
     else:
         _assets_to_run = [
-            ("Nikkei 225", "data/processed/JP225_USD_5m_2023_2026.parquet", [0], [3], [0, 3])
+            ("Nikkei 225", _jp_path, [0], [3], [0, 3])
         ]
 
     _asset_results = {}
@@ -457,13 +477,15 @@ def run_orb_simulation(
         "DrawdownPct": _dd_arr * 100.0,
     })
 
+    _num_years = max(1.0, len(_all_dates_set) / 252.0)
     sim_report = {
         "initial_deposit": _initial_capital,
         "static_risk_pct": _risk_pct,
+        "period_label": period_select.value,
         "net_profit_dollar": _net_profit_dollar,
         "net_profit_pct": _net_profit_pct,
         "total_trades": _total_trades,
-        "trades_per_year": round(_total_trades / 3.0, 1),
+        "trades_per_year": round(_total_trades / _num_years, 1),
         "win_cnt": _win_cnt,
         "loss_cnt": _loss_cnt,
         "win_rate": _win_rate,
@@ -619,7 +641,50 @@ def display_charts(charts_view):
 
 
 @app.cell
-def trade_history_table(mo, sim_report):
+def yearly_performance_table(mo, pl, sim_report):
+    _trades = sim_report["trade_list"]
+    if _trades:
+        _years = sorted(list(set(int(t["Date"][:4]) for t in _trades)))
+        _rows = []
+        for _y in _years:
+            _y_tr = [t for t in _trades if t["Date"].startswith(str(_y))]
+            _y_w = [t for t in _y_tr if t["NetProfit$"] > 0]
+            _y_l = [t for t in _y_tr if t["NetProfit$"] <= 0]
+            _gp = sum(t["NetProfit$"] for t in _y_w)
+            _gl = abs(sum(t["NetProfit$"] for t in _y_l))
+            _np = sum(t["NetProfit$"] for t in _y_tr)
+            _wr = len(_y_w) / len(_y_tr) * 100.0 if _y_tr else 0.0
+            _pf = (_gp / _gl) if _gl > 0 else 99.0
+            _rows.append({
+                "Year": str(_y),
+                "Trades": len(_y_tr),
+                "Wins": len(_y_w),
+                "Losses": len(_y_l),
+                "WinRate%": f"{_wr:.1f}%",
+                "NetProfit$": f"${_np:+,.2f}",
+                "ProfitFactor": round(_pf, 2),
+            })
+
+        _yearly_df = pl.DataFrame(_rows)
+        yearly_view = mo.vstack([
+            mo.md("---"),
+            mo.md("### 📅 Annual Calendar Breakdown (MT5 Strategy Tester Year-by-Year)"),
+            mo.md("*Verify performance stability across distinct market regimes (e.g. 2017-2019 chop vs 2020 COVID vs 2022 bear market):*"),
+            mo.ui.table(_yearly_df, selection=None),
+        ])
+    else:
+        yearly_view = mo.md("")
+    return (yearly_view,)
+
+
+@app.cell
+def display_yearly(yearly_view):
+    yearly_view
+    return
+
+
+@app.cell
+def trade_history_table(mo, pl, sim_report):
     _trades = sim_report["trade_list"]
     _df_trades = pl.DataFrame(_trades).sort("Date", descending=True) if _trades else pl.DataFrame()
 
