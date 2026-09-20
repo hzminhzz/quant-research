@@ -1022,7 +1022,7 @@ def ml_meta_labeling_section(mo):
         start=0.45,
         stop=0.65,
         step=0.01,
-        value=0.50,
+        value=0.52,
         label="Meta-Model Probability Cutoff (p_hat >= threshold)",
     )
     _mc_trials_slider = mo.ui.slider(
@@ -1037,8 +1037,17 @@ def ml_meta_labeling_section(mo):
         value="Dynamic Half-Kelly Sizing",
         label="Position Sizing Architecture",
     )
-    ml_controls = mo.hstack([_prob_slider, _sizing_mode, _mc_trials_slider], justify="start")
-    return ml_controls, _prob_slider, _mc_trials_slider, _sizing_mode
+    _portfolio_mode = mo.ui.radio(
+        options=["4-Index Equity Momentum (JP225, HK33, DE30, NAS100)", "5-Asset Full Basket (Includes BTC/USD)"],
+        value="4-Index Equity Momentum (JP225, HK33, DE30, NAS100)",
+        label="Portfolio Universe Selection",
+    )
+    ml_controls = mo.vstack([
+        mo.hstack([_portfolio_mode, _sizing_mode], justify="start"),
+        mo.hstack([_prob_slider, _mc_trials_slider], justify="start"),
+    ])
+    return ml_controls, _prob_slider, _mc_trials_slider, _sizing_mode, _portfolio_mode
+
 
 
 @app.cell
@@ -1071,6 +1080,7 @@ def run_ml_meta_pipeline(
     _prob_slider,
     _mc_trials_slider,
     _sizing_mode,
+    _portfolio_mode,
     mo,
 ):
     from src.labeling import MetaLabelingORBDatasetBuilder, compute_sample_uniqueness_weights
@@ -1082,7 +1092,7 @@ def run_ml_meta_pipeline(
     _n_mc = int(_mc_trials_slider.value)
     _use_kelly = "Half-Kelly" in _sizing_mode.value
 
-    # Build 5-asset dataset
+    # Build asset list based on portfolio mode
     _spx_p = Path("data/processed/SPX500_USD_15m_2017_2026.parquet")
     _df_spx = pl.read_parquet(_spx_p).sort("timestamp")
     _df_spx = _df_spx.with_columns([
@@ -1095,13 +1105,22 @@ def run_ml_meta_pipeline(
         (pl.col("pv").cum_sum().over("date") / pl.col("eff_vol").cum_sum().over("date")).alias("spx_vwap")
     ]).select(["timestamp", pl.col("close").alias("spx_close"), "spx_vwap"])
 
-    _assets = [
-        ("JP225", "data/processed/JP225_USD_5m_2017_2026.parquet", [0], False),
-        ("HK33", "data/processed/HK33_5m_2022_2026.parquet", [1], False),
-        ("DE30", "data/processed/DE30_EUR_5m_2017_2026.parquet", [13], False),
-        ("NAS100", "data/processed/NAS100_5m_2022_2026.parquet", [14], False),
-        ("BTCUSD", "data/processed/BTCUSD_5m_2022_2026.parquet", [13], True),
-    ]
+    if "4-Index" in _portfolio_mode.value:
+        _assets = [
+            ("JP225", "data/processed/JP225_USD_5m_2017_2026.parquet", [0], False),
+            ("HK33", "data/processed/HK33_5m_2022_2026.parquet", [1], False),
+            ("DE30", "data/processed/DE30_EUR_5m_2017_2026.parquet", [13], False),
+            ("NAS100", "data/processed/NAS100_5m_2022_2026.parquet", [14], False),
+        ]
+    else:
+        _assets = [
+            ("JP225", "data/processed/JP225_USD_5m_2017_2026.parquet", [0], False),
+            ("HK33", "data/processed/HK33_5m_2022_2026.parquet", [1], False),
+            ("DE30", "data/processed/DE30_EUR_5m_2017_2026.parquet", [13], False),
+            ("NAS100", "data/processed/NAS100_5m_2022_2026.parquet", [14], False),
+            ("BTCUSD", "data/processed/BTCUSD_5m_2022_2026.parquet", [13], True),
+        ]
+
 
     _builder = MetaLabelingORBDatasetBuilder(stretch_k=0.15)
     _all_events = []
