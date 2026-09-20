@@ -1042,11 +1042,16 @@ def ml_meta_labeling_section(mo):
         value="4-Index Equity Momentum (JP225, HK33, DE30, NAS100)",
         label="Portfolio Universe Selection",
     )
+    _holding_mode = mo.ui.radio(
+        options=["Multi-Day EOW (Trailing + BE@1R, Friday Close)", "Intraday (2-Hour Forced Exit)"],
+        value="Multi-Day EOW (Trailing + BE@1R, Friday Close)",
+        label="Trade Holding & Exit Policy",
+    )
     ml_controls = mo.vstack([
-        mo.hstack([_portfolio_mode, _sizing_mode], justify="start"),
-        mo.hstack([_prob_slider, _mc_trials_slider], justify="start"),
+        mo.hstack([_portfolio_mode, _holding_mode], justify="start"),
+        mo.hstack([_sizing_mode, _prob_slider, _mc_trials_slider], justify="start"),
     ])
-    return ml_controls, _prob_slider, _mc_trials_slider, _sizing_mode, _portfolio_mode
+    return ml_controls, _prob_slider, _mc_trials_slider, _sizing_mode, _portfolio_mode, _holding_mode
 
 
 
@@ -1081,6 +1086,7 @@ def run_ml_meta_pipeline(
     _mc_trials_slider,
     _sizing_mode,
     _portfolio_mode,
+    _holding_mode,
     mo,
 ):
     from src.labeling import MetaLabelingORBDatasetBuilder, compute_sample_uniqueness_weights
@@ -1122,7 +1128,22 @@ def run_ml_meta_pipeline(
         ]
 
 
-    _builder = MetaLabelingORBDatasetBuilder(stretch_k=0.15)
+    _is_intraday = "Intraday" in _holding_mode.value
+    if _is_intraday:
+        _builder = MetaLabelingORBDatasetBuilder(
+            stretch_k=0.15,
+            holding_mode="intraday",
+            target_multiple=1.5,
+        )
+    else:
+        _builder = MetaLabelingORBDatasetBuilder(
+            stretch_k=0.15,
+            holding_mode="multi_day_eow",
+            target_multiple=3.0,
+            enable_breakeven=True,
+            enable_trailing_stop=True,
+            trailing_distance_r=1.0,
+        )
     _all_events = []
     _all_timestamps = []
 

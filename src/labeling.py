@@ -14,7 +14,7 @@ Marcos López de Prado's methodology:
 """
 
 from dataclasses import dataclass
-from datetime import time, timedelta
+from datetime import datetime, time, timedelta
 from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import polars as pl
@@ -142,22 +142,38 @@ class MetaLabelingORBDatasetBuilder:
     """Institutional Triple Barrier Dataset Builder tailored for Opening Range Breakouts.
 
     Operates strictly at candidate breakout timestamps, building event records
-    with path-dependent labels and feature snapshots.
+    with path-dependent labels, feature snapshots, and advanced holding structures:
+    - Multi-Day End-of-Week (EOW) holding with Friday 20:45 UTC close
+    - Dynamic Breakeven lock (+0.1R after +1.0R gain)
+    - Trailing stop protection
+    - Traditional intraday (120m) exit
     """
 
     def __init__(
         self,
-        target_multiple: float = 2.0,
+        target_multiple: float = 3.0,
         stop_multiple: float = 1.0,
-        max_holding_bars: int = 24,  # 120 minutes on 5m bars
+        max_holding_bars: int = 1500,  # Multi-day capacity (up to 5 trading days)
         stretch_k: float = 0.15,
         friction_bps: float = 4.0,   # 4.0 bps roundtrip
+        holding_mode: str = "multi_day_eow",  # "multi_day_eow" or "intraday"
+        enable_breakeven: bool = True,
+        breakeven_trigger_r: float = 1.0,
+        breakeven_offset_r: float = 0.1,
+        enable_trailing_stop: bool = True,
+        trailing_distance_r: Optional[float] = 1.0,
     ):
         self.target_multiple = target_multiple
         self.stop_multiple = stop_multiple
         self.max_holding_bars = max_holding_bars
         self.stretch_k = stretch_k
         self.friction = friction_bps / 10_000.0
+        self.holding_mode = holding_mode
+        self.enable_breakeven = enable_breakeven
+        self.breakeven_trigger_r = breakeven_trigger_r
+        self.breakeven_offset_r = breakeven_offset_r
+        self.enable_trailing_stop = enable_trailing_stop
+        self.trailing_distance_r = trailing_distance_r
 
     def extract_events_and_labels(
         self,
@@ -176,6 +192,10 @@ class MetaLabelingORBDatasetBuilder:
         """
         dates = df["date"].unique().sort().to_list()
         events: List[ORBTradeEvent] = []
+
+        df_rows = df.to_dicts()
+        ts_to_idx = {str(r["timestamp"]): idx for idx, r in enumerate(df_rows)}
+        current_exit_idx = -1
 
         for d in dates:
             day_df = df.filter(pl.col("date") == d)
@@ -204,11 +224,9 @@ class MetaLabelingORBDatasetBuilder:
                 stretch = self.stretch_k * atr20
 
                 rest_df = session_df.slice(12)
-                max_bars = min(len(rest_df), 36)
-                entry_cutoff = 18  # 90 minutes post-range = 2.5 hours from open
+                entry_cutoff = min(len(rest_df), 18)  # 90 minutes post-range = 2.5 hours from open
 
-                in_trade = False
-                for i in range(max_bars):
+                for i in range(entry_cutoff):
                     bar = rest_df[i]
                     c = bar["close"][0]
                     h = bar["high"][0]
@@ -217,102 +235,190 @@ class MetaLabelingORBDatasetBuilder:
                     spx_c = bar["spx_close"][0] if "spx_close" in bar.columns else None
                     spx_v = bar["spx_vwap"][0] if "spx_vwap" in bar.columns else None
 
-                    if not in_trade:
-                        if i < entry_cutoff:
-                            long_sig = allow_long and (c > or_high + stretch) and (ema200 is None or c > ema200)
-                            if not is_crypto and spx_c is not None and spx_v is not None and spx_c <= spx_v:
-                                long_sig = False
+                    bar_idx = ts_to_idx.get(t_stamp, -1)
+                    if self.holding_mode == "multi_day_eow" and bar_idx <= current_exit_idx:
+                        continue
 
-                            short_sig = allow_short and (c < or_low - stretch) and (ema200 is None or c < ema200)
-                            if not is_crypto and spx_c is not None and spx_v is not None and spx_c >= spx_v:
-                                short_sig = False
+                    long_sig = allow_long and (c > or_high + stretch) and (ema200 is None or c > ema200)
+                    if not is_crypto and spx_c is not None and spx_v is not None and spx_c <= spx_v:
+                        long_sig = False
 
-                            if long_sig or short_sig:
-                                in_trade = True
-                                direction = 1 if long_sig else -1
-                                entry_price = c
-                                entry_time = t_stamp
-                                entry_bar_idx = i
+                    short_sig = allow_short and (c < or_low - stretch) and (ema200 is None or c < ema200)
+                    if not is_crypto and spx_c is not None and spx_v is not None and spx_c >= spx_v:
+                        short_sig = False
 
-                                upper_barrier = entry_price + (direction * self.target_multiple * delta)
-                                lower_barrier = entry_price - (direction * self.stop_multiple * delta)
+                    if not (long_sig or short_sig):
+                        continue
 
-                                # Snapshot features at entry timestamp
-                                features_snapshot = self._extract_snapshot_features(
-                                    or_df=or_df,
-                                    current_bar=bar,
-                                    or_high=or_high,
-                                    or_low=or_low,
-                                    or_range=or_range,
-                                    atr20=atr20,
-                                    direction=direction,
-                                    spx_c=spx_c,
-                                    spx_v=spx_v,
-                                    is_crypto=is_crypto,
-                                )
+                    direction = 1 if long_sig else -1
+                    entry_price = c
+                    entry_time = t_stamp
+                    upper_barrier = entry_price + (direction * self.target_multiple * delta)
+                    initial_stop = entry_price - (direction * self.stop_multiple * delta)
+                    stop_price = initial_stop
+                    be_price = entry_price + (direction * self.breakeven_offset_r * delta)
+                    be_activated = False
 
+                    # Snapshot features at entry timestamp
+                    features_snapshot = self._extract_snapshot_features(
+                        or_df=or_df,
+                        current_bar=bar,
+                        or_high=or_high,
+                        or_low=or_low,
+                        or_range=or_range,
+                        atr20=atr20,
+                        direction=direction,
+                        spx_c=spx_c,
+                        spx_v=spx_v,
+                        is_crypto=is_crypto,
+                    )
 
-                    else:
-                        # Monitor forward path for barrier hits
-                        bars_held = i - entry_bar_idx
-                        hit_tp = (h >= upper_barrier) if direction == 1 else (l <= upper_barrier)
-                        hit_sl = (l <= lower_barrier) if direction == 1 else (h >= lower_barrier)
-                        time_expired = (bars_held >= self.max_holding_bars) or (i == max_bars - 1)
+                    if self.holding_mode == "intraday":
+                        max_intraday_bars = min(len(rest_df) - i, self.max_holding_bars if self.max_holding_bars < 100 else 24)
+                        exit_price = None
+                        exit_reason = None
+                        bars_held = 0
+                        for step in range(1, max_intraday_bars):
+                            f_bar = rest_df[i + step]
+                            f_c = f_bar["close"][0]
+                            f_h = f_bar["high"][0]
+                            f_l = f_bar["low"][0]
+                            f_ts = str(f_bar["timestamp"][0])
+                            bars_held = step
 
-                        if hit_tp or hit_sl or time_expired:
+                            hit_tp = (f_h >= upper_barrier) if direction == 1 else (f_l <= upper_barrier)
+                            hit_sl = (f_l <= stop_price) if direction == 1 else (f_h >= stop_price)
+
                             if hit_tp and hit_sl:
-                                exit_price = lower_barrier
+                                exit_price = stop_price
                                 exit_reason = "stop_loss"
-                                label = 0
+                                exit_time = f_ts
+                                break
                             elif hit_tp:
                                 exit_price = upper_barrier
                                 exit_reason = "profit_target"
-                                label = 1
+                                exit_time = f_ts
+                                break
                             elif hit_sl:
-                                exit_price = lower_barrier
+                                exit_price = stop_price
                                 exit_reason = "stop_loss"
-                                label = 0
-                            else:
-                                exit_price = c
+                                exit_time = f_ts
+                                break
+                            elif step == max_intraday_bars - 1:
+                                exit_price = f_c
                                 exit_reason = "time_expiry"
-                            raw_ret = direction * (exit_price - entry_price) / entry_price - self.friction
-                            r_mult = raw_ret / (delta / entry_price) if delta > 0 else 0.0
+                                exit_time = f_ts
+                                break
+                        if exit_price is None:
+                            exit_price = c
+                            exit_reason = "time_expiry"
+                            exit_time = t_stamp
 
-                            # In institutional meta-labeling (López de Prado), label y=1 if trade produced
-                            # net positive payoff (target reached or positive session close after costs), 0 otherwise
-                            if exit_reason == "profit_target":
-                                label = 1
-                            elif exit_reason == "stop_loss":
-                                label = 0
+                    else:
+                        exit_price = None
+                        exit_reason = None
+                        exit_time = None
+                        bars_held = 0
+                        highest_price = entry_price
+                        lowest_price = entry_price
+
+                        max_fwd = min(len(df_rows), bar_idx + self.max_holding_bars)
+                        for fwd_idx in range(bar_idx + 1, max_fwd):
+                            f_row = df_rows[fwd_idx]
+                            f_h = f_row["high"]
+                            f_l = f_row["low"]
+                            f_c = f_row["close"]
+                            f_ts = f_row["timestamp"]
+                            bars_held = fwd_idx - bar_idx
+
+                            if isinstance(f_ts, str):
+                                try:
+                                    f_dt = datetime.fromisoformat(f_ts)
+                                except Exception:
+                                    f_dt = None
+                            elif hasattr(f_ts, "weekday"):
+                                f_dt = f_ts
                             else:
-                                label = 1 if r_mult > 0.0 else 0
+                                f_dt = None
 
-                            events.append(
-                                ORBTradeEvent(
-                                    entry_time=entry_time,
-                                    exit_time=t_stamp,
+                            if direction == 1:
+                                highest_price = max(highest_price, f_h)
+                                if self.enable_breakeven and not be_activated and f_h >= entry_price + (self.breakeven_trigger_r * delta):
+                                    be_activated = True
+                                    stop_price = be_price
+                                if be_activated and self.enable_trailing_stop and self.trailing_distance_r is not None:
+                                    stop_price = max(stop_price, highest_price - (self.trailing_distance_r * delta))
 
-                                    date=str(d),
-                                    symbol=symbol,
-                                    direction=direction,
-                                    entry_price=entry_price,
-                                    exit_price=exit_price,
-                                    or_high=or_high,
-                                    or_low=or_low,
-                                    or_range=or_range,
-                                    atr20=atr20,
-                                    delta=delta,
-                                    upper_barrier=upper_barrier,
-                                    lower_barrier=lower_barrier,
-                                    holding_bars=bars_held,
-                                    exit_reason=exit_reason,
-                                    label=label,
-                                    realized_return=raw_ret,
-                                    r_multiple=r_mult,
-                                    features=features_snapshot,
-                                )
-                            )
-                            break  # 1 trade per session maximum
+                                hit_tp = (f_h >= upper_barrier)
+                                hit_sl = (f_l <= stop_price)
+                            else:
+                                lowest_price = min(lowest_price, f_l)
+                                if self.enable_breakeven and not be_activated and f_l <= entry_price - (self.breakeven_trigger_r * delta):
+                                    be_activated = True
+                                    stop_price = be_price
+                                if be_activated and self.enable_trailing_stop and self.trailing_distance_r is not None:
+                                    stop_price = min(stop_price, lowest_price + (self.trailing_distance_r * delta))
+
+                                hit_tp = (f_l <= upper_barrier)
+                                hit_sl = (f_h >= stop_price)
+
+                            is_friday_close = (not is_crypto and f_dt is not None and f_dt.weekday() == 4 and f_dt.hour >= 20)
+                            is_time_expired = (bars_held >= self.max_holding_bars) or (fwd_idx == max_fwd - 1) or is_friday_close
+
+                            if hit_tp:
+                                exit_price = upper_barrier
+                                exit_reason = "profit_target"
+                                exit_time = str(f_ts)
+                                current_exit_idx = fwd_idx
+                                break
+                            elif hit_sl:
+                                exit_price = stop_price
+                                exit_reason = "stop_loss"
+                                exit_time = str(f_ts)
+                                current_exit_idx = fwd_idx
+                                break
+                            elif is_time_expired:
+                                exit_price = f_c
+                                exit_reason = "time_expiry"
+                                exit_time = str(f_ts)
+                                current_exit_idx = fwd_idx
+                                break
+
+                        if exit_price is None:
+                            exit_price = c
+                            exit_reason = "time_expiry"
+                            exit_time = t_stamp
+                            current_exit_idx = bar_idx
+
+                    raw_ret = direction * (exit_price - entry_price) / entry_price - self.friction
+                    r_mult = raw_ret / (delta / entry_price) if delta > 0 else 0.0
+                    label = 1 if r_mult > 0.0 else 0
+
+                    events.append(
+                        ORBTradeEvent(
+                            entry_time=entry_time,
+                            exit_time=exit_time,
+                            date=str(d),
+                            symbol=symbol,
+                            direction=direction,
+                            entry_price=entry_price,
+                            exit_price=exit_price,
+                            or_high=or_high,
+                            or_low=or_low,
+                            or_range=or_range,
+                            atr20=atr20,
+                            delta=delta,
+                            upper_barrier=upper_barrier,
+                            lower_barrier=stop_price,
+                            holding_bars=bars_held,
+                            exit_reason=exit_reason,
+                            label=label,
+                            realized_return=raw_ret,
+                            r_multiple=r_mult,
+                            features=features_snapshot,
+                        )
+                    )
+                    break
 
         return events
 

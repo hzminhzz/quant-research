@@ -194,3 +194,80 @@ def test_meta_classifier_training_and_cpcv():
     assert 0.0 <= res.brier_score <= 1.0
     assert len(res.oof_probabilities) == len(events)
     assert "rvol_1h" in res.feature_importances
+
+
+def test_multi_day_eow_holding_and_breakeven():
+    """Verify that Multi-Day EOW holding correctly activates breakeven and exits at EOW."""
+    all_rows = []
+    for day_idx in range(5):
+        day_date = f"2024-01-{8+day_idx:02d}"
+        for h in range(24):
+            for m in range(0, 60, 5):
+                t_str = f"{day_date} {h:02d}:{m:02d}:00"
+                if day_idx == 0 and h == 0:
+                    price = 101.0
+                    high = 102.0
+                    low = 100.0
+                elif day_idx == 0 and h == 1:
+                    price = 103.0
+                    high = 103.2
+                    low = 102.8
+                elif day_idx == 1 and h == 10:
+                    price = 105.5
+                    high = 105.8
+                    low = 105.2
+                elif day_idx == 4 and h >= 20:
+                    price = 106.0
+                    high = 106.2
+                    low = 105.8
+                else:
+                    price = 104.0
+                    high = 104.2
+                    low = 103.8
+                all_rows.append({
+                    "timestamp": t_str,
+                    "date": day_date,
+                    "hour": h,
+                    "open": price - 0.1,
+                    "high": high,
+                    "low": low,
+                    "close": price,
+                    "volume": 1000.0,
+                    "atr20_bar": 0.5,
+                    "ema_200": 95.0,
+                })
+
+    df = pl.DataFrame(all_rows)
+
+    # 1. Test Multi-Day EOW with pure time exit at Friday close
+    builder_eow = MetaLabelingORBDatasetBuilder(
+        target_multiple=5.0,
+        holding_mode="multi_day_eow",
+        enable_breakeven=True,
+        enable_trailing_stop=False,
+        stretch_k=0.05,
+    )
+    events_eow = builder_eow.extract_events_and_labels(df, symbol="TEST_EOW", session_hours=[0])
+
+    assert len(events_eow) == 1
+    ev = events_eow[0]
+    assert ev.exit_reason == "time_expiry"
+    assert "2024-01-12 20:00:00" in ev.exit_time
+    assert ev.r_multiple > 1.0
+    assert ev.label == 1
+
+    # 2. Test Multi-Day with Trailing Stop locking profits
+    builder_trail = MetaLabelingORBDatasetBuilder(
+        target_multiple=5.0,
+        holding_mode="multi_day_eow",
+        enable_breakeven=True,
+        enable_trailing_stop=True,
+        trailing_distance_r=1.0,
+        stretch_k=0.05,
+    )
+    events_trail = builder_trail.extract_events_and_labels(df, symbol="TEST_TRAIL", session_hours=[0])
+    assert len(events_trail) == 1
+    assert events_trail[0].r_multiple > 0.0
+    assert events_trail[0].label == 1
+
+
