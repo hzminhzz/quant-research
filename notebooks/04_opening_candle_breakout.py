@@ -38,7 +38,7 @@ with app.setup(hide_code=True):
 
 @app.cell
 def header_markdown():
-    _header = mo.md(
+    header_view = mo.md(
         r"""
     # ⚡ Institutional Opening Range Breakout (ORB) Strategy
     ### **Dual-Session Day Trading Engine | Germany 40 (DAX) & Nikkei 225**
@@ -63,12 +63,12 @@ def header_markdown():
        - **Nikkei 225**: Tokyo Morning Cash Open (**00:00 UTC**) & Tokyo Afternoon Open (**03:00 UTC**).
     """
     )
-    return (_header,)
+    return (header_view,)
 
 
 @app.cell
-def display_header(_header):
-    _header
+def display_header(header_view):
+    header_view
     return
 
 
@@ -1018,46 +1018,53 @@ def display_microstructure(microstructure_view):
 
 @app.cell
 def ml_meta_labeling_section(mo):
-    _prob_slider = mo.ui.slider(
+    prob_slider = mo.ui.slider(
         start=0.45,
         stop=0.65,
         step=0.01,
         value=0.52,
         label="Meta-Model Probability Cutoff (p_hat >= threshold)",
     )
-    _mc_trials_slider = mo.ui.slider(
+    mc_trials_slider = mo.ui.slider(
         start=1000,
         stop=5000,
         step=1000,
         value=2000,
         label="Monte Carlo Evaluation Trials",
     )
-    _sizing_mode = mo.ui.radio(
+    sizing_mode = mo.ui.radio(
         options=["Static 1.0% Risk", "Dynamic Half-Kelly Sizing"],
         value="Dynamic Half-Kelly Sizing",
         label="Position Sizing Architecture",
     )
-    _portfolio_mode = mo.ui.radio(
+    portfolio_mode = mo.ui.radio(
         options=["4-Index Equity Momentum (JP225, HK33, DE30, NAS100)", "5-Asset Full Basket (Includes BTC/USD)"],
         value="4-Index Equity Momentum (JP225, HK33, DE30, NAS100)",
         label="Portfolio Universe Selection",
     )
-    _holding_mode = mo.ui.radio(
+    holding_mode = mo.ui.radio(
         options=["Multi-Day EOW (Trailing + BE@1R, Friday Close)", "Intraday (2-Hour Forced Exit)"],
         value="Multi-Day EOW (Trailing + BE@1R, Friday Close)",
         label="Trade Holding & Exit Policy",
     )
     ml_controls = mo.vstack([
-        mo.hstack([_portfolio_mode, _holding_mode], justify="start"),
-        mo.hstack([_sizing_mode, _prob_slider, _mc_trials_slider], justify="start"),
+        mo.hstack([portfolio_mode, holding_mode], justify="start"),
+        mo.hstack([sizing_mode, prob_slider, mc_trials_slider], justify="start"),
     ])
-    return ml_controls, _prob_slider, _mc_trials_slider, _sizing_mode, _portfolio_mode, _holding_mode
+    return (
+        holding_mode,
+        mc_trials_slider,
+        ml_controls,
+        portfolio_mode,
+        prob_slider,
+        sizing_mode,
+    )
 
 
 
 @app.cell
 def display_ml_controls(ml_controls, mo):
-    _view = mo.vstack([
+    meta_view = mo.vstack([
         mo.md("---"),
         mo.md("## 🤖 Section 10: Institutional Two-Stage ML Meta-Labeling Architecture"),
         mo.md(
@@ -1071,32 +1078,32 @@ def display_ml_controls(ml_controls, mo):
         ),
         ml_controls,
     ])
-    return (_view,)
+    return (meta_view,)
 
 
 @app.cell
-def show_ml_controls(_view):
-    _view
+def show_ml_controls(meta_view):
+    meta_view
     return
 
 
 @app.cell
 def run_ml_meta_pipeline(
-    _prob_slider,
-    _mc_trials_slider,
-    _sizing_mode,
-    _portfolio_mode,
-    _holding_mode,
+    holding_mode,
+    mc_trials_slider,
     mo,
+    portfolio_mode,
+    prob_slider,
+    sizing_mode,
 ):
     from src.labeling import MetaLabelingORBDatasetBuilder, compute_sample_uniqueness_weights
     from src.models import train_meta_classifier_cpcv
     from src.ftmo_simulator import FTMOSimulator as _FTMOSimulator
 
 
-    _cutoff = float(_prob_slider.value)
-    _n_mc = int(_mc_trials_slider.value)
-    _use_kelly = "Half-Kelly" in _sizing_mode.value
+    _cutoff = float(prob_slider.value)
+    _n_mc = int(mc_trials_slider.value)
+    _use_kelly = "Half-Kelly" in sizing_mode.value
 
     # Build asset list based on portfolio mode
     _spx_p = Path("data/processed/SPX500_USD_15m_2017_2026.parquet")
@@ -1111,7 +1118,7 @@ def run_ml_meta_pipeline(
         (pl.col("pv").cum_sum().over("date") / pl.col("eff_vol").cum_sum().over("date")).alias("spx_vwap")
     ]).select(["timestamp", pl.col("close").alias("spx_close"), "spx_vwap"])
 
-    if "4-Index" in _portfolio_mode.value:
+    if "4-Index" in portfolio_mode.value:
         _assets = [
             ("JP225", "data/processed/JP225_USD_5m_2017_2026.parquet", [0], False),
             ("HK33", "data/processed/HK33_5m_2017_2026.parquet", [1], False),
@@ -1128,7 +1135,7 @@ def run_ml_meta_pipeline(
         ]
 
 
-    _is_intraday = "Intraday" in _holding_mode.value
+    _is_intraday = "Intraday" in holding_mode.value
     if _is_intraday:
         _builder = MetaLabelingORBDatasetBuilder(
             stretch_k=0.15,
@@ -1295,7 +1302,7 @@ def display_ml_view(ml_view):
 
 @app.cell
 def audit_guidelines(mo):
-    _notes = mo.md(
+    audit_notes = mo.md(
         r"""
     ---
     ### 🛡️ Why This Strategy Passes Institutional Audits (For Algo Traders)
@@ -1310,13 +1317,14 @@ def audit_guidelines(mo):
        - Trading the Frankfurt morning open alongside the US overlap on DAX, and Tokyo morning alongside Tokyo afternoon on Nikkei, cuts portfolio drawdown in half ($1.4\%$) by hedging independent daily liquidity cycles.
     """
     )
-    return (_notes,)
+    return (audit_notes,)
 
 
 @app.cell
-def display_notes(_notes):
-    _notes
+def display_notes(audit_notes):
+    audit_notes
     return
+
 
 
 if __name__ == "__main__":
