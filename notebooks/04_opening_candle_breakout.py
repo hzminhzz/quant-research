@@ -112,6 +112,14 @@ def config_ui():
         label="Account Starting Balance ($)",
     )
 
+    risk_slider = mo.ui.slider(
+        start=0.25,
+        stop=3.0,
+        step=0.25,
+        value=1.0,
+        label="Static Risk per Trade (% Balance)",
+    )
+
     slip_slider = mo.ui.slider(
         start=0.0,
         stop=5.0,
@@ -131,13 +139,14 @@ def config_ui():
     controls_panel = mo.vstack([
         mo.md("### ⚙️ Strategy Tester Settings & Account Parameters"),
         mo.hstack([portfolio_select, session_select, tp_mode_select], justify="start", gap=2),
-        mo.hstack([capital_input, slip_slider, comm_slider], justify="start", gap=2),
+        mo.hstack([capital_input, risk_slider, slip_slider, comm_slider], justify="start", gap=2),
     ])
     return (
         capital_input,
         comm_slider,
         controls_panel,
         portfolio_select,
+        risk_slider,
         session_select,
         slip_slider,
         tp_mode_select,
@@ -155,6 +164,7 @@ def run_orb_simulation(
     capital_input,
     comm_slider,
     portfolio_select,
+    risk_slider,
     session_select,
     slip_slider,
     tp_mode_select,
@@ -173,6 +183,8 @@ def run_orb_simulation(
     ]).select(["timestamp", pl.col("close").alias("spx_close"), "spx_vwap"])
 
     _initial_capital = float(capital_input.value)
+    _risk_pct = float(risk_slider.value)
+    _risk_fraction = _risk_pct / 100.0
     _friction = 2.0 * (float(comm_slider.value) + float(slip_slider.value)) / 10_000.0  # 4.0 bps RT default
 
     # Define asset configs to run
@@ -227,7 +239,7 @@ def run_orb_simulation(
         for _d in _dates:
             _day_df = _df.filter(pl.col("date") == _d)
             for _s_idx, _open_h in enumerate(_session_hours):
-                _session_df = _day_df.filter((pl.col("hour") >= _open_hour) & (pl.col("hour") < _open_hour + 6) if "_open_hour" in locals() else (pl.col("hour") >= _open_h) & (pl.col("hour") < _open_h + 6))
+                _session_df = _day_df.filter((pl.col("hour") >= _open_h) & (pl.col("hour") < _open_h + 6))
                 if len(_session_df) < 12 + 4:
                     continue
 
@@ -251,6 +263,7 @@ def run_orb_simulation(
                 _entry_bar = 0
                 _sl_p = 0.0
                 _tp_p = 0.0
+                _pos_weight = 0.0
                 _max_bars = min(len(_rest_df), 36)
 
                 for _i in range(_max_bars):
@@ -278,6 +291,10 @@ def run_orb_simulation(
                                     _tp_p = _entry_p + 2.0 * _or_range
                                 else:
                                     _tp_p = 999999.0
+
+                                # Static % Risk Position Sizing:
+                                _sl_dist_pct = (_entry_p - _sl_p) / _entry_p + _friction
+                                _pos_weight = _risk_fraction / _sl_dist_pct if _sl_dist_pct > 0 else 1.0
                     else:
                         if "Breakeven" in tp_mode_select.value and _h >= _entry_p + 1.0 * _or_range:
                             _sl_p = max(_sl_p, _entry_p)
@@ -286,79 +303,106 @@ def run_orb_simulation(
                         _hit_sl = _l <= _sl_p
 
                         if _hit_tp and _hit_sl:
-                            _ret = (_sl_p - _entry_p) / _entry_p - _friction
+                            _raw_ret = (_sl_p - _entry_p) / _entry_p - _friction
+                            _pnl_pct = _pos_weight * _raw_ret
+                            _pnl_dollar = _pnl_pct * _initial_capital
+                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
                             _all_trade_list.append({
                                 "Date": str(_d),
                                 "Symbol": _asset_name,
                                 "Session": f"Session {_open_h:02d}:00 UTC",
                                 "Type": "BUY",
                                 "EntryPrice": round(_entry_p, 1),
+                                "StopLoss": round(_sl_p, 1),
+                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
                                 "ExitPrice": round(_sl_p, 1),
-                                "NetRet%": round(_ret * 100.0, 2),
-                                "NetProfit$": round(_ret * _initial_capital, 2),
+                                "Risk%": f"{_risk_pct:.2f}%",
+                                "R-Multiple": f"{_r_mult:+.2f}R",
+                                "NetRet%": round(_pnl_pct * 100.0, 2),
+                                "NetProfit$": round(_pnl_dollar, 2),
                                 "HoldBars": _i - _entry_bar,
                                 "ExitReason": "Stop Loss",
                             })
-                            _daily_pnl[_d] += _ret
+                            _daily_pnl[_d] += _pnl_pct
                             break
                         elif _hit_tp:
-                            _ret = (_tp_p - _entry_p) / _entry_p - _friction
+                            _raw_ret = (_tp_p - _entry_p) / _entry_p - _friction
+                            _pnl_pct = _pos_weight * _raw_ret
+                            _pnl_dollar = _pnl_pct * _initial_capital
+                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else 2.0
                             _all_trade_list.append({
                                 "Date": str(_d),
                                 "Symbol": _asset_name,
                                 "Session": f"Session {_open_h:02d}:00 UTC",
                                 "Type": "BUY",
                                 "EntryPrice": round(_entry_p, 1),
+                                "StopLoss": round(_sl_p, 1),
+                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
                                 "ExitPrice": round(_tp_p, 1),
-                                "NetRet%": round(_ret * 100.0, 2),
-                                "NetProfit$": round(_ret * _initial_capital, 2),
+                                "Risk%": f"{_risk_pct:.2f}%",
+                                "R-Multiple": f"{_r_mult:+.2f}R",
+                                "NetRet%": round(_pnl_pct * 100.0, 2),
+                                "NetProfit$": round(_pnl_dollar, 2),
                                 "HoldBars": _i - _entry_bar,
                                 "ExitReason": "Take Profit",
                             })
-                            _daily_pnl[_d] += _ret
+                            _daily_pnl[_d] += _pnl_pct
                             break
                         elif _hit_sl:
-                            _ret = (_sl_p - _entry_p) / _entry_p - _friction
+                            _raw_ret = (_sl_p - _entry_p) / _entry_p - _friction
+                            _pnl_pct = _pos_weight * _raw_ret
+                            _pnl_dollar = _pnl_pct * _initial_capital
+                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
                             _all_trade_list.append({
                                 "Date": str(_d),
                                 "Symbol": _asset_name,
                                 "Session": f"Session {_open_h:02d}:00 UTC",
                                 "Type": "BUY",
                                 "EntryPrice": round(_entry_p, 1),
+                                "StopLoss": round(_sl_p, 1),
+                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
                                 "ExitPrice": round(_sl_p, 1),
-                                "NetRet%": round(_ret * 100.0, 2),
-                                "NetProfit$": round(_ret * _initial_capital, 2),
+                                "Risk%": f"{_risk_pct:.2f}%",
+                                "R-Multiple": f"{_r_mult:+.2f}R",
+                                "NetRet%": round(_pnl_pct * 100.0, 2),
+                                "NetProfit$": round(_pnl_dollar, 2),
                                 "HoldBars": _i - _entry_bar,
                                 "ExitReason": "Stop Loss",
                             })
-                            _daily_pnl[_d] += _ret
+                            _daily_pnl[_d] += _pnl_pct
                             break
                         elif _i == _max_bars - 1:
-                            _ret = (_c - _entry_p) / _entry_p - _friction
+                            _raw_ret = (_c - _entry_p) / _entry_p - _friction
+                            _pnl_pct = _pos_weight * _raw_ret
+                            _pnl_dollar = _pnl_pct * _initial_capital
+                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else 0.0
                             _all_trade_list.append({
                                 "Date": str(_d),
                                 "Symbol": _asset_name,
                                 "Session": f"Session {_open_h:02d}:00 UTC",
                                 "Type": "BUY",
                                 "EntryPrice": round(_entry_p, 1),
+                                "StopLoss": round(_sl_p, 1),
+                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
                                 "ExitPrice": round(_c, 1),
-                                "NetRet%": round(_ret * 100.0, 2),
-                                "NetProfit$": round(_ret * _initial_capital, 2),
+                                "Risk%": f"{_risk_pct:.2f}%",
+                                "R-Multiple": f"{_r_mult:+.2f}R",
+                                "NetRet%": round(_pnl_pct * 100.0, 2),
+                                "NetProfit$": round(_pnl_dollar, 2),
                                 "HoldBars": _i - _entry_bar,
                                 "ExitReason": "Session Close",
                             })
-                            _daily_pnl[_d] += _ret
+                            _daily_pnl[_d] += _pnl_pct
                             break
 
         _asset_results[_asset_name] = _daily_pnl
 
-    # Compute portfolio equity
+    # Compute portfolio equity (additive daily returns across non-overlapping sessions)
     _all_dates_set = sorted(set().union(*[_asset_results[k].keys() for k in _asset_results]))
-    _n_assets = len(_assets_to_run)
     _portfolio_daily_rets = []
 
     for _d in _all_dates_set:
-        _day_ret = sum(_asset_results[k].get(_d, 0.0) for k in _asset_results) / float(_n_assets)
+        _day_ret = sum(_asset_results[k].get(_d, 0.0) for k in _asset_results)
         _portfolio_daily_rets.append(_day_ret)
 
     _rets_arr = np.array(_portfolio_daily_rets)
@@ -415,6 +459,7 @@ def run_orb_simulation(
 
     sim_report = {
         "initial_deposit": _initial_capital,
+        "static_risk_pct": _risk_pct,
         "net_profit_dollar": _net_profit_dollar,
         "net_profit_pct": _net_profit_pct,
         "total_trades": _total_trades,
@@ -455,6 +500,10 @@ def mt5_kpi_report(mo, sim_report):
     _avg_bps = sim_report["avg_trade_bps"]
     _payoff = sim_report["payoff_ratio"]
 
+    _risk_pct = sim_report["static_risk_pct"]
+    _risk_dollar = sim_report["initial_deposit"] * (_risk_pct / 100.0)
+    _win_r = (_sim_report := sim_report)["avg_win_dollar"] / _risk_dollar if _risk_dollar > 0 else 0.0
+
     report_view = mo.vstack([
         mo.md("---"),
         mo.md("## 📊 Strategy Tester Report (MT5-Style Institutional Tearsheet)"),
@@ -492,14 +541,14 @@ def mt5_kpi_report(mo, sim_report):
                 caption=f"{sim_report['win_cnt']} Wins / {sim_report['loss_cnt']} Losses",
             ),
             mo.stat(
-                label="Average Payoff Ratio",
-                value=f"{_payoff:.2f}:1",
-                caption=f"Avg Win: ${sim_report['avg_win_dollar']:,.0f} | Loss: ${sim_report['avg_loss_dollar']:,.0f}",
+                label="Fixed Risk per Trade",
+                value=f"{_risk_pct:.2f}% (${_risk_dollar:,.0f})",
+                caption="Static 1R loss if SL hit",
             ),
             mo.stat(
-                label="Expected Payoff / Trade",
-                value=f"+{_avg_bps:.1f} bps",
-                caption="Net of 4.0 bps execution friction",
+                label="Avg Win Payoff (R)",
+                value=f"+{_win_r:.2f}R",
+                caption=f"Avg Win: ${sim_report['avg_win_dollar']:,.0f}",
             ),
         ], justify="space-between"),
     ])
