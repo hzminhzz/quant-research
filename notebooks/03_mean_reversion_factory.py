@@ -140,13 +140,13 @@ def run_mean_reversion_evaluation(
 
     if period_select.value == "Out-of-Sample (2023–2026)":
         _df_eval = _df_feat.filter(
-            (pl.col("timestamp") >= datetime(2023, 1, 1))
-            & (pl.col("timestamp") < datetime(2026, 1, 1))
+            (pl.col("timestamp") >= pl.datetime(2023, 1, 1))
+            & (pl.col("timestamp") < pl.datetime(2026, 1, 1))
         )
     elif period_select.value == "In-Sample (2019–2022)":
         _df_eval = _df_feat.filter(
-            (pl.col("timestamp") >= datetime(2019, 1, 1))
-            & (pl.col("timestamp") < datetime(2023, 1, 1))
+            (pl.col("timestamp") >= pl.datetime(2019, 1, 1))
+            & (pl.col("timestamp") < pl.datetime(2023, 1, 1))
         )
     else:
         _df_eval = _df_feat
