@@ -75,13 +75,26 @@ def display_header(_header):
 def config_ui():
     portfolio_select = mo.ui.dropdown(
         options=[
-            "⭐ Combined Dual Portfolio (DAX + Nikkei)",
-            "🚀 Sweet-Spot Synergy (DAX US Overlap + Nikkei Tokyo Open)",
-            "Germany 40 (DAX 40)",
+            "⭐ 4-Asset Multi-Market (DE30 + Nikkei + USD/JPY + BTC)",
+            "🚀 Momentum Alpha Engine (Nikkei + DAX + Nasdaq 100 + BTC)",
             "Nikkei 225 (JP225)",
+            "Germany 40 (DAX 40)",
+            "USD/JPY (FX)",
+            "BTC/USD (Crypto)",
+            "Nasdaq 100 (US Tech)",
         ],
-        value="⭐ Combined Dual Portfolio (DAX + Nikkei)",
-        label="Portfolio Scope",
+        value="⭐ 4-Asset Multi-Market (DE30 + Nikkei + USD/JPY + BTC)",
+        label="Portfolio Universe",
+    )
+
+    direction_select = mo.ui.dropdown(
+        options=[
+            "Two-Sided (Long + Short Breakouts)",
+            "Long Breakouts Only",
+            "Short Breakouts Only",
+        ],
+        value="Two-Sided (Long + Short Breakouts)",
+        label="Trade Direction",
     )
 
     session_select = mo.ui.dropdown(
@@ -107,10 +120,11 @@ def config_ui():
 
     period_select = mo.ui.dropdown(
         options=[
-            "⭐ Full History (2017 - 2026, 9.3 Years)",
+            "⭐ Expanded Window (2022 - 2026, 4.6 Years)",
+            "Full History (2017 - 2026, 9.3 Years)",
             "Recent Cycle (2023 - 2026, 3.2 Years)",
         ],
-        value="⭐ Full History (2017 - 2026, 9.3 Years)",
+        value="⭐ Expanded Window (2022 - 2026, 4.6 Years)",
         label="Historical Horizon",
     )
 
@@ -148,13 +162,14 @@ def config_ui():
 
     controls_panel = mo.vstack([
         mo.md("### ⚙️ Strategy Tester Settings & Account Parameters"),
-        mo.hstack([portfolio_select, session_select, tp_mode_select, period_select], justify="start", gap=2),
+        mo.hstack([portfolio_select, direction_select, session_select, tp_mode_select, period_select], justify="start", gap=2),
         mo.hstack([capital_input, risk_slider, slip_slider, comm_slider], justify="start", gap=2),
     ])
     return (
         capital_input,
         comm_slider,
         controls_panel,
+        direction_select,
         period_select,
         portfolio_select,
         risk_slider,
@@ -174,6 +189,7 @@ def display_controls(controls_panel):
 def run_orb_simulation(
     capital_input,
     comm_slider,
+    direction_select,
     period_select,
     portfolio_select,
     risk_slider,
@@ -182,7 +198,9 @@ def run_orb_simulation(
     tp_mode_select,
 ):
     _use_full = "Full History" in period_select.value
-    _spx_p = Path("data/processed/SPX500_USD_15m_2017_2026.parquet") if _use_full else Path("data/processed/SPX500_USD_15m_2019_2026.parquet")
+    _use_2022 = "2022" in period_select.value
+
+    _spx_p = Path("data/processed/SPX500_USD_15m_2017_2026.parquet")
     _df_spx = pl.read_parquet(_spx_p).sort("timestamp")
     _df_spx = _df_spx.with_columns([
         pl.col("timestamp").dt.date().alias("date"),
@@ -199,29 +217,42 @@ def run_orb_simulation(
     _risk_fraction = _risk_pct / 100.0
     _friction = 2.0 * (float(comm_slider.value) + float(slip_slider.value)) / 10_000.0  # 4.0 bps RT default
 
-    _de_path = "data/processed/DE30_EUR_5m_2017_2026.parquet" if _use_full else "data/processed/DE30_EUR_5m_2023_2026.parquet"
-    _jp_path = "data/processed/JP225_USD_5m_2017_2026.parquet" if _use_full else "data/processed/JP225_USD_5m_2023_2026.parquet"
+    _tp_mult = 1.5 if "1.5x" in tp_mode_select.value else (2.0 if "2.0x" in tp_mode_select.value else 999.0)
+    _allow_long = "Short Breakouts Only" not in direction_select.value
+    _allow_short = "Long Breakouts Only" not in direction_select.value
+
+    _de_path = "data/processed/DE30_EUR_5m_2017_2026.parquet"
+    _jp_path = "data/processed/JP225_USD_5m_2017_2026.parquet"
+    _uj_path = "data/processed/USDJPY_5m_2022_2026.parquet"
+    _btc_path = "data/processed/BTCUSD_5m_2022_2026.parquet"
+    _nas_path = "data/processed/NAS100_5m_2022_2026.parquet"
 
     # Define asset configs to run
     _assets_to_run = []
-    if "Sweet-Spot" in portfolio_select.value:
-        _assets_to_run = [
-            ("Germany 40", _de_path, [13], [13], [13]),
-            ("Nikkei 225", _jp_path, [0], [0], [0]),
-        ]
-    elif "Combined" in portfolio_select.value:
+    if "4-Asset" in portfolio_select.value:
         _assets_to_run = [
             ("Germany 40", _de_path, [7], [13], [7, 13]),
-            ("Nikkei 225", _jp_path, [0], [3], [0, 3]),
+            ("Nikkei 225", _jp_path, [0], [0], [0]),
+            ("USD/JPY", _uj_path, [0], [13], [0, 13]),
+            ("BTC/USD", _btc_path, [13], [13], [13]),
         ]
+    elif "Momentum" in portfolio_select.value:
+        _assets_to_run = [
+            ("Nikkei 225", _jp_path, [0], [0], [0]),
+            ("Germany 40", _de_path, [13], [13], [13]),
+            ("Nasdaq 100", _nas_path, [14], [14], [14]),
+            ("BTC/USD", _btc_path, [13], [13], [13]),
+        ]
+    elif "Nikkei" in portfolio_select.value:
+        _assets_to_run = [("Nikkei 225", _jp_path, [0], [0], [0])]
     elif "Germany" in portfolio_select.value:
-        _assets_to_run = [
-            ("Germany 40", _de_path, [7], [13], [7, 13])
-        ]
+        _assets_to_run = [("Germany 40", _de_path, [7], [13], [7, 13])]
+    elif "USD/JPY" in portfolio_select.value:
+        _assets_to_run = [("USD/JPY", _uj_path, [0], [13], [0, 13])]
+    elif "BTC" in portfolio_select.value:
+        _assets_to_run = [("BTC/USD", _btc_path, [13], [13], [13])]
     else:
-        _assets_to_run = [
-            ("Nikkei 225", _jp_path, [0], [3], [0, 3])
-        ]
+        _assets_to_run = [("Nasdaq 100", _nas_path, [14], [14], [14])]
 
     _asset_results = {}
     _all_trade_list = []
@@ -235,6 +266,14 @@ def run_orb_simulation(
             _session_hours = _dual_h
 
         _raw_df = pl.read_parquet(_fpath).sort("timestamp")
+        if _use_2022:
+            _raw_df = _raw_df.filter(
+                (pl.col("timestamp") >= pl.lit("2022-01-01").str.to_datetime())
+                & (pl.col("timestamp") <= pl.lit("2026-07-31").str.to_datetime())
+            )
+        elif not _use_full:
+            _raw_df = _raw_df.filter(pl.col("timestamp") >= pl.lit("2023-01-01").str.to_datetime())
+
         _df = _raw_df.join_asof(_df_spx, on="timestamp", strategy="backward")
 
         _df_1h = _df.group_by_dynamic("timestamp", every="1h").agg([
@@ -279,6 +318,7 @@ def run_orb_simulation(
 
                 _rest_df = _session_df.slice(12)
                 _in_trade = False
+                _trade_dir = 0
                 _entry_p = 0.0
                 _entry_bar = 0
                 _sl_p = 0.0
@@ -296,124 +336,170 @@ def run_orb_simulation(
 
                     if not _in_trade:
                         if _i < 12:  # 1-hour entry cutoff
-                            _long_sig = _c > _or_high and (_ema200 is None or _c > _ema200)
+                            _long_sig = _allow_long and (_c > _or_high) and (_ema200 is None or _c > _ema200)
                             if _spx_c is not None and _spx_v is not None and _spx_c <= _spx_v:
                                 _long_sig = False
 
+                            _short_sig = _allow_short and (_c < _or_low) and (_ema200 is None or _c < _ema200)
+                            if _spx_c is not None and _spx_v is not None and _spx_c >= _spx_v:
+                                _short_sig = False
+
                             if _long_sig:
                                 _in_trade = True
+                                _trade_dir = 1
                                 _entry_p = _c
                                 _entry_bar = _i
                                 _sl_p = _or_low
-                                if "1.5x" in tp_mode_select.value:
-                                    _tp_p = _entry_p + 1.5 * _or_range
-                                elif "2.0x" in tp_mode_select.value:
-                                    _tp_p = _entry_p + 2.0 * _or_range
-                                else:
-                                    _tp_p = 999999.0
-
-                                # Static % Risk Position Sizing:
+                                _tp_p = _entry_p + _tp_mult * _or_range if _tp_mult < 100 else 999999.0
                                 _sl_dist_pct = (_entry_p - _sl_p) / _entry_p + _friction
                                 _pos_weight = _risk_fraction / _sl_dist_pct if _sl_dist_pct > 0 else 1.0
+                            elif _short_sig:
+                                _in_trade = True
+                                _trade_dir = -1
+                                _entry_p = _c
+                                _entry_bar = _i
+                                _sl_p = _or_high
+                                _tp_p = _entry_p - _tp_mult * _or_range if _tp_mult < 100 else 0.0001
+                                _sl_dist_pct = (_sl_p - _entry_p) / _entry_p + _friction
+                                _pos_weight = _risk_fraction / _sl_dist_pct if _sl_dist_pct > 0 else 1.0
+
                     else:
-                        if "Breakeven" in tp_mode_select.value and _h >= _entry_p + 1.0 * _or_range:
-                            _sl_p = max(_sl_p, _entry_p)
+                        # Position in progress
+                        if _trade_dir == 1:
+                            if "Breakeven" in tp_mode_select.value and (_h - _entry_p) >= _or_range:
+                                _sl_p = max(_sl_p, _entry_p)
 
-                        _hit_tp = _h >= _tp_p
-                        _hit_sl = _l <= _sl_p
+                            _hit_tp = _h >= _tp_p
+                            _hit_sl = _l <= _sl_p
 
-                        if _hit_tp and _hit_sl:
-                            _raw_ret = (_sl_p - _entry_p) / _entry_p - _friction
-                            _pnl_pct = _pos_weight * _raw_ret
-                            _pnl_dollar = _pnl_pct * _initial_capital
-                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
-                            _all_trade_list.append({
-                                "Date": str(_d),
-                                "Symbol": _asset_name,
-                                "Session": f"Session {_open_h:02d}:00 UTC",
-                                "Type": "BUY",
-                                "EntryPrice": round(_entry_p, 1),
-                                "StopLoss": round(_sl_p, 1),
-                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
-                                "ExitPrice": round(_sl_p, 1),
-                                "Risk%": f"{_risk_pct:.2f}%",
-                                "R-Multiple": f"{_r_mult:+.2f}R",
-                                "NetRet%": round(_pnl_pct * 100.0, 2),
-                                "NetProfit$": round(_pnl_dollar, 2),
-                                "HoldBars": _i - _entry_bar,
-                                "ExitReason": "Stop Loss",
-                            })
-                            _daily_pnl[_d] += _pnl_pct
-                            break
-                        elif _hit_tp:
-                            _raw_ret = (_tp_p - _entry_p) / _entry_p - _friction
-                            _pnl_pct = _pos_weight * _raw_ret
-                            _pnl_dollar = _pnl_pct * _initial_capital
-                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else 2.0
-                            _all_trade_list.append({
-                                "Date": str(_d),
-                                "Symbol": _asset_name,
-                                "Session": f"Session {_open_h:02d}:00 UTC",
-                                "Type": "BUY",
-                                "EntryPrice": round(_entry_p, 1),
-                                "StopLoss": round(_sl_p, 1),
-                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
-                                "ExitPrice": round(_tp_p, 1),
-                                "Risk%": f"{_risk_pct:.2f}%",
-                                "R-Multiple": f"{_r_mult:+.2f}R",
-                                "NetRet%": round(_pnl_pct * 100.0, 2),
-                                "NetProfit$": round(_pnl_dollar, 2),
-                                "HoldBars": _i - _entry_bar,
-                                "ExitReason": "Take Profit",
-                            })
-                            _daily_pnl[_d] += _pnl_pct
-                            break
-                        elif _hit_sl:
-                            _raw_ret = (_sl_p - _entry_p) / _entry_p - _friction
-                            _pnl_pct = _pos_weight * _raw_ret
-                            _pnl_dollar = _pnl_pct * _initial_capital
-                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
-                            _all_trade_list.append({
-                                "Date": str(_d),
-                                "Symbol": _asset_name,
-                                "Session": f"Session {_open_h:02d}:00 UTC",
-                                "Type": "BUY",
-                                "EntryPrice": round(_entry_p, 1),
-                                "StopLoss": round(_sl_p, 1),
-                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
-                                "ExitPrice": round(_sl_p, 1),
-                                "Risk%": f"{_risk_pct:.2f}%",
-                                "R-Multiple": f"{_r_mult:+.2f}R",
-                                "NetRet%": round(_pnl_pct * 100.0, 2),
-                                "NetProfit$": round(_pnl_dollar, 2),
-                                "HoldBars": _i - _entry_bar,
-                                "ExitReason": "Stop Loss",
-                            })
-                            _daily_pnl[_d] += _pnl_pct
-                            break
-                        elif _i == _max_bars - 1:
-                            _raw_ret = (_c - _entry_p) / _entry_p - _friction
-                            _pnl_pct = _pos_weight * _raw_ret
-                            _pnl_dollar = _pnl_pct * _initial_capital
-                            _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else 0.0
-                            _all_trade_list.append({
-                                "Date": str(_d),
-                                "Symbol": _asset_name,
-                                "Session": f"Session {_open_h:02d}:00 UTC",
-                                "Type": "BUY",
-                                "EntryPrice": round(_entry_p, 1),
-                                "StopLoss": round(_sl_p, 1),
-                                "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1),
-                                "ExitPrice": round(_c, 1),
-                                "Risk%": f"{_risk_pct:.2f}%",
-                                "R-Multiple": f"{_r_mult:+.2f}R",
-                                "NetRet%": round(_pnl_pct * 100.0, 2),
-                                "NetProfit$": round(_pnl_dollar, 2),
-                                "HoldBars": _i - _entry_bar,
-                                "ExitReason": "Session Close",
-                            })
-                            _daily_pnl[_d] += _pnl_pct
-                            break
+                            if _hit_tp and _hit_sl:
+                                _raw_ret = (_sl_p - _entry_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "BUY", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1), "ExitPrice": round(_sl_p, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Stop Loss",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+                            elif _hit_tp:
+                                _raw_ret = (_tp_p - _entry_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else _tp_mult
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "BUY", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1), "ExitPrice": round(_tp_p, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Take Profit",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+                            elif _hit_sl:
+                                _raw_ret = (_sl_p - _entry_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "BUY", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1), "ExitPrice": round(_sl_p, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Stop Loss",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+                            elif _i == _max_bars - 1:
+                                _raw_ret = (_c - _entry_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else 0.0
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "BUY", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p < 900000 else 0.0, 1), "ExitPrice": round(_c, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Session Close",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+
+                        elif _trade_dir == -1:
+                            if "Breakeven" in tp_mode_select.value and (_entry_p - _l) >= _or_range:
+                                _sl_p = min(_sl_p, _entry_p)
+
+                            _hit_tp = _l <= _tp_p
+                            _hit_sl = _h >= _sl_p
+
+                            if _hit_tp and _hit_sl:
+                                _raw_ret = (_entry_p - _sl_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "SELL", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p > 0.001 else 0.0, 1), "ExitPrice": round(_sl_p, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Stop Loss",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+                            elif _hit_tp:
+                                _raw_ret = (_entry_p - _tp_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else _tp_mult
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "SELL", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p > 0.001 else 0.0, 1), "ExitPrice": round(_tp_p, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Take Profit",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+                            elif _hit_sl:
+                                _raw_ret = (_entry_p - _sl_p) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else -1.0
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "SELL", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p > 0.001 else 0.0, 1), "ExitPrice": round(_sl_p, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Stop Loss",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
+                            elif _i == _max_bars - 1:
+                                _raw_ret = (_entry_p - _c) / _entry_p - _friction
+                                _pnl_pct = _pos_weight * _raw_ret
+                                _pnl_dollar = _pnl_pct * _initial_capital
+                                _r_mult = _pnl_pct / _risk_fraction if _risk_fraction > 0 else 0.0
+                                _all_trade_list.append({
+                                    "Date": str(_d), "Symbol": _asset_name, "Session": f"Session {_open_h:02d}:00 UTC",
+                                    "Type": "SELL", "EntryPrice": round(_entry_p, 1), "StopLoss": round(_sl_p, 1),
+                                    "TakeProfit": round(_tp_p if _tp_p > 0.001 else 0.0, 1), "ExitPrice": round(_c, 1),
+                                    "Risk%": f"{_risk_pct:.2f}%", "R-Multiple": f"{_r_mult:+.2f}R",
+                                    "NetRet%": round(_pnl_pct * 100.0, 2), "NetProfit$": round(_pnl_dollar, 2),
+                                    "HoldBars": _i - _entry_bar, "ExitReason": "Session Close",
+                                })
+                                _daily_pnl[_d] += _pnl_pct
+                                break
 
         _asset_results[_asset_name] = _daily_pnl
 
