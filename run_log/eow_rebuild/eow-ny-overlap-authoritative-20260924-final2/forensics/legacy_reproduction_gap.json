@@ -1,0 +1,84 @@
+{
+  "current_raw_data_parity": {
+    "annualized_sharpe_legacy_method": 1.4449316227820803,
+    "candidate_events": 1494,
+    "mean_oof_auc": 0.5201083641830695,
+    "net_r": 188.826839856806,
+    "note": "Uses the rebuilt legacy-parity lane against the current raw-data snapshot. It is close to, but does not exactly reproduce, the historical headline; the historical raw-data snapshot is not preserved as a verified immutable artifact.",
+    "period": "2017-01-01 through 2026-07-31",
+    "trade_count": 980,
+    "win_rate_pct": 55.61224489795919
+  },
+  "dsr_status": "DSR_UNREPRODUCIBLE_LEGACY_TRIAL_UNIVERSE",
+  "gaps": {
+    "net_r": -4.573160143194002,
+    "sharpe": -0.025068377217919657,
+    "trades": -17,
+    "wr_pct_points": -0.6877551020408106
+  },
+  "published": {
+    "annualized_sharpe": 1.47,
+    "dsr_pct": 99.0,
+    "net_r": 193.4,
+    "period": "2017-01-01 through 2026-07-31",
+    "profitable_years": "10/10",
+    "status": "NOT_FULLY_REPRODUCED",
+    "trade_count": 997,
+    "win_rate_pct": 56.3
+  },
+  "reason": "The historical raw-data snapshot is not preserved as a verified immutable artifact; exact timestamp metadata/config/library state cannot be proven.",
+  "status": "EXACT_LEGACY_REPRODUCTION_BLOCKED_BY_DATA_PROVENANCE",
+  "trial_ledger_audit": {
+    "audit_status": "INCOMPLETE_LEGACY_LEDGER",
+    "blocking_reasons": [
+      "mixed_legacy_schemas",
+      "duplicate_trial_ids",
+      "missing_config_hashes",
+      "missing_data_fingerprints",
+      "missing_final_oos_periods",
+      "missing_return_series_references",
+      "omitted_and_failed_trials_not_accounted_for"
+    ],
+    "complete_validated_schema_records": 0,
+    "dsr_status": "DSR_UNREPRODUCIBLE",
+    "duplicate_trial_ids": [
+      "pipeline-DE30_EUR-1h"
+    ],
+    "record_count": 14,
+    "records_with_trial_id": 2,
+    "schema_count": 2,
+    "schema_signatures": [
+      [
+        "asset",
+        "dsr_probability",
+        "family",
+        "hold_bars",
+        "period",
+        "return_pct",
+        "sharpe",
+        "strategy",
+        "timestamp",
+        "trades",
+        "win_rate_pct"
+      ],
+      [
+        "family",
+        "in_sample_sharpe",
+        "max_drawdown_pct",
+        "out_of_sample_sharpe",
+        "parameters",
+        "rank_ic",
+        "strategy_name",
+        "symbol",
+        "timeframe",
+        "timestamp",
+        "total_return_pct",
+        "total_trades",
+        "trial_id",
+        "win_rate_pct"
+      ]
+    ],
+    "schema_version": "trial_ledger_audit/v1",
+    "source": "run_log/trials.jsonl"
+  }
+}

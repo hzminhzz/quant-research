@@ -1,0 +1,76 @@
+{
+  "approximate_5bar_embargo": {
+    "reason": "corrected trainer couples exact entry-exit interval purge, elapsed-time embargo and fold-local uniqueness.",
+    "status": "NOT_INDEPENDENTLY_IDENTIFIED"
+  },
+  "asset_block_ordering": {
+    "asset_block_net_r": 118.2797189849195,
+    "delta_auc": -0.004305690564897546,
+    "delta_net_r": -24.439489351758255,
+    "global_order_net_r": 93.84022963316124,
+    "globally_time_sorted_legacy_auc": 0.498811459387085,
+    "legacy_asset_block_order_auc": 0.5031171499519825
+  },
+  "global_uniqueness_weights": {
+    "reason": "legacy validator combines global uniqueness weights with legacy CPCV; corrected trainer always applies fold-local uniqueness when temporal contracts are present.",
+    "status": "NOT_INDEPENDENTLY_IDENTIFIED"
+  },
+  "legacy_validation_to_correct_walkforward": {
+    "delta_net_r": -53.51384987494849,
+    "legacy_like_auc": 0.498811459387085,
+    "legacy_like_net_r": 93.84022963316124,
+    "walkforward_inner_auc": [
+      {
+        "end": "2019-12-31T23:59:59Z",
+        "mean_auc": 0.5630336752789518,
+        "oof_coverage_complete": true,
+        "phase": "initial_development_oof",
+        "score_count": 438,
+        "start": "2017-01-01T00:00:00Z",
+        "train_count": 438
+      },
+      {
+        "inner_oof_coverage_complete": true,
+        "mean_inner_auc": 0.5630336752789518,
+        "phase": "walk_forward_oos",
+        "test_count": 134,
+        "train_count": 438,
+        "year": 2020
+      },
+      {
+        "inner_oof_coverage_complete": true,
+        "mean_inner_auc": 0.5317904731552796,
+        "phase": "walk_forward_oos",
+        "test_count": 176,
+        "train_count": 572,
+        "year": 2021
+      },
+      {
+        "inner_oof_coverage_complete": true,
+        "mean_inner_auc": 0.5221962233003081,
+        "phase": "walk_forward_oos",
+        "test_count": 182,
+        "train_count": 748,
+        "year": 2022
+      },
+      {
+        "inner_oof_coverage_complete": true,
+        "mean_inner_auc": 0.5109418145573235,
+        "phase": "walk_forward_oos",
+        "test_count": 190,
+        "train_count": 930,
+        "year": 2023
+      },
+      {
+        "inner_oof_coverage_complete": true,
+        "mean_inner_auc": 0.48810802491247235,
+        "phase": "walk_forward_oos",
+        "test_count": 169,
+        "train_count": 1120,
+        "year": 2024
+      }
+    ],
+    "walkforward_net_r": 40.32637975821275
+  },
+  "residual_validation_package_delta_after_ordering_r": -53.51384987494849
+}

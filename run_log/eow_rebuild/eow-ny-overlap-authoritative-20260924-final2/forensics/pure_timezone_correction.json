@@ -1,0 +1,202 @@
+{
+  "definition": "Only DE30/NAS100 events receive timezone/local-session treatment. JP225/HK33 use exact legacy event objects. Shared legacy meta model is then retrained, so JP/HK changes measure cross-asset model spillover only.",
+  "delta_net_r": -13.974832827469726,
+  "jp_hk_meta_spillover": [
+    {
+      "events": 244,
+      "gate_flips": 40,
+      "legacy_selected_r": 37.300179610798736,
+      "mean_abs_score_change": 0.05084068814482787,
+      "meta_spillover_delta_r": 2.9794981727200565,
+      "mixed_model_selected_r": 40.27967778351879,
+      "symbol": "JP225"
+    },
+    {
+      "events": 242,
+      "gate_flips": 51,
+      "legacy_selected_r": 31.46782811308664,
+      "mean_abs_score_change": 0.05614985090894899,
+      "meta_spillover_delta_r": -2.1647318863154723,
+      "mixed_model_selected_r": 29.303096226771167,
+      "symbol": "HK33"
+    }
+  ],
+  "legacy": {
+    "auc": 0.5366249105355763,
+    "summary": {
+      "mean_r": 0.22026951445707366,
+      "net_r": 168.9467175885755,
+      "trade_count": 767,
+      "win_rate_pct": 56.192959582790095,
+      "wins": 431,
+      "yearly": {
+        "2017": {
+          "net_r": 8.064274246037062,
+          "trades": 72,
+          "win_rate_pct": 48.611111111111114,
+          "wins": 35
+        },
+        "2018": {
+          "net_r": 42.37447179665538,
+          "trades": 85,
+          "win_rate_pct": 71.76470588235294,
+          "wins": 61
+        },
+        "2019": {
+          "net_r": 18.812438435145662,
+          "trades": 92,
+          "win_rate_pct": 54.34782608695652,
+          "wins": 50
+        },
+        "2020": {
+          "net_r": 9.461079223797858,
+          "trades": 76,
+          "win_rate_pct": 50.0,
+          "wins": 38
+        },
+        "2021": {
+          "net_r": 22.440781861858618,
+          "trades": 91,
+          "win_rate_pct": 57.142857142857146,
+          "wins": 52
+        },
+        "2022": {
+          "net_r": 25.112725849103985,
+          "trades": 123,
+          "win_rate_pct": 54.47154471544715,
+          "wins": 67
+        },
+        "2023": {
+          "net_r": 16.547019170793668,
+          "trades": 124,
+          "win_rate_pct": 52.41935483870968,
+          "wins": 65
+        },
+        "2024": {
+          "net_r": 26.133927005183267,
+          "trades": 104,
+          "win_rate_pct": 60.57692307692308,
+          "wins": 63
+        }
+      }
+    }
+  },
+  "per_instrument": [
+    {
+      "legacy_candidates": 244,
+      "legacy_selected": 148,
+      "legacy_selected_r": 37.300179610798736,
+      "mixed_candidates": 244,
+      "mixed_selected": 176,
+      "mixed_selected_r": 40.27967778351879,
+      "selected_delta_r": 2.9794981727200565,
+      "symbol": "JP225"
+    },
+    {
+      "legacy_candidates": 242,
+      "legacy_selected": 160,
+      "legacy_selected_r": 31.46782811308664,
+      "mixed_candidates": 242,
+      "mixed_selected": 201,
+      "mixed_selected_r": 29.303096226771167,
+      "selected_delta_r": -2.1647318863154723,
+      "symbol": "HK33"
+    },
+    {
+      "legacy_candidates": 181,
+      "legacy_selected": 126,
+      "legacy_selected_r": 43.8823723753028,
+      "mixed_candidates": 211,
+      "mixed_selected": 151,
+      "mixed_selected_r": 50.44080108805985,
+      "selected_delta_r": 6.558428712757049,
+      "symbol": "DE30"
+    },
+    {
+      "legacy_candidates": 454,
+      "legacy_selected": 333,
+      "legacy_selected_r": 56.296337489387334,
+      "mixed_candidates": 563,
+      "mixed_selected": 374,
+      "mixed_selected_r": 34.948309662755975,
+      "selected_delta_r": -21.34802782663136,
+      "symbol": "NAS100"
+    }
+  ],
+  "pure_timezone": {
+    "auc": 0.5146065289678085,
+    "summary": {
+      "mean_r": 0.17180918487927468,
+      "net_r": 154.97188476110577,
+      "trade_count": 902,
+      "win_rate_pct": 54.434589800443455,
+      "wins": 491,
+      "yearly": {
+        "2017": {
+          "net_r": 3.6631575422401794,
+          "trades": 79,
+          "win_rate_pct": 46.835443037974684,
+          "wins": 37
+        },
+        "2018": {
+          "net_r": 38.977997472703905,
+          "trades": 105,
+          "win_rate_pct": 62.857142857142854,
+          "wins": 66
+        },
+        "2019": {
+          "net_r": 20.596120048618097,
+          "trades": 109,
+          "win_rate_pct": 54.12844036697248,
+          "wins": 59
+        },
+        "2020": {
+          "net_r": 2.5296463444723742,
+          "trades": 91,
+          "win_rate_pct": 48.35164835164835,
+          "wins": 44
+        },
+        "2021": {
+          "net_r": 24.802174497116102,
+          "trades": 117,
+          "win_rate_pct": 56.41025641025641,
+          "wins": 66
+        },
+        "2022": {
+          "net_r": 30.036607422709587,
+          "trades": 133,
+          "win_rate_pct": 54.88721804511278,
+          "wins": 73
+        },
+        "2023": {
+          "net_r": 1.849465801755055,
+          "trades": 138,
+          "win_rate_pct": 47.82608695652174,
+          "wins": 66
+        },
+        "2024": {
+          "net_r": 32.5167156314905,
+          "trades": 130,
+          "win_rate_pct": 61.53846153846154,
+          "wins": 80
+        }
+      }
+    }
+  },
+  "raw_candidate_direct_effect": {
+    "by_treated_instrument": {
+      "DE30": {
+        "delta_raw_candidate_r": 1.0141939913589155,
+        "legacy_raw_candidate_r": 45.16631186303363,
+        "timezone_raw_candidate_r": 46.18050585439254
+      },
+      "NAS100": {
+        "delta_raw_candidate_r": 17.791439147084112,
+        "legacy_raw_candidate_r": 38.46523804090803,
+        "timezone_raw_candidate_r": 56.25667718799214
+      }
+    },
+    "interpretation": "Direct underlying-strategy event-path effect with no meta selection: only DE30/NAS100 change; JP225/HK33 remain exact legacy events.",
+    "total_delta_raw_candidate_r": 18.805633138443028
+  }
+}

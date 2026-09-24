@@ -1,0 +1,180 @@
+{
+  "candidate_delta_r_on_exit_changed_rows": -53.148645382531235,
+  "canonical_exit_reasons": [
+    {
+      "events": 68,
+      "exit_reason": "eow_calendar_exit",
+      "net_r": 19.47241517954495,
+      "symbol": "DE30"
+    },
+    {
+      "events": 18,
+      "exit_reason": "profit_target",
+      "net_r": 52.523353310596335,
+      "symbol": "DE30"
+    },
+    {
+      "events": 130,
+      "exit_reason": "stop_loss",
+      "net_r": -42.80242676996637,
+      "symbol": "DE30"
+    },
+    {
+      "events": 72,
+      "exit_reason": "eow_calendar_exit",
+      "net_r": 20.878348648669135,
+      "symbol": "HK33"
+    },
+    {
+      "events": 18,
+      "exit_reason": "profit_target",
+      "net_r": 52.942338028585525,
+      "symbol": "HK33"
+    },
+    {
+      "events": 162,
+      "exit_reason": "stop_loss",
+      "net_r": -50.81701122584825,
+      "symbol": "HK33"
+    },
+    {
+      "events": 60,
+      "exit_reason": "eow_calendar_exit",
+      "net_r": 18.258128863722156,
+      "symbol": "JP225"
+    },
+    {
+      "events": 20,
+      "exit_reason": "profit_target",
+      "net_r": 58.57750884704488,
+      "symbol": "JP225"
+    },
+    {
+      "events": 162,
+      "exit_reason": "stop_loss",
+      "net_r": -46.87134657903112,
+      "symbol": "JP225"
+    },
+    {
+      "events": 153,
+      "exit_reason": "eow_calendar_exit",
+      "net_r": 83.33391921150567,
+      "symbol": "NAS100"
+    },
+    {
+      "events": 34,
+      "exit_reason": "profit_target",
+      "net_r": 100.02596851598666,
+      "symbol": "NAS100"
+    },
+    {
+      "events": 391,
+      "exit_reason": "stop_loss",
+      "net_r": -140.29586399472018,
+      "symbol": "NAS100"
+    },
+    {
+      "events": 1,
+      "exit_reason": "stop_loss_conflict",
+      "net_r": 1.9055318777292423,
+      "symbol": "NAS100"
+    }
+  ],
+  "exit_changed_union_events": 1238,
+  "holiday_or_missing_session_substitutions": [
+    {
+      "eow_substitution": "missing_scheduled_session_used_2023-09-07",
+      "events": 1,
+      "symbol": "HK33"
+    },
+    {
+      "eow_substitution": "missing_scheduled_session_used_2019-04-18",
+      "events": 1,
+      "symbol": "JP225"
+    },
+    {
+      "eow_substitution": "missing_scheduled_session_used_2021-12-23",
+      "events": 2,
+      "symbol": "JP225"
+    },
+    {
+      "eow_substitution": "missing_scheduled_session_used_2022-04-14",
+      "events": 1,
+      "symbol": "JP225"
+    },
+    {
+      "eow_substitution": "missing_scheduled_session_used_2024-12-31",
+      "events": 1,
+      "symbol": "NAS100"
+    }
+  ],
+  "legacy_1500_row_fallback": {
+    "reason": "legacy exit_reason stores both Friday>=20 and row-limit expiry as time_expiry",
+    "status": "NOT_IDENTIFIABLE_FROM_PERSISTED_LEDGER"
+  },
+  "legacy_exit_reasons": [
+    {
+      "events": 27,
+      "exit_reason": "profit_target",
+      "net_r": 79.02834983221815,
+      "symbol": "DE30"
+    },
+    {
+      "events": 184,
+      "exit_reason": "stop_loss",
+      "net_r": -32.84784397782561,
+      "symbol": "DE30"
+    },
+    {
+      "events": 25,
+      "exit_reason": "profit_target",
+      "net_r": 73.80680375516268,
+      "symbol": "HK33"
+    },
+    {
+      "events": 214,
+      "exit_reason": "stop_loss",
+      "net_r": -45.085170925233335,
+      "symbol": "HK33"
+    },
+    {
+      "events": 2,
+      "exit_reason": "time_expiry",
+      "net_r": -0.30920906115747365,
+      "symbol": "HK33"
+    },
+    {
+      "events": 28,
+      "exit_reason": "profit_target",
+      "net_r": 82.17119995679049,
+      "symbol": "JP225"
+    },
+    {
+      "events": 210,
+      "exit_reason": "stop_loss",
+      "net_r": -34.85143986333045,
+      "symbol": "JP225"
+    },
+    {
+      "events": 42,
+      "exit_reason": "profit_target",
+      "net_r": 123.71047894214728,
+      "symbol": "NAS100"
+    },
+    {
+      "events": 442,
+      "exit_reason": "stop_loss",
+      "net_r": -106.58826805207391,
+      "symbol": "NAS100"
+    },
+    {
+      "events": 79,
+      "exit_reason": "time_expiry",
+      "net_r": 39.13446629791881,
+      "symbol": "NAS100"
+    }
+  ],
+  "reason": "ENTRY_CHANGED and EXIT_CHANGED co-occur for the overwhelming majority of canonical diff rows; exact EOW-only delta is not identified by the current audited builder.",
+  "selected_delta_r_on_exit_changed_rows": -64.8725898021203,
+  "status": "PARTIALLY_IDENTIFIED_INTERACTION_BUNDLE"
+}
