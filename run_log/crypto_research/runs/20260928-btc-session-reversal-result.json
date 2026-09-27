@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-btc-session-reversal",
+  "classification": "REJECT",
+  "strategy": "BTC 12h same-session Reversal/Reversal",
+  "strategy_family": "time_of_day_reversal",
+  "strategy_fingerprint": "5c0fe081b71322c375bd14d615efea849ebf6386d30afccddb7db696a53cb08f",
+  "pre_registration_commit": "2c735be6d2ed8f89c62c9aa28e5dd4c89421b597",
+  "manifest_sha256": "2afa928606f26c31399f6d7605eb26398e3947906a8ff847cb8e07a67b2d8340",
+  "runner_sha256": "b0d6bac8887a61b04307045feb3db7f6ea091067d0060deb95a1e0fb48dbe656",
+  "data": {
+    "path": "/home/quant/dev/quant/quant-research/data/processed/BTCUSD_5m_2022_2026.parquet",
+    "sha256": "47078373d6354f5aa45c67ce9066572175162c0efc357d92d96d6ce97fb399ec",
+    "selected_rows": 181152,
+    "selected_start": "2025-01-01T00:00:00Z",
+    "selected_end": "2026-09-21T23:55:00Z",
+    "timezone": "UTC",
+    "duplicate_timestamps": 0,
+    "selected_window_gaps": 0,
+    "ohlc_integrity_failures": 0,
+    "negative_volume_rows": 0,
+    "known_excluded_gaps": ["2024-07", "2024-12"],
+    "sealed_confirmation_start": "2026-09-22T00:00:00Z",
+    "sealed_rows_consumed": 0
+  },
+  "source": {
+    "title": "On the Performance of Lagged Momentum and Reversal Strategies Across Daytime and Overnight Sessions in Bitcoin and Ethereum Cryptocurrencies",
+    "authors": ["Zhefan Wu", "Eugene Pinsky"],
+    "publication": "Journal of Risk and Financial Management 19(9):692",
+    "publication_date": "2026-09",
+    "doi": "10.3390/jrfm19090692",
+    "url": "https://www.mdpi.com/1911-8074/19/9/692"
+  },
+  "parameters": {
+    "canonical_day_start_utc_hour": 8,
+    "day_session": "08:00-20:00 UTC",
+    "night_session": "20:00-08:00 UTC",
+    "position_rule": "-sign(previous realization of same session type)",
+    "holding_period_hours": 12,
+    "leverage": 1.0,
+    "neighbor_cutoff_hours": [7, 9]
+  },
+  "cost_model": {
+    "base_bps_per_unit_turnover": 3.0,
+    "sensitivity_multipliers": [1.0, 2.0, 3.0],
+    "funding": "not modeled",
+    "impact": "not modeled; small-capacity assumption"
+  },
+  "trial_accounting": {
+    "new_strategy_parameter_trials": 3,
+    "execution_cost_scenarios_per_trial": 3,
+    "total_strategy_cost_evaluations": 9,
+    "previous_crypto_registry_trials": 0,
+    "cumulative_crypto_strategy_parameter_trials": 3
+  },
+  "canonical_results": {
+    "2025_base_cost": {
+      "net_sharpe": 0.9180617259825176,
+      "gross_sharpe": 1.4050550182168564,
+      "net_total_return": 0.3775991547403128,
+      "net_max_drawdown": -0.3019399924733055,
+      "net_sortino": 1.493475596880208,
+      "profit_factor": 1.1436678830439466,
+      "win_rate": 0.4986301369863014,
+      "days": 365
+    },
+    "2026_forward_extension_base_cost": {
+      "net_sharpe": -1.760055094200265,
+      "gross_sharpe": -1.2265121208728904,
+      "net_total_return": -0.47436878365719837,
+      "net_max_drawdown": -0.5259597303979751,
+      "net_sortino": -2.5925414496961046,
+      "profit_factor": 0.7789486493708198,
+      "win_rate": 0.45454545454545453,
+      "days": 264,
+      "trade_events_full_2025_2026": 669,
+      "turnover_units_full_2025_2026": 1337.0
+    },
+    "2026_cost_sensitivity": {
+      "1x": {"net_sharpe": -1.760055094200265, "total_return": -0.47436878365719837, "max_drawdown": -0.5259597303979751},
+      "2x": {"net_sharpe": -2.2905346625382847, "total_return": -0.5584871792513817, "max_drawdown": -0.5931594109719951},
+      "3x": {"net_sharpe": -2.8174692740249467, "total_return": -0.6291827716068263, "max_drawdown": -0.6508650551864428}
+    },
+    "2026_remove_strongest_month": {
+      "removed_month": 4,
+      "net_sharpe": -2.4001515715537507,
+      "total_return": -0.533714004205587,
+      "max_drawdown": -0.5794801901303417
+    }
+  },
+  "neighbor_robustness_2026_base_cost": {
+    "07:00": {"net_sharpe": -0.9159328136056845, "gross_sharpe": -0.4181546666388437, "total_return": -0.3122270478021678},
+    "08:00": {"net_sharpe": -1.760055094200265, "gross_sharpe": -1.2265121208728904, "total_return": -0.47436878365719837},
+    "09:00": {"net_sharpe": 0.04545226054455315, "gross_sharpe": 0.5887032211027302, "total_return": -0.04645523748313374}
+  },
+  "benchmark_2026": {
+    "name": "BTC buy-and-hold",
+    "days": 263,
+    "total_return": -0.024978317530410576,
+    "annualized_sharpe": 0.1581153323121466,
+    "max_drawdown": -0.3953209523332115
+  },
+  "multiple_testing": {
+    "dsr_basis": "three pre-registered cutoff variants at base cost, using 2026 forward-extension Sharpe",
+    "dsr_probability": 0.007482711323424627,
+    "haircut_sharpe": -2.3890950373819324,
+    "expected_max_null_sharpe": 0.6290399431816673,
+    "pbo": "N/A: only three pre-registered neighboring variants; no CPCV winner-selection exercise"
+  },
+  "kill_criteria": {
+    "2026_base_net_sharpe_positive": false,
+    "2026_base_total_return_positive": false,
+    "2026_2x_cost_positive": false
+  },
+  "conclusion": "The canonical source-selected 08:00 UTC Reversal/Reversal rule fails decisively in the 2026 forward extension. Gross performance is already negative, realistic friction worsens it, neighboring cutoffs do not provide a stable profitable plateau, and removing the strongest month worsens the result. The hypothesis is rejected for this dataset and implementation.",
+  "reproduction": {
+    "command": "PYTHONPATH=. uv run --with polars --with numpy --with scipy python scripts/run_crypto_session_reversal.py --data /home/quant/dev/quant/quant-research/data/processed/BTCUSD_5m_2022_2026.parquet",
+    "test_command": "uv run --with polars --with numpy --with scipy --with pytest --with pyyaml pytest -q tests/test_crypto_session_reversal.py"
+  }
+}
