@@ -1,0 +1,49 @@
+# Autonomous recurring crypto-strategy research configuration.
+# This file governs the scheduled research operator only; it does not replace
+# config/setup.yaml for existing index/ORB studies.
+
+schema_version: 1
+
+automation:
+  branch: "research/crypto-auto"
+  source_checkout: "/home/quant/dev/quant/quant-research"
+  require_clean_start: true
+  never_merge_main_automatically: true
+
+data:
+  # DevSpace worktrees do not inherit git-ignored Parquet files. Scheduled runs
+  # read the existing VPS market-data store instead of copying it per worktree.
+  root: "/home/quant/dev/quant/quant-research/data/processed"
+  env_override: "QUANT_RESEARCH_DATA_ROOT"
+  discover_glob: "*.parquet"
+  preferred_timeframes: ["5m", "15m", "1h"]
+
+artifacts:
+  registry: "run_log/crypto_research/registry.jsonl"
+  runs_dir: "run_log/crypto_research/runs"
+  reports_dir: "docs/crypto_research"
+  state_file: "run_log/crypto_research/state.json"
+
+holdout:
+  # At setup time BTCUSD data ended at 2026-09-21 23:55 UTC. Everything at or
+  # after this boundary is reserved for explicit manual confirmation and must
+  # not be consumed by the recurring discovery/backtest loop.
+  sealed_confirmation_start: "2026-09-22T00:00:00Z"
+  recurring_operator_may_read_sealed_values: false
+
+research:
+  one_primary_hypothesis_per_run: true
+  allowed_default_timeframes: ["5m", "15m", "1h"]
+  classifications:
+    - "REJECT"
+    - "INCONCLUSIVE"
+    - "BLOCKED_DATA"
+    - "EXPLORATORY_PASS"
+    - "PROMOTE_TO_MANUAL_CONFIRMATION"
+
+validation:
+  require_point_in_time: true
+  require_chronological_validation: true
+  require_trial_logging: true
+  require_cost_sensitivity_multipliers: [1.0, 2.0, 3.0]
+  unusual_daily_sharpe_review_threshold: 2.0
