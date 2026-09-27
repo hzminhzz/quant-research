@@ -157,4 +157,4 @@ Focused test:
 - Runner SHA256: `b0d6bac8887a61b04307045feb3db7f6ea091067d0060deb95a1e0fb48dbe656`
 - Strategy fingerprint: `5c0fe081b71322c375bd14d615efea849ebf6386d30afccddb7db696a53cb08f`
 
-The final evidence commit SHA is recorded in the registry after results are committed.
+- Results evidence commit: `4d9d85e3d45ff0142ea9434a6f25e0a87958cfd5`\n\nThe registry's `commit_sha` points to the immutable results evidence commit above; a later metadata-only closure commit may advance the branch HEAD.
