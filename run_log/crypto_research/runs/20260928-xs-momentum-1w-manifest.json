@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-xs-momentum-1w",
+  "created_at": "2026-09-28T02:16:00+07:00",
+  "research_question": "Does one-week cross-sectional momentum persist across liquid Binance USDT perpetuals after causal universe construction and realistic turnover costs?",
+  "hypothesis": "Crypto relative strength persists over short horizons; assets with the strongest prior 7-day returns outperform the weakest over the next 7 days.",
+  "economic_mechanism": "Gradual information diffusion, speculative capital rotation, and under-reaction can create short-horizon cross-sectional continuation in crypto.",
+  "archetype": "cross-sectional factor",
+  "strategy_family": "cross_sectional_momentum",
+  "source": {
+    "title": "Cryptocurrency Momentum and Reversal",
+    "author": "Victoria Dobrynskaya",
+    "publication": "The Journal of Alternative Investments 26(1), 2023",
+    "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3913263",
+    "doi": "10.3905/jai.2023.1.189"
+  },
+  "data": {
+    "root": "/home/quant/dev/quant/ml4t-data/data/crypto/market/ohlcv_1h",
+    "market": "Binance USDT-margined perpetual futures",
+    "timeframe": "1h",
+    "exploration_start": "2020-01-01T00:00:00Z",
+    "oos_start": "2022-01-01T00:00:00Z",
+    "exploration_end_exclusive": "2025-10-01T00:00:00Z",
+    "sealed_confirmation_start": "2025-10-01T00:00:00Z"
+  },
+  "universe_rule": {
+    "min_history_hours": 720,
+    "required_formation_hours": 168,
+    "liquidity_lookback_hours": 168,
+    "select_top_n_by_trailing_notional_volume": 15,
+    "require_current_and_next_rebalance_bar": true
+  },
+  "signal": {
+    "formation_hours": 168,
+    "rebalance_hours": 168,
+    "schedule": "Monday 00:00 UTC signal; execute next hourly open",
+    "long_fraction": 0.25,
+    "short_fraction": 0.25,
+    "weighting": "equal weight within each leg; 0.5 gross long + 0.5 gross short",
+    "position_rule": "long highest trailing 168h return quartile; short lowest quartile"
+  },
+  "execution": {
+    "decision_price": "signal bar close",
+    "fill_price": "next bar open",
+    "base_cost_bps_per_unit_turnover": 3,
+    "cost_multipliers": [
+      1,
+      2,
+      3
+    ],
+    "leverage_gross": 1,
+    "net_exposure_target": 0,
+    "funding": "not modeled separately; robustness includes additional carry-drag sensitivity and this omission blocks manual-confirmation promotion if material"
+  },
+  "validation": {
+    "primary_metric": "net OOS annualized Sharpe from daily-equivalent portfolio equity returns",
+    "oos_period": "2022-01-01 through 2025-09-30",
+    "subperiods": [
+      "2022",
+      "2023",
+      "2024",
+      "2025-01-01/2025-09-30"
+    ],
+    "factor_diagnostics": [
+      "cross-sectional rank IC at weekly rebalance",
+      "IC sign stability",
+      "quantile spread",
+      "turnover"
+    ],
+    "robustness": [
+      "2x costs",
+      "3x costs",
+      "exclude BTC/ETH",
+      "remove strongest asset",
+      "neighbor formation 120h and 240h as preregistered sensitivity"
+    ],
+    "trial_count_planned": 3
+  },
+  "kill_criteria": {
+    "factor_gate": "mean weekly rank IC <= 0 or unstable sign in most OOS years",
+    "strategy_gate": "net OOS Sharpe <= 0.5 or <=0 under 2x costs",
+    "concentration_gate": "Sharpe collapses below 0.5 after strongest asset removal"
+  },
+  "engineer_features": [
+    "trailing_return_168h (explicit grouped panel calculation)",
+    "trailing_notional_volume_168h"
+  ],
+  "labels": [
+    "forward 168h open-to-open holding return for diagnostics/backtest"
+  ],
+  "notes": "No feature-catalog sweep. Formation horizon and neighboring 120h/240h checks are pre-registered before results."
+}
