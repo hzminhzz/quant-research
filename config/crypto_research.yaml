@@ -13,16 +13,18 @@ automation:
 data:
   # DevSpace worktrees do not inherit git-ignored Parquet files. Scheduled runs
   # read the existing VPS market-data store instead of copying it per worktree.
-  root: "/home/quant/dev/quant/quant-research/data/processed"
+  root: "/home/quant/dev/quant/ml4t-data/data/crypto/market"
   env_override: "QUANT_RESEARCH_DATA_ROOT"
   discover_glob: "*.parquet"
-  preferred_timeframes: ["5m", "15m", "1h"]
+  primary_panel: "perps_1h.parquet"
+  preferred_timeframes: ["1h", "5m", "15m"]
 
 artifacts:
   registry: "run_log/crypto_research/registry.jsonl"
   runs_dir: "run_log/crypto_research/runs"
   reports_dir: "docs/crypto_research"
   state_file: "run_log/crypto_research/state.json"
+  objective_state_file: "run_log/crypto_research/objective_state.json"
 
 holdout:
   # At setup time BTCUSD data ended at 2026-09-21 23:55 UTC. Everything at or
@@ -32,8 +34,10 @@ holdout:
   recurring_operator_may_read_sealed_values: false
 
 research:
-  one_primary_hypothesis_per_run: true
-  allowed_default_timeframes: ["5m", "15m", "1h"]
+  one_primary_hypothesis_per_candidate: true
+  multiple_candidate_cycles_per_invocation: true
+  stop_when_net_oos_sharpe_gt: 1.0
+  allowed_default_timeframes: ["1h", "5m", "15m"]
   classifications:
     - "REJECT"
     - "INCONCLUSIVE"
