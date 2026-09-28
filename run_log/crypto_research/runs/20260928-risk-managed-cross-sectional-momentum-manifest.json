@@ -1,0 +1,32 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-risk-managed-cross-sectional-momentum",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Cryptocurrency market risk-managed momentum strategies",
+    "publication":"Finance Research Letters 85 (2025) 107879",
+    "doi":"10.1016/j.frl.2025.107879",
+    "related_methodology":"Cryptocurrency momentum has (not) its moments"
+  },
+  "hypothesis":"Scaling a weekly cross-sectional crypto momentum book inversely with its own lagged realized volatility preserves the momentum premium while improving Sharpe and crash behavior.",
+  "universe":"Point-in-time Binance USD-M USDT perpetuals. Each Monday keep the 30 contracts with highest trailing 30-day quote volume among assets with sufficient continuous feature history; delisted names remain eligible until their data end.",
+  "market_cap_deviation":"The paper uses top-30 prior-December market capitalization. Historical market cap is unavailable locally, so lagged quote-volume top-30 is pre-registered as a tradability proxy.",
+  "momentum":"At Monday 00:00 UTC, rank prior completed daily close divided by close 29 calendar days earlier minus one (paper's p[j-1]/p[j-30]-1 formation rule).",
+  "portfolio":"Equal-weight long top momentum quintile / short bottom quintile, 0.5 gross each side.",
+  "rebalance":"Weekly Monday 00:00 UTC.",
+  "risk_management":{
+    "vol_windows_weeks":[4,8,12],
+    "canonical_window_weeks":8,
+    "vol_estimator":"sqrt(mean(raw weekly momentum return^2)) using only prior completed weeks",
+    "target_weekly_volatility":0.10,
+    "scaling":"target_weekly_volatility / lagged realized volatility; no lookahead"
+  },
+  "base_cost_bps_one_way":10.0,
+  "cost_multipliers":[1,2,3],
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "development_gate":"canonical risk-managed net Sharpe >0.80, positive total return, and at least 2/3 volatility windows positive",
+  "success_gate":"canonical OOS net Sharpe >1.0, positive at 2x costs, at least 2/3 vol windows positive, 2024 and 2025 each non-negative, max drawdown <35%",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":65
+}
