@@ -1,0 +1,27 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-realized-funding-carry-weekly",
+  "status":"PRE_REGISTERED",
+  "sources":[
+    {"title":"Crypto Carry","publication":"Management Science","publication_date":"2026-05-06","doi":"10.1287/mnsc.2024.05069"},
+    {"title":"The Funding Carry and a Cross-Venue Spread on Perpetual Futures: A Significance-Tested Study of Hyperliquid and Centralized Venues","author":"Tony Lau","year":2026}
+  ],
+  "hypothesis":"Funding rates are persistent enough that a market-neutral portfolio long low/negative-funding perpetuals and short high-positive-funding perpetuals earns the subsequent realized funding differential plus residual price convergence.",
+  "strategy_family":"realized_funding_carry",
+  "universe":"Intersection of local Binance funding histories and USD-M 1h perpetual prices, point-in-time availability; top 80% by lagged 30-day quote volume at each rebalance.",
+  "funding_signal_windows_days":[3,7,14],
+  "canonical_window_days":7,
+  "signal":"Mean realized funding rate strictly before Monday 00:00 UTC over trailing window.",
+  "construction":"Long bottom quartile signal / short top quartile, 0.5 gross each side.",
+  "holding":"Monday 00:00 UTC to next Monday 00:00 UTC.",
+  "pnl":"Perpetual price return plus realized funding cash flow: contribution = weight*price_return - weight*sum(funding_rates during holding interval).",
+  "base_cost_bps_one_way":10.0,
+  "cost_multipliers":[1,2,3],
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "fresh_confirmation":"2026 locked unless exploratory OOS success gates pass",
+  "development_gate":"canonical net Sharpe >0.70, positive return, at least 2/3 windows positive",
+  "success_gate":"canonical OOS net Sharpe >1, positive at 2x costs, >=2/3 windows positive, both OOS years non-negative, funding component positive",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":54
+}
