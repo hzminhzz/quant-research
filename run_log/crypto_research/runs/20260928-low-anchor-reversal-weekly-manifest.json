@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-low-anchor-reversal-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "New behaviorally-based cross-sectional reversal portfolios in the cryptocurrency market and market uncertainty",
+    "authors": ["Kei Nakagawa", "Ryuta Sakemoto"],
+    "publication": "Finance Research Letters 85 (2025) 107800",
+    "doi": "10.1016/j.frl.2025.107800",
+    "ssrn": "https://ssrn.com/abstract=5001299"
+  },
+  "research_question": "Does proximity to the formation-period low identify crypto assets with stronger subsequent weekly reversal after realistic costs?",
+  "hypothesis": "Among liquid Binance perpetuals, assets still trading close to their recent formation-period low subsequently outperform assets that sit far above that low, consistent with lowest-price anchoring and delayed reversal.",
+  "economic_mechanism": "Investors anchor on salient lows after drawdowns; assets that remain near the anchor may be temporarily underpriced, while assets already far above the anchor have already realized the rebound.",
+  "research_archetype": "cross_sectional_behavioral_factor",
+  "strategy_family": "formation_low_anchor_reversal",
+  "source_deviation": "The accessible paper abstract states that the lowest formation-period price is the anchor but does not expose the exact decomposition formula. This test therefore preregisters a simple transparent proxy: negative distance of prior close from the rolling low. It is not claimed as an exact replication.",
+  "data": {
+    "root": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP",
+    "market": "Binance USD-M USDT perpetual futures",
+    "timeframe": "1h aggregated to complete UTC days"
+  },
+  "universe_rule": "Each Monday require exact causal history and valid next-week execution data; retain the top 50 contemporaneously eligible contracts by lagged trailing-30-day quote volume.",
+  "feature": {
+    "lookback_days": [14, 30, 60],
+    "canonical_lookback_days": 30,
+    "formula": "signal = -(prior_completed_day_close / rolling_min(prior_completed_day_close, lookback) - 1)",
+    "direction": "Long highest signal (closest to recent low), short lowest signal (farthest above recent low)."
+  },
+  "portfolio": "Equal-weight market-neutral top/bottom quintiles, 0.5 gross per side.",
+  "rebalance": "Weekly Monday 00:00 UTC; signal and liquidity end Sunday; execute at Monday open and hold to next Monday open.",
+  "costs": {
+    "base_bps_one_way": 10,
+    "multipliers": [1, 2, 3],
+    "funding": "not modeled; any positive result remains exploratory"
+  },
+  "development": "2022-01-01/2023-12-31",
+  "primary_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >0.02 with HAC p<0.05, positive top-minus-bottom weekly spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 lookbacks positive.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; positive at 2x costs; >=2/3 lookbacks positive; 2024 and 2025 non-negative; max drawdown <35%; exclude BTC/ETH positive; remove strongest contributor positive; one-day delayed holding remains positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 148,
+  "robustness_if_development_passes": [
+    "14d and 60d neighboring lookbacks",
+    "2x and 3x costs",
+    "2024 vs 2025",
+    "exclude BTC and ETH",
+    "remove strongest contributor",
+    "one-day delayed execution"
+  ]
+}
