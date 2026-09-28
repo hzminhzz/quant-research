@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-broad-longonly-tsmom-weekly",
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "strategy_family": "broad_longonly_vol_scaled_tsmom",
+  "research_archetype": "time_series_rule",
+  "universe_symbols": 609,
+  "development_period": "2022-01-01/2023-12-31",
+  "oos_period": "2024-01-01/2025-12-31_not_consumed",
+  "development": {
+    "14": {"annualized_sharpe": -0.33449874223854303, "total_return": -0.5612279960628965, "max_drawdown": -0.7849038421351879, "n_days": 729, "rebalances": 104},
+    "30": {"annualized_sharpe": -0.006873330770050966, "total_return": -0.3749911564975069, "max_drawdown": -0.7109050987918575, "n_days": 729, "rebalances": 104},
+    "60": {"annualized_sharpe": -0.4673690293849164, "total_return": -0.6894165263682047, "max_drawdown": -0.8527564820296569, "n_days": 729, "rebalances": 104}
+  },
+  "canonical_by_year": {
+    "2022": {"annualized_sharpe": -0.9111567458662184, "total_return": -0.6207644958898217, "max_drawdown": -0.6444970893753907},
+    "2023": {"annualized_sharpe": 1.1433715561749485, "total_return": 0.6505322210239186, "max_drawdown": -0.5001959544233525}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 145,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 148
+  },
+  "multiple_testing": {
+    "dsr_probability": null,
+    "pbo": "N/A: development gate failed before OOS."
+  },
+  "failure_analysis": [
+    "Canonical 30-day development Sharpe was -0.007 and total return -37.5%.",
+    "All three preregistered lookbacks lost money over the full development period.",
+    "The rule was strongly regime-unstable: 2022 losses were followed by positive 2023 performance.",
+    "OOS remained untouched because the fixed development gate failed."
+  ],
+  "conclusion": "REJECT. Development gate failed; OOS not consumed."
+}

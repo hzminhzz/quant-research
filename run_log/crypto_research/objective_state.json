@@ -6,6 +6,6 @@
   "report_path": null,
   "commit_sha": null,
   "net_oos_sharpe": null,
-  "validation_summary": "Search remains active after 145 counted strategy-parameter trials. This invocation completed three new preregistered candidate cycles: price-path continuity (REJECT), simple anomaly blend long-only (REJECT), and extreme 4h mean reversion (REJECT); all failed their development gates before exploratory OOS was consumed. It also resolved the earlier abnormal-volume connector-output loss with an identical rerun, which was REJECT because strong rank IC did not survive 10 bps one-way costs and introduced no new parameter trials. No candidate currently satisfies the success gate. The best completed net exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance, so it is not qualifying.",
+  "validation_summary": "Search remains active after 148 counted strategy-parameter trials. This invocation added a preregistered broad-universe long-only inverse-volatility TSMOM cycle (REJECT). Its canonical 30-day development Sharpe was -0.0069 with -37.5% return and -71.1% max drawdown; all 14/30/60-day variants lost over 2022-2023, so 2024-2025 OOS remained sealed for this candidate. No strategy currently satisfies the success gate. The best completed net exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance, so it is not qualifying.",
   "completed_at": null
 }
