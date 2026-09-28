@@ -6,12 +6,12 @@
   "report_path": null,
   "commit_sha": null,
   "net_oos_sharpe": null,
-  "validation_summary": "Search remains active after 165 reconciled strategy-parameter trials. The local research lineage reached 160 trials; merging the remote-only 1-week cross-sectional momentum experiment adds 5 unique trials. Recent completed candidates include low-anchor reversal (REJECT), intraday MAX lottery demand (REJECT), and intraday session momentum (REJECT). The preregistered 8-10 week high-volatility reversal candidate is INCONCLUSIVE because its deterministic broad-universe runner exceeded the 300-second execution limit twice before returning statistics, including after a loader-only development-first optimization. Its 2024-2025 OOS remains sealed. No strategy satisfies the success gate. Best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
+  "validation_summary": "Search remains active after 168 reconciled strategy-parameter trials. The previously timed-out high-volatility 8-10 week reversal was resumed unchanged and completed: development passed, but canonical exploratory OOS Sharpe was -0.1802 and robustness failed, so it is REJECT. A new broad Monday calendar premium candidate then failed development with canonical Sharpe -0.7252, so its 2024-2025 exploratory OOS remained unconsumed. No strategy satisfies the success gate. Best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
   "completed_at": null,
-  "last_completed_run": "20260928-intraday-session-momentum-daily",
+  "last_completed_run": "20260928-broad-monday-calendar",
   "last_completed_classification": "REJECT",
-  "last_attempted_run": "20260928-highvol-reversal-9w",
-  "last_attempted_classification": "INCONCLUSIVE",
+  "last_attempted_run": "20260928-broad-monday-calendar",
+  "last_attempted_classification": "REJECT",
   "next_preregistered_run": null,
-  "last_blocker": "High-volatility 8-10 week reversal runner exceeded the 300-second command limit before returning any statistics; resume the exact 56/63/70-day preregistered specification in a longer-running execution environment."
+  "last_blocker": null
 }
