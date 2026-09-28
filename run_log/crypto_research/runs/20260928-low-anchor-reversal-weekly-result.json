@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-low-anchor-reversal-weekly",
+  "strategy_family": "formation_low_anchor_reversal",
+  "research_archetype": "cross_sectional_behavioral_factor",
+  "universe_symbols": 637,
+  "development_diagnostics": {
+    "14": {"n_weeks": 104, "mean_ic": 0.0951093369528986, "ic_ir": 0.48030524916119965, "hac_t": 4.24493421345689, "hac_p": 0.00002186575625425592, "high_minus_low": 0.0015355785175165788},
+    "30": {"n_weeks": 104, "mean_ic": 0.10320738802603757, "ic_ir": 0.5390275255700343, "hac_t": 4.9002860786276266, "hac_p": 0.0000009569720617307623, "high_minus_low": 0.00500708780028797},
+    "60": {"n_weeks": 104, "mean_ic": 0.11237574955854503, "ic_ir": 0.5701148667411111, "hac_t": 5.887321980839063, "hac_p": 3.925035813527316e-9, "high_minus_low": 0.008800367624846348}
+  },
+  "development": {
+    "14": {"annualized_sharpe": -0.0009008993279066048, "total_return": -0.04763815446863506, "max_drawdown": -0.35969343812066445, "n_weeks": 104, "turnover": 137.7},
+    "30": {"annualized_sharpe": 0.4044960395393241, "total_return": 0.1405001892907538, "max_drawdown": -0.21524272156654078, "n_weeks": 104, "turnover": 105.1, "by_year": {"2022": {"total_return": 0.3282828022026596, "sharpe": 1.2951127835573244}, "2023": {"total_return": -0.14137246420755456, "sharpe": -0.6468496423880993}}},
+    "60": {"annualized_sharpe": 1.0659607775699194, "total_return": 0.47002205932785435, "max_drawdown": -0.166263129505258, "n_weeks": 104, "turnover": 81.6, "by_year": {"2022": {"total_return": 0.5022911378842632, "sharpe": 2.258477990923206}, "2023": {"total_return": -0.02147991008044825, "sharpe": -0.002412019117856114}}}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {"previous_parameter_trials": 148, "new_parameter_trials": 3, "cumulative_parameter_trials": 151},
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "multiple_testing": {"dsr_probability": null, "pbo": "N/A: development gate failed before OOS."},
+  "failure_analysis": "The rank relationship was strong and statistically significant, but the preregistered canonical 30-day net Sharpe was only 0.4045. The 60-day neighbor reached 1.066 in development, but promoting it after observing the surface would be post-hoc parameter selection. OOS therefore remained sealed.",
+  "conclusion": "REJECT. Development gate failed; OOS not consumed."
+}
