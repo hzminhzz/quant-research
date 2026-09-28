@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-xs-reversal-30d",
+  "status": "EXECUTION_BLOCKED",
+  "classification": null,
+  "manifest_path": "run_log/crypto_research/runs/20260928-xs-reversal-30d-manifest.json",
+  "runner_path": "scripts/run_crypto_xs_reversal.py",
+  "blocker": "The DevSpace/VPS command execution safety layer repeatedly blocked execution of the pre-registered candidate runner after the manifest and implementation were persisted. The runner help command succeeds, but the actual research invocation is blocked before returning a strategy result.",
+  "evidence_preserved": true,
+  "strategy_result_observed": false,
+  "next_action": "Resume this exact pre-registered runner first in the next invocation. Do not alter parameters before its first result."
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-xs-reversal-30d",
+  "created_at": "2026-09-28T02:16:00+07:00",
+  "research_question": "Does medium-horizon cross-sectional reversal exist across liquid Binance USDT perpetuals after costs?",
+  "hypothesis": "Crypto assets with the worst trailing one-month returns outperform prior winners over the next month, consistent with overreaction reversal beyond the short momentum horizon.",
+  "economic_mechanism": "Speculative overreaction and fast mean reversion in crypto can cause short-horizon momentum to switch into medium-horizon reversal.",
+  "archetype": "cross-sectional factor",
+  "strategy_family": "cross_sectional_reversal",
+  "source": {
+    "title": "Cryptocurrency Momentum and Reversal",
+    "author": "Victoria Dobrynskaya",
+    "publication": "The Journal of Alternative Investments 26(1), 2023",
+    "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3913263",
+    "doi": "10.3905/jai.2023.1.189"
+  },
+  "data": {
+    "root": "/home/quant/dev/quant/ml4t-data/data/crypto/market/ohlcv_1h",
+    "market": "Binance USDT-margined perpetual futures",
+    "timeframe": "1h",
+    "exploration_start": "2020-01-01T00:00:00Z",
+    "oos_start": "2022-01-01T00:00:00Z",
+    "exploration_end_exclusive": "2025-10-01T00:00:00Z",
+    "sealed_confirmation_start": "2025-10-01T00:00:00Z"
+  },
+  "universe_rule": {
+    "min_history_hours": 1440,
+    "liquidity_lookback_hours": 720,
+    "select_top_n_by_trailing_notional_volume": 15,
+    "require_complete_formation_and_holding_prices": true
+  },
+  "signal": {
+    "canonical_formation_hours": 720,
+    "sensitivity_formation_hours": [
+      504,
+      1008
+    ],
+    "rebalance": "first UTC day of each month at 00:00 signal; execute next hourly open",
+    "long_fraction": 0.25,
+    "short_fraction": 0.25,
+    "weighting": "equal weight within each leg; 0.5 gross long + 0.5 gross short",
+    "position_rule": "long worst trailing-return quartile; short best quartile"
+  },
+  "execution": {
+    "decision_price": "rebalance signal bar close",
+    "fill_price": "next bar open",
+    "base_cost_bps_per_unit_turnover": 3,
+    "cost_multipliers": [
+      1,
+      2,
+      3
+    ],
+    "leverage_gross": 1,
+    "funding": "not modeled separately; assess extra carry drag as execution uncertainty"
+  },
+  "validation": {
+    "primary_metric": "net OOS annualized Sharpe from daily portfolio equity returns",
+    "oos_period": "2022-01-01 through 2025-09-30",
+    "subperiods": [
+      "2022",
+      "2023",
+      "2024",
+      "2025-01-01/2025-09-30"
+    ],
+    "diagnostics": [
+      "monthly cross-sectional rank IC expected negative",
+      "winner-loser spread expected negative before sign inversion",
+      "turnover",
+      "breadth"
+    ],
+    "robustness": [
+      "2x costs",
+      "3x costs",
+      "exclude BTC/ETH",
+      "remove strongest asset",
+      "504h and 1008h formation sensitivity"
+    ],
+    "planned_strategy_trials": 5
+  },
+  "kill_criteria": {
+    "factor_gate": "canonical mean rank IC >= 0 or unstable reversal sign",
+    "strategy_gate": "net OOS Sharpe <= 0.5 or <=0 under 2x costs",
+    "concentration_gate": "Sharpe collapses below 0.5 after strongest asset removal"
+  }
+}

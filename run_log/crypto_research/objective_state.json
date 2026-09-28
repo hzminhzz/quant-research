@@ -6,6 +6,12 @@
   "report_path": null,
   "commit_sha": null,
   "net_oos_sharpe": null,
-  "validation_summary": "Search remains active after 160 conservatively counted strategy-parameter trials. This invocation completed two new REJECT cycles: intraday MAX lottery demand (canonical development Sharpe -1.419 despite strong rank IC) and intraday session momentum (canonical 8h development Sharpe -4.279). A third preregistered candidate, 8-10 week high-volatility reversal, is INCONCLUSIVE because its broad-universe deterministic runner exceeded the 300-second execution limit twice before returning any statistics, including after a loader-only development-first optimization. Its 2024-2025 OOS remains sealed. No strategy currently satisfies the success gate; best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
-  "completed_at": null
+  "validation_summary": "Search remains active after 165 reconciled strategy-parameter trials. The local research lineage reached 160 trials; merging the remote-only 1-week cross-sectional momentum experiment adds 5 unique trials. Recent completed candidates include low-anchor reversal (REJECT), intraday MAX lottery demand (REJECT), and intraday session momentum (REJECT). The preregistered 8-10 week high-volatility reversal candidate is INCONCLUSIVE because its deterministic broad-universe runner exceeded the 300-second execution limit twice before returning statistics, including after a loader-only development-first optimization. Its 2024-2025 OOS remains sealed. No strategy satisfies the success gate. Best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
+  "completed_at": null,
+  "last_completed_run": "20260928-intraday-session-momentum-daily",
+  "last_completed_classification": "REJECT",
+  "last_attempted_run": "20260928-highvol-reversal-9w",
+  "last_attempted_classification": "INCONCLUSIVE",
+  "next_preregistered_run": null,
+  "last_blocker": "High-volatility 8-10 week reversal runner exceeded the 300-second command limit before returning any statistics; resume the exact 56/63/70-day preregistered specification in a longer-running execution environment."
 }

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-xs-momentum-1w",
+  "strategy": "1-week cross-sectional momentum",
+  "classification": "REJECT",
+  "market": "Binance USDT-margined perpetual futures",
+  "data_root": "/home/quant/dev/quant/ml4t-data/data/crypto/market/ohlcv_1h",
+  "oos_period": {
+    "start": "2022-01-01T00:00:00Z",
+    "end_exclusive": "2025-10-01T00:00:00Z",
+    "sealed_confirmation_start": "2025-10-01T00:00:00Z"
+  },
+  "symbols_evaluated": 19,
+  "canonical": {
+    "formation_hours": 168,
+    "net_oos_sharpe": 0.5146196002510193,
+    "max_drawdown": -0.30764596840431124,
+    "total_return": 0.42933551182584195,
+    "cagr": 0.0999977482565042,
+    "sortino": 0.8418833244367945,
+    "profit_factor": 1.075605545035691,
+    "n_daily_obs": 1368,
+    "mean_rank_ic": -0.001131303640597323,
+    "ic_ir": -0.003544324746444116,
+    "mean_top_bottom_spread": 0.010183976242936845,
+    "weekly_rebalances": 269,
+    "median_assets_traded_per_rebalance": 8
+  },
+  "by_year_sharpe": {
+    "2022": 0.44772375915789503,
+    "2023": 1.1117817838308683,
+    "2024": 1.0121814816470356,
+    "2025_through_sep": -1.1980934181010299
+  },
+  "robustness": {
+    "two_x_cost_sharpe": 0.4189761743525881,
+    "three_x_cost_sharpe": 0.3233211620861593,
+    "formation_120h_sharpe": -0.036465857985294094,
+    "formation_240h_sharpe": 0.35565504310120916,
+    "exclude_btc_eth_sharpe": 0.32065877225335887,
+    "strongest_asset": "DOGEUSDT",
+    "remove_strongest_asset_sharpe": 0.14478154765213264
+  },
+  "multiple_testing": {
+    "cumulative_strategy_trials": 8,
+    "candidate_trials": 5,
+    "dsr_probability": 0.12718754824555784,
+    "haircut_sharpe": -0.48950118068757087,
+    "expected_max_null": 1.0041207809385901,
+    "pbo": "N/A - insufficient comparable CPCV winner-selection variants"
+  },
+  "failure_analysis": [
+    "Canonical net OOS Sharpe is below the 1.0 success threshold.",
+    "Mean cross-sectional rank IC is effectively zero, so the factor diagnostic gate does not support stable predictive information.",
+    "Performance is regime-unstable: positive in 2023-2024 but sharply negative in 2025 through September.",
+    "Removing strongest contributor DOGEUSDT reduces Sharpe to 0.145, indicating concentration fragility.",
+    "Neighboring formation horizons do not form a robust plateau."
+  ]
+}
