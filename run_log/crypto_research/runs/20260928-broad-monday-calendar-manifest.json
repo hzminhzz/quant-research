@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-broad-monday-calendar",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Calendar anomalies and market volatility in selected cryptocurrencies",
+    "date": "2023-02-19",
+    "doi": "10.1080/23311975.2023.2171992",
+    "supporting_source": "Periodicity in Cryptocurrency Volatility and Liquidity, Journal of Financial Econometrics 22(1), 2024, DOI 10.1093/jjfinec/nbac034"
+  },
+  "research_question": "Does a broad, point-in-time liquid Binance perpetual basket retain a positive Monday open-to-Tuesday-open return premium after realistic costs, and is Monday stronger than adjacent Sunday and Tuesday placebo days?",
+  "hypothesis": "Recurring weekly participation, funding, and algorithmic-trading rhythms can create a persistent Monday return premium across liquid crypto perpetuals.",
+  "research_archetype": "calendar_time_series_basket",
+  "strategy_family": "broad_monday_calendar_premium",
+  "data": "Binance USD-M USDT perpetuals, 1h aggregated to complete UTC days.",
+  "universe_rule": "At each candidate day, include only symbols with 30 complete prior UTC days, then hold the top 30 by lagged trailing-30-day quote volume. No asset is selected using strategy returns.",
+  "variants": {
+    "weekdays": [7, 1, 2],
+    "weekday_names": ["Sunday", "Monday", "Tuesday"],
+    "canonical_weekday": 1
+  },
+  "portfolio": "Equal-weight long top-30 liquid eligible contracts; one unit gross exposure.",
+  "execution": "Enter at the selected UTC day's open and exit at the following UTC day's open. Liquidity ranking uses only prior completed days.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1, 2, 3],
+  "development": "2022-01-01/2023-12-31",
+  "primary_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical Monday net Sharpe >0.70, positive total return, non-negative 2022 and 2023, max drawdown <35%, and Monday mean net return exceeds both Sunday and Tuesday placebo means.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; positive total return at 2x costs; 2024 and 2025 non-negative; max drawdown <35%; Monday mean net return exceeds Sunday and Tuesday; excluding BTC/ETH remains positive; excluding strongest contributor remains positive; family and global DSR >=0.95.",
+  "kill_criteria": "Fail development gate => REJECT without consuming OOS. OOS failure of any success criterion => REJECT.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 165,
+  "global_cumulative_trial_count_if_completed": 168,
+  "sealed_confirmation": "Not read by scheduled research."
+}
