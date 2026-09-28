@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-highvol-reversal-9w",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Reversal in Cryptocurrency Returns",
+    "authors": ["Patrick Kiefer", "Michael Nowotny"],
+    "date": "2026-06-01 revision",
+    "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6703978"
+  },
+  "research_question": "Does the 8–10 week cross-sectional reversal effect strengthen among high-volatility crypto assets and survive realistic perpetual-futures costs?",
+  "hypothesis": "Recent 8–10 week losers subsequently outperform recent winners, especially among assets with high past volatility, consistent with delayed correction of overshooting in speculative crypto markets.",
+  "research_archetype": "cross_sectional_conditional_reversal",
+  "strategy_family": "high_volatility_long_horizon_reversal",
+  "source_alignment": "The source documents Binance USDT cross-sectional reversal over 8–10 week formation windows and reports materially stronger Sharpe when conditioning on high past volatility. This test fixes 8/9/10-week windows before results.",
+  "data": "Binance USD-M USDT perpetuals, 1h aggregated to complete UTC days.",
+  "universe_rule": "Every Monday, among causally eligible contracts, retain top 50 by lagged trailing-30-day quote volume; then retain the higher-volatility half by lagged 30-day realized daily-return volatility.",
+  "feature": {
+    "formation_days": [56, 63, 70],
+    "canonical_formation_days": 63,
+    "signal": "negative cumulative close-to-close return over the formation window ending on the prior completed day",
+    "volatility_window_days": 30,
+    "volatility_condition": "top 50% within the liquid top-50 universe"
+  },
+  "portfolio": "Equal-weight long loser quintile / short winner quintile within the conditioned universe, 0.5 gross per side.",
+  "rebalance": "Weekly Monday 00:00 UTC; execute at Monday open and hold to next Monday open.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "primary_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >0.02 with HAC p<0.05, positive loser-minus-winner spread, canonical net Sharpe >0.70 and total return >0, and >=2/3 formation windows positive.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; positive at 2x costs; >=2/3 windows positive; 2024 and 2025 non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; one-day delayed execution positive; family and global DSR >=0.95.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 157
+}
