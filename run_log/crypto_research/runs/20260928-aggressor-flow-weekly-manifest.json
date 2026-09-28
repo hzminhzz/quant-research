@@ -1,0 +1,31 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-aggressor-flow-weekly",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Every Asset Its Own Benchmark: Market-Neutral Alpha in Perpetual Futures",
+    "author":"Dhanya MD",
+    "date":"2026-08-17",
+    "doi":"10.2139/ssrn.7301919",
+    "url":"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7301919"
+  },
+  "hypothesis":"Persistent aggressor-side buy pressure contains informed-flow information; perpetuals with higher trailing taker-buy imbalance outperform those with lower imbalance over the following week.",
+  "strategy_family":"aggressor_order_flow",
+  "universe":"Binance USD-M USDT perpetuals first listed by 2021-12-31, point-in-time availability, excluding BTCDOMUSDT",
+  "data_root":"/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP",
+  "feature":"2 * sum(taker_buy_quote_volume) / sum(quote_volume) - 1 over trailing completed hours",
+  "feature_windows_hours":[72,168,336],
+  "canonical_window_hours":168,
+  "liquidity_filter":"top 80% by trailing 30-day quote volume, lagged one hour",
+  "rebalance":"Monday 00:00 UTC",
+  "construction":"equal-weight long top quartile aggressor imbalance / short bottom quartile, 0.5 gross per side",
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "fresh_confirmation":"2026 locked unless exploratory OOS success gate passes",
+  "base_cost_bps_one_way":10.0,
+  "cost_multipliers":[1,2,3],
+  "development_gate":"canonical net Sharpe >0.70, positive total return, at least 2/3 feature windows positive",
+  "success_gate":"canonical exploratory OOS net Sharpe >1, positive return at 2x costs, at least 2/3 windows positive, both 2024 and 2025 non-negative",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":51
+}
