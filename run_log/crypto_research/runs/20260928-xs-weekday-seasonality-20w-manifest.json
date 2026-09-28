@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-xs-weekday-seasonality-20w",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Seasonality in the Cross-Section of Cryptocurrency Returns",
+    "authors": ["Huaigang Long", "Adam Zaremba", "Ender Demir", "Jan Jakub Szczygielski", "Mikhail Vasenin"],
+    "date": "2020-07-01",
+    "doi": "10.1016/j.frl.2020.101566",
+    "mechanism_evidence": "The paper defines SEAS as the mean return on the same weekday over the previous 20 weeks and reports positive cross-sectional return predictability; robustness includes alternative formation windows."
+  },
+  "research_question": "Do cryptocurrencies with high average returns on the same weekday over the prior 20 weeks continue to outperform low-SEAS cryptocurrencies in a point-in-time liquid Binance USD-M perpetual universe after realistic turnover costs?",
+  "hypothesis": "Recurring weekday-specific investor demand, capital flows, and trading routines create asset-specific seasonal return patterns that persist cross-sectionally.",
+  "research_archetype": "cross_sectional_calendar_factor",
+  "strategy_family": "same_weekday_cross_sectional_seasonality",
+  "data": "Binance USD-M USDT perpetuals, 1h OHLCV aggregated to complete UTC days.",
+  "feature_definition": "SEAS_t = mean of each asset's completed daily close-to-close returns on the same UTC weekday at t-7, t-14, ..., t-7W; current-day return is excluded.",
+  "variants": {
+    "formation_weeks": [10, 20, 25],
+    "canonical_formation_weeks": 20
+  },
+  "universe_rule": "At each UTC day open, require complete formation history and 30 prior complete UTC days of quote volume; rank contemporaneously eligible contracts by lagged trailing-30-day quote volume and keep the top 50. No asset is selected using future or strategy returns.",
+  "portfolio": "Daily dollar-neutral equal-weight long top SEAS quintile and short bottom SEAS quintile, 1.0 gross exposure (0.5 long, 0.5 short).",
+  "execution": "Signal is determined before the UTC day open from completed prior data; trade at the current day open and mark return to the next UTC day open. Costs are charged on actual portfolio turnover.",
+  "base_cost_bps_per_unit_turnover": 10,
+  "cost_multipliers": [1, 2, 3],
+  "development": "2022-01-01/2023-12-31",
+  "primary_oos": "2024-01-01/2025-12-31",
+  "diagnostic_gate": "Canonical development mean daily Spearman rank IC >= 0.02, HAC/Newey-West p < 0.05, and mean high-minus-low raw return > 0.",
+  "development_gate": "Diagnostic gate passes; canonical net Sharpe > 0.70; canonical total return > 0; both 2022 and 2023 non-negative; at least 2 of 3 preregistered formation windows have positive net total return.",
+  "success_gate": "Canonical OOS net Sharpe > 1.0; canonical OOS mean rank IC >= 0.02; positive total return at 2x costs; 2024 and 2025 non-negative; max drawdown > -35%; at least 2 of 3 formation windows positive; top-30 stricter-liquidity universe positive; excluding BTC/ETH positive; excluding strongest contributor positive; family DSR >= 0.95; global-trial-count proxy DSR >= 0.95.",
+  "robustness_checks": [
+    "10-week and 25-week formation neighbors",
+    "2x and 3x transaction costs",
+    "top-30 stricter liquidity universe",
+    "exclude BTC and ETH",
+    "exclude strongest absolute PnL contributor",
+    "year-by-year 2024/2025"
+  ],
+  "kill_criteria": "Fail the preregistered development gate => REJECT without consuming exploratory OOS. Any unresolved leakage or SUCCESS GATE failure after OOS => REJECT.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 168,
+  "global_cumulative_parameter_trials_if_completed": 171,
+  "sealed_confirmation": "Not read by scheduled research."
+}

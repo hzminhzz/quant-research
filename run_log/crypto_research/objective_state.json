@@ -6,12 +6,12 @@
   "report_path": null,
   "commit_sha": null,
   "net_oos_sharpe": null,
-  "validation_summary": "Search remains active after 168 reconciled strategy-parameter trials. The previously timed-out high-volatility 8-10 week reversal was resumed unchanged and completed: development passed, but canonical exploratory OOS Sharpe was -0.1802 and robustness failed, so it is REJECT. A new broad Monday calendar premium candidate then failed development with canonical Sharpe -0.7252, so its 2024-2025 exploratory OOS remained unconsumed. No strategy satisfies the success gate. Best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
+  "validation_summary": "Search remains active after 171 reconciled strategy-parameter trials. High-volatility 8-10 week reversal completed with canonical exploratory OOS Sharpe -0.1802 and failed robustness. Broad Monday calendar premium failed development at Sharpe -0.7252. Cross-sectional same-weekday seasonality failed development with canonical mean rank IC 0.0139 and net Sharpe -1.2669, leaving OOS unconsumed. The previously preregistered top-20 Donchian ensemble was resumed unchanged with a faster loader but again exceeded the 300-second execution limit, so it remains INCONCLUSIVE and added no new trial. No strategy satisfies the success gate. Best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
   "completed_at": null,
-  "last_completed_run": "20260928-broad-monday-calendar",
+  "last_completed_run": "20260928-xs-weekday-seasonality-20w",
   "last_completed_classification": "REJECT",
-  "last_attempted_run": "20260928-broad-monday-calendar",
-  "last_attempted_classification": "REJECT",
+  "last_attempted_run": "20260928-top20-donchian-ensemble",
+  "last_attempted_classification": "INCONCLUSIVE",
   "next_preregistered_run": null,
-  "last_blocker": null
+  "last_blocker": "Exact top-20 Donchian ensemble exceeded the 300-second command limit again, including after a loader-only streaming optimization. Resume unchanged in a longer-running deterministic execution environment."
 }
