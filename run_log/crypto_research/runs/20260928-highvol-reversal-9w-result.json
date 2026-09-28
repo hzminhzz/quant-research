@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-highvol-reversal-9w",
+  "classification": "INCONCLUSIVE",
+  "success_gate_candidate": false,
+  "strategy_family": "high_volatility_long_horizon_reversal",
+  "research_archetype": "cross_sectional_conditional_reversal",
+  "execution_status": "TIMEOUT_300S_AFTER_DEVELOPMENT_FIRST_OPTIMIZATION",
+  "development_gate_passed": null,
+  "oos_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 157,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 160
+  },
+  "observed_results": null,
+  "execution_notes": [
+    "Initial exact preregistered runner exceeded the 300-second tool limit before returning any statistics.",
+    "The loader was then changed only to scan the causal development warmup first and defer OOS loading until the development gate passes; no strategy parameters or gates changed.",
+    "The optimized runner also exceeded the 300-second tool limit before returning any statistics."
+  ],
+  "conclusion": "INCONCLUSIVE. No strategy statistics were observed; the preregistered 56/63/70-day high-volatility reversal specification remains unchanged and should be resumed using a longer-running execution environment."
+}

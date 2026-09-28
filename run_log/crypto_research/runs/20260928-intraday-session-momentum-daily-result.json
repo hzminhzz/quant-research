@@ -1,0 +1,20 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-intraday-session-momentum-daily",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"intraday_session_momentum",
+  "research_archetype":"time_series_intraday_rule",
+  "universe_symbols":139,
+  "development":{
+    "4":{"annualized_sharpe":-3.9541196744020572,"total_return":-0.8227997207414615,"max_drawdown":-0.8252894536151983,"n_days":730,"turnover":1460.0},
+    "8":{"annualized_sharpe":-4.278626528945868,"total_return":-0.9474495340393451,"max_drawdown":-0.9485247040895716,"n_days":730,"turnover":1460.0},
+    "12":{"annualized_sharpe":-1.9348391473773574,"total_return":-0.8527418963537483,"max_drawdown":-0.8629905548496806,"n_days":730,"turnover":1460.0}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":154,"new_parameter_trials":3,"cumulative_parameter_trials":157},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"All three preregistered early-block continuation rules lost heavily after explicit daily entry and exit costs. The canonical 8-hour version had Sharpe -4.279 and -94.7% cumulative development return.",
+  "conclusion":"REJECT. Development gate failed; OOS not consumed."
+}

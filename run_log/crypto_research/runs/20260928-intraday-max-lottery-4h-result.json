@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-intraday-max-lottery-4h",
+  "strategy_family": "intraday_max_lottery_demand",
+  "research_archetype": "cross_sectional_intraday_factor",
+  "universe_symbols": 139,
+  "development_diagnostics": {
+    "12": {"n_slots":4380,"mean_ic":0.0533254384591619,"ic_ir":0.2389474262930095,"hac_t":16.80525237043892,"hac_p":2.233599368921747e-63,"low_max_minus_high_max":0.00014860804402110604},
+    "24": {"n_slots":4380,"mean_ic":0.053079459013598014,"ic_ir":0.230584149279271,"hac_t":16.268455172681353,"hac_p":1.652750651824467e-59,"low_max_minus_high_max":0.00029237149340895143},
+    "48": {"n_slots":4380,"mean_ic":0.05510608426868802,"ic_ir":0.24056317125722437,"hac_t":17.414731736754902,"hac_p":6.378717949605597e-68,"low_max_minus_high_max":0.000312127904191288}
+  },
+  "development": {
+    "12": {"annualized_sharpe":-3.878955770267088,"total_return":-0.9196128977209121,"max_drawdown":-0.9181409340504733,"n_days":730,"n_slots":4380,"turnover":2743.8},
+    "24": {"annualized_sharpe":-1.4189975849538898,"total_return":-0.6493371288679519,"max_drawdown":-0.7421068051509683,"n_days":730,"n_slots":4380,"turnover":1587.6,"by_year":{"2022":{"total_return":-0.21167081097828833,"sharpe":-0.4176219840532604},"2023":{"total_return":-0.5551821802168599,"sharpe":-2.972817573365698}}},
+    "48": {"annualized_sharpe":-0.36074377858972084,"total_return":-0.2931540611084802,"max_drawdown":-0.5485137072031878,"n_days":730,"n_slots":4380,"turnover":931.9}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {"previous_parameter_trials":151,"new_parameter_trials":3,"cumulative_parameter_trials":154},
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "multiple_testing": {"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis": "The MAX signal had positive and highly significant rank IC at all preregistered lookbacks, but the 4-hour portfolio was overwhelmed by turnover and 10 bps one-way costs. The canonical 24-hour lookback lost 64.9% in development with Sharpe -1.42. OOS remained sealed.",
+  "conclusion": "REJECT. Development gate failed; OOS not consumed."
+}

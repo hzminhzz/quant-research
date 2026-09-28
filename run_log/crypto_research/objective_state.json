@@ -6,6 +6,6 @@
   "report_path": null,
   "commit_sha": null,
   "net_oos_sharpe": null,
-  "validation_summary": "Search remains active after 151 counted strategy-parameter trials. The low-anchor reversal candidate was REJECTED: its canonical 30-day development Sharpe was 0.4045, below the preregistered >0.70 gate, despite strong mean rank IC of 0.1032 (HAC p < 1e-6). The 60-day neighbor reached 1.066 in development but was not promoted post hoc; 2024-2025 OOS remained sealed. No strategy currently satisfies the success gate. The best completed net exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
+  "validation_summary": "Search remains active after 160 conservatively counted strategy-parameter trials. This invocation completed two new REJECT cycles: intraday MAX lottery demand (canonical development Sharpe -1.419 despite strong rank IC) and intraday session momentum (canonical 8h development Sharpe -4.279). A third preregistered candidate, 8-10 week high-volatility reversal, is INCONCLUSIVE because its broad-universe deterministic runner exceeded the 300-second execution limit twice before returning any statistics, including after a loader-only development-first optimization. Its 2024-2025 OOS remains sealed. No strategy currently satisfies the success gate; best completed exploratory OOS Sharpe remains approximately 0.6714 for risk-managed TSMOM majors, below 1.0 and with negative 2025 performance.",
   "completed_at": null
 }
