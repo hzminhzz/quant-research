@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-intraday-max-lottery-4h",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Intraday lottery demands in cryptocurrency market",
+    "author": "Manisha Yadav",
+    "publication": "Studies in Economics and Finance 42(4), 2025",
+    "doi": "10.1108/SEF-07-2024-0461",
+    "url": "https://doi.org/10.1108/SEF-07-2024-0461"
+  },
+  "research_question": "Does unusually large recent positive hourly return (lottery demand / MAX) predict lower subsequent 4-hour crypto returns cross-sectionally after realistic costs?",
+  "hypothesis": "High recent MAX reflects lottery-like demand and temporary overvaluation, so low-MAX assets should outperform high-MAX assets over the next 4 hours.",
+  "research_archetype": "cross_sectional_intraday_factor",
+  "strategy_family": "intraday_max_lottery_demand",
+  "source_deviation": "The paper uses 5-minute returns from the preceding hour and an hourly forecast horizon. Available broad-universe data are 1-hour bars, so this preregistered coarse adaptation uses the maximum hourly close-to-close return over 12/24/48 prior completed hours and a fixed 4-hour holding horizon.",
+  "universe_rule": "Binance USD-M USDT perpetuals listed by 2021-12-31, including later-delisted contracts where data exist. At each 4-hour decision timestamp retain the top 50 contemporaneously eligible contracts by lagged trailing-30-day quote volume.",
+  "feature": {
+    "lookback_hours": [12, 24, 48],
+    "canonical_lookback_hours": 24,
+    "formula": "signal = -max(prior completed hourly close-to-close returns over lookback)",
+    "direction": "Long lowest-MAX quintile / short highest-MAX quintile."
+  },
+  "portfolio": "Equal-weight market-neutral quintile spread, 0.5 gross per side.",
+  "execution": "Decision every 4 hours at 00/04/08/12/16/20 UTC; all feature/liquidity inputs end one hour before entry; enter at current 1h bar open and exit at open four hours later.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1, 2, 3],
+  "development": "2022-01-01/2023-12-31",
+  "primary_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >0.02 with HAC p<0.05, positive low-MAX minus high-MAX spread, canonical net daily-equity Sharpe >0.70 and total return >0, and at least 2/3 lookbacks positive after costs.",
+  "success_gate": "Canonical OOS net daily-equity Sharpe >1.0; positive at 2x costs; >=2/3 lookbacks positive; 2024 and 2025 non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; one additional 4-hour execution delay remains positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 151,
+  "robustness_if_development_passes": ["12h and 48h neighbors", "2x and 3x costs", "2024 vs 2025", "exclude BTC/ETH", "remove strongest contributor", "one-slot delayed execution"]
+}
