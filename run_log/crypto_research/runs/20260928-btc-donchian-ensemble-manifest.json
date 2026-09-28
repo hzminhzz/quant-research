@@ -1,0 +1,32 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-btc-donchian-ensemble",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Catching Crypto Trends; A Tactical Approach for Bitcoin and Altcoins",
+    "authors":["Carlo Zarattini","Alberto Pagani","Andrea Barbon"],
+    "publication":"Swiss Finance Institute Research Paper No. 25-80",
+    "posted":"2025-05-06",
+    "revised":"2025-10-02",
+    "ssrn":"5209907",
+    "url":"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5209907"
+  },
+  "hypothesis":"A diversified ensemble of long-only Donchian breakout horizons captures persistent Bitcoin trends while trailing-channel exits and volatility targeting reduce crash exposure.",
+  "symbol":"BTCUSDT",
+  "venue":"Binance USD-M perpetual",
+  "research_timeframe":"daily from 1h bars",
+  "lookbacks_days":[5,10,20,30,60,90,150,250,360],
+  "entry":"For each horizon independently, when the prior completed daily close exceeds the maximum close of the preceding horizon, enter long at the next UTC-day open.",
+  "exit":"For each active model, trailing stop is max(previous trailing stop, midpoint of preceding-horizon max/min closes); if prior close is below stop, exit at next UTC-day open.",
+  "ensemble":"Equal-weight the nine model activation states.",
+  "volatility_target":"25% annualized using lagged 90-day realized close-to-close volatility; leverage cap 2.0x.",
+  "funding":"Actual Binance funding cashflows included while exposed.",
+  "costs":{"base_bps_per_unit_turnover":10.0,"multipliers":[1,2,3,5]},
+  "development":"2021-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "development_gate":"net Sharpe >0.70 and positive total return",
+  "success_gate":"exploratory OOS net Sharpe >1.0, positive at 2x costs, 2024 and 2025 non-negative, max drawdown <35%, and Sharpe remains >0.8 with one-day extra execution delay",
+  "planned_parameter_trials":1,
+  "global_previous_trial_count":60,
+  "note":"No optimization of Donchian horizons; exact nine-horizon ensemble is taken from the published specification."
+}
