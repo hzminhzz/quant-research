@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-liquid-high-momentum-1w",
+  "classification": "REJECT",
+  "strategy": "Liquid crypto distance-to-1-week-high cross-sectional factor",
+  "strategy_family": "high_momentum_relative_strength",
+  "research_archetype": "cross_sectional_factor",
+  "pre_registration_commit": "812b82e0969e8422cec3ad4a5c87849b36255bb1",
+  "runner_sha256": "2d89488b99ab3eae4eac2923fc9246d8acbe257bfb29a575223aed98ee743ec9",
+  "data": {
+    "path": "/home/quant/dev/quant/ml4t-data/data/crypto/market/perps_1h.parquet",
+    "sha256": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+    "rows": 866868,
+    "symbols": 19,
+    "start": "2020-01-01T00:00:00Z",
+    "end": "2025-12-31T23:00:00Z",
+    "duplicate_pairs": 0,
+    "ohlc_failures": 0,
+    "known_gaps": [
+      {"symbol":"XRPUSDT","from":"2020-11-29T23:00:00Z","to":"2020-12-01T00:00:00Z"},
+      {"symbol":"XRPUSDT","from":"2020-12-01T23:00:00Z","to":"2020-12-05T00:00:00Z"}
+    ],
+    "gap_handling": "Eligibility requires exact 8-week hourly continuity, so windows spanning the known XRP gaps are excluded."
+  },
+  "source": {
+    "author": "Milan Ficura",
+    "title": "Impact of size and volume on cryptocurrency momentum and reversal",
+    "year": 2023,
+    "url": "https://ideas.repec.org/p/prg/jnlwps/v5y2023id5.003.html",
+    "ssrn_doi": "10.2139/ssrn.4378429"
+  },
+  "development_diagnostics": {
+    "period": "2021-01-01/2023-12-31",
+    "canonical_168h": {
+      "weeks": 156,
+      "mean_ic": 0.07478052114962515,
+      "ic_ir": 0.2241302777897395,
+      "hac_t": 2.8030286289541073,
+      "hac_p": 0.005062517523162125,
+      "top_minus_bottom_forward_week_return": 0.008870691236458454,
+      "mean_assets": 12.487179487179487
+    },
+    "336h": {"mean_ic":0.07504051388701673,"hac_p":0.013570712109229463,"top_minus_bottom":0.013723133198662581},
+    "672h": {"mean_ic":0.059976325915326444,"hac_p":0.042165220547501256,"top_minus_bottom":0.005939551234642066},
+    "gate_passed": true
+  },
+  "primary_oos": {
+    "period": "2024-01-01/2025-12-31",
+    "canonical_168h_base_cost": {
+      "net_sharpe": -0.1885327262749673,
+      "net_total_return": -0.17101691429165355,
+      "max_drawdown": -0.465572518535624,
+      "sortino": -0.25199427041820777,
+      "rebalances": 104,
+      "turnover_on_initial_equity": 128.51370179835084,
+      "cost_on_initial_equity": 0.038554110539505256
+    },
+    "by_year": {
+      "2024": {"net_sharpe":0.18885180185198347,"total_return":0.011769140095129638,"max_drawdown":-0.2332244337623638},
+      "2025": {"net_sharpe":-0.6583713082240771,"total_return":-0.1902875892338156,"max_drawdown":-0.3856020421822136}
+    },
+    "cost_sensitivity": {
+      "1x": {"net_sharpe":-0.1885327262749673,"total_return":-0.17101691429165355},
+      "2x": {"net_sharpe":-0.2609672012538341,"total_return":-0.20457411554692184},
+      "3x": {"net_sharpe":-0.33328492765968315,"total_return":-0.23679955471194936}
+    },
+    "neighbor_windows_base_cost": {
+      "168h": {"net_sharpe":-0.1885327262749673,"total_return":-0.17101691429165355},
+      "336h": {"net_sharpe":0.20805115247995964,"total_return":0.03779006374255278},
+      "672h": {"net_sharpe":-0.0259209001063028,"total_return":-0.09013688586682211}
+    }
+  },
+  "robustness": {
+    "exclude_strongest_asset": {"asset":"DOTUSDT","net_sharpe":-0.24318234920572776,"total_return":-0.19465005293604964},
+    "exclude_btc_eth": {"net_sharpe":-0.32778789508771716,"total_return":-0.24001027854997314},
+    "delay_one_hour": {"net_sharpe":-0.2131775587168557,"total_return":-0.18274443750989589}
+  },
+  "multiple_testing": {
+    "previous_parameter_trials": 3,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 6,
+    "current_family_base_cost_sharpes": [-0.1885327262749673,0.20805115247995964,-0.0259209001063028],
+    "dsr_probability": 0.28884966215604296,
+    "haircut_sharpe": -0.32734884977360934,
+    "pbo": "N/A: only three pre-registered neighboring windows and no CPCV winner-selection exercise."
+  },
+  "failure_analysis": "The source-inspired development factor signal was statistically positive, but it did not translate into stable OOS portfolio returns. The canonical 168h factor was slightly positive in 2024 and materially negative in 2025; costs worsened an already weak gross edge. The 336h neighbor was only weakly positive, while 672h was negative. BTC/ETH exclusion, strongest-asset removal, and a one-hour execution delay all remained negative.",
+  "conclusion": "REJECT. The factor passed the development diagnostic gate but failed the untouched 2024-2025 portfolio OOS and all core success criteria.",
+  "reproduction": {
+    "test": "uv run --with pytest --with scipy python3 -m pytest -q tests/test_crypto_high_momentum.py",
+    "run": "uv run --with scipy python3 -c \"import sys; from scripts import run_crypto_high_momentum as m; sys.argv=['research','--data','/home/quant/dev/quant/ml4t-data/data/crypto/market/perps_1h.parquet']; raise SystemExit(m.main())\""
+  }
+}

@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 import math
 from pathlib import Path
@@ -12,6 +12,8 @@ from pathlib import Path
 import numpy as np
 import polars as pl
 from scipy import stats
+
+from src.experiment import compute_deflated_sharpe
 
 WINDOWS = (168, 336, 672)
 MIN_HISTORY_HOURS = 1344
@@ -139,13 +141,131 @@ def diagnostic(frame: pl.DataFrame, window: int) -> dict:
     }
 
 
+def build_targets(frame: pl.DataFrame, start: datetime, end: datetime, exclude: set[str] | None = None, delay_hours: int = 0) -> dict[datetime, dict[str, float]]:
+    excluded = exclude or set()
+    selected = frame.filter(
+        (pl.col("timestamp") >= start)
+        & (pl.col("timestamp") < end)
+        & (~pl.col("symbol").is_in(sorted(excluded)))
+    )
+    targets: dict[datetime, dict[str, float]] = {}
+    for part in selected.partition_by("timestamp", maintain_order=True):
+        rows = sorted(
+            [(r["symbol"], float(r["signal"])) for r in part.iter_rows(named=True)],
+            key=lambda z: z[1],
+        )
+        if len(rows) < MIN_CROSS_SECTION:
+            continue
+        k = max(1, math.ceil(len(rows) * 0.20))
+        weights: dict[str, float] = {}
+        for sym, _ in rows[-k:]:
+            weights[sym] = 0.5 / k
+        for sym, _ in rows[:k]:
+            weights[sym] = -0.5 / k
+        targets[part["timestamp"][0] + timedelta(hours=delay_hours)] = weights
+    return targets
+
+
+def equity_metrics(points: list[tuple[datetime, float]]) -> dict:
+    if len(points) < 3:
+        return {"n_days": len(points), "annualized_sharpe": None}
+    equity = np.asarray([v for _, v in points], dtype=float)
+    returns = equity[1:] / equity[:-1] - 1.0
+    mean = float(np.mean(returns))
+    std = float(np.std(returns, ddof=1))
+    sharpe = mean / std * math.sqrt(365.0) if std > 0 else 0.0
+    downside = returns[returns < 0]
+    downside_std = float(np.std(downside, ddof=1)) if len(downside) > 1 else 0.0
+    sortino = mean / downside_std * math.sqrt(365.0) if downside_std > 0 else 0.0
+    peaks = np.maximum.accumulate(equity)
+    drawdowns = equity / peaks - 1.0
+    return {
+        "n_days": int(len(returns)),
+        "annualized_sharpe": sharpe,
+        "sortino": sortino,
+        "total_return": float(equity[-1] / equity[0] - 1.0),
+        "max_drawdown": float(np.min(drawdowns)),
+        "mean_daily_return": mean,
+        "daily_volatility": std,
+    }
+
+
+def simulate(prices: pl.DataFrame, targets: dict[datetime, dict[str, float]], cost_bps: float, start: datetime, end: datetime) -> dict:
+    panel = prices.filter(
+        (pl.col("timestamp") >= start) & (pl.col("timestamp") < end)
+    ).select("timestamp", "symbol", "open").sort(["timestamp", "symbol"])
+    qty: dict[str, float] = {}
+    cash = 1.0
+    last_price: dict[str, float] = {}
+    prev_price: dict[str, float] = {}
+    contribution: dict[str, float] = {}
+    daily: list[tuple[datetime, float]] = []
+    turnover = 0.0
+    costs = 0.0
+    rebalances = 0
+    for part in panel.partition_by("timestamp", maintain_order=True):
+        ts = part["timestamp"][0]
+        current = {r["symbol"]: float(r["open"]) for r in part.iter_rows(named=True)}
+        for sym, px in current.items():
+            if sym in prev_price and sym in qty:
+                contribution[sym] = contribution.get(sym, 0.0) + qty[sym] * (px - prev_price[sym])
+            last_price[sym] = px
+        if ts in targets:
+            equity_before = cash + sum(q * last_price[s] for s, q in qty.items() if s in last_price)
+            desired = targets[ts]
+            trades: list[tuple[str, float, float]] = []
+            for sym in sorted(set(qty) | set(desired)):
+                px = current.get(sym)
+                if px is None or px <= 0:
+                    if abs(qty.get(sym, 0.0)) > 1e-12:
+                        raise ValueError(f"missing execution price for held asset {sym} at {ts}")
+                    continue
+                current_notional = qty.get(sym, 0.0) * px
+                target_notional = desired.get(sym, 0.0) * equity_before
+                delta = target_notional - current_notional
+                if abs(delta) > 1e-12:
+                    trades.append((sym, delta, px))
+            cost = sum(abs(delta) for _, delta, _ in trades) * cost_bps / 10000.0
+            cash -= cost
+            costs += cost
+            turnover += sum(abs(delta) for _, delta, _ in trades)
+            for sym, delta, px in trades:
+                cash -= delta
+                qty[sym] = qty.get(sym, 0.0) + delta / px
+                contribution[sym] = contribution.get(sym, 0.0) - abs(delta) * cost_bps / 10000.0
+                if abs(qty[sym]) < 1e-12:
+                    qty.pop(sym, None)
+            rebalances += 1
+        equity_now = cash + sum(q * last_price[s] for s, q in qty.items() if s in last_price)
+        if ts.hour == 0:
+            daily.append((ts, equity_now))
+        prev_price.update(current)
+    overall = equity_metrics(daily)
+    by_year = {
+        str(year): equity_metrics([(t, v) for t, v in daily if t.year == year])
+        for year in (2024, 2025)
+    }
+    return {
+        "metrics": overall,
+        "by_year": by_year,
+        "rebalances": rebalances,
+        "turnover_on_initial_equity": turnover,
+        "cost_on_initial_equity": costs,
+        "asset_contribution": dict(sorted(contribution.items())),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, required=True)
     args = parser.parse_args()
     df = pl.read_parquet(args.data).sort(["symbol", "timestamp"])
     integrity = validate_panel(df)
-    frames = {w: make_weekly_factor_frame(df, w) for w in WINDOWS}
+    # Do not construct factor outcomes from the primary OOS until the fixed
+    # development gate passes. One extra week is needed only to label the
+    # final pre-2024 development rebalance.
+    dev_source = df.filter(pl.col("timestamp") < datetime(2024, 1, 8, tzinfo=timezone.utc))
+    frames = {w: make_weekly_factor_frame(dev_source, w) for w in WINDOWS}
     diagnostics = {w: diagnostic(frames[w], w) for w in WINDOWS}
     canonical = diagnostics[168]
     gate = (
@@ -167,6 +287,95 @@ def main() -> int:
             "cumulative_parameter_trials": 6,
         },
     }
+    if not gate:
+        payload["classification"] = "REJECT"
+        payload["conclusion"] = "Development factor diagnostics failed; primary OOS was not consumed."
+        print(json.dumps(payload, indent=2, default=str))
+        return 0
+
+    # The fixed development gate passed. Only now construct and consume the
+    # pre-registered 2024-2025 OOS portfolio evidence.
+    full_frames = {w: make_weekly_factor_frame(df, w) for w in WINDOWS}
+    results: dict[str, dict[str, dict]] = {}
+    base_sharpes: list[float] = []
+    for window in WINDOWS:
+        targets = build_targets(full_frames[window], OOS_START, OOS_END)
+        results[str(window)] = {}
+        for mult in (1.0, 2.0, 3.0):
+            results[str(window)][str(mult)] = simulate(
+                df, targets, BASE_COST_BPS * mult, OOS_START, OOS_END
+            )
+        base_sharpes.append(float(results[str(window)]["1.0"]["metrics"]["annualized_sharpe"]))
+
+    canonical_result = results["168"]["1.0"]
+    contributions = canonical_result["asset_contribution"]
+    strongest = max(contributions, key=contributions.get) if contributions else None
+    ablations: dict[str, object] = {}
+    if strongest is not None:
+        ablations["exclude_strongest_asset"] = {
+            "asset": strongest,
+            "result": simulate(
+                df,
+                build_targets(full_frames[168], OOS_START, OOS_END, exclude={strongest}),
+                BASE_COST_BPS,
+                OOS_START,
+                OOS_END,
+            ),
+        }
+    ablations["exclude_btc_eth"] = simulate(
+        df,
+        build_targets(full_frames[168], OOS_START, OOS_END, exclude={"BTCUSDT", "ETHUSDT"}),
+        BASE_COST_BPS,
+        OOS_START,
+        OOS_END,
+    )
+    ablations["delay_one_hour"] = simulate(
+        df,
+        build_targets(full_frames[168], OOS_START, OOS_END, delay_hours=1),
+        BASE_COST_BPS,
+        OOS_START,
+        OOS_END,
+    )
+    dsr = compute_deflated_sharpe(
+        float(canonical_result["metrics"]["annualized_sharpe"]),
+        base_sharpes,
+        n_obs_days=int(canonical_result["metrics"]["n_days"]),
+    )
+    base = canonical_result["metrics"]
+    two_x = results["168"]["2.0"]["metrics"]
+    neighbor_positive = sum(results[str(w)]["1.0"]["metrics"]["total_return"] > 0 for w in WINDOWS)
+    breadth_ok = (
+        ablations["exclude_btc_eth"]["metrics"]["total_return"] > 0
+        and ablations["delay_one_hour"]["metrics"]["total_return"] > 0
+        and (
+            strongest is None
+            or ablations["exclude_strongest_asset"]["result"]["metrics"]["total_return"] > 0
+        )
+    )
+    qualifies = (
+        base["annualized_sharpe"] > 1.0
+        and base["total_return"] > 0
+        and two_x["total_return"] > 0
+        and neighbor_positive >= 2
+        and breadth_ok
+    )
+    payload.update({
+        "oos_consumed": True,
+        "oos_results": results,
+        "ablations": ablations,
+        "multiple_testing": {
+            "current_family_base_cost_sharpes": base_sharpes,
+            "dsr": dsr,
+            "pbo": {"status": "N/A", "reason": "Only three pre-registered windows; no winner-selection CPCV."},
+        },
+        "success_gate_candidate": qualifies,
+        "classification": "EXPLORATORY_PASS" if qualifies else "REJECT",
+        "conclusion": (
+            "Candidate clears the pre-registered exploratory gates; funding omission and repeated-search contamination still require manual confirmation."
+            if qualifies else
+            "Candidate failed one or more pre-registered OOS or robustness requirements."
+        ),
+    })
     print(json.dumps(payload, indent=2, default=str))
     return 0
 

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-perp-premium-basis",
+  "status": "PRE_REGISTERED",
+  "source_url": "https://onlinelibrary.wiley.com/doi/10.1002/fut.22425",
+  "hypothesis": "Higher recent Binance perpetual premium-index ranks predict higher next-day cross-sectional returns among liquid assets.",
+  "signal": "Lagged 5-day mean premium_index_close; neighboring preregistered lookbacks 3 and 7 days.",
+  "universe": "Point-in-time assets with 30 days of continuous data; top 80 percent by lagged trailing 30-day close*volume.",
+  "rebalance": "Daily at 01:00 UTC using information available by 00:00 UTC.",
+  "construction": "Equal-weight high-minus-low terciles with 0.5 gross exposure per side.",
+  "development": "2021-01-01/2023-12-31",
+  "oos": "2024-01-01/2025-12-31",
+  "development_gate": "mean rank IC >= 0.02, HAC p < 0.05, positive high-minus-low next-day return",
+  "base_cost_bps_one_way": 3.0,
+  "cost_multipliers": [1,2,3],
+  "planned_trials": 3,
+  "success_threshold_net_oos_sharpe": 1.0,
+  "premium_data_sha256": "7d139fa52e84b9482f9f0713f6e059eb641c839371a6f5a01a8b9f16f9248c3a",
+  "price_data_sha256": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations": "Perpetual premium index is a proxy rather than the calendar-futures basis in the source; historical funding cashflows are unavailable."
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-liquidity-short-term-reversal",
+  "classification": "REJECT",
+  "development_gate_passed": true,
+  "oos_consumed": true,
+  "primary_oos": {
+    "canonical_24h": {"net_sharpe":-0.8071812250366005,"total_return":-0.343499714156691,"max_drawdown":-0.4273905255798949},
+    "neighbors": {
+      "12h":{"net_sharpe":-0.9675080597591756,"total_return":-0.39363040197042964},
+      "48h":{"net_sharpe":-0.7482973918353975,"total_return":-0.3442313345997541}
+    },
+    "cost_sensitivity": {
+      "2x":{"net_sharpe":-1.4654090892952427,"total_return":-0.5117957504680493},
+      "3x":{"net_sharpe":-2.13164889271342,"total_return":-0.6370410405288522}
+    }
+  },
+  "development_diagnostics": {
+    "12h":{"mean_ic":0.03594115462126995,"hac_p":0.0008213811265509122,"long_minus_short":0.0003191938183991966},
+    "24h":{"mean_ic":0.035295766768081646,"hac_p":0.0006988474395523461,"long_minus_short":0.00023025824560580254},
+    "48h":{"mean_ic":0.0457382611894151,"hac_p":0.000034606822796424364,"long_minus_short":0.00000352871255941509}
+  },
+  "robustness": {
+    "delay_one_hour":{"net_sharpe":-0.7282874095521755,"total_return":-0.3228840688215655},
+    "exclude_strongest":{"asset":"LINKUSDT","net_sharpe":-1.0227525002087792,"total_return":-0.40078879336046747}
+  },
+  "multiple_testing":{"previous_parameter_trials":9,"new_parameter_trials":3,"cumulative_parameter_trials":12,"dsr_probability":0.06599850066185915,"haircut_sharpe":-0.8861777660766138,"pbo":"N/A"},
+  "runner_sha256":"2410dd1e47fda298e7ff13e7fafa0d00c483ccc930831d0b3e67d1163dd36c5b",
+  "report_path":"docs/crypto_research/20260928-liquidity-short-term-reversal.md"
+}

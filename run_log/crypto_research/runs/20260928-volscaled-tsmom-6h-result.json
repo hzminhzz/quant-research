@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-volscaled-tsmom-6h",
+  "classification": "REJECT",
+  "strategy_family": "volatility_scaled_time_series_momentum",
+  "research_archetype": "time_series_rule",
+  "source_url": "https://arxiv.org/abs/2602.11708",
+  "data_fingerprint": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "development_gate_passed": true,
+  "oos_consumed": true,
+  "development": {
+    "336h":{"net_sharpe":1.2141522262870454,"total_return":4.967324570025742},
+    "720h":{"net_sharpe":1.5711973507965156,"total_return":10.586118322344142},
+    "1440h":{"net_sharpe":1.2560111173704536,"total_return":5.323558311113235}
+  },
+  "primary_oos": {
+    "canonical_720h":{"net_sharpe":0.32905834769816594,"total_return":0.07288890951681459,"max_drawdown":-0.42150527342673627},
+    "neighbors":{
+      "336h":{"net_sharpe":0.485709214098502,"total_return":0.2651817999680961},
+      "1440h":{"net_sharpe":0.543215527944367,"total_return":0.3431066677562955}
+    },
+    "cost_sensitivity":{
+      "2x":{"net_sharpe":0.24533408696056705,"total_return":-0.017896313448212964},
+      "3x":{"net_sharpe":0.16170211970616644,"total_return":-0.10101113952951024}
+    }
+  },
+  "robustness":{
+    "exclude_btc_eth":{"net_sharpe":0.2804110036217925,"total_return":-0.0050528860306786605},
+    "delay_one_hour":{"net_sharpe":0.30758833022593135,"total_return":0.04977591050816721},
+    "exclude_strongest":{"asset":"UNIUSDT","net_sharpe":0.26253562914739,"total_return":0.0010710366472681532}
+  },
+  "multiple_testing":{"previous_parameter_trials":18,"new_parameter_trials":3,"cumulative_parameter_trials":21,"dsr_probability":0.6658065812129139,"haircut_sharpe":0.2518808402077602,"pbo":"N/A"},
+  "failure_analysis":"The strategy was strong in 2021-2023 development but decayed materially in 2024-2025. Longer 60-day momentum was the best OOS neighbor at Sharpe 0.54 but cannot be selected post hoc and remains below the success threshold.",
+  "conclusion":"REJECT. Canonical 30-day vol-scaled TSMOM net OOS Sharpe is 0.33 and fails cost/breadth robustness.",
+  "report_path":"docs/crypto_research/20260928-volscaled-tsmom-6h.md"
+}

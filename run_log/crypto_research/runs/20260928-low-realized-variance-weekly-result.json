@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-low-realized-variance-weekly",
+  "classification": "REJECT",
+  "strategy_family": "low_realized_variance",
+  "research_archetype": "cross_sectional_factor",
+  "source_url": "https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/variance-decomposition-and-cryptocurrency-return-prediction/9995E58095453CB44A3BC3C9C111969F",
+  "data_fingerprint": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "development_diagnostics": {
+    "72h": {"n_weeks":155,"mean_ic":0.08258525006432649,"ic_ir":0.20512389286599172,"hac_t":2.586533504290779,"hac_p":0.009694674476732553,"long_minus_short":-0.003265517301199856,"mean_assets":13.980645161290322},
+    "168h": {"n_weeks":155,"mean_ic":0.0918528216019044,"ic_ir":0.23034626304059816,"hac_t":3.011419259078345,"hac_p":0.0026002954594367437,"long_minus_short":-0.00036851011583547317,"mean_assets":13.980645161290322},
+    "336h": {"n_weeks":155,"mean_ic":0.08490730831165065,"ic_ir":0.20809564710664896,"hac_t":2.6583298041553323,"hac_p":0.007852900329656215,"long_minus_short":-0.004933488555582601,"mean_assets":13.980645161290322}
+  },
+  "trial_accounting": {"previous_parameter_trials":12,"new_parameter_trials":3,"cumulative_parameter_trials":15},
+  "multiple_testing": {"dsr":"N/A: OOS was not consumed because the preregistered development gate failed.","pbo":"N/A"},
+  "failure_analysis": "Rank IC was positive and significant, but the pre-registered tradable extreme-tercile long-minus-short spread was negative for all three windows. The signal therefore failed the monotonic/tradability gate before OOS.",
+  "conclusion": "REJECT. Development diagnostics did not satisfy the pre-registered positive long-minus-short requirement; OOS remained untouched.",
+  "report_path": "docs/crypto_research/20260928-low-realized-variance-weekly.md"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-seesaw-large-to-small-leadlag",
+  "classification": "REJECT",
+  "strategy_family": "large_to_small_negative_leadlag",
+  "research_archetype": "relative_value_lead_lag",
+  "source_url": "https://ideas.repec.org/a/eee/empfin/v74y2023ics0927539823000956.html",
+  "data_fingerprint": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "development_gate_passed": true,
+  "oos_consumed": true,
+  "development_diagnostics": {
+    "2h":{"n_blocks":13140,"spearman":0.059193639891058934,"hac_p":0.0021453250296717616,"mean_signed_return":0.00038525629665205855},
+    "4h":{"n_blocks":6570,"spearman":0.06361103062765806,"hac_p":0.002957983900751985,"mean_signed_return":0.0007324433135268989},
+    "8h":{"n_blocks":3285,"spearman":0.0429146136835284,"hac_p":0.4077656129589202,"mean_signed_return":0.00039136579987330563}
+  },
+  "primary_oos": {
+    "canonical_4h":{"net_sharpe":-0.41121497013737274,"total_return":-0.6943653322692735,"max_drawdown":-0.8810684307648803},
+    "neighbors":{
+      "2h":{"net_sharpe":0.015144276660816402,"total_return":-0.40570712626735983},
+      "8h":{"net_sharpe":0.5330538178774593,"total_return":0.25759676924269925}
+    },
+    "by_year":{
+      "2024":{"net_sharpe":1.2133319007936552,"total_return":0.8816658151498378},
+      "2025":{"net_sharpe":-2.0080792579910303,"total_return":-0.8326978077062159}
+    },
+    "cost_sensitivity":{
+      "2x":{"net_sharpe":-1.3351539327983026,"total_return":-0.9213461423645941},
+      "3x":{"net_sharpe":-2.280752992826104,"total_return":-0.9797873336653244}
+    }
+  },
+  "robustness":{
+    "without_btc":{"net_sharpe":-0.3688322454341531,"total_return":-0.6779920214819328},
+    "delay_one_hour":{"net_sharpe":-0.1659333567112569,"total_return":-0.5667829650358602},
+    "without_strongest":{"asset":"COMPUSDT","net_sharpe":-0.44596924594106047,"total_return":-0.7108662103007803}
+  },
+  "multiple_testing":{"previous_parameter_trials":15,"new_parameter_trials":3,"cumulative_parameter_trials":18,"dsr_probability":0.10397345056570634,"haircut_sharpe":-0.7404824368986511,"pbo":"N/A"},
+  "failure_analysis":"The source-motivated negative lead-lag is statistically visible in development at 2h and 4h, but the tradable follower-basket rule is unstable: 2024 is strongly positive and 2025 collapses. The 8h neighbor is positive overall but was not the canonical pre-registered horizon and remains below the success gate.",
+  "conclusion":"REJECT. Canonical 4h net OOS Sharpe is -0.41 and robustness tests remain negative.",
+  "report_path":"docs/crypto_research/20260928-seesaw-large-to-small-leadlag.md"
+}

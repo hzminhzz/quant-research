@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-external-frozen-four-asset-trend",
+  "created_at": "2026-09-28T02:40:00+07:00",
+  "research_question": "Does an externally frozen four-asset crypto trend specification retain net OOS Sharpe above 1 on an independent Binance USD-M perpetual archive after realistic execution lag and costs?",
+  "hypothesis": "Slow trend signals normalized by recent volatility, combined across BTC/ETH/BNB/ADA with shrinkage-covariance risk allocation, retain positive risk-adjusted returns out of sample.",
+  "source": {
+    "repository": "PeterLP123/systematic-crypto-research",
+    "url": "https://github.com/PeterLP123/systematic-crypto-research",
+    "frozen_spec_url": "https://raw.githubusercontent.com/PeterLP123/systematic-crypto-research/main/forward_validation/frozen_strategy1.json",
+    "external_freeze_date": "2026-03-20",
+    "external_spec_digest": "769a3b2d040c0977f5dd51fc143dd24dcaa2f1202707554f79a137d3d3650b2a"
+  },
+  "strategy_family": "multi_asset_trend",
+  "symbols": ["BTCUSDT","ETHUSDT","BNBUSDT","ADAUSDT"],
+  "input_timeframe": "1h",
+  "research_timeframe": "1d",
+  "parameters": {
+    "ma_window_days": 140,
+    "vol_window_days": 30,
+    "dead_zone": 1.0,
+    "signal_clip": 5.0,
+    "gross_notional": 10000.0,
+    "rebalance_every_days": 10,
+    "use_mvo": true,
+    "cov_window_days": 120,
+    "gamma": 1.0,
+    "initial_capital": 10000.0
+  },
+  "signal": {
+    "trend_raw": "close / rolling_mean(close, 140) - 1",
+    "vol": "rolling_std(daily_return, 30, ddof=0)",
+    "z": "clip(trend_raw / vol, -5, 5)",
+    "active": "abs(z) > 1",
+    "expected_return_proxy": "z for active assets, else 0",
+    "covariance": "Ledoit-Wolf on prior 120 daily returns",
+    "portfolio": "max mu*w - 0.5*w'Sigma*w subject to L1(w)<=1; multiply by $10,000 gross cap",
+    "execution": "target determined from close at t; PnL begins from t+1 return; rebalance every 10 panel days"
+  },
+  "data": {
+    "store": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP",
+    "manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+    "observed_coverage": {
+      "BTCUSDT": "2020-01-01/2026-08-31",
+      "ETHUSDT": "2020-01-01/2026-08-31",
+      "BNBUSDT": "2020-02-10/2026-08-31",
+      "ADAUSDT": "2020-01-31/2026-08-31"
+    },
+    "post_freeze_evaluation": "2026-03-21/2026-08-31",
+    "sealed_confirmation_policy": "No data after the available August 2026 monthly archive are required or read."
+  },
+  "costs": {
+    "canonical": "lagged Abdi-Ranaldo high-low-close spread estimator, 21-day window, charged to absolute dollar turnover",
+    "sensitivity": ["2x canonical","3x canonical","fixed 5 bps one-way","fixed 10 bps one-way","fixed 20 bps one-way"],
+    "short_carry_stress": "10% annual charge on absolute short notional, accrued daily; reported separately and included in acceptance stress"
+  },
+  "primary_metric": "post-freeze net Sharpe using 252-day annualization under canonical cost + 10% annual short-carry stress",
+  "acceptance": {
+    "required_primary_sharpe": 1.0,
+    "required_fixed_5bps_sharpe": 1.0,
+    "must_be_positive_at_2x_canonical_cost": true,
+    "must_not_be_single_asset_only": "Report asset attribution and concentration; BTC concentration is a risk flag but not an automatic rejection.",
+    "minimum_oos_days": 120
+  },
+  "planned_variants": 1,
+  "trial_accounting": "One new strategy trial. Cost cases and carry stress are pre-registered robustness views, not strategy-selection variants.",
+  "classification_if_passes": "PROMOTE_TO_MANUAL_CONFIRMATION",
+  "classification_if_fails": "REJECT or INCONCLUSIVE depending on evidence"
+}
