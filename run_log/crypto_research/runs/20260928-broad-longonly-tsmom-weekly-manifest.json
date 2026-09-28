@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-broad-longonly-tsmom-weekly",
+  "status": "PRE_REGISTERED",
+  "sources": [
+    {
+      "title": "Systematic Trend-Following with Adaptive Portfolio Construction: Enhancing Risk-Adjusted Alpha in Cryptocurrency Markets",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2602.11708"
+    },
+    {
+      "title": "Machine learning and the cross-section of cryptocurrency returns",
+      "year": 2024,
+      "doi": "10.1016/j.irfa.2024.103244"
+    }
+  ],
+  "research_question": "Does a low-turnover, broad-universe long-only time-series momentum portfolio preserve positive net OOS Sharpe when short-side exposure is avoided and risk is diversified across many liquid Binance perpetuals?",
+  "hypothesis": "Crypto trends persist over multi-week horizons, while the long leg is structurally more robust than the short leg; a point-in-time liquid long-only trend portfolio should improve robustness versus fixed-major or long-short TSMOM.",
+  "economic_mechanism": "Slow speculative capital rotation and underreaction create medium-horizon trend persistence; long-only exposure avoids the empirically fragile short leg and inverse-volatility weights reduce concentration in high-volatility coins.",
+  "research_archetype": "time_series_rule",
+  "strategy_family": "broad_longonly_vol_scaled_tsmom",
+  "data": {
+    "root": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP",
+    "market": "Binance USD-M USDT perpetual futures",
+    "input_timeframe": "1h aggregated to complete UTC days"
+  },
+  "universe_rule": "At each Monday 00:00 UTC rebalance, require exact prior daily history for signal/volatility/liquidity; rank contemporaneously eligible contracts by lagged trailing-30-day quote volume and retain top 30. No forward-filled inactive assets.",
+  "signal": {
+    "lookback_days": [14, 30, 60],
+    "canonical_lookback_days": 30,
+    "rule": "Use prior completed-day close return over the lookback. Hold only assets with positive trailing return.",
+    "minimum_positive_assets": 5
+  },
+  "weighting": "Inverse lagged 30-day realized daily volatility among positive-trend assets, normalized to 1.0 gross long exposure; cash when fewer than five assets qualify.",
+  "rebalance": "Weekly Monday 00:00 UTC using only data through Sunday; trade at Monday open and hold quantities until next rebalance.",
+  "costs": {
+    "base_bps_one_way": 10.0,
+    "multipliers": [1, 2, 3],
+    "funding": "not modeled; any positive result remains exploratory until funding is stress-tested or reconstructed",
+    "impact": "not modeled; target capacity is small"
+  },
+  "development": "2022-01-01/2023-12-31",
+  "primary_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical net development Sharpe >0.70, positive total return, max drawdown >-45%, and at least 2/3 lookback variants have positive total return.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; positive total return at 2x costs; at least 2/3 lookbacks positive; 2024 and 2025 each non-negative; max drawdown <35%; one-day execution delay positive; excluding BTC/ETH positive; removing strongest contributor positive.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 145,
+  "robustness_if_development_passes": [
+    "2x and 3x costs",
+    "14d and 60d lookback neighbors",
+    "2024 vs 2025",
+    "exclude BTC and ETH",
+    "remove strongest contributor",
+    "one-day delayed execution"
+  ],
+  "anti_leakage": "All rolling returns, realized volatility, and liquidity statistics are lagged to prior completed days. Universe selection is recomputed point-in-time at each rebalance."
+}
