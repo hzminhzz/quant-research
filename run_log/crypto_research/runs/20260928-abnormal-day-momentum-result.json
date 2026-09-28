@@ -1,0 +1,37 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-abnormal-day-momentum",
+  "classification":"REJECT",
+  "strategy_family":"abnormal_day_intraday_momentum",
+  "research_archetype":"time_series_event_rule",
+  "runner_sha256":"e7c031badb4188b8028f3d8db0577f989aa783c609bc31782277b8d36838b918",
+  "data_fingerprint":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "source":"https://doi.org/10.1007/s11408-020-00357-1",
+  "development":{
+    "k1.5":{"net_sharpe":0.454542973278726,"total_return":-0.1165339641951526,"triggered_asset_days":2712},
+    "k2.0":{"net_sharpe":0.802990316599155,"total_return":3.027552245805323,"triggered_asset_days":1343},
+    "k2.5":{"net_sharpe":0.8676738221350099,"total_return":5.863389640822151,"triggered_asset_days":758}
+  },
+  "development_gate_passed":true,
+  "primary_oos":{
+    "k2_base":{"net_sharpe":0.08284872944145358,"total_return":-0.20423047181005072,"max_drawdown":-0.5999293669020087,"triggered_asset_days":991},
+    "k2_2x":{"net_sharpe":-0.13533239776309136,"total_return":-0.3751537625680522},
+    "k2_3x":{"net_sharpe":-0.354332464612008,"total_return":-0.5094455433429044},
+    "neighbors":{"k1.5_sharpe":-1.0533682169803855,"k2.5_sharpe":0.6245520041047925},
+    "exclude_btc_eth_sharpe":-0.03793187312646201,
+    "delay_one_extra_hour_sharpe":-0.1306967908187948,
+    "exclude_strongest_asset":"SUIUSDT",
+    "exclude_strongest_sharpe":-0.2549063974026781
+  },
+  "multiple_testing":{
+    "dsr_probability":0.19126311455064765,
+    "haircut_sharpe":-0.513426881851792,
+    "pbo":"N/A: three preregistered k thresholds",
+    "previous_parameter_trials":39,
+    "new_parameter_trials":3,
+    "cumulative_parameter_trials":42
+  },
+  "oos_consumed":true,
+  "success_gate_candidate":false,
+  "conclusion":"REJECT. The rule passed development but failed untouched 2024-2025 OOS: canonical net Sharpe 0.083, negative total return, poor cost sensitivity, and failed breadth/delay robustness."
+}

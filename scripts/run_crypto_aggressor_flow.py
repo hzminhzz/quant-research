@@ -84,8 +84,9 @@ def sim(tg,rm,start,end,cost):
          "by_year":by,"asset_contribution":cont}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--root",type=Path,required=True);a=ap.parse_args()
- sy=symbols(a.root);h=load_hourly(a.root,sy);rm=return_map(h);fr={w:features(h,w) for w in WINDOWS}
+ ap=argparse.ArgumentParser();ap.add_argument("--anchor",type=Path,required=True);a=ap.parse_args()
+ root=a.anchor.parents[3]/".data"/"store"/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+ sy=symbols(root);h=load_hourly(root,sy);rm=return_map(h);fr={w:features(h,w) for w in WINDOWS}
  dev={w:sim(target(fr[w],DEV0,DEV1),rm,DEV0,DEV1,COST) for w in WINDOWS}; ds={w:dev[w]["metrics"]["annualized_sharpe"] for w in WINDOWS};dr={w:dev[w]["metrics"]["total_return"] for w in WINDOWS}
  gate=ds[CAN]>.70 and dr[CAN]>0 and sum(v>0 for v in dr.values())>=2
  out={"schema_version":1,"run_id":"20260928-aggressor-flow-weekly","universe_symbols":len(sy),"development":{str(w):dev[w] for w in WINDOWS},

@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-price-path-continuity-weekly",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"price_path_continuity",
+  "research_archetype":"cross_sectional_behavioral_path_factor",
+  "universe_symbols":138,
+  "development_diagnostics":{
+    "7":{"n_weeks":104,"mean_ic":-0.05671846818092917,"ic_ir":-0.32300105145734914,"hac_t":-3.0643221964020086,"hac_p":0.002181638130116029,"high_minus_low":-0.004432524725056548},
+    "14":{"n_weeks":104,"mean_ic":-0.07063752086056346,"ic_ir":-0.3609004866270762,"hac_t":-3.1044018436764254,"hac_p":0.0019066418010016733,"high_minus_low":-0.012326874487154048},
+    "28":{"n_weeks":104,"mean_ic":-0.05410690291736426,"ic_ir":-0.2919436451196649,"hac_t":-2.570901459627553,"hac_p":0.010143418434847671,"high_minus_low":-0.007788314675973757}
+  },
+  "development":{
+    "7":{"metrics":{"annualized_sharpe":-0.8979055359785829,"total_return":-0.3583797240407667,"max_drawdown":-0.41899519324597656,"n_weeks":104,"turnover":164.5}},
+    "14":{"metrics":{"annualized_sharpe":-1.5430479826414252,"total_return":-0.5637535890405911,"max_drawdown":-0.6196712238171875,"n_weeks":104,"turnover":123.9}},
+    "28":{"metrics":{"annualized_sharpe":-1.092482434107117,"total_return":-0.42352616212125294,"max_drawdown":-0.5186502325152507,"n_weeks":104,"turnover":92.5}}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":136,"new_parameter_trials":3,"cumulative_parameter_trials":139},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The sign was opposite the preregistered continuation hypothesis for all three lookbacks. The canonical 14-day signal had mean rank IC -0.0706 (HAC p=0.0019), high-minus-low weekly spread -1.23%, and net development Sharpe -1.54 after 10 bps one-way costs.",
+  "conclusion":"REJECT. Strong evidence in development points against the preregistered continuation direction; exploratory OOS remained sealed."
+}

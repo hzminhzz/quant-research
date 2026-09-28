@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-price-path-continuity-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Price Path Continuity and the Cross-Section of Cryptocurrency Returns",
+    "author": "Woong Bae Kim",
+    "date": "2026-06-01",
+    "ssrn": "6871159",
+    "url": "https://ssrn.com/abstract=6871159"
+  },
+  "hypothesis": "Short-term crypto returns exhibit continuation when accumulated through smooth continuous paths. A signed path-continuity score should predict next-week cross-sectional returns.",
+  "research_archetype": "cross_sectional_behavioral_path_factor",
+  "strategy_family": "price_path_continuity",
+  "universe": "Frozen ex-ante Binance USD-M USDT perpetuals listed by 2021-12-31. Each Monday retain top 50 by lagged trailing-30-day quote volume.",
+  "feature": "Over prior W completed daily returns compute PRET=product(1+r)-1 and path_efficiency=abs(sum(r))/sum(abs(r)); signal=PRET*path_efficiency.",
+  "lookback_days": [7,14,28],
+  "canonical_lookback_days": 14,
+  "portfolio": "Equal-weight market-neutral long top signal quintile and short bottom signal quintile, 0.5 gross each side.",
+  "execution": "Inputs end Sunday; rebalance Monday 00:00 UTC open and hold to next Monday open.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >0.02 with HAC p<0.05, positive high-minus-low spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 lookbacks positive.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive at 2x costs; at least 2/3 lookbacks positive; both OOS years non-negative; max drawdown <35%; breadth robustness positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 136,
+  "source_deviation": "The source uses a Rank-Weighted PPC measure. Exact rank weighting was not available in accessible source text, so this transparent path-efficiency proxy was fixed before results."
+}

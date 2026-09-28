@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-simple-anomaly-blend-longonly",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"simple_anomaly_blend_longonly",
+  "research_archetype":"cross_sectional_multifactor_rank",
+  "universe_symbols":609,
+  "development_diagnostics":{
+    "14":{"n_weeks":104,"mean_ic":-0.06831348984231878,"ic_ir":-0.32958900531647073,"hac_t":-3.0468605539622207,"hac_p":0.0023124495998401054,"top_minus_bottom":-0.002761602277212851},
+    "30":{"n_weeks":104,"mean_ic":-0.06377764623254407,"ic_ir":-0.32748177806720885,"hac_t":-3.0950180811599304,"hac_p":0.0019680089946720863,"top_minus_bottom":0.0021165045113193423},
+    "60":{"n_weeks":104,"mean_ic":-0.09178131269677786,"ic_ir":-0.4194155409235596,"hac_t":-4.222861481652676,"hac_p":2.412200817295471e-05,"top_minus_bottom":-0.010254674478517143}
+  },
+  "development":{
+    "14":{"metrics":{"annualized_sharpe":-0.5967123439478698,"total_return":-0.8422081272372552,"max_drawdown":-0.9238640406588756,"n_weeks":104,"turnover":119.0}},
+    "30":{"metrics":{"annualized_sharpe":-0.48401070166767335,"total_return":-0.785095672624581,"max_drawdown":-0.8828236121838559,"n_weeks":104,"turnover":83.2}},
+    "60":{"metrics":{"annualized_sharpe":-0.8175495796008696,"total_return":-0.8667908406199718,"max_drawdown":-0.9162361180724995,"n_weeks":104,"turnover":60.0}}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":139,"new_parameter_trials":3,"cumulative_parameter_trials":142},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The fixed equal-weight rank blend of momentum, market-adjusted past return and Amihud illiquidity had significantly negative rank IC in development for all three lookbacks. Canonical 30-day mean IC was -0.0638 (HAC p=0.0020) and the long-only portfolio lost 78.5% with net Sharpe -0.484.",
+  "conclusion":"REJECT. Development evidence contradicted the preregistered direction; OOS remained sealed."
+}

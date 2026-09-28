@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-low-idiosyncratic-risk-weekly",
+  "classification": "REJECT",
+  "strategy": "Weekly low-idiosyncratic-risk cross-sectional factor",
+  "strategy_family": "low_idiosyncratic_variance",
+  "research_archetype": "cross_sectional_factor",
+  "runner_sha256": "9fb69530282a028371e6e081a651006f7c3e1484ff79cc6a23c63a4a02697d57",
+  "data": {
+    "path": "/home/quant/dev/quant/ml4t-data/data/crypto/market/perps_1h.parquet",
+    "sha256": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+    "rows": 866868,
+    "symbols": 19,
+    "start": "2020-01-01T00:00:00Z",
+    "end": "2025-12-31T23:00:00Z",
+    "duplicate_pairs": 0,
+    "ohlc_failures": 0,
+    "non_hourly_symbol_gaps": 2
+  },
+  "source": {
+    "title": "The pricing of jump and diffusive risks in the cross-section of cryptocurrency returns",
+    "year": 2023,
+    "url": "https://ideas.repec.org/a/eee/empfin/v74y2023ics0927539823000786.html"
+  },
+  "specification": {
+    "estimation_windows_hours": [336, 720, 1440],
+    "canonical_window_hours": 720,
+    "market_factor": "Equal-weight hourly return across contemporaneously available panel assets.",
+    "signal": "Negative lagged rolling OLS residual variance using var(asset)-cov(asset,market)^2/var(market).",
+    "rebalance": "Weekly Monday 00:00 UTC; current open execution using statistics through prior completed hour.",
+    "construction": "Equal-weight long lowest-idiosyncratic-risk tercile / short highest-idiosyncratic-risk tercile, 0.5 gross per side.",
+    "base_cost_bps_one_way": 3.0
+  },
+  "development_diagnostics": {
+    "period": "2021-01-01/2023-12-31",
+    "336h": {
+      "n_weeks": 155,
+      "mean_ic": 0.09083478989821671,
+      "ic_ir": 0.24657981527735243,
+      "hac_t": 2.987453569830613,
+      "hac_p": 0.0028131202130975905,
+      "low_minus_high": -0.009827880088634834,
+      "quantile_returns": [0.026580522332855537,0.020103887592076056,0.025340549036303346,0.014804800418925288,0.013268408140472834]
+    },
+    "720h": {
+      "n_weeks": 155,
+      "mean_ic": 0.0861447904938649,
+      "ic_ir": 0.2435208499135164,
+      "hac_t": 2.957283966935957,
+      "hac_p": 0.0031036214634941276,
+      "low_minus_high": -0.012998935335603045,
+      "quantile_returns": [0.04265727197824857,0.008863767503948143,0.012232500184110083,0.01613355805358172,0.017615807553183316]
+    },
+    "1440h": {
+      "n_weeks": 155,
+      "mean_ic": 0.08032844115853721,
+      "ic_ir": 0.22598106187474648,
+      "hac_t": 2.7713360181820055,
+      "hac_p": 0.005582678357555131,
+      "low_minus_high": -0.015257140867333811,
+      "quantile_returns": [0.04167354615604251,0.01112634641162025,0.01230682603123477,0.016561223072178402,0.014589898370044518]
+    },
+    "gate_passed": false
+  },
+  "oos_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 21,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 24
+  },
+  "dsr_probability": null,
+  "pbo": "N/A: development gate failed before OOS portfolio evaluation.",
+  "failure_analysis": "The canonical signal met the IC magnitude/significance condition but failed the preregistered low-minus-high portfolio-spread condition. All three estimation windows produced negative low-minus-high development spreads, so the untouched 2024-2025 OOS was not consumed.",
+  "conclusion": "REJECT. The development gate failed; preserve OOS and move to a materially different mechanism."
+}

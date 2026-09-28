@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-liquid-near-week-high-momentum",
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "strategy_family": "liquid_nearness_to_recent_high",
+  "research_archetype": "cross_sectional_high_momentum_factor",
+  "universe_symbols": 139,
+  "development_diagnostics": {
+    "7": {"n_weeks":104,"mean_ic":0.01777970076524467,"ic_ir":0.08415028561955748,"hac_t":1.0961630728442562,"hac_p":0.2730074165585302,"high_minus_low_signal":-0.0076174420754499955},
+    "14": {"n_weeks":104,"mean_ic":0.02086306941495878,"ic_ir":0.10090903718958301,"hac_t":1.2422820585265655,"hac_p":0.21413251261901567,"high_minus_low_signal":-0.006425077074507583},
+    "28": {"n_weeks":104,"mean_ic":0.014987715081621788,"ic_ir":0.06415187816302927,"hac_t":0.7400831601030924,"hac_p":0.45924953611398756,"high_minus_low_signal":-0.008863183482467785}
+  },
+  "development": {
+    "7": {"annualized_sharpe":-1.2199121022946093,"total_return":-0.48658540075021806,"max_drawdown":-0.5084255390413911,"n_weeks":104,"turnover":153.4},
+    "14": {"annualized_sharpe":-0.9992676551108577,"total_return":-0.4388268913031237,"max_drawdown":-0.4874737789281034,"n_weeks":104,"turnover":131.3},
+    "28": {"annualized_sharpe":-1.1338410061395372,"total_return":-0.4819400745560499,"max_drawdown":-0.4987471977681419,"n_weeks":104,"turnover":103.4}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {"previous_parameter_trials":121,"new_parameter_trials":3,"cumulative_parameter_trials":124},
+  "multiple_testing": {"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "conclusion": "REJECT. The source-driven 7-day nearness-to-high signal failed significance, had a negative high-minus-low spread, and lost money after costs. OOS remained sealed."
+}

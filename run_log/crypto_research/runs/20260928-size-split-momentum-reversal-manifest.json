@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-size-split-momentum-reversal",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Size-Momentum Puzzle in Cryptocurrencies",
+    "authors": ["Zezhou Xu","Fenglin Wu"],
+    "type": "SSRN preprint",
+    "posted": "2026-04-22",
+    "doi": "10.2139/ssrn.6628860",
+    "url": "https://ssrn.com/abstract=6628860"
+  },
+  "hypothesis": "Crypto return continuation flips with size: relatively large/liquid coins exhibit short-horizon momentum while relatively small but tradable coins exhibit short-horizon reversal. Combining the two opposite sleeves should diversify the same return-ranking signal.",
+  "research_archetype": "cross_sectional_factor",
+  "strategy_family": "size_conditioned_momentum_reversal",
+  "universe": "Point-in-time Binance USD-M USDT perpetuals. Each Monday first keep top 100 by lagged trailing-30-day quote volume. Use the top liquidity quintile as the large proxy and bottom liquidity quintile within this tradable top-100 as the small proxy.",
+  "size_proxy_deviation": "Historical point-in-time market capitalization is unavailable locally; lagged trailing quote volume is fixed ex ante as the size/trading-activity proxy.",
+  "formation_days": [7,14,28],
+  "canonical_formation_days": 7,
+  "signal": "Prior completed F-day close-to-close return ending Sunday.",
+  "portfolio": "Large sleeve: long top momentum tercile / short bottom tercile. Small sleeve: long recent-losers tercile / short recent-winners tercile. Each sleeve contributes 0.50 gross; combined gross target 1.0.",
+  "execution": "Signal through Sunday close; rebalance Monday 00:00 UTC open; hold to next Monday open.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical large winner-minus-loser next-week spread >0, canonical small loser-minus-winner spread >0, canonical combined net Sharpe >0.70, and >=2/3 formation windows positive after costs.",
+  "success_gate": "Canonical OOS combined net Sharpe >1.0, positive at 2x cost, >=2/3 formation windows positive, both 2024 and 2025 non-negative, max drawdown <35%, large and small sleeve OOS totals each positive, and excluding the strongest asset remains positive.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 83
+}

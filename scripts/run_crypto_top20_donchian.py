@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse,glob,json,math
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date,datetime,timedelta
 from pathlib import Path
 import numpy as np
@@ -47,13 +48,15 @@ def symbol_daily(root,s,first_ts):
                       "exposure":exp,"liq":liq,"age":age})
 
 def panel(root):
- mani=json.load(open(root/"dataset_manifest.json"));frames=[]
- for s,v in sorted(mani["symbol_summaries"].items()):
-  if not s.endswith("USDT") or s=="BTCDOMUSDT":continue
-  # A symbol first appearing after 2024 cannot satisfy the one-year rule inside 2025.
-  if v["first_timestamp"]>"2024-12-31T23:59:59+00:00":continue
-  z=symbol_daily(root,s,v["first_timestamp"])
-  if z is not None:frames.append(z)
+ mani=json.load(open(root/"dataset_manifest.json"))
+ items=[(s,v) for s,v in sorted(mani["symbol_summaries"].items())
+        if s.endswith("USDT") and s!="BTCDOMUSDT"
+        and v["first_timestamp"]<="2024-12-31T23:59:59+00:00"]
+ def load_one(item):
+  s,v=item
+  return symbol_daily(root,s,v["first_timestamp"])
+ with ThreadPoolExecutor(max_workers=8) as ex:
+  frames=[z for z in ex.map(load_one,items) if z is not None]
  return pl.concat(frames,how="vertical").filter(pl.col("next_open").is_finite()&pl.col("liq").is_finite()&(pl.col("age")>=365))
 
 def desired_weights(p):
@@ -80,17 +83,23 @@ def run(p,start,end,cost,delay=0):
  return {"metrics":{"annualized_sharpe":float(np.mean(a)/sd*math.sqrt(365)) if sd>0 else 0,"total_return":float(eq[-1]-1),"max_drawdown":float(dd.min()),"n_days":len(a)},"by_year":by}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--root",type=Path,required=True);a=ap.parse_args();p=panel(a.root)
+ ap=argparse.ArgumentParser();ap.add_argument("--anchor",type=Path,required=True);ap.add_argument("--output",type=Path);a=ap.parse_args();root=a.anchor.parents[3]/".data"/"store"/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP";p=panel(root)
  dev=run(p,DEV0,DEV1,COST);gate=dev["metrics"]["annualized_sharpe"]>.8 and dev["metrics"]["total_return"]>0 and dev["metrics"]["max_drawdown"]>-.30
  out={"schema_version":1,"run_id":"20260928-top20-donchian-ensemble","panel_rows":p.height,"symbols":p["symbol"].n_unique(),
       "development":dev,"development_gate_passed":gate,"oos_consumed":False,
       "trial_accounting":{"previous_parameter_trials":61,"new_parameter_trials":1,"cumulative_parameter_trials":62}}
- if not gate:out.update(classification="REJECT",conclusion="Development gate failed; OOS not consumed.");print(json.dumps(out,indent=2,default=str));return
+ if not gate:
+  out.update(classification="REJECT",conclusion="Development gate failed; OOS not consumed.")
+  payload=json.dumps(out,indent=2,default=str)
+  if a.output:a.output.write_text(payload,encoding="utf-8")
+  print(payload);return
  res={str(m):run(p,OOS0,OOS1,COST*m) for m in (1,2,3,5)};delay=run(p,OOS0,OOS1,COST,delay=1);can=res["1"];b=can["metrics"];two=res["2"]["metrics"]
  years=all(can["by_year"].get(str(y),{}).get("total_return",-1)>0 for y in (2024,2025))
  qual=b["annualized_sharpe"]>1 and b["total_return"]>0 and two["total_return"]>0 and years and b["max_drawdown"]>-.25 and delay["metrics"]["annualized_sharpe"]>.8
  glob=compute_deflated_sharpe(b["annualized_sharpe"],[b["annualized_sharpe"]]+[0.0]*61,n_obs_days=b["n_days"])
  out.update(oos_consumed=True,oos_results=res,delay_one_day=delay,multiple_testing={"global_62_trial_proxy":glob},success_gate_candidate=qual,
             classification="EXPLORATORY_PASS" if qual else "REJECT")
- print(json.dumps(out,indent=2,default=str))
+ payload=json.dumps(out,indent=2,default=str)
+ if a.output:a.output.write_text(payload,encoding="utf-8")
+ print(payload)
 if __name__=="__main__":main()

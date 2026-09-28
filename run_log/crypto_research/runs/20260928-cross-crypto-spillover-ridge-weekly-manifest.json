@@ -1,0 +1,33 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-cross-crypto-spillover-ridge-weekly",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Cross-Cryptocurrency Return Predictability",
+    "authors":["Li Guo","Bo Sang","Jun Tu","Yu Wang"],
+    "last_revised":"2024-05-13",
+    "ssrn":"3974583",
+    "url":"https://ssrn.com/abstract=3974583"
+  },
+  "hypothesis":"Lagged returns of major cryptocurrencies contain information about next-week returns of other coins because common shocks diffuse slowly across the market. A causal rolling cross-crypto model should therefore rank subsequent weekly returns.",
+  "research_archetype":"supervised_cross_asset_spillover",
+  "strategy_family":"cross_crypto_return_spillover",
+  "universe":"Frozen ex-ante Binance USD-M USDT perpetuals listed by 2021-12-31, including later-delisted contracts where data exist. Each Monday retain top 50 by lagged trailing-30-day quote volume.",
+  "predictors":["BTCUSDT","ETHUSDT","BNBUSDT","XRPUSDT","ADAUSDT","DOGEUSDT","LTCUSDT","SOLUSDT"],
+  "feature":"For prediction week t, use the eight majors' realized Monday-open-to-Monday-open returns from week t-1. For each target coin fit a separate rolling ridge regression y_target,t ~ major_returns,t-1 using only the prior 52 target weeks, standardized inside that historical training window.",
+  "ridge_alpha":[0.1,1.0,10.0],
+  "canonical_alpha":1.0,
+  "training_window_weeks":52,
+  "minimum_training_observations":40,
+  "portfolio":"Weekly market-neutral long top predicted-return quintile / short bottom predicted-return quintile, 0.5 gross per side.",
+  "execution":"At Monday 00:00 UTC all model inputs and training targets end at the prior Monday/week. Rank contemporaneously eligible assets and execute at current Monday open, holding to next Monday open.",
+  "base_cost_bps_one_way":10,
+  "cost_multipliers":[1,2,3],
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical mean rank IC >0.02 with HAC p<0.05, canonical net Sharpe >0.70 and total return >0, at least 2/3 ridge alphas positive after costs, and >=80 development weeks with predictions.",
+  "success_gate":"Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive at 2x costs; at least 2/3 alpha variants positive; 2024 and 2025 non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; DSR reported.",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":133,
+  "source_deviation":"The paper uses adaptive LASSO/PCA and a broader predictor set. This preregistered implementation uses a fixed eight-major predictor panel and ridge regression to minimize model-selection degrees of freedom and keep all preprocessing causal."
+}

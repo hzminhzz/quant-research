@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-nearness52-anchoring-weekly",
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "strategy_family": "nearness_52week_high_anchoring",
+  "research_archetype": "cross_sectional_behavioral_factor",
+  "universe_symbols": 637,
+  "development_diagnostics": {
+    "182": {"n_weeks":104,"mean_ic":0.02386069358117376,"ic_ir":0.10706481730280938,"hac_t":1.1202860004640853,"hac_p":0.26259190585496994,"high_minus_low":0.003540630477871031},
+    "364": {"n_weeks":104,"mean_ic":0.008545130862198843,"ic_ir":0.03955004552602227,"hac_t":0.36308637169140706,"hac_p":0.7165403647677936,"high_minus_low":-0.0017913408422111118},
+    "546": {"n_weeks":104,"mean_ic":-0.00867080553450609,"ic_ir":-0.04122680775057464,"hac_t":-0.39185910020388093,"hac_p":0.6951623243435769,"high_minus_low":-0.012825639548918012}
+  },
+  "development": {
+    "182": {"annualized_sharpe":0.24688031916505357,"total_return":0.060648936753541216,"max_drawdown":-0.3150427452227921,"n_weeks":104,"turnover":48.999999999999986},
+    "364": {"annualized_sharpe":-0.3035461813985245,"total_return":-0.1618680652758614,"max_drawdown":-0.3949643445887271,"n_weeks":104,"turnover":37.099999999999994},
+    "546": {"annualized_sharpe":-1.7600108707287472,"total_return":-0.5217692175711548,"max_drawdown":-0.5270752219766333,"n_weeks":104,"turnover":28.692460317460316}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {"previous_parameter_trials":100,"new_parameter_trials":3,"cumulative_parameter_trials":103},
+  "multiple_testing": {"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis": "The canonical 364-day nearness factor had near-zero, insignificant rank IC, a negative high-minus-low spread, and negative net development Sharpe. OOS was therefore left untouched.",
+  "conclusion": "REJECT. Development gate failed; OOS not consumed."
+}

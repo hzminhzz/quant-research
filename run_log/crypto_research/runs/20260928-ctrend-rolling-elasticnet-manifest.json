@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-ctrend-rolling-elasticnet",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "A Trend Factor for the Cross Section of Cryptocurrency Returns",
+    "authors": ["Christian Fieberg","Gerrit Liedtke","Thorsten Poddig","Thomas Walker","Adam Zaremba"],
+    "publication": "Journal of Financial and Quantitative Analysis 60(7), 2025, 3116-3153",
+    "doi": "10.1017/S0022109024000747",
+    "url": "https://doi.org/10.1017/S0022109024000747"
+  },
+  "hypothesis": "A causal rolling elastic-net aggregation of the paper's most important technical trend indicators predicts the next-week cross-section of liquid Binance perpetual returns and produces a robust net long-short factor.",
+  "research_archetype": "supervised_ml_cross_sectional_factor",
+  "strategy_family": "ctrend_rolling_elasticnet",
+  "feature_policy": "Source-driven exception to the usual compact-feature rule: use exactly the eight highest-ranked CTREND variables reported in the paper supplement, translated to available ml4t-engineer features: Bollinger middle distance, CCI20, MACD12-26 normalized by price, MACD-minus-9d-signal normalized by price, 5d SMA distance, Bollinger upper distance, 3d SMA distance, and stochastic %K14.",
+  "ml4t_engineer": ["sma(period=3)","sma(period=5)","cci(period=20)","macd(fast=12,slow=26)","stochastic(fastk=14)","bollinger_bands(period=20)"],
+  "universe": "Each Monday, eligible Binance USD-M USDT perpetuals with at least 90 exact complete UTC days and all features valid; keep top 50 by lagged trailing-30-day quote volume.",
+  "feature_mapping": "Within each Monday cross-section, map every raw feature to percentile rank centered at zero. No full-sample scaling.",
+  "model": "One rolling ElasticNetCV model per rebalance. Train on the preceding 52 completed feature weeks, embargo the immediately preceding week, preserve entire weeks in four chronological CV folds, l1_ratio=[0.1,0.5,0.9], alpha grid=1e-5..1e-2 (7 log-spaced values). Hyperparameters are selected strictly inside each training window and are not external strategy trials.",
+  "target": "Next-week Monday-open to Monday-open return.",
+  "portfolio": "Market-neutral weekly long top predicted-return quintile / short bottom quintile, 0.5 gross each side.",
+  "execution": "All technical features use data through Sunday close. Rebalance at Monday 00:00 UTC open. The one-week training embargo prevents using the current execution price to finalize the latest training label.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Rolling model mean weekly rank IC >=0.02, HAC p<0.05, positive winner-minus-loser return, and net development Sharpe >0.70.",
+  "success_gate": "OOS net Sharpe >1.0; OOS mean rank IC >=0.02 with HAC p<0.05; positive at 2x costs; 2024 and 2025 non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest asset positive; DSR reported and must be >=0.95 when computed.",
+  "planned_external_parameter_trials": 1,
+  "internal_training_grid": {"l1_ratio":[0.1,0.5,0.9],"alpha":"7 log-spaced values from 1e-5 to 1e-2"},
+  "global_previous_trial_count": 86,
+  "deviations_from_paper": [
+    "Uses eight highest-importance variables rather than all 28 to keep the adaptation auditable and computationally bounded.",
+    "Uses lagged quote volume for liquidity eligibility instead of historical market capitalization.",
+    "Uses equal-weight long-short portfolio rather than value weighting because point-in-time market cap is unavailable.",
+    "Binance perpetual funding is unavailable in the OHLCV panel and is not modeled."
+  ]
+}

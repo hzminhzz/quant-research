@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-idiosyncratic-skewness-weekly",
+  "classification": "INCONCLUSIVE",
+  "success_gate_candidate": false,
+  "strategy_family": "idiosyncratic_skewness_risk",
+  "research_archetype": "cross_sectional_residual_risk_factor",
+  "execution_status": "CONNECTOR_OUTPUT_LOST_AFTER_COMPLETED_EXECUTIONS",
+  "development_gate_passed": null,
+  "oos_consumed": "UNKNOWN_EXPLORATORY_OOS_ONLY",
+  "sealed_confirmation_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 112,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 115
+  },
+  "multiple_testing": {
+    "dsr_probability": null,
+    "pbo": "N/A: result output unavailable."
+  },
+  "failure_analysis": "The exact preregistered runner was launched more than once because the DevSpace connector returned an internal error while the process continued. Process inspection later showed the executions exited, but stdout was not recoverable and no result artifact had been emitted. The parameter set is therefore counted as three trials and is not rerun or modified post hoc in this invocation.",
+  "conclusion": "INCONCLUSIVE. Do not infer success or failure from missing execution output."
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-liquidity-signflip-daily",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Up or down? Short-term reversal, momentum, and liquidity effects in cryptocurrency markets",
+    "authors":"Adam Zaremba; Mehmet Huseyin Bilgin; Huaigang Long; Aleksander Mercik; Jan J. Szczygielski",
+    "journal":"International Review of Financial Analysis",
+    "year":2021,
+    "doi":"10.1016/j.irfa.2021.101908",
+    "url":"https://doi.org/10.1016/j.irfa.2021.101908"
+  },
+  "hypothesis":"The sign of one-day return persistence depends on liquidity: the most liquid coins exhibit daily momentum while the less liquid majority exhibit daily reversal.",
+  "mechanism":"The source attributes broad daily reversal to illiquidity and documents a sign flip toward momentum for the handful of largest and most tradeable cryptocurrencies.",
+  "research_archetype":"liquidity_conditioned_cross_section",
+  "strategy_family":"liquidity_conditioned_daily_signflip",
+  "liquid_bucket_fractions":[0.20,0.25,0.33],
+  "canonical_liquid_fraction":0.25,
+  "signal":"Prior completed UTC day close-to-close return. Within the most-liquid bucket rank in the momentum direction; within the remaining bucket rank in the reversal direction.",
+  "universe":"Point-in-time assets with at least 30 days exact hourly history and valid lagged trailing 30-day close*volume; minimum 8 assets.",
+  "rebalance":"Daily 00:00 UTC at current open using only prior-hour/prior-day data.",
+  "construction":"Allocate 0.5 gross to the liquid momentum sleeve and 0.5 gross to the less-liquid reversal sleeve. Each sleeve is dollar-neutral: half its gross long and half short, using within-sleeve return halves.",
+  "development":"2021-01-01/2023-12-31",
+  "oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical base-cost net Sharpe > 0.70, positive net total return, and at least 2 of 3 preregistered liquidity splits have positive development return.",
+  "base_cost_bps_one_way":3.0,
+  "cost_multipliers":[1,2,3],
+  "planned_parameter_trials":3,
+  "robustness_checks":["20% and 33% liquid-bucket neighbors","2024 and 2025 each non-negative","exclude BTC and ETH","remove strongest OOS contributor","one-hour delayed execution","2x and 3x transaction costs"],
+  "success_thresholds":{"net_oos_sharpe":1.0,"dsr_probability":0.95,"positive_neighbor_count_min":2,"both_oos_years_non_negative":true},
+  "price_data_sha256":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations":"The prepared panel contains 19 liquid Binance perpetuals rather than 3600+ spot coins, so the less-liquid sleeve is relative within a liquid-perp universe. Funding is unavailable."
+}

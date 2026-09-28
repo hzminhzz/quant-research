@@ -1,0 +1,40 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-bull-regime-liquid-momentum-longonly",
+  "status":"PRE_REGISTERED",
+  "sources":[
+    {
+      "title":"Cryptocurrency anomalies and economic constraints",
+      "authors":["Christian Fieberg","Gerrit Liedtke","Adam Zaremba"],
+      "year":2024,
+      "doi":"10.1016/j.irfa.2024.103218",
+      "url":"https://doi.org/10.1016/j.irfa.2024.103218"
+    },
+    {
+      "title":"Machine learning and the cross-section of cryptocurrency returns",
+      "authors":["Nusret Cakici","Syed Jawad Hussain Shahzad","Barbara Bedowska-Sojka","Adam Zaremba"],
+      "year":2024,
+      "doi":"10.1016/j.irfa.2024.103244",
+      "url":"https://doi.org/10.1016/j.irfa.2024.103244"
+    }
+  ],
+  "hypothesis":"Cross-sectional momentum in liquid cryptocurrencies is concentrated in bullish market regimes; restricting a long-only winner portfolio to BTC-positive regimes should retain the tradable long-leg anomaly while avoiding weak/choppy periods and short-side frictions.",
+  "research_archetype":"regime_conditioned_cross_sectional_momentum",
+  "strategy_family":"bull_regime_liquid_momentum_longonly",
+  "universe":"Frozen ex-ante Binance USD-M USDT perpetuals listed by 2021-12-31, including later-delisted contracts where data exist. Each Monday retain top 30 by lagged trailing-30-day quote volume.",
+  "asset_signal":"30-day close-to-close momentum using only completed prior days.",
+  "regime":"BTCUSDT trailing R-day close return through Sunday. Trade only if positive.",
+  "regime_lookbacks_days":[14,30,60],
+  "canonical_regime_lookback_days":30,
+  "portfolio":"When regime is ON, equal-weight long top momentum quintile at 1.0 gross; otherwise cash. No short leg.",
+  "execution":"Rebalance Monday 00:00 UTC open using data through Sunday; hold to next Monday open. Closing to cash on OFF weeks incurs turnover costs.",
+  "base_cost_bps_one_way":10,
+  "cost_multipliers":[1,2,3],
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical active-week rank IC >0.02 with HAC p<0.05, canonical net Sharpe >0.70 and total return >0, at least 2/3 regime lookbacks positive, and at least 20 active development weeks.",
+  "success_gate":"Canonical OOS net Sharpe >1.0; positive at 2x costs; at least 2/3 regime variants positive; 2024 and 2025 non-negative; max drawdown <35%; at least 20 active OOS weeks; excluding BTC/ETH remains positive; excluding strongest contributor remains positive; DSR reported.",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":130,
+  "notes":"This is not a post-hoc retune of the prior unconditional momentum candidate. The regime restriction and long-only construction are directly motivated by published evidence that crypto momentum is regime-dependent and that economically viable predictability is concentrated in tradable long legs."
+}

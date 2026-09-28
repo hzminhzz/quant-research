@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-cross-crypto-spillover-ridge-weekly",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"cross_crypto_return_spillover",
+  "research_archetype":"supervised_cross_asset_spillover",
+  "universe_symbols":139,
+  "development_diagnostics":{
+    "0.1":{"n_weeks":103,"mean_ic":-0.03845508232162364,"ic_ir":-0.22366969477510498,"hac_t":-2.474534484478381,"hac_p":0.01334099406595412},
+    "1.0":{"n_weeks":103,"mean_ic":-0.037760080208127295,"ic_ir":-0.2188437251679939,"hac_t":-2.414926549517628,"hac_p":0.015738383066301105},
+    "10.0":{"n_weeks":103,"mean_ic":-0.03573380690582002,"ic_ir":-0.19666164831434038,"hac_t":-2.08494463291487,"hac_p":0.03707432660734115}
+  },
+  "development":{
+    "0.1":{"annualized_sharpe":-1.6268247083200986,"total_return":-0.4746032745063222,"max_drawdown":-0.501211057591795,"n_weeks":103,"turnover":143.00555555555556},
+    "1.0":{"annualized_sharpe":-1.7757105996418756,"total_return":-0.49988126554259626,"max_drawdown":-0.524511093289725,"n_weeks":103,"turnover":142.26666666666668},
+    "10.0":{"annualized_sharpe":-2.053246976487079,"total_return":-0.5334131384595244,"max_drawdown":-0.547854043648875,"n_weeks":103,"turnover":133.74166666666667}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":133,"new_parameter_trials":3,"cumulative_parameter_trials":136},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The fixed major-coin lagged-return ridge forecasts ranked subsequent returns in the opposite direction from the preregistered spillover hypothesis for all three ridge penalties. The canonical alpha=1 rank IC was -0.0378 (HAC p=0.0157) and net Sharpe -1.776. Flipping the model sign after observing this result would be post-hoc and is not permitted.",
+  "conclusion":"REJECT. Development evidence falsified the preregistered direction; OOS remained sealed."
+}

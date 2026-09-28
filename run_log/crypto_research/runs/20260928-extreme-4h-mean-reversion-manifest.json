@@ -1,0 +1,37 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-extreme-4h-mean-reversion",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"On the Intraday Behavior of Bitcoin",
+    "author":"Giacomo De Nicola",
+    "publication":"Ledger 6 (2021)",
+    "doi":"10.5195/ledger.2021.213",
+    "url":"https://doi.org/10.5195/ledger.2021.213"
+  },
+  "supporting_source":{
+    "title":"Short-horizon mean reversion in cryptocurrency markets: a matched cross-market measurement",
+    "authors":["Nadav A. Kitron","Jonathan M. Wengrowicz"],
+    "date":"2026-08-22",
+    "url":"https://arxiv.org/abs/2608.21888"
+  },
+  "hypothesis":"Large 4-hour crypto price moves partially reverse over the next 4-hour bar because of overreaction, excess volatility and leveraged-liquidation cascades. Conditioning on standardized move magnitude should improve the reversal edge and reduce turnover relative to unconditional sign reversal.",
+  "research_archetype":"time_series_event_rule",
+  "strategy_family":"extreme_move_4h_mean_reversion",
+  "universe":"Binance USD-M USDT perpetuals listed by 2021-12-31. At each 4-hour decision point, retain top 20 by lagged trailing-30-day quote volume among contracts with exact 4-hour history.",
+  "bar_construction":"Aggregate complete 1h bars to UTC-aligned 4h OHLCV bars.",
+  "signal":"At 4h bar t open, use only completed bar t-1: z = return(t-1) / trailing 30-day std of prior completed 4h returns. If abs(z)>=threshold, hold -sign(return(t-1)) during bar t.",
+  "z_thresholds":[1.0,1.5,2.0],
+  "canonical_threshold":1.5,
+  "portfolio":"Equal-weight triggered positions across contemporaneously eligible top-20 liquid assets; maximum gross exposure 1.0; flat when none trigger.",
+  "execution":"Signal is formed after prior 4h close; enter at next 4h open and exit/rebalance at the following 4h boundary. No same-bar signal/fill contamination.",
+  "base_cost_bps_one_way":10,
+  "cost_multipliers":[1,2,3],
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical net daily-equity Sharpe >0.70, total return >0, and at least 2/3 preregistered thresholds positive after base costs.",
+  "success_gate":"Canonical OOS net Sharpe >1.0; positive at 2x costs; at least 2/3 thresholds positive; 2024 and 2025 each non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; DSR reported.",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":142,
+  "source_deviation":"The primary source documents mean reversion mainly in Bitcoin at 1h/2h/4h. This test extends the same causal 4h mechanism across a broad ex-ante Binance perpetual universe and adds a fixed move-size filter because the source reports stronger reversals after larger moves."
+}

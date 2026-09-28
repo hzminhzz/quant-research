@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "strategy": "external frozen four-asset trend",
+  "data": {
+    "days": 2393,
+    "end": "2026-08-31T00:00:00.000",
+    "start": "2020-02-12T00:00:00.000",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "BNBUSDT",
+      "ADAUSDT"
+    ]
+  },
+  "evaluation": {
+    "end": "2026-08-31T00:00:00.000",
+    "start": "2026-03-21"
+  },
+  "scenarios": {
+    "canonical": {
+      "end_equity": 56598.148516788264,
+      "max_drawdown": -0.06427693911540455,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -0.39762075374052724,
+      "sharpe_365": -0.47853665120158173,
+      "start_equity": 57674.265182023875,
+      "total_carry": 0,
+      "total_cost": 1060.9837496923624,
+      "total_return": -0.018658524072033056,
+      "turnover": 221606.7133493576
+    },
+    "canonical_2x": {
+      "end_equity": 44835.474989941045,
+      "max_drawdown": -0.09270937932946033,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -0.799313180283605,
+      "sharpe_365": -0.9619735613795662,
+      "start_equity": 46972.57540486902,
+      "total_carry": 0,
+      "total_cost": 2121.9674993847248,
+      "total_return": -0.04549676905104183,
+      "turnover": 221606.7133493576
+    },
+    "canonical_3x": {
+      "end_equity": 33072.80146309385,
+      "max_drawdown": -0.13817742141791012,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -1.1687452856552827,
+      "sharpe_365": -1.4065851690178264,
+      "start_equity": 36270.8856277142,
+      "total_carry": 0,
+      "total_cost": 3182.9512490770867,
+      "total_return": -0.08817221055602587,
+      "turnover": 221606.7133493576
+    },
+    "canonical_carry10": {
+      "end_equity": 53675.330501203454,
+      "max_drawdown": -0.07040332427774443,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -0.5504057243673967,
+      "sharpe_365": -0.6624133918141332,
+      "start_equity": 55138.04580895596,
+      "total_carry": 386.5986425169194,
+      "total_cost": 1060.9837496923624,
+      "total_return": -0.026528239916600804,
+      "turnover": 221606.7133493576
+    },
+    "fixed10_carry10": {
+      "end_equity": 63907.13374121765,
+      "max_drawdown": -0.05620180043832024,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -0.22073516693182388,
+      "sharpe_365": -0.26565481452436285,
+      "start_equity": 64530.47201262712,
+      "total_carry": 386.5986425169194,
+      "total_cost": 221.60671334935762,
+      "total_return": -0.009659595722273595,
+      "turnover": 221606.7133493576
+    },
+    "fixed20_carry10": {
+      "end_equity": 62376.263454384665,
+      "max_drawdown": -0.059096630962750085,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -0.30840096932223915,
+      "sharpe_365": -0.3711606240329501,
+      "start_equity": 63221.208439143535,
+      "total_carry": 386.5986425169194,
+      "total_cost": 443.21342669871524,
+      "total_return": -0.01336489772371574,
+      "turnover": 221606.7133493576
+    },
+    "fixed5_carry10": {
+      "end_equity": 64672.56888463417,
+      "max_drawdown": -0.05479946479348463,
+      "mean_gross_exposure": 10133.47484012544,
+      "n_days": 164,
+      "sharpe_252": -0.17673634599867885,
+      "sharpe_365": -0.21270222533455152,
+      "start_equity": 65185.103799368975,
+      "total_carry": 386.5986425169194,
+      "total_cost": 110.80335667467881,
+      "total_return": -0.007862761349775815,
+      "turnover": 221606.7133493576
+    }
+  },
+  "asset_attribution": {
+    "ADAUSDT": {
+      "gross_pnl": 427.58509722123836,
+      "mean_abs_exposure": 1244.5960683859682,
+      "turnover": 32967.2878698904
+    },
+    "BNBUSDT": {
+      "gross_pnl": -1337.4871994641085,
+      "mean_abs_exposure": 3571.3756966690926,
+      "turnover": 49283.43428429499
+    },
+    "BTCUSDT": {
+      "gross_pnl": -2421.090656000767,
+      "mean_abs_exposure": 3406.104545503035,
+      "turnover": 89782.72446399294
+    },
+    "ETHUSDT": {
+      "gross_pnl": 3315.8598427003462,
+      "mean_abs_exposure": 1911.3985295673456,
+      "turnover": 49573.26673117928
+    }
+  },
+  "classification": "REJECT",
+  "oos_consumed": true,
+  "success_gate_candidate": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 69,
+    "new_parameter_trials": 1,
+    "cumulative_parameter_trials": 70
+  },
+  "conclusion": "REJECT. The externally frozen post-freeze strategy lost money and had negative Sharpe under canonical, carry-stressed, 2x-cost, and fixed-cost scenarios."
+}

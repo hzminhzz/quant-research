@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-illiquid-momentum-interaction-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Cross-sectional interactions in cryptocurrency returns",
+    "authors": ["Aleksander Mercik","Barbara Będowska-Sójka","Sitara Karim","Adam Zaremba"],
+    "publication": "International Review of Financial Analysis 97 (2025) 103809",
+    "doi": "10.1016/j.irfa.2024.103809",
+    "url": "https://doi.org/10.1016/j.irfa.2024.103809"
+  },
+  "hypothesis": "Cross-sectional momentum is stronger among relatively less-liquid but still tradable cryptocurrencies because limits to arbitrage slow correction of past-return signals.",
+  "research_archetype": "cross_sectional_interaction_factor",
+  "strategy_family": "liquidity_momentum_interaction",
+  "universe": "At each Monday 00:00 UTC, require exact prior daily history and rank eligible Binance USD-M USDT perpetuals by lagged trailing-30-day quote volume. Retain the top 100 for tradability, then define the relatively illiquid half as ranks 51-100. No future listing or return information enters eligibility.",
+  "feature": "Lagged close-to-close momentum over W completed UTC days, ranked only within the relatively illiquid half of the top-100 liquidity universe.",
+  "momentum_windows_days": [14,30,60],
+  "canonical_window_days": 30,
+  "portfolio": "Equal-weight market-neutral long top momentum quintile and short bottom momentum quintile within the relatively illiquid half, 0.5 gross each side.",
+  "execution": "All feature and liquidity inputs end Sunday; rebalance Monday open and hold to next Monday open.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical rank IC >0.02 with HAC p<0.05, positive winner-minus-loser spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 momentum windows positive after costs.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive at 2x costs; at least 2/3 windows positive; 2024 and 2025 each non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 115,
+  "notes": "This is a single pre-specified interaction, not a sweep across the paper's 40 characteristics. The top-100 then lower-half rule is fixed ex ante to balance limits-to-arbitrage exposure against tradability."
+}

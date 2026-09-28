@@ -67,7 +67,7 @@ def run(h,dstate,start,end,cost,delay=0):
    "max_drawdown":float(dd.min()),"n_days":len(a),"n_hours":len(rr)},"by_year":by}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--root",type=Path,required=True);a=ap.parse_args();h,d=load(a.root)
+ ap=argparse.ArgumentParser();ap.add_argument("--anchor",type=Path,required=True);a=ap.parse_args();root=a.anchor.parents[3]/".data"/"store"/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP";h,d=load(root)
  dev=run(h,d,DEV0,DEV1,COST);b=dev["metrics"];gate=b["annualized_sharpe"]>.7 and b["total_return"]>0 and b["max_drawdown"]>-.30
  out={"schema_version":1,"run_id":"20260928-btc-d1h1-macd-trailing","development":dev,"development_gate_passed":gate,"oos_consumed":False,
       "trial_accounting":{"previous_parameter_trials":63,"new_parameter_trials":1,"cumulative_parameter_trials":64}}

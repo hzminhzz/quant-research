@@ -1,0 +1,58 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-donchian-trend-breakout-6h",
+  "status":"PRE_REGISTERED",
+  "sources":[
+    {
+      "type":"peer_reviewed",
+      "title":"The profitability of technical trading rules in the Bitcoin market",
+      "authors":"Dirk F. Gerritsen; Elie Bouri; E. Ramezanifar; D. Roubaud",
+      "year":2020,
+      "doi":"10.1016/j.frl.2019.08.011",
+      "url":"https://doi.org/10.1016/j.frl.2019.08.011",
+      "relevance":"Finds trading-range breakout among the strongest trend-following rules in Bitcoin."
+    },
+    {
+      "type":"working_paper",
+      "title":"Systematic Trend-Following with Adaptive Portfolio Construction: Enhancing Risk-Adjusted Alpha in Cryptocurrency Markets",
+      "authors":"Duc Bui; Thanh Nguyen",
+      "year":2026,
+      "url":"https://arxiv.org/abs/2602.11708",
+      "relevance":"Motivates 6-hour crypto trend decisions, volatility scaling, and asymmetric long-short allocation."
+    }
+  ],
+  "hypothesis":"A causal trading-range breakout state, rebalanced every six hours and inverse-volatility scaled across liquid Binance perpetuals, earns positive net returns because crypto trends persist after range expansion.",
+  "mechanism":"Slow information diffusion and positive-feedback positioning create persistent price trends after prices escape a multi-day trading range; volatility scaling reduces domination by the most volatile coins.",
+  "research_archetype":"time_series_rule",
+  "strategy_family":"donchian_trading_range_breakout",
+  "channel_windows_hours":[168,336,720],
+  "canonical_channel_hours":336,
+  "volatility_window_hours":720,
+  "liquidity_window_hours":720,
+  "universe":"Point-in-time assets with exact hourly history and top 80 percent by lagged trailing 30-day close*volume; minimum 8 assets.",
+  "signal":"At execution time t, use prior close t-1. Enter/retain long state if prior close exceeds the maximum high of the preceding channel excluding t-1; enter/retain short state if prior close is below the analogous prior low. State persists until the opposite breakout.",
+  "rebalance":"Every 6 hours at current open using only completed prior-hour information.",
+  "construction":"Inverse-volatility weights. Long side gross target 0.70, short side gross target 0.30 when each side is present; no reallocation of a missing side.",
+  "development":"2021-01-01/2023-12-31",
+  "oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical base-cost net Sharpe > 0.70, canonical net total return > 0, and at least 2 of 3 preregistered channel windows have positive net development return.",
+  "base_cost_bps_one_way":3.0,
+  "cost_multipliers":[1,2,3],
+  "planned_parameter_trials":3,
+  "robustness_checks":[
+    "7-day and 30-day channel neighbors around canonical 14-day",
+    "2024 and 2025 each non-negative",
+    "exclude BTC and ETH",
+    "remove strongest OOS contributor",
+    "one-hour delayed execution",
+    "2x and 3x transaction costs"
+  ],
+  "success_thresholds":{
+    "net_oos_sharpe":1.0,
+    "dsr_probability":0.95,
+    "positive_neighbor_count_min":2,
+    "both_oos_years_non_negative":true
+  },
+  "price_data_sha256":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "funding_treatment":"Historical funding rates are unavailable in this panel. The result cannot be promoted beyond exploratory unless funding sensitivity is bounded separately; transaction cost sensitivity is still mandatory."
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-crash-risk-duvol-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Crash Risk and the Cross-Section of Cryptocurrency Returns",
+    "authors": ["Mehak Younus", "Muhammad Abubakr Naeem"],
+    "year": 2024,
+    "doi": "10.2139/ssrn.4823589",
+    "url": "https://doi.org/10.2139/ssrn.4823589"
+  },
+  "hypothesis": "Cryptocurrencies with higher lagged down-to-up volatility (DUVOL), a crash-risk proxy, earn lower subsequent returns; a weekly long-low-crash-risk / short-high-crash-risk portfolio should earn positive net returns.",
+  "research_archetype": "cross_sectional_crash_risk_factor",
+  "strategy_family": "down_to_up_volatility_crash_risk",
+  "universe": "Frozen ex-ante Binance USD-M USDT perpetuals listed by 2021-12-31, including later-delisted contracts where data exist. Each Monday retain top 50 by lagged trailing-30-day quote volume.",
+  "feature": "For each asset and Monday, use the prior W completed daily close-to-close returns. Center by their window mean, split centered returns into down/up observations, compute log(sd_down/sd_up); signal is negative DUVOL so larger signal means lower crash risk.",
+  "estimation_windows_days": [30, 60, 90],
+  "canonical_window_days": 60,
+  "portfolio": "Equal-weight market-neutral long highest -DUVOL quintile / short lowest -DUVOL quintile, 0.5 gross each side.",
+  "execution": "All feature/liquidity data end Sunday; rebalance Monday 00:00 UTC open and hold to next Monday open.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1, 2, 3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC of -DUVOL >0.02 with HAC p<0.05, positive high-minus-low signal spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 windows positive after costs.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive at 2x costs; at least 2/3 windows positive; 2024 and 2025 non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 124,
+  "source_deviation": "The source studies NCSKEW and DUVOL as crash-risk measures. This preregistration isolates DUVOL and uses rolling windows suitable for weekly trading with hourly-derived daily Binance perpetual data."
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-own-history-momentum-30d",
+  "data_integrity": {
+    "rows": 866868,
+    "symbols": 19,
+    "start": "2020-01-01T00:00:00+00:00",
+    "end": "2025-12-31T23:00:00+00:00",
+    "duplicate_pairs": 0,
+    "ohlc_failures": 0,
+    "non_hourly_symbol_gaps": 2
+  },
+  "development": {
+    "336": {
+      "net_sharpe": 0.4913345589028469,
+      "total_return": 0.28941585624585975,
+      "max_drawdown": -0.2622845245002111
+    },
+    "720": {
+      "net_sharpe": 0.44904810661032174,
+      "total_return": 0.265506580090207,
+      "max_drawdown": -0.4079163715986417
+    },
+    "1440": {
+      "net_sharpe": -0.4427298420280119,
+      "total_return": -0.29721200367692757,
+      "max_drawdown": -0.4947895046953057
+    }
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 45,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 48
+  },
+  "classification": "REJECT",
+  "conclusion": "Development gate failed; OOS not consumed."
+}

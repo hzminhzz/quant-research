@@ -1,0 +1,31 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-simple-anomaly-blend-longonly",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Machine learning and the cross-section of cryptocurrency returns",
+    "authors":["Nusret Cakici","Syed Jawad Hussain Shahzad","Barbara Będowska-Sójka","Adam Zaremba"],
+    "publication":"International Review of Financial Analysis 94 (2024) 103244",
+    "doi":"10.1016/j.irfa.2024.103244",
+    "url":"https://doi.org/10.1016/j.irfa.2024.103244"
+  },
+  "hypothesis":"A transparent blend of simple OHLCV-compatible predictors highlighted by the source—momentum, past market-adjusted alpha, and illiquidity—identifies a long-only top quintile of liquid perpetuals with persistent weekly net alpha. The long-only construction follows the paper's finding that crypto anomaly profits are concentrated in the long leg.",
+  "research_archetype":"cross_sectional_multifactor_rank",
+  "strategy_family":"simple_anomaly_blend_longonly",
+  "feature_families":["momentum","past_alpha","illiquidity"],
+  "feature_definition":"At each Monday open and for W prior completed UTC days: momentum=prior cumulative return; past_alpha_proxy=asset cumulative return minus contemporaneous equal-weight crypto-market cumulative return; illiquidity=mean(abs(daily return)/quote_volume). Within the eligible cross-section rank each feature to [0,1] and average the three ranks.",
+  "lookback_days":[14,30,60],
+  "canonical_lookback_days":30,
+  "universe":"Point-in-time Binance USD-M USDT perpetuals with complete daily OHLCV. Each Monday require exact history and valid features, then retain top 50 by lagged trailing-30-day quote volume. No future membership information is used.",
+  "portfolio":"Long-only equal-weight top signal quintile, 1.0 gross, weekly rebalance.",
+  "execution":"All feature inputs end Sunday. Enter at Monday 00:00 UTC open and hold to next Monday open. No same-bar close fill.",
+  "base_cost_bps_one_way":10,
+  "cost_multipliers":[1,2,3],
+  "development":"2022-01-01/2023-12-31",
+  "exploratory_oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical mean rank IC >0.02 with HAC p<0.05, positive top-minus-bottom spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 lookbacks positive after base costs.",
+  "success_gate":"Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive at 2x costs; at least 2/3 lookbacks positive; 2024 and 2025 each non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; DSR reported.",
+  "planned_parameter_trials":3,
+  "global_previous_trial_count":139,
+  "source_deviation":"The paper fits machine-learning models over a much larger characteristic set and spot-market data. This preregistered adaptation intentionally avoids post-hoc model selection and uses only three source-highlighted predictors constructible causally from the available Binance perpetual OHLCV panel."
+}

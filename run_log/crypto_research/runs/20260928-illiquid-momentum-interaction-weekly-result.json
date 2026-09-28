@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-illiquid-momentum-interaction-weekly",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"liquidity_momentum_interaction",
+  "research_archetype":"cross_sectional_interaction_factor",
+  "universe_symbols":609,
+  "development_diagnostics":{
+    "14":{"n_weeks":104,"mean_ic":-0.06702086172000013,"hac_t":-3.3711591999968857,"hac_p":0.0007485258816376962,"high_minus_low":-0.007774620872215297},
+    "30":{"n_weeks":104,"mean_ic":-0.03066049375331671,"hac_t":-1.7380275711407256,"hac_p":0.08220595574891142,"high_minus_low":-0.0029585433462156144},
+    "60":{"n_weeks":104,"mean_ic":-0.01668937593759427,"hac_t":-0.7616565240038475,"hac_p":0.44626502973440096,"high_minus_low":-0.00451021623907864}
+  },
+  "development":{
+    "14":{"annualized_sharpe":-1.5042711875595551,"total_return":-0.43950722704627676,"max_drawdown":-0.4929796458988305,"n_weeks":104},
+    "30":{"annualized_sharpe":-0.6896003593807992,"total_return":-0.2599239466783989,"max_drawdown":-0.3760850536735241,"n_weeks":104},
+    "60":{"annualized_sharpe":-0.855789176880931,"total_return":-0.3043271053923423,"max_drawdown":-0.4107433027833538,"n_weeks":104}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":115,"new_parameter_trials":3,"cumulative_parameter_trials":118},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"Momentum inside the relatively illiquid half of the top-100 liquidity universe had the opposite sign from the preregistered hypothesis. The canonical 30-day signal had negative rank IC and negative net Sharpe.",
+  "conclusion":"REJECT. Development gate failed; OOS not consumed."
+}

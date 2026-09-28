@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-idiosyncratic-skewness-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Skewness risk and the cross-section of cryptocurrency returns",
+    "authors": ["Yakun Liu", "Yan Chen"],
+    "publication": "International Review of Financial Analysis 96 (2024)",
+    "doi": "10.1016/j.irfa.2024.103626",
+    "url": "https://doi.org/10.1016/j.irfa.2024.103626"
+  },
+  "hypothesis": "The negative crypto asymmetry-risk premium is primarily idiosyncratic: assets with lower lagged market-residual skewness earn higher subsequent weekly returns.",
+  "research_archetype": "cross_sectional_residual_risk_factor",
+  "strategy_family": "idiosyncratic_skewness_risk",
+  "universe": "Point-in-time Binance USD-M USDT perpetuals. Each Monday retain the top 50 contracts by lagged trailing-30-day quote volume among assets with exact daily history and a valid residual-skewness estimate.",
+  "feature": "For each asset and each Monday, estimate trailing-window beta to the contemporaneous equal-weight crypto market return using only prior completed UTC days. Compute residual returns r_i-beta*r_mkt and signal as negative skewness of those residuals.",
+  "estimation_windows_days": [14, 30, 60],
+  "canonical_window_days": 30,
+  "signal_direction": "Higher signal means lower idiosyncratic skewness; long highest-signal quintile and short lowest-signal quintile.",
+  "portfolio": "Equal-weight market-neutral long/short, 0.5 gross per side.",
+  "execution": "All feature and liquidity inputs end Sunday; rebalance Monday 00:00 UTC open and hold to next Monday open.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >0.02 with HAC p<0.05, positive high-signal-minus-low-signal spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 windows positive after costs.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive total return at 2x costs; at least 2/3 windows positive; 2024 and 2025 each non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 112,
+  "source_deviation": "The paper documents idiosyncratic asymmetry risk. This implementation uses a causal single-market-factor residual rather than a richer latent-factor model to keep the hypothesis simple, point-in-time, and reproducible."
+}

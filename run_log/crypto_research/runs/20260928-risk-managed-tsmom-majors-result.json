@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-risk-managed-tsmom-majors",
+  "development": {
+    "metrics": {
+      "annualized_sharpe": 2.071789631522255,
+      "total_return": 20.709443065884848,
+      "max_drawdown": -0.33457192159188043,
+      "n_days": 1095,
+      "mean_gross_exposure": 0.32700587084148725
+    },
+    "by_year": {
+      "2021": {
+        "total_return": 16.14836944814756,
+        "sharpe": 3.4476301124198203
+      },
+      "2022": {
+        "total_return": -0.08424271390362581,
+        "sharpe": -0.5434754337897659
+      },
+      "2023": {
+        "total_return": 0.38243737907544606,
+        "sharpe": 1.8818752588959986
+      }
+    }
+  },
+  "development_gate_passed": true,
+  "oos_consumed": true,
+  "trial_accounting": {
+    "previous_parameter_trials": 62,
+    "new_parameter_trials": 1,
+    "cumulative_parameter_trials": 63
+  },
+  "oos_results": {
+    "12.5": {
+      "metrics": {
+        "annualized_sharpe": 0.6714494703034422,
+        "total_return": 0.37133652316502697,
+        "max_drawdown": -0.32888327276681484,
+        "n_days": 731,
+        "mean_gross_exposure": 0.33789329685362507
+      },
+      "by_year": {
+        "2024": {
+          "total_return": 0.5899256197026572,
+          "sharpe": 1.5812597218996314
+        },
+        "2025": {
+          "total_return": -0.13748385070901026,
+          "sharpe": -0.3910821379654587
+        }
+      }
+    },
+    "25.0": {
+      "metrics": {
+        "annualized_sharpe": 0.5800008443091398,
+        "total_return": 0.29725506850732897,
+        "max_drawdown": -0.33759926760115433,
+        "n_days": 731,
+        "mean_gross_exposure": 0.33789329685362507
+      },
+      "by_year": {
+        "2024": {
+          "total_return": 0.5449551401782367,
+          "sharpe": 1.493679039977126
+        },
+        "2025": {
+          "total_return": -0.16032832619485082,
+          "sharpe": -0.4870348619398376
+        }
+      }
+    },
+    "50.0": {
+      "metrics": {
+        "annualized_sharpe": 0.3970627889180392,
+        "total_return": 0.16082402907323345,
+        "max_drawdown": -0.3547000104731385,
+        "n_days": 731,
+        "mean_gross_exposure": 0.33789329685362507
+      },
+      "by_year": {
+        "2024": {
+          "total_return": 0.4587588656685253,
+          "sharpe": 1.3181644186422021
+        },
+        "2025": {
+          "total_return": -0.20423857815510504,
+          "sharpe": -0.6784562011343138
+        }
+      }
+    }
+  },
+  "delay_one_day": {
+    "metrics": {
+      "annualized_sharpe": 0.8106931952676661,
+      "total_return": 0.5029429311531934,
+      "max_drawdown": -0.316606072321893,
+      "n_days": 731,
+      "mean_gross_exposure": 0.3385772913816689
+    },
+    "by_year": {
+      "2024": {
+        "total_return": 0.6758344667313316,
+        "sharpe": 1.713508438674651
+      },
+      "2025": {
+        "total_return": -0.10316743032225417,
+        "sharpe": -0.23589538020280096
+      }
+    }
+  },
+  "multiple_testing": {
+    "global_63_trial_proxy": {
+      "n_trials": 63,
+      "observed_sharpe": 0.6714494703034422,
+      "haircut_sharpe": 0.47309996089238116,
+      "expected_max_null": 0.19834950941106097,
+      "dsr_probability": 0.7895495329510467
+    }
+  },
+  "success_gate_candidate": false,
+  "classification": "REJECT"
+}

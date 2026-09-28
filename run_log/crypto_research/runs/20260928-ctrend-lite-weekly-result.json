@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-ctrend-lite-weekly",
+  "universe_symbols": 609,
+  "development_ic": {
+    "n_weeks": 104,
+    "mean_ic": -0.042741072992157965,
+    "ic_ir": -0.20343595810519954,
+    "mean_top_minus_bottom": -0.0022703614792920447
+  },
+  "development": {
+    "metrics": {
+      "annualized_sharpe": -0.5618676522959786,
+      "total_return": -0.25722410300063325,
+      "max_drawdown": -0.31291672124715153,
+      "n_weeks": 104,
+      "mean_gross_leverage": 1,
+      "turnover": 123.16666666666666
+    },
+    "by_year": {
+      "2022": {
+        "total_return": -0.1504166992886944,
+        "sharpe": -0.5756143268628412
+      },
+      "2023": {
+        "total_return": -0.12571740007426657,
+        "sharpe": -0.5427892988376971
+      }
+    }
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 70,
+    "new_parameter_trials": 1,
+    "cumulative_parameter_trials": 71
+  },
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "conclusion": "Development gate failed; OOS not consumed."
+}

@@ -45,9 +45,10 @@ def feature_frame(daily,volw):
        pl.col("date").shift(max(LIQ,volw)+1).over("symbol").alias("_anchor")))
     mondays=(x.filter((pl.col("date").dt.weekday()==1)&(pl.col("hours")==24)&pl.col("_liq").is_finite()&pl.col("_vol").is_finite())
              .filter(pl.len().over("date")>=12)
+             .with_columns(pl.len().over("date").alias("_n_xs"))
              .with_columns(
-               pl.col("_liq").rank(method="average",pct=True).over("date").alias("_liq_pct"),
-               pl.col("_vol").rank(method="average",pct=True).over("date").alias("_vol_pct")))
+               (pl.col("_liq").rank(method="average").over("date") / pl.col("_n_xs")).alias("_liq_pct"),
+               (pl.col("_vol").rank(method="average").over("date") / pl.col("_n_xs")).alias("_vol_pct")))
     return mondays.sort(["date","symbol"])
 
 def week_return_map(daily):
@@ -100,8 +101,9 @@ def simulate(tg,wr,start,end,costbps):
             "by_year":by,"asset_contribution":contrib}
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--root",type=Path,required=True); a=ap.parse_args()
-    syms=symbols_from_manifest(a.root); daily=load_daily(a.root,syms); wr=week_return_map(daily)
+    ap=argparse.ArgumentParser(); ap.add_argument("--anchor",type=Path,required=True); a=ap.parse_args()
+    root=a.anchor.parents[3]/".data"/"store"/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+    syms=symbols_from_manifest(root); daily=load_daily(root,syms); wr=week_return_map(daily)
     frames={v:feature_frame(daily,v) for v in VOLS}
     dev={v:simulate(targets(frames[v],DEV0,DEV1),wr,DEV0,DEV1,COST) for v in VOLS}
     ds={v:dev[v]["metrics"]["annualized_sharpe"] for v in VOLS}; dr={v:dev[v]["metrics"]["total_return"] for v in VOLS}

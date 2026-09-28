@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-salience-theory-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Salience theory and cryptocurrency returns",
+    "authors": ["Charlie X. Cai", "Ran Zhao"],
+    "publication": "Journal of Banking & Finance 159 (2024) 107052",
+    "doi": "10.1016/j.jbankfin.2023.107052",
+    "url": "https://doi.org/10.1016/j.jbankfin.2023.107052"
+  },
+  "hypothesis": "Cryptocurrencies whose recent salient states emphasize downside payoffs (negative salience-theory measure) earn higher subsequent returns than assets whose salient states emphasize upside payoffs.",
+  "research_archetype": "cross_sectional_behavioral_factor",
+  "strategy_family": "salience_theory",
+  "universe": "Point-in-time Binance USD-M USDT perpetuals. Each Monday retain the top 50 contracts by lagged trailing-30-day quote volume among assets with exact daily history for the estimation window; no return-based asset selection.",
+  "feature": "For each prior completed UTC day s, sigma=|r_i,s-rbar_s|/(|r_i,s|+|rbar_s|+theta), theta=0.1. Rank states within each asset-window by sigma descending; decision weight is proportional to delta^rank with delta=0.7. ST is salience-weighted mean return minus equal-weighted mean return. Trading signal is -ST.",
+  "estimation_windows_days": [5, 7, 14],
+  "canonical_window_days": 7,
+  "theta": 0.1,
+  "delta": 0.7,
+  "signal_direction": "Long highest -ST quintile (most downside-salient), short lowest -ST quintile (most upside-salient).",
+  "portfolio": "Equal-weight market-neutral long/short, 0.5 gross per side.",
+  "execution": "Compute Monday 00:00 UTC using completed daily returns through Sunday. Enter Monday open and exit next Monday open. Preregistered delayed robustness enters Tuesday open and exits the following Tuesday open.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1, 2, 3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >0.02 with HAC p<0.05, positive high-signal-minus-low-signal weekly spread, canonical net Sharpe >0.70 and total return >0, and at least 2/3 windows positive after base costs.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; OOS rank IC >0.02; positive total return at 2x costs; at least 2/3 windows positive; 2024 and 2025 non-negative; max drawdown <35%; exclude BTC/ETH positive; exclude strongest contributor positive; one-day delayed implementation positive; DSR reported.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 103,
+  "source_deviation": "The paper screens on market capitalization; market cap is unavailable in the futures OHLCV panel, so this preregistration uses only lagged trailing quote-volume eligibility. Cross-sectional market return rbar_s is computed from contracts actually present with a valid return on day s."
+}

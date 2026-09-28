@@ -1,0 +1,24 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-residual-momentum-14d",
+  "classification":"REJECT",
+  "strategy_family":"residual_momentum",
+  "research_archetype":"cross_sectional_relative_value",
+  "runner_sha256":"9f6c14ace3645a630cfeed536c83eddb2067e7eaa17ec12a48a6d768947e771e",
+  "data_fingerprint":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "sources":[
+    "https://doi.org/10.1016/j.irfa.2024.103244",
+    "https://github.com/FionaNi-DS/crypto-residual-momentum"
+  ],
+  "development_diagnostics":{
+    "168h":{"mean_ic":0.0018021826370433452,"hac_p":0.9448783728015625,"top_minus_bottom":0.010862220100582175},
+    "336h":{"mean_ic":-0.007568460701461653,"hac_p":0.7214548331101628,"top_minus_bottom":0.007184541119309277},
+    "720h":{"mean_ic":-0.004053067675428681,"hac_p":0.8691405715141329,"top_minus_bottom":0.0066636736309145}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":24,"new_parameter_trials":3,"cumulative_parameter_trials":27},
+  "dsr_probability":null,
+  "pbo":"N/A: development gate failed before OOS.",
+  "conclusion":"REJECT. Residual-momentum spread was positive but the preregistered IC significance gate failed decisively; OOS remained sealed for this candidate."
+}

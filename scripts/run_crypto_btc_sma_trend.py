@@ -47,8 +47,9 @@ def run(d,f,window,start,end,cost):
      "total_return":float(eq[-1]-1),"max_drawdown":float(dd.min()),"n_days":len(a),"funding_component":float(funding_total)},"by_year":by}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--price-root",type=Path,required=True);ap.add_argument("--funding-store",type=Path,required=True);a=ap.parse_args()
- d,f=load(a.price_root,a.funding_store)
+ ap=argparse.ArgumentParser();ap.add_argument("--anchor",type=Path,required=True);a=ap.parse_args()
+ store=a.anchor.parents[3]/".data"/"store";price_root=store/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+ d,f=load(price_root,store)
  dev={w:run(d,f,w,DEV0,DEV1,COST) for w in W};ds={w:dev[w]["metrics"]["annualized_sharpe"] for w in W};dr={w:dev[w]["metrics"]["total_return"] for w in W}
  gate=ds[CAN]>.70 and dr[CAN]>0 and sum(v>0 for v in dr.values())>=2
  out={"schema_version":1,"run_id":"20260928-btc-sma-trend-longonly","development":{str(w):dev[w] for w in W},"development_gate_passed":gate,"oos_consumed":False,

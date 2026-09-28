@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-crash-risk-duvol-weekly",
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "strategy_family": "down_to_up_volatility_crash_risk",
+  "research_archetype": "cross_sectional_crash_risk_factor",
+  "universe_symbols": 139,
+  "development_diagnostics": {
+    "30": {"n_weeks":104,"mean_ic":-0.05702368749350577,"ic_ir":-0.35441210185143296,"hac_t":-4.283641009171949,"hac_p":0.000018385948274275666,"high_minus_low_signal":-0.006784723537622834},
+    "60": {"n_weeks":104,"mean_ic":-0.08648999459839843,"ic_ir":-0.5346037277417626,"hac_t":-7.122553449986693,"hac_p":1.0594564601620632e-12,"high_minus_low_signal":-0.007735712329546727},
+    "90": {"n_weeks":104,"mean_ic":-0.07610443900516337,"ic_ir":-0.43458665867800783,"hac_t":-5.231235732082078,"hac_p":1.6838062129592145e-7,"high_minus_low_signal":-0.0072883617135597045}
+  },
+  "development": {
+    "30": {"annualized_sharpe":-1.0174328028292545,"total_return":-0.38233493045694444,"max_drawdown":-0.4609978155194897,"n_weeks":104,"turnover":82.5},
+    "60": {"annualized_sharpe":-1.1479786265705691,"total_return":-0.39207104099066337,"max_drawdown":-0.4400623979866417,"n_weeks":104,"turnover":55.1},
+    "90": {"annualized_sharpe":-1.0930245664902705,"total_return":-0.3718510599254907,"max_drawdown":-0.4325235727969623,"n_weeks":104,"turnover":47.3}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {"previous_parameter_trials":124,"new_parameter_trials":3,"cumulative_parameter_trials":127},
+  "multiple_testing": {"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "conclusion": "REJECT. -DUVOL had a highly significant relationship in the opposite direction from the preregistered crash-risk hypothesis and all three portfolios lost money after costs. OOS remained sealed."
+}

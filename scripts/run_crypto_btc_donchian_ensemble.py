@@ -74,8 +74,9 @@ def run(d,f,start,end,cost,delay=0):
       "max_drawdown":float(dd.min()),"n_days":len(a),"mean_exposure":float(np.mean([p for _,_,p in rr]))},"by_year":by}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--price-root",type=Path,required=True);ap.add_argument("--funding-store",type=Path,required=True);a=ap.parse_args()
- d,f=load(a.price_root,a.funding_store);dev=run(d,f,DEV0,DEV1,COST);gate=dev["metrics"]["annualized_sharpe"]>.70 and dev["metrics"]["total_return"]>0
+ ap=argparse.ArgumentParser();ap.add_argument("--anchor",type=Path,required=True);a=ap.parse_args()
+ store=a.anchor.parents[3]/".data"/"store";price_root=store/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+ d,f=load(price_root,store);dev=run(d,f,DEV0,DEV1,COST);gate=dev["metrics"]["annualized_sharpe"]>.70 and dev["metrics"]["total_return"]>0
  out={"schema_version":1,"run_id":"20260928-btc-donchian-ensemble","development":dev,"development_gate_passed":gate,"oos_consumed":False,
       "trial_accounting":{"previous_parameter_trials":60,"new_parameter_trials":1,"cumulative_parameter_trials":61}}
  if not gate:out.update(classification="REJECT",conclusion="Development gate failed; OOS not consumed.");print(json.dumps(out,indent=2,default=str));return

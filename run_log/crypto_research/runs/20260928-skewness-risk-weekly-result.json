@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-skewness-risk-weekly",
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "strategy_family": "skewness_risk",
+  "research_archetype": "cross_sectional_higher_moment_factor",
+  "universe_symbols": 609,
+  "development_diagnostics": {
+    "14": {"n_weeks":104,"mean_ic":0.06518889677399023,"ic_ir":0.4212887778322878,"hac_t":5.4757810188504425,"hac_p":4.355860865163048e-08,"low_minus_high_skew":0.007885589372908581},
+    "30": {"n_weeks":104,"mean_ic":0.07765814089975089,"ic_ir":0.4984827635717341,"hac_t":5.786186440220318,"hac_p":7.200229753209958e-09,"low_minus_high_skew":0.006441296224173735},
+    "60": {"n_weeks":104,"mean_ic":0.08790331856459663,"ic_ir":0.5132411709127764,"hac_t":6.62176875644462,"hac_p":3.549259939129524e-11,"low_minus_high_skew":0.010539681312723984}
+  },
+  "development": {
+    "14": {"annualized_sharpe":0.6779374870266148,"total_return":0.27189457115027316,"max_drawdown":-0.12903304715723096,"n_weeks":104,"turnover":126.4},
+    "30": {"annualized_sharpe":0.6794740390781235,"total_return":0.24146164807313042,"max_drawdown":-0.1383963706128567,"n_weeks":104,"turnover":84.7},
+    "60": {"annualized_sharpe":1.4623065466720675,"total_return":0.5862742700000927,"max_drawdown":-0.1243442975432173,"n_weeks":104,"turnover":57.6}
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {"previous_parameter_trials":90,"new_parameter_trials":3,"cumulative_parameter_trials":93},
+  "multiple_testing": {"dsr_probability":null,"pbo":"N/A: OOS not consumed because the preregistered canonical development gate failed."},
+  "failure_analysis": "The mechanism showed strong and highly significant rank IC across all three windows, but the preregistered canonical 30-day net development Sharpe was 0.6795, below the fixed >0.70 gate. The 60-day neighbor reached 1.4623, but promoting it after seeing the surface would be post-hoc parameter selection, so it is retained only as exploratory evidence and OOS remains sealed.",
+  "conclusion": "REJECT. Development gate failed; OOS not consumed."
+}

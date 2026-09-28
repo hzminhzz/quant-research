@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-paper-ema-tsmom-eight-majors",
+  "classification": "REJECT",
+  "success_gate_candidate": false,
+  "symbols": ["BTCUSDT","ETHUSDT","LTCUSDT","XRPUSDT","BNBUSDT","ADAUSDT","DOGEUSDT","SOLUSDT"],
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "development": {
+    "0.5": {"annualized_sharpe":-0.16133216168254347,"total_return":-0.3883831043760718,"max_drawdown":-0.628134850563109,"n_days":725,"turnover":6.654781784762685,"avg_gross_exposure":0.9688644731072371},
+    "1.0": {"annualized_sharpe":-0.10219744966363227,"total_return":-0.3469444155780269,"max_drawdown":-0.6018671832261522,"n_days":725,"turnover":7.1224338481665015,"avg_gross_exposure":0.9752404707370145,"by_year":{"2022":{"total_return":0.19682219215163244,"sharpe":0.6142129267793505},"2023":{"total_return":-0.454342016128629,"sharpe":-2.136412018557443}},
+      "asset_contribution":{"BTCUSDT":0.07441318933773629,"ETHUSDT":-0.0036620298170223324,"LTCUSDT":-0.03931855241063877,"XRPUSDT":-0.028375177145136085,"BNBUSDT":-0.09703219897076665,"ADAUSDT":0.006810466767462079,"DOGEUSDT":-0.023296697037584864,"SOLUSDT":0.0033897191634573026}},
+    "2.0": {"annualized_sharpe":-0.1286709237371188,"total_return":-0.3669721429082494,"max_drawdown":-0.612298512226491,"n_days":725,"turnover":7.750129666347213,"avg_gross_exposure":0.9822001563274612}
+  },
+  "trial_accounting": {"previous_parameter_trials":77,"new_parameter_trials":3,"cumulative_parameter_trials":80},
+  "multiple_testing": null,
+  "data_manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+  "runner_sha256": "6ebd888f7fc22f4136ba7d390d4562e3cb24fb0a84c82af123fc3a14cd407894",
+  "conclusion": "All three preregistered alpha variants lost money in 2022-2023 after turnover costs. The canonical alpha=1 Sharpe was -0.102. OOS was not consumed."
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-past-alpha-30d-weekly",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Machine learning and the cross-section of cryptocurrency returns",
+    "authors":"Nusret Cakici; Syed Jawad Hussain Shahzad; Barbara Bedowska-Sojka; Adam Zaremba",
+    "journal":"International Review of Financial Analysis",
+    "year":2024,
+    "doi":"10.1016/j.irfa.2024.103244",
+    "url":"https://doi.org/10.1016/j.irfa.2024.103244"
+  },
+  "hypothesis":"Coins with higher recent market-adjusted alpha continue to outperform coins with lower recent alpha over the following week.",
+  "mechanism":"The source identifies past alpha among the most important simple predictors in the crypto cross-section and reports persistent abnormal returns with limited benefit from complex models.",
+  "research_archetype":"cross_sectional_relative_value",
+  "strategy_family":"past_market_alpha",
+  "estimation_windows_hours":[168,720,1440],
+  "canonical_window_hours":720,
+  "market_factor":"Equal-weight hourly log return across contemporaneously available panel assets.",
+  "signal":"Rolling market-model intercept alpha = mean(asset return) - beta*mean(market return), with beta=cov/var, using returns only through the prior completed hour.",
+  "universe":"Point-in-time assets with exact hourly history and top 80 percent by lagged trailing 30-day close*volume; minimum 8 assets.",
+  "rebalance":"Weekly Monday 00:00 UTC; execute at current open.",
+  "construction":"Equal-weight long top-alpha quartile / short bottom-alpha quartile, 0.5 gross per side.",
+  "development":"2021-01-01/2023-12-31",
+  "oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical mean rank IC >= 0.02, HAC p < 0.05, positive top-minus-bottom subsequent-week return, at least 100 weekly observations.",
+  "base_cost_bps_one_way":3.0,
+  "cost_multipliers":[1,2,3],
+  "planned_parameter_trials":3,
+  "robustness_checks":[
+    "7-day and 60-day alpha-estimation neighbors",
+    "2024 and 2025 each non-negative",
+    "exclude BTC and ETH",
+    "remove strongest OOS contributor",
+    "one-hour delayed execution",
+    "2x and 3x transaction costs"
+  ],
+  "success_thresholds":{"net_oos_sharpe":1.0,"dsr_probability":0.95,"positive_neighbor_count_min":2,"both_oos_years_non_negative":true},
+  "price_data_sha256":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations":"Equal-weight market return substitutes for a point-in-time capitalization-weighted crypto market factor; the prepared panel contains 19 liquid perps and funding is not present."
+}

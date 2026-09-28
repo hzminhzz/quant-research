@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-intraday-max-lottery-daily",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"intraday_max_effect",
+  "research_archetype":"cross_sectional_intraday_lottery_factor",
+  "universe_symbols":139,
+  "development_diagnostics":{
+    "12":{"n_days":730,"mean_ic":0.0803905042948408,"ic_ir":0.35763421464604256,"hac_t":11.268092255481704,"hac_p":1.8861227197864337e-29,"high_minus_low_signal":0.0012967804723399894},
+    "24":{"n_days":730,"mean_ic":0.09529625368336321,"ic_ir":0.41614024305491604,"hac_t":12.42667376418045,"hac_p":1.8726547805861322e-35,"high_minus_low_signal":0.001478335782995591},
+    "48":{"n_days":730,"mean_ic":0.1037253580876988,"ic_ir":0.46287270460742874,"hac_t":12.910454597191407,"hac_p":3.929741768451456e-38,"high_minus_low_signal":0.0023920491075174384}
+  },
+  "development":{
+    "12":{"annualized_sharpe":-0.747611124008184,"total_return":-0.38969663245611785,"max_drawdown":-0.5556365218687774,"n_days":730,"turnover":895.4},
+    "24":{"annualized_sharpe":-0.5154941913894269,"total_return":-0.3056138117056916,"max_drawdown":-0.4886094106298947,"n_days":730,"turnover":836.4},
+    "48":{"annualized_sharpe":0.5529526808594548,"total_return":0.2582112252436468,"max_drawdown":-0.3345148303568872,"n_days":730,"turnover":569.9}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":127,"new_parameter_trials":3,"cumulative_parameter_trials":130},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The lottery signal itself was strong and monotonic, but daily turnover at 10 bps one-way overwhelmed the effect. The canonical 24h signal had 0.0953 rank IC yet -0.515 net Sharpe. The 48h neighbor was positive but remained below the preregistered development threshold and is not eligible for post-hoc promotion.",
+  "conclusion":"REJECT. Strong predictive IC did not translate into tradeable net performance at the preregistered daily implementation; OOS remained sealed."
+}

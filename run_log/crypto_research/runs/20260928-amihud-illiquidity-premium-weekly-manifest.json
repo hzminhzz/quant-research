@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-amihud-illiquidity-premium-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Liquidity risk and expected cryptocurrency returns",
+    "authors": [
+      "Wei Zhang",
+      "Yi Li"
+    ],
+    "doi": "10.1002/ijfe.2431",
+    "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/ijfe.2431"
+  },
+  "hypothesis": "Higher lagged Amihud illiquidity predicts higher subsequent weekly cryptocurrency returns.",
+  "research_archetype": "cross_sectional_factor",
+  "strategy_family": "amihud_illiquidity_premium",
+  "universe": "Each Monday 00:00 UTC, eligible Binance USD-M USDT perpetuals with complete lagged feature history; retain top 100 by lagged trailing-30-day quote volume before illiquidity sorting. No future-survival filter.",
+  "feature": "Mean over prior completed W days of abs(close-to-close daily return) / daily quote volume; W in {14,30,60}, canonical 30d.",
+  "lookback_days": [14, 30, 60],
+  "canonical_lookback_days": 30,
+  "portfolio": "Equal-weight long highest-Amihud quintile and short lowest-Amihud quintile, 0.5 gross each side.",
+  "rebalance": "Weekly Monday 00:00 UTC at current open using data through prior completed UTC day.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1, 2, 3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean weekly rank IC >0.02, positive top-minus-bottom return, canonical net Sharpe >0.70, and at least 2/3 windows positive.",
+  "success_gate": "Canonical OOS net Sharpe >1.0, positive at 2x costs, >=2/3 windows positive, both years non-negative, max drawdown <35%, excluding BTC/ETH and strongest-asset removal positive.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 71,
+  "notes": "Top-100 lagged quote-volume screen is fixed ex ante to avoid relying on economically untradeable micro-contracts."
+}

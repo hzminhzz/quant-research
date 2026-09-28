@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-bull-regime-liquid-momentum-longonly",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"bull_regime_liquid_momentum_longonly",
+  "research_archetype":"regime_conditioned_cross_sectional_momentum",
+  "universe_symbols":139,
+  "development_diagnostics":{
+    "14":{"active_weeks":53,"mean_ic":-0.02658299578147627,"ic_ir":-0.12061485286735273,"hac_t":-0.9034513678436221,"hac_p":0.3662863878622016},
+    "30":{"active_weeks":53,"mean_ic":-0.03842844250425001,"ic_ir":-0.18261639437701246,"hac_t":-1.4066584697065798,"hac_p":0.15952868617949134},
+    "60":{"active_weeks":45,"mean_ic":-0.035323198615745885,"ic_ir":-0.17129478344700794,"hac_t":-1.1781800027792257,"hac_p":0.2387248529964433}
+  },
+  "development":{
+    "14":{"annualized_sharpe":0.258736409736311,"total_return":-0.05525537276532699,"max_drawdown":-0.6211735467348981,"n_weeks":104,"active_weeks":53,"turnover":61.0},
+    "30":{"annualized_sharpe":1.130456180321094,"total_return":1.7261888882310354,"max_drawdown":-0.3525703244567764,"n_weeks":104,"active_weeks":53,"turnover":52.666666666666664},
+    "60":{"annualized_sharpe":0.09780531053438069,"total_return":-0.1978273637683753,"max_drawdown":-0.6350747810516033,"n_weeks":104,"active_weeks":45,"turnover":44.0}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":130,"new_parameter_trials":3,"cumulative_parameter_trials":133},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The canonical 30-day BTC-regime variant had net development Sharpe 1.130, but its active-week cross-sectional rank IC was negative and insignificant, 2022 was negative, two of three preregistered regime neighbors lost money, and max drawdown was slightly worse than the 35% threshold. Promoting the isolated 30-day variant would be post-hoc selection.",
+  "conclusion":"REJECT. A superficially attractive canonical portfolio did not pass the preregistered signal/stability gates; 2024-2025 OOS remained sealed."
+}

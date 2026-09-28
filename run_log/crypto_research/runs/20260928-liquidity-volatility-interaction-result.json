@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-liquidity-volatility-interaction",
+  "classification": "REJECT",
+  "universe_symbols": 139,
+  "daily_rows": 241093,
+  "development_gate_passed": true,
+  "oos_consumed": true,
+  "trial_accounting": {
+    "previous_parameter_trials": 48,
+    "new_parameter_trials": 3,
+    "cumulative_parameter_trials": 51
+  },
+  "success_gate_candidate": false,
+  "multiple_testing": {
+    "family_dsr": {
+      "n_trials": 3,
+      "observed_sharpe": -0.5025812523006894,
+      "haircut_sharpe": -0.7673750889940784,
+      "expected_max_null": 0.26479383669338896,
+      "dsr_probability": 0.09844609155117684
+    }
+  },
+  "development": {
+    "14": {
+      "annualized_sharpe": 1.206240238696402,
+      "total_return": 0.5245739823959508,
+      "max_drawdown": -0.11865920453782619,
+      "n_weeks": 104,
+      "mean_weekly_return": 0.00440380293609549,
+      "turnover": 98.26068025112143
+    },
+    "30": {
+      "annualized_sharpe": 0.8740666269224763,
+      "total_return": 0.5516892853511406,
+      "max_drawdown": -0.20890864819552635,
+      "n_weeks": 101,
+      "mean_weekly_return": 0.0051979700789821694,
+      "turnover": 70.50333929486406
+    },
+    "60": {
+      "annualized_sharpe": 0.4069353812692108,
+      "total_return": 0.14725620051240185,
+      "max_drawdown": -0.25275708501425975,
+      "n_weeks": 104,
+      "mean_weekly_return": 0.0018322539055253193,
+      "turnover": 60.210518248521346
+    }
+  },
+  "oos": {
+    "14": {
+      "annualized_sharpe": -1.250572686205773,
+      "total_return": -0.4758310104899661,
+      "max_drawdown": -0.5571808727628711,
+      "n_weeks": 104,
+      "mean_weekly_return": -0.005661377214867019,
+      "turnover": 88.95036964669318
+    },
+    "30": {
+      "annualized_sharpe": -0.5025812523006894,
+      "total_return": -0.3418277073487904,
+      "max_drawdown": -0.561298116079387,
+      "n_weeks": 102,
+      "mean_weekly_return": -0.0031388427498324828,
+      "turnover": 63.83801182477653
+    },
+    "60": {
+      "annualized_sharpe": -0.9958301269618135,
+      "total_return": -0.4442179675747219,
+      "max_drawdown": -0.4681212414666517,
+      "n_weeks": 105,
+      "mean_weekly_return": -0.0049503504716329845,
+      "turnover": 53.074981962481964
+    }
+  },
+  "oos_2x": {
+    "annualized_sharpe": -0.603742555299409,
+    "total_return": -0.38256668091069457,
+    "max_drawdown": -0.5739753913271162,
+    "n_weeks": 102,
+    "mean_weekly_return": -0.0037647056108597015,
+    "turnover": 63.83801182477653
+  }
+}

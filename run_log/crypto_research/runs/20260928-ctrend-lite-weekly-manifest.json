@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-ctrend-lite-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "A Trend Factor for the Cross Section of Cryptocurrency Returns",
+    "authors": [
+      "Christian Fieberg",
+      "Gerrit Liedtke",
+      "Thorsten Poddig",
+      "Thomas Walker",
+      "Adam Zaremba"
+    ],
+    "publication": "Journal of Financial and Quantitative Analysis 60(7), 2025",
+    "doi": "10.1017/S0022109024000747",
+    "url": "https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/trend-factor-for-the-cross-section-of-cryptocurrency-returns/4C1509ACBA33D5DCAF0AC24379148178"
+  },
+  "hypothesis": "A simple, preregistered multi-horizon price-and-volume trend composite captures a tradable subset of the published CTREND mechanism in liquid Binance perpetuals without fitting a high-capacity model.",
+  "research_archetype": "cross_sectional_factor",
+  "strategy_family": "multi_horizon_price_volume_trend",
+  "implementation_deviation": "This is deliberately a low-capacity CTREND-lite proxy, not an attempted reproduction of the paper's machine-learning model. It averages fixed cross-sectional ranks of 7d, 30d, 90d price momentum and a 7d-vs-30d quote-volume trend.",
+  "universe": "Each Monday 00:00 UTC, eligible Binance USD-M USDT perpetuals with at least 91 complete prior UTC days and valid features; keep top 30 by lagged trailing-30d quote volume. No future-survival filter.",
+  "features": {
+    "price_momentum_days": [
+      7,
+      30,
+      90
+    ],
+    "volume_trend": "lagged mean quote volume over prior 7 complete days divided by lagged mean over prior 30 complete days minus 1",
+    "composite": "equal-weight average of within-date percentile ranks of 7d, 30d, 90d momentum and volume trend"
+  },
+  "portfolio": "Equal-weight long top composite quintile and short bottom composite quintile, 0.5 gross per side.",
+  "rebalance": "Weekly Monday 00:00 UTC; execute at current Monday open using information through prior completed day.",
+  "base_cost_bps_one_way": 10,
+  "cost_multipliers": [
+    1,
+    2,
+    3
+  ],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "mean weekly cross-sectional rank IC > 0.02 with positive long-short return and net portfolio Sharpe > 0.70",
+  "success_gate": "OOS net Sharpe > 1.0, positive at 2x costs, 2024 and 2025 non-negative, max drawdown <35%, one-week extra execution delay positive, excluding BTC/ETH positive",
+  "planned_parameter_trials": 1,
+  "global_previous_trial_count": 70,
+  "notes": "Top20 Donchian timed out and is counted as a trial. The externally frozen four-asset trend was also executed and rejected, bringing the global previous-trial count to 70. This candidate remains fixed before any result is observed."
+}

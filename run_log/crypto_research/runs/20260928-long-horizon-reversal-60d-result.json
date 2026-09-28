@@ -1,0 +1,21 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-long-horizon-reversal-60d",
+  "classification":"REJECT",
+  "strategy_family":"long_horizon_reversal",
+  "research_archetype":"cross_sectional_factor",
+  "runner_sha256":"8f7eb104f317bb5d44d2abdfa8fabff61e8b8832eacfafd113328c6052d42ec5",
+  "data_fingerprint":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "source":"https://doi.org/10.3905/jai.2023.1.189",
+  "development_diagnostics":{
+    "720h":{"mean_ic":-0.005385984733460859,"hac_p":0.8325195436880157,"loser_minus_winner":-0.014431000998248757},
+    "1440h":{"mean_ic":0.015794467192554038,"hac_p":0.5737803943616999,"loser_minus_winner":0.0038468566094858937},
+    "2160h":{"mean_ic":-0.0022014004173541418,"hac_p":0.9450076723851909,"loser_minus_winner":-0.00462621225139196}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":30,"new_parameter_trials":3,"cumulative_parameter_trials":33},
+  "dsr_probability":null,
+  "pbo":"N/A: development gate failed before OOS.",
+  "conclusion":"REJECT. The canonical 60-day reversal signal did not meet the preregistered IC magnitude/significance gate, so 2024-2025 OOS was not consumed."
+}

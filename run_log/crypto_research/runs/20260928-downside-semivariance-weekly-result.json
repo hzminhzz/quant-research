@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-downside-semivariance-weekly",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"downside_semivariance_risk",
+  "research_archetype":"cross_sectional_downside_risk_factor",
+  "universe_symbols":139,
+  "development_diagnostics":{
+    "7":{"n_weeks":104,"mean_ic":-0.0829364352343854,"hac_t":-4.213287756776494,"hac_p":0.000025168008482901607,"high_minus_low":0.0013226741333170072},
+    "14":{"n_weeks":104,"mean_ic":-0.07089336322323668,"hac_t":-3.101799607761929,"hac_p":0.0019234811836227772,"high_minus_low":0.0077608575335157744},
+    "30":{"n_weeks":104,"mean_ic":-0.09076457921488101,"hac_t":-3.5495731723735955,"hac_p":0.00038585621390403995,"high_minus_low":0.001571592824487525}
+  },
+  "development":{
+    "7":{"annualized_sharpe":-0.11163621957403959,"total_return":-0.11263745521282809,"max_drawdown":-0.4337504112166628,"n_weeks":104},
+    "14":{"annualized_sharpe":0.6024943076627856,"total_return":0.2871252906010895,"max_drawdown":-0.2370773858532571,"n_weeks":104},
+    "30":{"annualized_sharpe":0.05801315875421597,"total_return":-0.0427534340586706,"max_drawdown":-0.37735050100706824,"n_weeks":104}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":118,"new_parameter_trials":3,"cumulative_parameter_trials":121},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The canonical 14-day portfolio had positive net return but Sharpe 0.602, below the fixed 0.70 gate, and the rank IC was significantly negative rather than the preregistered positive relation. OOS was not consumed.",
+  "conclusion":"REJECT. Development gate failed; OOS not consumed."
+}

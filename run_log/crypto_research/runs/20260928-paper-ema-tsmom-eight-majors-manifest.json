@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-paper-ema-tsmom-eight-majors",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Momentum Trading in Cryptocurrencies: A Comparative Study of Time-Series and Cross-Sectional Strategies",
+    "author": "Adedeji Daniel Gbadebo",
+    "publication": "Buhalterines apskaitos teorija ir praktika 33 (2026)",
+    "doi": "10.15388/batp.2026.1",
+    "url": "https://doi.org/10.15388/batp.2026.1"
+  },
+  "hypothesis": "The paper's multi-horizon volatility-normalized EMA time-series momentum signal retains positive net risk-adjusted performance on eight major Binance perpetuals after realistic daily turnover costs.",
+  "research_archetype": "time_series_rule",
+  "strategy_family": "multi_horizon_ema_tsmom",
+  "universe": ["BTCUSDT","ETHUSDT","LTCUSDT","XRPUSDT","BNBUSDT","ADAUSDT","DOGEUSDT","SOLUSDT"],
+  "data": "Binance USD-M perpetual 1h OHLCV aggregated to complete UTC days; all eight assets required simultaneously after warmup.",
+  "ema_pairs_days": [[8,24],[16,48],[32,96]],
+  "normalization_window_days": 30,
+  "secondary_smoothing": "Use the long EMA horizon of each pair, consistent with the paper's stated 96+30+96 longest warmup.",
+  "bounded_response": "u_k=tanh(alpha*z_k), equal-weight across the three horizons; composite is standardized by trailing 30-day std. Position weight is clip(S,-1,1)/N to enforce the paper's stated gross-exposure bound.",
+  "alpha_values": [0.5,1.0,2.0],
+  "canonical_alpha": 1.0,
+  "execution": "Signal computed from close at t; applied to close-to-close return t to t+1. Daily turnover cost is charged when weights change.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical net Sharpe >0.80, canonical net total return >0, and at least 2/3 alpha variants have positive net total return.",
+  "success_gate": "Canonical OOS net Sharpe >1.0, positive total return at 2x cost, at least 2/3 alpha variants positive at base cost, 2024 and 2025 each non-negative, max drawdown <35%, one-day delayed signal remains positive, and removing the strongest asset contribution remains positive.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 77,
+  "paper_deviation_notes": [
+    "The paper reports gross results and does not include transaction costs, slippage, or funding; this test applies explicit turnover costs.",
+    "The paper does not specify the tanh sensitivity alpha in the accessible text, so alpha=1 is fixed as canonical with 0.5 and 2.0 as preregistered neighbors.",
+    "Funding is not available in the consolidated OHLCV panel and is not modeled."
+  ]
+}

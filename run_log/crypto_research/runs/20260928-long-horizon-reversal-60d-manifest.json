@@ -1,0 +1,46 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-long-horizon-reversal-60d",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Cryptocurrency Momentum and Reversal",
+    "author":"Victoria Dobrynskaya",
+    "journal":"The Journal of Alternative Investments",
+    "year":2023,
+    "doi":"10.3905/jai.2023.1.189",
+    "url":"https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID3967049_code514380.pdf?abstractid=3913263&mirid=1"
+  },
+  "hypothesis":"Cryptocurrencies that underperformed over horizons longer than one month outperform recent winners over the subsequent week.",
+  "mechanism":"Crypto momentum transitions into reversal after roughly one month; overreaction and limits to arbitrage cause past losers to rebound relative to past winners.",
+  "research_archetype":"cross_sectional_factor",
+  "strategy_family":"long_horizon_reversal",
+  "formation_windows_hours":[720,1440,2160],
+  "canonical_formation_hours":1440,
+  "holding_hours":168,
+  "signal":"Negative trailing close-to-close return ending at the prior completed hour.",
+  "universe":"Point-in-time assets with exact hourly history sufficient for formation plus top 80 percent by lagged trailing 30-day close*volume; minimum 8 assets.",
+  "rebalance":"Weekly Monday 00:00 UTC; current-open execution using only prior-hour information.",
+  "construction":"Equal-weight long bottom past-return quartile / short top past-return quartile, 0.5 gross per side.",
+  "development":"2021-01-01/2023-12-31",
+  "oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical mean rank IC >= 0.02, HAC p < 0.05, positive loser-minus-winner subsequent-week return, at least 100 weekly observations.",
+  "base_cost_bps_one_way":3.0,
+  "cost_multipliers":[1,2,3],
+  "planned_parameter_trials":3,
+  "robustness_checks":[
+    "30-day and 90-day formation neighbors around canonical 60-day",
+    "2024 and 2025 each non-negative",
+    "exclude BTC and ETH",
+    "remove strongest OOS contributor",
+    "one-hour delayed execution",
+    "2x and 3x transaction costs"
+  ],
+  "success_thresholds":{
+    "net_oos_sharpe":1.0,
+    "dsr_probability":0.95,
+    "positive_neighbor_count_min":2,
+    "both_oos_years_non_negative":true
+  },
+  "price_data_sha256":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations":"Prepared broad panel contains 19 Binance USDT perpetuals rather than the thousands of coins studied in the source; funding is unavailable in this OHLCV panel."
+}

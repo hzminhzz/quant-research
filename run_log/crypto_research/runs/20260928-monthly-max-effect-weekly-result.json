@@ -1,0 +1,22 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-monthly-max-effect-weekly",
+  "classification":"REJECT",
+  "strategy_family":"monthly_max_effect",
+  "research_archetype":"cross_sectional_factor",
+  "runner_sha256":"b3532cf8b530596fbf0154b3db33ee075a4b84d19d89da7cf95208bb7e09ea68",
+  "data_fingerprint":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "source":"https://doi.org/10.1186/s40854-021-00291-9",
+  "development_diagnostics":{
+    "14d":{"mean_ic":-0.033631849524851494,"hac_p":0.2303013429960864,"high_minus_low":0.006562151900591257},
+    "30d":{"mean_ic":-0.05405786313972054,"hac_p":0.020566224006427724,"high_minus_low":0.014766827632487052},
+    "60d":{"mean_ic":-0.051274733456022785,"hac_p":0.023208551530131936,"high_minus_low":0.01437094393089602}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":33,"new_parameter_trials":3,"cumulative_parameter_trials":36},
+  "implementation_note":"An initial zero-observation run exposed a rolling-window min-samples implementation bug before any factor values were observed. The bug was corrected without changing the preregistered specification; the reported diagnostics are from the corrected first valid execution.",
+  "dsr_probability":null,
+  "pbo":"N/A: development gate failed before OOS.",
+  "conclusion":"REJECT. The source-inspired high-MAX portfolio spread was positive, but the canonical cross-sectional IC was significantly negative rather than the preregistered positive relationship, so OOS was not consumed."
+}

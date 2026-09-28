@@ -1,0 +1,45 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-monthly-max-effect-weekly",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Lottery-like preferences and the MAX effect in the cryptocurrency market",
+    "authors":"Melisa Ozdamar; Levent Akdeniz; Ahmet Sensoy",
+    "journal":"Financial Innovation",
+    "year":2021,
+    "doi":"10.1186/s40854-021-00291-9",
+    "url":"https://doi.org/10.1186/s40854-021-00291-9"
+  },
+  "hypothesis":"Cryptocurrencies with larger extreme positive daily returns during the prior month earn higher subsequent weekly returns.",
+  "mechanism":"Lottery-like demand for extreme positive payoffs is positively priced in crypto; the published weekly cross-section reports higher subsequent returns for high-MAX coins.",
+  "research_archetype":"cross_sectional_factor",
+  "strategy_family":"monthly_max_effect",
+  "lookback_days":[14,30,60],
+  "canonical_lookback_days":30,
+  "signal":"Maximum completed UTC daily close-to-close return over the lookback. At Monday 00:00 UTC, daily returns end at prior-day 23:00 closes, so no current-bar information enters the signal.",
+  "universe":"Point-in-time assets with sufficient exact hourly history and top 80 percent by lagged trailing 30-day close*volume; minimum 8 assets.",
+  "rebalance":"Weekly Monday 00:00 UTC; execute at current open.",
+  "construction":"Equal-weight long highest-MAX quartile / short lowest-MAX quartile, 0.5 gross per side.",
+  "development":"2021-01-01/2023-12-31",
+  "oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical mean rank IC >= 0.02, HAC p < 0.05, positive high-minus-low subsequent-week return, at least 100 weekly observations.",
+  "base_cost_bps_one_way":3.0,
+  "cost_multipliers":[1,2,3],
+  "planned_parameter_trials":3,
+  "robustness_checks":[
+    "14-day and 60-day MAX neighbors",
+    "2024 and 2025 each non-negative",
+    "exclude BTC and ETH",
+    "remove strongest OOS contributor",
+    "one-hour delayed execution",
+    "2x and 3x transaction costs"
+  ],
+  "success_thresholds":{
+    "net_oos_sharpe":1.0,
+    "dsr_probability":0.95,
+    "positive_neighbor_count_min":2,
+    "both_oos_years_non_negative":true
+  },
+  "price_data_sha256":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations":"The prepared panel has 19 liquid Binance perpetuals, whereas the source used a much broader cryptocurrency cross-section. Funding is not present in the OHLCV panel."
+}

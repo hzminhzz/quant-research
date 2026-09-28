@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-residual-momentum-14d",
+  "status": "PRE_REGISTERED",
+  "sources": [
+    {
+      "type": "peer_reviewed",
+      "title": "Machine learning and the cross-section of cryptocurrency returns",
+      "authors": "Nusret Cakici; Syed Jawad Hussain Shahzad; Barbara Bedowska-Sojka; Adam Zaremba",
+      "year": 2024,
+      "doi": "10.1016/j.irfa.2024.103244",
+      "url": "https://doi.org/10.1016/j.irfa.2024.103244",
+      "relevance": "Identifies past alpha and momentum among the important simple predictors of cross-sectional crypto returns."
+    },
+    {
+      "type": "primary_implementation",
+      "title": "Crypto Residual Momentum Strategy",
+      "author": "FionaNi-DS",
+      "year": 2026,
+      "url": "https://github.com/FionaNi-DS/crypto-residual-momentum",
+      "relevance": "Documents 30-day rolling market-beta residualisation, residual momentum, a 14-day formation period, 7-day holding period, and strict 2024-2025 OOS evaluation."
+    }
+  ],
+  "hypothesis": "Cross-sectional momentum remains predictive after removing contemporaneously estimated common crypto-market beta; coins with stronger recent residual momentum outperform weaker residual-momentum peers over the following week.",
+  "mechanism": "Common crypto beta masks asset-specific persistence. Slow information diffusion and limits to arbitrage can allow idiosyncratic return continuation after market exposure is removed.",
+  "research_archetype": "cross_sectional_relative_value",
+  "strategy_family": "residual_momentum",
+  "beta_window_hours": 720,
+  "formation_windows_hours": [168, 336, 720],
+  "canonical_formation_hours": 336,
+  "market_factor": "Equal-weight hourly log return across contemporaneously available panel assets.",
+  "signal": "Sum of causal residual hourly log returns over the formation window. Each residual uses a rolling 30-day beta estimated only from returns available before that residual hour.",
+  "universe": "Point-in-time assets with exact hourly history sufficient for beta plus formation window and top 80 percent by lagged trailing 30-day close*volume; minimum 8 assets.",
+  "rebalance": "Weekly Monday 00:00 UTC. Signal uses data only through the prior completed hour; execution occurs at current open.",
+  "construction": "Equal-weight long top residual-momentum quartile / short bottom residual-momentum quartile, 0.5 gross per side.",
+  "development": "2021-01-01/2023-12-31",
+  "oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC >= 0.02, HAC p < 0.05, positive top-minus-bottom subsequent-week return, at least 100 weekly observations.",
+  "base_cost_bps_one_way": 3.0,
+  "cost_multipliers": [1, 2, 3],
+  "planned_parameter_trials": 3,
+  "robustness_checks": [
+    "7-day and 30-day formation neighbors around canonical 14-day",
+    "2024 and 2025 each non-negative",
+    "exclude BTC and ETH",
+    "remove strongest OOS contributor",
+    "one-hour delayed execution",
+    "2x and 3x transaction costs"
+  ],
+  "success_thresholds": {
+    "net_oos_sharpe": 1.0,
+    "dsr_probability": 0.95,
+    "positive_neighbor_count_min": 2,
+    "both_oos_years_non_negative": true
+  },
+  "price_data_sha256": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations": "Market factor is equal-weight because historical point-in-time market capitalization is not available. Funding is not included in the OHLCV panel and will be disclosed if OOS is consumed."
+}

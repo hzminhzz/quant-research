@@ -26,10 +26,16 @@ def load_daily(root: Path, symbol: str) -> pl.DataFrame:
           pl.col("volume").sum().alias("volume"),
           pl.len().alias("hours"))
        .sort("date"))
-    bad=x.filter((pl.col("hours")!=24) | (pl.col("high")<pl.max_horizontal("open","close")) |
+    incomplete=x.filter(pl.col("hours")!=24)
+    if incomplete.height:
+        boundary_dates={x["date"].min(), x["date"].max()}
+        if not set(incomplete["date"].to_list()).issubset(boundary_dates):
+            raise ValueError(f"{symbol}: interior incomplete daily bars: {incomplete.height}")
+        x=x.filter(pl.col("hours")==24)
+    bad=x.filter((pl.col("high")<pl.max_horizontal("open","close")) |
                  (pl.col("low")>pl.min_horizontal("open","close")) | (pl.col("volume")<0))
     if bad.height:
-        raise ValueError(f"{symbol}: invalid/incomplete daily bars: {bad.height}")
+        raise ValueError(f"{symbol}: OHLC/volume integrity failures: {bad.height}")
     return x.drop("hours")
 
 def aligned_arrays(root: Path):
@@ -37,7 +43,7 @@ def aligned_arrays(root: Path):
     dates=frames[SYMBOLS[0]].select("date")
     for s in SYMBOLS[1:]:
         dates=dates.join(frames[s].select("date"),on="date",how="inner")
-    dates=dates.sort("date")
+    dates=dates.sort("date").slice(1)
     fields={}
     for field in ["open","high","low","close"]:
         cols=[frames[s].select("date",pl.col(field).alias(s)) for s in SYMBOLS]
@@ -151,8 +157,9 @@ def metrics(dates,equity,start):
             "start_equity":float(eq[0]),"end_equity":float(eq[-1])}
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--root",type=Path,required=True); args=ap.parse_args()
-    dates,f=aligned_arrays(args.root); close=f["close"]
+    ap=argparse.ArgumentParser(); ap.add_argument("--anchor",type=Path,required=True); args=ap.parse_args()
+    root=args.anchor.parents[3]/".data"/"store"/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+    dates,f=aligned_arrays(root); close=f["close"]
     ret,target,held,reb=build_targets(close); spread=half_spread(f["high"],f["low"],close)
     scenarios={
       "canonical":dict(cost_mult=1.0,fixed_bps=None,short_carry=0.0),

@@ -1,0 +1,42 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-abnormal-day-momentum",
+  "status":"PRE_REGISTERED",
+  "source":{
+    "title":"Momentum effects in the cryptocurrency market after one-day abnormal returns",
+    "authors":"Guglielmo Maria Caporale; Alex Plastun",
+    "journal":"Financial Markets and Portfolio Management",
+    "year":2020,
+    "doi":"10.1007/s11408-020-00357-1",
+    "url":"https://doi.org/10.1007/s11408-020-00357-1"
+  },
+  "hypothesis":"When an ongoing UTC day's return becomes abnormally large relative to the asset's prior daily-return distribution, the price continues in the same direction until the end of that UTC day.",
+  "mechanism":"The source documents short-lived momentum after extreme one-day moves and explicitly proposes entering in the abnormal-return direction once the dynamic threshold is crossed and exiting at day end.",
+  "research_archetype":"time_series_event_rule",
+  "strategy_family":"abnormal_day_intraday_momentum",
+  "threshold_k":[1.5,2.0,2.5],
+  "canonical_k":2.0,
+  "threshold_history_days":60,
+  "daily_return_definition":"UTC day open-to-prior-completed-hour close. Dynamic threshold uses mean and standard deviation of the previous 60 completed UTC daily open-to-close returns only.",
+  "entry":"At hourly close t, if cumulative current-day return first crosses mean +/- k*std, schedule position in that direction for next hourly open t+1. No trade if next open is a new UTC day.",
+  "exit":"Flatten at the first open of the next UTC day.",
+  "universe":"Point-in-time assets with at least 60 completed daily observations and top 80 percent by lagged trailing 30-day close*volume at decision time; minimum 5 eligible assets. Only triggered assets receive weight.",
+  "construction":"Equal-weight across active triggered assets, total gross exposure 1.0. No leverage above 1x gross.",
+  "development":"2021-01-01/2023-12-31",
+  "oos":"2024-01-01/2025-12-31",
+  "development_gate":"Canonical base-cost net Sharpe > 0.70, positive net total return, at least 100 triggered asset-days, and at least 2 of 3 preregistered k variants have positive development return.",
+  "base_cost_bps_one_way":3.0,
+  "cost_multipliers":[1,2,3],
+  "planned_parameter_trials":3,
+  "robustness_checks":[
+    "k=1.5 and k=2.5 neighbors",
+    "2024 and 2025 each non-negative",
+    "exclude BTC and ETH",
+    "remove strongest OOS contributor",
+    "one-extra-hour entry delay",
+    "2x and 3x transaction costs"
+  ],
+  "success_thresholds":{"net_oos_sharpe":1.0,"dsr_probability":0.95,"positive_neighbor_count_min":2,"both_oos_years_non_negative":true},
+  "price_data_sha256":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "limitations":"The source calibrated k by asset/sample size and focused on BTC/ETH/LTC; this broad-panel test preregisters one common k surface to avoid per-asset tuning. Funding is unavailable."
+}

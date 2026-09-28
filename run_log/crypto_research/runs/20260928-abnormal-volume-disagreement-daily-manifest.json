@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-abnormal-volume-disagreement-daily",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "Disagreement and returns: The case of cryptocurrencies",
+    "authors": ["Jon A. Garfinkel","Ling Hsiao","Di Hu"],
+    "publication": "Financial Management 54 (2025), 633-672",
+    "published": "2025-01-09",
+    "doi": "10.1111/fima.12491",
+    "url": "https://doi.org/10.1111/fima.12491"
+  },
+  "hypothesis": "A focal-asset abnormal-volume spike proxies disagreement/overpricing and predicts lower next-day crypto returns; therefore a market-neutral long-low-abnormal-volume / short-high-abnormal-volume portfolio should earn positive next-day net returns.",
+  "research_archetype": "cross_sectional_factor",
+  "strategy_family": "abnormal_volume_disagreement",
+  "universe": "Point-in-time Binance USD-M USDT perpetuals. Each UTC day retain the top 50 contracts by lagged trailing-30-day quote volume among assets with exact daily history and valid abnormal-volume statistics.",
+  "feature": "DISAGREE proxy = (yesterday quote volume - mean of the preceding W completed daily quote volumes) / std of those W volumes. Signal is negative DISAGREE so higher signal means lower abnormal volume.",
+  "estimation_windows_days": [7,15,30,45],
+  "canonical_window_days": 30,
+  "portfolio": "Equal-weight long lowest-abnormal-volume quintile / short highest-abnormal-volume quintile, 0.5 gross per side.",
+  "execution": "At UTC day d open use volume data only through d-1; hold to next UTC day open. No same-bar fill.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical mean rank IC of -DISAGREE >0.02 with HAC p<0.05; positive low-minus-high abnormal-volume return spread; canonical net daily Sharpe >0.70 and total return >0; at least 3/4 windows positive after base costs.",
+  "success_gate": "Canonical OOS net Sharpe >1.0; OOS IC >0.02; positive total return at 2x costs; at least 3/4 windows positive; 2024 and 2025 non-negative; max drawdown <35%; excluding BTC/ETH positive; excluding strongest contributor positive; one-day delayed implementation positive; DSR reported.",
+  "planned_parameter_trials": 4,
+  "global_previous_trial_count": 96,
+  "source_deviation": "The source uses spot-market turnover and finds the effect strongest under short-sale constraints. This test uses quote-volume abnormality on perpetuals because market capitalization/turnover denominator is unavailable. The perps setting may weaken the source mechanism; that limitation is fixed before results."
+}

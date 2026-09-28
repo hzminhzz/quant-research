@@ -38,15 +38,18 @@ def build_maps(price_root,fund_store):
   q=(px.with_columns(pl.col("quote_volume").shift(1).rolling_sum(720).alias("_liq"))
      .filter((pl.col("timestamp").dt.weekday()==1)&(pl.col("timestamp").dt.hour()==0)&pl.col("_liq").is_finite()))
   qrows=q.select("timestamp","open","_liq").to_dicts(); qmap={r["timestamp"].date():r for r in qrows}
-  frows=fd.to_dicts()
+  fts=fd["timestamp"].to_numpy().astype("datetime64[us]")
+  fr=fd["funding_rate"].to_numpy().astype(float)
+  fcum=np.concatenate([[0.0],np.cumsum(fr)])
   for d,r in qmap.items():
    end=d+timedelta(days=7)
    if end not in qmap:continue
-   t0=datetime.combine(d,datetime.min.time(),tzinfo=timezone.utc);t1=t0+timedelta(days=7)
-   during=[float(x["funding_rate"]) for x in frows if t0 < x["timestamp"] <= t1]
-   if not during:continue
-   weeks[(d,s)]={"price_ret":float(qmap[end]["open"]/r["open"]-1),"funding_sum":float(sum(during)),"liq":float(r["_liq"])}
-  fundhist[s]=frows
+   t0=np.datetime64(datetime.combine(d,datetime.min.time(),tzinfo=timezone.utc).replace(tzinfo=None),"us")
+   t1=np.datetime64(datetime.combine(end,datetime.min.time(),tzinfo=timezone.utc).replace(tzinfo=None),"us")
+   i0=int(np.searchsorted(fts,t0,side="right")); i1=int(np.searchsorted(fts,t1,side="right"))
+   if i1<=i0:continue
+   weeks[(d,s)]={"price_ret":float(qmap[end]["open"]/r["open"]-1),"funding_sum":float(fcum[i1]-fcum[i0]),"liq":float(r["_liq"])}
+  fundhist[s]=(fts,fr,fcum)
  return sy,weeks,fundhist
 
 def targets(sy,weeks,fh,look,start,end):
@@ -58,9 +61,12 @@ def targets(sy,weeks,fh,look,start,end):
   rows=[]
   for s in sy:
    if (d,s) not in weeks:continue
-   vals=[float(x["funding_rate"]) for x in fh[s] if lo<=x["timestamp"]<t]
-   if len(vals)<max(3,look*2):continue
-   rows.append((s,float(np.mean(vals)),weeks[(d,s)]["liq"]))
+   fts,fr,fcum=fh[s]
+   lo64=np.datetime64(lo.replace(tzinfo=None),"us"); t64=np.datetime64(t.replace(tzinfo=None),"us")
+   i0=int(np.searchsorted(fts,lo64,side="left")); i1=int(np.searchsorted(fts,t64,side="left"))
+   n=i1-i0
+   if n<max(3,look*2):continue
+   rows.append((s,float((fcum[i1]-fcum[i0])/n),weeks[(d,s)]["liq"]))
   if len(rows)>=8:
    liqs=np.array([r[2] for r in rows]);cut=np.quantile(liqs,.20);rows=[r for r in rows if r[2]>=cut]
    rows=sorted(rows,key=lambda x:x[1]);n=len(rows);k=max(2,n//4)
@@ -89,8 +95,10 @@ def sim(tg,weeks,start,end,cost):
                     "funding_component_sum":float(sum(fundcomp)),"price_component_sum":float(sum(pricecomp))},"by_year":by}
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("--price-root",type=Path,required=True);ap.add_argument("--funding-store",type=Path,required=True);a=ap.parse_args()
- sy,weeks,fh=build_maps(a.price_root,a.funding_store)
+ ap=argparse.ArgumentParser();ap.add_argument("--anchor",type=Path,required=True);a=ap.parse_args()
+ store=a.anchor.parents[3]/".data"/"store"
+ price_root=store/"crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+ sy,weeks,fh=build_maps(price_root,store)
  dev={w:sim(targets(sy,weeks,fh,w,DEV0,DEV1),weeks,DEV0,DEV1,COST) for w in WINS};ds={w:dev[w]["metrics"]["annualized_sharpe"] for w in WINS};dr={w:dev[w]["metrics"]["total_return"] for w in WINS}
  gate=ds[CAN]>.70 and dr[CAN]>0 and sum(v>0 for v in dr.values())>=2
  out={"schema_version":1,"run_id":"20260928-realized-funding-carry-weekly","symbols":sy,"n_symbols":len(sy),"development":{str(w):dev[w] for w in WINS},

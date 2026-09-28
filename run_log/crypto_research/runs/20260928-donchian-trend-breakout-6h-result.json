@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-donchian-trend-breakout-6h",
+  "classification":"REJECT",
+  "strategy_family":"donchian_trading_range_breakout",
+  "research_archetype":"time_series_rule",
+  "runner_sha256":"52064a4f7b9ab3d5358d60c884fdc47474822ef39666d9cac80a00f576d1e87a",
+  "data_fingerprint":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "sources":[
+    "https://doi.org/10.1016/j.frl.2019.08.011",
+    "https://arxiv.org/abs/2602.11708"
+  ],
+  "development":{
+    "168h":{"net_sharpe":1.338072719440919,"total_return":3.4378827198939748,"max_drawdown":-0.5284330015720213,"rebalances":4380},
+    "336h":{"net_sharpe":0.42445507145190026,"total_return":0.30191037762929884,"max_drawdown":-0.770431109475799,"rebalances":4380},
+    "720h":{"net_sharpe":1.0499396299622359,"total_return":2.1967008865295448,"max_drawdown":-0.6219605007533188,"rebalances":4380}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":27,"new_parameter_trials":3,"cumulative_parameter_trials":30},
+  "dsr_probability":null,
+  "pbo":"N/A: development gate failed before OOS.",
+  "failure_analysis":"Two neighboring channel windows were strong in development, but the pre-registered canonical 336h window had net Sharpe only 0.4245 versus the fixed >0.70 gate. Switching to the better 168h or 720h window after seeing results would be post-hoc tuning, so OOS was not consumed.",
+  "conclusion":"REJECT. Preserve the strong neighbor observations as exploratory evidence only; do not promote or retune this candidate post hoc."
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-past-alpha-30d-weekly",
+  "classification":"REJECT",
+  "strategy_family":"past_market_alpha",
+  "research_archetype":"cross_sectional_relative_value",
+  "runner_sha256":"922bbb2ad6bdb2e08eb225cdb0249ff36489a7dfb7c4c13df144b54ce8e17023",
+  "data_fingerprint":"f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "source":"https://doi.org/10.1016/j.irfa.2024.103244",
+  "development_diagnostics":{
+    "168h":{"mean_ic":0.0013536214110202844,"hac_p":0.9586212669285373,"top_minus_bottom":0.012556620314915647},
+    "720h":{"mean_ic":-0.0029339920042726073,"hac_p":0.8949724481848261,"top_minus_bottom":0.013001101920708512},
+    "1440h":{"mean_ic":-0.015178455320680469,"hac_p":0.5723756524573514,"top_minus_bottom":0.0025017387525077444}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":36,"new_parameter_trials":3,"cumulative_parameter_trials":39},
+  "dsr_probability":null,
+  "pbo":"N/A: development gate failed before OOS.",
+  "conclusion":"REJECT. Positive quartile spreads were not supported by the preregistered rank-IC magnitude/significance gate; OOS was not consumed."
+}

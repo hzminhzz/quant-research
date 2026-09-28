@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-upup-regime-momentum-weekly",
+  "status": "PRE_REGISTERED",
+  "source": {
+    "title": "State transitions and momentum effect in cryptocurrency market",
+    "authors": ["Chia-Hsun Hsieh","Pao-Hsien Huang","Hung-Chun Liu"],
+    "publication": "Finance Research Letters 86 (2025) 108356",
+    "doi": "10.1016/j.frl.2025.108356",
+    "url": "https://doi.org/10.1016/j.frl.2025.108356"
+  },
+  "hypothesis": "Short-horizon cross-sectional crypto momentum is profitable primarily when the aggregate crypto market remains in consecutive UP states; conditioning on causal UP-UP transitions should improve net Sharpe versus unconditional momentum.",
+  "research_archetype": "regime_conditioned_cross_sectional",
+  "strategy_family": "upup_regime_momentum",
+  "universe": "Point-in-time Binance USD-M USDT perpetuals. Each Monday retain the 50 contracts with highest trailing 30-day quote volume among assets with exact causal history.",
+  "market_state": "At each Monday, compute each eligible asset's return from the close 29 calendar days earlier to the prior completed Sunday close, then take a trailing-quote-volume-weighted cross-sectional mean. State is UP if this 4-week market return proxy is >=0. UP-UP requires both the current Monday state and the independently reconstructed prior Monday state to be UP.",
+  "momentum_formation_days": [7,14,28],
+  "canonical_formation_days": 7,
+  "signal": "Prior completed F-day close-to-close return ending Sunday.",
+  "portfolio": "When state is UP-UP, equal-weight long top momentum quintile / short bottom momentum quintile at 0.5 gross per side; otherwise cash.",
+  "execution": "Features use data only through Sunday close; trade at Monday 00:00 UTC open and exit/rebalance next Monday open.",
+  "base_cost_bps_one_way": 10.0,
+  "cost_multipliers": [1,2,3],
+  "development": "2022-01-01/2023-12-31",
+  "exploratory_oos": "2024-01-01/2025-12-31",
+  "development_gate": "Canonical conditional mean rank IC >0.02, positive conditional winner-minus-loser next-week return, canonical net Sharpe >0.70, and >=2/3 formation windows positive after costs.",
+  "success_gate": "Canonical OOS net Sharpe >1.0, positive at 2x costs, >=2/3 formation windows positive, 2024 and 2025 non-negative, max drawdown <35%, excluding BTC/ETH positive, and excluding strongest contributor positive.",
+  "planned_parameter_trials": 3,
+  "global_previous_trial_count": 80,
+  "source_deviation": "The source uses CoinMarketCap value-weighted market returns. Historical point-in-time market cap is unavailable locally, so lagged trailing quote volume is pre-registered as the market-weight proxy. Formation horizons are preregistered because the accessible source establishes short weekly momentum but does not expose one exact winner-loser formation window."
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "run_id": "20260928-btc-donchian-ensemble",
+  "classification": "REJECT",
+  "development": {
+    "metrics": {
+      "annualized_sharpe": 0.41326323759870387,
+      "total_return": 0.15183390984306344,
+      "max_drawdown": -0.2296801307954769,
+      "n_days": 1095,
+      "mean_exposure": 0.18469027701197369
+    },
+    "by_year": {
+      "2021": {
+        "total_return": 0.04087486929247475,
+        "sharpe": 0.33127399899696486
+      },
+      "2022": {
+        "total_return": -0.10540899124998859,
+        "sharpe": -2.8138887827642947
+      },
+      "2023": {
+        "total_return": 0.23699176358857876,
+        "sharpe": 1.3336921451042785
+      }
+    }
+  },
+  "development_gate_passed": false,
+  "oos_consumed": false,
+  "trial_accounting": {
+    "previous_parameter_trials": 60,
+    "new_parameter_trials": 1,
+    "cumulative_parameter_trials": 61
+  },
+  "success_gate_candidate": null,
+  "multiple_testing": null,
+  "oos_results": null,
+  "delay_one_day": null
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-extreme-4h-mean-reversion",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"extreme_move_4h_mean_reversion",
+  "research_archetype":"time_series_event_rule",
+  "universe_symbols":139,
+  "eligible_rows":256843,
+  "development":{
+    "1.0":{"metrics":{"annualized_sharpe":-2.504841191384301,"total_return":-0.9986222735732826,"max_drawdown":-0.9989087502859529,"n_days":730,"n_slots":4380,"n_events":17939,"avg_active_assets":4.095662100456621}},
+    "1.5":{"metrics":{"annualized_sharpe":-1.639563119075232,"total_return":-0.9960392407960219,"max_drawdown":-0.9969183615951406,"n_days":730,"n_slots":4380,"n_events":8726,"avg_active_assets":1.9922374429223744}},
+    "2.0":{"metrics":{"annualized_sharpe":-1.3683995647671396,"total_return":-0.9902171174955272,"max_drawdown":-0.9939705807477436,"n_days":730,"n_slots":4380,"n_events":4561,"avg_active_assets":1.041324200913242}}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":142,"new_parameter_trials":3,"cumulative_parameter_trials":145},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"All three preregistered standardized-move thresholds produced strongly negative net performance. The canonical 1.5-sigma reversal generated 8,726 events, net Sharpe -1.64 and -99.6% cumulative return at 10 bps one-way costs. The result contradicts a broad-perpetual implementation of the source's short-horizon reversal mechanism and shows severe turnover/cost drag.",
+  "conclusion":"REJECT. Development gate failed decisively; exploratory OOS remained sealed."
+}

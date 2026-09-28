@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "run_id":"20260928-btc-shock-underreaction-lowliq",
+  "classification":"REJECT",
+  "success_gate_candidate":false,
+  "strategy_family":"btc_shock_low_liquidity_underreaction",
+  "research_archetype":"relative_value_lead_lag",
+  "data_integrity":{"rows":5784997,"symbols":139,"start":"2020-01-01 00:00:00+00:00","end":"2026-01-05 23:00:00+00:00","duplicate_pairs":0},
+  "development_diagnostics":{
+    "1":{"n_events":1366,"mean_ic":0.038789680629941634,"ic_ir":0.2079146328996793,"hac_t":7.075624103018214,"hac_p":1.4877764573226779e-12,"mean_top_minus_bottom":0.0004901290739515139},
+    "2":{"n_events":1203,"mean_ic":0.04476039800405944,"ic_ir":0.24530105413384198,"hac_t":7.8866834768432525,"hac_p":3.103231762136804e-15,"mean_top_minus_bottom":0.0007809881893523772},
+    "4":{"n_events":999,"mean_ic":0.03574613509418148,"ic_ir":0.1981701886887367,"hac_t":6.012242776384682,"hac_p":1.8297402098128165e-09,"mean_top_minus_bottom":0.0005342144381639137}
+  },
+  "development":{
+    "1":{"annualized_sharpe":-13.721843027525676,"total_return":-0.9099231000749888,"max_drawdown":-0.9088158778679568,"n_days":730,"n_events":1365},
+    "2":{"annualized_sharpe":-8.611795615844098,"total_return":-0.856306068517574,"max_drawdown":-0.8548861214588619,"n_days":730,"n_events":1202},
+    "4":{"annualized_sharpe":-7.953874903858811,"total_return":-0.8222578363395969,"max_drawdown":-0.8214193190690028,"n_days":730,"n_events":998}
+  },
+  "development_gate_passed":false,
+  "oos_consumed":false,
+  "trial_accounting":{"previous_parameter_trials":93,"new_parameter_trials":3,"cumulative_parameter_trials":96},
+  "multiple_testing":{"dsr_probability":null,"pbo":"N/A: development gate failed before OOS."},
+  "failure_analysis":"The causal beta-adjusted underreaction gap was directionally predictive and highly statistically significant at all three horizons, but the mean cross-sectional spread was only about 4.9-7.8 bps per event. With a preregistered 10 bps one-way cost assumption, the round-trip friction dominated the signal and all development portfolios lost heavily. This is a genuine frequency/cost mismatch, not a lack of predictive correlation.",
+  "conclusion":"REJECT. Development gate failed; OOS not consumed."
+}
