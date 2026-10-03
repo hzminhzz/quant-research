@@ -1,0 +1,54 @@
+{
+  "audit_id": "altcoin-momentum-inventory-20261003",
+  "audit_date": "2026-10-03",
+  "scope": "availability_and_coverage_only_no_strategy_trials",
+  "source": {
+    "name": "Binance public USD-M monthly 1h klines",
+    "path": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/",
+    "manifest": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/dataset_manifest.json",
+    "manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+    "archive_entries": 21383,
+    "symbols": 864,
+    "hourly_rows": 15295659,
+    "first_timestamp": "2020-01-01T00:00:00Z",
+    "last_timestamp": "2026-08-31T23:00:00Z",
+    "symbols_with_missing_months_within_observed_span": 0,
+    "symbols_with_reported_missing_hours": 10,
+    "reported_missing_hours_total": 223,
+    "maximum_reported_missing_hours_for_one_symbol": 120
+  },
+  "method": {
+    "source_store_read_only": true,
+    "fields_read_for_coverage": ["timestamp", "symbol", "quote_volume"],
+    "daily_bar_rule": "A UTC daily bar is complete only when all 24 hourly rows and all 24 quote_volume values are present. No bars are synthesized.",
+    "history_rule": "Require 365 consecutive complete UTC daily bars ending at the last fully completed daily bar before the rebalance.",
+    "eligibility_rule": "Require a Binance USDT-margined perpetual with a crypto-native base asset. Exclude BTC, ETH, fiat/cash-pegged assets, and index or non-crypto-underlying products. Apply product classification from dated venue or issuer evidence before any performance run.",
+    "point_in_time_rule": "Only data through the decision timestamp contributes to an instrument's availability and trailing-liquidity eligibility. Future bars and returns are not used to qualify an earlier date.",
+    "liquidity_rule": "At each rebalance, rank available eligible contracts by trailing 30-day USDT quote volume; the audit checks that at least 100 contracts can qualify, but does not calculate the ranking or any performance outcome.",
+    "stablecoin_symbols_identified_in_archive": ["USDCUSDT", "USTCUSDT"],
+    "non-altcoin_index_symbols_identified_in_early_coverage": ["BTCDOMUSDT", "DEFIUSDT"]
+  },
+  "development_start": {
+    "date": "2023-04-03",
+    "rebalance_anchor": "Monday 00:00 UTC",
+    "last_completed_signal_day": "2023-04-02",
+    "eligible_contracts_with_365_complete_daily_bars": 130,
+    "minimum_eligible_contracts_per_primary_rebalance_through_2025-09-29": 130,
+    "eligible_contracts_on_2025-09-29": 300,
+    "decision": "Earliest Monday with at least 100 eligible crypto-native USDT perpetuals, each with 365 complete prior UTC daily bars and complete quote-volume observations. Top-100 liquidity selection is therefore possible from this date."
+  },
+  "holdout_coverage": {
+    "requested_start": "2025-10-01",
+    "requested_end_inclusive": "2026-10-02",
+    "source_latest_date": "2026-08-31",
+    "missing_source_interval": ["2026-09-01", "2026-10-02"],
+    "complete": false,
+    "strategy_outcomes_opened": false
+  },
+  "limitations": [
+    "The archive manifest does not contain a complete dated product-classification or official onboard/delist table. Freeze a documented classification registry before performance calculations.",
+    "The audit did not calculate returns, signals, candidate portfolio weights, Sharpe ratios, or other strategy metrics.",
+    "The historical holdout is not fully available in the archived source. Do not open it until the missing interval is archived and coverage is verified.",
+    "The fixed cost assumption is not size-scaled and does not establish trading capacity."
+  ]
+}
