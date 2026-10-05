@@ -1,0 +1,71 @@
+schema_version: orb_ml_research/v1
+
+research:
+  strategy_id: hk33_jp225_corrected_orb_ml_sizing
+  purpose: "Test whether simple expected-R models add OOS sizing value to the corrected 6 bps HK33+JP225 raw ORB."
+  source_rebuild_config: config/eow_rebuild.yaml
+  universe: [HK33, JP225]
+
+period:
+  start: "2017-01-01T00:00:00Z"
+  development_evaluation_years: [2020, 2021, 2022, 2023, 2024]
+  historical_diagnostic_start: "2025-01-01T00:00:00Z"
+  end: "2026-07-31T23:59:59Z"
+
+features:
+  names:
+    - rvol_1h
+    - vwap_alignment
+    - wick_exhaustion
+    - range_to_atr20
+    - garman_klass_norm
+    - spx_alignment
+    - nr7_flag
+    - breakout_bar_range_ratio
+  rvol_lookback_sessions: 20
+  garman_klass_lookback_bars: 20
+
+validation:
+  embargo_duration: 2d
+  min_train_events: 100
+  target: net_r_multiple_after_authoritative_costs
+  selection_uses_historical_diagnostic: false
+
+risk_throttle:
+  floor: 0.50
+  midpoint_at_zero_prediction: 0.75
+  ceiling: 1.00
+  robust_scale_floor_r: 0.25
+
+models:
+  random_state: 42
+  huber:
+    epsilon: 1.35
+    alpha: 0.10
+    max_iter: 500
+  lightgbm:
+    objective: huber
+    learning_rate: 0.03
+    n_estimators: 80
+    num_leaves: 7
+    max_depth: 3
+    min_child_samples: 30
+    subsample: 0.80
+    colsample_bytree: 0.80
+    reg_alpha: 1.0
+    reg_lambda: 2.0
+  catboost:
+    loss_function: RMSE
+    iterations: 100
+    depth: 3
+    learning_rate: 0.03
+    l2_leaf_reg: 5.0
+
+acceptance:
+  min_positive_selectivity_years: 3
+  require_positive_spearman_ic: true
+  require_sharpe_not_worse_than_raw: true
+  require_drawdown_not_worse_than_raw: true
+
+artifacts:
+  root: run_log/ml_gate_research

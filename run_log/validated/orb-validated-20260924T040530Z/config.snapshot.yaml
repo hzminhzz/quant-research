@@ -1,0 +1,131 @@
+# ==============================================================================
+# ML4T Case Study Configuration: Single Source of Truth (SSOT)
+# Governed by: ml4t-case-study-pipeline & ml4t-strategy-workflow
+# ==============================================================================
+
+term_sheet:
+  title: "Multi-Asset Index Momentum Expansion & Mean-Reversion Meta-Model Study"
+  version: "3.0.0"
+  mechanism: >
+    Intraday price dislocations on major equity index futures (Germany 40 and Nikkei 225)
+    display dual regime characteristics: sharp trend continuation following multi-hour range breakouts,
+    and mean-reverting snapbacks following extreme statistical stretches away from moving averages.
+    A primary technical signal determines direction and timing, while a secondary ML meta-model
+    filters low-conviction trades to survive institutional execution friction.
+  kill_criteria:
+    min_rank_ic: 0.015
+    max_p_value: 0.05
+    min_oos_sharpe: 0.80
+    min_dsr_probability: 0.95
+    max_fee_drag_pct: 35.0
+    max_drawdown_pct: 20.0
+  capacity_estimate: "Institutional liquid index futures (> $100M daily notional volume)"
+
+universe:
+  symbols:
+    - "DE30/EUR"     # Germany 40 (DAX) Continuous Futures
+    - "JP225/USD"    # Nikkei 225 Continuous Futures
+  benchmark: "DE30/EUR"
+  native_timeframe: "15m"
+  resample_timeframe: "1h"
+  dates:
+    in_sample_start: "2019-01-01"
+    in_sample_end: "2022-12-31"
+    out_of_sample_start: "2023-01-01"
+    out_of_sample_end: "2026-01-01"
+
+artifacts:
+  prices_dir: "data/processed"
+  labels_dir: "data/labels"
+  features_dir: "data/features"
+  models_dir: "run_log/models"
+  strategy_dir: "run_log/strategy"
+  trials_ledger: "run_log/trials.jsonl"
+  leaderboard_file: "run_log/strategy_leaderboard.json"
+
+labeling:
+  horizon_bars: 20                  # ~1 trading day at 1H bars (max hold 20-24h)
+  triple_barrier:
+    upper_mult: 2.5                 # Take-profit ATR multiple
+    lower_mult: 1.2                 # Stop-loss ATR multiple (asymmetric reward/risk)
+    atr_period: 14
+    max_holding: 20
+
+features:
+  momentum:
+    rsi_periods: [2, 5, 14]
+    donchian_windows: [10, 20, 48]
+  trend:
+    ema_spans: [20, 50, 200]
+    adx_period: 14
+  volatility:
+    atr_period: 14
+    bollinger_period: 20
+    bollinger_std: 2.0
+
+validation:
+  cv_method: "combinatorial_purged_cv"
+  development_end: "2026-07-31T23:59:59Z"
+  final_oos_start: "2026-08-01T00:00:00Z"
+  final_oos_policy: "locked_after_prior_research"
+  event_embargo_policy: "feature_acf_or_max_label_span"
+  cpcv:
+    n_groups: 8
+    n_test_groups: 2
+    label_horizon: 20
+    embargo_size: 4
+    embargo_duration: "2d"
+
+data_contracts:
+  default_timezone: UTC
+  timestamp_semantics:
+    status: verified
+    convention: open
+    timezone: UTC
+    require_explicit_bar_timestamp: true
+  required_manifest_fields:
+    - bar_timestamp
+    - bar_duration
+    - source_timezone
+    - data_fingerprint
+
+sessions:
+  DE30_cash_open:
+    timezone: Europe/Berlin
+    local_open: "09:00"
+    opening_range: "1h"
+    candidate_window: "90m"
+  NAS100_cash_open:
+    timezone: America/New_York
+    local_open: "09:30"
+    opening_range: "1h"
+    candidate_window: "90m"
+  JP225_cash_open:
+    timezone: Asia/Tokyo
+    local_open: "09:00"
+    opening_range: "1h"
+    candidate_window: "90m"
+  HK33_cash_open:
+    timezone: Asia/Hong_Kong
+    local_open: "09:30"
+    opening_range: "1h"
+    candidate_window: "90m"
+
+execution:
+  initial_capital: 100000.0
+  position_sizing: 0.95
+  commission_bps: 2.0               # 2 bps per leg
+  slippage_bps: 1.0                 # 1 bps per leg
+  roundtrip_friction_bps: 6.0       # 6 bps total roundtrip friction
+
+quality_gates:
+  alpha_gate:
+    min_rank_ic: 0.015
+    max_p_value: 0.05
+    min_ic_ir: 0.30
+  economic_gate:
+    min_oos_sharpe: 0.80
+    max_drawdown_pct: 20.0
+    max_fee_drag_pct: 35.0
+  overfitting_gate:
+    min_dsr_probability: 0.95

@@ -65,11 +65,51 @@ features:
 
 validation:
   cv_method: "combinatorial_purged_cv"
+  development_end: "2026-07-31T23:59:59Z"
+  final_oos_start: "2026-08-01T00:00:00Z"
+  final_oos_policy: "locked_after_prior_research"
+  event_embargo_policy: "feature_acf_or_max_label_span"
   cpcv:
-    n_groups: 8                     # 8 groups
-    n_test_groups: 2                # C(8,2) = 28 combinations, 7 backtest paths
-    label_horizon: 20               # Must match label holding horizon for purge
-    embargo_size: 4                 # 20% of label horizon for serial correlation buffer
+    n_groups: 8
+    n_test_groups: 2
+    label_horizon: 20
+    embargo_size: 4
+    embargo_duration: "2d"
+
+data_contracts:
+  default_timezone: UTC
+  timestamp_semantics:
+    status: verified
+    convention: open
+    timezone: UTC
+    require_explicit_bar_timestamp: true
+  required_manifest_fields:
+    - bar_timestamp
+    - bar_duration
+    - source_timezone
+    - data_fingerprint
+
+sessions:
+  DE30_cash_open:
+    timezone: Europe/Berlin
+    local_open: "09:00"
+    opening_range: "1h"
+    candidate_window: "90m"
+  NAS100_cash_open:
+    timezone: America/New_York
+    local_open: "09:30"
+    opening_range: "1h"
+    candidate_window: "90m"
+  JP225_cash_open:
+    timezone: Asia/Tokyo
+    local_open: "09:00"
+    opening_range: "1h"
+    candidate_window: "90m"
+  HK33_cash_open:
+    timezone: Asia/Hong_Kong
+    local_open: "09:30"
+    opening_range: "1h"
+    candidate_window: "90m"
 
 execution:
   initial_capital: 100000.0

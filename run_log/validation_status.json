@@ -1,0 +1,47 @@
+{
+  "strategy": "multi_asset_eow_orb_meta_gate",
+  "status": "NOT_APPROVED",
+  "validated_commit": null,
+  "last_audited_head": "3b73b93",
+  "blocking_gates": [
+    "development_net_return_negative",
+    "final_oos_sample_small",
+    "trial_ledger_incomplete",
+    "dsr_unreproducible"
+  ],
+  "legacy_artifacts_reproducible": false,
+  "corrected_run_id": "orb-validated-20260924T040530Z",
+  "development_cpcv": {
+    "passed": true,
+    "events": 88,
+    "folds": 28,
+    "failed_folds": 0,
+    "oof_coverage_complete": true,
+    "auc_mean": 0.5964697657909317,
+    "net_return_sum": -0.04043492687617611,
+    "annualized_sharpe": -0.9169186429013746
+  },
+  "final_oos": {
+    "status": "FINAL_OOS_COMPLETE",
+    "start": "2026-08-01",
+    "through": "2026-09-22",
+    "trades": 7,
+    "net_return_sum": 0.0375828965821764,
+    "annualized_sharpe": 2.0870169405250305,
+    "max_drawdown": -0.02197786504041177
+  },
+  "dsr_status": "DSR_UNREPRODUCIBLE",
+  "run_artifact_dir": "run_log/validated/orb-validated-20260924T040530Z",
+  "data_manifest": "data/processed/_manifest.json",
+  "data_manifest_entries": 7,
+  "data_manifest_max_date": "2026-09-22",
+  "data_quality_warning_count": 1,
+  "final_oos_start": "2026-08-01",
+  "final_oos_data_present": true,
+  "security": {
+    "tracked_literals_removed": true,
+    "required_environment_variable": "LSE_API_KEY",
+    "provider_rotation_required": true,
+    "git_history_cleanup_approved": false
+  }
+}

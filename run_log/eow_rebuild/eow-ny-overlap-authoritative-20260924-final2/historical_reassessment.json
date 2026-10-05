@@ -1,0 +1,82 @@
+{
+  "schema_version": "eow_historical_reassessment/v1",
+  "run_id": "eow-ny-overlap-authoritative-20260924-final2",
+  "historical_claim": {
+    "period": "2017-01-01 through 2026-07-31",
+    "trade_count": 997,
+    "win_rate_pct": 56.3,
+    "net_r": 193.4,
+    "annualized_sharpe": 1.47,
+    "dsr_pct": 99.0,
+    "profitable_years": "10/10",
+    "status": "NOT_FULLY_REPRODUCED"
+  },
+  "legacy_parity_rebuild_on_current_raw_data": {
+    "period": "2017-01-01 through 2026-07-31",
+    "candidate_events": 1494,
+    "trade_count": 980,
+    "win_rate_pct": 55.61224489795919,
+    "net_r": 188.826839856806,
+    "annualized_sharpe_legacy_method": 1.4449316227820803,
+    "mean_oof_auc": 0.5201083641830695,
+    "note": "Uses the rebuilt legacy-parity lane against the current raw-data snapshot. It is close to, but does not exactly reproduce, the historical headline; the historical raw-data snapshot is not preserved as a verified immutable artifact."
+  },
+  "corrected_development": {
+    "period": "2017-01-01 through 2024-12-31",
+    "trade_count": 713,
+    "wins": 376,
+    "win_rate_pct": 52.73492286115007,
+    "net_r": 27.882319539616553,
+    "annualized_sharpe": 0.31298430638732616,
+    "max_drawdown_at_1pct_risk": -0.2589294132988984
+  },
+  "corrected_frozen_holdout": {
+    "period": "2025-01-01 through 2026-07-31",
+    "trade_count": 232,
+    "wins": 115,
+    "win_rate_pct": 49.56896551724138,
+    "net_r": -17.005375126473236,
+    "annualized_sharpe": -0.8399359426583902,
+    "max_drawdown_at_1pct_risk": -0.2871518658534954,
+    "yearly": {
+      "2025": {
+        "trades": 110,
+        "wins": 61,
+        "win_rate_pct": 55.45454545454545,
+        "net_r": 12.524244481293222
+      },
+      "2026_ytd_through_2026_07_31": {
+        "trades": 122,
+        "wins": 54,
+        "win_rate_pct": 44.26229508196721,
+        "net_r": -29.52961960776646
+      }
+    }
+  },
+  "corrected_combined_historical": {
+    "period": "2017-01-01 through 2026-07-31",
+    "trade_count": 945,
+    "wins": 491,
+    "win_rate_pct": 51.957671957671955,
+    "net_r": 10.876944413143317,
+    "annualized_sharpe": 0.09931801481074228,
+    "max_drawdown_at_1pct_risk": -0.28715186585349506,
+    "profitable_years": "5/10",
+    "note": "2017-2024 uses chronological walk-forward/OOF development scores. 2025-2026-07-31 uses the frozen one-shot holdout model. 2026 is YTD only."
+  },
+  "time_contract": {
+    "DE30_strategy_anchor": "09:00 America/New_York",
+    "DE30_anchor_utc_EDT": "13:00",
+    "DE30_anchor_utc_EST": "14:00",
+    "DE30_market_calendar_timezone": "Europe/Berlin",
+    "NAS100_strategy_anchor": "09:30 America/New_York",
+    "internal_timestamp_timezone": "UTC",
+    "source_timestamp_semantics": "bar-open"
+  },
+  "dsr": {
+    "historical_status": "DSR_UNREPRODUCIBLE_LEGACY_TRIAL_UNIVERSE",
+    "reason": "The repository does not contain a complete auditable selection-trial population supporting the historical hard-coded n_trials=42 assumption.",
+    "new_99pct_claim_made": false
+  },
+  "conclusion": "The old headline is not supported as an authoritative result after correcting timezone/DST, point-in-time execution, EOW calendar handling, validation, costs, and portfolio accounting. The frozen 2025-2026-07-31 holdout is negative."
+}

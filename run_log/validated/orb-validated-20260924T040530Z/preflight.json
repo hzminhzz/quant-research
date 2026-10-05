@@ -1,0 +1,99 @@
+{
+  "data_code": {
+    "blocking_reasons": [],
+    "data_code_readiness": "READY",
+    "files": [
+      {
+        "bar_duration_seconds": 300.0,
+        "content_fingerprint": "41f9214627db077b351e0d5541094e2577672c6aeb9a190432f85c9903df4dd4",
+        "content_fingerprint_verified": true,
+        "development_rows": 268819,
+        "file": "DE30_EUR_5m_2017_2026.parquet",
+        "final_oos_rows": 8649,
+        "max_timestamp": "2026-09-22T09:55:00+00:00",
+        "min_timestamp": "2017-01-03T08:00:00+00:00",
+        "null_counts": {
+          "close": 0,
+          "high": 0,
+          "low": 0,
+          "open": 0,
+          "symbol": 0,
+          "timestamp": 0,
+          "volume": 0
+        },
+        "ohlc_consistent": true,
+        "row_count": 277468,
+        "schema": {
+          "close": "Float64",
+          "high": "Float64",
+          "low": "Float64",
+          "open": "Float64",
+          "symbol": "String",
+          "timestamp": "Datetime(time_unit='us', time_zone='UTC')",
+          "volume": "Int64"
+        },
+        "sha256": "0f87d1889ff775bbaadb1bbae53954755de962b8a70ca1d826ca4cb47882fe6d",
+        "sha256_verified": true,
+        "source_timezone": "UTC",
+        "timestamp_convention": "open",
+        "timestamps_ordered": true,
+        "timestamps_unique": true,
+        "timestamps_utc_aware": true
+      },
+      {
+        "bar_duration_seconds": 300.0,
+        "content_fingerprint": "d26847aacceff2af2c04268b71e1c150bff8aa33345ed96c560cde5bfbdbcca9",
+        "content_fingerprint_verified": true,
+        "development_rows": 185359,
+        "file": "JP225_USD_5m_2017_2026.parquet",
+        "final_oos_rows": 10020,
+        "max_timestamp": "2026-09-22T10:45:00+00:00",
+        "min_timestamp": "2017-01-03T00:00:00+00:00",
+        "null_counts": {
+          "close": 0,
+          "high": 0,
+          "low": 0,
+          "open": 0,
+          "symbol": 0,
+          "timestamp": 0,
+          "volume": 0
+        },
+        "ohlc_consistent": true,
+        "row_count": 195379,
+        "schema": {
+          "close": "Float64",
+          "high": "Float64",
+          "low": "Float64",
+          "open": "Float64",
+          "symbol": "String",
+          "timestamp": "Datetime(time_unit='us', time_zone='UTC')",
+          "volume": "Int64"
+        },
+        "sha256": "a40b0e0db36d494183b301bf4ebb893822bde53b823683e424bdff5225ca4b49",
+        "sha256_verified": true,
+        "source_timezone": "UTC",
+        "timestamp_convention": "open",
+        "timestamps_ordered": true,
+        "timestamps_unique": true,
+        "timestamps_utc_aware": true
+      }
+    ],
+    "nonblocking_warnings": [
+      "BTCUSD: month-scale gaps remain across 2024-07 and 2024-12; targeted full-span re-fetch returned only boundary bars and zero rows for central 14-day chunks (2024-07-13..27 and 2024-12-13..27)"
+    ]
+  },
+  "final_verdict": "NOT_APPROVED",
+  "run_id": "orb-validated-20260924T040530Z",
+  "schema_version": "validated_orb_run/v1",
+  "strategy_approval": {
+    "blocking_gates": [
+      "data_quality_gaps_unresolved",
+      "development_cpcv_not_run",
+      "final_oos_not_run",
+      "trial_ledger_incomplete"
+    ],
+    "blocks_development_execution": false,
+    "status": "NOT_APPROVED"
+  },
+  "verdict": "PRECHECK_PASS"
+}

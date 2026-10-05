@@ -9,8 +9,7 @@ thesis: >-
 mechanism: >-
   Gradual information diffusion and slow repositioning may extend relative
   price moves after news. This effect should be strongest in liquid contracts.
-  Reversal pressure and volatility shocks may erase the effect. Trading costs
-  may also remove any gross edge.
+  Reversal pressure and trading costs may erase the effect.
 falsifier: >-
   Do not support the thesis if the single sequentially selected model fails
   the one-sided 95% stationary-bootstrap lower-bound test for mean daily net
@@ -75,7 +74,7 @@ evaluation:
       field: quote_volume
       lookback_days: 30
       unit: USDT
-      selection: top_100_at_each_rebalance
+      selection: up_to_top_100_at_each_rebalance
       data_cutoff: last fully available hour at decision time
     minimum_history_days: 365
     history_quality: >-
@@ -87,10 +86,15 @@ evaluation:
   development_end: '2025-10-01T00:00:00Z'
   development_end_inclusive_date: '2025-09-30'
   development_start_basis: >-
-    Earliest Monday with at least 100 classified eligible contracts, each with
-    365 complete prior UTC daily bars. The availability-only audit found 130
-    candidates on 2023-04-03 and at least 130 at every primary rebalance through
-    2025-09-29. Freeze this start before calculating any strategy performance.
+    User-authorized available-data MVP. Start at 2023-04-03 because the source
+    audit found complete 365-day price history for the preliminary candidates.
+    Include only candidates with body-backed USDT-M launch evidence available
+    in the retained archive; apply only body-backed effective delist events.
+    Do not infer a missing event from absence. Permit fewer than 100 names,
+    rank the available set, and do not backfill. This is a price-only diagnostic
+    with incomplete asset classification and lifecycle evidence, not a complete
+    point-in-time-universe result. Run development only; do not open the
+    historical holdout or claim thesis confirmation.
   development_folds:
     method: four_non_overlapping_chronological_equal_calendar_folds
     intervals_half_open_utc:
@@ -129,7 +133,7 @@ evaluation:
   primary_sequence:
     score_rank_method: cross_sectional_percentile_rank_higher_is_better
     rank_ties: average_rank_then_symbol_ascending_for_selection
-    universe_before_alpha_ranking: point_in_time_top_100_by_trailing_30d_quote_volume
+    universe_before_alpha_ranking: point_in_time_available_top_100_by_trailing_30d_quote_volume
     selection: top_20_percent_of_ranked_universe
     target_gross_exposure: 1.0
     max_single_position_weight: 0.10
@@ -299,11 +303,15 @@ evaluation:
     no_combined_grid_search: true
 baseline: >-
   Compare the long-only portfolio with zero-return cash. At each eligible
-  rebalance, rank top-100 USDT-volume crypto-native altcoins by the accepted
-  score; select the top 20%. M0 weights selected names equally. Filters do not
-  backfill; unused allocations remain cash. M3 changes only selected-name
-  weights and does not lever the portfolio. M1 and M4 add equally weighted
-  cross-sectional ranks to the currently accepted score.
+  rebalance, rank the available eligible crypto-native altcoins by prior
+  30-day USDT quote volume, retain up to the top 100, and select the top 20%
+  by accepted score. M0 weights selected names equally. Filters do not
+  backfill; unused allocations remain cash. This MVP permits fewer than 100
+  names when inputs are missing and records the smaller universe. Net
+  portfolio returns include 5 bps per-side trading friction and exclude
+  perpetual funding because historical settlement mark prices are unavailable.
+  M3 changes only selected-name weights and does not lever the portfolio. M1
+  and M4 add equally weighted cross-sectional ranks to the accepted score.
 costs:
   commission_bps: 0
   slippage_bps: 0
@@ -318,6 +326,11 @@ costs:
   cost_multipliers: [1, 2, 3]
   bps_per_side_by_multiplier: {1: 5, 2: 10, 3: 15}
   funding_included: false
+  funding_treatment: >-
+    Not included in MVP returns. The session has no historical settlement
+    mark-price input aligned with funding events. Do not treat omitted funding
+    as zero; report results as before-funding and acquire/validate the event
+    rate and settlement mark-price series before funding-adjusted evaluation.
   cash_return: 0.0
   size_scaled_impact_model: false
   capacity_claim_allowed: false

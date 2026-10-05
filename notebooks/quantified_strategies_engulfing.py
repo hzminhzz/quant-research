@@ -40,7 +40,7 @@ def _():
     alt.data_transformers.enable('default')
     alt.data_transformers.disable_max_rows()
 
-    LSE_API_KEY = 'lse_live_d72c14901cca9af5e4eb163cd4f7ae56'
+    LSE_API_KEY = os.environ["LSE_API_KEY"]
     lse_client = LSE(api_key=LSE_API_KEY)
 
     def fetch_dax_candles(

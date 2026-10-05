@@ -1,0 +1,130 @@
+# Frozen exploratory specification for BTC/ETH dynamic relative-value mean reversion.
+# Approved by user on 2026-10-04 before any strategy-return calculation.
+session_id: btc-eth-relative-value-20261004
+status: EXPLORATORY
+approval_status: NOT_APPROVED
+research_question: >-
+  Can temporary BTC/ETH relative-price divergence be traded profitably on
+  Binance USDⓈ-M BTCUSDT and ETHUSDT perpetuals after realistic execution
+  costs and actual signed funding?
+hypothesis: >-
+  BTC and ETH share a strong common crypto-market factor. Temporary
+  idiosyncratic positioning, liquidation and flow shocks can push ETH away
+  from its rolling BTC relationship. When that spread remains stationary,
+  common-factor repricing should pull the relative spread back.
+falsifier: >-
+  Reject the thesis if the single sequentially selected development model has
+  non-positive mean daily net return at 2x costs including funding, is positive
+  in fewer than 3 of 5 development calendar years, or has a one-sided 95%
+  stationary-bootstrap lower confidence bound for mean daily net return at or
+  below zero. A failed frozen holdout is a failed confirmation.
+instruments:
+  - symbol: BTCUSDT
+    venue: Binance USDⓈ-M Futures
+    kind: linear_perpetual
+    quote_asset: USDT
+    margin_asset: USDT
+  - symbol: ETHUSDT
+    venue: Binance USDⓈ-M Futures
+    kind: linear_perpetual
+    quote_asset: USDT
+    margin_asset: USDT
+data:
+  prices:
+    source: ml4t-data canonical Binance USDⓈ-M 1h OHLCV store
+    path: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP
+    missing_tail_rule: download Binance public fapi 1h klines only for missing 2026-09 coverage
+  funding:
+    source: Binance public /fapi/v1/fundingRate
+    requirement: complete BTCUSDT and ETHUSDT funding history for evaluation period
+    signed_pnl: positive funding means longs pay shorts
+evaluation:
+  timezone: UTC
+  bar_frequency: 1h
+  development_start: '2021-01-01T00:00:00Z'
+  development_end_exclusive: '2026-01-01T00:00:00Z'
+  frozen_holdout_start: '2026-01-01T00:00:00Z'
+  frozen_holdout_end_exclusive: '2026-10-01T00:00:00Z'
+  signal_time: hourly close
+  execution_time: next hourly open
+  same_bar_execution: prohibited
+  daily_reporting: compound hourly net returns by UTC day
+model:
+  baseline_P0:
+    formation_days: 90
+    regression: rolling OLS log_ETH ~ alpha + beta * log_BTC
+    zscore_window_days: 90
+    entry_abs_z: 2.0
+    exit_abs_z: 0.5
+    emergency_exit_abs_z: 4.0
+    max_holding_hours: 48
+    gross_exposure: 1.0
+    hedge: normalize raw ETH weight 1 and BTC weight -beta to unit gross
+    direction:
+      z_positive: short ETH long BTC
+      z_negative: long ETH short BTC
+  P1_stationarity_gate:
+    inherits: P0
+    check_frequency: daily at 00:00 UTC using information through that completed hour
+    window_days: 90
+    adf_p_max: 0.05
+    kpss_p_min: 0.05
+    ar1_half_life_hours_min: 2
+    ar1_half_life_hours_max: 72
+    entry_rule: entries require latest passed daily stationarity gate
+    open_position_rule: close next hourly open if latest daily stationarity gate fails
+  P2_volatility_shock_gate:
+    inherits: accepted P0_or_P1
+    realized_volatility_window_hours: 24
+    threshold_history_days: 90
+    threshold_quantile: 0.95
+    entry_rule: >-
+      Do not enter when either BTC or ETH trailing 24h realized volatility is
+      above its own trailing 90d 95th percentile. Existing positions are not
+      force-closed by this filter.
+selection:
+  order: [P0, P1, P2]
+  primary_cost_multiplier: 2
+  start_with: P0
+  promotion_rule: >-
+    Promote a child over its current parent only if full-development mean daily
+    net return is greater than the parent's and the child's annual net return
+    exceeds the parent's in at least 3 of the 5 development calendar years.
+  final_development_acceptance:
+    mean_daily_net_return_positive: true
+    positive_calendar_years_min: 3
+    stationary_bootstrap:
+      expected_block_length_days: 7
+      resamples: 5000
+      one_sided_confidence: 0.95
+      lower_bound_must_exceed_zero: true
+  holdout:
+    open_count: 1
+    use: one_time_confirmation_of_single_frozen_primary_model
+sensitivities:
+  development_only:
+    formation_days: [60, 120]
+    entry_abs_z: [1.5, 2.5]
+    max_holding_hours: [24, 72]
+  rule: >-
+    Change one axis at a time from the frozen selected primary model. Sensitivity
+    outcomes do not select or modify the holdout model.
+costs:
+  base_all_in_bps_per_side_per_leg: 5
+  multipliers: [1, 2, 3]
+  funding_included: true
+  impact_model: none
+  capacity_claim_allowed: false
+trials:
+  - {id: P0, kind: preregistered}
+  - {id: P1, kind: preregistered}
+  - {id: P2, kind: preregistered}
+  - {id: sensitivity-formation-60d, kind: preregistered}
+  - {id: sensitivity-formation-120d, kind: preregistered}
+  - {id: sensitivity-entry-1p5, kind: preregistered}
+  - {id: sensitivity-entry-2p5, kind: preregistered}
+  - {id: sensitivity-hold-24h, kind: preregistered}
+  - {id: sensitivity-hold-72h, kind: preregistered}
+  - {id: cost-1x, kind: preregistered}
+  - {id: cost-2x, kind: preregistered}
+  - {id: cost-3x, kind: preregistered}

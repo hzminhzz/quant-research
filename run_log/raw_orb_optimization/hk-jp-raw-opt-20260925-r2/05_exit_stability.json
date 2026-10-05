@@ -1,0 +1,475 @@
+{
+  "best_by_sharpe": "be_1.00_trail_0.75",
+  "center_current_parameters": {
+    "annualized_sharpe": 0.5059091946644692,
+    "breakeven_trigger_r": 1.0,
+    "by_symbol": {
+      "HK33": {
+        "mean_size": 1.0,
+        "net_r": 17.576387080687265,
+        "raw_net_r": 17.576387080687265,
+        "trades": 252,
+        "win_rate_pct": 52.38095238095239
+      },
+      "JP225": {
+        "mean_size": 1.0,
+        "net_r": 22.196657854179698,
+        "raw_net_r": 22.196657854179698,
+        "trades": 242,
+        "win_rate_pct": 52.066115702479344
+      }
+    },
+    "dsr_family": {
+      "dsr_probability": 0.856702380230649,
+      "expected_max_null": 0.14736515678304934,
+      "haircut_sharpe": 0.3585440378814198,
+      "n_trials": 9,
+      "observed_sharpe": 0.5059091946644692
+    },
+    "exit_reasons": {
+      "eow_calendar_exit": 132,
+      "profit_target": 38,
+      "stop_loss": 324
+    },
+    "max_drawdown": -0.20170369621840367,
+    "mean_r": 0.08051223671025703,
+    "mean_size": 1.0,
+    "median_r": 0.02631249999999629,
+    "net_r": 39.773044934866974,
+    "raw_net_r": 39.773044934866974,
+    "risk_normalized_net_r": 39.773044934866974,
+    "trades": 494,
+    "trailing_distance_r": 1.0,
+    "win_rate_pct": 52.226720647773284,
+    "within_10pct_of_best_sharpe": false
+  },
+  "near_best_sharpe_fraction": 0.3333333333333333,
+  "pbo": {
+    "normalized_oos_ranks_of_is_winner": [
+      0.75,
+      0.5,
+      1.0,
+      0.25,
+      0.625,
+      0.75,
+      0.375,
+      0.25,
+      0.75,
+      0.25,
+      0.25,
+      0.125,
+      0.625,
+      0.5,
+      0.25,
+      0.25,
+      0.375,
+      0.25,
+      0.5,
+      0.5,
+      0.75,
+      0.75,
+      0.25,
+      0.5,
+      0.375,
+      0.5,
+      0.125,
+      0.5
+    ],
+    "paths": 28,
+    "pbo": 0.2857142857142857
+  },
+  "policy": "The surface is a development diagnostic. No parameter change is promoted without new prospective confirmation.",
+  "profitable_surface_fraction": 1.0,
+  "promotion_allowed": false,
+  "schema_version": "orb_exit_stability/v1",
+  "selection_period": "2017-2024 only",
+  "surface": {
+    "be_0.75_trail_0.75": {
+      "annualized_sharpe": 0.6495055610181188,
+      "breakeven_trigger_r": 0.75,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 15.561813563597655,
+          "raw_net_r": 15.561813563597655,
+          "trades": 257,
+          "win_rate_pct": 56.03112840466926
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 30.386425628550903,
+          "raw_net_r": 30.386425628550903,
+          "trades": 242,
+          "win_rate_pct": 56.19834710743802
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.9332938480870002,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.5021404042350694,
+        "n_trials": 9,
+        "observed_sharpe": 0.6495055610181188
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 106,
+        "profit_target": 26,
+        "stop_loss": 367
+      },
+      "max_drawdown": -0.14527438753361943,
+      "mean_r": 0.09208063966362438,
+      "mean_size": 1.0,
+      "median_r": 0.05403952286282885,
+      "net_r": 45.94823919214857,
+      "raw_net_r": 45.94823919214857,
+      "risk_normalized_net_r": 45.94823919214857,
+      "trades": 499,
+      "trailing_distance_r": 0.75,
+      "win_rate_pct": 56.1122244488978,
+      "within_10pct_of_best_sharpe": true
+    },
+    "be_0.75_trail_1.00": {
+      "annualized_sharpe": 0.5069898756786795,
+      "breakeven_trigger_r": 0.75,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 13.602822750107501,
+          "raw_net_r": 13.602822750107501,
+          "trades": 254,
+          "win_rate_pct": 55.51181102362205
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 23.913848869637,
+          "raw_net_r": 23.913848869637,
+          "trades": 242,
+          "win_rate_pct": 53.30578512396694
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.856451694820635,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.35962471889563014,
+        "n_trials": 9,
+        "observed_sharpe": 0.5069898756786795
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 120,
+        "profit_target": 34,
+        "stop_loss": 342
+      },
+      "max_drawdown": -0.14958177808883,
+      "mean_r": 0.07563845084625907,
+      "mean_size": 1.0,
+      "median_r": 0.02614891509433591,
+      "net_r": 37.5166716197445,
+      "raw_net_r": 37.5166716197445,
+      "risk_normalized_net_r": 37.5166716197445,
+      "trades": 496,
+      "trailing_distance_r": 1.0,
+      "win_rate_pct": 54.43548387096774,
+      "within_10pct_of_best_sharpe": false
+    },
+    "be_0.75_trail_1.25": {
+      "annualized_sharpe": 0.4430117508524611,
+      "breakeven_trigger_r": 0.75,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 14.420925854363098,
+          "raw_net_r": 14.420925854363098,
+          "trades": 253,
+          "win_rate_pct": 54.9407114624506
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 18.96426537737482,
+          "raw_net_r": 18.96426537737482,
+          "trades": 242,
+          "win_rate_pct": 52.892561983471076
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.8077773693740106,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.29564659406941174,
+        "n_trials": 9,
+        "observed_sharpe": 0.4430117508524611
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 123,
+        "profit_target": 38,
+        "stop_loss": 334
+      },
+      "max_drawdown": -0.16878190129575132,
+      "mean_r": 0.06744483077118772,
+      "mean_size": 1.0,
+      "median_r": 0.01732120057170833,
+      "net_r": 33.38519123173792,
+      "raw_net_r": 33.38519123173792,
+      "risk_normalized_net_r": 33.38519123173792,
+      "trades": 495,
+      "trailing_distance_r": 1.25,
+      "win_rate_pct": 53.939393939393945,
+      "within_10pct_of_best_sharpe": false
+    },
+    "be_1.00_trail_0.75": {
+      "annualized_sharpe": 0.6670567788872088,
+      "breakeven_trigger_r": 1.0,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 19.046683038046595,
+          "raw_net_r": 19.046683038046595,
+          "trades": 255,
+          "win_rate_pct": 52.156862745098046
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 31.37396612555535,
+          "raw_net_r": 31.37396612555535,
+          "trades": 242,
+          "win_rate_pct": 54.132231404958674
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.9410601107785037,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.5196916221041594,
+        "n_trials": 9,
+        "observed_sharpe": 0.6670567788872088
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 118,
+        "profit_target": 30,
+        "stop_loss": 349
+      },
+      "max_drawdown": -0.16748449206817329,
+      "mean_r": 0.10144999831710651,
+      "mean_size": 1.0,
+      "median_r": 0.16670484848484848,
+      "net_r": 50.42064916360194,
+      "raw_net_r": 50.42064916360194,
+      "risk_normalized_net_r": 50.42064916360194,
+      "trades": 497,
+      "trailing_distance_r": 0.75,
+      "win_rate_pct": 53.118712273641854,
+      "within_10pct_of_best_sharpe": true
+    },
+    "be_1.00_trail_1.00": {
+      "annualized_sharpe": 0.5059091946644692,
+      "breakeven_trigger_r": 1.0,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 17.576387080687265,
+          "raw_net_r": 17.576387080687265,
+          "trades": 252,
+          "win_rate_pct": 52.38095238095239
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 22.196657854179698,
+          "raw_net_r": 22.196657854179698,
+          "trades": 242,
+          "win_rate_pct": 52.066115702479344
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.856702380230649,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.3585440378814198,
+        "n_trials": 9,
+        "observed_sharpe": 0.5059091946644692
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 132,
+        "profit_target": 38,
+        "stop_loss": 324
+      },
+      "max_drawdown": -0.20170369621840367,
+      "mean_r": 0.08051223671025703,
+      "mean_size": 1.0,
+      "median_r": 0.02631249999999629,
+      "net_r": 39.773044934866974,
+      "raw_net_r": 39.773044934866974,
+      "risk_normalized_net_r": 39.773044934866974,
+      "trades": 494,
+      "trailing_distance_r": 1.0,
+      "win_rate_pct": 52.226720647773284,
+      "within_10pct_of_best_sharpe": false
+    },
+    "be_1.00_trail_1.25": {
+      "annualized_sharpe": 0.40611570203877884,
+      "breakeven_trigger_r": 1.0,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 17.14103521750653,
+          "raw_net_r": 17.14103521750653,
+          "trades": 251,
+          "win_rate_pct": 51.39442231075697
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 15.37631080888735,
+          "raw_net_r": 15.37631080888735,
+          "trades": 242,
+          "win_rate_pct": 51.2396694214876
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.7770117838856254,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.2587505452557295,
+        "n_trials": 9,
+        "observed_sharpe": 0.40611570203877884
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 135,
+        "profit_target": 42,
+        "stop_loss": 316
+      },
+      "max_drawdown": -0.2438883786783611,
+      "mean_r": 0.06595810553021071,
+      "mean_size": 1.0,
+      "median_r": 0.008564970059884547,
+      "net_r": 32.51734602639388,
+      "raw_net_r": 32.51734602639388,
+      "risk_normalized_net_r": 32.51734602639388,
+      "trades": 493,
+      "trailing_distance_r": 1.25,
+      "win_rate_pct": 51.3184584178499,
+      "within_10pct_of_best_sharpe": false
+    },
+    "be_1.25_trail_0.75": {
+      "annualized_sharpe": 0.660184393478504,
+      "breakeven_trigger_r": 1.25,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 17.385472143890574,
+          "raw_net_r": 17.385472143890574,
+          "trades": 252,
+          "win_rate_pct": 47.22222222222222
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 35.130392296845585,
+          "raw_net_r": 35.130392296845585,
+          "trades": 241,
+          "win_rate_pct": 51.45228215767634
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.9371574908060033,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.5128192366954547,
+        "n_trials": 9,
+        "observed_sharpe": 0.660184393478504
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 138,
+        "profit_target": 30,
+        "stop_loss": 325
+      },
+      "max_drawdown": -0.19537745483324165,
+      "mean_r": 0.10652305160392729,
+      "mean_size": 1.0,
+      "median_r": -0.0507788950276243,
+      "net_r": 52.51586444073615,
+      "raw_net_r": 52.51586444073615,
+      "risk_normalized_net_r": 52.51586444073615,
+      "trades": 493,
+      "trailing_distance_r": 0.75,
+      "win_rate_pct": 49.290060851926974,
+      "within_10pct_of_best_sharpe": true
+    },
+    "be_1.25_trail_1.00": {
+      "annualized_sharpe": 0.5320448622224067,
+      "breakeven_trigger_r": 1.25,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 14.749084995568186,
+          "raw_net_r": 14.749084995568186,
+          "trades": 249,
+          "win_rate_pct": 47.389558232931726
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 28.583540442987513,
+          "raw_net_r": 28.583540442987513,
+          "trades": 241,
+          "win_rate_pct": 51.45228215767634
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.872778458163094,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.3846797054393573,
+        "n_trials": 9,
+        "observed_sharpe": 0.5320448622224067
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 149,
+        "profit_target": 38,
+        "stop_loss": 303
+      },
+      "max_drawdown": -0.2001630886317759,
+      "mean_r": 0.08843392946644023,
+      "mean_size": 1.0,
+      "median_r": -0.049756584768719817,
+      "net_r": 43.33262543855571,
+      "raw_net_r": 43.33262543855571,
+      "risk_normalized_net_r": 43.33262543855571,
+      "trades": 490,
+      "trailing_distance_r": 1.0,
+      "win_rate_pct": 49.38775510204081,
+      "within_10pct_of_best_sharpe": false
+    },
+    "be_1.25_trail_1.25": {
+      "annualized_sharpe": 0.42726858488875236,
+      "breakeven_trigger_r": 1.25,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 15.802643312774038,
+          "raw_net_r": 15.802643312774038,
+          "trades": 248,
+          "win_rate_pct": 46.774193548387096
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 19.629205000544086,
+          "raw_net_r": 19.629205000544086,
+          "trades": 241,
+          "win_rate_pct": 51.037344398340245
+        }
+      },
+      "dsr_family": {
+        "dsr_probability": 0.7946953904173146,
+        "expected_max_null": 0.14736515678304934,
+        "haircut_sharpe": 0.279903428105703,
+        "n_trials": 9,
+        "observed_sharpe": 0.42726858488875236
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 152,
+        "profit_target": 43,
+        "stop_loss": 294
+      },
+      "max_drawdown": -0.24517742402786602,
+      "mean_r": 0.07245776751189803,
+      "mean_size": 1.0,
+      "median_r": -0.0507788950276243,
+      "net_r": 35.431848313318135,
+      "raw_net_r": 35.431848313318135,
+      "risk_normalized_net_r": 35.431848313318135,
+      "trades": 489,
+      "trailing_distance_r": 1.25,
+      "win_rate_pct": 48.875255623721884,
+      "within_10pct_of_best_sharpe": false
+    }
+  }
+}

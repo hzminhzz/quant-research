@@ -15,7 +15,24 @@
     "symbols_with_missing_months_within_observed_span": 0,
     "symbols_with_reported_missing_hours": 10,
     "reported_missing_hours_total": 223,
-    "maximum_reported_missing_hours_for_one_symbol": 120
+    "maximum_reported_missing_hours_for_one_symbol": 120,
+    "canonical_extension_2026-10-04": {
+      "manifest_sha256": "e90d04fb5a13446c1a066ca01429ab4ed65af62e72e5afaa43e9d1397a411cbc",
+      "archive_count_published_or_present": 21503,
+      "symbols": 864,
+      "hourly_rows": 15382059,
+      "last_timestamp": "2026-09-30T23:00:00Z",
+      "candidate_archives_imported": 120,
+      "candidate_archive_rows": 86400,
+      "candidate_archive_missing_hours": 0,
+      "compressed_source_bytes": 3103642,
+      "ingest": "ml4t-data fetch_binance_um_perps_1h.py; explicit candidate inventory after the bucket listing endpoint returned HTML instead of XML",
+      "inventory_file": "data/research_sessions/altcoin_momentum/archive_candidates/binance_2026-09_candidate_archive_inventory.json",
+      "inventory_sha256": "6f811dc8e61fea7263357f40db0357a2f31373f6e2e9514e2230de9e7a60dfd8",
+      "head_probe_file": "data/research_sessions/altcoin_momentum/archive_candidates/binance_2026-09_candidate_archive_head_probe.json",
+      "head_probe_sha256": "95b28fcef832da6e17257f4a45900b399f8a4a8d8c2ec47c17968e0d2683e8e0",
+      "head_probe_status_counts": {"200": 120}
+    }
   },
   "method": {
     "source_store_read_only": true,
@@ -25,30 +42,686 @@
     "eligibility_rule": "Require a Binance USDT-margined perpetual with a crypto-native base asset. Exclude BTC, ETH, fiat/cash-pegged assets, and index or non-crypto-underlying products. Apply product classification from dated venue or issuer evidence before any performance run.",
     "point_in_time_rule": "Only data through the decision timestamp contributes to an instrument's availability and trailing-liquidity eligibility. Future bars and returns are not used to qualify an earlier date.",
     "liquidity_rule": "At each rebalance, rank available eligible contracts by trailing 30-day USDT quote volume; the audit checks that at least 100 contracts can qualify, but does not calculate the ranking or any performance outcome.",
-    "stablecoin_symbols_identified_in_archive": ["USDCUSDT", "USTCUSDT"],
-    "non-altcoin_index_symbols_identified_in_early_coverage": ["BTCDOMUSDT", "DEFIUSDT"]
+    "peg_or_stablecoin_candidates_in_archive": ["USDCUSDT", "USTCUSDT"],
+    "non-altcoin_index_symbols_identified_in_early_coverage": ["BTCDOMUSDT", "DEFIUSDT"],
+    "peg_classification_limitation": "Symbol-name candidates only. Peg status is time-dependent; do not exclude USTCUSDT as cash-pegged during the study without dated asset evidence.",
+    "skill_catalog_revision": "f0ea01919e0c517cd9b1e014724a520facd8a742",
+    "selected_skills": [
+      {
+        "name": "ml4t-research",
+        "local_path": "skill://ml4t-research",
+        "provenance_note": "Runtime-provided skill content was read. No local SKILL.md or upstream URL/revision was identified; do not claim it as a locally loaded official ML4T skill.",
+        "reason": "Enforce preregistered research gates before any strategy trial.",
+        "invariants": "Do not open strategy outcomes or run trials while dated eligibility and holdout coverage remain unresolved.",
+        "verification": "strategy_outcomes_opened=false; session_initialized=false."
+      },
+      {
+        "name": "ml4t-fetch-data",
+        "local_path": ".agents/skills/ml4t-fetch-data/SKILL.md",
+        "reason": "Audit source identity, provenance, and archive completeness.",
+        "invariants": "Preserve source manifests and hashes; report missing coverage instead of silently filling or inferring it.",
+        "verification": "Canonical manifest SHA-256 and the 864/869/833/31/36 set reconciliation were independently checked."
+      },
+      {
+        "name": "ml4t-validate-data",
+        "local_path": ".agents/skills/ml4t-validate-data/SKILL.md",
+        "reason": "Check hourly coverage and stale/zero-activity archive rows before modeling.",
+        "invariants": "Use UTC-aware complete bars; do not treat zero-volume post-settlement rows as tradeable or synthesize missing bars.",
+        "verification": "Manifest coverage and AERGOUSDT/SXPUSDT volume boundaries were inspected without calculating returns."
+      },
+      {
+        "name": "ml4t-point-in-time",
+        "local_path": ".agents/skills/ml4t-point-in-time/SKILL.md",
+        "reason": "Require date-specific availability evidence and prevent current metadata from leaking into historical decisions.",
+        "invariants": "Use lifecycle effective dates only from dated evidence; do not backfill historical status from a later snapshot.",
+        "verification": "The 2026-10-03 exchangeInfo interval screen was rejected for historical membership."
+      },
+      {
+        "name": "ml4t-define-universe",
+        "local_path": ".agents/skills/ml4t-define-universe/SKILL.md",
+        "reason": "Define an investable point-in-time contract universe before evaluating signals.",
+        "invariants": "Use venue and asset-class evidence, then enforce the declared minimum eligible count at each rebalance.",
+        "verification": "No date-qualified membership count is accepted while lifecycle evidence is incomplete."
+      },
+      {
+        "name": "ml4t-survivorship-bias",
+        "local_path": ".agents/skills/ml4t-survivorship-bias/SKILL.md",
+        "reason": "Prevent a current-contract screen from replacing the historical universe.",
+        "invariants": "Include dated delisted episodes when verified; disclose and exclude unresolved episodes rather than infer status from current survivors.",
+        "verification": "Historical-only symbols and unverified lifecycle episodes remain excluded from any frozen universe."
+      },
+      {
+        "name": "ml4t-lookahead-bias",
+        "local_path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+        "reason": "Guard against using future product metadata or price rows to qualify earlier decisions.",
+        "invariants": "Only point-in-time information may determine eligibility; observed bars cannot prove listing or settlement status.",
+        "verification": "The current exchangeInfo interval screen was marked invalid and no session was initialized."
+      }
+    ]
   },
   "development_start": {
-    "date": "2023-04-03",
+    "candidate_start_date": "2023-04-03",
     "rebalance_anchor": "Monday 00:00 UTC",
     "last_completed_signal_day": "2023-04-02",
-    "eligible_contracts_with_365_complete_daily_bars": 130,
-    "minimum_eligible_contracts_per_primary_rebalance_through_2025-09-29": 130,
-    "eligible_contracts_on_2025-09-29": 300,
-    "decision": "Earliest Monday with at least 100 eligible crypto-native USDT perpetuals, each with 365 complete prior UTC daily bars and complete quote-volume observations. Top-100 liquidity selection is therefore possible from this date."
+    "preliminary_price_availability_candidate_count_with_365_complete_daily_bars": 130,
+    "preliminary_candidate_count_on_2025-09-29": 300,
+    "price_coverage_recomputation_2026-10-03": {
+      "window_start_utc": "2022-04-03T00:00:00Z",
+      "window_end_utc": "2023-04-02T23:00:00Z",
+      "required_utc_days": 365,
+      "hourly_rows": 1198148,
+      "daily_symbol_rows": 49924,
+      "monthly_parquet_files_scanned": 1781,
+      "complete_price_series_before_symbol_exclusions": 134,
+      "excluded_symbol_leads": ["BTCUSDT", "ETHUSDT", "BTCDOMUSDT", "DEFIUSDT"],
+      "remaining_price_availability_candidates": 130,
+      "sorted_candidate_symbols_sha256": "ad5a4892bb2191836c9b07f0b2ef98c1b2579cb287c5eeaf28cdc1fad4e3b5e0",
+      "source_manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+      "daily_completeness_check": "Each of 365 UTC dates has exactly 24 rows, 24 unique hourly timestamps, and 24 non-null quote_volume values.",
+      "limitation": "This is price availability only. It does not establish dated product eligibility, crypto-native asset classification, or tradability."
+    },
+    "current_exchange_info_interval_screen": {
+      "snapshot_retrieved_at": "2026-10-03T09:37:44.650313Z",
+      "screen_count": 115,
+      "status": "invalid_for_historical_eligibility",
+      "reason": "Current onboardDate/deliveryDate fields do not establish the dated historical lifecycle or when a scheduled event became available. They support current product/type screening only."
+    },
+    "date_qualified_contract_count_supported_by_retained_official_lifecycle_evidence": 0,
+    "minimum_date_qualified_contracts_per_primary_rebalance": null,
+    "decision": "NOT_ACCEPTED: historical listing/delisting chains and date-specific asset classifications are incomplete. The preliminary counts do not establish the required minimum of 100. Do not initialize the session or calculate returns."
   },
   "holdout_coverage": {
     "requested_start": "2025-10-01",
     "requested_end_inclusive": "2026-10-02",
-    "source_latest_date": "2026-08-31",
-    "missing_source_interval": ["2026-09-01", "2026-10-02"],
+    "canonical_source_latest_date": "2026-08-31",
+    "canonical_missing_source_interval": ["2026-09-01", "2026-10-02"],
+    "session_isolated_extension": "data/research_sessions/altcoin_momentum/archive_candidates/dataset_manifest.json and api_tail_manifest.json",
+    "candidate_price_symbols_with_september_and_terminal_tail": 120,
+    "candidate_price_symbols_missing_from_both": ["ANTUSDT", "AUDIOUSDT", "BTCSTUSDT", "BTSUSDT", "EOSUSDT", "HNTUSDT", "MATICUSDT", "SRMUSDT", "SXPUSDT", "TOMOUSDT"],
     "complete": false,
+    "reason": "The session-isolated 869-symbol archive contains 120 of 130 preliminary price candidates through 2026-10-02 and the 2026-10-03T00:00Z open. Ten candidates lack this tail; their lifecycle and liquidation inputs remain unresolved.",
     "strategy_outcomes_opened": false
+  },
+  "candidate_update_2026-10-03": {
+    "scope": "supplemental_input_audit_only_no_strategy_trials",
+    "archive_monthly_1h": {
+      "manifest": "data/research_sessions/altcoin_momentum/archive_candidates/dataset_manifest.json",
+      "manifest_sha256": "972a87f994746bf4f3a8735a03e69eda6c31288cbafdf8119b6dcc37cb5e2199",
+      "archives_discovered": 869,
+      "archives_published_or_present": 869,
+      "failed_archives": 0,
+      "rows": 612312,
+      "first_timestamp": "2026-09-01T00:00:00Z",
+      "last_timestamp": "2026-09-30T23:00:00Z",
+      "reported_missing_hours": 0,
+      "role": "session-isolated September extension; not merged into the canonical store"
+    },
+    "hourly_api_tail": {
+      "manifest": "data/research_sessions/altcoin_momentum/archive_candidates/api_tail_manifest.json",
+      "manifest_sha256": "34c9ff8ebec1c376f2ea7797a8d6d3077290e00ed18ce1d228156aef02760054",
+      "source_url": "https://fapi.binance.com/fapi/v1/klines",
+      "symbols": 869,
+      "rows": 42581,
+      "rows_per_symbol": 49,
+      "first_timestamp": "2026-10-01T00:00:00Z",
+      "last_timestamp": "2026-10-03T00:00:00Z",
+      "last_bar_role": "terminal liquidation open only; not a completed bar",
+      "failed_symbols": 0
+    },
+    "canonical_vs_september_archive": {
+      "canonical_manifest": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/dataset_manifest.json",
+      "canonical_manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+      "canonical_symbols": 864,
+      "september_manifest": "data/research_sessions/altcoin_momentum/archive_candidates/dataset_manifest.json",
+      "september_symbols": 869,
+      "shared_symbols": 833,
+      "historical_only_symbols_absent_from_current_exchange_info": [
+        "1000BTTCUSDT", "AERGOUSDT", "AKROUSDT", "ANCUSDT", "ANTUSDT",
+        "AUDIOUSDT", "BDXNUSDT", "BLUEBIRDUSDT", "BTCSTUSDT", "BTSUSDT",
+        "BTTUSDT", "BZRXUSDT", "COCOSUSDT", "DODOUSDT", "DOTECOUSDT",
+        "EOSUSDT", "FOOTBALLUSDT", "FRONTUSDT", "GALUSDT", "HNTUSDT",
+        "KEEPUSDT", "LENDUSDT", "LUNAUSDT", "MATICUSDT", "MBLUSDT",
+        "NUUSDT", "RNDRUSDT", "SRMUSDT", "SXPUSDT", "TOMOUSDT", "YFIIUSDT"
+      ],
+      "september_only_symbols": 36,
+      "september_only_symbols_onboarded_in_2026": 36,
+      "september_only_symbols_onboarded_before_holdout_end": 0,
+      "limitation": "The canonical and September symbol sets differ. Current exchangeInfo omits 31 symbols present in canonical historical data; current metadata cannot establish their dated product or asset status. The 36 September-only symbols have 2026 onboardDate values and cannot satisfy the 365-complete-daily-bar warm-up by the 2026-10-02 holdout end. Reconcile all eligible historical episodes and complete per-symbol price coverage before freezing the universe."
+    },
+    "current_exchange_info": {
+      "path": "data/research_sessions/altcoin_momentum/archive_candidates/official_exchange_info.json",
+      "provenance": "data/research_sessions/altcoin_momentum/archive_candidates/official_exchange_info.source.json",
+      "response_sha256": "444638427300e68417c37c33231155004c15bba757eaee79b67487d7d0420be6",
+      "retrieved_at": "2026-10-03T09:37:44.650313Z",
+      "current_screen_reconciliation": {
+        "exchange_info_symbol_count": 920,
+        "active_usdt_margin_usdt_quote_perpetuals": 528,
+        "underlying_type_coin": 526,
+        "other_underlying_types": 2,
+        "september_archive_symbols": 869,
+        "archive_symbols_matching_exchange_info": 869,
+        "archive_symbols_absent_from_exchange_info": 0,
+        "current_screen_failure_field_counts_overlap": {
+          "status_not_TRADING": 130,
+          "contractType_not_PERPETUAL": 212,
+          "underlyingType_not_COIN": 215,
+          "quoteAsset_not_USDT": 0,
+          "marginAsset_not_USDT": 0
+        },
+        "archive_symbols_matching_current_coin_screen": 525,
+        "archive_symbols_not_matching_current_coin_screen": 344,
+        "current_coin_screen_symbols_without_september_archive": 1,
+        "current_coin_screen_without_archive_details": [
+          {
+            "symbol": "CTUSDT",
+            "onboardDate_utc": "2026-10-01T07:45:00Z",
+            "september_archive_present": false,
+            "study_exclusion": "onboarded after the 2026-10-02 holdout end; cannot satisfy the 365-complete-daily-bar warm-up within this study"
+          }
+        ],
+        "screen_fields": ["status=TRADING", "contractType=PERPETUAL", "quoteAsset=USDT", "marginAsset=USDT", "underlyingType=COIN"],
+        "limitation": "Snapshot cross-section only. This is not a historical universe; BTC, ETH, pegs, onboarding, and prior delist state still require dated evidence."
+      },
+      "current_index_products": [
+        {
+          "symbol": "BTCDOMUSDT",
+          "underlyingType": "INDEX",
+          "underlyingSubType": ["Index", "Crypto"],
+          "onboardDate_utc": "2021-06-17T07:00:00Z",
+          "september_archive_present": true,
+          "current_screen_exclusion": "index product"
+        },
+        {
+          "symbol": "ALLUSDT",
+          "underlyingType": "INDEX",
+          "underlyingSubType": ["Index", "Crypto"],
+          "onboardDate_utc": "2025-08-06T09:30:00Z",
+          "september_archive_present": true,
+          "current_screen_exclusion": "index product"
+        }
+      ],
+      "limitation": "current contract metadata only; does not establish historical onboarding, peg, or delisting state"
+    },
+    "onboardDate_archive_first_bar_mismatch_screen": {
+      "criterion": "current exchangeInfo onboardDate is more than 30 days after the first canonical archive bar",
+      "comparison": "lead-only screen; does not establish a relisting, original listing date, or archive error",
+      "snapshot_retrieved_at": "2026-10-03T09:37:44.650313Z",
+      "symbols": [
+        {"symbol": "AIAUSDT", "first_archive_bar_utc": "2025-09-18T08:00:00Z", "current_onboardDate_utc": "2026-01-20T11:15:00Z", "difference_days": 124, "current_status": "TRADING"},
+        {"symbol": "BNXUSDT", "first_archive_bar_utc": "2022-04-01T03:00:00Z", "current_onboardDate_utc": "2023-02-22T07:00:00Z", "difference_days": 327, "current_status": "SETTLING"},
+        {"symbol": "CTKUSDT", "first_archive_bar_utc": "2020-11-19T07:00:00Z", "current_onboardDate_utc": "2025-04-30T10:15:00Z", "difference_days": 1623, "current_status": "TRADING"},
+        {"symbol": "CVCUSDT", "first_archive_bar_utc": "2020-11-11T07:00:00Z", "current_onboardDate_utc": "2025-05-16T08:30:00Z", "difference_days": 1647, "current_status": "TRADING"},
+        {"symbol": "CVXUSDT", "first_archive_bar_utc": "2022-09-22T12:00:00Z", "current_onboardDate_utc": "2025-07-23T11:30:00Z", "difference_days": 1034, "current_status": "TRADING"},
+        {"symbol": "ICPUSDT", "first_archive_bar_utc": "2021-05-11T03:00:00Z", "current_onboardDate_utc": "2021-07-30T07:00:00Z", "difference_days": 80, "current_status": "TRADING"},
+        {"symbol": "LITUSDT", "first_archive_bar_utc": "2021-02-18T07:00:00Z", "current_onboardDate_utc": "2025-12-23T17:30:00Z", "difference_days": 1769, "current_status": "TRADING"},
+        {"symbol": "MAVIAUSDT", "first_archive_bar_utc": "2024-02-21T10:00:00Z", "current_onboardDate_utc": "2025-03-26T17:00:00Z", "difference_days": 399, "current_status": "TRADING"},
+        {"symbol": "PUMPUSDT", "first_archive_bar_utc": "2025-04-12T14:00:00Z", "current_onboardDate_utc": "2025-07-10T07:30:00Z", "difference_days": 88, "current_status": "TRADING"},
+        {"symbol": "SLPUSDT", "first_archive_bar_utc": "2023-10-31T14:00:00Z", "current_onboardDate_utc": "2025-07-23T11:45:00Z", "difference_days": 630, "current_status": "TRADING"},
+        {"symbol": "TLMUSDT", "first_archive_bar_utc": "2021-07-16T03:00:00Z", "current_onboardDate_utc": "2023-03-29T00:00:00Z", "difference_days": 620, "current_status": "TRADING"}
+      ],
+      "verified_post_settlement_onboardDate_crosschecks": [
+        {
+          "symbol": "MAVIAUSDT",
+          "verified_prior_settlement_utc": "2024-12-16T09:00:00Z",
+          "current_onboardDate_utc": "2025-03-26T17:00:00Z",
+          "current_status": "TRADING",
+          "source_notice": "https://www.binance.com/en/support/announcement/detail/27eac260521b4f40ab331e1a345887a7",
+          "interpretation": "Current metadata records an onboarding after the verified settlement; do not backdate current status."
+        },
+        {
+          "symbol": "SLPUSDT",
+          "verified_prior_settlement_utc": "2024-05-16T09:00:00Z",
+          "current_onboardDate_utc": "2025-07-23T11:45:00Z",
+          "current_status": "TRADING",
+          "source_notice": "https://www.binance.com/en/support/announcement/detail/cb525a5fbb954935afc77630fc5bd0cc",
+          "interpretation": "Current metadata records an onboarding after the verified settlement; do not backdate current status."
+        }
+      ],
+      "limitation": "Resolve dated product episodes from official listing, delisting, and update records. Current onboardDate and first price-bar timestamp are not interchangeable."
+    },
+    "historical_product_registry": {
+      "status": "incomplete",
+      "reported_index_review_counts": {
+        "category_pages_reviewed": 44,
+        "futures_or_perpetual_notice_candidates": 77,
+        "provenance": "Counts were carried in the prior audit record, but no matching crawl payload or complete output is retained. Treat them as unverified lead counts, not a complete registry."
+      },
+      "verified_notice": {
+        "verification_method": "Obscura browser navigate and article-body snapshot",
+        "published_display": "2024-05-08 07:00",
+        "url": "https://www.binance.com/en/support/announcement/detail/cb525a5fbb954935afc77630fc5bd0cc",
+        "product": "USDⓈ-M USDT perpetual contracts",
+        "symbols": ["IDEXUSDT", "SLPUSDT", "GLMRUSDT", "MDTUSDT", "AUDIOUSDT"],
+        "settlement_groups": [
+          {"symbols": ["IDEXUSDT", "SLPUSDT", "GLMRUSDT"], "settlement_utc": "2024-05-15T09:00:00Z", "new_positions_stop_utc": "2024-05-15T08:30:00Z"},
+          {"symbols": ["MDTUSDT", "AUDIOUSDT"], "settlement_utc": "2024-05-16T09:00:00Z", "new_positions_stop_utc": "2024-05-16T08:30:00Z"}
+        ],
+        "leverage_tier_update_utc": "2024-05-08T10:30:00Z",
+        "schedule_update": false
+      },
+      "verified_delisting_2024_11_28": {
+        "published_display": "2024-11-28 23:00",
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "7adca213-c38f-4905-bdd3-26293c1e5f86",
+        "url": "https://www.binance.com/en/support/announcement/detail/cfe97d52a8c840d3ba631835b637e9e7",
+        "symbols": ["XEMUSDT", "ORBSUSDT", "LOOMUSDT"],
+        "product": "USDⓈ-M USDT perpetual contracts",
+        "settlement_time_utc": "2024-12-09T09:00:00Z",
+        "new_positions_stop_utc": "2024-12-09T08:30:00Z",
+        "prior_schedule_update": false
+      },
+      "verified_postponement": {
+        "published": "2024-12-20",
+        "url": "https://www.binance.com/en/support/announcement/detail/1e43c128806544018d3cc537a8add3f6",
+        "symbol": "OMGUSDT",
+        "product": "USDⓈ-M perpetual contract",
+        "new_settlement_time_utc": "2025-01-31T09:00:00Z",
+        "prior_schedule_chain": "Referenced as further postponed; prior effective timestamp remains unresolved."
+      },
+      "verified_delisting_2024_12_16": {
+        "published_display": "2024-12-05 22:00 UTC",
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "8984562c-d284-43aa-84d0-76ee71117466",
+        "url": "https://www.binance.com/en/support/announcement/detail/27eac260521b4f40ab331e1a345887a7",
+        "symbols": ["MAVIAUSDT", "OMGUSDT", "BONDUSDT"],
+        "product": "USDⓈ-M USDT perpetual contracts",
+        "settlement_utc": "2024-12-16T09:00:00Z",
+        "new_positions_stop_utc": "2024-12-16T08:30:00Z",
+        "schedule_update": false,
+        "later_omgusdt_postponement": "A separate 2024-12-20 notice sets OMGUSDT settlement to 2025-01-31T09:00:00Z; the full predecessor chain remains unresolved."
+      },
+      "verified_waves_futures_event": {
+        "published_display": "2024-06-02 23:00 UTC",
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "8984562c-d284-43aa-84d0-76ee71117466",
+        "url": "https://www.binance.com/en/support/announcement/detail/f65faeeefe07417a8b6dd2900ba8da7e",
+        "symbol": "WAVESUSDT",
+        "product": "USDⓈ-M USDT perpetual futures contract",
+        "settlement_utc": "2024-06-11T09:00:00Z",
+        "other_products_in_notice": "The page separately covers spot and other Binance products; their dates do not set the perpetual settlement."
+      },
+      "verified_delisting_2025_02_21": {
+        "published_display": "2025-02-17 02:00 UTC",
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "8984562c-d284-43aa-84d0-76ee71117466",
+        "url": "https://www.binance.com/en/support/announcement/detail/f3cc64a8758d4bb394e0830e5b31da97",
+        "symbols": ["AMBUSDT", "STMXUSDT"],
+        "product": "USDⓈ-M USDT perpetual contracts",
+        "settlement_utc": "2025-02-21T09:00:00Z",
+        "new_positions_stop_utc": "2025-02-21T08:30:00Z",
+        "schedule_update": false
+      },
+      "verified_non_event": {
+        "published": "2025-10-29",
+        "url": "https://www.binance.com/en/support/announcement/detail/a6c810fc36424548917e146dbe21469a",
+        "spot_delisted_assets": ["FLM", "KDA", "PERP"],
+        "futures_effect": "The notice explicitly states the perpetual contracts are not affected and may continue trading; it does not set a futures delisting date."
+      },
+      "verified_delisting_2024_03_26": {
+        "published_display": "2024-03-19 06:05 UTC",
+        "verification_method": "Obscura browser navigation and snapshot",
+        "url": "https://www.binance.com/en/support/announcement/detail/673183dd8eea4e3cba1596dcec7565d1",
+        "symbols": ["FOOTBALLUSDT", "BLUEBIRDUSDT"],
+        "product": "USDⓈ-M perpetual contracts",
+        "settlement_utc": "2024-03-26T09:00:00Z",
+        "new_positions_stop_utc": "2024-03-26T08:30:00Z",
+        "price_archive_crosscheck": {
+          "source_manifest": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/dataset_manifest.json",
+          "archive_rows_through_2024-05-28T07:00:00Z": 2120,
+          "positive_quote_volume_rows": 609,
+          "last_positive_volume_bar_open_utc": "2024-03-26T08:00:00Z",
+          "positive_volume_after_settlement": false,
+          "interpretation": "The last positive-volume hourly bar opens before the official settlement. Later archive rows have no positive quote volume and do not establish continued trading or an executable liquidation price."
+        }
+      },
+      "verified_aergo_lifecycle": {
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "c2a3e89b-54a9-4e54-9b81-85ac75bbd894",
+        "events": [
+          {
+            "published_utc": "2025-03-21T01:50:00Z",
+            "url": "https://www.binance.com/en/support/announcement/detail/db7ad1c7aa6248cda735102cdcdc4b8d",
+            "symbols": ["AERGOUSDT", "COMBOUSDT", "LINAUSDT"],
+            "product": "USDⓈ-M perpetual futures",
+            "quote_asset": "USDT",
+            "settlement_utc": "2025-03-27T09:00:00Z",
+            "schedule_update": false
+          },
+          {
+            "published_utc": "2026-07-21",
+            "url": "https://www.binance.com/en/support/announcement/detail/f0e3fc835b9545759e4279c64b200389",
+            "symbols": ["AERGOUSDT"],
+            "product": "USDⓈ-M perpetual contract",
+            "quote_asset": "USDT",
+            "settlement_utc": "2026-07-24T06:30:00Z",
+            "schedule_update": false
+          }
+        ],
+        "price_archive_crosscheck": {
+          "source_manifest": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/dataset_manifest.json",
+          "march_2025": {
+            "rows": 744,
+            "positive_quote_volume_rows": 634,
+            "last_positive_bar_open_utc": "2025-03-27T09:00:00Z"
+          },
+          "april_2025": {
+            "rows": 709,
+            "positive_quote_volume_rows": 349,
+            "first_positive_bar_open_utc": "2025-04-16T11:00:00Z"
+          },
+          "latest_canonical_bar_utc": "2026-06-30T23:00:00Z",
+          "september_2026_archive_present": false,
+          "interpretation": "Bar-volume observations do not prove product status or a relisting. Hourly timestamps label bar opens, so the 2025-03-27T09:00Z bar cannot establish whether trading continued after settlement."
+        },
+        "unresolved": "No official listing or reactivation time was established between the verified 2025-03-27 settlement and later positive-volume bars. The canonical archive has no AERGOUSDT bars after 2026-06-30, so it does not cover the 2026-07-24 settlement event."
+      },
+      "verified_ant_non_event": {
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "65afa0bc-9569-46b0-a876-b8e74961ca35",
+        "published_utc": "2024-02-06T02:00:00Z",
+        "updated_display": "2024-02-07",
+        "url": "https://www.binance.com/en/support/announcement/detail/f73b083ba6834771b07dbe5319917ae5",
+        "body_wording": "Users may continue trading USDⓈ-M XMRUSDT and ANTUSDT Perpetual Contracts.",
+        "futures_effect": "No ANTUSDT USDⓈ-M settlement or delisting time is stated; spot, margin, and COIN-M events in the notice are separate.",
+        "limitation": "This notice establishes continuation at publication, not ANTUSDT status for the full study period."
+      },
+      "verified_sxp_delisting": {
+        "verification_method": "TinyFish run_web_automation",
+        "verification_run_id": "32439a14-b77f-4694-9981-6af02a4021cf",
+        "published_display": "2025-12-01 03:14",
+        "url": "https://www.binance.com/en/support/announcement/detail/746056ce732d43dda12c1e5ae1b7a059",
+        "product": "USDⓈ-M perpetual contracts",
+        "quote_asset": "USDT",
+        "symbols": ["SXPUSDT", "MILKUSDT", "OBOLUSDT", "TOKENUSDT"],
+        "settlement_groups": [
+          {"symbols": ["SXPUSDT", "MILKUSDT"], "settlement_utc": "2025-12-05T09:00:00Z", "new_positions_stop_utc": "2025-12-05T08:30:00Z"},
+          {"symbols": ["OBOLUSDT", "TOKENUSDT"], "settlement_utc": "2025-12-05T09:30:00Z", "new_positions_stop_utc": "2025-12-05T09:00:00Z"}
+        ],
+        "price_archive_crosscheck": {
+          "source_manifest": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/dataset_manifest.json",
+          "december_2025": {"rows": 744, "positive_quote_volume_rows": 106, "last_positive_bar_open_utc": "2025-12-05T09:00:00Z"},
+          "zero_quote_volume_months_after_settlement": {
+            "2026-01": 744,
+            "2026-02": 672,
+            "2026-03": 744,
+            "2026-04": 720,
+            "2026-05": 744
+          },
+          "interpretation": "The source archive retains zero-quote-volume hourly rows after the settlement event. These rows do not establish trading availability or a usable liquidation price."
+        },
+        "schedule_update": false
+      },
+      "retrieval_attempt": {
+        "tool": "TinyFish fetch_content",
+        "scope": "One targeted request batch recorded before the later direct-browser article-body retrieval.",
+        "official_notice_urls_requested": 15,
+        "notice_bodies_returned": 2,
+        "bot_blocked": 13
+      },
+      "index_run_recovery": {
+        "tool": "TinyFish run_web_automation",
+        "run_id": "ca717aca-2c75-4666-b40c-0d900b0b78a5",
+        "launch_status": "RUNNING",
+        "recovery_lookup": "Run not found",
+        "terminal_status": "unknown",
+        "structured_result_available": false
+      },
+      "official_catalog_crawl_2026-10-03": {
+        "endpoint": "https://www.binance.com/bapi/apex/v1/public/apex/cms/article/list/query",
+        "query": {"type": 1, "page_size": 20},
+        "catalogs": [
+          {"catalog_id": 48, "catalog_name": "New Cryptocurrency Listing", "reported_total": 2276, "pages_materialized": 114, "unique_article_ids": 2276},
+          {"catalog_id": 161, "catalog_name": "Delisting", "reported_total": 439, "pages_materialized": 22, "unique_article_ids": 439}
+        ],
+        "materialized_file": "data/research_sessions/altcoin_momentum/archive_candidates/binance_announcement_index_pages.jsonl",
+        "materialized_file_sha256": "1f64975ff5a1f1394be895c58af1267ddbfddfe9dc1d30efbc9dced77e6a4ab1",
+        "materialized_file_bytes": 555148,
+        "interpretation": "All pages matched the category totals. Titles and releaseDate values are discovery leads only. They do not establish exact contract product, effective lifecycle time, or complete history; verify article bodies."
+      },
+      "verified_early_delisting_2022_04": {
+        "verification_method": "Binance-hosted CMS detail response from the official article code",
+        "article_code": "4baf8d70485c46e38637bd063c58c4d8",
+        "url": "https://www.binance.com/en/support/announcement/detail/4baf8d70485c46e38637bd063c58c4d8",
+        "detail_endpoint": "https://www.binance.com/bapi/composite/v1/public/cms/article/detail/query?articleCode=4baf8d70485c46e38637bd063c58c4d8",
+        "published_utc": "2022-04-04T05:21:50.096Z",
+        "product": "USDT-margined futures contracts",
+        "contract_names": ["1000BTTC", "YFII"],
+        "settlement_utc": ["2022-04-11T09:00:00Z", "2022-04-12T09:00:00Z"],
+        "body_excerpt": "Binance Futures will conduct automatic settlements on the 1000BTTC and YFII USDT-Margined Contracts, and delist these contracts at 2022-04-11 09:00 AM (UTC) and 2022-04-12 09:00 AM (UTC) respectively.",
+        "scope_note": "These are pre-study settlement events. They do not establish onboarding dates or any later relisting."
+      },
+      "targeted_unverified_notice_leads": [
+        {
+          "symbol": "AKROUSDT",
+          "url": "https://www.binance.com/en/support/announcement/detail/185001cde1614f0e8987c4d39aca8639",
+          "search_lead_only": "Search snippet/title says an AKRO USDT-margined contract delisting was postponed and mentions 2022-05-27 07:00 UTC; no article-body fact is accepted.",
+          "body_retrieval": "TinyFish fetch returned bot_blocked; direct browser navigation redirected to the general announcement page.",
+          "status": "unresolved"
+        },
+        {
+          "symbol": "ANTUSDT",
+          "url": "https://www.binance.com/en/support/announcement/detail/ce74360a3fd444b2b35da7186f8dd0ad",
+          "page_title_only": "The browser returned a title naming ANTUSDT, DGBUSDT and CTKUSDT in a USDⓈ-M perpetual delisting/update notice.",
+          "body_retrieval": "Browser snapshot/evaluate timed out; static reader showed a human-verification gate. No event date or schedule is accepted.",
+          "status": "unresolved"
+        }
+      ],
+      "candidate_launch_evidence_summary": {
+        "source_file": "data/research_sessions/altcoin_momentum/archive_candidates/official_candidate_usdt_launch_events.jsonl",
+        "source_file_sha256": "0bfa67b053f65a80344e3ad58f8558c15a2d80776601428756a01add3d25a699",
+        "verified_event_rows": 111,
+        "distinct_price_availability_candidates_with_body_verified_launch_events": 107,
+        "supplemental_recovery_file": "data/research_sessions/altcoin_momentum/archive_candidates/official_candidate_usdt_launch_recovered.jsonl",
+        "supplemental_recovery_sha256": "5f0ae46a42d690da37bf533dac3e4646c992e1cedf6d21da0cdc851b447b2806",
+        "supplemental_recovery_rows": 5,
+        "supplemental_recovery_candidate_symbols": 4,
+        "combined_distinct_price_candidates_with_launch_evidence": 110,
+        "scope_note": "Positive launch evidence only. This does not establish eligibility at each rebalance, complete delisting chains, or asset classification."
+      },
+      "candidate_delisting_evidence_summary": {
+        "source_file": "data/research_sessions/altcoin_momentum/archive_candidates/official_candidate_delisting_events.jsonl",
+        "verified_event_rows": 21,
+        "distinct_candidate_symbols": 21,
+        "before_development_start": ["BLZUSDT", "BTSUSDT", "CVCUSDT", "HNTUSDT", "RAYUSDT", "SCUSDT", "SRMUSDT"],
+        "during_development": ["ALPHAUSDT", "ANTUSDT", "AUDIOUSDT", "CTKUSDT", "DGBUSDT", "EOSUSDT", "MATICUSDT", "OMGUSDT", "REEFUSDT", "TOMOUSDT", "XEMUSDT"],
+        "during_holdout": ["BAKEUSDT", "FLMUSDT", "SXPUSDT"],
+        "scope_note": "21 candidates have body-backed USDⓈ-M perpetual settlement/delist events; 109 candidates have no qualifying event in this registry. Missing events are not proof that no event occurred. Exact lifecycle chains and event-time asset classifications remain incomplete.",
+        "post_settlement_price_boundary_audit": {
+          "source_manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+          "active_hour_definition": "Last hourly bar-open timestamp with quote_volume > 0 or trade_count > 0; archive timestamps do not identify the last trade within the hour.",
+          "symbols_missing_from_holdout_tail": [
+            {"symbol":"ANTUSDT","last_active_hour_open_utc":"2024-04-01T08:00:00Z","last_archive_hour_open_utc":"2024-05-28T07:00:00Z","inactive_hour_rows_after_last_active":1367},
+            {"symbol":"AUDIOUSDT","last_active_hour_open_utc":"2024-05-16T09:00:00Z","last_archive_hour_open_utc":"2024-05-28T07:00:00Z","inactive_hour_rows_after_last_active":286},
+            {"symbol":"BTCSTUSDT","last_active_hour_open_utc":"2021-03-12T01:00:00Z","last_archive_hour_open_utc":"2026-06-30T23:00:00Z","inactive_hour_rows_after_last_active":46486},
+            {"symbol":"BTSUSDT","last_active_hour_open_utc":"2022-08-18T08:00:00Z","last_archive_hour_open_utc":"2024-05-28T07:00:00Z","inactive_hour_rows_after_last_active":15575},
+            {"symbol":"EOSUSDT","last_active_hour_open_utc":"2025-05-21T08:00:00Z","last_archive_hour_open_utc":"2025-05-21T09:00:00Z","inactive_hour_rows_after_last_active":1},
+            {"symbol":"HNTUSDT","last_active_hour_open_utc":"2023-03-20T09:00:00Z","last_archive_hour_open_utc":"2024-05-28T07:00:00Z","inactive_hour_rows_after_last_active":10438},
+            {"symbol":"MATICUSDT","last_active_hour_open_utc":"2024-09-04T08:00:00Z","last_archive_hour_open_utc":"2024-09-11T09:00:00Z","inactive_hour_rows_after_last_active":169},
+            {"symbol":"SRMUSDT","last_active_hour_open_utc":"2022-11-15T04:00:00Z","last_archive_hour_open_utc":"2024-05-28T07:00:00Z","inactive_hour_rows_after_last_active":13443},
+            {"symbol":"SXPUSDT","last_active_hour_open_utc":"2025-12-05T09:00:00Z","last_archive_hour_open_utc":"2026-05-31T23:00:00Z","inactive_hour_rows_after_last_active":4262},
+            {"symbol":"TOMOUSDT","last_active_hour_open_utc":"2023-11-14T08:00:00Z","last_archive_hour_open_utc":"2024-05-28T07:00:00Z","inactive_hour_rows_after_last_active":4703}
+          ],
+          "sxp_post_delist_resolution": "The 2026 SXPUSDT hourly archive rows are flat with zero quote_volume and zero trade_count. The 2025-12-05 09:00 UTC hour has two trades, so hourly data cannot resolve whether they occurred before or after settlement. Do not treat later flat rows as a relisting or use the boundary bar as a settlement fill.",
+          "execution_limit": "Settlement marks and event-time fills are not present in the OHLCV archive; an hourly close does not prove a forced-exit price."
+        }
+      },
+      "unresolved": [
+        "The category 48 listing and category 161 delisting index crawls matched their reported totals, but relevant notice-body retrieval and dated lifecycle reconstruction remain incomplete.",
+        "Retained launch evidence covers 110 of 130 preliminary price-availability candidates; 21 candidate symbols have a body-backed settlement/delist event record. These are positive records, not complete histories. Exact lifecycle chains and event-time asset classifications remain unverified for the full candidate set.",
+        "The 77 candidate title leads and supplemental category 49 discoveries are not complete event registries; do not treat absent or unmatched notices as proof that no event occurred.",
+        "No minimum count of 100 date-qualified contracts is supported at every primary rebalance. The price-only count is not dated eligibility evidence.",
+        "No retained source establishes dated crypto-native, peg/cash, or non-crypto-underlying classification across the candidate set. Current exchangeInfo cannot establish historical eligibility or event-knowledge timing."
+      ]
+    },
+    "research_methods": [
+      {
+        "skill": "ml4t-fetch-data",
+        "invariant": "Validate schema, event coverage, and timestamp alignment before modeling.",
+        "verification": "Funding data is absent and excluded from this MVP; do not interpret its results as funding-adjusted."
+      },
+      {
+        "skill": "ml4t-point-in-time",
+        "invariant": "Determine membership only from information available at each rebalance.",
+        "verification": "The MVP retains the rolling top-100 rule and uses only launch evidence already materialized; incomplete classification remains disclosed."
+      },
+      {
+        "skill": "ml4t-survivorship-bias",
+        "invariant": "Do not remove prior eligible history because a contract is delisted later.",
+        "verification": "The MVP retains contracts' pre-delist history and applies only body-verified effective delist events; unresolved lifecycle records remain a limitation."
+      },
+      {
+        "skill": "ml4t-cost-model",
+        "invariant": "Book funding only at observed settlement events for positions held at that time.",
+        "verification": "Funding is excluded from MVP P&L; an event-rate and historical mark-price feed must be validated before any funding-adjusted run."
+      }
+    ],
+    "funding_data": {
+      "status": "not_materialized_skipped_for_mvp",
+      "session_input_declared": false,
+      "required_fields": ["timestamp_utc", "symbol", "funding_interval_hours", "funding_rate", "settlement_mark_price"],
+      "cash_flow_rule": "For later funding-adjusted work, held-quantity cash flow is -Q * settlement_mark_price * funding_rate at the observed event timestamp.",
+      "local_ingestion_reference": "/home/quant/dev/quant/ml4t-data/scripts/fetch_binance_perp_funding.py",
+      "ingestion_reference_schema": "Monthly archive supplies event time, interval hours, and rate. Historical archive rows have no settlement mark price; the REST tail supplies markPrice.",
+      "open_requirement": "For a later funding-adjusted run, verify a historical settlement mark-price source, acquire rates and marks, and audit event alignment.",
+      "universe_policy": "Keep the frozen point-in-time top-100 by prior 30-day USDT quote volume at each rebalance. Do not remove a contract's pre-delist history because it is delisted on 2026-10-01; stop new positions at its effective settlement/delist time and model the exit."
+    },
+    "holdout_candidate_coverage": {
+      "price_bars_through_2026-10-02": "The updated canonical September archive and supplemental API tail include 120 of 130 preliminary price candidates. Ten are absent: ANTUSDT, AUDIOUSDT, BTCSTUSDT, BTSUSDT, EOSUSDT, HNTUSDT, MATICUSDT, SRMUSDT, SXPUSDT, TOMOUSDT.",
+      "terminal_open_2026-10-03T00:00:00Z": "The API tail has one terminal open-only record for each of 869 symbols; it covers 120 of 130 preliminary price candidates. The ten absent symbols have no terminal input in this archive.",
+      "strategy_outcomes_opened": false,
+      "session_initialized": false
+    },
+    "followup_2026-10-04": {
+      "scope": "coverage_and_missing_candidate_reconciliation_only_no_strategy_outcomes",
+      "september_archive_api_crosscheck": {
+        "api_file": "data/research_sessions/altcoin_momentum/archive_candidates/holdout_api_prices_202609_202610.parquet",
+        "api_file_sha256": "ae875dc04e3a78544e4f870fc1f43e9d5fd57302dc97b118069a5ac70e7e582f",
+        "api_tail_manifest_sha256": "34c9ff8ebec1c376f2ea7797a8d6d3077290e00ed18ce1d228156aef02760054",
+        "symbols": 120,
+        "archive_rows": 86400,
+        "api_rows": 86400,
+        "joined_rows": 86400,
+        "mismatched_value_rows_by_field": {
+          "open": 0,
+          "high": 0,
+          "low": 0,
+          "close": 0,
+          "volume": 0,
+          "quote_volume": 0,
+          "trade_count": 0,
+          "taker_buy_base_volume": 0,
+          "taker_buy_quote_volume": 0
+        }
+      },
+      "lifecycle_notice_body_responses": {
+        "file": "data/research_sessions/altcoin_momentum/archive_candidates/official_candidate_lifecycle_notice_responses_20261004.jsonl",
+        "rows": 114,
+        "retrieval_status_counts": {"body_retrieved": 114},
+        "sha256": "e7885b9278e8e9636bc2fc2db4da26a547996e611a519f484ceec97475394e4f",
+        "coverage_note": "74 futures-lifecycle title notices plus 44 candidate-matched lifecycle notices, with four shared article codes. Body retrieval is complete for this set, not a complete lifecycle registry or dated asset-classification set."
+      },
+      "candidate_price_tail": {
+        "preliminary_candidate_count": 130,
+        "symbols_with_hourly_rows": 120,
+        "rows": 92280,
+        "rows_per_symbol": 769,
+        "first_timestamp": "2026-09-01T00:00:00Z",
+        "last_timestamp": "2026-10-03T00:00:00Z",
+        "terminal_open_timestamp": "2026-10-03T00:00:00Z",
+        "tail_manifest_records": 869,
+        "tail_manifest_unique_symbols": 869,
+        "candidate_symbols_missing_rows": [
+          "ANTUSDT",
+          "AUDIOUSDT",
+          "BTCSTUSDT",
+          "BTSUSDT",
+          "EOSUSDT",
+          "HNTUSDT",
+          "MATICUSDT",
+          "SRMUSDT",
+          "SXPUSDT",
+          "TOMOUSDT"
+        ]
+      },
+      "missing_symbol_reconciliation": [
+        {"symbol": "ANTUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2024-04-01T09:00:00Z", "article_code": "ce74360a3fd444b2b35da7186f8dd0ad"},
+        {"symbol": "AUDIOUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2024-05-16T09:00:00Z", "article_code": "cb525a5fbb954935afc77630fc5bd0cc"},
+        {"symbol": "BTCSTUSDT", "status": "unresolved_lifecycle", "launch_article_code": "b132dae5b04341459d8209f29b90c202", "launch_utc": "2021-03-04T07:00:00Z", "spot_delist_notice_file": "data/research_sessions/altcoin_momentum/archive_candidates/official_candidate_btcst_spot_delist_20261004.json", "spot_delist_notice_file_sha256": "eb91eeb185a900164ce48dee7d6b6381b6528da577c7efe6d7617d267f96d491", "spot_delist_article_code": "35a4169422154c838f012331f5f4b425", "spot_delist_utc": "2022-12-22T09:00:00Z", "spot_pair": "BTCST/BUSD", "evidence": "The retained 439-row Binance category-161 title index has one BTCST delisting title, and its official body removes the BTCST/BUSD spot pair only. No USDT-M perpetual exit time is established. The 2026-10-04 exchangeInfo snapshot has no BTCSTUSDT symbol; current absence and the last nonzero hourly bar on 2021-03-12 do not establish a contract exit date."},
+        {"symbol": "BTSUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2022-08-18T09:00:00Z", "article_code": "90498d8e2fec42468ec3d659bdfbb78b"},
+        {"symbol": "EOSUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2025-05-21T09:00:00Z", "article_code": "1e89a9ca957c4b0ca7502e60b993e201"},
+        {"symbol": "HNTUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2023-03-20T09:00:00Z", "article_code": "f1a8aa29692b4442a8f18be2076e14a0"},
+        {"symbol": "MATICUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2024-09-04T09:00:00Z", "article_code": "6a6de383727f4659a3050f7982e1620f"},
+        {"symbol": "SRMUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2022-11-15T04:30:00Z", "article_code": "9a6676662bd5417c92267953f3819dd0"},
+        {"symbol": "SXPUSDT", "status": "settled_during_holdout_exit_fill_unresolved", "settlement_utc": "2025-12-05T09:00:00Z", "notice_release_utc": "2025-12-01T08:14:23.757Z", "article_code": "746056ce732d43dda12c1e5ae1b7a059", "settlement_hour_trade_count": 2, "settlement_fill_available": false},
+        {"symbol": "TOMOUSDT", "status": "ineligible_before_holdout", "settlement_utc": "2023-11-14T09:00:00Z", "article_code": "034eee2293964e26b915b1ec5c42972a"}
+      ],
+      "holdout_gate": "NOT_CLEARED",
+      "blockers": [
+        "BTCSTUSDT has no dated product exit evidence, so its missing tail remains unresolved.",
+        "SXPUSDT settles during the holdout. Its 2025-12-05 09:00 hourly bar contains two trades and does not identify a settlement fill; flat post-settlement rows are not fills.",
+        "Dated asset classifications and complete point-in-time product histories remain incomplete. No rebalance has a verified minimum of 100 eligible contracts.",
+        "The 120-symbol terminal-open panel is price coverage, not a frozen eligible-universe mapping."
+      ],
+      "strategy_outcomes_opened": false,
+      "holdout_opened": false,
+      "session_initialized": false
+    },
+    "mvp_price_coverage": {
+      "scope": "input_coverage_audit_only_no_strategy_trial_or_returns",
+      "candidate_symbol_file": "data/research_sessions/altcoin_momentum/archive_candidates/price_candidate_symbols_20261003.json",
+      "candidate_symbol_file_sha256": "37950e5c0844dfac7525018b437feb7fc783ee71bc12c5cba373686ee0ece925",
+      "canonical_source_manifest_sha256": "261a29b1df22e242cba2fd1a68c928f2ba3233f2134ad0d00ea87f59163dca81",
+      "verified_launch_candidate_count": 107,
+      "window_start_utc": "2022-04-03T00:00:00Z",
+      "window_end_exclusive_utc": "2025-10-01T00:00:00Z",
+      "rows": 3219802,
+      "symbols_present": 107,
+      "first_timestamp": "2022-04-03T00:00:00Z",
+      "last_timestamp": "2025-09-30T23:00:00Z",
+      "daily_bar_rule": "A complete UTC day has 24 unique hourly timestamps and 24 non-null quote_volume values. Partial days are not synthesized.",
+      "partial_daily_bins": [
+        {"symbol": "ANTUSDT", "date_utc": "2024-05-28", "hourly_rows": 8},
+        {"symbol": "CTKUSDT", "date_utc": "2025-04-30", "hourly_rows": 14},
+        {"symbol": "CVCUSDT", "date_utc": "2025-05-16", "hourly_rows": 16},
+        {"symbol": "EOSUSDT", "date_utc": "2025-05-21", "hourly_rows": 10},
+        {"symbol": "HNTUSDT", "date_utc": "2024-05-28", "hourly_rows": 8},
+        {"symbol": "MATICUSDT", "date_utc": "2024-09-11", "hourly_rows": 10},
+        {"symbol": "SRMUSDT", "date_utc": "2024-05-28", "hourly_rows": 8},
+        {"symbol": "TOMOUSDT", "date_utc": "2024-05-28", "hourly_rows": 8}
+      ],
+      "limitation": "All 107 launch-evidence symbols have price rows in this window, but the eight partial daily bins, incomplete event histories, unverified asset classifications, and missing later tails prevent this price-only candidate sample from being treated as the frozen eligible universe. No signals, returns, or strategy metrics were calculated."
+    },
+    "candidate_notice_coverage": {
+      "source_file": "data/research_sessions/altcoin_momentum/archive_candidates/official_candidate_notice_matches.jsonl",
+      "source_file_sha256": "0f528cebc94e1529aba23cb19bea6642c0ee54f4b8abb05d9de4317dbf4a60c7",
+      "price_candidates": 130,
+      "notice_matched_candidates": 120,
+      "matched_candidates_with_explicit_product_type_in_body": 119,
+      "matched_candidates_without_explicit_product_type_in_body": ["MANAUSDT"],
+      "candidates_without_matched_notice": [
+        "1000XECUSDT",
+        "1INCHUSDT",
+        "ATAUSDT",
+        "C98USDT",
+        "DYDXUSDT",
+        "GTCUSDT",
+        "IOTAUSDT",
+        "IOTXUSDT",
+        "MASKUSDT",
+        "STMXUSDT"
+      ],
+      "partition_rule": "Preliminary candidates are partitioned into matched-and-explicit, matched-without-explicit, and unmatched sets. These sets are disjoint and their union is all 130 candidates.",
+      "matched_event_category_counts": {
+        "new_crypto_listing_lead": 223,
+        "delisting_lead": 19
+      },
+      "scope_note": "Every matched row is a lead, not a complete lifecycle registry. Body-level product wording does not establish crypto-native/peg/non-crypto asset class, eligibility at every rebalance, all delists/conversions, or notice-time availability. Ten candidates have no matched notice record."
+    }
   },
   "limitations": [
     "The archive manifest does not contain a complete dated product-classification or official onboard/delist table. Freeze a documented classification registry before performance calculations.",
     "The audit did not calculate returns, signals, candidate portfolio weights, Sharpe ratios, or other strategy metrics.",
-    "The historical holdout is not fully available in the archived source. Do not open it until the missing interval is archived and coverage is verified.",
+    "The original audited archive snapshot ends 2026-08-31. The 2026-10-04 extension imports September hourly archives for 120 candidates and cross-checks them against the API extraction; the API tail has terminal opens for 120 preliminary candidates. Do not open the holdout until candidate-to-spec input lineage and the dated product registry are frozen and audited.",
     "The fixed cost assumption is not size-scaled and does not establish trading capacity."
   ]
 }

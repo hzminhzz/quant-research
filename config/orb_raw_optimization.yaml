@@ -1,0 +1,70 @@
+schema_version: orb_raw_optimization/v1
+
+research:
+  strategy_id: hk33_jp225_corrected_raw_orb_optimization
+  source_rebuild_config: config/eow_rebuild.yaml
+  universe: [HK33, JP225]
+  principle: "Freeze corrected raw ORB entries; optimize only attribution, sizing, and robustness diagnostics."
+
+period:
+  start: "2017-01-01T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  diagnostic_start: "2025-01-01T00:00:00Z"
+  end: "2026-07-31T23:59:59Z"
+
+exit_attribution:
+  fixed_hold_sessions: 3
+  variants:
+    - original
+    - no_breakeven_step
+    - no_trailing
+    - no_target
+    - stop_eow_only
+    - fixed_3_session_hold
+
+factor_quintiles:
+  features:
+    - rvol_1h
+    - vwap_alignment
+    - wick_exhaustion
+    - range_to_atr20
+    - garman_klass_norm
+    - spx_alignment
+    - nr7_flag
+    - breakout_bar_range_ratio
+  initial_training_end_year: 2019
+  evaluation_years: [2020, 2021, 2022, 2023, 2024]
+  bins: 5
+  min_training_events: 100
+
+risk_targeting:
+  volatility_windows: [20, 40, 60]
+  expanding_median_min_periods: 60
+  size_floor: 0.50
+  size_ceiling: 1.00
+  correlation_window: 60
+  correlation_strength: 0.50
+
+regime_2026:
+  rolling_trade_window: 98
+  bootstrap_samples: 10000
+  bootstrap_block_trades: 10
+  random_seed: 42
+  fdr_alpha: 0.05
+
+exit_stability:
+  breakeven_trigger_r: [0.75, 1.00, 1.25]
+  trailing_distance_r: [0.75, 1.00, 1.25]
+  target_multiple: 3.0
+  stop_multiple: 1.0
+  breakeven_offset_r: 0.10
+
+rolling_expanding:
+  rolling_years: [2, 3, 5]
+  endpoint_years: [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+
+execution:
+  risk_unit_pct: 1.0
+
+artifacts:
+  root: run_log/raw_orb_optimization

@@ -1,0 +1,415 @@
+{
+  "diagnostic_period": "2025-2026-07-31",
+  "passing_development_variants": [
+    "vol_20d",
+    "vol_40d",
+    "vol_60d",
+    "vol_40d_corr_60d"
+  ],
+  "policy": "Any passing variant still requires new prospective confirmation.",
+  "production_approved": false,
+  "schema_version": "orb_risk_targeting/v1",
+  "selection_period": "2017-2024",
+  "variants": {
+    "raw": {
+      "development_2017_2024": {
+        "annualized_sharpe": 0.5059091946644692,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 17.576387080687265,
+            "raw_net_r": 17.576387080687265,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 22.196657854179698,
+            "raw_net_r": 22.196657854179698,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "dsr_family": {
+          "dsr_probability": 0.9195448502146913,
+          "expected_max_null": 0.03417963173311715,
+          "haircut_sharpe": 0.471729562931352,
+          "n_trials": 5,
+          "observed_sharpe": 0.5059091946644692
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.20170369621840367,
+        "mean_r": 0.08051223671025703,
+        "mean_size": 1.0,
+        "median_r": 0.02631249999999629,
+        "net_r": 39.773044934866974,
+        "raw_net_r": 39.773044934866974,
+        "risk_normalized_net_r": 39.773044934866974,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.368103069078159,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -5.817581578090041,
+            "raw_net_r": -5.817581578090041,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": -0.5306446112446097,
+            "raw_net_r": -0.5306446112446097,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.2159622065851875,
+        "mean_r": -0.035865684685506494,
+        "mean_size": 1.0,
+        "median_r": 0.024493654135338362,
+        "net_r": -6.34822618933465,
+        "raw_net_r": -6.34822618933465,
+        "risk_normalized_net_r": -6.34822618933465,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false
+    },
+    "vol_20d": {
+      "development_2017_2024": {
+        "acceptance": {
+          "drawdown_not_worse": true,
+          "risk_normalized_net_r_not_worse": true,
+          "sharpe_not_worse": true
+        },
+        "annualized_sharpe": 0.5596954309081905,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.8321808710613624,
+            "net_r": 17.31971759751162,
+            "raw_net_r": 17.576387080687265,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 0.8706152940670651,
+            "net_r": 20.63623195874542,
+            "raw_net_r": 22.196657854179698,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "dsr_family": {
+          "dsr_probability": 0.9408073809914401,
+          "expected_max_null": 0.03417963173311715,
+          "haircut_sharpe": 0.5255157991750734,
+          "n_trials": 5,
+          "observed_sharpe": 0.5596954309081905
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.1302501189626779,
+        "mean_r": 0.07683390598432599,
+        "mean_size": 0.8510090701856134,
+        "median_r": 0.02174291536310637,
+        "net_r": 37.95594955625704,
+        "raw_net_r": 39.773044934866974,
+        "risk_normalized_net_r": 44.60111047697585,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.34739728799925523,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.9531916947993172,
+            "net_r": -6.195927660504254,
+            "raw_net_r": -5.817581578090041,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 0.7744767493453091,
+            "net_r": 0.9780753693990959,
+            "raw_net_r": -0.5306446112446097,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.1650023676887039,
+        "mean_r": -0.029479391475170376,
+        "mean_size": 0.8603003107215277,
+        "median_r": 0.018986720188241227,
+        "net_r": -5.217852291105157,
+        "raw_net_r": -6.34822618933465,
+        "risk_normalized_net_r": -6.065152163817053,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false
+    },
+    "vol_40d": {
+      "development_2017_2024": {
+        "acceptance": {
+          "drawdown_not_worse": true,
+          "risk_normalized_net_r_not_worse": true,
+          "sharpe_not_worse": true
+        },
+        "annualized_sharpe": 0.5528521929870347,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.8257723096682383,
+            "net_r": 15.126765877262558,
+            "raw_net_r": 17.576387080687265,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 0.8646669429924648,
+            "net_r": 22.154700220616668,
+            "raw_net_r": 22.196657854179698,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "dsr_family": {
+          "dsr_probability": 0.938640353971828,
+          "expected_max_null": 0.03417963173311715,
+          "haircut_sharpe": 0.5186725612539176,
+          "n_trials": 5,
+          "observed_sharpe": 0.5528521929870347
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.12853231206202176,
+        "mean_r": 0.07546855485400653,
+        "mean_size": 0.8448259559525759,
+        "median_r": 0.019758691481562847,
+        "net_r": 37.281466097879225,
+        "raw_net_r": 39.773044934866974,
+        "risk_normalized_net_r": 44.12916747549836,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.30496432250763256,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.9489505944355294,
+            "net_r": -6.309230942290887,
+            "raw_net_r": -5.817581578090041,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 0.7661183358545334,
+            "net_r": 1.6858587629609583,
+            "raw_net_r": -0.5306446112446097,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.1682648688282794,
+        "mean_r": -0.026120746775875312,
+        "mean_size": 0.8539191379979495,
+        "median_r": 0.017867909502262445,
+        "net_r": -4.62337217932993,
+        "raw_net_r": -6.34822618933465,
+        "risk_normalized_net_r": -5.414297412480562,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false
+    },
+    "vol_40d_corr_60d": {
+      "development_2017_2024": {
+        "acceptance": {
+          "drawdown_not_worse": true,
+          "risk_normalized_net_r_not_worse": true,
+          "sharpe_not_worse": true
+        },
+        "annualized_sharpe": 0.5818637795943707,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.6707760881508291,
+            "net_r": 13.508807579244769,
+            "raw_net_r": 17.576387080687265,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 0.6967643800536825,
+            "net_r": 18.434097852024035,
+            "raw_net_r": 22.196657854179698,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "dsr_family": {
+          "dsr_probability": 0.9489454577840193,
+          "expected_max_null": 0.03417963173311715,
+          "haircut_sharpe": 0.5476841478612536,
+          "n_trials": 5,
+          "observed_sharpe": 0.5818637795943707
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.11413577804158037,
+        "mean_r": 0.06466175188515952,
+        "mean_size": 0.6835071947105265,
+        "median_r": 0.015749638153257643,
+        "net_r": 31.942905431268805,
+        "raw_net_r": 39.773044934866974,
+        "risk_normalized_net_r": 46.73382471825627,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.23825318523850172,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.768745406257504,
+            "net_r": -5.436035734009836,
+            "raw_net_r": -5.817581578090041,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 0.6551269829718722,
+            "net_r": 2.456697817042232,
+            "raw_net_r": -0.5306446112446097,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.13413303951125988,
+        "mean_r": -0.01683241760998646,
+        "mean_size": 0.709689502628814,
+        "median_r": 0.01772379130533411,
+        "net_r": -2.9793379169676033,
+        "raw_net_r": -6.34822618933465,
+        "risk_normalized_net_r": -4.198086495476704,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false
+    },
+    "vol_60d": {
+      "development_2017_2024": {
+        "acceptance": {
+          "drawdown_not_worse": true,
+          "risk_normalized_net_r_not_worse": true,
+          "sharpe_not_worse": true
+        },
+        "annualized_sharpe": 0.5139287189106184,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.8294980750001547,
+            "net_r": 14.219691482205352,
+            "raw_net_r": 17.576387080687265,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 0.8678403923590826,
+            "net_r": 20.54780866889109,
+            "raw_net_r": 22.196657854179698,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "dsr_family": {
+          "dsr_probability": 0.9228238355149048,
+          "expected_max_null": 0.03417963173311715,
+          "haircut_sharpe": 0.47974908717750125,
+          "n_trials": 5,
+          "observed_sharpe": 0.5139287189106184
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.13856709926764943,
+        "mean_r": 0.0703795549617337,
+        "mean_size": 0.8482811535444069,
+        "median_r": 0.019649617254865876,
+        "net_r": 34.76750015109645,
+        "raw_net_r": 39.773044934866974,
+        "risk_normalized_net_r": 40.98582174769063,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.183899762342354,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 0.9419476493152122,
+            "net_r": -6.958353638532113,
+            "raw_net_r": -5.817581578090041,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 0.7610732770092641,
+            "net_r": 4.189676868249683,
+            "raw_net_r": -0.5306446112446097,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.16013516507611658,
+        "mean_r": -0.015642241640013734,
+        "mean_size": 0.8479338512804822,
+        "median_r": 0.017949190646532782,
+        "net_r": -2.768676770282431,
+        "raw_net_r": -6.34822618933465,
+        "risk_normalized_net_r": -3.2652037256224595,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false
+    }
+  }
+}

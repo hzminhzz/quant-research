@@ -1,0 +1,447 @@
+{
+  "diagnostic_period": "2025-2026-07-31",
+  "schema_version": "orb_exit_attribution/v1",
+  "selection_period": "2017-2024",
+  "variants": {
+    "fixed_3_session_hold": {
+      "caveat": "Frozen-entry attribution isolates management mechanics. It does not create additional signals that a shorter exit might have made available.",
+      "development_2017_2024": {
+        "annualized_sharpe": 0.6987181188350419,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 18.07601891959066,
+            "raw_net_r": 18.07601891959066,
+            "trades": 252,
+            "win_rate_pct": 53.57142857142857
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 41.0007540678111,
+            "raw_net_r": 41.0007540678111,
+            "trades": 242,
+            "win_rate_pct": 54.54545454545454
+          }
+        },
+        "delta_max_drawdown_vs_original": 0.011168851725619211,
+        "delta_net_r_vs_original": 19.30372805253478,
+        "delta_sharpe_vs_original": 0.19280892417057272,
+        "exit_reasons": {
+          "fixed_session_exit": 65,
+          "profit_target": 39,
+          "stop_loss": 390
+        },
+        "max_drawdown": -0.19053484449278446,
+        "mean_r": 0.11958860928623836,
+        "mean_size": 1.0,
+        "median_r": 0.041144042824243866,
+        "net_r": 59.07677298740175,
+        "raw_net_r": 59.07677298740175,
+        "risk_normalized_net_r": 59.07677298740175,
+        "trades": 494,
+        "win_rate_pct": 54.04858299595142
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": 0.46500622891908117,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -1.4744205947747564,
+            "raw_net_r": -1.4744205947747564,
+            "trades": 85,
+            "win_rate_pct": 55.294117647058826
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 12.485009799415637,
+            "raw_net_r": 12.485009799415637,
+            "trades": 92,
+            "win_rate_pct": 55.434782608695656
+          }
+        },
+        "exit_reasons": {
+          "fixed_session_exit": 12,
+          "profit_target": 13,
+          "stop_loss": 152
+        },
+        "max_drawdown": -0.21259594099362478,
+        "mean_r": 0.06220671867028748,
+        "mean_size": 1.0,
+        "median_r": 0.05392031128404952,
+        "net_r": 11.010589204640883,
+        "raw_net_r": 11.010589204640883,
+        "risk_normalized_net_r": 11.010589204640883,
+        "trades": 177,
+        "win_rate_pct": 55.367231638418076
+      },
+      "diagnostic_used_for_selection": false,
+      "entry_ledger_frozen": true
+    },
+    "no_breakeven_step": {
+      "caveat": "Frozen-entry attribution isolates management mechanics. It does not create additional signals that a shorter exit might have made available.",
+      "development_2017_2024": {
+        "annualized_sharpe": 0.5148358465178904,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 17.693069904115895,
+            "raw_net_r": 17.693069904115895,
+            "trades": 252,
+            "win_rate_pct": 48.80952380952381
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 22.841754208984476,
+            "raw_net_r": 22.841754208984476,
+            "trades": 242,
+            "win_rate_pct": 51.2396694214876
+          }
+        },
+        "delta_max_drawdown_vs_original": 0.004943109041358751,
+        "delta_net_r_vs_original": 0.7617791782334109,
+        "delta_sharpe_vs_original": 0.00892665185342123,
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.19676058717704492,
+        "mean_r": 0.08205429982408985,
+        "mean_size": 1.0,
+        "median_r": -0.004236584851850217,
+        "net_r": 40.534824113100385,
+        "raw_net_r": 40.534824113100385,
+        "risk_normalized_net_r": 40.534824113100385,
+        "trades": 494,
+        "win_rate_pct": 50.0
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.4043558602018779,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -6.087198045759892,
+            "raw_net_r": -6.087198045759892,
+            "trades": 85,
+            "win_rate_pct": 48.23529411764706
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": -0.8933946341833559,
+            "raw_net_r": -0.8933946341833559,
+            "trades": 92,
+            "win_rate_pct": 50.0
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.2188068255884933,
+        "mean_r": -0.03943837672284318,
+        "mean_size": 1.0,
+        "median_r": -0.014247293447293446,
+        "net_r": -6.980592679943243,
+        "raw_net_r": -6.980592679943243,
+        "risk_normalized_net_r": -6.980592679943243,
+        "trades": 177,
+        "win_rate_pct": 49.152542372881356
+      },
+      "diagnostic_used_for_selection": false,
+      "entry_ledger_frozen": true
+    },
+    "no_target": {
+      "caveat": "Frozen-entry attribution isolates management mechanics. It does not create additional signals that a shorter exit might have made available.",
+      "development_2017_2024": {
+        "annualized_sharpe": 0.693847133501633,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 29.339321374651973,
+            "raw_net_r": 29.339321374651973,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 31.44997050520287,
+            "raw_net_r": 31.44997050520287,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "delta_max_drawdown_vs_original": 0.012976717717521957,
+        "delta_net_r_vs_original": 21.01624694498787,
+        "delta_sharpe_vs_original": 0.1879379388371638,
+        "exit_reasons": {
+          "eow_calendar_exit": 142,
+          "stop_loss": 352
+        },
+        "max_drawdown": -0.18872697850088171,
+        "mean_r": 0.12305524672035394,
+        "mean_size": 1.0,
+        "median_r": 0.02631249999999629,
+        "net_r": 60.789291879854844,
+        "raw_net_r": 60.789291879854844,
+        "risk_normalized_net_r": 60.789291879854844,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.2159312985171423,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -4.746665604932079,
+            "raw_net_r": -4.746665604932079,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 0.6280300608633085,
+            "raw_net_r": 0.6280300608633085,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 41,
+          "stop_loss": 136
+        },
+        "max_drawdown": -0.21596220658518672,
+        "mean_r": -0.02326912736762015,
+        "mean_size": 1.0,
+        "median_r": 0.024493654135338362,
+        "net_r": -4.118635544068766,
+        "raw_net_r": -4.118635544068766,
+        "risk_normalized_net_r": -4.118635544068766,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false,
+      "entry_ledger_frozen": true
+    },
+    "no_trailing": {
+      "caveat": "Frozen-entry attribution isolates management mechanics. It does not create additional signals that a shorter exit might have made available.",
+      "development_2017_2024": {
+        "annualized_sharpe": 0.5506988546763659,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 26.78878385484872,
+            "raw_net_r": 26.78878385484872,
+            "trades": 252,
+            "win_rate_pct": 50.39682539682539
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 19.67447571832341,
+            "raw_net_r": 19.67447571832341,
+            "trades": 242,
+            "win_rate_pct": 45.04132231404959
+          }
+        },
+        "delta_max_drawdown_vs_original": -0.025822660458389768,
+        "delta_net_r_vs_original": 6.69021463830515,
+        "delta_sharpe_vs_original": 0.04478966001189677,
+        "exit_reasons": {
+          "eow_calendar_exit": 160,
+          "profit_target": 56,
+          "stop_loss": 278
+        },
+        "max_drawdown": -0.22752635667679344,
+        "mean_r": 0.09405518132221077,
+        "mean_size": 1.0,
+        "median_r": -0.019428193963483945,
+        "net_r": 46.463259573172124,
+        "raw_net_r": 46.463259573172124,
+        "risk_normalized_net_r": 46.463259573172124,
+        "trades": 494,
+        "win_rate_pct": 47.77327935222672
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.9006933849093716,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -11.212435378645424,
+            "raw_net_r": -11.212435378645424,
+            "trades": 85,
+            "win_rate_pct": 49.411764705882355
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": -5.851609679015894,
+            "raw_net_r": -5.851609679015894,
+            "trades": 92,
+            "win_rate_pct": 51.08695652173913
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 50,
+          "profit_target": 8,
+          "stop_loss": 119
+        },
+        "max_drawdown": -0.23571362355933867,
+        "mean_r": -0.0964070342240752,
+        "mean_size": 1.0,
+        "median_r": 0.0007651692307692373,
+        "net_r": -17.06404505766131,
+        "raw_net_r": -17.06404505766131,
+        "risk_normalized_net_r": -17.06404505766131,
+        "trades": 177,
+        "win_rate_pct": 50.282485875706215
+      },
+      "diagnostic_used_for_selection": false,
+      "entry_ledger_frozen": true
+    },
+    "original": {
+      "caveat": "Frozen-entry attribution isolates management mechanics. It does not create additional signals that a shorter exit might have made available.",
+      "development_2017_2024": {
+        "annualized_sharpe": 0.5059091946644692,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 17.576387080687265,
+            "raw_net_r": 17.576387080687265,
+            "trades": 252,
+            "win_rate_pct": 52.38095238095239
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 22.196657854179698,
+            "raw_net_r": 22.196657854179698,
+            "trades": 242,
+            "win_rate_pct": 52.066115702479344
+          }
+        },
+        "delta_max_drawdown_vs_original": 0.0,
+        "delta_net_r_vs_original": 0.0,
+        "delta_sharpe_vs_original": 0.0,
+        "exit_reasons": {
+          "eow_calendar_exit": 132,
+          "profit_target": 38,
+          "stop_loss": 324
+        },
+        "max_drawdown": -0.20170369621840367,
+        "mean_r": 0.08051223671025703,
+        "mean_size": 1.0,
+        "median_r": 0.02631249999999629,
+        "net_r": 39.773044934866974,
+        "raw_net_r": 39.773044934866974,
+        "risk_normalized_net_r": 39.773044934866974,
+        "trades": 494,
+        "win_rate_pct": 52.226720647773284
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -0.368103069078159,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -5.817581578090041,
+            "raw_net_r": -5.817581578090041,
+            "trades": 85,
+            "win_rate_pct": 50.588235294117645
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": -0.5306446112446097,
+            "raw_net_r": -0.5306446112446097,
+            "trades": 92,
+            "win_rate_pct": 54.347826086956516
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 40,
+          "profit_target": 6,
+          "stop_loss": 131
+        },
+        "max_drawdown": -0.2159622065851875,
+        "mean_r": -0.035865684685506494,
+        "mean_size": 1.0,
+        "median_r": 0.024493654135338362,
+        "net_r": -6.34822618933465,
+        "raw_net_r": -6.34822618933465,
+        "risk_normalized_net_r": -6.34822618933465,
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594
+      },
+      "diagnostic_used_for_selection": false,
+      "entry_ledger_frozen": true
+    },
+    "stop_eow_only": {
+      "caveat": "Frozen-entry attribution isolates management mechanics. It does not create additional signals that a shorter exit might have made available.",
+      "development_2017_2024": {
+        "annualized_sharpe": 0.7432189731067236,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": 48.08075167348643,
+            "raw_net_r": 48.08075167348643,
+            "trades": 252,
+            "win_rate_pct": 41.269841269841265
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": 36.80243209842435,
+            "raw_net_r": 36.80243209842435,
+            "trades": 242,
+            "win_rate_pct": 39.66942148760331
+          }
+        },
+        "delta_max_drawdown_vs_original": 0.008462859332733275,
+        "delta_net_r_vs_original": 45.11013883704378,
+        "delta_sharpe_vs_original": 0.23730977844225443,
+        "exit_reasons": {
+          "eow_calendar_exit": 275,
+          "stop_loss": 219
+        },
+        "max_drawdown": -0.1932408368856704,
+        "mean_r": 0.17182830723058856,
+        "mean_size": 1.0,
+        "median_r": -0.426173885281395,
+        "net_r": 84.88318377191075,
+        "raw_net_r": 84.88318377191075,
+        "risk_normalized_net_r": 84.88318377191075,
+        "trades": 494,
+        "win_rate_pct": 40.48582995951417
+      },
+      "diagnostic_2025_2026": {
+        "annualized_sharpe": -1.4789439354618272,
+        "by_symbol": {
+          "HK33": {
+            "mean_size": 1.0,
+            "net_r": -18.465545410555503,
+            "raw_net_r": -18.465545410555503,
+            "trades": 85,
+            "win_rate_pct": 34.11764705882353
+          },
+          "JP225": {
+            "mean_size": 1.0,
+            "net_r": -25.223223098758517,
+            "raw_net_r": -25.223223098758517,
+            "trades": 92,
+            "win_rate_pct": 28.26086956521739
+          }
+        },
+        "exit_reasons": {
+          "eow_calendar_exit": 72,
+          "stop_loss": 105
+        },
+        "max_drawdown": -0.41389870230190584,
+        "mean_r": -0.24682920061759336,
+        "mean_size": 1.0,
+        "median_r": -1.0434987896253602,
+        "net_r": -43.68876850931402,
+        "raw_net_r": -43.68876850931402,
+        "risk_normalized_net_r": -43.68876850931402,
+        "trades": 177,
+        "win_rate_pct": 31.07344632768362
+      },
+      "diagnostic_used_for_selection": false,
+      "entry_ledger_frozen": true
+    }
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "session_id": "btc-eth-relative-value-20261004",
+  "status": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "data_audit": {
+    "symbols": {
+      "BTCUSDT": {
+        "rows": 53304,
+        "first": "2020-09-01 00:00:00+00:00",
+        "last": "2026-09-30 23:00:00+00:00",
+        "local_last_before_tail": "2026-08-31 23:00:00+00:00",
+        "downloaded_tail_rows": 720,
+        "missing_hours": 0
+      },
+      "ETHUSDT": {
+        "rows": 53304,
+        "first": "2020-09-01 00:00:00+00:00",
+        "last": "2026-09-30 23:00:00+00:00",
+        "local_last_before_tail": "2026-08-31 23:00:00+00:00",
+        "downloaded_tail_rows": 720,
+        "missing_hours": 0
+      }
+    },
+    "funding": {
+      "BTCUSDT": {
+        "rows": 6663,
+        "first": "2020-09-01 00:00:00+00:00",
+        "last": "2026-09-30 16:00:00.002000+00:00"
+      },
+      "ETHUSDT": {
+        "rows": 6663,
+        "first": "2020-09-01 00:00:00+00:00",
+        "last": "2026-09-30 16:00:00.002000+00:00"
+      }
+    }
+  },
+  "primary_development": {
+    "P0": {
+      "days": 1826,
+      "mean_daily_net_return": -0.0002977710515707617,
+      "annualized_sharpe": -0.9934270885603254,
+      "total_return": -0.43681185985774185,
+      "max_drawdown": -0.47992677087980773,
+      "trades": 156,
+      "funding_pnl_sum": 0.006221119262480519,
+      "trading_cost_sum": 0.312,
+      "calendar_year_returns": {
+        "2021": -0.20759492552392567,
+        "2022": -0.056903477780613665,
+        "2023": -0.09863331553627286,
+        "2024": -0.0837294497734663,
+        "2025": -0.0875167961810378
+      },
+      "positive_years": 0
+    },
+    "P1": {
+      "days": 1826,
+      "mean_daily_net_return": 0.0,
+      "annualized_sharpe": NaN,
+      "total_return": 0.0,
+      "max_drawdown": 0.0,
+      "trades": 0,
+      "funding_pnl_sum": 0.0,
+      "trading_cost_sum": 0.0,
+      "calendar_year_returns": {
+        "2021": 0.0,
+        "2022": 0.0,
+        "2023": 0.0,
+        "2024": 0.0,
+        "2025": 0.0
+      },
+      "positive_years": 0,
+      "promotion_vs_parent": false,
+      "years_better_than_parent": 5
+    },
+    "P2": {
+      "days": 1826,
+      "mean_daily_net_return": 0.0,
+      "annualized_sharpe": NaN,
+      "total_return": 0.0,
+      "max_drawdown": 0.0,
+      "trades": 0,
+      "funding_pnl_sum": 0.0,
+      "trading_cost_sum": 0.0,
+      "calendar_year_returns": {
+        "2021": 0.0,
+        "2022": 0.0,
+        "2023": 0.0,
+        "2024": 0.0,
+        "2025": 0.0
+      },
+      "positive_years": 0,
+      "promotion_vs_parent": false,
+      "years_better_than_parent": 5
+    }
+  },
+  "selected_primary_model": {
+    "stage": "P0",
+    "formation_days": 90,
+    "entry_abs_z": 2.0,
+    "exit_abs_z": 0.5,
+    "emergency_abs_z": 4.0,
+    "max_holding_hours": 48,
+    "cost_multiplier": 2
+  },
+  "development_selected_metrics": {
+    "days": 1826,
+    "mean_daily_net_return": -0.0002977710515707617,
+    "annualized_sharpe": -0.9934270885603254,
+    "total_return": -0.43681185985774185,
+    "max_drawdown": -0.47992677087980773,
+    "trades": 156,
+    "funding_pnl_sum": 0.006221119262480519,
+    "trading_cost_sum": 0.312,
+    "calendar_year_returns": {
+      "2021": -0.20759492552392567,
+      "2022": -0.056903477780613665,
+      "2023": -0.09863331553627286,
+      "2024": -0.0837294497734663,
+      "2025": -0.0875167961810378
+    },
+    "positive_years": 0
+  },
+  "development_stationary_bootstrap_95pct_one_sided_lower_bound": -0.0005509041010549043,
+  "development_acceptance_passed": false,
+  "sensitivities_development_only": {
+    "formation-60d": {
+      "days": 1826,
+      "mean_daily_net_return": -0.000573741450451212,
+      "annualized_sharpe": -1.4385964458394986,
+      "total_return": -0.6678270051275131,
+      "max_drawdown": -0.6920492652051526,
+      "trades": 196,
+      "funding_pnl_sum": 0.031148279632859037,
+      "trading_cost_sum": 0.392,
+      "calendar_year_returns": {
+        "2021": -0.2720524832828144,
+        "2022": -0.17086651656377194,
+        "2023": -0.16371804543694723,
+        "2024": -0.08742937511172588,
+        "2025": -0.2788583341461144
+      },
+      "positive_years": 0
+    },
+    "formation-120d": {
+      "days": 1826,
+      "mean_daily_net_return": -7.695557734092054e-05,
+      "annualized_sharpe": -0.2630325780620817,
+      "total_return": -0.15547207017249864,
+      "max_drawdown": -0.2305067803353592,
+      "trades": 135,
+      "funding_pnl_sum": 0.007942784257217263,
+      "trading_cost_sum": 0.27,
+      "calendar_year_returns": {
+        "2021": -0.11376924749798611,
+        "2022": -0.006558359998673158,
+        "2023": -0.008150876439412924,
+        "2024": -0.05490838501518591,
+        "2025": 0.02330552134188113
+      },
+      "positive_years": 1
+    },
+    "entry-1p5": {
+      "days": 1826,
+      "mean_daily_net_return": -0.0006511515510002107,
+      "annualized_sharpe": -1.4286524116680144,
+      "total_return": -0.7158445107533371,
+      "max_drawdown": -0.7168470738287097,
+      "trades": 309,
+      "funding_pnl_sum": 0.0052044160678946716,
+      "trading_cost_sum": 0.618,
+      "calendar_year_returns": {
+        "2021": -0.2122608185597823,
+        "2022": -0.2729949649502157,
+        "2023": -0.1809028024991678,
+        "2024": -0.17607927817679225,
+        "2025": -0.26478337602510893
+      },
+      "positive_years": 0
+    },
+    "entry-2p5": {
+      "days": 1826,
+      "mean_daily_net_return": -0.0001256415677475576,
+      "annualized_sharpe": -0.595666112662459,
+      "total_return": -0.21679281210111356,
+      "max_drawdown": -0.2627356933324677,
+      "trades": 66,
+      "funding_pnl_sum": 0.0020535629449445303,
+      "trading_cost_sum": 0.132,
+      "calendar_year_returns": {
+        "2021": -0.1628546972866184,
+        "2022": -0.00034092568460908357,
+        "2023": -0.06962103942780029,
+        "2024": 0.004847839856939373,
+        "2025": 0.0010683324368225833
+      },
+      "positive_years": 2
+    },
+    "hold-24h": {
+      "days": 1826,
+      "mean_daily_net_return": -0.00035961833765944915,
+      "annualized_sharpe": -1.2524686608032725,
+      "total_return": -0.4957384463270965,
+      "max_drawdown": -0.5280962665317303,
+      "trades": 253,
+      "funding_pnl_sum": 0.005918228751727185,
+      "trading_cost_sum": 0.506,
+      "calendar_year_returns": {
+        "2021": -0.24108072628458554,
+        "2022": -0.11389006983463956,
+        "2023": -0.10726382104057353,
+        "2024": -0.012797760637400901,
+        "2025": -0.1491688051015061
+      },
+      "positive_years": 0
+    },
+    "hold-72h": {
+      "days": 1826,
+      "mean_daily_net_return": -0.0003236943172528268,
+      "annualized_sharpe": -1.0221349357710006,
+      "total_return": -0.4647360334834184,
+      "max_drawdown": -0.5105388587762312,
+      "trades": 115,
+      "funding_pnl_sum": 0.006393110165019634,
+      "trading_cost_sum": 0.22999999999999998,
+      "calendar_year_returns": {
+        "2021": -0.23891867300565195,
+        "2022": -0.07427780589984001,
+        "2023": -0.09101701670271423,
+        "2024": -0.08794365269238358,
+        "2025": -0.08361316337729252
+      },
+      "positive_years": 0
+    }
+  },
+  "sensitivity_positive_mean_count": 0,
+  "sensitivity_total": 6,
+  "cost_stress_development": {
+    "1x": {
+      "days": 1826,
+      "mean_daily_net_return": -0.00021254722189252304,
+      "annualized_sharpe": -0.714231940414913,
+      "total_return": -0.34165069857504193,
+      "max_drawdown": -0.39357028997890897,
+      "trades": 156,
+      "funding_pnl_sum": 0.006221119262480519,
+      "trading_cost_sum": 0.156,
+      "calendar_year_returns": {
+        "2021": -0.18993925090865893,
+        "2022": -0.02231631418387392,
+        "2023": -0.06931923676429319,
+        "2024": -0.05295087109101981,
+        "2025": -0.056879521197588434
+      },
+      "positive_years": 0
+    },
+    "2x": {
+      "days": 1826,
+      "mean_daily_net_return": -0.0002977710515707617,
+      "annualized_sharpe": -0.9934270885603254,
+      "total_return": -0.43681185985774185,
+      "max_drawdown": -0.47992677087980773,
+      "trades": 156,
+      "funding_pnl_sum": 0.006221119262480519,
+      "trading_cost_sum": 0.312,
+      "calendar_year_returns": {
+        "2021": -0.20759492552392567,
+        "2022": -0.056903477780613665,
+        "2023": -0.09863331553627286,
+        "2024": -0.0837294497734663,
+        "2025": -0.0875167961810378
+      },
+      "positive_years": 0
+    },
+    "3x": {
+      "days": 1826,
+      "mean_daily_net_return": -0.0003829676936520999,
+      "annualized_sharpe": -1.266258086651091,
+      "total_return": -0.5182555977160965,
+      "max_drawdown": -0.5540202631142364,
+      "trades": 156,
+      "funding_pnl_sum": 0.006221119262480519,
+      "trading_cost_sum": 0.468,
+      "calendar_year_returns": {
+        "2021": -0.224874345119367,
+        "2022": -0.0902834630394953,
+        "2023": -0.127038053647215,
+        "2024": -0.11352241092184945,
+        "2025": -0.11717341477863286
+      },
+      "positive_years": 0
+    }
+  },
+  "gate_diagnostics": {
+    "stationarity_gate_pass_hours": 0,
+    "stationarity_gate_pass_fraction": 0.0,
+    "z_entry_candidate_hours": 4802,
+    "z_entry_and_stationarity_hours": 0
+  },
+  "holdout_open_count": 0,
+  "frozen_holdout": null,
+  "holdout_confirmation": false,
+  "interpretation": "Research completion does not approve deployment. The historical holdout is a one-time confirmation only. Any rule change motivated by holdout results requires new unseen future data."
+}

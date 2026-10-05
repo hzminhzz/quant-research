@@ -1,0 +1,2538 @@
+{
+  "descriptive_order": [
+    "breakout_bar_range_ratio",
+    "rvol_1h",
+    "wick_exhaustion",
+    "garman_klass_norm",
+    "range_to_atr20",
+    "spx_alignment",
+    "vwap_alignment",
+    "nr7_flag"
+  ],
+  "features": {
+    "breakout_bar_range_ratio": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 1.478708657752499,
+          "mean_r": 0.06517060263636891,
+          "net_r": 6.386719058364154,
+          "trades": 98,
+          "win_rate_pct": 50.0
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 2.2002129351764084,
+          "mean_r": 0.022941333844214026,
+          "net_r": 1.720600038316052,
+          "trades": 75,
+          "win_rate_pct": 52.0
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 2.732423343158016,
+          "mean_r": 0.16385837642018672,
+          "net_r": 9.176069079530457,
+          "trades": 56,
+          "win_rate_pct": 55.35714285714286
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 3.645801512598967,
+          "mean_r": -0.1267041265765473,
+          "net_r": -6.842022835133555,
+          "trades": 54,
+          "win_rate_pct": 44.44444444444444
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 4.912331540676391,
+          "mean_r": -0.14245523523721437,
+          "net_r": -5.8406646447257895,
+          "trades": 41,
+          "win_rate_pct": 46.34146341463415
+        }
+      ],
+      "monotonic_spearman": -0.7,
+      "same_spread_sign_year_fraction": 0.6,
+      "spread_top_minus_bottom_r": -0.2076258378735833,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            2.082108758820821,
+            2.6927852307692643,
+            3.4199274255912444,
+            4.759349139420418
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            1.9554216867469258,
+            2.605617576402041,
+            3.340989078333906,
+            4.706508955573857
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            1.8838624204082812,
+            2.480823775147562,
+            3.1701581894960986,
+            4.4076705179492075
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            1.874794520547911,
+            2.358392471320007,
+            2.9765862663055267,
+            4.239533729586301
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            1.839689261411758,
+            2.324544496424983,
+            2.931420801510616,
+            4.184380952381069
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.4699606263419065,
+              "mean_r": -0.02027440722176454,
+              "net_r": -0.3649393299917617,
+              "trades": 18,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 2.382046646248498,
+              "mean_r": 0.6178521697207128,
+              "net_r": 5.560669527486415,
+              "trades": 9,
+              "win_rate_pct": 66.66666666666666
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 2.9135570915851092,
+              "mean_r": 0.06531003251523944,
+              "net_r": 0.3265501625761972,
+              "trades": 5,
+              "win_rate_pct": 40.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 3.9285155719654763,
+              "mean_r": 0.019641036710432772,
+              "net_r": 0.2160514038147605,
+              "trades": 11,
+              "win_rate_pct": 45.45454545454545
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 5.0,
+              "mean_r": -0.5411481365149453,
+              "net_r": -3.788036955604617,
+              "trades": 7,
+              "win_rate_pct": 42.857142857142854
+            }
+          ],
+          "monotonic_spearman": -0.39999999999999997,
+          "spread_top_minus_bottom_r": -0.5208737292931808
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.575402764979863,
+              "mean_r": -0.30315791583760443,
+              "net_r": -6.972632064264902,
+              "trades": 23,
+              "win_rate_pct": 39.130434782608695
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 2.3337815622669402,
+              "mean_r": 0.06848569552461121,
+              "net_r": 1.0272854328691683,
+              "trades": 15,
+              "win_rate_pct": 53.333333333333336
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 2.8662964313120405,
+              "mean_r": -0.17572484853810003,
+              "net_r": -1.9329733339191004,
+              "trades": 11,
+              "win_rate_pct": 45.45454545454545
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 3.9385829951776645,
+              "mean_r": -0.0015303138449280066,
+              "net_r": -0.016833452294208073,
+              "trades": 11,
+              "win_rate_pct": 54.54545454545454
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 5.0,
+              "mean_r": 0.3933767257047035,
+              "net_r": 3.5403905313423314,
+              "trades": 9,
+              "win_rate_pct": 55.55555555555556
+            }
+          ],
+          "monotonic_spearman": 0.7,
+          "spread_top_minus_bottom_r": 0.6965346415423079
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.4147159252870523,
+              "mean_r": -0.3427240174111452,
+              "net_r": -5.4835842785783235,
+              "trades": 16,
+              "win_rate_pct": 25.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 2.1629803589745884,
+              "mean_r": -0.11077245341771798,
+              "net_r": -2.6585388820252316,
+              "trades": 24,
+              "win_rate_pct": 58.333333333333336
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 2.827043925800935,
+              "mean_r": 0.6697945483624762,
+              "net_r": 6.697945483624762,
+              "trades": 10,
+              "win_rate_pct": 80.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 3.569500734283751,
+              "mean_r": -0.12582077777569647,
+              "net_r": -1.1323869999812683,
+              "trades": 9,
+              "win_rate_pct": 55.55555555555556
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 4.93506493506495,
+              "mean_r": 0.04727693260582581,
+              "net_r": 0.3309385282407806,
+              "trades": 7,
+              "win_rate_pct": 42.857142857142854
+            }
+          ],
+          "monotonic_spearman": 0.49999999999999994,
+          "spread_top_minus_bottom_r": 0.39000095001697105
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.472096398711985,
+              "mean_r": 0.3642179648738411,
+              "net_r": 6.920141332602981,
+              "trades": 19,
+              "win_rate_pct": 57.89473684210527
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 2.110604054675154,
+              "mean_r": -0.3143707174948317,
+              "net_r": -5.344302197412139,
+              "trades": 17,
+              "win_rate_pct": 35.294117647058826
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 2.680191581061301,
+              "mean_r": -0.17197547820656425,
+              "net_r": -1.8917302602722068,
+              "trades": 11,
+              "win_rate_pct": 36.36363636363637
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 3.347141011015033,
+              "mean_r": -0.49611290259230695,
+              "net_r": -5.457241928515376,
+              "trades": 11,
+              "win_rate_pct": 27.27272727272727
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 4.789736097683234,
+              "mean_r": -0.24587261958118742,
+              "net_r": -2.2128535762306867,
+              "trades": 9,
+              "win_rate_pct": 55.55555555555556
+            }
+          ],
+          "monotonic_spearman": -0.49999999999999994,
+          "spread_top_minus_bottom_r": -0.6100905844550285
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.437027600496963,
+              "mean_r": 0.5585333362998255,
+              "net_r": 12.28773339859616,
+              "trades": 22,
+              "win_rate_pct": 72.72727272727273
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 2.077902934312229,
+              "mean_r": 0.3135486157397838,
+              "net_r": 3.135486157397838,
+              "trades": 10,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 2.5876902297266975,
+              "mean_r": 0.31454089618530545,
+              "net_r": 5.976277027520804,
+              "trades": 19,
+              "win_rate_pct": 63.1578947368421
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 3.4492616426708778,
+              "mean_r": -0.037634321513121884,
+              "net_r": -0.45161185815746263,
+              "trades": 12,
+              "win_rate_pct": 41.66666666666667
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 4.861390415903143,
+              "mean_r": -0.4123447969415108,
+              "net_r": -3.7111031724735972,
+              "trades": 9,
+              "win_rate_pct": 33.33333333333333
+            }
+          ],
+          "monotonic_spearman": -0.8999999999999998,
+          "spread_top_minus_bottom_r": -0.9708781332413363
+        }
+      }
+    },
+    "garman_klass_norm": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 0.060680672344617756,
+          "mean_r": -0.07272709902597298,
+          "net_r": -1.5999961785714056,
+          "trades": 22,
+          "win_rate_pct": 40.909090909090914
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 0.07923908330532141,
+          "mean_r": 0.02490055366139119,
+          "net_r": 1.170326022085386,
+          "trades": 47,
+          "win_rate_pct": 51.06382978723404
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 0.09846789173329744,
+          "mean_r": 0.09672321207305093,
+          "net_r": 5.609946300236954,
+          "trades": 58,
+          "win_rate_pct": 56.896551724137936
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 0.12126421917478317,
+          "mean_r": 0.11203227444767855,
+          "net_r": 7.058033290203748,
+          "trades": 63,
+          "win_rate_pct": 57.14285714285714
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 0.1793913254298158,
+          "mean_r": -0.05699708013136839,
+          "net_r": -7.6376087376033635,
+          "trades": 134,
+          "win_rate_pct": 44.776119402985074
+        }
+      ],
+      "monotonic_spearman": 0.39999999999999997,
+      "same_spread_sign_year_fraction": 0.2,
+      "spread_top_minus_bottom_r": 0.01573001889460459,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            0.05989858511335993,
+            0.08087926526098778,
+            0.09978395384354749,
+            0.1260956364003692
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            0.06427951268141657,
+            0.08542601808376357,
+            0.10479184261186139,
+            0.1298178771412857
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            0.06950500472835444,
+            0.09229389998275797,
+            0.11465593664218339,
+            0.1346855054699991
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            0.07240632509852579,
+            0.09403047130778021,
+            0.11849403498799847,
+            0.14051286623328313
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            0.07210283124727737,
+            0.09429185021983598,
+            0.11965650914117948,
+            0.14675163109370398
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.0362756479826828,
+              "mean_r": -1.1707983009708707,
+              "net_r": -1.1707983009708707,
+              "trades": 1,
+              "win_rate_pct": 0.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.06877516068385511,
+              "mean_r": -0.4724380130940678,
+              "net_r": -3.3070660916584744,
+              "trades": 7,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.09149167133560282,
+              "mean_r": -0.2689112925231225,
+              "net_r": -3.22693551027747,
+              "trades": 12,
+              "win_rate_pct": 41.66666666666667
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.1135208461816081,
+              "mean_r": 0.5896645945352054,
+              "net_r": 8.84496891802808,
+              "trades": 15,
+              "win_rate_pct": 73.33333333333333
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.15360928032025417,
+              "mean_r": 0.05400838621064867,
+              "net_r": 0.8101257931597301,
+              "trades": 15,
+              "win_rate_pct": 40.0
+            }
+          ],
+          "monotonic_spearman": 0.8999999999999998,
+          "spread_top_minus_bottom_r": 1.2248066871815193
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.05486491054128526,
+              "mean_r": 0.012054753246764595,
+              "net_r": 0.012054753246764595,
+              "trades": 1,
+              "win_rate_pct": 100.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.07843651356422487,
+              "mean_r": -0.5658368765082153,
+              "net_r": -5.092531888573938,
+              "trades": 9,
+              "win_rate_pct": 22.22222222222222
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.09596522789386014,
+              "mean_r": 0.592926972879711,
+              "net_r": 6.522196701676821,
+              "trades": 11,
+              "win_rate_pct": 72.72727272727273
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.11692348722725987,
+              "mean_r": -0.12124025899783934,
+              "net_r": -2.5460454389546263,
+              "trades": 21,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.1578905237852218,
+              "mean_r": -0.12038655606154558,
+              "net_r": -3.2504370136617307,
+              "trades": 27,
+              "win_rate_pct": 48.148148148148145
+            }
+          ],
+          "monotonic_spearman": -0.09999999999999999,
+          "spread_top_minus_bottom_r": -0.13244130930831016
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.06365901123510809,
+              "mean_r": 0.02290014859691311,
+              "net_r": 0.13740089158147867,
+              "trades": 6,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.07950211914617639,
+              "mean_r": 0.7357115553132538,
+              "net_r": 6.621403997819284,
+              "trades": 9,
+              "win_rate_pct": 77.77777777777779
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.10162374963529275,
+              "mean_r": 0.23274418620501763,
+              "net_r": 3.0256744206652293,
+              "trades": 13,
+              "win_rate_pct": 69.23076923076923
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.1235342469749799,
+              "mean_r": -0.3926384338905443,
+              "net_r": -3.9263843389054434,
+              "trades": 10,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.18950225286225247,
+              "mean_r": -0.28941861142427955,
+              "net_r": -8.103721119879827,
+              "trades": 28,
+              "win_rate_pct": 39.285714285714285
+            }
+          ],
+          "monotonic_spearman": -0.6,
+          "spread_top_minus_bottom_r": -0.31231876002119263
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.06156286897478386,
+              "mean_r": -0.041332394459198465,
+              "net_r": -0.5786535224287785,
+              "trades": 14,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.08182497611921374,
+              "mean_r": -0.07563703714636362,
+              "net_r": -0.8320074086099998,
+              "trades": 11,
+              "win_rate_pct": 45.45454545454545
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.0996784155477994,
+              "mean_r": -0.031781290833838315,
+              "net_r": -0.34959419917222145,
+              "trades": 11,
+              "win_rate_pct": 45.45454545454545
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.1278664551656747,
+              "mean_r": -0.26776878151381567,
+              "net_r": -1.3388439075690783,
+              "trades": 5,
+              "win_rate_pct": 40.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.18009782069618277,
+              "mean_r": -0.18795721507874422,
+              "net_r": -4.88688759204735,
+              "trades": 26,
+              "win_rate_pct": 42.30769230769231
+            }
+          ],
+          "monotonic_spearman": -0.6,
+          "spread_top_minus_bottom_r": -0.14662482061954574
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 1,
+              "mean_feature": 0.08375348716892345,
+              "mean_r": 0.3436843102825922,
+              "net_r": 3.7805274131085147,
+              "trades": 11,
+              "win_rate_pct": 63.63636363636363
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.10364080376245065,
+              "mean_r": -0.032854101150491276,
+              "net_r": -0.361395112655404,
+              "trades": 11,
+              "win_rate_pct": 54.54545454545454
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.13389709482804904,
+              "mean_r": 0.502028171467068,
+              "net_r": 6.024338057604816,
+              "trades": 12,
+              "win_rate_pct": 75.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.19691178532491307,
+              "mean_r": 0.2050871367059425,
+              "net_r": 7.793311194825815,
+              "trades": 38,
+              "win_rate_pct": 50.0
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": -0.13859717357664972
+        }
+      }
+    },
+    "nr7_flag": {
+      "binary_or_low_cardinality": true,
+      "buckets": [
+        {
+          "bucket": 1,
+          "mean_feature": 0.14814814814814814,
+          "mean_r": 0.01419969350725716,
+          "net_r": 4.6007006963513195,
+          "trades": 324,
+          "win_rate_pct": 50.0
+        }
+      ],
+      "monotonic_spearman": 0.0,
+      "same_spread_sign_year_fraction": 0.0,
+      "spread_top_minus_bottom_r": 0.0,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            0.0
+          ],
+          "effective_buckets": 2,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            0.0
+          ],
+          "effective_buckets": 2,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            0.0
+          ],
+          "effective_buckets": 2,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            0.0
+          ],
+          "effective_buckets": 2,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            0.0
+          ],
+          "effective_buckets": 2,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 1,
+              "mean_feature": 0.18,
+              "mean_r": 0.0390058961656199,
+              "net_r": 1.950294808280995,
+              "trades": 50,
+              "win_rate_pct": 50.0
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": 0.0
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 1,
+              "mean_feature": 0.15942028985507245,
+              "mean_r": -0.06311250559806827,
+              "net_r": -4.354762886266711,
+              "trades": 69,
+              "win_rate_pct": 47.82608695652174
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": 0.0
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 1,
+              "mean_feature": 0.13636363636363635,
+              "mean_r": -0.034024638616958786,
+              "net_r": -2.2456261487192797,
+              "trades": 66,
+              "win_rate_pct": 51.515151515151516
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": 0.0
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 1,
+              "mean_feature": 0.11940298507462686,
+              "mean_r": -0.11919383029593175,
+              "net_r": -7.985986629827427,
+              "trades": 67,
+              "win_rate_pct": 43.28358208955223
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": 0.0
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 1,
+              "mean_feature": 0.1527777777777778,
+              "mean_r": 0.23939974379005197,
+              "net_r": 17.23678155288374,
+              "trades": 72,
+              "win_rate_pct": 56.94444444444444
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": 0.0
+        }
+      }
+    },
+    "range_to_atr20": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 1.2740269634938248,
+          "mean_r": -0.059219598114568346,
+          "net_r": -3.079419101957554,
+          "trades": 52,
+          "win_rate_pct": 51.92307692307693
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 1.4327730958578522,
+          "mean_r": 0.04021929756205009,
+          "net_r": 2.734912234219406,
+          "trades": 68,
+          "win_rate_pct": 51.470588235294116
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 1.6476708712260868,
+          "mean_r": 0.035127111341532145,
+          "net_r": 2.423770682565718,
+          "trades": 69,
+          "win_rate_pct": 49.275362318840585
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 1.9822075979559886,
+          "mean_r": 0.0358004537435245,
+          "net_r": 2.4702313083031906,
+          "trades": 69,
+          "win_rate_pct": 49.275362318840585
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 2.8665684173882564,
+          "mean_r": 0.0007758420184933185,
+          "net_r": 0.05120557322055902,
+          "trades": 66,
+          "win_rate_pct": 48.484848484848484
+        }
+      ],
+      "monotonic_spearman": 0.09999999999999999,
+      "same_spread_sign_year_fraction": 0.6,
+      "spread_top_minus_bottom_r": 0.05999544013306166,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            1.34695467476494,
+            1.5350053056924864,
+            1.7590399029388288,
+            2.246833832295853
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            1.3452590741280075,
+            1.5201889549805754,
+            1.7676524535320741,
+            2.263747428034278
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            1.3543367708944578,
+            1.5341810091470467,
+            1.7903903199943694,
+            2.3230357237272226
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            1.3549481059302575,
+            1.5395590548091416,
+            1.7838875151882436,
+            2.2589907625170174
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            1.3615654319114399,
+            1.5411191778993574,
+            1.7823812533745287,
+            2.2606512491217665
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.262587320168372,
+              "mean_r": -0.07168878353340512,
+              "net_r": -0.8602654024008614,
+              "trades": 12,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 1.4108580712256753,
+              "mean_r": 0.43705275604103205,
+              "net_r": 4.807580316451353,
+              "trades": 11,
+              "win_rate_pct": 63.63636363636363
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.6170124335004055,
+              "mean_r": -0.4333079642790249,
+              "net_r": -2.5998477856741493,
+              "trades": 6,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.9589513599240718,
+              "mean_r": -0.056180684738808925,
+              "net_r": -0.5618068473880893,
+              "trades": 10,
+              "win_rate_pct": 40.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 2.8428477429365993,
+              "mean_r": 0.10587586611752203,
+              "net_r": 1.1646345272927423,
+              "trades": 11,
+              "win_rate_pct": 54.54545454545454
+            }
+          ],
+          "monotonic_spearman": 0.19999999999999998,
+          "spread_top_minus_bottom_r": 0.17756464965092716
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.2733342821190843,
+              "mean_r": -0.08819642562716881,
+              "net_r": -0.8819642562716882,
+              "trades": 10,
+              "win_rate_pct": 60.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 1.4323901009162723,
+              "mean_r": 0.0363827204525124,
+              "net_r": 0.4729753658826612,
+              "trades": 13,
+              "win_rate_pct": 46.15384615384615
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.6039171490101567,
+              "mean_r": 0.034645555890980284,
+              "net_r": 0.485037782473724,
+              "trades": 14,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.9962875104446303,
+              "mean_r": -0.04609201224567796,
+              "net_r": -0.6913801836851694,
+              "trades": 15,
+              "win_rate_pct": 46.666666666666664
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 3.0808777521739015,
+              "mean_r": -0.21996656439213166,
+              "net_r": -3.739431594666238,
+              "trades": 17,
+              "win_rate_pct": 41.17647058823529
+            }
+          ],
+          "monotonic_spearman": -0.39999999999999997,
+          "spread_top_minus_bottom_r": -0.13177013876496285
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.267670864848184,
+              "mean_r": 0.137871214161273,
+              "net_r": 1.7923257840965487,
+              "trades": 13,
+              "win_rate_pct": 61.53846153846154
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 1.4328324699864952,
+              "mean_r": -0.6130588838945634,
+              "net_r": -6.130588838945634,
+              "trades": 10,
+              "win_rate_pct": 30.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.6572277663837398,
+              "mean_r": 0.36591949794913964,
+              "net_r": 6.952470461033653,
+              "trades": 19,
+              "win_rate_pct": 63.1578947368421
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.9907091115127327,
+              "mean_r": -0.06148093950437566,
+              "net_r": -0.9222140925656349,
+              "trades": 15,
+              "win_rate_pct": 53.333333333333336
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 2.5725313127737155,
+              "mean_r": -0.43751327359313463,
+              "net_r": -3.937619462338212,
+              "trades": 9,
+              "win_rate_pct": 33.33333333333333
+            }
+          ],
+          "monotonic_spearman": -0.19999999999999998,
+          "spread_top_minus_bottom_r": -0.5753844877544076
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.2736344102575747,
+              "mean_r": -0.07404594053145014,
+              "net_r": -0.8145053458459515,
+              "trades": 11,
+              "win_rate_pct": 36.36363636363637
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 1.450885051461681,
+              "mean_r": -0.02518152611749371,
+              "net_r": -0.3525413656449119,
+              "trades": 14,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.6451030471608947,
+              "mean_r": -0.3581842250880827,
+              "net_r": -6.089131826497406,
+              "trades": 17,
+              "win_rate_pct": 29.411764705882355
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.9170013671884563,
+              "mean_r": -0.22311117227732383,
+              "net_r": -2.4542228950505622,
+              "trades": 11,
+              "win_rate_pct": 45.45454545454545
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 2.727249148598876,
+              "mean_r": 0.12317248594367167,
+              "net_r": 1.7244148032114033,
+              "trades": 14,
+              "win_rate_pct": 57.14285714285714
+            }
+          ],
+          "monotonic_spearman": 0.19999999999999998,
+          "spread_top_minus_bottom_r": 0.1972184264751218
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 1.3125519471013118,
+              "mean_r": -0.38583498025593377,
+              "net_r": -2.3150098815356026,
+              "trades": 6,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 1.4323672501305744,
+              "mean_r": 0.1968743378237969,
+              "net_r": 3.937486756475938,
+              "trades": 20,
+              "win_rate_pct": 60.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.6983304664945453,
+              "mean_r": 0.2827109270176843,
+              "net_r": 3.6752420512298962,
+              "trades": 13,
+              "win_rate_pct": 61.53846153846154
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 2.0161581272938354,
+              "mean_r": 0.394436407055147,
+              "net_r": 7.099855326992646,
+              "trades": 18,
+              "win_rate_pct": 55.55555555555556
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 2.947533246201219,
+              "mean_r": 0.32261381998139094,
+              "net_r": 4.839207299720864,
+              "trades": 15,
+              "win_rate_pct": 53.333333333333336
+            }
+          ],
+          "monotonic_spearman": 0.8999999999999998,
+          "spread_top_minus_bottom_r": 0.7084488002373247
+        }
+      }
+    },
+    "rvol_1h": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 0.6606336457998617,
+          "mean_r": 0.22146337436538288,
+          "net_r": 11.073168718269145,
+          "trades": 50,
+          "win_rate_pct": 54.0
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 0.8529549422656885,
+          "mean_r": -0.2506363452566583,
+          "net_r": -19.549634930019344,
+          "trades": 78,
+          "win_rate_pct": 39.743589743589745
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 0.9989625154871655,
+          "mean_r": 0.09231561622550381,
+          "net_r": 7.01598683313829,
+          "trades": 76,
+          "win_rate_pct": 55.26315789473685
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 1.1720645282529087,
+          "mean_r": 0.03278896487412874,
+          "net_r": 2.2296496114407542,
+          "trades": 68,
+          "win_rate_pct": 50.0
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 1.6055745044135166,
+          "mean_r": 0.07368327814466301,
+          "net_r": 3.8315304635224767,
+          "trades": 52,
+          "win_rate_pct": 53.84615384615385
+        }
+      ],
+      "monotonic_spearman": -0.3,
+      "same_spread_sign_year_fraction": 0.6,
+      "spread_top_minus_bottom_r": -0.14778009622071986,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            0.7555860306393047,
+            0.9457261230342006,
+            1.0834519943385688,
+            1.3109121693350219
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            0.7556927609425506,
+            0.9448335973564458,
+            1.0794502445262015,
+            1.291292576237786
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            0.7505736549178484,
+            0.9300795802008668,
+            1.091610122591494,
+            1.3120676823996698
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            0.7583208616665889,
+            0.9289628517186842,
+            1.0834519943385688,
+            1.2828960573729267
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            0.7777190118072514,
+            0.9288156029864053,
+            1.0586166678160218,
+            1.263493789210452
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.656121961253186,
+              "mean_r": -0.013750758651239259,
+              "net_r": -0.1375075865123926,
+              "trades": 10,
+              "win_rate_pct": 60.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.8702804978408213,
+              "mean_r": -0.2283042650745364,
+              "net_r": -2.5113469158199004,
+              "trades": 11,
+              "win_rate_pct": 36.36363636363637
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.0143229093292514,
+              "mean_r": 0.09377341708850047,
+              "net_r": 0.9377341708850047,
+              "trades": 10,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.194392987253968,
+              "mean_r": 0.29930170510826465,
+              "net_r": 3.292318756190911,
+              "trades": 11,
+              "win_rate_pct": 54.54545454545454
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 1.7001819006283894,
+              "mean_r": 0.046137047942171425,
+              "net_r": 0.3690963835373714,
+              "trades": 8,
+              "win_rate_pct": 50.0
+            }
+          ],
+          "monotonic_spearman": 0.6,
+          "spread_top_minus_bottom_r": 0.05988780659341068
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.6739109615146016,
+              "mean_r": -0.009113127250278831,
+              "net_r": -0.1458100360044613,
+              "trades": 16,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.8329884045502969,
+              "mean_r": -0.25200916195597106,
+              "net_r": -3.7801374293395655,
+              "trades": 15,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.0037080736099622,
+              "mean_r": 0.1761521809351763,
+              "net_r": 0.8807609046758814,
+              "trades": 5,
+              "win_rate_pct": 60.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.205357328624943,
+              "mean_r": -0.03505978543847811,
+              "net_r": -0.5609565670156498,
+              "trades": 16,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 1.5435171513794754,
+              "mean_r": -0.04403645638723029,
+              "net_r": -0.748619758582915,
+              "trades": 17,
+              "win_rate_pct": 52.94117647058824
+            }
+          ],
+          "monotonic_spearman": -0.19999999999999998,
+          "spread_top_minus_bottom_r": -0.03492332913695146
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.6039294788584723,
+              "mean_r": 0.4104055175427529,
+              "net_r": 4.104055175427529,
+              "trades": 10,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.8566770600556255,
+              "mean_r": -0.10299745656036602,
+              "net_r": -1.7509567615262223,
+              "trades": 17,
+              "win_rate_pct": 47.05882352941176
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 1.0104608743729575,
+              "mean_r": -0.1265190396527382,
+              "net_r": -2.150823674096549,
+              "trades": 17,
+              "win_rate_pct": 58.82352941176471
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.165608004894102,
+              "mean_r": -0.024857868504004503,
+              "net_r": -0.37286802756006754,
+              "trades": 15,
+              "win_rate_pct": 53.333333333333336
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 1.5499758893728084,
+              "mean_r": -0.29643326585199575,
+              "net_r": -2.07503286096397,
+              "trades": 7,
+              "win_rate_pct": 42.857142857142854
+            }
+          ],
+          "monotonic_spearman": -0.7,
+          "spread_top_minus_bottom_r": -0.7068387833947487
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.685185346880905,
+              "mean_r": 0.05564346407119299,
+              "net_r": 0.33386078442715794,
+              "trades": 6,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.8564549427067081,
+              "mean_r": -0.37350570917392506,
+              "net_r": -8.217125601826352,
+              "trades": 22,
+              "win_rate_pct": 40.909090909090914
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.9998177337226032,
+              "mean_r": 0.03914408138610885,
+              "net_r": 0.7828816277221771,
+              "trades": 20,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.1317877819261797,
+              "mean_r": -0.41162785480896164,
+              "net_r": -5.351162112516501,
+              "trades": 13,
+              "win_rate_pct": 23.076923076923077
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 1.7045656447490714,
+              "mean_r": 0.7442597787276815,
+              "net_r": 4.465558672366089,
+              "trades": 6,
+              "win_rate_pct": 83.33333333333334
+            }
+          ],
+          "monotonic_spearman": 0.09999999999999999,
+          "spread_top_minus_bottom_r": 0.6886163146564884
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.692185052919681,
+              "mean_r": 0.8648212976164139,
+              "net_r": 6.918570380931311,
+              "trades": 8,
+              "win_rate_pct": 75.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.8505427070559228,
+              "mean_r": -0.2530821708851774,
+              "net_r": -3.2900682215073065,
+              "trades": 13,
+              "win_rate_pct": 38.46153846153847
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.9827163407037464,
+              "mean_r": 0.273559741831324,
+              "net_r": 6.565433803951775,
+              "trades": 24,
+              "win_rate_pct": 58.333333333333336
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 1.1599220434579374,
+              "mean_r": 0.40171673556477394,
+              "net_r": 5.222317562342061,
+              "trades": 13,
+              "win_rate_pct": 69.23076923076923
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 1.6122430254943267,
+              "mean_r": 0.13003771622613583,
+              "net_r": 1.8205280271659015,
+              "trades": 14,
+              "win_rate_pct": 50.0
+            }
+          ],
+          "monotonic_spearman": -0.3,
+          "spread_top_minus_bottom_r": -0.7347835813902781
+        }
+      }
+    },
+    "spx_alignment": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 0.034120141759161476,
+          "mean_r": 0.14330849976030574,
+          "net_r": 9.315052484419873,
+          "trades": 65,
+          "win_rate_pct": 55.38461538461539
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 0.09960086435125108,
+          "mean_r": -0.13286489910770757,
+          "net_r": -6.643244955385378,
+          "trades": 50,
+          "win_rate_pct": 48.0
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 0.19089488272010594,
+          "mean_r": -0.045155603558152006,
+          "net_r": -2.393246988582056,
+          "trades": 53,
+          "win_rate_pct": 45.28301886792453
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 0.37353258067378375,
+          "mean_r": -0.1894507484651713,
+          "net_r": -12.693200147166477,
+          "trades": 67,
+          "win_rate_pct": 44.776119402985074
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 0.8664321024799633,
+          "mean_r": 0.1911835989108467,
+          "net_r": 17.015340303065358,
+          "trades": 89,
+          "win_rate_pct": 53.93258426966292
+        }
+      ],
+      "monotonic_spearman": 0.09999999999999999,
+      "same_spread_sign_year_fraction": 0.6,
+      "spread_top_minus_bottom_r": 0.04787509915054097,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            0.05127084972120998,
+            0.10209925164709059,
+            0.19505083063663725,
+            0.38409503545288276
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            0.06098505517362053,
+            0.13208797596222355,
+            0.24505442618668033,
+            0.4447112745031653
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            0.05453404321163038,
+            0.12215278203717882,
+            0.24505442618668033,
+            0.4447639310286635
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            0.06686071336029183,
+            0.14525429925484382,
+            0.3111706753836941,
+            0.5836165165468399
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            0.06500432658653982,
+            0.14263757035693053,
+            0.313186123822809,
+            0.5681289546698491
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.03091118086450888,
+              "mean_r": -0.040402869799217374,
+              "net_r": -0.12120860939765213,
+              "trades": 3,
+              "win_rate_pct": 66.66666666666666
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.0799286369250573,
+              "mean_r": 0.10819847469566896,
+              "net_r": 0.4327938987826758,
+              "trades": 4,
+              "win_rate_pct": 75.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.12942434184629031,
+              "mean_r": -0.6730174991592878,
+              "net_r": -3.365087495796439,
+              "trades": 5,
+              "win_rate_pct": 20.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.2913518151283191,
+              "mean_r": -0.08262026064768777,
+              "net_r": -1.1566836490676287,
+              "trades": 14,
+              "win_rate_pct": 57.14285714285714
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.8275546751124964,
+              "mean_r": 0.25668669432333496,
+              "net_r": 6.160480663760039,
+              "trades": 24,
+              "win_rate_pct": 45.83333333333333
+            }
+          ],
+          "monotonic_spearman": 0.19999999999999998,
+          "spread_top_minus_bottom_r": 0.29708956412255233
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.030683949855823588,
+              "mean_r": 0.12967336302047774,
+              "net_r": 2.5934672604095548,
+              "trades": 20,
+              "win_rate_pct": 55.00000000000001
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.08852116543915856,
+              "mean_r": -0.5076011620035186,
+              "net_r": -6.091213944042223,
+              "trades": 12,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.1798103564291178,
+              "mean_r": -0.1657275545157345,
+              "net_r": -1.4915479906416107,
+              "trades": 9,
+              "win_rate_pct": 44.44444444444444
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.34127561585056615,
+              "mean_r": -0.5519616891588685,
+              "net_r": -7.727463648224158,
+              "trades": 14,
+              "win_rate_pct": 35.714285714285715
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.6349671193262821,
+              "mean_r": 0.5972853883022662,
+              "net_r": 8.361995436231727,
+              "trades": 14,
+              "win_rate_pct": 64.28571428571429
+            }
+          ],
+          "monotonic_spearman": 0.09999999999999999,
+          "spread_top_minus_bottom_r": 0.46761202528178847
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.02271295407778552,
+              "mean_r": 0.4740765577297079,
+              "net_r": 2.3703827886485396,
+              "trades": 5,
+              "win_rate_pct": 100.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.10966500213871218,
+              "mean_r": -0.28330598697148734,
+              "net_r": -0.849917960914462,
+              "trades": 3,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.17348976200503208,
+              "mean_r": -0.6453116187422836,
+              "net_r": -5.162492949938269,
+              "trades": 8,
+              "win_rate_pct": 25.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.3628014265135057,
+              "mean_r": 0.02536294294116117,
+              "net_r": 0.2536294294116117,
+              "trades": 10,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.9688766442526656,
+              "mean_r": 0.028569313601832468,
+              "net_r": 1.1427725440732988,
+              "trades": 40,
+              "win_rate_pct": 52.5
+            }
+          ],
+          "monotonic_spearman": -0.09999999999999999,
+          "spread_top_minus_bottom_r": -0.44550724412787546
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.04339750643830142,
+              "mean_r": -0.13733388901115412,
+              "net_r": -2.197342224178466,
+              "trades": 16,
+              "win_rate_pct": 43.75
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.10817395657938543,
+              "mean_r": -0.0758849289506373,
+              "net_r": -1.0623890053089222,
+              "trades": 14,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.21466910984262633,
+              "mean_r": -0.32417653815879105,
+              "net_r": -2.5934123052703284,
+              "trades": 8,
+              "win_rate_pct": 37.5
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.42387382479334046,
+              "mean_r": -0.16546235285225247,
+              "net_r": -3.6401717627495542,
+              "trades": 22,
+              "win_rate_pct": 40.909090909090914
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.7759360041528872,
+              "mean_r": 0.21533266681140623,
+              "net_r": 1.5073286676798436,
+              "trades": 7,
+              "win_rate_pct": 57.14285714285714
+            }
+          ],
+          "monotonic_spearman": 0.19999999999999998,
+          "spread_top_minus_bottom_r": 0.35266655582256035
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.033498657201606996,
+              "mean_r": 0.3176072985208522,
+              "net_r": 6.669753268937896,
+              "trades": 21,
+              "win_rate_pct": 52.38095238095239
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.1032143697685229,
+              "mean_r": 0.05455776800573841,
+              "net_r": 0.927482056097553,
+              "trades": 17,
+              "win_rate_pct": 58.82352941176471
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.20638012575177545,
+              "mean_r": 0.44431711969846044,
+              "net_r": 10.21929375306459,
+              "trades": 23,
+              "win_rate_pct": 60.86956521739131
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.4595229229786531,
+              "mean_r": -0.06035864521953548,
+              "net_r": -0.42251051653674837,
+              "trades": 7,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 1.0437468620680055,
+              "mean_r": -0.039309252169887454,
+              "net_r": -0.15723700867954982,
+              "trades": 4,
+              "win_rate_pct": 75.0
+            }
+          ],
+          "monotonic_spearman": -0.6,
+          "spread_top_minus_bottom_r": -0.35691655069073963
+        }
+      }
+    },
+    "vwap_alignment": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 0.40012212677676123,
+          "mean_r": -0.11590694376890431,
+          "net_r": -7.418044401209876,
+          "trades": 64,
+          "win_rate_pct": 45.3125
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 0.4820799666154233,
+          "mean_r": 0.10973710448624556,
+          "net_r": 6.3647520602022425,
+          "trades": 58,
+          "win_rate_pct": 55.172413793103445
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 0.5374521734908918,
+          "mean_r": 0.04785446681605808,
+          "net_r": 3.0148314094116593,
+          "trades": 63,
+          "win_rate_pct": 50.79365079365079
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 0.5967615063919753,
+          "mean_r": 0.10509012433997408,
+          "net_r": 7.671579076818108,
+          "trades": 73,
+          "win_rate_pct": 54.794520547945204
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 0.6851703335159421,
+          "mean_r": -0.07624874922531533,
+          "net_r": -5.032417448870811,
+          "trades": 66,
+          "win_rate_pct": 43.93939393939394
+        }
+      ],
+      "monotonic_spearman": 0.09999999999999999,
+      "same_spread_sign_year_fraction": 0.4,
+      "spread_top_minus_bottom_r": 0.03965819454358899,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            0.46359652318618033,
+            0.5119102073958455,
+            0.557701170408102,
+            0.6317711521914047
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            0.4530974823890335,
+            0.5111546336294033,
+            0.5680760515668958,
+            0.639423582972917
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            0.44850525933152335,
+            0.5103171485862903,
+            0.5579724689159744,
+            0.636412936532767
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            0.4520974321489827,
+            0.511922927004922,
+            0.5585824745142279,
+            0.6296003668190071
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            0.45538606656234776,
+            0.5135536110657254,
+            0.5748761714999068,
+            0.6370704518507824
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.40786110184404517,
+              "mean_r": -0.147210742117374,
+              "net_r": -2.502582615995358,
+              "trades": 17,
+              "win_rate_pct": 52.94117647058824
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.49472119575786305,
+              "mean_r": -0.12088188245345788,
+              "net_r": -0.4835275298138315,
+              "trades": 4,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.5301266757181419,
+              "mean_r": 0.2056246645776041,
+              "net_r": 1.2337479874656245,
+              "trades": 6,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.5915681916206877,
+              "mean_r": 0.8079048077590746,
+              "net_r": 7.271143269831671,
+              "trades": 9,
+              "win_rate_pct": 77.77777777777779
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.6739023955918795,
+              "mean_r": -0.2548918788005079,
+              "net_r": -3.5684863032071106,
+              "trades": 14,
+              "win_rate_pct": 28.57142857142857
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": -0.1076811366831339
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.3987685138836233,
+              "mean_r": 0.16547159134119888,
+              "net_r": 3.4749034181651766,
+              "trades": 21,
+              "win_rate_pct": 52.38095238095239
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.4833412496408864,
+              "mean_r": -0.48422504178944453,
+              "net_r": -4.358025376105001,
+              "trades": 9,
+              "win_rate_pct": 44.44444444444444
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.5360322053772429,
+              "mean_r": -0.11389721958564888,
+              "net_r": -1.5945610741990843,
+              "trades": 14,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.5975463279020597,
+              "mean_r": 0.1394222165519385,
+              "net_r": 2.091333248279078,
+              "trades": 15,
+              "win_rate_pct": 46.666666666666664
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.6969464081521005,
+              "mean_r": -0.39684131024068786,
+              "net_r": -3.9684131024068785,
+              "trades": 10,
+              "win_rate_pct": 40.0
+            }
+          ],
+          "monotonic_spearman": -0.3,
+          "spread_top_minus_bottom_r": -0.5623129015818867
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.4033462267254264,
+              "mean_r": -0.7754522488111963,
+              "net_r": -6.203617990489571,
+              "trades": 8,
+              "win_rate_pct": 25.0
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.48397092933841673,
+              "mean_r": 0.2643436722284865,
+              "net_r": 3.9651550834272973,
+              "trades": 15,
+              "win_rate_pct": 60.0
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.5345376262858198,
+              "mean_r": 0.11722014080154806,
+              "net_r": 1.875522252824769,
+              "trades": 16,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.5947917361994912,
+              "mean_r": -0.058598654376594075,
+              "net_r": -1.0547757787786933,
+              "trades": 18,
+              "win_rate_pct": 61.111111111111114
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.6917855792670661,
+              "mean_r": -0.09198996841145364,
+              "net_r": -0.8279097157030828,
+              "trades": 9,
+              "win_rate_pct": 44.44444444444444
+            }
+          ],
+          "monotonic_spearman": 0.0,
+          "spread_top_minus_bottom_r": 0.6834622803997427
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.39428668946562284,
+              "mean_r": 0.19711232464558323,
+              "net_r": 1.774010921810249,
+              "trades": 9,
+              "win_rate_pct": 44.44444444444444
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.4818328042590871,
+              "mean_r": -0.1722259200115802,
+              "net_r": -2.238936960150543,
+              "trades": 13,
+              "win_rate_pct": 38.46153846153847
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.5416307240578253,
+              "mean_r": -0.01500783905821467,
+              "net_r": -0.09004703434928801,
+              "trades": 6,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.5982708017649846,
+              "mean_r": -0.24633709079944455,
+              "net_r": -4.6804047251894465,
+              "trades": 19,
+              "win_rate_pct": 47.368421052631575
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.6784195154737571,
+              "mean_r": -0.13753044159741995,
+              "net_r": -2.7506088319483992,
+              "trades": 20,
+              "win_rate_pct": 45.0
+            }
+          ],
+          "monotonic_spearman": -0.49999999999999994,
+          "spread_top_minus_bottom_r": -0.33464276624300315
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.3916320635348718,
+              "mean_r": -0.44008423718893036,
+              "net_r": -3.9607581347003733,
+              "trades": 9,
+              "win_rate_pct": 33.33333333333333
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.47695833167357266,
+              "mean_r": 0.5576521672261365,
+              "net_r": 9.48008684284432,
+              "trades": 17,
+              "win_rate_pct": 70.58823529411765
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.541518554067422,
+              "mean_r": 0.07572234655569701,
+              "net_r": 1.5901692776696372,
+              "trades": 21,
+              "win_rate_pct": 57.14285714285714
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.6002404031976306,
+              "mean_r": 0.3370235885562915,
+              "net_r": 4.044283062675498,
+              "trades": 12,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.6940526053358559,
+              "mean_r": 0.4679231157226661,
+              "net_r": 6.08300050439466,
+              "trades": 13,
+              "win_rate_pct": 61.53846153846154
+            }
+          ],
+          "monotonic_spearman": 0.39999999999999997,
+          "spread_top_minus_bottom_r": 0.9080073529115964
+        }
+      }
+    },
+    "wick_exhaustion": {
+      "binary_or_low_cardinality": false,
+      "buckets": [
+        {
+          "bucket": 0,
+          "mean_feature": 0.021584711661827863,
+          "mean_r": -0.047299725978201125,
+          "net_r": -3.6420789003214864,
+          "trades": 77,
+          "win_rate_pct": 49.35064935064935
+        },
+        {
+          "bucket": 1,
+          "mean_feature": 0.07336100566229377,
+          "mean_r": 0.13416983601559615,
+          "net_r": 10.331077373200904,
+          "trades": 77,
+          "win_rate_pct": 55.84415584415584
+        },
+        {
+          "bucket": 2,
+          "mean_feature": 0.1383220448340201,
+          "mean_r": -0.03619974491357833,
+          "net_r": -2.5701818888640613,
+          "trades": 71,
+          "win_rate_pct": 46.478873239436616
+        },
+        {
+          "bucket": 3,
+          "mean_feature": 0.21895746913736314,
+          "mean_r": 0.11014019362980768,
+          "net_r": 5.7272900687499995,
+          "trades": 52,
+          "win_rate_pct": 48.07692307692308
+        },
+        {
+          "bucket": 4,
+          "mean_feature": 0.42594837610247344,
+          "mean_r": -0.11160438205136244,
+          "net_r": -5.245405956414035,
+          "trades": 47,
+          "win_rate_pct": 48.93617021276596
+        }
+      ],
+      "monotonic_spearman": -0.3,
+      "same_spread_sign_year_fraction": 0.6,
+      "spread_top_minus_bottom_r": -0.06430465607316133,
+      "walk_forward_folds": [
+        {
+          "edges": [
+            0.05170049705378197,
+            0.11466057605132263,
+            0.19812380429223736,
+            0.31987527637420077
+          ],
+          "effective_buckets": 5,
+          "test_count": 50,
+          "train_count": 170,
+          "year": 2020
+        },
+        {
+          "edges": [
+            0.04503036803658837,
+            0.10473468331285916,
+            0.18377299001577455,
+            0.3193672044347579
+          ],
+          "effective_buckets": 5,
+          "test_count": 69,
+          "train_count": 220,
+          "year": 2021
+        },
+        {
+          "edges": [
+            0.044989126974590815,
+            0.1005291252069318,
+            0.17070375924908898,
+            0.28877822010196896
+          ],
+          "effective_buckets": 5,
+          "test_count": 66,
+          "train_count": 289,
+          "year": 2022
+        },
+        {
+          "edges": [
+            0.042584037558682356,
+            0.09615691096765319,
+            0.16370724350770724,
+            0.2663285789751843
+          ],
+          "effective_buckets": 5,
+          "test_count": 67,
+          "train_count": 355,
+          "year": 2023
+        },
+        {
+          "edges": [
+            0.042704761904754834,
+            0.09515738498788484,
+            0.16027519660239065,
+            0.2660564701316469
+          ],
+          "effective_buckets": 5,
+          "test_count": 72,
+          "train_count": 422,
+          "year": 2024
+        }
+      ],
+      "yearly": {
+        "2020": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.030986955218708406,
+              "mean_r": -0.033321150597463566,
+              "net_r": -0.4998172589619535,
+              "trades": 15,
+              "win_rate_pct": 53.333333333333336
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.08828572556211016,
+              "mean_r": 0.12371413513503744,
+              "net_r": 1.4845696216204494,
+              "trades": 12,
+              "win_rate_pct": 58.333333333333336
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.16547527371526594,
+              "mean_r": 0.21921714183755395,
+              "net_r": 1.7537371347004316,
+              "trades": 8,
+              "win_rate_pct": 37.5
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.2566393746225513,
+              "mean_r": -0.017719815638535995,
+              "net_r": -0.08859907819267998,
+              "trades": 5,
+              "win_rate_pct": 40.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.4718791854446075,
+              "mean_r": -0.06995956108852522,
+              "net_r": -0.6995956108852521,
+              "trades": 10,
+              "win_rate_pct": 50.0
+            }
+          ],
+          "monotonic_spearman": -0.3,
+          "spread_top_minus_bottom_r": -0.03663841049106165
+        },
+        "2021": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.016966302575472325,
+              "mean_r": -0.05911209838409846,
+              "net_r": -0.8275693773773785,
+              "trades": 14,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.07495512218873683,
+              "mean_r": 0.05253923087972787,
+              "net_r": 0.8931669249553739,
+              "trades": 17,
+              "win_rate_pct": 64.70588235294117
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.14973367746143965,
+              "mean_r": 0.0618010451109094,
+              "net_r": 1.3596229924400067,
+              "trades": 22,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.22829568655280474,
+              "mean_r": -0.12698450913562878,
+              "net_r": -1.5238141096275453,
+              "trades": 12,
+              "win_rate_pct": 41.66666666666667
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.34642572885509426,
+              "mean_r": -1.064042329164292,
+              "net_r": -4.256169316657168,
+              "trades": 4,
+              "win_rate_pct": 0.0
+            }
+          ],
+          "monotonic_spearman": -0.6,
+          "spread_top_minus_bottom_r": -1.0049302307801935
+        },
+        "2022": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.022327837288857857,
+              "mean_r": -0.09049527355814237,
+              "net_r": -1.6289149240465626,
+              "trades": 18,
+              "win_rate_pct": 44.44444444444444
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.07507447458826866,
+              "mean_r": 0.01560859926519886,
+              "net_r": 0.2653461875083806,
+              "trades": 17,
+              "win_rate_pct": 52.94117647058824
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.12450393995690522,
+              "mean_r": -0.005264316988631375,
+              "net_r": -0.057907486874945124,
+              "trades": 11,
+              "win_rate_pct": 72.72727272727273
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.21792076294783344,
+              "mean_r": -0.11181877707520527,
+              "net_r": -1.5654628790528737,
+              "trades": 14,
+              "win_rate_pct": 42.857142857142854
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.4573473300433677,
+              "mean_r": 0.1235521589577868,
+              "net_r": 0.7413129537467208,
+              "trades": 6,
+              "win_rate_pct": 50.0
+            }
+          ],
+          "monotonic_spearman": 0.3,
+          "spread_top_minus_bottom_r": 0.21404743251592917
+        },
+        "2023": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.018845967461474326,
+              "mean_r": -0.30578382314645836,
+              "net_r": -3.9751897009039583,
+              "trades": 13,
+              "win_rate_pct": 38.46153846153847
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.0644737376576007,
+              "mean_r": 0.30112073753639007,
+              "net_r": 4.817931800582241,
+              "trades": 16,
+              "win_rate_pct": 56.25
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.12699981284521158,
+              "mean_r": -0.41587466096880854,
+              "net_r": -7.901618558407362,
+              "trades": 19,
+              "win_rate_pct": 26.31578947368421
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.22081330952340042,
+              "mean_r": -0.02164824035830239,
+              "net_r": -0.12988944214981435,
+              "trades": 6,
+              "win_rate_pct": 50.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.4038057618837735,
+              "mean_r": -0.06132467145757954,
+              "net_r": -0.797220728948534,
+              "trades": 13,
+              "win_rate_pct": 53.84615384615385
+            }
+          ],
+          "monotonic_spearman": 0.09999999999999999,
+          "spread_top_minus_bottom_r": 0.24445915168887883
+        },
+        "2024": {
+          "buckets": [
+            {
+              "bucket": 0,
+              "mean_feature": 0.01839950502499406,
+              "mean_r": 0.19349484476284506,
+              "net_r": 3.289412360968366,
+              "trades": 17,
+              "win_rate_pct": 64.70588235294117
+            },
+            {
+              "bucket": 1,
+              "mean_feature": 0.06715238543470628,
+              "mean_r": 0.19133752256896386,
+              "net_r": 2.8700628385344578,
+              "trades": 15,
+              "win_rate_pct": 46.666666666666664
+            },
+            {
+              "bucket": 2,
+              "mean_feature": 0.1291256641596956,
+              "mean_r": 0.20690763902525527,
+              "net_r": 2.275984029277808,
+              "trades": 11,
+              "win_rate_pct": 54.54545454545454
+            },
+            {
+              "bucket": 3,
+              "mean_feature": 0.19915151633242667,
+              "mean_r": 0.6023370385181942,
+              "net_r": 9.035055577772914,
+              "trades": 15,
+              "win_rate_pct": 60.0
+            },
+            {
+              "bucket": 4,
+              "mean_feature": 0.4229657158714669,
+              "mean_r": -0.01669523240498585,
+              "net_r": -0.2337332536698019,
+              "trades": 14,
+              "win_rate_pct": 57.14285714285714
+            }
+          ],
+          "monotonic_spearman": -0.09999999999999999,
+          "spread_top_minus_bottom_r": -0.21019007716783092
+        }
+      }
+    }
+  },
+  "method": "For each evaluation year, quantile edges are fit only on prior events and then applied to that year's OOS events.",
+  "schema_version": "orb_factor_quintiles/v1",
+  "selection_period": "2020-2024 walk-forward OOS"
+}

@@ -42,6 +42,8 @@ def header_markdown():
         r"""
     # ⚡ Institutional Opening Range Breakout (ORB) Strategy
     ### **Dual-Session Day Trading Engine | Germany 40 (DAX) & Nikkei 225**
+    **Validation status: `NOT_APPROVED` — historical results are not independently validated evidence of live readiness.**
+    See `run_log/validation_status.json` and `docs/audit/validation-remediation-status.md` for the current gate state.
     *Professional Algorithmic Strategy Report & Interactive Performance Dashboard*
 
     ---
@@ -1018,12 +1020,12 @@ def display_microstructure(microstructure_view):
 
 @app.cell
 def ml_meta_labeling_section(mo):
-    prob_slider = mo.ui.slider(
+    score_slider = mo.ui.slider(
         start=0.45,
         stop=0.65,
         step=0.01,
         value=0.50,
-        label="Meta-Model Probability Cutoff (p_hat >= threshold)",
+        label="Meta-Model Raw Score Cutoff (model_score >= threshold)",
     )
     mc_trials_slider = mo.ui.slider(
         start=1000,
@@ -1033,7 +1035,7 @@ def ml_meta_labeling_section(mo):
         label="Monte Carlo Evaluation Trials",
     )
     sizing_mode = mo.ui.radio(
-        options=["Static 1.0% Risk", "Dynamic Half-Kelly Sizing"],
+        options=["Static 1.0% Risk"],
         value="Static 1.0% Risk",
         label="Position Sizing Architecture",
     )
@@ -1049,14 +1051,14 @@ def ml_meta_labeling_section(mo):
     )
     ml_controls = mo.vstack([
         mo.hstack([portfolio_mode, holding_mode], justify="start"),
-        mo.hstack([sizing_mode, prob_slider, mc_trials_slider], justify="start"),
+        mo.hstack([sizing_mode, score_slider, mc_trials_slider], justify="start"),
     ])
     return (
         holding_mode,
         mc_trials_slider,
         ml_controls,
         portfolio_mode,
-        prob_slider,
+        score_slider,
         sizing_mode,
     )
 
@@ -1071,9 +1073,9 @@ def display_ml_controls(ml_controls, mo):
             r"""
             Following Marcos López de Prado's *Advances in Financial Machine Learning* (ML4T Chapter 24):
             - **Stage 1 (Primary Heuristic)**: Identifies candidate opening range breakouts (ORB with Crabel Stretch Buffer $k=0.15\times\text{ATR}_{20}$ and S&P 500 VWAP filter).
-            - **Stage 2 (LightGBM Meta-Model)**: Predicts the conditional probability $\hat{p} = P(y^{(2)} = 1 \mid \mathbf{x}_t)$ that the breakout will produce a profitable net payoff.
-            - **Validation Engine**: Combinatorial Purged Cross-Validation (`CombinatorialCV`) with 6 time-series groups, 2 test groups, and 5-bar embargo buffers to neutralize serial correlation and overlap leakage.
-            - **Position Sizing**: Trades with $\hat{p} \ge p^*$ are scaled using the **Half-Kelly criterion** ($f^* = 0.5 \times \frac{3\hat{p} - 1}{2}$), heavily betting on high-conviction institutional order flow and reducing risk on marginal setups.
+            - **Stage 2 (LightGBM Meta-Model)**: Produces an uncalibrated raw model score for the conditional profitability ranking. It is not a calibrated probability.
+            - **Validation Engine**: Combinatorial Purged Cross-Validation with interval-aware purging, elapsed-time embargo, globally ordered events, and fold-local uniqueness weights.
+            - **Position Sizing**: The validated path uses static 1.0% risk. Half-Kelly sizing is disabled until temporal probability calibration is separately implemented and accepted.
             """
         ),
         ml_controls,
@@ -1093,15 +1095,15 @@ def run_ml_meta_pipeline(
     mc_trials_slider,
     mo,
     portfolio_mode,
-    prob_slider,
+    score_slider,
     sizing_mode,
 ):
-    from src.labeling import MetaLabelingORBDatasetBuilder, compute_sample_uniqueness_weights
+    from src.labeling import MetaLabelingORBDatasetBuilder
     from src.models import train_meta_classifier_cpcv
     from src.ftmo_simulator import FTMOSimulator as _FTMOSimulator
 
 
-    _cutoff = float(prob_slider.value)
+    _cutoff = float(score_slider.value)
     _n_mc = int(mc_trials_slider.value)
     _use_kelly = "Half-Kelly" in sizing_mode.value
 
@@ -1176,13 +1178,10 @@ def run_ml_meta_pipeline(
         _all_events.extend(_evs)
         _all_timestamps.extend(_df["timestamp"].cast(pl.String).to_list())
 
-    _all_ts_sorted = sorted(list(set(_all_timestamps)))
-    _weights = compute_sample_uniqueness_weights(_all_events, _all_ts_sorted)
-
-    # Train CPCV Meta-Classifier
+    # Uniqueness weights are computed inside each validated training fold.
+    # Do not precompute weights on the full event set.
     _meta_res = train_meta_classifier_cpcv(
         events=_all_events,
-        sample_weights=_weights,
         conviction_threshold=_cutoff,
         random_state=42,
     )
@@ -1190,13 +1189,13 @@ def run_ml_meta_pipeline(
     # Run FTMO Simulator with 3 variants
     _trades = []
     for _idx, _e in enumerate(_all_events):
-        _p_hat = float(_meta_res.oof_probabilities[_idx])
+        _model_score = float(_meta_res.oof_probabilities[_idx])
         _trades.append({
             "date": _e.date,
             "entry_time": _e.entry_time,
             "r_mult": _e.r_multiple,
             "pnl_pct": _e.r_multiple * 0.01,
-            "prob": _p_hat,
+            "model_score": _model_score,
             "symbol": _e.symbol,
         })
 
@@ -1207,7 +1206,8 @@ def run_ml_meta_pipeline(
         n_simulations=_n_mc,
         risk_pct=1.0,
         prob_threshold=_cutoff,
-        use_half_kelly=True,
+        use_half_kelly=False,
+        validated_path=True,
         random_seed=42,
     )
 
@@ -1270,7 +1270,7 @@ def run_ml_meta_pipeline(
     _mc_table = pl.DataFrame(_comparison_data)
 
     # 2. 10-Year Annual Calendar Breakdown (2017–2026) for Meta-Gated Trades
-    _gated_trades = [_t for _t in _trades if _t["prob"] >= _cutoff]
+    _gated_trades = [_t for _t in _trades if _t["model_score"] >= _cutoff]
     _years_list = sorted(list(set(int(str(_t["date"])[:4]) for _t in _gated_trades)))
     _regimes = {
         2017: "Low volatility melt-up, synchronized growth",
@@ -1321,14 +1321,14 @@ def run_ml_meta_pipeline(
                 caption="Combinatorial Purged CV (Zero Overlap Leakage)",
             ),
             mo.stat(
-                label="Brier Calibration Score",
-                value=f"{_meta_res.brier_score:.3f}",
-                caption="Mean squared probability calibration error",
+                label="OOF Score MSE (not calibration)",
+                value=f"{_meta_res.oof_score_mse:.3f}",
+                caption="Descriptive squared error for uncalibrated ranking scores",
             ),
             mo.stat(
                 label="Precision Lift",
                 value=f"{_meta_res.baseline_win_rate*100:.1f}% → {_meta_res.filtered_win_rate*100:.1f}%",
-                caption=f"Win rate improvement above cutoff p >= {_cutoff:.2f}",
+                caption=f"Win rate improvement above raw-score cutoff >= {_cutoff:.2f}",
             ),
             mo.stat(
                 label="Funded Pass Rate (Meta-Gated)",
@@ -1351,9 +1351,9 @@ def run_ml_meta_pipeline(
         mo.md(
             r"""
             > **Key Quantitative Takeaways**:
-            > 1. **Mathematical Validation of Meta-Labeling**: Consistent with López de Prado's theorems, probability gating filters 495 false breakout sweeps where range saturation is extreme (`range_to_atr20`) or where rejection wicks are prominent.
-            > 2. **Max Drawdown Protection**: On FTMO, your primary adversary is the -10% Maximum Loss barrier. Meta-gating cuts breach risk from **38.7% down to 15.9%**, lifting the complete 2-step funded pass rate to **79.1%** with zero daily loss violations.
-            > 3. **Decade-Long Durability**: Generates positive net returns in **10 out of 10 calendar years** across four regional index futures, proving exceptional robustness against regime shifts.
+            > 1. **Meta-Labeling Ranking**: The uncalibrated raw-score cutoff filters candidate breakout events where range saturation is extreme (`range_to_atr20`) or rejection wicks are prominent. This is not probability calibration evidence.
+            > 2. **Historical Artifact Only**: The FTMO Monte Carlo figures below are generated research outputs and remain unvalidated until the canonical data, timestamp, final-OOS, and ledger gates pass.
+            > 3. **Historical Artifact Only**: Any annual breakdown shown here is descriptive output from the selected dataset and does not establish robustness or live readiness.
             """
         ),
     ])

@@ -1,0 +1,135 @@
+{
+  "config_sha256": "41ded26be608706a048d3d99b0837ef6cf68fe2c97b88aa19f246662280fbb6c",
+  "de30_new_york_overlap_contract": {
+    "anchor_local_time": "09:00:00",
+    "anchor_timezone": "America/New_York",
+    "passed": true,
+    "summer_utc": "2024-07-15T13:00:00+00:00",
+    "winter_utc": "2024-01-15T14:00:00+00:00"
+  },
+  "files": [
+    {
+      "blocking_reasons": [],
+      "file": "/home/quant/dev/quant/quant-research/data/processed/JP225_USD_5m_2017_2026.parquet",
+      "max_timestamp": "2026-09-22T10:45:00+00:00",
+      "min_timestamp": "2017-01-03T00:00:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "rows": 195379,
+      "sha256": "a40b0e0db36d494183b301bf4ebb893822bde53b823683e424bdff5225ca4b49",
+      "source_timezone": "UTC",
+      "status": "READY",
+      "strictly_sorted": true,
+      "timestamp_dtype": "Datetime(time_unit='us', time_zone='UTC')",
+      "unique": true
+    },
+    {
+      "blocking_reasons": [],
+      "file": "/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet",
+      "max_timestamp": "2026-09-22T10:00:00+00:00",
+      "min_timestamp": "2017-01-03T01:30:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "rows": 181601,
+      "sha256": "65f0b937f1f95e36a1ddfc75b6d5e434e9ed85523f53064e4e1dd976342aea24",
+      "source_timezone": "UTC",
+      "status": "READY",
+      "strictly_sorted": true,
+      "timestamp_dtype": "Datetime(time_unit='us', time_zone='UTC')",
+      "unique": true
+    },
+    {
+      "blocking_reasons": [],
+      "file": "/home/quant/dev/quant/quant-research/data/processed/DE30_EUR_5m_2017_2026.parquet",
+      "max_timestamp": "2026-09-22T09:55:00+00:00",
+      "min_timestamp": "2017-01-03T08:00:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "rows": 277468,
+      "sha256": "0f87d1889ff775bbaadb1bbae53954755de962b8a70ca1d826ca4cb47882fe6d",
+      "source_timezone": "UTC",
+      "status": "READY",
+      "strictly_sorted": true,
+      "timestamp_dtype": "Datetime(time_unit='us', time_zone='UTC')",
+      "unique": true
+    },
+    {
+      "blocking_reasons": [],
+      "file": "/home/quant/dev/quant/quant-research/data/processed/NAS100_5m_2017_2026.parquet",
+      "max_timestamp": "2026-09-22T09:55:00+00:00",
+      "min_timestamp": "2017-01-03T14:30:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "rows": 234978,
+      "sha256": "d02c1af3d89f3bf8a5e9895ec05e7276f06f4f185400db46c48968ce3675e8f8",
+      "source_timezone": "UTC",
+      "status": "READY",
+      "strictly_sorted": true,
+      "timestamp_dtype": "Datetime(time_unit='us', time_zone='UTC')",
+      "unique": true
+    },
+    {
+      "blocking_reasons": [],
+      "file": "/home/quant/dev/quant/quant-research/data/processed/SPX500_USD_15m_2017_2026.parquet",
+      "max_timestamp": "2026-09-22T09:45:00+00:00",
+      "min_timestamp": "2017-01-03T14:30:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "rows": 79016,
+      "sha256": "5689151370c644a409e53d88c385e89bd667e7c0c5b35f29b99269a0a3b11a5a",
+      "source_timezone": "UTC",
+      "status": "READY",
+      "strictly_sorted": true,
+      "timestamp_dtype": "Datetime(time_unit='us', time_zone='UTC')",
+      "unique": true
+    }
+  ],
+  "schema_version": "eow_rebuild_preflight/v1",
+  "status": "READY",
+  "timestamp_semantics": {
+    "convention": "open",
+    "preserve_source_timestamp": true,
+    "source_timezone": "UTC",
+    "status": "verified_by_repository_manifest_and_dst_boundary_checks"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "invalidated_run_sha256": "bfe59c7df1ae3d0ca84a72fe76365f3a54386969b70fd2b0321c0d56b56858e3",
+  "status": "INVALID_RESEARCH_RUN",
+  "reasons": [
+    "Promotion logic allowed a zero-trade child with zero return to replace a losing parent.",
+    "The runner opened the historical holdout even though development_acceptance_passed was false."
+  ],
+  "consequence": "Do not use the first run's selected model or holdout as confirmatory evidence. The corrected run must stop before holdout unless development acceptance passes."
+}

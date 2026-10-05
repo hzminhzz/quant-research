@@ -1,0 +1,239 @@
+{
+  "baseline": {
+    "development_2017_2024": {
+      "annualized_sharpe": 0.5059091946644692,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": 17.576387080687265,
+          "raw_net_r": 17.576387080687265,
+          "trades": 252,
+          "win_rate_pct": 52.38095238095239
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": 22.196657854179698,
+          "raw_net_r": 22.196657854179698,
+          "trades": 242,
+          "win_rate_pct": 52.066115702479344
+        }
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 132,
+        "profit_target": 38,
+        "stop_loss": 324
+      },
+      "max_drawdown": -0.20170369621840367,
+      "mean_r": 0.08051223671025703,
+      "mean_size": 1.0,
+      "median_r": 0.02631249999999629,
+      "net_r": 39.773044934866974,
+      "raw_net_r": 39.773044934866974,
+      "risk_normalized_net_r": 39.773044934866974,
+      "trades": 494,
+      "win_rate_pct": 52.226720647773284
+    },
+    "diagnostic_2025_2026": {
+      "annualized_sharpe": -0.368103069078159,
+      "by_symbol": {
+        "HK33": {
+          "mean_size": 1.0,
+          "net_r": -5.817581578090041,
+          "raw_net_r": -5.817581578090041,
+          "trades": 85,
+          "win_rate_pct": 50.588235294117645
+        },
+        "JP225": {
+          "mean_size": 1.0,
+          "net_r": -0.5306446112446097,
+          "raw_net_r": -0.5306446112446097,
+          "trades": 92,
+          "win_rate_pct": 54.347826086956516
+        }
+      },
+      "exit_reasons": {
+        "eow_calendar_exit": 40,
+        "profit_target": 6,
+        "stop_loss": 131
+      },
+      "max_drawdown": -0.2159622065851875,
+      "mean_r": -0.035865684685506494,
+      "mean_size": 1.0,
+      "median_r": 0.024493654135338362,
+      "net_r": -6.34822618933465,
+      "raw_net_r": -6.34822618933465,
+      "risk_normalized_net_r": -6.34822618933465,
+      "trades": 177,
+      "win_rate_pct": 52.54237288135594
+    },
+    "diagnostic_used_for_selection": false
+  },
+  "exit_attribution": {
+    "artifact": "01_exit_attribution.json"
+  },
+  "exit_stability": {
+    "artifact": "05_exit_stability.json",
+    "best_by_sharpe": "be_1.00_trail_0.75",
+    "pbo": 0.2857142857142857,
+    "profitable_surface_fraction": 1.0
+  },
+  "factor_quintiles": {
+    "artifact": "02_factor_quintiles.json",
+    "descriptive_order": [
+      "nr7_flag",
+      "breakout_bar_range_ratio",
+      "rvol_1h",
+      "wick_exhaustion",
+      "garman_klass_norm",
+      "range_to_atr20",
+      "spx_alignment",
+      "vwap_alignment"
+    ]
+  },
+  "feature_diagnostics": {
+    "constant_features": [],
+    "event_count": 671,
+    "feature_summary": {
+      "breakout_bar_range_ratio": {
+        "constant": false,
+        "max": 5.0,
+        "mean": 2.8007105106325043,
+        "min": 0.6486486486486487,
+        "std": 1.2092590175892088
+      },
+      "garman_klass_norm": {
+        "constant": false,
+        "max": 0.6834914908726235,
+        "mean": 0.12454758113729492,
+        "min": 0.034715436766105334,
+        "std": 0.05478248318442509
+      },
+      "nr7_flag": {
+        "constant": false,
+        "max": 1.0,
+        "mean": 0.14456035767511177,
+        "min": 0.0,
+        "std": 0.35165702134886423
+      },
+      "range_to_atr20": {
+        "constant": false,
+        "max": 6.731520846900909,
+        "mean": 1.9606777609553736,
+        "min": 1.2018746529213575,
+        "std": 0.7413002999609878
+      },
+      "rvol_1h": {
+        "constant": false,
+        "max": 4.540362865731029,
+        "mean": 1.0635605312193517,
+        "min": 0.14739112832444312,
+        "std": 0.41590289555806065
+      },
+      "spx_alignment": {
+        "constant": false,
+        "max": 2.477278907155282,
+        "mean": 0.32738602348784945,
+        "min": 3.105940926906468e-05,
+        "std": 0.36281789271992776
+      },
+      "vwap_alignment": {
+        "constant": false,
+        "max": 0.8162387322410994,
+        "mean": 0.5432512748384496,
+        "min": 0.20927229731058403,
+        "std": 0.10279490713091503
+      },
+      "wick_exhaustion": {
+        "constant": false,
+        "max": 0.815384615384593,
+        "mean": 0.16639691545749263,
+        "min": 0.0,
+        "std": 0.14751398196025886
+      }
+    },
+    "nr7_available_count": 671,
+    "rvol_fallback_count": 0
+  },
+  "new_selection_trial_count": 28,
+  "policy": "No optimization is automatically promoted. 2025-2026 is diagnostic only, and any development winner requires new prospective evidence.",
+  "production_change_authorized": false,
+  "regime_2026": {
+    "artifact": "04_2026_regime_forensics.json",
+    "assessment": "TAIL_DRAWDOWN_WITH_REGIME_SHIFT_EVIDENCE",
+    "bootstrap_lower_tail_probability": 0.014,
+    "fdr_significant_features": [
+      "range_to_atr20",
+      "garman_klass_norm"
+    ]
+  },
+  "risk_targeting": {
+    "artifact": "03_risk_targeting.json",
+    "passing_development_variants": [
+      "vol_20d",
+      "vol_40d",
+      "vol_60d",
+      "vol_40d_corr_60d"
+    ]
+  },
+  "rolling_expanding": {
+    "artifact": "06_rolling_expanding.json",
+    "latest": [
+      {
+        "annualized_sharpe": 0.3479636205347316,
+        "end": "2026-07-31T23:59:59+00:00",
+        "endpoint_year": 2026,
+        "max_drawdown": -0.21596220658518694,
+        "mean_r": 0.04981344075340135,
+        "net_r": 33.424818745532306,
+        "start": "2017-01-01T00:00:00+00:00",
+        "trades": 671,
+        "win_rate_pct": 52.309985096870335,
+        "window": "expanding"
+      },
+      {
+        "annualized_sharpe": -0.368103069078159,
+        "end": "2026-07-31T23:59:59+00:00",
+        "endpoint_year": 2026,
+        "max_drawdown": -0.2159622065851875,
+        "mean_r": -0.035865684685506494,
+        "net_r": -6.34822618933465,
+        "start": "2025-01-01T00:00:00+00:00",
+        "trades": 177,
+        "win_rate_pct": 52.54237288135594,
+        "window": "rolling_2y"
+      },
+      {
+        "annualized_sharpe": 0.39419764742913416,
+        "end": "2026-07-31T23:59:59+00:00",
+        "endpoint_year": 2026,
+        "max_drawdown": -0.2159622065851874,
+        "mean_r": 0.04372913800622125,
+        "net_r": 10.888555363549091,
+        "start": "2024-01-01T00:00:00+00:00",
+        "trades": 249,
+        "win_rate_pct": 53.81526104417671,
+        "window": "rolling_3y"
+      },
+      {
+        "annualized_sharpe": 0.014108367289574066,
+        "end": "2026-07-31T23:59:59+00:00",
+        "endpoint_year": 2026,
+        "max_drawdown": -0.2159622065851866,
+        "mean_r": 0.0017197449869172233,
+        "net_r": 0.6569425850023793,
+        "start": "2022-01-01T00:00:00+00:00",
+        "trades": 382,
+        "win_rate_pct": 51.57068062827225,
+        "window": "rolling_5y"
+      }
+    ]
+  },
+  "run_id": "hk-jp-raw-opt-20260925-r2",
+  "schema_version": "orb_raw_optimization_summary/v1",
+  "source": {
+    "rebuild_config_sha256": "41ded26be608706a048d3d99b0837ef6cf68fe2c97b88aa19f246662280fbb6c",
+    "research_config_sha256": "f8e124cbbb9e2616bef2daa22ded5aca93e1b0a373b29c8fbeda6e319b526327",
+    "roundtrip_cost_bps": 6.0
+  },
+  "status": "RESEARCH_COMPLETE"
+}

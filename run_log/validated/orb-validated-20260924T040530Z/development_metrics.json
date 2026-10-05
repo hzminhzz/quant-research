@@ -1,0 +1,1050 @@
+{
+  "annual_breakdown": {
+    "2026": {
+      "days": 142,
+      "return": -0.04127142352098023
+    }
+  },
+  "annualized_sharpe": -0.9169186429013746,
+  "bootstrap_stress": [
+    {
+      "block_length": 5,
+      "max_drawdown_p95": 0.12768231673334532,
+      "return_p05": -0.11759013376010681,
+      "samples": 1000,
+      "scenario": "shorter"
+    },
+    {
+      "block_length": 10,
+      "max_drawdown_p95": 0.11773674538734213,
+      "return_p05": -0.1101844697603712,
+      "samples": 1000,
+      "scenario": "baseline"
+    },
+    {
+      "block_length": 20,
+      "max_drawdown_p95": 0.11230729579215555,
+      "return_p05": -0.10125400694684619,
+      "samples": 1000,
+      "scenario": "longer"
+    }
+  ],
+  "costs": {
+    "roundtrip_bps": 6.0,
+    "total_cost": 0.0078
+  },
+  "cpcv_evidence": {
+    "auc_distribution": {
+      "max": 0.7666666666666667,
+      "mean": 0.5964697657909317,
+      "min": 0.265625,
+      "std": 0.12242590588356576
+    },
+    "failed_fold_count": 0,
+    "fold_diagnostics": [
+      {
+        "auc": 0.265625,
+        "failure_reason": null,
+        "fold": 0,
+        "split": {
+          "embargoed_count": 2,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 64,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 64
+      },
+      {
+        "auc": 0.4588235294117647,
+        "failure_reason": null,
+        "fold": 1,
+        "split": {
+          "embargoed_count": 1,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 65,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 65
+      },
+      {
+        "auc": 0.6588235294117647,
+        "failure_reason": null,
+        "fold": 2,
+        "split": {
+          "embargoed_count": 4,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 62,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 62
+      },
+      {
+        "auc": 0.6142857142857143,
+        "failure_reason": null,
+        "fold": 3,
+        "split": {
+          "embargoed_count": 4,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 61,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 61
+      },
+      {
+        "auc": 0.5882352941176471,
+        "failure_reason": null,
+        "fold": 4,
+        "split": {
+          "embargoed_count": 6,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 59,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 59
+      },
+      {
+        "auc": 0.7411764705882353,
+        "failure_reason": null,
+        "fold": 5,
+        "split": {
+          "embargoed_count": 2,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 63,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 63
+      },
+      {
+        "auc": 0.7589285714285714,
+        "failure_reason": null,
+        "fold": 6,
+        "split": {
+          "embargoed_count": 1,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 64,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 64
+      },
+      {
+        "auc": 0.5764705882352941,
+        "failure_reason": null,
+        "fold": 7,
+        "split": {
+          "embargoed_count": 0,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 66,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 66
+      },
+      {
+        "auc": 0.5176470588235295,
+        "failure_reason": null,
+        "fold": 8,
+        "split": {
+          "embargoed_count": 5,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 61,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 61
+      },
+      {
+        "auc": 0.5142857142857142,
+        "failure_reason": null,
+        "fold": 9,
+        "split": {
+          "embargoed_count": 5,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 60,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 60
+      },
+      {
+        "auc": 0.5647058823529412,
+        "failure_reason": null,
+        "fold": 10,
+        "split": {
+          "embargoed_count": 7,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 58,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 58
+      },
+      {
+        "auc": 0.7058823529411764,
+        "failure_reason": null,
+        "fold": 11,
+        "split": {
+          "embargoed_count": 3,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 62,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 62
+      },
+      {
+        "auc": 0.7008928571428572,
+        "failure_reason": null,
+        "fold": 12,
+        "split": {
+          "embargoed_count": 2,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 63,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 63
+      },
+      {
+        "auc": 0.4722222222222222,
+        "failure_reason": null,
+        "fold": 13,
+        "split": {
+          "embargoed_count": 3,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 63,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 63
+      },
+      {
+        "auc": 0.5208333333333334,
+        "failure_reason": null,
+        "fold": 14,
+        "split": {
+          "embargoed_count": 3,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 62,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 62
+      },
+      {
+        "auc": 0.4375,
+        "failure_reason": null,
+        "fold": 15,
+        "split": {
+          "embargoed_count": 5,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 60,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 60
+      },
+      {
+        "auc": 0.3402777777777778,
+        "failure_reason": null,
+        "fold": 16,
+        "split": {
+          "embargoed_count": 1,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 64,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 64
+      },
+      {
+        "auc": 0.5428571428571428,
+        "failure_reason": null,
+        "fold": 17,
+        "split": {
+          "embargoed_count": 0,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 65,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 65
+      },
+      {
+        "auc": 0.640625,
+        "failure_reason": null,
+        "fold": 18,
+        "split": {
+          "embargoed_count": 3,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 62,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 62
+      },
+      {
+        "auc": 0.638888888888889,
+        "failure_reason": null,
+        "fold": 19,
+        "split": {
+          "embargoed_count": 8,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 57,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 57
+      },
+      {
+        "auc": 0.638888888888889,
+        "failure_reason": null,
+        "fold": 20,
+        "split": {
+          "embargoed_count": 4,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 61,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 61
+      },
+      {
+        "auc": 0.7571428571428571,
+        "failure_reason": null,
+        "fold": 21,
+        "split": {
+          "embargoed_count": 3,
+          "exact_overlap_count": 0,
+          "purged_count": 1,
+          "remaining_train_count": 62,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 62
+      },
+      {
+        "auc": 0.6041666666666666,
+        "failure_reason": null,
+        "fold": 22,
+        "split": {
+          "embargoed_count": 5,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 61,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 61
+      },
+      {
+        "auc": 0.703125,
+        "failure_reason": null,
+        "fold": 23,
+        "split": {
+          "embargoed_count": 4,
+          "exact_overlap_count": 0,
+          "purged_count": 2,
+          "remaining_train_count": 60,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 60
+      },
+      {
+        "auc": 0.6965811965811965,
+        "failure_reason": null,
+        "fold": 24,
+        "split": {
+          "embargoed_count": 3,
+          "exact_overlap_count": 0,
+          "purged_count": 2,
+          "remaining_train_count": 61,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 61
+      },
+      {
+        "auc": 0.6041666666666666,
+        "failure_reason": null,
+        "fold": 25,
+        "split": {
+          "embargoed_count": 1,
+          "exact_overlap_count": 0,
+          "purged_count": 2,
+          "remaining_train_count": 63,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 63
+      },
+      {
+        "auc": 0.6714285714285715,
+        "failure_reason": null,
+        "fold": 26,
+        "split": {
+          "embargoed_count": 5,
+          "exact_overlap_count": 0,
+          "purged_count": 2,
+          "remaining_train_count": 59,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 59
+      },
+      {
+        "auc": 0.7666666666666667,
+        "failure_reason": null,
+        "fold": 27,
+        "split": {
+          "embargoed_count": 0,
+          "exact_overlap_count": 0,
+          "purged_count": 0,
+          "remaining_train_count": 66,
+          "test_count": 22
+        },
+        "status": "FIT",
+        "test_count": 22,
+        "train_count": 66
+      }
+    ],
+    "oof_coverage": {
+      "complete": true,
+      "covered_count": 88,
+      "event_count": 88,
+      "minimum_fold_coverage": 7
+    },
+    "schema_version": "validated_orb_development_evidence/v1"
+  },
+  "daily_returns": [
+    {
+      "date": "2026-01-08",
+      "return": -0.013128719680498335
+    },
+    {
+      "date": "2026-01-09",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-12",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-13",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-14",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-15",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-16",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-19",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-20",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-21",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-22",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-23",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-26",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-27",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-28",
+      "return": 0.012055567484052787
+    },
+    {
+      "date": "2026-01-29",
+      "return": 0.0
+    },
+    {
+      "date": "2026-01-30",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-02",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-03",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-04",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-05",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-06",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-09",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-10",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-11",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-12",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-13",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-16",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-17",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-18",
+      "return": -0.011773086059155724
+    },
+    {
+      "date": "2026-02-19",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-20",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-23",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-24",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-25",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-26",
+      "return": 0.0
+    },
+    {
+      "date": "2026-02-27",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-02",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-03",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-04",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-05",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-06",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-09",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-10",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-11",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-12",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-13",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-16",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-17",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-18",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-19",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-20",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-23",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-24",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-25",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-26",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-27",
+      "return": -0.012951593026750863
+    },
+    {
+      "date": "2026-03-30",
+      "return": 0.0
+    },
+    {
+      "date": "2026-03-31",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-01",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-02",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-03",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-06",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-07",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-08",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-09",
+      "return": -0.01020142047433692
+    },
+    {
+      "date": "2026-04-10",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-13",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-14",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-15",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-16",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-17",
+      "return": -0.01065464997989074
+    },
+    {
+      "date": "2026-04-20",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-21",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-22",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-23",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-24",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-27",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-28",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-29",
+      "return": 0.0
+    },
+    {
+      "date": "2026-04-30",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-01",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-04",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-05",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-06",
+      "return": 0.02882354885561167
+    },
+    {
+      "date": "2026-05-07",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-08",
+      "return": -0.007632914037696392
+    },
+    {
+      "date": "2026-05-11",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-12",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-13",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-14",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-15",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-18",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-19",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-20",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-21",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-22",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-25",
+      "return": 0.028473369746537358
+    },
+    {
+      "date": "2026-05-26",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-27",
+      "return": 0.0
+    },
+    {
+      "date": "2026-05-28",
+      "return": -0.023236303430470562
+    },
+    {
+      "date": "2026-05-29",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-01",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-02",
+      "return": -0.0061646138722526445
+    },
+    {
+      "date": "2026-06-03",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-04",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-05",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-08",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-09",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-10",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-11",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-12",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-15",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-16",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-17",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-18",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-19",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-22",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-23",
+      "return": -0.01751926837521589
+    },
+    {
+      "date": "2026-06-24",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-25",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-26",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-29",
+      "return": 0.0
+    },
+    {
+      "date": "2026-06-30",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-01",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-02",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-03",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-06",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-07",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-08",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-09",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-10",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-13",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-14",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-15",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-16",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-17",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-20",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-21",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-22",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-23",
+      "return": 0.0
+    },
+    {
+      "date": "2026-07-24",
+      "return": 0.0034751559738901427
+    }
+  ],
+  "dsr_status": "DSR_UNREPRODUCIBLE",
+  "gross_return_sum": -0.032634926876176105,
+  "max_drawdown": -0.046264369788497794,
+  "net_return_sum": -0.04043492687617611,
+  "trade_count": 13,
+  "verdict": "NOT_APPROVED"
+}

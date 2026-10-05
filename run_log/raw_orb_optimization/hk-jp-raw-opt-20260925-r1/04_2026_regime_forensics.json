@@ -1,0 +1,132 @@
+{
+  "assessment": "TAIL_DRAWDOWN_WITH_REGIME_SHIFT_EVIDENCE",
+  "assessment_is_diagnostic_not_parameter_selection": true,
+  "behavior_tests": {
+    "mae_ks_p": 0.08045258484833016,
+    "mfe_ks_p": 0.3671191501660674,
+    "win_rate_fisher_p": 0.5121024064768158
+  },
+  "block_bootstrap": {
+    "block_trades": 10,
+    "lower_tail_probability": 0.014,
+    "median_net_r": 9.52143912368189,
+    "q05_net_r": -9.195465091378509,
+    "samples": 10000
+  },
+  "current_2026": {
+    "mean_mae_r": -0.7250465216960071,
+    "mean_mfe_r": 0.932996616945971,
+    "mean_r": -0.16310608192297363,
+    "median_holding_bars": 135.0,
+    "median_r": -0.11866913160817635,
+    "net_r": -15.984396028451416,
+    "trades": 98,
+    "win_rate_pct": 48.97959183673469
+  },
+  "fdr_significant_features": [
+    "range_to_atr20",
+    "garman_klass_norm"
+  ],
+  "feature_drift": {
+    "breakout_bar_range_ratio": {
+      "bh_q_value": 0.8028669406202374,
+      "current_mean": 2.6990973342652484,
+      "fdr_significant": false,
+      "ks_p_value": 0.6349353398877913,
+      "ks_stat": 0.07931759091070978,
+      "prior_mean": 2.8180893784928727,
+      "standardized_mean_shift": -0.09776991792836982,
+      "wasserstein_in_prior_sigma": 0.10573774964810143
+    },
+    "garman_klass_norm": {
+      "bh_q_value": 1.365575005710645e-07,
+      "current_mean": 0.15216903557823128,
+      "fdr_significant": true,
+      "ks_p_value": 1.9229105615139692e-08,
+      "ks_stat": 0.3267265021191723,
+      "prior_mean": 0.11982349294320807,
+      "standardized_mean_shift": 0.597077585622591,
+      "wasserstein_in_prior_sigma": 0.6176480783254991
+    },
+    "nr7_flag": {
+      "bh_q_value": 1.0,
+      "current_mean": 0.1326530612244898,
+      "fdr_significant": false,
+      "ks_p_value": 1.0,
+      "ks_stat": 0.013943797414253556,
+      "prior_mean": 0.14659685863874344,
+      "standardized_mean_shift": -0.03938785379557001,
+      "wasserstein_in_prior_sigma": 0.03938785379557009
+    },
+    "range_to_atr20": {
+      "bh_q_value": 1.365575005710645e-07,
+      "current_mean": 2.4329434580304237,
+      "fdr_significant": true,
+      "ks_p_value": 3.413937514276612e-08,
+      "ks_stat": 0.3217402144103716,
+      "prior_mean": 1.8799063153823283,
+      "standardized_mean_shift": 0.824877343614638,
+      "wasserstein_in_prior_sigma": 0.8334156172951616
+    },
+    "rvol_1h": {
+      "bh_q_value": 0.8028669406202374,
+      "current_mean": 1.0677812723756945,
+      "fdr_significant": false,
+      "ks_p_value": 0.5480369935514924,
+      "ks_stat": 0.08503401360544216,
+      "prior_mean": 1.06283865925893,
+      "standardized_mean_shift": 0.01192183033969755,
+      "wasserstein_in_prior_sigma": 0.15957330954123056
+    },
+    "spx_alignment": {
+      "bh_q_value": 0.5071822898637405,
+      "current_mean": 0.3266781139009291,
+      "fdr_significant": false,
+      "ks_p_value": 0.19019335869890266,
+      "ks_stat": 0.11632296897816718,
+      "prior_mean": 0.32750709702976605,
+      "standardized_mean_shift": -0.002218136384041019,
+      "wasserstein_in_prior_sigma": 0.1544136806594814
+    },
+    "vwap_alignment": {
+      "bh_q_value": 0.8028669406202374,
+      "current_mean": 0.5435874973018764,
+      "fdr_significant": false,
+      "ks_p_value": 0.7025085730427078,
+      "ks_stat": 0.07495458916550912,
+      "prior_mean": 0.5431937708220169,
+      "standardized_mean_shift": 0.0038539520383850455,
+      "wasserstein_in_prior_sigma": 0.0737423466988498
+    },
+    "wick_exhaustion": {
+      "bh_q_value": 0.8028669406202374,
+      "current_mean": 0.17713128764510605,
+      "fdr_significant": false,
+      "ks_p_value": 0.6404607366092838,
+      "ks_stat": 0.07897923567332699,
+      "prior_mean": 0.16456101934163556,
+      "standardized_mean_shift": 0.08705942089585049,
+      "wasserstein_in_prior_sigma": 0.13884876994386416
+    }
+  },
+  "historical_rolling_window": {
+    "count": 476,
+    "empirical_lower_tail_probability": 0.0,
+    "median_net_r": 4.6396423991607865,
+    "minimum_net_r": -14.446591173808374
+  },
+  "interpretation": "This test distinguishes an unusually bad path from measurable state/trade-behavior changes. It cannot establish permanent strategy decay.",
+  "observed_2026_net_r": -15.984396028451416,
+  "prior_2017_2025": {
+    "mean_mae_r": -0.7030468629033789,
+    "mean_mfe_r": 1.0888714773650907,
+    "mean_r": 0.08622899611515486,
+    "median_holding_bars": 51.0,
+    "median_r": 0.027608222222196846,
+    "net_r": 49.409214773983734,
+    "trades": 573,
+    "win_rate_pct": 52.879581151832454
+  },
+  "rolling_trade_window": 98,
+  "schema_version": "orb_2026_regime_forensics/v1"
+}

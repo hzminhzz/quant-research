@@ -1,0 +1,53 @@
+{
+  "schema_version": "trial_ledger_audit/v1",
+  "source": "run_log/trials.jsonl",
+  "record_count": 14,
+  "schema_count": 2,
+  "schema_signatures": [
+    [
+      "asset",
+      "dsr_probability",
+      "family",
+      "hold_bars",
+      "period",
+      "return_pct",
+      "sharpe",
+      "strategy",
+      "timestamp",
+      "trades",
+      "win_rate_pct"
+    ],
+    [
+      "family",
+      "in_sample_sharpe",
+      "max_drawdown_pct",
+      "out_of_sample_sharpe",
+      "parameters",
+      "rank_ic",
+      "strategy_name",
+      "symbol",
+      "timeframe",
+      "timestamp",
+      "total_return_pct",
+      "total_trades",
+      "trial_id",
+      "win_rate_pct"
+    ]
+  ],
+  "records_with_trial_id": 2,
+  "duplicate_trial_ids": [
+    "pipeline-DE30_EUR-1h"
+  ],
+  "complete_validated_schema_records": 0,
+  "audit_status": "INCOMPLETE_LEGACY_LEDGER",
+  "dsr_status": "DSR_UNREPRODUCIBLE",
+  "blocking_reasons": [
+    "mixed_legacy_schemas",
+    "duplicate_trial_ids",
+    "missing_config_hashes",
+    "missing_data_fingerprints",
+    "missing_final_oos_periods",
+    "missing_return_series_references",
+    "omitted_and_failed_trials_not_accounted_for"
+  ]
+}

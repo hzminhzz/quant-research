@@ -1,0 +1,5 @@
+{
+  "error": "EOWRebuildError: run output already exists: /home/quant/dev/quant/quant-research/run_log/eow_rebuild/eow-dst-rebuild-20260924-r6",
+  "status": "BLOCKED",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/quant/dev/quant/quant-research/scripts/run_eow_rebuild.py\", line 48, in main\n    result = development_run(ROOT, config, run_id=args.run_id)\n  File \"/home/quant/dev/quant/quant-research/src/eow_rebuild.py\", line 1468, in development_run\n    raise EOWRebuildError(f\"run output already exists: {output}\")\nsrc.eow_rebuild.EOWRebuildError: run output already exists: /home/quant/dev/quant/quant-research/run_log/eow_rebuild/eow-dst-rebuild-20260924-r6\n"
+}

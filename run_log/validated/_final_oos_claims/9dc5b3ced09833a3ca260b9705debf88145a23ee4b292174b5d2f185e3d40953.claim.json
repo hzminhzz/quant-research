@@ -1,0 +1,85 @@
+{
+  "config_sha256": "157271f3c228453deb14c28b7a1af214dab15422d2b2888479c78c8f534c4e66",
+  "data_provenance": [
+    {
+      "bar_duration_seconds": 300.0,
+      "content_fingerprint": "41f9214627db077b351e0d5541094e2577672c6aeb9a190432f85c9903df4dd4",
+      "content_fingerprint_verified": true,
+      "development_rows": 268819,
+      "file": "DE30_EUR_5m_2017_2026.parquet",
+      "final_oos_rows": 8649,
+      "max_timestamp": "2026-09-22T09:55:00+00:00",
+      "min_timestamp": "2017-01-03T08:00:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "row_count": 277468,
+      "schema": {
+        "close": "Float64",
+        "high": "Float64",
+        "low": "Float64",
+        "open": "Float64",
+        "symbol": "String",
+        "timestamp": "Datetime(time_unit='us', time_zone='UTC')",
+        "volume": "Int64"
+      },
+      "sha256": "0f87d1889ff775bbaadb1bbae53954755de962b8a70ca1d826ca4cb47882fe6d",
+      "sha256_verified": true,
+      "source_timezone": "UTC",
+      "timestamp_convention": "open",
+      "timestamps_ordered": true,
+      "timestamps_unique": true,
+      "timestamps_utc_aware": true
+    },
+    {
+      "bar_duration_seconds": 300.0,
+      "content_fingerprint": "d26847aacceff2af2c04268b71e1c150bff8aa33345ed96c560cde5bfbdbcca9",
+      "content_fingerprint_verified": true,
+      "development_rows": 185359,
+      "file": "JP225_USD_5m_2017_2026.parquet",
+      "final_oos_rows": 10020,
+      "max_timestamp": "2026-09-22T10:45:00+00:00",
+      "min_timestamp": "2017-01-03T00:00:00+00:00",
+      "null_counts": {
+        "close": 0,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "symbol": 0,
+        "timestamp": 0,
+        "volume": 0
+      },
+      "ohlc_consistent": true,
+      "row_count": 195379,
+      "schema": {
+        "close": "Float64",
+        "high": "Float64",
+        "low": "Float64",
+        "open": "Float64",
+        "symbol": "String",
+        "timestamp": "Datetime(time_unit='us', time_zone='UTC')",
+        "volume": "Int64"
+      },
+      "sha256": "a40b0e0db36d494183b301bf4ebb893822bde53b823683e424bdff5225ca4b49",
+      "sha256_verified": true,
+      "source_timezone": "UTC",
+      "timestamp_convention": "open",
+      "timestamps_ordered": true,
+      "timestamps_unique": true,
+      "timestamps_utc_aware": true
+    }
+  ],
+  "development_commit_sha256": "6fbbcdd63389434e82f444951c83ce73c848bc808079ea5ee16505180fbf634f",
+  "final_oos_start": "2026-08-01T00:00:00+00:00",
+  "frozen_hash": "5dc8916ddf300a90f35d8cfdb880bfbfcc8b3fbf237eb915bec85af06522d34f",
+  "manifest_sha256": "956776e33072f4b2a386b9b30235d05803a7fb749d6ef19b9b0d33dee6ca430e",
+  "run_id": "orb-validated-20260924T040530Z",
+  "strategy_id": "validated-orb-de30-jp225"
+}

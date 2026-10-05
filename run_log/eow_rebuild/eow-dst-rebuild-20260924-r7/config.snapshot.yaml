@@ -1,0 +1,104 @@
+schema_version: eow_rebuild/v1
+
+research:
+  strategy_id: historical_multi_asset_eow_meta_gate
+  purpose: "Auditable rebuild of the historical 2017-2026 multi-day EOW + meta-gated ORB result."
+
+data:
+  timestamp_semantics:
+    source_timezone: UTC
+    convention: open
+    status: verified_by_repository_manifest_and_dst_boundary_checks
+    preserve_source_timestamp: true
+
+  benchmark:
+    symbol: SPX500
+    file: data/processed/SPX500_USD_15m_2017_2026.parquet
+    bar_duration_minutes: 15
+    market_timezone: America/New_York
+    exchange_calendar: XNYS
+
+  instruments:
+    - symbol: JP225
+      file: data/processed/JP225_USD_5m_2017_2026.parquet
+      bar_duration_minutes: 5
+      market_timezone: Asia/Tokyo
+      exchange_calendar: XTKS
+      legacy_fixed_utc_hour: 0
+      strategy_anchor:
+        name: JP225_cash_open
+        timezone: Asia/Tokyo
+        local_time: "09:00"
+
+    - symbol: HK33
+      file: data/processed/HK33_5m_2017_2026.parquet
+      bar_duration_minutes: 5
+      market_timezone: Asia/Hong_Kong
+      exchange_calendar: XHKG
+      legacy_fixed_utc_hour: 1
+      strategy_anchor:
+        name: HK33_cash_open
+        timezone: Asia/Hong_Kong
+        local_time: "09:30"
+
+    - symbol: DE30
+      file: data/processed/DE30_EUR_5m_2017_2026.parquet
+      bar_duration_minutes: 5
+      market_timezone: Europe/Berlin
+      exchange_calendar: XETR
+      legacy_fixed_utc_hour: 13
+      strategy_anchor:
+        name: DE30_new_york_overlap
+        timezone: America/New_York
+        local_time: "09:00"
+        intent: "User-confirmed New York overlap: 13:00 UTC in EDT, 14:00 UTC in EST."
+
+    - symbol: NAS100
+      file: data/processed/NAS100_5m_2017_2026.parquet
+      bar_duration_minutes: 5
+      market_timezone: America/New_York
+      exchange_calendar: XNYS
+      legacy_fixed_utc_hour: 14
+      strategy_anchor:
+        name: NAS100_cash_open
+        timezone: America/New_York
+        local_time: "09:30"
+
+strategy:
+  opening_range_minutes: 60
+  candidate_window_minutes: 90
+  target_multiple: 3.0
+  stop_multiple: 1.0
+  stretch_k: 0.15
+  meta_threshold: 0.50
+  breakeven:
+    trigger_r: 1.0
+    offset_r: 0.1
+  trailing:
+    distance_r: 1.0
+
+validation:
+  initial_training:
+    start: "2017-01-01T00:00:00Z"
+    end: "2019-12-31T23:59:59Z"
+  walk_forward_years: [2020, 2021, 2022, 2023, 2024]
+  final_holdout:
+    start: "2025-01-01T00:00:00Z"
+    end: "2026-07-31T23:59:59Z"
+    policy: "one-shot after development freeze; no tuning"
+  prospective_start: "2026-09-23T00:00:00Z"
+  risk_unit_pct: 1.0
+  cpcv:
+    n_groups: 6
+    n_test_groups: 2
+    legacy_embargo_bars: 5
+    embargo_duration: 2d
+
+execution:
+  legacy_roundtrip_bps: 4.0
+  authoritative_roundtrip_bps: 6.0
+
+artifacts:
+  root: run_log/eow_rebuild
+  trial_ledger: run_log/eow_rebuild/trials.jsonl
+  final_holdout_claims: run_log/eow_rebuild/_final_holdout_claims
