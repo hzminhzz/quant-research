@@ -6,8 +6,53 @@ with group-aware expressions.
 """
 
 from typing import List, Optional
+from datetime import timedelta
 import polars as pl
 import numpy as np
+
+from src.market_time import BarTimestampSpec, TimestampContractError, canonicalize_utc_timestamp
+
+
+def add_feature_availability(
+    df: pl.DataFrame,
+    spec: BarTimestampSpec,
+    *,
+    timestamp_col: str = "timestamp",
+    availability_col: str = "available_at",
+    source_timezone: str | None = None,
+) -> pl.DataFrame:
+    """Attach the first instant each bar's complete information is available."""
+    result = canonicalize_utc_timestamp(
+        df, timestamp_col=timestamp_col, source_timezone=source_timezone
+    )
+    offset = spec.duration if spec.convention == "open" else timedelta(0)
+    return result.with_columns(
+        (pl.col(timestamp_col) + offset).alias(availability_col)
+    )
+
+
+def join_features_at_decision(
+    decisions: pl.DataFrame,
+    features: pl.DataFrame,
+    *,
+    decision_time_col: str = "decision_time",
+    availability_col: str = "available_at",
+    tolerance: timedelta | None = None,
+) -> pl.DataFrame:
+    """Backward-asof join only feature rows available by each decision time."""
+    for frame, name in ((decisions, decision_time_col), (features, availability_col)):
+        if name not in frame.columns:
+            raise TimestampContractError(f"missing time column: {name}")
+    left = decisions.sort(decision_time_col)
+    right = features.sort(availability_col)
+    return left.join_asof(
+        right,
+        left_on=decision_time_col,
+        right_on=availability_col,
+        strategy="backward",
+        tolerance=tolerance,
+        allow_exact_matches=True,
+    )
 
 
 def compute_ema(

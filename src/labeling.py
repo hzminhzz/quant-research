@@ -16,10 +16,19 @@ Marcos López de Prado's methodology:
 from dataclasses import dataclass
 from datetime import datetime, time, timedelta
 from typing import Any, Dict, List, Optional, Tuple
+from zoneinfo import ZoneInfo
 import numpy as np
 import polars as pl
 
 from src.features import extract_breakout_feature_vector
+from src.market_time import (
+    BarTimestampSpec,
+    SessionSpec,
+    TimestampContractError,
+    available_at,
+    parse_utc_timestamp,
+    session_window,
+)
 
 
 @dataclass
@@ -45,6 +54,14 @@ class ORBTradeEvent:
     realized_return: float
     r_multiple: float
     features: Dict[str, float]
+    decision_time: str = ""
+    session_name: str = ""
+
+    def __post_init__(self) -> None:
+        # Backward-compatible fixtures without explicit decision timestamps use
+        # their entry timestamp; canonical builders always provide the real value.
+        if not self.decision_time:
+            self.decision_time = self.entry_time
 
 
 def compute_forward_returns(
@@ -179,10 +196,13 @@ class MetaLabelingORBDatasetBuilder:
         self,
         df: pl.DataFrame,
         symbol: str,
-        session_hours: List[int],
+        session_hours: Optional[List[int]] = None,
         allow_long: bool = True,
         allow_short: bool = True,
         is_crypto: bool = False,
+        *,
+        sessions: Optional[List[SessionSpec]] = None,
+        bar_spec: Optional[BarTimestampSpec] = None,
     ) -> List[ORBTradeEvent]:
         """Extract candidate breakout events and compute exact Triple Barrier meta-labels.
 
@@ -190,6 +210,19 @@ class MetaLabelingORBDatasetBuilder:
         ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'date', 'hour', 'atr20_bar', 'ema_200']
         Optional macro columns: ['spx_close', 'spx_vwap']
         """
+        if sessions is None and session_hours and all(
+            isinstance(item, SessionSpec) for item in session_hours
+        ):
+            sessions = list(session_hours)  # type: ignore[assignment]
+        if sessions is not None:
+            if bar_spec is None:
+                raise TimestampContractError("bar_spec is required for timestamp-window extraction")
+            return self._extract_timestamp_window_events(
+                df, symbol, sessions, bar_spec, allow_long, allow_short, is_crypto
+            )
+        if session_hours is None:
+            raise TimestampContractError("session_hours is required for legacy extraction")
+
         dates = df["date"].unique().sort().to_list()
         events: List[ORBTradeEvent] = []
 
@@ -420,6 +453,153 @@ class MetaLabelingORBDatasetBuilder:
                     )
                     break
 
+        return events
+
+    def _extract_timestamp_window_events(
+        self,
+        df: pl.DataFrame,
+        symbol: str,
+        sessions: List[SessionSpec],
+        bar_spec: BarTimestampSpec,
+        allow_long: bool,
+        allow_short: bool,
+        is_crypto: bool,
+    ) -> List[ORBTradeEvent]:
+        """Build events from local-time windows with close-confirmed next-bar entry."""
+        if "timestamp" not in df.columns:
+            raise TimestampContractError("timestamp-window extraction requires timestamp")
+        raw_rows = df.to_dicts()
+        rows = []
+        for index, row in enumerate(raw_rows):
+            ts = parse_utc_timestamp(row["timestamp"])
+            row = dict(row)
+            row["_index"] = index
+            row["_timestamp"] = ts
+            row["_available_at"] = available_at(ts, bar_spec)
+            rows.append(row)
+        if len({row["_timestamp"] for row in rows}) != len(rows):
+            raise TimestampContractError("duplicate timestamps are not allowed")
+        if any(rows[i]["_timestamp"] > rows[i + 1]["_timestamp"] for i in range(len(rows) - 1)):
+            raise TimestampContractError("timestamps must be sorted before event extraction")
+        rows.sort(key=lambda row: row["_timestamp"])
+        index_by_timestamp = {row["_timestamp"]: i for i, row in enumerate(rows)}
+        events: List[ORBTradeEvent] = []
+        current_exit_idx = -1
+
+        for spec in sessions:
+            local_dates = sorted({row["_timestamp"].astimezone(ZoneInfo(spec.timezone)).date() for row in rows})
+            for trading_date in local_dates:
+                session_open, or_end, candidate_end = session_window(trading_date, spec)
+                or_rows = [
+                    row for row in rows if session_open <= row["_available_at"] < or_end
+                ]
+                candidate_rows = [
+                    row for row in rows if or_end <= row["_available_at"] < candidate_end
+                ]
+                if len(or_rows) < 12 or not candidate_rows:
+                    continue
+                or_rows.sort(key=lambda row: row["_available_at"])
+                candidate_rows.sort(key=lambda row: row["_available_at"])
+                or_df = pl.DataFrame([{k: v for k, v in row.items() if not k.startswith("_")} for row in or_rows])
+                or_high = float(or_df["high"].max())
+                or_low = float(or_df["low"].min())
+                or_range = or_high - or_low
+                atr20 = float(or_df["atr20_bar"][0]) if "atr20_bar" in or_df.columns else float("nan")
+                if not np.isfinite(atr20) or or_range <= 0 or or_range < 1.2 * atr20:
+                    continue
+                ema200 = float(or_df["ema_200"][-1]) if "ema_200" in or_df.columns else None
+                delta = max(or_range, 0.5 * atr20)
+                stretch = self.stretch_k * atr20
+
+                for candidate in candidate_rows:
+                    close = float(candidate["close"])
+                    spx_c = candidate.get("spx_close")
+                    spx_v = candidate.get("spx_vwap")
+                    long_sig = allow_long and close > or_high + stretch and (ema200 is None or close > ema200)
+                    short_sig = allow_short and close < or_low - stretch and (ema200 is None or close < ema200)
+                    if not is_crypto and spx_c is not None and spx_v is not None:
+                        long_sig = long_sig and spx_c > spx_v
+                        short_sig = short_sig and spx_c < spx_v
+                    if not (long_sig or short_sig):
+                        continue
+
+                    candidate_idx = index_by_timestamp[candidate["_timestamp"]]
+                    entry_idx = candidate_idx + 1
+                    if entry_idx >= len(rows) or entry_idx <= current_exit_idx:
+                        continue
+                    entry_row = rows[entry_idx]
+                    direction = 1 if long_sig else -1
+                    entry_price = float(entry_row["open"])
+                    decision_time = candidate["_available_at"]
+                    entry_time = entry_row["_timestamp"]
+                    upper_barrier = entry_price + direction * self.target_multiple * delta
+                    stop_price = entry_price - direction * self.stop_multiple * delta
+                    initial_stop = stop_price
+                    features_snapshot = self._extract_snapshot_features(
+                        or_df=or_df,
+                        current_bar=pl.DataFrame([{k: v for k, v in candidate.items() if not k.startswith("_")}]),
+                        or_high=or_high,
+                        or_low=or_low,
+                        or_range=or_range,
+                        atr20=atr20,
+                        direction=direction,
+                        spx_c=spx_c,
+                        spx_v=spx_v,
+                        is_crypto=is_crypto,
+                    )
+
+                    exit_row = entry_row
+                    exit_reason = "time_expiry"
+                    for forward_idx in range(entry_idx, min(len(rows), entry_idx + self.max_holding_bars)):
+                        forward = rows[forward_idx]
+                        hit_target = (forward["high"] >= upper_barrier) if direction == 1 else (forward["low"] <= upper_barrier)
+                        hit_stop = (forward["low"] <= stop_price) if direction == 1 else (forward["high"] >= stop_price)
+                        exit_row = forward
+                        if hit_target and hit_stop:
+                            exit_reason = "stop_loss"
+                            exit_price = stop_price
+                            break
+                        if hit_target:
+                            exit_reason = "profit_target"
+                            exit_price = upper_barrier
+                            break
+                        if hit_stop:
+                            exit_reason = "stop_loss"
+                            exit_price = stop_price
+                            break
+                        exit_price = float(forward["close"])
+                        if forward_idx == min(len(rows), entry_idx + self.max_holding_bars) - 1:
+                            break
+                    current_exit_idx = index_by_timestamp[exit_row["_timestamp"]]
+                    raw_ret = direction * (exit_price - entry_price) / entry_price - self.friction
+                    r_mult = raw_ret / (delta / entry_price) if delta > 0 else 0.0
+                    events.append(
+                        ORBTradeEvent(
+                            entry_time=entry_time.isoformat(),
+                            exit_time=exit_row["_timestamp"].isoformat(),
+                            decision_time=decision_time.isoformat(),
+                            session_name=spec.name,
+                            date=trading_date.isoformat(),
+                            symbol=symbol,
+                            direction=direction,
+                            entry_price=entry_price,
+                            exit_price=float(exit_price),
+                            or_high=or_high,
+                            or_low=or_low,
+                            or_range=or_range,
+                            atr20=atr20,
+                            delta=delta,
+                            upper_barrier=upper_barrier,
+                            lower_barrier=initial_stop,
+                            holding_bars=max(1, current_exit_idx - entry_idx),
+                            exit_reason=exit_reason,
+                            label=1 if r_mult > 0 else 0,
+                            realized_return=raw_ret,
+                            r_multiple=r_mult,
+                            features=features_snapshot,
+                        )
+                    )
+                    break
         return events
 
     def _extract_snapshot_features(

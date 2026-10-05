@@ -11,6 +11,8 @@ dependencies = [
     "ml4t-engineer>=0.1.4",
     "ml4t-diagnostic>=0.1.6",
     "ml4t-backtest>=0.1.7",
+    # Must match the producer's current Hive store layout; 0.1.8 changes key storage.
+    "ml4t-data==0.1.0b14",
     "lse-data>=0.1.0",
     "ta-lib>=0.4.0",
     "pyyaml>=6.0",
@@ -21,6 +23,15 @@ dependencies = [
 [tool.marimo.runtime]
 output_max_bytes = 10_000_000
 
+[dependency-groups]
+dev = [
+    "pytest>=9.0",
+]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.basedpyright]
+venvPath = "."
+venv = ".venv"

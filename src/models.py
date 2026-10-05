@@ -7,12 +7,13 @@ Governed by ML4T Skills:
 
 Implements Marcos López de Prado's two-stage meta-labeling architecture:
 Stage 1 (Primary Model/Rule): Determines trade direction (+1 / -1) and entry timing.
-Stage 2 (Meta-Model): Predicts P(profitable) to filter false positives and size bets.
+Stage 2 (Meta-Model): Produces a raw ranking score for conditional trade selection.
 Validation: Combinatorial Purged CV generates a distribution of backtest paths
 without temporal leakage or lookahead contamination.
 """
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from datetime import timedelta
 from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import polars as pl
@@ -21,10 +22,18 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_a
 
 from ml4t.diagnostic.splitters import CombinatorialCV
 
+from src.validation import (
+    ValidationContractError,
+    fold_uniqueness_weights,
+    order_events,
+    purged_cpcv_splits,
+    require_complete_oof_coverage,
+)
+
 
 @dataclass(frozen=True)
 class CPCVResult:
-    """Evaluation summary from Combinatorial Purged Cross-Validation."""
+    """Evaluation summary from CPCV using raw ranking scores."""
     n_splits: int
     n_paths: int
     mean_auc: float
@@ -67,7 +76,7 @@ def train_meta_model_cpcv(
     embargo_size : int, default 4
         Embargo buffer bars after test boundaries.
     conviction_threshold : float, default 0.55
-        Minimum meta-model probability to take the trade.
+        Raw-score cutoff used to select trades; it is not a calibrated probability.
     """
     n_samples = len(X)
     oof_probs = np.full(n_samples, np.nan)
@@ -161,20 +170,32 @@ def train_meta_model_cpcv(
 
 @dataclass
 class MetaModelResult:
-    """Evaluation summary for LightGBM Meta-Classifier trained with CPCV."""
+    """Evaluation summary for LightGBM Meta-Classifier trained with CPCV raw scores."""
     model: Any
     oof_probabilities: np.ndarray
     feature_names: List[str]
     feature_importances: Dict[str, float]
     shap_values: Optional[np.ndarray]
     mean_auc: float
-    brier_score: float
+    brier_score: Optional[float]
     baseline_win_rate: float
     filtered_win_rate: float
     precision: float
     recall: float
     f1_score: float
     passed_quality_gate: bool
+    score_semantics: str = "raw_model_score"
+    oof_coverage: Optional[np.ndarray] = None
+    oof_score_mse: float = 0.0
+    fold_diagnostics: Optional[List[Dict[str, Any]]] = None
+    std_auc: float = 0.0
+    min_auc: float = 0.0
+    max_auc: float = 0.0
+
+    @property
+    def oof_scores(self) -> np.ndarray:
+        """Return OOF ranking scores; legacy field name is retained for compatibility."""
+        return self.oof_probabilities
 
 
 def train_meta_classifier_cpcv(
@@ -187,6 +208,9 @@ def train_meta_classifier_cpcv(
     use_monotonic_constraints: bool = True,
     sample_weights: Optional[np.ndarray] = None,
     random_state: int = 42,
+    require_temporal_contract: bool = False,
+    embargo_duration: timedelta = timedelta(0),
+    compute_shap: bool = True,
 ) -> MetaModelResult:
     """Train institutional LightGBM Meta-Classifier using Combinatorial Purged CV (CPCV).
 
@@ -202,8 +226,8 @@ def train_meta_classifier_cpcv(
         Number of test groups per combination.
     embargo_size : int, default 5
         Embargo buffer size to prevent leakage between folds.
-    conviction_threshold : float, default 0.52
-        Probability cutoff p_hat >= threshold to take the trade.
+        conviction_threshold : float, default 0.52
+        Raw-score cutoff used to select trades; it is not a calibrated probability.
     use_monotonic_constraints : bool, default True
         Enforce economically rational sign constraints on trees:
         - rvol_1h: +1 (Higher volume -> higher breakout follow-through)
@@ -213,12 +237,19 @@ def train_meta_classifier_cpcv(
         Sample uniqueness weights w_i = u_i * |r_i| to neutralize concurrency clustering.
     """
     import lightgbm as lgb
-    from sklearn.calibration import CalibratedClassifierCV
-    from sklearn.metrics import brier_score_loss, f1_score
+    from sklearn.metrics import f1_score
     import shap
 
     if not events:
         raise ValueError("Cannot train meta-classifier on empty event list.")
+
+    temporal_contract = True
+    try:
+        events = order_events(events)
+    except ValidationContractError:
+        temporal_contract = False
+        if require_temporal_contract:
+            raise
 
     default_features = [
         "rvol_1h",
@@ -262,16 +293,30 @@ def train_meta_classifier_cpcv(
     mono_constraints = [mono_map.get(col, 0) for col in feat_names] if use_monotonic_constraints else None
 
 
-    # CPCV Splitter
-    cv = CombinatorialCV(
-        n_groups=n_groups,
-        n_test_groups=n_test_groups,
-        embargo_size=embargo_size,
-    )
+    # CPCV split plan. Temporal-contract events use interval purging; legacy
+    # fixtures without aware timestamps retain the compatibility splitter.
+    if temporal_contract:
+        split_plan = purged_cpcv_splits(
+            events,
+            n_groups=n_groups,
+            n_test_groups=n_test_groups,
+            embargo=embargo_duration,
+        )
+    else:
+        cv = CombinatorialCV(
+            n_groups=n_groups,
+            n_test_groups=n_test_groups,
+            embargo_size=embargo_size,
+        )
+        split_plan = [
+            (train_idx, test_idx, None) for train_idx, test_idx in cv.split(X)
+        ]
 
     oof_probs_sum = np.zeros(n_samples, dtype=np.float64)
     oof_counts = np.zeros(n_samples, dtype=np.int32)
     split_aucs = []
+    fold_diagnostics: List[Dict[str, Any]] = []
+    failed_folds: List[int] = []
 
     lgb_params = {
         "objective": "binary",
@@ -290,14 +335,31 @@ def train_meta_classifier_cpcv(
     }
 
     # Run Out-Of-Fold predictions across CPCV paths
-    for train_idx, test_idx in cv.split(X):
+    for fold_number, (train_idx, test_idx, split_diagnostics) in enumerate(split_plan):
+        fold_record: Dict[str, Any] = {
+            "fold": fold_number,
+            "train_count": int(len(train_idx)),
+            "test_count": int(len(test_idx)),
+            "split": asdict(split_diagnostics) if split_diagnostics is not None else None,
+        }
         if len(train_idx) < 30 or len(test_idx) < 5:
+            fold_record.update(status="FAILED", failure_reason="insufficient_samples")
+            fold_diagnostics.append(fold_record)
+            failed_folds.append(fold_number)
             continue
 
-        X_tr, y_tr, w_tr = X[train_idx], y[train_idx], weights[train_idx]
+        X_tr, y_tr = X[train_idx], y[train_idx]
         X_te, y_te = X[test_idx], y[test_idx]
+        if temporal_contract:
+            fold_weights = fold_uniqueness_weights(events, train_idx)
+            w_tr = fold_weights if sample_weights is None else weights[train_idx] * fold_weights
+        else:
+            w_tr = weights[train_idx]
 
         if len(np.unique(y_tr)) < 2:
+            fold_record.update(status="FAILED", failure_reason="single_class_training")
+            fold_diagnostics.append(fold_record)
+            failed_folds.append(fold_number)
             continue
 
         clf = lgb.LGBMClassifier(**lgb_params)
@@ -309,15 +371,37 @@ def train_meta_classifier_cpcv(
 
         if len(np.unique(y_te)) == 2:
             split_aucs.append(roc_auc_score(y_te, preds))
+            fold_record["auc"] = float(split_aucs[-1])
+        else:
+            fold_record["auc"] = None
+        fold_record.update(status="FIT", failure_reason=None)
+        fold_diagnostics.append(fold_record)
 
-    # Average OOF probabilities
+    if temporal_contract and failed_folds:
+        error = ValidationContractError(
+            f"CPCV fold validation failed for folds {failed_folds}"
+        )
+        error.fold_diagnostics = fold_diagnostics  # type: ignore[attr-defined]
+        raise error
+
+    # Average OOF scores. A validated temporal run must never backfill an
+    # unevaluated event with 0.5; legacy fixtures retain the old compatibility
+    # behavior until migrated to aware event timestamps.
     evaluated = oof_counts > 0
-    oof_probabilities = np.full(n_samples, 0.5, dtype=np.float64)
+    if temporal_contract:
+        require_complete_oof_coverage(oof_counts, np.ones(n_samples, dtype=bool))
+        oof_probabilities = np.full(n_samples, np.nan, dtype=np.float64)
+    else:
+        oof_probabilities = np.full(n_samples, 0.5, dtype=np.float64)
     oof_probabilities[evaluated] = oof_probs_sum[evaluated] / oof_counts[evaluated]
 
-    # Metrics evaluation
     mean_auc = float(np.mean(split_aucs)) if split_aucs else 0.50
-    brier = float(brier_score_loss(y, oof_probabilities))
+    std_auc = float(np.std(split_aucs)) if split_aucs else 0.0
+    min_auc = float(np.min(split_aucs)) if split_aucs else 0.50
+    max_auc = float(np.max(split_aucs)) if split_aucs else 0.50
+    # Raw-score mean squared error is descriptive only; it is not a calibration metric.
+    finite_scores = np.isfinite(oof_probabilities)
+    score_mse = float(np.mean((y[finite_scores] - oof_probabilities[finite_scores]) ** 2))
     baseline_wr = float(np.mean(y)) if len(y) > 0 else 0.0
 
     acted_mask = oof_probabilities >= conviction_threshold
@@ -332,23 +416,32 @@ def train_meta_classifier_cpcv(
         rec = 0.0
         f1 = 0.0
 
-    # Fit final calibrated model on all data for live inference
+    # Fit the final model on all development data for descriptive inference only.
     final_clf = lgb.LGBMClassifier(**lgb_params)
-    final_clf.fit(X, y, sample_weight=weights)
+    if temporal_contract:
+        development_uniqueness = fold_uniqueness_weights(
+            events, np.arange(n_samples, dtype=int)
+        )
+        final_weights = development_uniqueness * weights
+    else:
+        final_weights = weights
+    final_clf.fit(X, y, sample_weight=final_weights)
 
     # Feature importances
     imp_vals = final_clf.feature_importances_
     feat_imp = {feat_names[i]: float(imp_vals[i]) for i in range(len(feat_names))}
 
-    # TreeSHAP values
+    # TreeSHAP is diagnostic-only and can be skipped for repeated inner
+    # walk-forward fits. This does not change folds, scores, or the fitted model.
     shap_vals = None
-    try:
-        explainer = shap.TreeExplainer(final_clf)
-        shap_vals = explainer.shap_values(X)
-        if isinstance(shap_vals, list) and len(shap_vals) == 2:
-            shap_vals = shap_vals[1]  # positive class
-    except Exception:
-        shap_vals = None
+    if compute_shap:
+        try:
+            explainer = shap.TreeExplainer(final_clf)
+            shap_vals = explainer.shap_values(X)
+            if isinstance(shap_vals, list) and len(shap_vals) == 2:
+                shap_vals = shap_vals[1]  # positive class
+        except Exception:
+            shap_vals = None
 
     passed_gate = bool(mean_auc >= 0.52 and filtered_wr >= baseline_wr)
 
@@ -359,12 +452,19 @@ def train_meta_classifier_cpcv(
         feature_importances=feat_imp,
         shap_values=shap_vals,
         mean_auc=mean_auc,
-        brier_score=brier,
+        brier_score=None,
         baseline_win_rate=baseline_wr,
         filtered_win_rate=filtered_wr,
         precision=prec,
         recall=rec,
         f1_score=f1,
         passed_quality_gate=passed_gate,
+        score_semantics="raw_model_score",
+        oof_coverage=oof_counts,
+        oof_score_mse=score_mse,
+        fold_diagnostics=fold_diagnostics,
+        std_auc=std_auc,
+        min_auc=min_auc,
+        max_auc=max_auc,
     )
 

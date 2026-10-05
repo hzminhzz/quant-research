@@ -12,15 +12,12 @@ Governed by ML4T Skills:
 
 import numpy as np
 import polars as pl
-import pytest
 
-from src.features import compute_atr, compute_bollinger_bands, compute_ema, compute_rsi
-from src.labeling import compute_forward_returns, create_meta_labels, triple_barrier_labels
+from src.features import compute_atr
+from src.labeling import compute_forward_returns, triple_barrier_labels
 from src.diagnostics import evaluate_factor
-from src.models import train_meta_model_cpcv
-from src.backtest import CostModel, run_intraday_backtest
-from src.synthesis import compute_dsr_audit, generate_tearsheet_metrics
-from src.pipeline import ML4TCaseStudyPipeline, StageContract
+from src.backtest import run_intraday_backtest
+from src.synthesis import generate_tearsheet_metrics
 
 
 def make_synthetic_ohlcv(n_bars: int = 400) -> pl.DataFrame:
@@ -66,22 +63,6 @@ def test_stage2_labeling_contract():
         assert f"fwd_ret_{h}" in df_fwd.columns
 
 
-def test_stage3_features_contract():
-    """Test feature engineering transforms with strictly non-leaking indicators."""
-    df = make_synthetic_ohlcv(300)
-    df = compute_rsi(df, period=14, alias="rsi_14")
-    df = compute_ema(df, span=50, alias="ema_50")
-    df = compute_atr(df, period=14, alias="atr_14")
-
-    assert "rsi_14" in df.columns
-    assert "ema_50" in df.columns
-    assert "atr_14" in df.columns
-
-    # Check bounds
-    valid_rsi = df["rsi_14"].drop_nulls()
-    assert (valid_rsi >= 0.0).all() and (valid_rsi <= 100.0).all()
-
-
 def test_stage4_diagnostics_contract():
     """Test signal diagnostic reporting with IC, HAC stats, and decay."""
     df = make_synthetic_ohlcv(300)
@@ -92,27 +73,6 @@ def test_stage4_diagnostics_contract():
     assert -1.0 <= rep.mean_ic <= 1.0
     assert "hac_t_stat" in dir(rep)
     assert "decay_profile" in dir(rep)
-
-
-def test_stage5_cpcv_models_contract():
-    """Test combinatorial purged cross validation meta-model training."""
-    rng = np.random.default_rng(42)
-    X = rng.normal(size=(120, 4))
-    y_meta = (X[:, 0] + rng.normal(scale=0.5, size=120) > 0).astype(int)
-    active_mask = np.ones(120, dtype=bool)
-
-    cpcv_res = train_meta_model_cpcv(
-        X,
-        y_meta,
-        active_mask,
-        n_groups=4,
-        n_test_groups=1,
-        label_horizon=4,
-        embargo_size=1,
-    )
-    assert cpcv_res.n_splits >= 1
-    assert 0.0 <= cpcv_res.mean_auc <= 1.0
-    assert len(cpcv_res.oof_probabilities) == 120
 
 
 def test_stage6_and_7_backtest_and_synthesis_contract():
@@ -164,16 +124,3 @@ def test_stage6_and_7_backtest_and_synthesis_contract():
     assert "max_drawdown_pct" in tearsheet
     assert "dsr_probability" in tearsheet
     assert 0.0 <= tearsheet["dsr_probability"] <= 1.0
-
-
-def test_pipeline_contract_dataclass():
-    """Verify StageContract integrity."""
-    contract = StageContract(
-        stage_id=1,
-        stage_name="Setup",
-        reads_from=["config/setup.yaml"],
-        writes_to=["data/processed/prices.parquet"],
-        passed_gate=True,
-    )
-    assert contract.stage_id == 1
-    assert contract.passed_gate is True

@@ -191,7 +191,8 @@ def test_meta_classifier_training_and_cpcv():
 
     assert isinstance(res, MetaModelResult)
     assert 0.0 <= res.mean_auc <= 1.0
-    assert 0.0 <= res.brier_score <= 1.0
+    assert res.brier_score is None
+    assert 0.0 <= res.oof_score_mse <= 1.0
     assert len(res.oof_probabilities) == len(events)
     assert "rvol_1h" in res.feature_importances
 

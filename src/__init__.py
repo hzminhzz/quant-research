@@ -45,6 +45,16 @@ from src.pipeline import (
     CaseStudyPipelineReport,
     ML4TCaseStudyPipeline,
 )
+from src.catalog import (
+    CatalogError,
+    CatalogResolutionError,
+    ResolvedDataset,
+    load_dataset_catalog,
+    resolve_dataset,
+    resolve_data_store,
+    load_readiness_audit,
+    is_research_ready,
+)
 
 __all__ = [
     "detect_engulfing",
@@ -74,4 +84,12 @@ __all__ = [
     "StageContract",
     "CaseStudyPipelineReport",
     "ML4TCaseStudyPipeline",
+    "CatalogError",
+    "CatalogResolutionError",
+    "ResolvedDataset",
+    "load_dataset_catalog",
+    "resolve_dataset",
+    "resolve_data_store",
+    "load_readiness_audit",
+    "is_research_ready",
 ]

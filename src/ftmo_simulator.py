@@ -99,9 +99,14 @@ class FTMOSimulator:
         use_half_kelly: bool = False,
         base_risk_pct: float = 1.0,
         max_kelly_risk_pct: float = 2.0,
+        validated_path: bool = False,
     ) -> FTMOAttemptResult:
         """Simulate a single chronological attempt through Step 1, Step 2, and Funded."""
         cfg = self.config
+        if validated_path and use_half_kelly:
+            raise ValueError(
+                "Half-Kelly sizing is disabled in the validated path until temporal calibration is accepted"
+            )
         initial_balance = cfg.initial_balance
         max_daily_pct = cfg.max_daily_loss_pct
         max_total_pct = cfg.max_total_loss_pct
@@ -132,18 +137,16 @@ class FTMOSimulator:
                     # Halt further trading for the rest of this day to protect daily limit
                     break
 
-                # Probability gating: skip trade if meta-model probability is below cutoff
-                p_hat = t.get("prob", t.get("meta_prob", None))
-                if prob_threshold is not None and p_hat is not None:
-                    if p_hat < prob_threshold:
+                # Raw model score gating. It is not a calibrated probability.
+                model_score = t.get("model_score", t.get("prob", t.get("meta_prob", None)))
+                if prob_threshold is not None and model_score is not None:
+                    if model_score < prob_threshold:
                         continue
 
-                # Determine trade risk sizing
-                if use_half_kelly and p_hat is not None:
-                    # Half-Kelly sizing for 2:1 reward-to-risk ratio (b = 2)
-                    # Full Kelly: f* = (b*p - q) / b = (2p - (1-p)) / 2 = (3p - 1) / 2
-                    # Half Kelly: 0.5 * f*
-                    full_kelly = max(0.0, (3.0 * p_hat - 1.0) / 2.0)
+                # Determine trade risk sizing; Kelly remains legacy-only.
+                if use_half_kelly and model_score is not None:
+                    # Legacy compatibility mode only; validated_path rejects this above.
+                    full_kelly = max(0.0, (3.0 * model_score - 1.0) / 2.0)
                     half_kelly_frac = 0.5 * full_kelly
                     trade_risk_pct = float(np.clip(half_kelly_frac * 10.0, 0.25, max_kelly_risk_pct))
                 else:
@@ -302,6 +305,7 @@ class FTMOSimulator:
         use_half_kelly: bool = False,
         base_risk_pct: float = 1.0,
         max_kelly_risk_pct: float = 2.0,
+        validated_path: bool = False,
     ) -> Dict[str, Any]:
         """Perform stationary block bootstrap Monte Carlo of 2-Step Challenge attempts.
 
@@ -335,6 +339,7 @@ class FTMOSimulator:
                 use_half_kelly=use_half_kelly,
                 base_risk_pct=base_risk_pct,
                 max_kelly_risk_pct=max_kelly_risk_pct,
+                validated_path=validated_path,
             )
             results.append(res)
 

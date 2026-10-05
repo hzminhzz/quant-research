@@ -15,6 +15,16 @@ from scipy import stats
 
 
 DEFAULT_LEDGER_PATH = Path("run_log/trials.jsonl")
+REQUIRED_VALIDATED_TRIAL_FIELDS = {
+    "trial_id",
+    "strategy_hash",
+    "config_hash",
+    "data_fingerprint",
+    "development_period",
+    "final_oos_period",
+    "status",
+    "daily_return_series_ref",
+}
 
 
 @dataclass
@@ -55,6 +65,55 @@ def load_trials(ledger_path: Path = DEFAULT_LEDGER_PATH) -> List[Dict[str, Any]]
             if line:
                 records.append(json.loads(line))
     return records
+
+
+def audit_trial_ledger(ledger_path: Path = DEFAULT_LEDGER_PATH) -> Dict[str, Any]:
+    """Audit completeness without converting legacy records into validated trials."""
+    records = load_trials(ledger_path)
+    ids = [record.get("trial_id") for record in records]
+    duplicate_ids = sorted({trial_id for trial_id in ids if trial_id and ids.count(trial_id) > 1})
+    missing_by_record = [
+        sorted(REQUIRED_VALIDATED_TRIAL_FIELDS - set(record)) for record in records
+    ]
+    complete = bool(records) and not duplicate_ids and all(not missing for missing in missing_by_record)
+    return {
+        "schema_version": "trial_ledger_audit/v1",
+        "record_count": len(records),
+        "duplicate_trial_ids": duplicate_ids,
+        "missing_fields_by_record": missing_by_record,
+        "complete": complete,
+        "status": "COMPLETE" if complete else "INCOMPLETE_LEGACY_LEDGER",
+    }
+
+
+def compute_ledger_dsr(
+    observed_annualized_sharpe: float,
+    ledger_path: Path = DEFAULT_LEDGER_PATH,
+    *,
+    n_obs_days: int,
+    skew: float = 0.0,
+    kurtosis: float = 3.0,
+) -> Dict[str, Any]:
+    """Compute DSR only when the append-only ledger is complete and auditable."""
+    audit = audit_trial_ledger(ledger_path)
+    if not audit["complete"]:
+        return {
+            "status": "DSR_UNREPRODUCIBLE",
+            "n_trials": audit["record_count"],
+            "audit": audit,
+        }
+    records = load_trials(ledger_path)
+    sharpes = [float(record["annualized_sharpe"]) for record in records]
+    result = compute_deflated_sharpe(
+        observed_annualized_sharpe,
+        sharpes,
+        n_obs_days=n_obs_days,
+        skew=skew,
+        kurtosis=kurtosis,
+    )
+    result["status"] = "REPRODUCIBLE"
+    result["audit"] = audit
+    return result
 
 
 def compute_deflated_sharpe(

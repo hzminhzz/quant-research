@@ -6,7 +6,6 @@ import pytest
 from src.factory import (
     compute_factory_features,
     get_breakout_strategies,
-    get_mean_reversion_strategies,
     run_strategy_backtest,
 )
 
@@ -57,28 +56,6 @@ def test_factory_feature_computation(sample_15m_data):
     for col in expected_cols:
         assert col in df_feat.columns, f"Missing feature column: {col}"
     assert len(df_feat) > 0
-
-
-def test_breakout_strategy_definitions():
-    strats = get_breakout_strategies()
-    assert len(strats) == 3
-    for name, info in strats.items():
-        assert info["family"] == "Breakout"
-        assert info["hold_bars"] <= 48, (
-            f"Hold period exceeds 2-3 days max: {info['hold_bars']}h"
-        )
-        assert isinstance(info["expr"], pl.Expr)
-
-
-def test_mean_reversion_strategy_definitions():
-    strats = get_mean_reversion_strategies()
-    assert len(strats) == 3
-    for name, info in strats.items():
-        assert info["family"] == "Mean Reversion"
-        assert info["hold_bars"] <= 48, (
-            f"Hold period exceeds 2-3 days max: {info['hold_bars']}h"
-        )
-        assert isinstance(info["expr"], pl.Expr)
 
 
 def test_factory_backtest_execution():

@@ -34,3 +34,14 @@ def test_deflated_sharpe_computation():
     assert dsr["n_trials"] == len(all_sharpes)
     assert dsr["haircut_sharpe"] < observed_sr
     assert 0.0 <= dsr["dsr_probability"] <= 1.0
+
+
+def test_incomplete_legacy_ledger_blocks_reproducible_dsr(tmp_path):
+    ledger = tmp_path / "trials.jsonl"
+    ledger.write_text('{"trial_id": "legacy"}\n', encoding="utf-8")
+    from src.experiment import audit_trial_ledger, compute_ledger_dsr
+
+    audit = audit_trial_ledger(ledger)
+    assert audit["status"] == "INCOMPLETE_LEGACY_LEDGER"
+    result = compute_ledger_dsr(1.0, ledger, n_obs_days=100)
+    assert result["status"] == "DSR_UNREPRODUCIBLE"
