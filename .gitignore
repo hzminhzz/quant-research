@@ -9,17 +9,25 @@ env/
 # Marimo & scratch
 __marimo__/
 .omg/
-
+.agents/
+.hermes/
+.omo/
+.omp/
 # Data artifacts
 data/raw/*
 data/processed/*
 data/features/*
 data/labels/*
+data/research_sessions/**/archive_candidates/
+data/research_sessions/**/*.parquet
 !data/**/.gitkeep
 run_log/models/*
 run_log/diagnostics/*
 run_log/strategy/*
 run_log/*.db
+run_log/**/*.parquet
+run_log/**/*.pkl
+run_log/**/*.lock
 !run_log/**/.gitkeep
 
 # macOS
