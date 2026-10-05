@@ -17,14 +17,16 @@ This repository implements systematic quantitative alpha research, factor diagno
 
 ## 2. Core Quantitative Invariants
 
+Before starting crypto or index research, changing a strategy, or reviewing historical results, read [`docs/research_sessions.md`](docs/research_sessions.md). Define the economic hypothesis, mechanism, falsifier, and exact tradable instruments first. Choose labels and diagnostics for that thesis; neither triple-barrier labeling nor cross-sectional IC is universal. All new sessions are `EXPLORATORY`; retain the legacy `NOT_APPROVED` status and historical evidence.
+
 1. **The 80/20 Implementation Rule**:
    Implement conceptual patterns using standard scientific tools (`polars`, `numpy`, `scipy`). Reserve `ml4t-*` packages for production pipeline integration.
 2. **Zero Lookahead Bias & Data Leakage**:
-   All features must be backward-looking. Forward returns are target labels ($y$) only. Preprocessors and normalizers must be fit solely on in-sample training splits.
+   Use point-in-time data available at the decision timestamp and chronological walk-forward evaluation. Forward returns are target labels ($y$) only. Fit preprocessors on training splits; purge overlapping label/holding intervals and embargo where needed. Freeze the final test and selection rule before observing it; never tune on final-test results.
 3. **Mandatory Multiple-Testing Haircuts**:
-   Every tuned parameter, indicator variation, or universe filter counts as an empirical trial. Report the **Deflated Sharpe Ratio (DSR)** and **Bailey & López de Prado Haircut** whenever evaluating multiple iterations. Record every trial in `run_log/trials.jsonl`.
-4. **Institutional Friction Modeling**:
-   Always include transaction costs. Backtests must default to at least **2 bps commission** and **1 bps slippage** per execution leg.
+   Every evaluated parameter, feature, universe, label, cost, or execution variation counts as a trial, including failed attempts. Follow the session guide for preregistration and hashed evidence; preserve legacy ledgers such as `run_log/trials.jsonl`. Report DSR and Sharpe haircuts for multiple iterations, disclosing incomplete trial history and unreproducible adjustments. Historical review does not retroactively preregister trials.
+4. **Market-Specific Friction Modeling**:
+   Use actual venue/product fees, spreads, slippage, and impact, with crypto funding/borrow and index financing/rolls as applicable. Generic **2 bps commission** plus **1 bps slippage** is an exploratory placeholder. Neither generic fees nor metric thresholds approve deployment.
 
 ---
 
@@ -39,6 +41,8 @@ Marimo compiles pure-Python files into a reactive Directed Acyclic Graph (DAG):
 ---
 
 ## 4. Operational Runbook
+
+For documentation-only changes, review prose and links and run `git diff --check`. Apply the code and notebook checks below when those surfaces change; preserve unrelated edits and historical artifacts.
 
 ### Run Automated Tests
 ```bash
@@ -71,6 +75,6 @@ bash /Users/minhvu/.opencode/skill/marimo-pair/scripts/execute-code.sh \
 ## 5. Prohibited Anti-Patterns
 
 * ❌ Do not calculate Sharpe ratios on trade-level returns multiplied by $\sqrt{252 \times N_{\text{trades}}}$. Always use continuous daily portfolio equity returns.
-* ❌ Do not hardcode parameters in notebooks or scripts; read from `config/setup.yaml`.
+* ❌ Do not hardcode parameters in notebooks or scripts; use the applicable versioned configuration and session specification (`config/setup.yaml` is the existing default).
 * ❌ Do not commit raw market data files or parquet caches to Git.
-* ❌ Do not hide failed parameter iterations; append them to `run_log/trials.jsonl` to ensure statistically honest DSR reporting.
+* ❌ Do not hide failed iterations; retain them in session evidence and preserve legacy ledgers so trial-count limitations remain visible.

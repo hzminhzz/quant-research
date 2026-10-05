@@ -63,7 +63,7 @@
     <!-- TODO(Trevor): Legacy, required by VS Code plugin. Remove when plugin is updated (see marimo/server/_templates/template.py) -->
     <marimo-version data-version="{{ version }}" hidden></marimo-version>
     <marimo-user-config data-config="{{ user_config }}" hidden></marimo-user-config>
-    <marimo-server-token data-token="{{ server_token }}" hidden></marimo-server-token>
+    <marimo-server-token data-token="" hidden></marimo-server-token>
     <!-- /TODO -->
     <title>04 opening candle breakout</title>
     <script type="module" crossorigin crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@marimo-team/frontend@0.24.2/dist/assets/index-4n22QjCD.js"></script>
@@ -260,6 +260,10 @@
 </script>
 </head>
   <body>
+    <div style="border:2px solid #b91c1c;background:#fef2f2;color:#7f1d1d;padding:12px;margin:12px;font-family:system-ui,sans-serif;font-weight:600;">
+      Validation status: NOT_APPROVED. Historical results are not independently validated evidence of live readiness.
+      See run_log/validation_status.json and docs/audit/validation-remediation-status.md.
+    </div>
     <div id="root"></div>
     <script data-marimo="true">
       Object.defineProperty(window, "__MARIMO_MOUNT_CONFIG__", {

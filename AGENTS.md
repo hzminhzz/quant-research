@@ -1,6 +1,89 @@
-# Engineering and Agent Guidelines: Quantitative Research Suite
+# Agent Guide: Thesis-Driven Quantitative Research
 
-This document defines the architectural rules, quantitative methodology, coding standards, and verification requirements for autonomous agents and engineers contributing to this repository.
+This repository is the ongoing crypto and index research workspace. Optimize for falsifiable economic hypotheses, comparable experiments, and auditable evidence, not the highest historical Sharpe. Research completion is separate from strategy approval.
+
+## Start every research session
+
+When using OMP, read `docs/omp.md` for project settings and memory boundaries.
+For checkpoint, replay, or agent-memory work, load `ml4t-agent-state-memory`
+and its applicable dependency, `ml4t-agent-tool-contracts`.
+
+For agent replies and written research output, follow the
+[ASD-STE100 writing rules](docs/research_sessions.md#writing-standard-asd-ste100).
+Apply these rules to new or revised prose. Preserve exact technical identifiers.
+
+1. Read `docs/research_sessions.md`, the relevant specification, latest session report, and `run_log/validation_status.json`. Inspect the working tree and preserve unrelated changes.
+2. State the economic mechanism, falsifier, exact tradable instruments, baseline, and next unresolved question. Distinguish new research from review of already-observed evidence.
+3. Select and read the applicable ML4T skills below before designing or implementing the experiment. Record the selection and the invariants you will verify.
+4. Freeze data identities, availability/decision/fill times, development boundaries, costs, selection criteria, and planned trials before observing outcomes.
+5. Run the smallest decisive experiment. Register failed and inconclusive attempts alongside successful ones. End with evidence, limitations, and the next decisive question.
+
+## ML4T skill selection is mandatory for relevant work
+
+Use the official [ML4T skills](https://github.com/ml4t/skills) as the first
+methodology reference whenever working on ML4T data, features, validation,
+backtesting, portfolio/risk, or trading research. Generic coding skills
+complement these procedures; they do not replace quantitative methodology.
+
+1. Inspect the agent's available skill descriptions and the official catalog.
+   Match the task and failure mode, not merely a keyword.
+2. Load the complete `SKILL.md` for each selected procedure before writing code
+   or interpreting results. Load only relevant skills, not the whole collection.
+3. Record skill name, local path or upstream URL/revision, reason selected,
+   required invariants, and corresponding verification in session evidence.
+4. Follow its method and guardrails. Prefer the referenced `ml4t-*` implementation
+   where it fits the contract; inspect installed versions and actual signatures
+   before calling APIs. Skill examples are guidance, not proof of API compatibility.
+5. Verify the invariant independently. A skill instructs, a library implements,
+   and a verifier checks; none alone establishes sound research.
+
+Installed directories use `ml4t-<name>/SKILL.md`. Check project
+`.agents/skills/`, then the current agent's advertised user skill roots
+(commonly `~/.agents/skills/` or `~/.claude/skills/`). Do not assume an
+available directory means the required skill is installed. Upstream files use
+`<category>/<name>/SKILL.md`; cloning the grouped repository into a discovery
+directory does not flatten it.
+
+If a matching skill is missing, read its official upstream file and disclose
+that it was not loaded through local discovery. If retrieval is unavailable,
+record the gap and use verified library/project documentation for the method;
+leave unsupported conclusions unresolved. Never claim an unread skill was used.
+Installing or updating the collection is a separate environment change: inspect
+the upstream installer, use an explicit target, preserve existing skills, and
+record the chosen revision rather than silently updating during an experiment.
+
+### Routing reference
+
+Names below are upstream names; installed names carry the `ml4t-` prefix.
+Read descriptions to choose the subset that applies.
+
+| Task or risk | Skills to consider |
+| --- | --- |
+| Acquisition, quality, universe eligibility | `fetch-data`, `validate-data`, `define-universe`, `point-in-time`, `survivorship-bias` |
+| Bars, sessions, DST, index futures rolls | `build-bars`, `calendar-ops`, `continuous-futures`, `lookahead-bias` |
+| Features, labels, horizon, meta-models | `compute-features`, `feature-validation`, `horizon-design`, `triple-barrier`, `meta-labels` |
+| Model fitting, preprocessing, feature selection | `data-leakage`, `feature-selection`, `walk-forward-cv` |
+| Overlapping labels or holding intervals | `purging-embargo`; `cpcv` when combinatorial diagnostics are justified |
+| Cross-sectional signal assessment | `evaluate-factor`, `information-coefficient` |
+| Parameter/model selection and repeated trials | `backtest-overfitting`, `deflated-sharpe`, `sensitivity-analysis` |
+| Fills, turnover, fees, funding and impact assumptions | `run-backtest`, `cost-model`, `transaction-costs` |
+| Reporting and changing market conditions | `tearsheet`, `non-stationarity`, `regime-awareness`, `drift-detection` |
+
+For portfolio, risk, live controls, and agent engineering, consult the current
+catalog's matching categories rather than inventing skill names. Crypto funding,
+margin and liquidation assumptions and index product mappings still need
+instrument-specific evidence; a generic skill does not supply venue facts.
+For Marimo edits, also read the available Marimo notebook skill; use batch
+guidance when adding scheduled or reduced-run controls.
+
+Explicit user instructions and repository contracts govern this workspace.
+If a skill conflicts, state the conflict and the adopted method; do not silently
+relax point-in-time, accounting, or holdout integrity. For skill changes, evaluate
+task-specific correctness, consistency and cost, including silent-failure
+checks, rather than assuming more instructions improve results.
+
+Methodology source:
+[How to Design and Evaluate Skills for Research Agents](https://insights.ml4trading.io/p/how-to-design-and-evaluate-skills).
 
 ---
 
@@ -17,9 +100,8 @@ This repository implements systematic alpha research, factor diagnostics, and ev
 
 All agents operating in this repository must adhere to three foundational rules:
 
-### Rule 1: The 80/20 Implementation Split
-Teach and implement core quantitative concepts using standard Python libraries (`polars`, `numpy`, `scipy`, `scikit-learn`). Use `ml4t-*` packages (`ml4t-engineer`, `ml4t-diagnostic`, `ml4t-backtest`) for production implementations.
-* **Prohibition**: Never import `ml4t.*` inside foundational pattern definitions or unit tests designed to demonstrate first principles.
+### Rule 1: Reuse verified quantitative implementations
+Use Polars for data processing and prefer tested `ml4t-*` implementations for supported research contracts. First-principles code is appropriate for teaching or an independent numerical oracle; label it accordingly and test equivalence where relevant. Tests may exercise actual library integrations. Do not duplicate infrastructure merely because an agent can generate it.
 
 ### Rule 2: Zero Lookahead & Survivorship Bias
 Financial data must reflect only the information available at the decision timestamp ($t$).
@@ -29,13 +111,15 @@ Financial data must reflect only the information available at the decision times
 ### Rule 3: Mandatory Multiple-Testing Haircuts
 Every tuned parameter, altered feature, or evaluated rule constitutes a statistical trial.
 * Never report an optimized in-sample Sharpe ratio without adjusting for trial count.
-* You must compute the **Deflated Sharpe Ratio (DSR)** and the **Bailey & López de Prado Haircut** whenever evaluating multiple variants.
+* Use selection-aware diagnostics such as DSR and Sharpe haircuts when their assumptions and complete trial history support them. If history is incomplete, state that the adjustment is unreproducible rather than fabricating confidence.
 
 ---
 
 ## 3. The Three-Stage ML4T Pipeline
 
-Every quantitative strategy must transition through three distinct, stage-gated phases:
+Before starting crypto or index research, changing a strategy, or reviewing historical results, read [`docs/research_sessions.md`](docs/research_sessions.md). Specify the economic hypothesis, mechanism, falsifier, and exact tradable instruments before running trials. All new sessions are `EXPLORATORY`; preserve the legacy `NOT_APPROVED` decision and historical artifacts.
+
+Use the existing three-stage pattern where it fits the thesis; choose labels and diagnostics appropriate to the instrument, forecast horizon, and decision rule:
 
 ```mermaid
 flowchart LR
@@ -46,29 +130,29 @@ flowchart LR
 ### Stage 1: Feature Engineering & Labeling (`ml4t-engineer`)
 * **Inputs**: Cleaned OHLCV Parquet files from `data/processed/`.
 * **Transforms**: Compute technical, momentum, volatility, and fundamental features. Features must be group-aware when operating on asset panels.
-* **Labeling**: Use path-dependent labeling (e.g., Triple Barrier Method with ATR volatility scaling) rather than fixed-horizon forward returns.
+* **Labeling**: Choose fixed-horizon returns, path-dependent barriers, or event outcomes to match the thesis. Triple-barrier labeling with ATR scaling is an option, not a universal requirement.
 * **Storage**: Persist feature matrices to `data/features/` and target labels to `data/labels/`.
 
 ### Stage 2: Signal & Factor Diagnostics (`ml4t-diagnostic`)
 * **Objective**: Evaluate whether a feature contains predictive information before running a full backtest.
-* **Metrics**:
+* **Metrics for comparable cross-sectional panels** (not mandatory for single-instrument time-series or event strategies):
   * Cross-Sectional Information Coefficient (Spearman Rank IC).
   * Information Ratio ($IC\_IR = \text{mean}(IC) / \text{std}(IC)$).
   * IC Decay profile across forecast horizons ($H \in \{1, 4, 8, 16, 32\}$ bars).
   * Quantile monotonicity and turnover analysis.
-* **Cross-Validation**: Use `WalkForwardCV` or `CombinatorialCV` with explicit embargo buffers to prevent label overlap leakage.
+* **Evaluation**: Use chronological development and walk-forward evaluation with point-in-time inputs. Purge overlapping label/holding intervals and apply an appropriate embargo where needed. Combinatorial diagnostics do not replace chronological out-of-sample evaluation. Freeze the final test and selection rule before observing results; never tune on that period.
 
 ### Stage 3: Event-Driven Backtesting (`ml4t-backtest`)
 * **Objective**: Simulate realistic order matching and portfolio performance.
 * **Execution**: Strategies must implement `ml4t.backtest.Strategy` with explicit handlers (`on_data`, `on_start`, `on_end`).
-* **Cost Modeling**: Always include explicit commission and slippage models. Default to at least **2 bps commission** and **1 bps slippage** per execution leg.
+* **Cost Modeling**: Use instrument- and venue-specific fees, spreads, slippage, and market impact, with crypto funding/borrow and index financing/contract rolls as applicable. Generic **2 bps commission** and **1 bps slippage** per leg are exploratory placeholders only, not validated execution costs.
 * **Sharpe Calculation**: Calculate Sharpe ratios on continuous daily portfolio equity returns. Never annualize intraday per-trade returns with trade frequency multipliers.
 
 ---
 
 ## 4. Quantitative Quality Gates
 
-A strategy cannot proceed to backtest deployment unless it satisfies all criteria:
+Set research acceptance criteria before trials from the thesis, instrument, and evidence requirements. The thresholds below are diagnostic examples, not universal mandates or deployment approval. Cross-sectional IC applies only where the panel and forecast support it; passing these examples cannot override `NOT_APPROVED` or promote an `EXPLORATORY` session.
 
 | Quality Gate | Metric | Minimum Acceptance Threshold | Corrective Action on Failure |
 | :--- | :--- | :--- | :--- |
@@ -76,7 +160,7 @@ A strategy cannot proceed to backtest deployment unless it satisfies all criteri
 | **Multiple Testing Bias** | Deflated Sharpe Ratio (DSR) | $\ge 0.95$ (95% confidence) | Penalize for trial count; discard overfit parameter configurations. |
 | **Overfitting Probability** | Probability of Backtest Overfitting (PBO) | $< 0.50$ via Combinatorial CV | Strategy winner is noise; simplify model and reduce parameter count. |
 | **Parameter Stability** | Sensitivity Surface Plateau | $> 60\%$ of parameter neighborhood profitable | Reject knife-edge optimum; identify stable parameter regions. |
-| **Transaction Survivability** | Net Return Post-Friction | Net positive after 2 bps fee + 1 bps slippage | Increase holding horizon or eliminate high-churn triggers. |
+| **Transaction Survivability** | Net Return Post-Friction | Net positive under documented market-specific costs and stress assumptions | Reassess the thesis or execution economics. |
 
 ---
 
@@ -134,8 +218,8 @@ Agents must preserve the following directory taxonomy:
 │   ├── raw/                    # Read-only vendor market feeds (git-ignored)
 │   ├── processed/              # Canonical Parquet datasets (git-ignored)
 │   ├── features/               # Versioned factor matrices (git-ignored)
-│   └── labels/                 # Path-dependent target labels (git-ignored)
-├── notebooks/                  # Production-grade Marimo reactive notebooks (.py)
+│   └── labels/                 # Thesis-specific target labels (git-ignored)
+├── notebooks/                  # Marimo reactive research notebooks (.py)
 ├── run_log/                    # Experiment tracking ledger, metrics, and audit logs
 ├── src/                        # Modular, reusable quantitative domain logic
 │   ├── __init__.py
@@ -154,17 +238,19 @@ Agents must preserve the following directory taxonomy:
 
 Before completing any task or pushing changes, execute this verification sequence:
 
+For documentation-only changes, review prose and links and run `git diff --check`; the code and notebook checks below apply when those surfaces change. Preserve unrelated working-tree edits and historical artifacts.
+
 ### Step 1: Run Automated Test Suites
 Verify algorithmic correctness and numerical parity:
 ```bash
-uv run pytest
+uv run python -m pytest
 ```
-*Criteria*: All tests must pass with zero failures and zero warnings.
+*Criteria*: Tests pass; investigate new warnings and disclose pre-existing skips or warnings. Preserve assertions and report failures rather than suppressing them.
 
 ### Step 2: Validate Marimo Reactive DAGs
 Verify that no notebook cells contain syntax warnings, invalid escape sequences, or cyclical variable bindings:
 ```bash
-marimo check notebooks/quantified_strategies_engulfing.py
+uv run marimo check notebooks/quantified_strategies_engulfing.py
 ```
 *Criteria*: Must output `0 warnings, 0 errors`.
 
@@ -173,7 +259,7 @@ Ensure transient caches and large data files are untracked:
 ```bash
 git status
 ```
-*Criteria*: No parquet files, database locks, or virtual environments (`.venv/`, `__pycache__/`) may appear in untracked files.
+*Criteria*: Keep new transient caches, locks and bulk datasets out of commits. Preserve unrelated existing artifacts; disclose them rather than deleting them to clean the working tree.
 
 ### Step 4: Synchronize Remote Workspaces
 When deploying to remote container environments (e.g., Molab):
@@ -186,6 +272,6 @@ When deploying to remote container environments (e.g., Molab):
 ## 8. Anti-Patterns & Prohibitions
 
 1. **Do not use traditional Jupyter (`.ipynb`) files**: All notebooks must remain pure Python (`.py`) files with `@app.cell` decorators.
-2. **Do not hardcode parameters**: Read symbols, dates, transaction costs, and thresholds from `config/setup.yaml`.
-3. **Do not hide failed trials**: Document every tested strategy variation to maintain accurate trial counts for Deflated Sharpe Ratio calculation.
+2. **Do not hardcode parameters**: Use the applicable versioned configuration and session specification; `config/setup.yaml` remains the existing pipeline default.
+3. **Account for all trials**: Follow the session guide to retain every tested variation, failure, and deviation with hashed evidence. Keep historical review distinct from preregistered trials; missing legacy records remain disclosed limitations.
 4. **Do not trade unhedged low-capacity signals**: Signals with high turnover ($> 2,000$ trades) on intraday bars must incorporate realistic market impact modeling.

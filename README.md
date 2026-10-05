@@ -1,4 +1,6 @@
-# Institutional Quantitative Alpha Research Suite & 4-Index Meta-Labeling Engine
+# Quantitative Research Suite & 4-Index Meta-Labeling Engine
+
+> **Validation status: `NOT_APPROVED`.** Historical backtest, whitepaper, notebook, and dashboard results are preserved research artifacts, not independently validated evidence of live readiness. See [`run_log/validation_status.json`](run_log/validation_status.json) and [`docs/audit/validation-remediation-status.md`](docs/audit/validation-remediation-status.md).
 
 [![Tests](https://img.shields.io/badge/pytest-33%20passed-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)]()
@@ -8,17 +10,26 @@
 [![Prop Firm](https://img.shields.io/badge/FTMO-79.1%25%20Funded%20Pass%20Rate-success)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
-An institutional-grade systematic quantitative research, factor diagnostics, and event-driven backtesting platform. Built on pure-Python **Marimo reactive notebooks**, **Polars** vectorization, and the **Machine Learning for Algorithmic Trading (ML4T)** methodology inspired by Stefan Jansen and Marcos López de Prado.
+A systematic quantitative research, factor diagnostics, and event-driven backtesting platform. Built on pure-Python **Marimo reactive notebooks**, **Polars** vectorization, and the **Machine Learning for Algorithmic Trading (ML4T)** methodology inspired by Stefan Jansen and Marcos López de Prado.
+
+For new crypto or index studies and historical reviews, follow the [**thesis-driven research session guide**](docs/research_sessions.md): define an economic hypothesis, mechanism, falsifier, and exact tradable instruments, then use point-in-time data, chronological evaluation, market-specific costs, and complete trial accounting. New sessions are `EXPLORATORY`; the session CLI records hashed evidence and does not execute models or backtests. The guide includes YAML declaration examples and concrete commands.
+
+The BTC/ETH relative-value runner reads canonical hourly Binance perpetual OHLCV and funding from `ml4t-data/.data/store/`; it does not acquire or repair data. Missing hourly bars, missing funding cadence evidence, or settlement timestamps inconsistent with the stored per-event `funding_interval_hours` stop the run. Funding checks include one 8-hour context window on each side of the evaluation range; each result records the price manifest, consumed partition hashes, and frame fingerprints.
 
 > 📄 **Core Research Publication**: Read the exhaustive mathematical whitepaper in [**`docs/research_whitepaper.md`**](docs/research_whitepaper.md) for full LaTeX derivations, failure post-mortems, 10-year calendar breakdown, and 2,000-trial Monte Carlo bootstrap distributions.
+
+### Dataset Catalog & Authority Enforcement
+
+Research datasets from `ml4t-data/.data/store/` are resolved authoritatively via `src.catalog` (`resolve_dataset` and `resolve_data_store`). The catalog enforces canonical dataset resolution by default, maps historical aliases (`DE30` -> `index_minute_DAX`, `JP225` -> `index_minute_NIKKEI225`, `NAS100` -> `index_minute_NAS100`, etc.), binds cryptographic identities (`catalog_identity`, `consumer_identity`), rejects unqualified or retired datasets, and fails closed when contract-level futures are requested against continuous products or index CFDs (`contract_level_futures=false`).
 
 ---
 
 ## 1. Flagship Research: The 4-Index Meta-Gated ORB Strategy
 
-This repository chronicles the transformation of a failing retail chart pattern (Opening Range Breakout) into a statistically robust, institutional-grade quantitative trading system across four major global equity indices:
+This repository preserves historical Opening Range Breakout and meta-labeling research across four global equity index price series. The vendor aliases below do not identify exact executable contracts; new studies must specify the venue and tradable product. The historical results do not establish robustness or live readiness:
+
 - **Nikkei 225 (`JP225`)** — Tokyo Open (00:00 UTC)
-- **Hang Seng Index (`HK33`)** — Hong Kong Open (01:00 UTC)
+- **Hang Seng Index (`HK33`)** — Hong Kong Open (01:00 UTC); the current LSE `HK33/HKD` series is an index feed, not a futures contract. The existing 5-minute file includes bars outside Hong Kong cash-session hours, and vendor session semantics remain unresolved.
 - **DAX 40 (`DE30`)** — Frankfurt/London Open (07:00 UTC)
 - **Nasdaq 100 (`NAS100`)** — New York Open (14:30 UTC)
 
@@ -51,6 +62,8 @@ flowchart TD
 ---
 
 ## 2. Empirical Performance & Validation Summary
+
+The tables below retain historical reported figures and wording, including pass and compliance claims, without revalidation. They are not current approval evidence; consult the `NOT_APPROVED` record linked above for corrected findings and unresolved limitations.
 
 ### A. The Evolution from Naive Intraday to Multi-Day Meta-Gating
 
@@ -119,9 +132,9 @@ Evaluated via **2,000-trial stationary block-bootstrap Monte Carlo simulation** 
 
 ---
 
-## 4. Quantitative Quality Gates (ML4T Verification Runbook)
+## 4. Historical Quantitative Quality Gates
 
-Before any model or rule modification is committed, it must pass all institutional gates:
+The following table preserves historical thresholds and reported results, not universal requirements for new research. Thesis-specific criteria replace blanket cross-sectional IC or labeling requirements. Generic fee assumptions and passing metric thresholds do not approve deployment or override `NOT_APPROVED`.
 
 | Quality Gate | Metric | Acceptance Threshold | Result |
 | :--- | :--- | :--- | :---: |

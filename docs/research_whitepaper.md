@@ -3,7 +3,7 @@
 **Authors**: Quantitative Research & Engineering Team  
 **Date**: September 2026  
 **Repository**: [github.com/hzminhzz/quant-research](https://github.com/hzminhzz/quant-research)  
-**Status**: Production / Open-Source Alpha Research Benchmark  
+**Status**: `NOT_APPROVED` — historical research artifact; not independently validated for live readiness. See [`run_log/validation_status.json`](../run_log/validation_status.json) and [`docs/audit/validation-remediation-status.md`](audit/validation-remediation-status.md).
 
 ---
 
