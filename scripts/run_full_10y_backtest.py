@@ -79,7 +79,7 @@ print(f"Sample uniqueness weights computed (mean: {np.mean(weights):.4f})")
 
 print("\nTraining CPCV Meta-Classifier (6 groups, 15 folds, 5-bar embargo)...")
 res = train_meta_classifier_cpcv(evs, sample_weights=weights, conviction_threshold=0.50, random_state=42)
-print(f"CPCV Model Trained. Mean OOF AUC: {res.mean_auc:.4f}, Brier Score: {res.brier_score:.4f}")
+print(f"CPCV Model Trained. Mean OOF AUC: {res.mean_auc:.4f}, OOF score MSE: {res.oof_score_mse:.4f}")
 
 # Build trade records
 trades_all = []

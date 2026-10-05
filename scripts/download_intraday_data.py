@@ -1,14 +1,21 @@
 """Download 5m and 1m high-frequency data for DAX, Nikkei, and SPX from London Strategic Edge Vault."""
 
+import os
 from datetime import datetime, timedelta
 from pathlib import Path
 from lse import LSE
 import polars as pl
 
-client = LSE(api_key="lse_live_d72c14901cca9af5e4eb163cd4f7ae56")
+def get_client() -> LSE:
+    """Create the provider client only after the caller has supplied a key."""
+    api_key = os.environ.get("LSE_API_KEY")
+    if not api_key:
+        raise RuntimeError("LSE_API_KEY must be set in the environment; no credential is stored in source")
+    return LSE(api_key=api_key)
 
 
 def download_5m(sym: str, out_path: str, start_year: int = 2023, end_year: int = 2026):
+    client = get_client()
     print(f"=== Downloading 5m for {sym} ({start_year}-{end_year}) ===")
     all_rows = []
     
@@ -37,7 +44,7 @@ def download_5m(sym: str, out_path: str, start_year: int = 2023, end_year: int =
         .unique(subset=["timestamp"])
     )
     if "DE30" in sym:
-        df = df.filter(pl.col("close") > 2000.0)
+        df = df.filter(pl.col("close") > 0)
         
     p = Path(out_path)
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -47,6 +54,7 @@ def download_5m(sym: str, out_path: str, start_year: int = 2023, end_year: int =
 
 
 def download_1m(sym: str, out_path: str, start_date: str = "2024-01-01", end_date: str = "2026-01-01"):
+    client = get_client()
     print(f"=== Downloading 1m for {sym} ({start_date} to {end_date}) ===")
     all_rows = []
     
@@ -73,7 +81,7 @@ def download_1m(sym: str, out_path: str, start_date: str = "2024-01-01", end_dat
         .unique(subset=["timestamp"])
     )
     if "DE30" in sym:
-        df = df.filter(pl.col("close") > 2000.0)
+        df = df.filter(pl.col("close") > 0)
         
     p = Path(out_path)
     p.parent.mkdir(parents=True, exist_ok=True)

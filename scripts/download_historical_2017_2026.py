@@ -1,15 +1,40 @@
 """Download historical 5m data (2017-2026) for DAX and Nikkei, and 15m data for SPX500 from LSE Vault."""
 
+import os
 import sys
-from datetime import datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 from lse import LSE
 import polars as pl
 
-client = LSE(api_key="lse_live_d72c14901cca9af5e4eb163cd4f7ae56")
+# Coverage floor from acquisition handoff: bars required through at least
+# 2026-09-22; intervals also allowed up to "today" so the latest available
+# bars (including post-2026-08-01 OOS) are fetched. Never stops at the
+# 2026-07-31 dev boundary.
+COVERAGE_FLOOR = date(2026, 9, 22)
+
+
+def _latest_interval_start() -> date:
+    """Latest allowed interval start: max(coverage floor, today, UTC)."""
+    return max(COVERAGE_FLOOR, datetime.now(timezone.utc).date())
+
+
+def get_client() -> LSE:
+    """Create the provider client only after the caller has supplied a key."""
+    api_key = os.environ.get("LSE_API_KEY")
+    if not api_key:
+        raise RuntimeError("LSE_API_KEY must be set in the environment; no credential is stored in source")
+    return LSE(api_key=api_key)
 
 
 def generate_intervals(start_year: int = 2017, end_year: int = 2026):
+    """Bimonthly [start, end) windows from start_year through end_year.
+
+    Intervals starting after `latest available` (today or the 2026-09-22
+    coverage floor, whichever is later) are skipped; everything else runs
+    through end_year so post-boundary bars are retained to latest.
+    """
+    latest_start = _latest_interval_start()
     intervals = []
     for y in range(start_year, end_year + 1):
         for m in [1, 3, 5, 7, 9, 11]:
@@ -18,14 +43,14 @@ def generate_intervals(start_year: int = 2017, end_year: int = 2026):
                 e_str = f"{y+1}-01-01"
             else:
                 e_str = f"{y}-{m+2:02d}-01"
-            # Stop if in future
-            if s_str > "2026-04-01":
+            if date.fromisoformat(s_str) > latest_start:
                 continue
             intervals.append((s_str, e_str))
     return intervals
 
 
 def download_series(sym: str, timeframe: str, out_path: str, start_year: int = 2017, end_year: int = 2026):
+    client = get_client()
     print(f"\n=======================================================")
     print(f"Downloading {sym} ({timeframe}) from {start_year} to {end_year}")
     print(f"Target: {out_path}")
@@ -45,17 +70,17 @@ def download_series(sym: str, timeframe: str, out_path: str, start_year: int = 2
         print(f"ERROR: No rows downloaded for {sym}")
         return None
 
+    # UTC rule (setup.yaml data_contracts.default_timezone: UTC): vendor
+    # timestamps parsed as UTC and kept tz-aware; no silent tz strip.
     df = (
         pl.DataFrame(all_rows)
-        .with_columns(
-            pl.col("timestamp").str.to_datetime(time_zone="UTC").dt.replace_time_zone(None)
-        )
+        .with_columns(pl.col("timestamp").str.to_datetime(time_zone="UTC"))
         .sort("timestamp")
         .unique(subset=["timestamp"])
     )
 
     if "DE30" in sym:
-        df = df.filter(pl.col("close") > 2000.0)
+        df = df.filter(pl.col("close") > 0)
 
     p = Path(out_path)
     p.parent.mkdir(parents=True, exist_ok=True)
