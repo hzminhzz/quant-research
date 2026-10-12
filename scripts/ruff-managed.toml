@@ -1,0 +1,14 @@
+extend = "../pyproject.toml"
+include = ["src/managed_strategies/**/*.py"]
+
+[lint]
+select = ["TID251"]
+
+[lint.flake8-tidy-imports.banned-api]
+"ml4t.engineer" = { msg = "Use src.research_control.feature_gateway.FeatureGateway" }
+"talib" = { msg = "Use a verified Engineer feature or approved extension" }
+"TA-Lib" = { msg = "Use a verified Engineer feature or approved extension" }
+"pandas_ta" = { msg = "Use a verified Engineer feature or approved extension" }
+"src.features" = { msg = "Legacy indicator modules are unmanaged" }
+"src.pipeline" = { msg = "Legacy research modules are unmanaged" }
+"src.factory" = { msg = "Legacy research modules are unmanaged" }

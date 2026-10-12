@@ -183,7 +183,8 @@ frozen v1 specifications and trial records are read-only.
 
 ### M3 — Static and runtime compliance without rewriting history
 
-**P0. Depends on M2.**
+**P0. Depends on M2. M3-A scoped static policy implemented; runtime proof
+gate and broader M3 work remain open.**
 
 Introduce restricted-module Ruff policy and a small AST
 checker for **new managed modules only**.
@@ -217,6 +218,15 @@ checker for **new managed modules only**.
 **Honesty requirement:** Ruff+AST cannot prove indicator
 equivalence or physically prevent arbitrary Python execution.
 The managed runner is the authority for accepted evidence.
+
+**M3-A implementation:** `scripts/ruff-managed.toml` and
+`scripts/check_managed_features.py` enforce only
+`src/managed_strategies/**/*.py`. The AST checker emits stable JSON reason
+codes and rejects custom ADX/RSI functions, direct indicator imports, direct
+Engineer feature calls, legacy imports, and native VWAP claims. The focused
+fixtures cover those five failures, aliased Engineer imports, approved native
+and extension gateway requests, and legacy-scope exclusion. CI integration
+is deferred to M5.
 
 ### M4 — Managed native run, independent evidence and recovery
 

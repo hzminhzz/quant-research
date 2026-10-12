@@ -1,7 +1,7 @@
 # Research control-plane contracts
 
-**Status:** M1/M2 schema, gateway, and read-only commands implemented. M3-M7
-remain design. Read the
+**Status:** M1/M2 schema, gateway, and read-only commands implemented. M3-A
+scoped static policy implemented; remaining M3-M7 work remains design. Read the
 [system architecture](agent_research_system.md) first.
 **Compatibility target:** Existing immutable research-session **v1**,
 `ml4t-engineer==0.1.4`, `ml4t-backtest==0.1.7`,
@@ -378,6 +378,20 @@ Use layers of increasing cost:
   and source coverage proof.
 - **CI/branch protection**: required checks for code changes,
   separate from authenticated external-data audits.
+
+M3-A applies only to Python files under
+`src/managed_strategies/**/*.py`. Run the AST check with
+`python scripts/check_managed_features.py` and the restricted Ruff check with
+`ruff check --config scripts/ruff-managed.toml src/managed_strategies`.
+The AST command emits sorted JSON with the checked scope, file count, and
+stable reason codes: `CUSTOM_INDICATOR_IMPLEMENTATION`,
+`FORBIDDEN_INDICATOR_IMPORT`, `ENGINEER_BYPASS`,
+`LEGACY_INDICATOR_IMPORT`, and `UNSUPPORTED_NATIVE_VWAP`. The Ruff policy
+uses `TID251` only for the same explicit directory. The feature gateway and
+independent oracle tests remain outside the managed-strategy scope. Existing
+legacy modules are not linted. This static check catches direct and common
+aliased source patterns; it cannot prove indicator mathematics or prevent
+arbitrary dynamic Python execution.
 
 Do not declare compliance merely because lint exits with 0.
 Do not scan every legacy research script on day one: existing
