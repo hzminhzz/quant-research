@@ -1,8 +1,9 @@
 # Agent-first research control plane
 
 **Status:** Approved M1/M2 architecture, 2026-10-12.
-**Runtime status:** M1 read-only CLI and M2 strict feature contracts/gateway are
-implemented. M3-M7 remain unimplemented. Existing `src/research_session.py`
+**Runtime status:** M1 read-only CLI, M2 strict feature contracts/gateway, and
+the M3-B runtime feature-proof gate are implemented. M3-A and M4-M7 remain
+open. Existing `src/research_session.py`
 and `src/catalog.py` remain the authorities for frozen sessions and datasets.
 **Audience:** ChatGPT research lead, coding executor, independent auditor, and future agents.
 

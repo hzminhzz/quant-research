@@ -1,7 +1,8 @@
 # Research control-plane contracts
 
-**Status:** M1/M2 schema, gateway, and read-only commands implemented. M3-A
-scoped static policy implemented; remaining M3-M7 work remains design. Read the
+**Status:** M1/M2 schema, gateway, and read-only commands implemented.
+M3-A scoped static compliance and M3-B runtime feature-proof enforcement are
+implemented; M4-M7 remain design. Read the
 [system architecture](agent_research_system.md) first.
 **Compatibility target:** Existing immutable research-session **v1**,
 `ml4t-engineer==0.1.4`, `ml4t-backtest==0.1.7`,
@@ -206,6 +207,17 @@ extension-code hashes; installed provider versions; resolved feature
 semantics; and runtime checks for schema, rows, availability, and hashes.
 Numerical and DST/session proofs come from the independent tests. A gateway
 hash alone does not verify numerical semantics.
+
+`verify_feature_proof` is the M3-B runtime gate. It requires the gateway
+result, source frame, typed contract, and session root. It verifies the proof
+seal, frozen config identity, input/output hashes, installed Engineer source
+identity, and gateway code identity. It then checks source-row preservation,
+completed-bar availability, and independent numerical results for each
+approved feature. A missing, forged, or drifted identity raises a stable
+`FeatureContractError` reason code. The returned `VerifiedFeatureProof` is
+process-local. It does not make a backtest result validated. The v1 session
+API continues to record `artifact_generation_verified: false`; M4 must consume
+this gate before it can accept managed backtest evidence.
 
 ```yaml
 proof_version: 1

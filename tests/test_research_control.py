@@ -4,6 +4,7 @@ import json
 import math
 import subprocess
 import sys
+from dataclasses import replace
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
@@ -15,7 +16,14 @@ from pydantic import ValidationError
 
 from scripts import research as research_cli
 from src.research_control.contracts import ResearchContractV1
-from src.research_control.feature_gateway import FeatureContractError, FeatureGateway
+from src.research_control.feature_gateway import (
+    FeatureComputation,
+    FeatureContractError,
+    FeatureGateway,
+    require_verified_feature_proof,
+    verify_feature_proof,
+)
+from src.research_session import init_session
 
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "scripts/research.py"
@@ -89,6 +97,28 @@ def bars(symbols: tuple[str, ...] = ("A",), count: int = 80) -> pl.DataFrame:
                 }
             )
     return pl.DataFrame(rows)
+
+
+def freeze_feature_contract(root: Path, request: ResearchContractV1) -> None:
+    config = root / "feature-contract.yaml"
+    config.write_text(yaml.safe_dump(request.model_dump(mode="json")), encoding="utf-8")
+    spec = {
+        "session_id": request.session_id,
+        "thesis": "Feature proof runtime gate test.",
+        "mechanism": "A typed feature contract binds inputs and calculations.",
+        "falsifier": "Any changed identity or non-causal feature fails verification.",
+        "market": "indices",
+        "instruments": [{"symbol": "TEST", "kind": "spot"}],
+        "data": [{"id": "bars", "path": "bars.parquet", "role": "prices"}],
+        "evaluation": {"scope": "feature proof only"},
+        "baseline": "No strategy result.",
+        "costs": {"commission_bps": 0, "slippage_bps": 0},
+        "trials": [{"id": "feature-proof", "kind": "preregistered", "description": "Verify feature provenance."}],
+        "config": config.name,
+    }
+    spec_path = root / "session.yaml"
+    spec_path.write_text(yaml.safe_dump(spec), encoding="utf-8")
+    init_session(spec_path, root)
 
 
 def wilder_adx_reference(
@@ -178,6 +208,183 @@ def test_native_adx_uses_engineer_and_matches_independent_wilder_oracle(monkeypa
     assert result.data["available_at"][10] == result.data["timestamp"][10] + timedelta(
         minutes=1
     )
+
+
+def test_runtime_feature_proof_accepts_native_adx_and_approved_vwap(tmp_path):
+    request = contract(
+        [
+            native(),
+            {
+                "id": "cash_vwap",
+                "provider": {
+                    "kind": "extension.approved",
+                    "extension_id": "cash_open_vwap",
+                    "version": "1.0.0",
+                    "session_open": "08:30",
+                    "timezone": "America/Chicago",
+                },
+                "inputs": {"high": "high", "low": "low", "close": "close", "volume": "volume"},
+            },
+        ]
+    )
+    freeze_feature_contract(tmp_path, request)
+    input_data = bars(("A", "B"), count=80)
+    frozen_path = tmp_path / "run_log/research_sessions/vwap-m1-m2-test/frozen_spec.json"
+    frozen_before = frozen_path.read_bytes()
+
+    computation = FeatureGateway().compute(input_data, request)
+    verified = verify_feature_proof(computation, input_data, request, tmp_path)
+
+    assert require_verified_feature_proof(verified).proof is computation.proof
+    assert frozen_path.read_bytes() == frozen_before
+
+
+def test_runtime_feature_proof_rejects_forgery_input_output_and_config_drift(tmp_path):
+    request = contract([native()])
+    freeze_feature_contract(tmp_path, request)
+    input_data = bars()
+    computation = FeatureGateway().compute(input_data, request)
+
+    forged = FeatureComputation(
+        computation.data,
+        replace(computation.proof, output_sha256="0" * 64),
+    )
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(forged, input_data, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_PROOF_FORGED"
+
+    changed_input = input_data.with_columns((pl.col("close") + 0.01).alias("close"))
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(computation, changed_input, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_INPUT_IDENTITY_DRIFT"
+
+    changed_output = computation.data.with_columns((pl.col("adx_14") + 1).alias("adx_14"))
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(FeatureComputation(changed_output, computation.proof), input_data, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_OUTPUT_IDENTITY_DRIFT"
+
+    (tmp_path / "feature-contract.yaml").write_text("schema_version: 1\n", encoding="utf-8")
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(computation, input_data, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_CONFIG_IDENTITY_DRIFT"
+
+
+def test_runtime_feature_proof_rejects_custom_adx_and_provider_code_drift(tmp_path, monkeypatch):
+    request = contract([native()])
+    freeze_feature_contract(tmp_path, request)
+    input_data = bars()
+    from src.research_control import feature_gateway
+
+    installed_compute = feature_gateway.compute_features
+
+    def custom_adx(data, features, **kwargs):
+        result = installed_compute(data, features, **kwargs)
+        return result.with_columns((pl.col("adx_14") + 1).alias("adx_14"))
+
+    monkeypatch.setattr(feature_gateway, "compute_features", custom_adx)
+    computation = FeatureGateway().compute(input_data, request)
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(computation, input_data, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_PROVIDER_IDENTITY_DRIFT"
+
+
+def test_runtime_feature_gateway_rejects_native_dispatch_bypass(monkeypatch):
+    from src.research_control import feature_gateway
+
+    def custom_native(data, feature_id, request, groups, **kwargs):
+        return data.with_columns(pl.lit(42.0).alias(feature_id)), {
+            "id": feature_id,
+            "provider": "engineer.native",
+            "name": request.name,
+            "params": dict(request.params),
+        }
+
+    monkeypatch.setattr(feature_gateway, "_native", custom_native)
+    with pytest.raises(FeatureContractError) as error:
+        FeatureGateway().compute(bars(), contract([native()]))
+    assert error.value.reason_code == "FEATURE_NATIVE_EXECUTION_BYPASS"
+
+
+def test_runtime_feature_gateway_rejects_native_dispatch_result_substitution(monkeypatch):
+    from src.research_control import feature_gateway
+
+    def substituted_native(data, feature_id, request, groups, *, dispatch):
+        dispatch(
+            data,
+            [{"name": request.name, "params": dict(request.params), "output": feature_id}],
+            group_col=groups or None,
+            timestamp_col="timestamp",
+        )
+        return data.with_columns(pl.lit(42.0).alias(feature_id)), {
+            "id": feature_id,
+            "provider": "engineer.native",
+            "name": request.name,
+            "params": dict(request.params),
+        }
+
+    monkeypatch.setattr(feature_gateway, "_native", substituted_native)
+    with pytest.raises(FeatureContractError) as error:
+        FeatureGateway().compute(bars(), contract([native()]))
+    assert error.value.reason_code == "FEATURE_NATIVE_EXECUTION_BYPASS"
+
+
+def test_runtime_feature_proof_rejects_changed_gateway_code_hash(tmp_path, monkeypatch):
+    request = contract([native()])
+    freeze_feature_contract(tmp_path, request)
+    input_data = bars()
+    computation = FeatureGateway().compute(input_data, request)
+    from src.research_control import feature_gateway
+
+    monkeypatch.setattr(feature_gateway, "extension_code_identity", lambda: "0" * 64)
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(computation, input_data, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_PROVIDER_IDENTITY_DRIFT"
+
+
+def test_runtime_feature_proof_rejects_changed_engineer_version(tmp_path, monkeypatch):
+    request = contract([native()])
+    freeze_feature_contract(tmp_path, request)
+    input_data = bars()
+    computation = FeatureGateway().compute(input_data, request)
+    from src.research_control import feature_gateway
+
+    installed_version = feature_gateway.importlib.metadata.version
+    monkeypatch.setattr(
+        feature_gateway.importlib.metadata,
+        "version",
+        lambda name: "drifted" if name == "ml4t-engineer" else installed_version(name),
+    )
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(computation, input_data, request, tmp_path)
+    assert error.value.reason_code == "FEATURE_PROVIDER_IDENTITY_DRIFT"
+
+
+def test_runtime_gate_rejects_missing_or_asserted_verified_proof():
+    with pytest.raises(FeatureContractError) as error:
+        verify_feature_proof(None, bars(), contract([native()]), Path("."))
+    assert error.value.reason_code == "FEATURE_PROOF_MISSING"
+    with pytest.raises(FeatureContractError) as error:
+        require_verified_feature_proof(object())
+    assert error.value.reason_code == "FEATURE_PROOF_FORGED"
+
+
+def test_contract_rejects_unknown_runtime_extension():
+    raw = contract([native()]).model_dump(mode="python")
+    raw["feature_set"] = [
+        {
+            "id": "unknown_vwap",
+            "provider": {
+                "kind": "extension.approved",
+                "extension_id": "unknown_vwap",
+                "version": "1.0.0",
+                "session_open": "08:30",
+                "timezone": "America/Chicago",
+            },
+            "inputs": {"high": "high", "low": "low", "close": "close", "volume": "volume"},
+        }
+    ]
+    with pytest.raises(ValidationError):
+        ResearchContractV1.model_validate(raw)
 
 
 def test_native_typical_price_uses_engineer_fields():

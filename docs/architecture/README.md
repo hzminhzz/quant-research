@@ -73,5 +73,5 @@ Engineer registry. No managed run or resume command exists yet.
 
 **Current implementation authority:** `src/research_session.py`,
 `src/catalog.py`, `src/research_control/`, current code, and current artifacts.
-M1/M2 are additive. Existing session v1 files and historical evidence remain
-unchanged.
+M1/M2 and the M3-B runtime feature-proof gate are additive. Existing session
+v1 files and historical evidence remain unchanged.

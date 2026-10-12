@@ -1,6 +1,6 @@
 # Implementation plan — Agent-first ML4T research system
 
-**Status:** Approved; M1 and M2 implemented and verified. M3-M7 remain open.
+**Status:** Approved; M1, M2, and M3-B implemented. M3-A and M4-M7 remain open.
 **Date:** 2026-10-12. **Repository:** `quant-research`.
 **Scope:** One bounded research control plane over existing code,
 not a new research platform. Commits and deployment remain out of scope.
@@ -484,6 +484,6 @@ destructive changes, credential permissions or real orders.
   audited output and an accepted design-to-implementation
   contract.
 
-**Next work unit:** M3 scoped static/runtime compliance. Keep it separate from
-M1/M2. The read-only commands and feature gateway are available now; they do
-not authorize backtests or live trading.
+**Next work unit:** M3-A scoped static compliance. The M3-B feature-proof gate,
+read-only commands, and feature gateway are available now; they do not
+authorize backtests or live trading.
