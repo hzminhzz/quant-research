@@ -5,12 +5,42 @@ or reviewing historical results. A session organizes a falsifiable thesis and
 its evidence; it does not confer permission to trade. All new sessions are
 `EXPLORATORY`, including sessions that satisfy their research criteria.
 
+**Agent-first research system:** M1 read-only capability/status commands and
+M2 strict feature contracts/gateway are implemented. M3-M7 remain planned.
+Start with the
+[one-minute architecture entrypoint](architecture/README.md).
+The [system design](architecture/agent_research_system.md),
+[typed contract specification](architecture/research_contracts.md), and
+[staged implementation plan](plans/agent_research_system_rollout.md)
+define current boundaries and later rollout gates. The existing session CLI
+and this page define session behavior. A research *phase* means
+thesis-to-decision work; a pipeline *stage* means a technical transform.
+Do not use those seven-step vocabularies interchangeably.
+
 At the start of each working session, read the thesis specification and the
 latest session report before choosing the next trial. For an existing session,
 use its frozen specification and regenerate the report from recorded evidence;
 for a new session, read the proposed thesis and explicitly note that no report
 exists yet. Identify the current falsifier, unresolved evidence, and next
 planned trial rather than restarting selection from remembered results.
+
+Use the read-only control-plane commands for orientation:
+
+```bash
+uv run python scripts/research.py doctor
+uv run python scripts/research.py doctor --session <id>
+uv run python scripts/research.py status --session <id>
+uv run python scripts/research.py discover --feature adx
+```
+
+The M2 contract example is
+[`research_contract_v1_example.yaml`](../config/research_contract_v1_example.yaml).
+It is not a `SessionSpecV1` file. Link a validated contract through the
+existing optional `config` field before session initialization. Do not edit or
+re-freeze an existing session to attach it.
+
+`status` does not scan market data or rehash trial artifacts. Run the existing
+`scripts/research_session.py report` command when you need those checks.
 
 ## Writing standard: ASD-STE100
 

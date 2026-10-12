@@ -80,6 +80,11 @@ Choose these requirements for the thesis. The notebook's news-forecast defaults
 are not universal strategy thresholds. If evidence is insufficient, report an
 unresolved conclusion and name the missing evidence.
 
+The proposed [agent-first control plane](architecture/README.md)
+would make retrieval, attempts, feature provenance, gates, and recovery
+legible to coding agents. It is a design only; do not treat its suggested
+commands, holdout isolation, or permissions as already implemented.
+
 These are research instructions, not new automated gates. The current session
 CLI checks file identities and declared data requirements. It does not implement
 the notebook's full typed evidence state, freshness gates, or ablation replay.

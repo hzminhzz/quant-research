@@ -185,6 +185,17 @@ class Report(Envelope):
     artifact_generation_verified: bool
 
 
+class SessionStatus(Envelope):
+    spec: Spec
+    spec_sha256: str
+    identity: Provenance
+    trials: list[Outcome]
+    evidence: list[Evidence]
+    metrics_computed: bool
+    artifact_generation_verified: bool
+    data_audit_performed: bool
+
+
 class ResearchSessionError(RuntimeError):
     """A specification or filesystem boundary violated the session contract."""
 
@@ -822,3 +833,46 @@ def report_session(session_id: str, root: str | Path) -> Report:
         "metrics_computed": False, "artifact_generation_verified": False,
     }
     return result
+
+
+def session_status(session_id: str, root: str | Path) -> SessionStatus:
+    """Read frozen session and trial records without scanning data or hashing artifacts."""
+    root = _root(root)
+    output, frozen = _load(root, session_id)
+    outcomes: list[Outcome] = []
+    for trial in frozen["spec"]["trials"]:
+        path = _path(root, output / "trials" / f"{trial['id']}.json")
+        record: TrialRecord | None = (
+            json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+        )
+        if record is not None:
+            if (
+                not isinstance(record, dict)
+                or record.get("trial_id") != trial["id"]
+                or record.get("status") not in ("completed", "failed")
+            ):
+                raise ResearchSessionError(
+                    f"invalid terminal trial record: {trial['id']}"
+                )
+            record.update(classification="EXPLORATORY", approval_status="NOT_APPROVED")
+        outcomes.append(
+            {
+                "declaration": trial,
+                "status": record["status"] if record else "pending",
+                "record": record,
+            }
+        )
+    return {
+        **_envelope(session_id, "STATUS"),
+        "spec": frozen["spec"],
+        "spec_sha256": frozen["spec_sha256"],
+        "identity": frozen["identity"],
+        "trials": outcomes,
+        "evidence": [
+            {**item, "approval_status": "NOT_APPROVED", "kind": "historical_evidence"}
+            for item in frozen["identity"]["evidence"]
+        ],
+        "metrics_computed": False,
+        "artifact_generation_verified": False,
+        "data_audit_performed": False,
+    }

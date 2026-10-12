@@ -19,6 +19,7 @@ from src.research_session import (
     init_session,
     record_trial,
     report_session,
+    session_status,
 )
 
 
@@ -442,3 +443,23 @@ def test_diagnostic_requires_development_bounds_at_freeze(tmp_path):
         init_session(path, tmp_path)
 
     assert not (tmp_path / "run_log").exists()
+
+
+def test_session_status_reads_trial_records_without_running_data_audit(
+    tmp_path, monkeypatch
+):
+    import src.research_session as session_module
+
+    path, _ = prepare(tmp_path)
+    init_session(path, tmp_path)
+    monkeypatch.setattr(
+        session_module,
+        "check_session",
+        lambda *_: pytest.fail("lightweight status must not run a data audit"),
+    )
+
+    result = session_status("thesis-01", tmp_path)
+
+    assert result["status"] == "STATUS"
+    assert result["data_audit_performed"] is False
+    assert [trial["status"] for trial in result["trials"]] == ["pending", "pending"]
