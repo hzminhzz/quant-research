@@ -5,8 +5,9 @@ or reviewing historical results. A session organizes a falsifiable thesis and
 its evidence; it does not confer permission to trade. All new sessions are
 `EXPLORATORY`, including sessions that satisfy their research criteria.
 
-**Agent-first research system:** M1 read-only capability/status commands and
-M2 strict feature contracts/gateway are implemented. M3-M7 remain planned.
+**Agent-first research system:** M1 read-only capability/status commands,
+M2 strict feature contracts/gateway, and the M3-B runtime feature-proof gate
+are implemented. M3-A and M4-M7 remain planned.
 Start with the
 [one-minute architecture entrypoint](architecture/README.md).
 The [system design](architecture/agent_research_system.md),

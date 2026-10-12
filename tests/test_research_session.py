@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
@@ -295,6 +294,7 @@ def test_terminal_failed_record_and_pending_trial_are_preserved(tmp_path):
     assert [item["status"] for item in report["trials"]] == ["failed", "pending"]
     record = report["trials"][0]["record"]
     assert record is not None
+    assert record["artifact_generation_verified"] is False
     assert record["artifact"]["sha256"] == hashlib.sha256(artifact.read_bytes()).hexdigest()
     assert report["approval_status"] == "NOT_APPROVED"
     assert report["metrics_computed"] is False
@@ -313,6 +313,18 @@ def test_duplicate_terminal_record_never_replaces_failure(tmp_path):
         record_trial("thesis-01", "fixed-rule", "completed", artifact, tmp_path)
 
     assert terminal.read_bytes() == before
+
+
+def test_completed_unmanaged_trial_remains_unverified(tmp_path):
+    path, _ = prepare(tmp_path)
+    init_session(path, tmp_path)
+    artifact = tmp_path / "backtest-result.json"
+    artifact.write_text('{"status":"completed"}\n')
+
+    record = record_trial("thesis-01", "fixed-rule", "completed", artifact, tmp_path)
+
+    assert record["status"] == "completed"
+    assert record["artifact_generation_verified"] is False
 
 
 @pytest.mark.parametrize("trial", ["undeclared", "../escape", "a/b"])
