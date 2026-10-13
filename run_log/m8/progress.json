@@ -135,5 +135,31 @@
     "canonical_checkout_modified": false,
     "tmux_sessions_started_or_changed": false,
     "attempts": "synthetic test attempt only; no candidate trial claimed"
+  },
+  "latest_update": {
+    "date_utc": "2026-10-13",
+    "branch": "feat/m8-n8-cfd-pilot",
+    "preserved_prior_timeline": true,
+    "m8_b1": "Original PDF remains unavailable; no source-specific rules were inferred.",
+    "m8_b2": "General feature plumbing and frozen 30m feature availability were verified; candidate-specific certification remains source-limited.",
+    "m8_b3": {
+      "status": "terminally_blocked_before_native_engine",
+      "attempt_id": "70841083-b113-4319-8981-dfaef88c13ab",
+      "eligible_signals": 2491,
+      "signals_with_missing_actual_fill_bars": 26,
+      "native_engine_started": false,
+      "holdout_accessed": false,
+      "live_orders_placed": false,
+      "evidence": "docs/audit/m8_n8_pilot_execution_blocker.md",
+      "issue_status": "open_candidate_evidence_unresolved"
+    },
+    "m8_c": {
+      "status": "managed_terminal_attempt_and_recovery_controls_qualified; scientific pilot blocked",
+      "terminal_attempt_replayed": false,
+      "attempt_id": "70841083-b113-4319-8981-dfaef88c13ab",
+      "evidence": "docs/audit/m8_agent_qualification.md and docs/audit/m8_n8_pilot_execution_blocker.md",
+      "issue_status": "open_until_issue_acceptance_and_ci"
+    },
+    "final_scope": "No candidate performance conclusion; no holdout use; no live execution."
   }
 }

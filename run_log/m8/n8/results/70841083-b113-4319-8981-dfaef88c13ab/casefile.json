@@ -1,0 +1,177 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "70841083-b113-4319-8981-dfaef88c13ab",
+      "command": "uv run python scripts/run_m8_n8.py execute --attempt-id {attempt_id}",
+      "detail": "RuntimeError: N8_RUN_BLOCKED: EXECUTION_EXCEPTION",
+      "event_id": "d799403bda674722bfb36d29c52a50cf",
+      "fingerprints": {
+        "code_sha256": "4b0512280fa3457bdee4aff71c7373e65f983b0807792820dcff1727b7c45faf",
+        "config_sha256": "08e2d977915095d37b991ce0375509a399094588b4830981c9ee7cb123597dfc",
+        "data_sha256": "2e3e6fe961ebb81b5adc6b5f1f01a1286dc10f134dc0069fc7598e619597eaf1",
+        "engine": "ml4t.backtest",
+        "engine_version": "0.1.7",
+        "feature_proof_sha256": "bbb7635b574d24ce87b0c155e8984478a43e41c895c720a7d43aa6b08fda085b",
+        "frozen_session_sha256": "06d3cc71c2e2fe6311878b045fcdb57822e2e974b1aa3e1a9765fce477000dc0",
+        "intent_sha256": "3a7e1b5575fddb01b2f8df90b1646a0b395875f695b6c94d49a042720b15afa0",
+        "source_sha256": "dc11bacf70562f0957887081a3e40940f0b03978848428510beeec862d177dc8",
+        "spec_sha256": "186fa489d96b7f107031766ba4afd84a1ff651428873d68d591214870c5d78cf"
+      },
+      "job_name": "ml4t-m8-n8-pilot-exec-20261013",
+      "lease_until": "2026-10-13T08:48:03.372196+00:00",
+      "observed_at": "2026-10-13T06:48:08.780053+00:00",
+      "revision": 3,
+      "run_id": "6e6b2c52d305be9a989e6a6e764acfa1c7bb190bcd9f4f279c6de665aa649de2",
+      "schema_version": 1,
+      "status": "FAILED",
+      "trial_id": "N8_primary_3cost_stress"
+    }
+  ],
+  "effects": [
+    "READ_ONLY"
+  ],
+  "evidence_refs": [
+    "docs/plans/m8_b_research_lead_freeze_decision.md",
+    "docs/audit/m8_n8_implementation_review.md",
+    "m8_bounded_execution_codex.txt",
+    "m8_final_lead_acceptance.txt",
+    "m8_research_lead_recovery_corrections.txt",
+    "m8_scientific_lead_final_gate.txt",
+    "docs/audit/m8_n8_freeze_recovery.md",
+    "run_log/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/frozen_spec.json",
+    "run_log/m8/original_rulebook_extracted_pages.txt",
+    "run_log/m8/n8/source_fingerprints_recovery.json",
+    "run_log/m8/n8/calendar_evidence.json",
+    "run_log/m8/n8/cost_evidence.json",
+    "run_log/m8/n8/multiplier_evidence.json",
+    "run_log/m8/n8/audit_recipe.json",
+    "run_log/m8/n8/run_intent_v2.json",
+    "tests/test_m8_feature_capability.py",
+    "tests/test_m8_n8_data.py",
+    "tests/test_m8_n8_execution.py",
+    "tests/test_m8_n8_recovery.py",
+    "tests/test_m8_agent_qualification.py",
+    "tests/test_attempts.py",
+    "tests/test_research_control.py",
+    "run_log/m8/n8/results/70841083-b113-4319-8981-dfaef88c13ab/report.json",
+    "run_log/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v2/attempts/d799403bda674722bfb36d29c52a50cf.json"
+  ],
+  "exposure": {
+    "approval_status": "NOT_APPROVED",
+    "classification": "EXPLORATORY",
+    "holdout_start": "2025-01-01T00:00:00Z",
+    "holdout_verified_unseen": false,
+    "prior_observations_cannot_become_unseen": true
+  },
+  "falsifier": "Reject the economic thesis if gross expectancy is non-positive or the baseline net expectancy is non-positive, and report fragility at the fixed 2x and 3x cost stresses. This retrospective study cannot establish pristine out-of-sample validity, verified broker PnL, or strategy approval.",
+  "hypothesis": "After a prior 50-bar price expansion, one 30-minute bar of long trend continuation has positive expected price change on the Dukascopy USATECH.IDX/USD CFD proxy.",
+  "limitations": [
+    "This derived view does not scan market data or independently rehash artifacts.",
+    "A terminal or cached attempt is not a valid trading approval.",
+    "Missing independent evidence, unknown tmux or failed jobs never imply PASS."
+  ],
+  "next_safe_action": "Review failed or aborted attempts before selecting another registered trial.",
+  "plan": {
+    "baseline": "$100000 normalized cash with one long unit at most, no leverage, and no trades outside the frozen rule. A unit means $1 per index point for arithmetic only.",
+    "costs": {
+      "assumptions": "3 bps adverse fill-price impact plus 0.6 bps explicit commission per fill. Scale both components at 1x, 2x and 3x. Spread and slippage are assumptions.",
+      "commission_bps": 0.6,
+      "slippage_bps": 3.0,
+      "source": "run_log/m8/n8/cost_evidence.json"
+    },
+    "declared_trials": [
+      {
+        "description": "One fixed 2020-2024 Model 8 CFD price-proxy replay with the frozen prior-high 50 feature and native entry/exit rules; report 1x/2x/3x costs descriptively.",
+        "id": "N8_primary_3cost_stress",
+        "kind": "preregistered"
+      }
+    ],
+    "evaluation": {
+      "cost_scenarios": [
+        "1x",
+        "2x",
+        "3x"
+      ],
+      "daily_risk_metrics": "Use the installed ml4t.diagnostic.api.PortfolioAnalysis on one return per scheduled UTC CFD trading date, including Sunday sessions; omit schedule- closed dates, retain zero-return open dates without trades, use periods_per_year=252, and disclose that this is a convention for the six-day schedule. Undefined metrics remain null. Independently reconcile Sharpe, maximum drawdown, and Calmar arithmetic.",
+      "development_end": "2025-01-01T00:00:00Z",
+      "development_start": "2020-01-01T00:00:00Z",
+      "end_boundary": "A signal at t is eligible only when its known t+2 30-minute clock is strictly earlier than 2025-01-01T00:00:00Z; eligibility must not inspect future source-bar presence.",
+      "falsifier_rule": "INCONCLUSIVE if no trades; FALSIFIED if native gross total PnL <= 0 or 1x native net trade expectancy <= 0; FRAGILE if positive at 1x but net trade expectancy <= 0 at 2x or 3x; otherwise NOT_FALSIFIED_IN_RETROSPECTIVE_SAMPLE_ONLY.",
+      "holdout_accessed": false,
+      "holdout_start": "2025-01-01T00:00:00Z",
+      "retrospective_data_already_seen": true,
+      "strategy": "Strict close[t] > max(high[t-50:t]); signal at completed bar t close; next-open entry t+1; next-next-open exit t+2; no stops or targets.",
+      "trial_count": 1,
+      "trial_id": "N8_primary_3cost_stress"
+    }
+  },
+  "reason_code": "ATTEMPT_REVIEW_REQUIRED",
+  "runtime": {
+    "active_attempts": [],
+    "matching_live_jobs": [],
+    "visibility": "available"
+  },
+  "schema_version": 1,
+  "scope": "research_casefile",
+  "session_id": "m8_n8_dukascopy_nas100_cfd_30m_v2",
+  "source": {
+    "catalog_authority": "frozen_source_only",
+    "data": [
+      {
+        "id": "nas100_cfd_30m_201912_warmup_2024",
+        "path": "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet",
+        "role": "prices",
+        "symbol": "usatechidxusd"
+      }
+    ],
+    "declared_instruments": [
+      {
+        "identity": "USATECH.IDX/USD; not CME NQ futures",
+        "kind": "cfd",
+        "session": "Published summer/winter GMT schedule with conservative XNAS weekday holiday filter; unexpected missing scheduled fills block",
+        "symbol": "usatechidxusd",
+        "timezone": "UTC",
+        "venue": "Dukascopy Bank SA historical CFD price proxy"
+      }
+    ],
+    "frozen_data_identities": [
+      {
+        "exists": true,
+        "path": "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet",
+        "sha256": "36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8",
+        "size_bytes": 1404224
+      }
+    ],
+    "spec_sha256": "186fa489d96b7f107031766ba4afd84a1ff651428873d68d591214870c5d78cf"
+  },
+  "status": "BLOCKED",
+  "trial_status": {
+    "declared": 1,
+    "pending": 0,
+    "records": [
+      {
+        "record": {
+          "approval_status": "NOT_APPROVED",
+          "artifact": {
+            "exists": true,
+            "path": "run_log/m8/n8/results/70841083-b113-4319-8981-dfaef88c13ab/report.json",
+            "sha256": "7443346eb3f6060719d4eeeeca918534ff61fb5c1a9a9e8bb3d07bf025eb0f19",
+            "size_bytes": 216
+          },
+          "artifact_generation_verified": false,
+          "classification": "EXPLORATORY",
+          "evidence_type": "linked_artifact",
+          "kind": "preregistered",
+          "recorded_at": "2026-10-13T06:48:08.775247+00:00",
+          "schema_version": 1,
+          "session_id": "m8_n8_dukascopy_nas100_cfd_30m_v2",
+          "status": "failed",
+          "trial_id": "N8_primary_3cost_stress"
+        },
+        "status": "failed",
+        "trial_id": "N8_primary_3cost_stress"
+      }
+    ],
+    "terminal": 1
+  }
+}
