@@ -29,14 +29,17 @@
     "M8-B1": {
       "status": "blocked_source_document",
       "issue": 31,
-      "blocker": "SOURCE_DOCUMENT_UNAVAILABLE: requested original PDF not found under /home/quant, /mnt/data, /tmp, or the task worktree."
+      "blocker": "SOURCE_DOCUMENT_UNAVAILABLE: requested original PDF not found under /home/quant, /mnt/data, /tmp, or the task worktree.",
+      "issue_status": "open_source_document_unavailable"
     },
     "M8-B2": {
       "status": "general_feature_plumbing_verified_strategy_specific_blocked",
       "issue": 32,
       "evidence": "docs/audit/m8_feature_capability.md and run_log/m8/feature_capability.json",
       "blocker": "Required candidate features cannot be known until M8-B1 supplies the original PDF rules.",
-      "pull_request": "evidence PR pending"
+      "pull_request": 35,
+      "merge_commit": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea",
+      "issue_status": "open_candidate_certification_blocked"
     },
     "M8-B3": {
       "status": "blocked_source_and_execution_evidence",
@@ -45,7 +48,8 @@
         "M8-B1 strategy source and frozen contract are unavailable.",
         "Broker session, costs, multiplier, lot, financing, and margin evidence are absent."
       ],
-      "native_backtest_run": false
+      "native_backtest_run": false,
+      "issue_status": "open_source_and_broker_evidence_blocked"
     },
     "M8-C": {
       "status": "qualification_corpus_recorded_recovery_incomplete",
@@ -56,7 +60,9 @@
       ],
       "evidence": "docs/audit/m8_agent_qualification.md and run_log/m8/agent_corpus.json",
       "next": "Implement and verify managed attempt continuation/replay before claiming same-attempt interrupted recovery.",
-      "pull_request": "evidence PR pending"
+      "pull_request": 35,
+      "merge_commit": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea",
+      "issue_status": "open_recovery_incomplete"
     }
   },
   "github_issues": {
@@ -68,7 +74,14 @@
     "m8_b3": 33,
     "m8_a_pull_request": 34,
     "m8_a_merge_commit": "adca0fb4f4f99b04979ca81f3a6d3dcaedaaf99e",
-    "m8_a_status": "closed"
+    "m8_a_status": "closed",
+    "m8_b_integrator_status": "open",
+    "m8_c_status": "open",
+    "m8_b1_status": "open",
+    "m8_b2_status": "open",
+    "m8_b3_status": "open",
+    "m8_evidence_pull_request": 35,
+    "m8_evidence_merge_commit": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea"
   },
   "skill_provenance": {
     "catalog": "https://github.com/ml4t/skills (upstream main; loaded by TinyFish; no local installed SKILL.md found)",
@@ -102,5 +115,25 @@
       "ml4t-volt-break-position-rule"
     ],
     "existing_m8_tmux_session": "ml4t-m8-qualification (observed only; not started or changed here)"
+  },
+  "final_verification": {
+    "origin_main": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea",
+    "pull_requests": {
+      "34": {
+        "state": "merged",
+        "merge_commit": "adca0fb4f4f99b04979ca81f3a6d3dcaedaaf99e",
+        "checks": "all required checks passed"
+      },
+      "35": {
+        "state": "merged",
+        "merge_commit": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea",
+        "checks": "all required checks passed"
+      }
+    },
+    "holdout_accessed": false,
+    "live_orders_placed": false,
+    "canonical_checkout_modified": false,
+    "tmux_sessions_started_or_changed": false,
+    "attempts": "synthetic test attempt only; no candidate trial claimed"
   }
 }
