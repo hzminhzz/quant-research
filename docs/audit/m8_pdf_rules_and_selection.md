@@ -4,9 +4,9 @@
 
 ## Source evidence
 
-A page-marked text extraction became available at
-[`original_rulebook_extracted_pages.txt`](../../run_log/m8/original_rulebook_extracted_pages.txt).
-It identifies the source as
+A page-marked text extraction became available locally at
+`run_log/m8/original_rulebook_extracted_pages.txt`. Its content is not included
+in this repository. It identifies the source as
 `Systematic_Breakout_and_Prop_Trading_Strategies_Rulebook(2).pdf`, 12 pages,
 265,940 bytes, and reports PDF SHA-256
 `b947c5aeaee61da3c8bf660b410b10bb25f5af74b53facc8f04d9a486658b526`.
