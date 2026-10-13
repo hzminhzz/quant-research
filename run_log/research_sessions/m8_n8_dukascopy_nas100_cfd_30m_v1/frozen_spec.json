@@ -1,0 +1,653 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_generation_verified": false,
+  "classification": "EXPLORATORY",
+  "created_at": "2026-10-13T06:40:32.910919+00:00",
+  "frozen_sha256": "9ef110c423b4d41d1be1a85eff0d1e4adb65e72778379541cf1b76e8bb8b9a1a",
+  "identity": {
+    "config": {
+      "exists": true,
+      "path": "config/research_contract_m8_n8.yaml",
+      "sha256": "c0d6183f594fc8c20956ef65d3fc3e6f568aebb7e9e099ab10151dea7d2e05a8",
+      "size_bytes": 886
+    },
+    "data": [
+      {
+        "exists": true,
+        "path": "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet",
+        "sha256": "36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8",
+        "size_bytes": 1404224
+      }
+    ],
+    "evidence": [
+      {
+        "exists": true,
+        "path": "docs/plans/m8_b_research_lead_freeze_decision.md",
+        "sha256": "8012418755a0049004e55928a345e09435fb3379b1ce3775cb98518188fea00d",
+        "size_bytes": 11568
+      },
+      {
+        "exists": true,
+        "path": "docs/audit/m8_n8_implementation_review.md",
+        "sha256": "6c32f8cdc4cdc46d4416f254c0122d1c318fd2a5e2dabed111c66c0821cc6718",
+        "size_bytes": 8775
+      },
+      {
+        "exists": true,
+        "path": "m8_bounded_execution_codex.txt",
+        "sha256": "7de0b5f8982bbb471302467fd6c6af4a348c785845d6123798fcb2c94d7dee65",
+        "size_bytes": 4342
+      },
+      {
+        "exists": true,
+        "path": "m8_final_lead_acceptance.txt",
+        "sha256": "de1736136daaac9183f0a4d3e036b11496f477416ac2620f36af819b53a92aea",
+        "size_bytes": 2863
+      },
+      {
+        "exists": true,
+        "path": "m8_research_lead_recovery_corrections.txt",
+        "sha256": "c51b827d76c606f51ea05b83bf7d486ea9de75f50a989ea2b9506a2a6129d72c",
+        "size_bytes": 3887
+      },
+      {
+        "exists": true,
+        "path": "m8_scientific_lead_final_gate.txt",
+        "sha256": "a6235622f5a621e8c27894d68b7159481eaccc61ac15be19180a6fe2d508055c",
+        "size_bytes": 2573
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/original_rulebook_extracted_pages.txt",
+        "sha256": "a0ece8b0aad23b28d5041b308a8ed7aa00a75a255338d6c03b6b8c0d0dd6661a",
+        "size_bytes": 28337
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/n8/source_fingerprints_recovery.json",
+        "sha256": "ca6677352cad81f630447d6a399b8be98df08e22b6b1c3a812795b89cef42e61",
+        "size_bytes": 1457265
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/n8/calendar_evidence.json",
+        "sha256": "f5447f2542e173b503a29b4b087ede60234cd373422fbccfc13ae26ee44202a3",
+        "size_bytes": 1461
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/n8/cost_evidence.json",
+        "sha256": "89a08d8c5e22fc71e852e1d865e0900b976be2d857bb1346a93294d6dfdccd00",
+        "size_bytes": 792
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/n8/multiplier_evidence.json",
+        "sha256": "8b279beaf5b9e3f97e12955d2acde5cb119faf4945458b7e0a906e9194542039",
+        "size_bytes": 579
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/n8/audit_recipe.json",
+        "sha256": "67f4fa31833838c820aa86214a4a721fb9654969377a291edff90b2534afd9e2",
+        "size_bytes": 899
+      },
+      {
+        "exists": true,
+        "path": "run_log/m8/n8/run_intent.json",
+        "sha256": "1472ef7fb639ccdb228b7b2c2049eb74fa227c512c5701d14497f32df9a3950e",
+        "size_bytes": 2917
+      },
+      {
+        "exists": true,
+        "path": "tests/test_m8_feature_capability.py",
+        "sha256": "08ade91d384267836fb45f9f8711c3b2197031c01d8f08e40628228834115878",
+        "size_bytes": 7947
+      },
+      {
+        "exists": true,
+        "path": "tests/test_m8_n8_data.py",
+        "sha256": "d6cf753611dbd912cb3d0e4f4920c78fc4c79c1fe50be3a10cc9d50325850026",
+        "size_bytes": 1587
+      },
+      {
+        "exists": true,
+        "path": "tests/test_m8_n8_execution.py",
+        "sha256": "a0a0f6b2069ca6e82c24bcf4dbcf69599040c45bd4d2eea2d12c116b289c3157",
+        "size_bytes": 9544
+      },
+      {
+        "exists": true,
+        "path": "tests/test_m8_n8_recovery.py",
+        "sha256": "38d28b9cc18359b5f4e95a03f2aa2f88a8fd56e0974340657a678d7ff398a84e",
+        "size_bytes": 5537
+      },
+      {
+        "exists": true,
+        "path": "tests/test_m8_agent_qualification.py",
+        "sha256": "4286638aa75524472046c86d23a5f17830a53e4f93e6a8713f828d1599ac5c2f",
+        "size_bytes": 2087
+      },
+      {
+        "exists": true,
+        "path": "tests/test_attempts.py",
+        "sha256": "cc875db30e55c0781db2f4d6717f0925b45ffa0f50f9688ec32325a3e72f8839",
+        "size_bytes": 4487
+      },
+      {
+        "exists": true,
+        "path": "tests/test_research_control.py",
+        "sha256": "9e91f4a3e8f8e8ca9e965e0ef315a01e614b712d7a6ae08f39e70d361ab5a0e7",
+        "size_bytes": 33568
+      }
+    ],
+    "git": {
+      "available": true,
+      "dirty": false,
+      "dirty_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "head": "0b79ca4003ef25eb8ad48959ae8a0c58d462ecaf",
+      "status_porcelain": ""
+    },
+    "input_spec": {
+      "path": "config/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1.yaml",
+      "sha256": "c3f36e984c5225981bd6cc769fe631c4b329ab79da130b4b36223d6b9ed1a35b"
+    },
+    "runner": [
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "bbfe529a29a881510ef328ce800150af8262f20bcf61beebb915581a6e46dbb1",
+        "size_bytes": 36486
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      }
+    ],
+    "source": [
+      {
+        "exists": true,
+        "path": "src/__init__.py",
+        "sha256": "207c7f0dac7ca4ee0d52115d00ce992604166a4f196f31b4d626b2de1efcf5ee",
+        "size_bytes": 2593
+      },
+      {
+        "exists": true,
+        "path": "src/backtest.py",
+        "sha256": "cacab1983743a4d1ad1045f7d482ffd381889d6164c1beddafb7348d27684b13",
+        "size_bytes": 5833
+      },
+      {
+        "exists": true,
+        "path": "src/catalog.py",
+        "sha256": "f6434efde8f20d37fe9874564699394bcd29ebcf9a93d471bd99d565a60bcd6b",
+        "size_bytes": 12250
+      },
+      {
+        "exists": true,
+        "path": "src/diagnostics.py",
+        "sha256": "aebb402bb4696a5ecd6f2b6c78ad9f926451a71027b8cec8aa17ddb77af4d56b",
+        "size_bytes": 6399
+      },
+      {
+        "exists": true,
+        "path": "src/eow_rebuild.py",
+        "sha256": "9edc111e44dcdded8f681bf9489c69aa97f805ccbca969fcecc5d2ce620bb186",
+        "size_bytes": 66561
+      },
+      {
+        "exists": true,
+        "path": "src/experiment.py",
+        "sha256": "0ec6e61466e861ecfc039e7fab416472d83d74cbaecc926dd8aaa2780d367d1d",
+        "size_bytes": 5496
+      },
+      {
+        "exists": true,
+        "path": "src/factory.py",
+        "sha256": "2c20d53f2ecea255a8801320fd913e4069de47cd7c8fae2ca74409be7748bc02",
+        "size_bytes": 11340
+      },
+      {
+        "exists": true,
+        "path": "src/features.py",
+        "sha256": "12b314ac5aa0c85a1dff654ebcb0eb088aaf7411d98292588534c7e0a426424c",
+        "size_bytes": 11777
+      },
+      {
+        "exists": true,
+        "path": "src/ftmo_simulator.py",
+        "sha256": "636d2889d963cd4067d8acda296b77923c229ca39e62e11861c278210b2c592c",
+        "size_bytes": 18183
+      },
+      {
+        "exists": true,
+        "path": "src/labeling.py",
+        "sha256": "a7789b9dce32fad45ef45e65f02b55e4b5ff970c82fb6dd47c785da55a612f3f",
+        "size_bytes": 29294
+      },
+      {
+        "exists": true,
+        "path": "src/managed_strategies/__init__.py",
+        "sha256": "f5fce25ff83927d238b9100d14a97d00592c2af4ae85df8ebe52511d984e4ebe",
+        "size_bytes": 71
+      },
+      {
+        "exists": true,
+        "path": "src/market_time.py",
+        "sha256": "146af457c128fceee95ff351a59d24fad34ffac7f9e2f913cbaf16a11cacb39a",
+        "size_bytes": 6324
+      },
+      {
+        "exists": true,
+        "path": "src/models.py",
+        "sha256": "891057c7707e96d951da81a969a7e85c29c467f1de5dc4a6e844f98c747c6ea5",
+        "size_bytes": 16624
+      },
+      {
+        "exists": true,
+        "path": "src/orb_ml_research.py",
+        "sha256": "e91128fc73d21dc2c599b51f42fe86323516999d79b2c1244a324578182defde",
+        "size_bytes": 42949
+      },
+      {
+        "exists": true,
+        "path": "src/orb_raw_optimization.py",
+        "sha256": "9212b114d9936e6ea62ae64bf56209a63e3a7bbe460ec8f1c5c1c9ae56c992d6",
+        "size_bytes": 54291
+      },
+      {
+        "exists": true,
+        "path": "src/patterns.py",
+        "sha256": "51432b7c9767cf9493a5b41b673c94e4ad094e5ee408e2a74101cc2cc71be073",
+        "size_bytes": 2364
+      },
+      {
+        "exists": true,
+        "path": "src/pipeline.py",
+        "sha256": "fe650b668628cbd5232be5d6f45f3d25cfd62b361d08856d5dc05c26a90ba87e",
+        "size_bytes": 20597
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/__init__.py",
+        "sha256": "15d1331832f575120db91d4c8209d2d309fdc85aa87ded1eed884c55cc77f2d3",
+        "size_bytes": 213
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/attempts.py",
+        "sha256": "725a268b76d0a7abdf7e05a595429a2f314298acbd1b53820463f0dcd2c6fa9c",
+        "size_bytes": 11758
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/casefile.py",
+        "sha256": "54d1b1431104a01ec4bd5b534068380c65530f23e4f5f8a42d9546307b0480e2",
+        "size_bytes": 10158
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/contracts.py",
+        "sha256": "df8e4ef3481a8d265af630065640d19e29578c9129b8b4f490c59b71061154f0",
+        "size_bytes": 9391
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/dukascopy_migration.py",
+        "sha256": "655b25285cf0224a66965b4a60ec81af7d7c9882ae2d837d68791b9f5b370e45",
+        "size_bytes": 8083
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/dukascopy_native.py",
+        "sha256": "f2102833eaee60b99af0ce75899160d259d5847d245484896b4f9a81129cadd2",
+        "size_bytes": 8532
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/dukascopy_strategy.py",
+        "sha256": "5bf965d2584f0911fabf2aaed66eaca08a24f4f2ed37794771b1874dd95248eb",
+        "size_bytes": 10017
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/efficiency.py",
+        "sha256": "bba9274f2bff75a65fabba03f0bab6e9bbe21145107f2a210c16a16543769770",
+        "size_bytes": 6209
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/execution.py",
+        "sha256": "d32c3896aab8a9d0bdb8a4aa1ffd1bbeb6a89de25c785bcceee5bc588df4aa45",
+        "size_bytes": 11816
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/feature_gateway.py",
+        "sha256": "04f146c1912159894057c8ce2cf02841b96610e5b567e362f7c07d50996e6d18",
+        "size_bytes": 37608
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/m8_n8.py",
+        "sha256": "9bd0198230d59c9cd796df1663498676f7f1019a93c593a39011bbbbf7b1119c",
+        "size_bytes": 27997
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/run_permit.py",
+        "sha256": "5d241ad03b141c76e573d5cc70d0b0eefed8f2a0bb00c2450177004f20dd1427",
+        "size_bytes": 27356
+      },
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "bbfe529a29a881510ef328ce800150af8262f20bcf61beebb915581a6e46dbb1",
+        "size_bytes": 36486
+      },
+      {
+        "exists": true,
+        "path": "src/session_calendar.py",
+        "sha256": "165a24422ecd6c481b23ff55cb1a62bb95c819e4c10769221f1c10e376bceb47",
+        "size_bytes": 5377
+      },
+      {
+        "exists": true,
+        "path": "src/synthesis.py",
+        "sha256": "4bc7d779c5e0c8c84722e3aa2b501dc782437e513da8003222861390010af617",
+        "size_bytes": 5825
+      },
+      {
+        "exists": true,
+        "path": "src/validated_orb_pipeline.py",
+        "sha256": "6731a7cad5dc66250c77cc03a759a53524a37249ef20521c9a4ed6285fe8c4df",
+        "size_bytes": 61012
+      },
+      {
+        "exists": true,
+        "path": "src/validation.py",
+        "sha256": "793ed95f123a8af630881eb5399346d6fc593418f6aec356dc6ebb847357f62c",
+        "size_bytes": 9016
+      },
+      {
+        "exists": true,
+        "path": "src/validation_status.py",
+        "sha256": "b44e882edcc9e1e2e71464da6f2ce5d593daba93389ad3feb118fe5b07795027",
+        "size_bytes": 1398
+      },
+      {
+        "exists": true,
+        "path": "scripts/benchmark_casefile.py",
+        "sha256": "6723b3b0fd19ba10c980dd2144cc4bad3445daf27bd11ee02a1e9958686c7ee4",
+        "size_bytes": 3122
+      },
+      {
+        "exists": true,
+        "path": "scripts/check_managed_features.py",
+        "sha256": "1fb3ff320307bcd49b913431b0c41623ef39e9eed0ccfa72ff917dbd50ceb8fc",
+        "size_bytes": 5184
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_ftmo_baseline_vs_optimized.py",
+        "sha256": "ab937fe6ee14e0a3e0deb189e2751e5508f386b0f03392df4bbf24e45a873cb1",
+        "size_bytes": 2740
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_expanded_assets.py",
+        "sha256": "1e8ba5f7b9c96af762a50c999329061373e7c7cbfc3ba4f25471d94b5aafb476",
+        "size_bytes": 5670
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_historical_2017_2026.py",
+        "sha256": "f3b2e0b12efb6cb0f39822add4479552eba1e77f5ac7a98e69621b456f5156cc",
+        "size_bytes": 3766
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_intraday_data.py",
+        "sha256": "0a1479fb8451642132ee2c1d3209c0d3a26af5b86d2838ede1dc496878fea8e2",
+        "size_bytes": 3535
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_nas100_hk33_2017_2022.py",
+        "sha256": "09cab62c1d542e1beaca79e556aaa07386a4cfd0f44e51e4d5eff7e493603688",
+        "size_bytes": 4425
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_long_short.py",
+        "sha256": "a1120fbefac9f82325bf4697948c03ef252a8bab2a11c75864a192cce5747c5f",
+        "size_bytes": 1232
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_sessions_2017_2026.py",
+        "sha256": "3d1d64bfd2776face574d81a2554a1bd6a5cae3289a72ada6d4883145f631fdb",
+        "size_bytes": 2767
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_m8_n8_data.py",
+        "sha256": "272e4e12ddab4b70b6e01902dd4afe304a934d05d9e1fffa47e7d303bff28a91",
+        "size_bytes": 11582
+      },
+      {
+        "exists": true,
+        "path": "scripts/research.py",
+        "sha256": "570ce9734ab75e122e1bb202ee1aa5f4c257ba95cf70aef5fdf8b1808e122a68",
+        "size_bytes": 22353
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_eth_relative_value.py",
+        "sha256": "9d8efc563a89f44b2becc7ec99f8203aed05c298a0965f560c788e456d180bfe",
+        "size_bytes": 23582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_eow_rebuild.py",
+        "sha256": "32f9124ab0f79ed548f2d652b00dbc71517643222d4c94a1e472021b5c6d6096",
+        "size_bytes": 2511
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_challenge_simulation.py",
+        "sha256": "6dfd97b3a400d0b90243f31ddc611acc1ab32bec6ff8a9a146b9023293302d87",
+        "size_bytes": 6862
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_full_10y_backtest.py",
+        "sha256": "9804dab1a6e6304fd72e9d682af37d5388256ba7c7fb6f4e757358438d406c36",
+        "size_bytes": 8202
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_m8_n8.py",
+        "sha256": "10c4a45bf9e5ece0ac075a610482a641dfa3ec5cc1232eb929d1e41d0117d519",
+        "size_bytes": 16740
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_2017_2026.py",
+        "sha256": "8230647e61f8783eed523aa25a0a0da3593908669d5abbd03e9d8dd715784004",
+        "size_bytes": 17416
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_dual_session.py",
+        "sha256": "e054b5e425746f284fe8c89985ff4b72ab7c49f9cc2fac8872586ed01a36e3a0",
+        "size_bytes": 8912
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_filtered_matrix.py",
+        "sha256": "ca12580991a270f49325b713f010b6ddf1647b6478200d77638c6c79c7a11889",
+        "size_bytes": 15977
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_final_benchmark.py",
+        "sha256": "b63eaee7ddaf4516822750e688179b5091616992b353962dbf2c7d935a76f281",
+        "size_bytes": 7199
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_ml_research.py",
+        "sha256": "45a2d41bdacb7d9d96287387c5e1cb631777a236480ddc2b9c922f00473fa5f3",
+        "size_bytes": 1481
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset.py",
+        "sha256": "0f7b1e2abf55150ad60d096bd36ffa3e73a160b5ffc5ceaf3b130098d04fe011",
+        "size_bytes": 13414
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset_evaluation.py",
+        "sha256": "785f5ad3367d717853a17b66228941a4acca62fea7c85c054c918c50ae47023f",
+        "size_bytes": 19745
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_parallel_matrix.py",
+        "sha256": "cd458dc8742c673f59f4dab3b6b9310ea670d0383937b662ea715bf9c2360875",
+        "size_bytes": 12228
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_raw_optimization.py",
+        "sha256": "6c06c2cba46c8de74be761e57abd6a38fd61c861b8aae9eb407ca9701f98d948",
+        "size_bytes": 1566
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pipeline.py",
+        "sha256": "2c2e49f6c5616e8859b6ee7135eaf0f36e2844dec9b92e64a043c128c4e8581c",
+        "size_bytes": 3260
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_validated_orb.py",
+        "sha256": "ce6eca7d5420c967fec64449c9c2e164e14f54e519dfcb7b243f990fd4864fba",
+        "size_bytes": 2970
+      },
+      {
+        "exists": true,
+        "path": "scripts/simulate_ftmo_portfolio.py",
+        "sha256": "98a900a7ef44de2939681c762ca9dd7517cd88ab5b9538c5d132f47076c14e25",
+        "size_bytes": 7669
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_portfolio.py",
+        "sha256": "ccd2f8fe2fafdecd94f9b7636079881a4d3efcb4e44af58ea1f721e5c0653b09",
+        "size_bytes": 10315
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_variants.py",
+        "sha256": "5fb0ca97dc09f2632c064f3b7b4632a5ebfca79e67a0dc70f6dc17ef7135f2bb",
+        "size_bytes": 7489
+      }
+    ],
+    "source_sha256": "dafd96a52d70f86832b531f58c828a82a25d7be2657798d50947a60ecbda1bc5"
+  },
+  "schema_version": 1,
+  "session_id": "m8_n8_dukascopy_nas100_cfd_30m_v1",
+  "spec": {
+    "baseline": "$100000 normalized cash with one long unit at most, no leverage, and no trades outside the frozen rule. A unit means $1 per index point for arithmetic only.",
+    "config": "config/research_contract_m8_n8.yaml",
+    "costs": {
+      "assumptions": "3 bps adverse fill-price impact plus 0.6 bps explicit commission per fill. Scale both components at 1x, 2x and 3x. Spread and slippage are assumptions.",
+      "commission_bps": 0.6,
+      "slippage_bps": 3.0,
+      "source": "run_log/m8/n8/cost_evidence.json"
+    },
+    "data": [
+      {
+        "id": "nas100_cfd_30m_201912_warmup_2024",
+        "path": "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet",
+        "role": "prices",
+        "symbol": "usatechidxusd"
+      }
+    ],
+    "evaluation": {
+      "cost_scenarios": [
+        "1x",
+        "2x",
+        "3x"
+      ],
+      "daily_risk_metrics": "Use the installed ml4t.diagnostic.api.PortfolioAnalysis on one return per scheduled UTC CFD trading date, including Sunday sessions; omit schedule- closed dates, retain zero-return open dates without trades, use periods_per_year=252, and disclose that this is a convention for the six-day schedule. Undefined metrics remain null. Independently reconcile Sharpe, maximum drawdown, and Calmar arithmetic.",
+      "development_end": "2025-01-01T00:00:00Z",
+      "development_start": "2020-01-01T00:00:00Z",
+      "end_boundary": "A signal at t is eligible only when its known t+2 30-minute clock is strictly earlier than 2025-01-01T00:00:00Z; eligibility must not inspect future source-bar presence.",
+      "falsifier_rule": "INCONCLUSIVE if no trades; FALSIFIED if native gross total PnL <= 0 or 1x native net trade expectancy <= 0; FRAGILE if positive at 1x but net trade expectancy <= 0 at 2x or 3x; otherwise NOT_FALSIFIED_IN_RETROSPECTIVE_SAMPLE_ONLY.",
+      "holdout_accessed": false,
+      "holdout_start": "2025-01-01T00:00:00Z",
+      "retrospective_data_already_seen": true,
+      "strategy": "Strict close[t] > max(high[t-50:t]); signal at completed bar t close; next-open entry t+1; next-next-open exit t+2; no stops or targets.",
+      "trial_count": 1,
+      "trial_id": "N8_primary_3cost_stress"
+    },
+    "evidence": [
+      "docs/plans/m8_b_research_lead_freeze_decision.md",
+      "docs/audit/m8_n8_implementation_review.md",
+      "m8_bounded_execution_codex.txt",
+      "m8_final_lead_acceptance.txt",
+      "m8_research_lead_recovery_corrections.txt",
+      "m8_scientific_lead_final_gate.txt",
+      "run_log/m8/original_rulebook_extracted_pages.txt",
+      "run_log/m8/n8/source_fingerprints_recovery.json",
+      "run_log/m8/n8/calendar_evidence.json",
+      "run_log/m8/n8/cost_evidence.json",
+      "run_log/m8/n8/multiplier_evidence.json",
+      "run_log/m8/n8/audit_recipe.json",
+      "run_log/m8/n8/run_intent.json",
+      "tests/test_m8_feature_capability.py",
+      "tests/test_m8_n8_data.py",
+      "tests/test_m8_n8_execution.py",
+      "tests/test_m8_n8_recovery.py",
+      "tests/test_m8_agent_qualification.py",
+      "tests/test_attempts.py",
+      "tests/test_research_control.py"
+    ],
+    "falsifier": "Reject the economic thesis if gross expectancy is non-positive or the baseline net expectancy is non-positive, and report fragility at the fixed 2x and 3x cost stresses. This retrospective study cannot establish pristine out-of-sample validity, verified broker PnL, or strategy approval.",
+    "instruments": [
+      {
+        "identity": "USATECH.IDX/USD; not CME NQ futures",
+        "kind": "cfd",
+        "session": "Published summer/winter GMT schedule with conservative XNAS weekday holiday filter; unexpected missing scheduled fills block",
+        "symbol": "usatechidxusd",
+        "timezone": "UTC",
+        "venue": "Dukascopy Bank SA historical CFD price proxy"
+      }
+    ],
+    "market": "indices",
+    "mechanism": "A 50-bar high breakout may attract trend-following orders that continue into the next 30-minute bar. The hypothesis should weaken in mean-reverting or low-liquidity conditions. CFD quote prices proxy the original continuous-futures rule.",
+    "session_id": "m8_n8_dukascopy_nas100_cfd_30m_v1",
+    "thesis": "After a prior 50-bar price expansion, one 30-minute bar of long trend continuation has positive expected price change on the Dukascopy USATECH.IDX/USD CFD proxy.",
+    "trials": [
+      {
+        "description": "One fixed 2020-2024 Model 8 CFD price-proxy replay with the frozen prior-high 50 feature and native entry/exit rules; report 1x/2x/3x costs descriptively.",
+        "id": "N8_primary_3cost_stress",
+        "kind": "preregistered"
+      }
+    ]
+  },
+  "spec_sha256": "146c5c9a4d08035d2a914a31ad49806ff55f830bf2eab4c13f1387f9e951c5c4",
+  "status": "FROZEN"
+}
