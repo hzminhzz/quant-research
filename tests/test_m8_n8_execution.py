@@ -241,3 +241,29 @@ def test_portfolio_analysis_metrics_match_independent_daily_return_oracle():
     assert result.sharpe_ratio == pytest.approx(expected_sharpe)
     assert result.max_drawdown == pytest.approx(min(drawdowns))
     assert result.calmar_ratio == pytest.approx(result.annual_return / abs(result.max_drawdown))
+
+
+def test_portfolio_metrics_are_null_and_labeled_for_short_samples():
+    from src.research_control.m8_n8 import INITIAL_CASH
+
+    day = datetime(2020, 1, 6, tzinfo=UTC)
+    result = SimpleNamespace(
+        to_equity_dataframe=lambda: pl.DataFrame(
+            {"timestamp": [day], "equity": [INITIAL_CASH]}
+        ),
+        metrics={
+            "num_trades": 0,
+            "win_rate": None,
+            "expectancy": None,
+            "total_gross_pnl": 0.0,
+            "final_value": INITIAL_CASH,
+            "initial_cash": INITIAL_CASH,
+        },
+    )
+    metrics = summarize_n8_scenario(
+        result, {}, day, day + timedelta(days=1)
+    )
+    assert metrics["risk_metrics_status"] == "INSUFFICIENT_OBSERVATIONS"
+    assert metrics["daily_sharpe_252"] is None
+    assert metrics["calmar_ratio_252"] is None
+    assert metrics["independent_metric_sanity"].startswith("NOT_RUN")

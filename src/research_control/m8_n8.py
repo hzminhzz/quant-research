@@ -565,7 +565,12 @@ def summarize_n8_scenario(
         if portfolio is not None and math.isfinite(float(portfolio.max_drawdown))
         else None,
         "annualization_note": "PortfolioAnalysis uses 252 periods per year on scheduled CFD trading dates, including Sundays; scheduled closed dates are omitted, and open dates require observed marks. The 252 annualization is a convention for this six-day CFD schedule, not a claim that it has exactly 252 sessions per year.",
-        "independent_metric_sanity": "PASS: sample-variance Sharpe, initial-equity drawdown path, and Calmar arithmetic reconciled to PortfolioAnalysis",
+        "risk_metrics_status": "COMPUTED" if portfolio is not None else "INSUFFICIENT_OBSERVATIONS",
+        "independent_metric_sanity": (
+            "PASS: sample-variance Sharpe, initial-equity drawdown path, and Calmar arithmetic reconciled to PortfolioAnalysis"
+            if portfolio is not None
+            else "NOT_RUN: fewer than two scheduled trading-date returns"
+        ),
         "daily_risk_metrics_source": "ml4t.diagnostic.api.PortfolioAnalysis",
         "daily_equity_observations": len(calendar_days),
         "daily_return_observations": len(returns),

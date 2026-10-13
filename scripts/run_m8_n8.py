@@ -27,14 +27,14 @@ from src.research_control.m8_n8 import run_permitted_n8
 from src.research_control.run_permit import RunIntentV1, preflight_run
 from src.research_session import record_trial, session_status
 
-SESSION = "m8_n8_dukascopy_nas100_cfd_30m_v1"
+SESSION = "m8_n8_dukascopy_nas100_cfd_30m_v2"
 TRIAL = "N8_primary_3cost_stress"
 JOB = "ml4t-m8-n8-pilot-exec-20261013"
 COMMAND = "uv run python scripts/run_m8_n8.py execute --attempt-id {attempt_id}"
 SPEC_PATH = ROOT / "run_log/research_sessions" / SESSION / "frozen_spec.json"
 DATA_PATH = ROOT / "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet"
-CONFIG_PATH = ROOT / "config/research_contract_m8_n8.yaml"
-INTENT_PATH = ROOT / "run_log/m8/n8/run_intent.json"
+CONFIG_PATH = ROOT / "config/research_contract_m8_n8_v2.yaml"
+INTENT_PATH = ROOT / "run_log/m8/n8/run_intent_v2.json"
 
 
 def _hash(path: Path) -> str:

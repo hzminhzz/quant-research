@@ -125,8 +125,8 @@ description alone is not treated as evidence of correctness.
 Focused pre-freeze verification (after final acceptance corrections):
 
 - `uv run ruff check src/research_control scripts/run_m8_n8.py scripts/prepare_m8_n8_data.py tests/test_m8_n8_execution.py tests/test_m8_n8_recovery.py tests/test_m8_agent_qualification.py tests/test_attempts.py` — clean.
-- M8 and managed-control regression set (`tests/test_attempts.py`, `tests/test_casefile.py`, `tests/test_agent_efficiency.py`, `tests/test_m8_agent_qualification.py`, the N8 data/execution/recovery tests, feature capability, and research-control tests) — 71 passed.
-- `uv run python -m pytest -q` — 275 passed, 1 skipped.
+- M8 and managed-control regression set (`tests/test_attempts.py`, `tests/test_casefile.py`, `tests/test_agent_efficiency.py`, `tests/test_m8_agent_qualification.py`, the N8 data/execution/recovery tests, feature capability, and research-control tests) — 72 passed.
+- `uv run python -m pytest -q` — 276 passed, 1 skipped.
 - Repository-wide `uv run ruff check .` reports 603 pre-existing findings across unrelated files. The task-owned Python files pass the scoped Ruff command above; unrelated files were preserved.
 - Synthetic native-engine execution confirms next-open entry, following-open exit, 3 bps adverse slippage, 0.6 bps commission, and independent cash/equity reconciliation. It is an implementation fixture, not an N8 candidate result.
 
