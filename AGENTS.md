@@ -12,7 +12,7 @@ For agent replies and written research output, follow the
 [ASD-STE100 writing rules](docs/research_sessions.md#writing-standard-asd-ste100).
 Apply these rules to new or revised prose. Preserve exact technical identifiers.
 
-1. Read `docs/research_sessions.md`, the relevant specification, latest session report, and `run_log/validation_status.json`. Inspect the working tree and preserve unrelated changes.
+1. Read `docs/research_sessions.md`, the standing [CFD/perpetual market policy](docs/architecture/market_scope_policy.md), the relevant specification, latest session report, and `run_log/validation_status.json`. Inspect the working tree and preserve unrelated changes.
 2. State the economic mechanism, falsifier, exact tradable instruments, baseline, and next unresolved question. Distinguish new research from review of already-observed evidence.
 3. Select and read the applicable ML4T skills below before designing or implementing the experiment. Record the selection and the invariants you will verify.
 4. Freeze data identities, availability/decision/fill times, development boundaries, costs, selection criteria, and planned trials before observing outcomes.

@@ -5,6 +5,13 @@ or reviewing historical results. A session organizes a falsifiable thesis and
 its evidence; it does not confer permission to trade. All new sessions are
 `EXPLORATORY`, including sessions that satisfy their research criteria.
 
+**Market scope for every new session:** Read the standing
+[CFD/perpetual market policy](architecture/market_scope_policy.md) before
+selecting source data. Futures-based publications may motivate explicitly
+registered CFD adaptations; missing CME futures data does not by itself block
+those adaptations. Continue to enforce exact source identity, genuine volume
+semantics, causal timing and execution-quality gates.
+
 **Agent-first research system:** M1 read-only capability/status commands,
 M2 strict feature contracts/gateway, and the M3-B runtime feature-proof gate
 are implemented. M3-A and M4-M7 remain planned.

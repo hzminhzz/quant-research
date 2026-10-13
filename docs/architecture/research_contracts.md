@@ -4,6 +4,10 @@
 M3-A scoped static compliance and M3-B runtime feature-proof enforcement are
 implemented; M4-M7 remain design. Read the
 [system architecture](agent_research_system.md) first.
+For all **new** research, also apply the standing
+[CFD/perpetual market scope policy](market_scope_policy.md) before freezing
+`ResearchContractV1`. This policy changes source selection and adaptation
+planning, not the strict source-integrity rules of existing contracts.
 **Compatibility target:** Existing immutable research-session **v1**,
 `ml4t-engineer==0.1.4`, `ml4t-backtest==0.1.7`,
 `pydantic==2.13.5`, `ruff==0.16.8` observed 2026-10-12.
