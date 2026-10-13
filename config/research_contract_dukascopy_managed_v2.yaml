@@ -1,0 +1,38 @@
+schema_version: 1
+session_id: vwap_pullback_adx_dukascopy_managed_v2
+dataset:
+  requested_product: Dukascopy USATECH.IDX/USD CFD price and quote-volume proxy
+  source_vendor: Dukascopy
+  source_symbol: USATECH.IDX/USD
+  catalog_dataset_key: null
+  external_exception_id: dukascopy-usatech-rebuild-20261012-v1
+  authority: staged_noncanonical
+  product_class: cfd
+  role: price_proxy
+  volume_semantics: broker_tick_or_quote_proxy
+  timeframe: 1m
+  timestamp_convention: bar_start
+  timezone: America/Chicago
+  group_columns: [symbol]
+feature_set:
+  - id: adx
+    provider: {kind: engineer.native, name: adx, params: {period: 14}}
+    inputs: {high: high, low: low, close: close}
+  - id: vwap
+    provider: {kind: extension.approved, extension_id: cash_open_vwap, version: 1.0.0, session_open: "08:30", timezone: America/Chicago}
+    inputs: {high: high, low: low, close: close, volume: volume}
+  - id: prior4_high
+    provider: {kind: extension.approved, extension_id: prior_n_high_low, version: 1.0.0, field: high, period: 4}
+    inputs: {high: high}
+  - id: prior5_high
+    provider: {kind: extension.approved, extension_id: prior_n_high_low, version: 1.0.0, field: high, period: 5}
+    inputs: {high: high}
+  - id: prior19_low
+    provider: {kind: extension.approved, extension_id: prior_n_high_low, version: 1.0.0, field: low, period: 19}
+    inputs: {low: low}
+  - id: prior20_low
+    provider: {kind: extension.approved, extension_id: prior_n_high_low, version: 1.0.0, field: low, period: 20}
+    inputs: {low: low}
+strategy: {rule_id: frozen-B1-B2-B3-dukascopy-1514-ct, engine: ml4t.backtest}
+evaluation:
+  development: ["2026-01-01", "2026-07-01"]
