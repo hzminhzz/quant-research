@@ -30,7 +30,7 @@ from .contracts import (
     extension_code_identity,
 )
 
-GATEWAY_VERSION = "1.0.0"
+GATEWAY_VERSION = "1.1.0"
 _PROOF_KEY = secrets.token_bytes(32)
 
 
@@ -53,7 +53,9 @@ class FeatureProof:
     resolved_features: list[dict[str, Any]]
     native_dispatch_trace: list[dict[str, Any]]
     checks: dict[str, bool]
-    _seal: str | None = dataclass_field(default=None, init=False, repr=False, compare=False)
+    _seal: str | None = dataclass_field(
+        default=None, init=False, repr=False, compare=False
+    )
 
 
 @dataclass(frozen=True)
@@ -67,7 +69,9 @@ class VerifiedFeatureProof:
     """A proof accepted by the runtime verifier for one frozen session."""
 
     proof: FeatureProof
-    _seal: str | None = dataclass_field(default=None, init=False, repr=False, compare=False)
+    _seal: str | None = dataclass_field(
+        default=None, init=False, repr=False, compare=False
+    )
 
 
 def _frame_hash(frame: pl.DataFrame) -> str:
@@ -83,6 +87,16 @@ def _series_hash(series: pl.Series) -> str:
 def _canonical_hash(value: Any) -> str:
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)
     return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def _timeframe_delta(value: str) -> timedelta:
+    supported = {"1m": timedelta(minutes=1), "30m": timedelta(minutes=30)}
+    if value not in supported:
+        raise FeatureContractError(
+            "TIMEFRAME_UNSUPPORTED",
+            f"timeframe {value!r} is unsupported; use 1m or 30m",
+        )
+    return supported[value]
 
 
 def _proof_payload(proof: FeatureProof) -> dict[str, Any]:
@@ -102,7 +116,9 @@ def _proof_payload(proof: FeatureProof) -> dict[str, Any]:
 def _seal_proof(proof: FeatureProof) -> str:
     return hmac.new(
         _PROOF_KEY,
-        json.dumps(_proof_payload(proof), sort_keys=True, separators=(",", ":")).encode(),
+        json.dumps(
+            _proof_payload(proof), sort_keys=True, separators=(",", ":")
+        ).encode(),
         hashlib.sha256,
     ).hexdigest()
 
@@ -116,11 +132,14 @@ def require_verified_feature_proof(value: Any) -> VerifiedFeatureProof:
         or not hmac.compare_digest(value.proof._seal, _seal_proof(value.proof))
         or not hmac.compare_digest(
             value._seal,
-            hmac.new(_PROOF_KEY, value.proof._seal.encode(), hashlib.sha256).hexdigest(),
+            hmac.new(
+                _PROOF_KEY, value.proof._seal.encode(), hashlib.sha256
+            ).hexdigest(),
         )
     ):
         raise FeatureContractError(
-            "FEATURE_PROOF_FORGED", "verified feature proof was not issued by the runtime gate"
+            "FEATURE_PROOF_FORGED",
+            "verified feature proof was not issued by the runtime gate",
         )
     return value
 
@@ -146,7 +165,11 @@ def _installed_callable_identity(function: Any) -> dict[str, str]:
         ),
         None,
     )
-    if package_file is None or package_file.hash is None or package_file.hash.mode != "sha256":
+    if (
+        package_file is None
+        or package_file.hash is None
+        or package_file.hash.mode != "sha256"
+    ):
         raise FeatureContractError(
             "FEATURE_LIBRARY_IDENTITY_UNAVAILABLE",
             "Engineer callable is not bound to an installed distribution file",
@@ -186,8 +209,7 @@ def _engineer_identity(contract: ResearchContractV1) -> tuple[str, str, str]:
 
     functions = [engineer.compute_features]
     if any(
-        isinstance(feature.provider, EngineerNative)
-        for feature in contract.feature_set
+        isinstance(feature.provider, EngineerNative) for feature in contract.feature_set
     ):
         functions.extend(
             get_registry().get(feature.provider.name).func
@@ -197,7 +219,9 @@ def _engineer_identity(contract: ResearchContractV1) -> tuple[str, str, str]:
     identities = [_installed_callable_identity(function) for function in functions]
     api = _canonical_hash(identities)
     call = _canonical_hash(_called_callable_identity(compute_features))
-    expected_call = _canonical_hash(_installed_callable_identity(engineer.compute_features))
+    expected_call = _canonical_hash(
+        _installed_callable_identity(engineer.compute_features)
+    )
     return api, call, expected_call
 
 
@@ -243,7 +267,9 @@ def _session_contract_identity(
     return hashlib.sha256(config_bytes).hexdigest()
 
 
-def _adx_reference(high: list[float], low: list[float], close: list[float], period: int) -> list[float]:
+def _adx_reference(
+    high: list[float], low: list[float], close: list[float], period: int
+) -> list[float]:
     size = len(high)
     true_range = [0.0] * size
     plus_dm = [0.0] * size
@@ -287,11 +313,16 @@ def _expected_feature(
     provider = feature.provider
     if isinstance(provider, EngineerNative) and provider.name == "adx":
         result: list[float | None] = [None] * data.height
-        partitions = data.partition_by(groups, maintain_order=True) if groups else [data]
+        partitions = (
+            data.partition_by(groups, maintain_order=True) if groups else [data]
+        )
         cursor = 0
         for part in partitions:
             values = _adx_reference(
-                part["high"].to_list(), part["low"].to_list(), part["close"].to_list(), 14
+                part["high"].to_list(),
+                part["low"].to_list(),
+                part["close"].to_list(),
+                14,
             )
             result[cursor : cursor + len(values)] = values
             cursor += len(values)
@@ -300,18 +331,25 @@ def _expected_feature(
         return [
             (high + low + close) / 3
             for high, low, close in zip(
-                data["high"].to_list(), data["low"].to_list(), data["close"].to_list(), strict=True
+                data["high"].to_list(),
+                data["low"].to_list(),
+                data["close"].to_list(),
+                strict=True,
             )
         ]
     if isinstance(provider, PriorHighLow):
         result = [None] * data.height
-        partitions = data.partition_by(groups, maintain_order=True) if groups else [data]
+        partitions = (
+            data.partition_by(groups, maintain_order=True) if groups else [data]
+        )
         cursor = 0
         for part in partitions:
             values = part[provider.field].to_list()
             for index in range(provider.period, len(values)):
                 window = values[index - provider.period : index]
-                result[cursor + index] = max(window) if provider.field == "high" else min(window)
+                result[cursor + index] = (
+                    max(window) if provider.field == "high" else min(window)
+                )
             cursor += len(values)
         return result
     assert isinstance(provider, CashOpenVWAP)
@@ -319,7 +357,9 @@ def _expected_feature(
     start_hour, start_minute = map(int, provider.session_open.split(":"))
     result = [None] * data.height
     groups_for_rows: dict[tuple[Any, ...], list[int]] = {}
-    for index, row in enumerate(data.select([*groups, "timestamp"]).iter_rows(named=True)):
+    for index, row in enumerate(
+        data.select([*groups, "timestamp"]).iter_rows(named=True)
+    ):
         local = row["timestamp"].astimezone(zone)
         key = tuple(row[column] for column in groups) + (local.date(),)
         groups_for_rows.setdefault(key, []).append(index)
@@ -340,7 +380,9 @@ def _expected_feature(
     return result
 
 
-def _assert_oracle(data: pl.DataFrame, contract: ResearchContractV1, output: pl.DataFrame) -> None:
+def _assert_oracle(
+    data: pl.DataFrame, contract: ResearchContractV1, output: pl.DataFrame
+) -> None:
     groups = contract.dataset.group_columns
     for feature in contract.feature_set:
         expected = _expected_feature(data, feature, groups)
@@ -352,10 +394,21 @@ def _assert_oracle(data: pl.DataFrame, contract: ResearchContractV1, output: pl.
             else 1e-9
         )
         if any(
-            ((want is None or (isinstance(want, float) and math.isnan(want)))
-             and got is not None and not (isinstance(got, float) and math.isnan(got)))
-            or (want is not None and not (isinstance(want, float) and math.isnan(want))
-                and (got is None or not math.isclose(float(got), float(want), rel_tol=1e-9, abs_tol=tolerance)))
+            (
+                (want is None or (isinstance(want, float) and math.isnan(want)))
+                and got is not None
+                and not (isinstance(got, float) and math.isnan(got))
+            )
+            or (
+                want is not None
+                and not (isinstance(want, float) and math.isnan(want))
+                and (
+                    got is None
+                    or not math.isclose(
+                        float(got), float(want), rel_tol=1e-9, abs_tol=tolerance
+                    )
+                )
+            )
             for want, got in zip(expected, actual, strict=True)
         ):
             raise FeatureContractError(
@@ -371,18 +424,33 @@ def verify_feature_proof(
     session_root: str | Path,
 ) -> VerifiedFeatureProof:
     """Accept only gateway output bound to a frozen config and independent checks."""
-    if not isinstance(computation, FeatureComputation) or not isinstance(computation.proof, FeatureProof):
-        raise FeatureContractError("FEATURE_PROOF_MISSING", "managed validation requires a FeatureProof")
+    if not isinstance(computation, FeatureComputation) or not isinstance(
+        computation.proof, FeatureProof
+    ):
+        raise FeatureContractError(
+            "FEATURE_PROOF_MISSING", "managed validation requires a FeatureProof"
+        )
     proof = computation.proof
     if proof._seal is None or not hmac.compare_digest(proof._seal, _seal_proof(proof)):
-        raise FeatureContractError("FEATURE_PROOF_FORGED", "FeatureProof was not issued intact by this gateway")
+        raise FeatureContractError(
+            "FEATURE_PROOF_FORGED", "FeatureProof was not issued intact by this gateway"
+        )
     groups = _check_input(input_data, contract)
     ordered = input_data.sort([*groups, "timestamp"])
     if proof.input_sha256 != _frame_hash(ordered):
-        raise FeatureContractError("FEATURE_INPUT_IDENTITY_DRIFT", "feature input hash does not match supplied data")
+        raise FeatureContractError(
+            "FEATURE_INPUT_IDENTITY_DRIFT",
+            "feature input hash does not match supplied data",
+        )
     contract_identity = contract.identity_sha256()
-    if proof.contract_sha256 != contract_identity or proof.config_sha256 != contract_identity:
-        raise FeatureContractError("FEATURE_CONFIG_IDENTITY_DRIFT", "feature proof contract/config identity changed")
+    if (
+        proof.contract_sha256 != contract_identity
+        or proof.config_sha256 != contract_identity
+    ):
+        raise FeatureContractError(
+            "FEATURE_CONFIG_IDENTITY_DRIFT",
+            "feature proof contract/config identity changed",
+        )
     _session_contract_identity(session_root, contract)
     version = importlib.metadata.version("ml4t-engineer")
     api_identity, call_identity, expected_call_identity = _engineer_identity(contract)
@@ -395,23 +463,33 @@ def verify_feature_proof(
         "engineer_expected_call_sha256": expected_call_identity,
     }
     if proof.provider_versions != expected_provider_versions:
-        raise FeatureContractError("FEATURE_PROVIDER_IDENTITY_DRIFT", "feature provider/library identity changed")
+        raise FeatureContractError(
+            "FEATURE_PROVIDER_IDENTITY_DRIFT",
+            "feature provider/library identity changed",
+        )
     if call_identity != expected_call_identity:
         raise FeatureContractError(
             "FEATURE_PROVIDER_IDENTITY_DRIFT",
             "gateway did not call the installed Engineer compute_features API",
         )
-    expected_feature_hash = _canonical_hash({
-        "contract_sha256": contract_identity,
-        "features": proof.resolved_features,
-        "native_dispatch_trace": proof.native_dispatch_trace,
-        "provider_versions": expected_provider_versions,
-    })
+    expected_feature_hash = _canonical_hash(
+        {
+            "contract_sha256": contract_identity,
+            "features": proof.resolved_features,
+            "native_dispatch_trace": proof.native_dispatch_trace,
+            "provider_versions": expected_provider_versions,
+        }
+    )
     if proof.feature_set_sha256 != expected_feature_hash:
-        raise FeatureContractError("FEATURE_SET_IDENTITY_DRIFT", "resolved feature identity changed")
+        raise FeatureContractError(
+            "FEATURE_SET_IDENTITY_DRIFT", "resolved feature identity changed"
+        )
     expected_output = computation.data
     if proof.output_sha256 != _frame_hash(expected_output):
-        raise FeatureContractError("FEATURE_OUTPUT_IDENTITY_DRIFT", "feature output hash does not match supplied output")
+        raise FeatureContractError(
+            "FEATURE_OUTPUT_IDENTITY_DRIFT",
+            "feature output hash does not match supplied output",
+        )
     required_output = {
         *ordered.columns,
         *(feature.id for feature in contract.feature_set),
@@ -419,10 +497,15 @@ def verify_feature_proof(
         "available_at",
     }
     if not required_output.issubset(expected_output.columns):
-        raise FeatureContractError("FEATURE_OUTPUT_IDENTITY_DRIFT", "feature output is missing required columns")
+        raise FeatureContractError(
+            "FEATURE_OUTPUT_IDENTITY_DRIFT",
+            "feature output is missing required columns",
+        )
     native_features = [
         (feature, resolved)
-        for feature, resolved in zip(contract.feature_set, proof.resolved_features, strict=True)
+        for feature, resolved in zip(
+            contract.feature_set, proof.resolved_features, strict=True
+        )
         if isinstance(feature.provider, EngineerNative)
     ]
     trace = proof.native_dispatch_trace
@@ -436,27 +519,43 @@ def verify_feature_proof(
     expected_dispatcher = _installed_callable_identity(engineer.compute_features)
     for (feature, resolved), call in zip(native_features, trace, strict=True):
         request = feature.provider
-        expected_spec = [{"name": request.name, "params": dict(request.params), "output": feature.id}]
+        expected_spec = [
+            {"name": request.name, "params": dict(request.params), "output": feature.id}
+        ]
         if (
             resolved.get("id") != feature.id
             or resolved.get("provider") != "engineer.native"
             or resolved.get("name") != request.name
             or resolved.get("params") != dict(request.params)
             or call.get("specs") != expected_spec
-            or call.get("kwargs") != {"group_col": groups or None, "timestamp_col": "timestamp"}
+            or call.get("kwargs")
+            != {"group_col": groups or None, "timestamp_col": "timestamp"}
             or call.get("dispatcher") != expected_dispatcher
             or call.get("returned_frame_sha256") is None
-            or call.get("returned_feature_sha256") != _series_hash(expected_output[feature.id])
+            or call.get("returned_feature_sha256")
+            != _series_hash(expected_output[feature.id])
         ):
             raise FeatureContractError(
                 "FEATURE_NATIVE_EXECUTION_BYPASS",
                 f"native feature {feature.id!r} was not returned by the installed Engineer dispatcher",
             )
-    if expected_output.height != ordered.height or not expected_output.select(ordered.columns).equals(ordered):
-        raise FeatureContractError("FEATURE_OUTPUT_SOURCE_DRIFT", "feature output changed source rows or input columns")
-    expected_availability = ordered["timestamp"] + timedelta(minutes=1)
-    if not expected_output["source_timestamp"].equals(ordered["timestamp"]) or not expected_output["available_at"].equals(expected_availability):
-        raise FeatureContractError("FEATURE_CAUSALITY_MISMATCH", "features must be available after the completed source bar")
+    if expected_output.height != ordered.height or not expected_output.select(
+        ordered.columns
+    ).equals(ordered):
+        raise FeatureContractError(
+            "FEATURE_OUTPUT_SOURCE_DRIFT",
+            "feature output changed source rows or input columns",
+        )
+    expected_availability = ordered["timestamp"] + _timeframe_delta(
+        contract.dataset.timeframe
+    )
+    if not expected_output["source_timestamp"].equals(
+        ordered["timestamp"]
+    ) or not expected_output["available_at"].equals(expected_availability):
+        raise FeatureContractError(
+            "FEATURE_CAUSALITY_MISMATCH",
+            "features must be available after the completed source bar",
+        )
     _assert_oracle(ordered, contract, expected_output)
     verified = VerifiedFeatureProof(proof=proof)
     seal = hmac.new(_PROOF_KEY, proof._seal.encode(), hashlib.sha256).hexdigest()
@@ -498,11 +597,7 @@ def _check_input(data: pl.DataFrame, contract: ResearchContractV1) -> list[str]:
         raise FeatureContractError(
             "TIMESTAMP_INVALID", "timestamp cannot contain null values"
         )
-    if contract.dataset.timeframe != "1m":
-        raise FeatureContractError(
-            "TIMEFRAME_UNSUPPORTED",
-            "managed feature gateway currently supports 1m bars only",
-        )
+    _timeframe_delta(contract.dataset.timeframe)
     for field in ("open", "high", "low", "close"):
         if data[field].null_count() or data[field].is_finite().not_().any():
             raise FeatureContractError(
@@ -722,7 +817,9 @@ class FeatureGateway:
                     "dispatcher": _called_callable_identity(called),
                     "input_sha256": _frame_hash(frame),
                     "returned_frame_sha256": _frame_hash(computed),
-                    "returned_feature_sha256": _series_hash(computed[specs[0]["output"]]),
+                    "returned_feature_sha256": _series_hash(
+                        computed[specs[0]["output"]]
+                    ),
                 }
             )
             return computed
@@ -751,7 +848,8 @@ class FeatureGateway:
                 if (
                     not isinstance(result, pl.DataFrame)
                     or call["returned_frame_sha256"] != _frame_hash(result)
-                    or call["returned_feature_sha256"] != _series_hash(result[feature.id])
+                    or call["returned_feature_sha256"]
+                    != _series_hash(result[feature.id])
                 ):
                     raise FeatureContractError(
                         "FEATURE_NATIVE_EXECUTION_BYPASS",
@@ -798,14 +896,20 @@ class FeatureGateway:
                 else provider.extension_id
             ]
             outputs.append(resolved)
+        bar_delta = _timeframe_delta(contract.dataset.timeframe)
         result = result.with_columns(
             pl.col("timestamp").alias("source_timestamp"),
-            (pl.col("timestamp") + pl.duration(minutes=1)).alias("available_at"),
+            (
+                pl.col("timestamp")
+                + pl.duration(seconds=int(bar_delta.total_seconds()))
+            ).alias("available_at"),
         )
         result_hash = _frame_hash(result)
         version = importlib.metadata.version("ml4t-engineer")
         extension_sha = extension_code_identity()
-        engineer_identity, engineer_call_identity, expected_engineer_call_identity = _engineer_identity(contract)
+        engineer_identity, engineer_call_identity, expected_engineer_call_identity = (
+            _engineer_identity(contract)
+        )
         provider_versions = {
             "ml4t-engineer": version,
             "feature_gateway": GATEWAY_VERSION,
@@ -843,7 +947,10 @@ class FeatureGateway:
                 "source_rows_preserved": result.height == ordered.height,
                 "completed_bar_availability": result.select(
                     (
-                        pl.col("available_at") == pl.col("timestamp").dt.offset_by("1m")
+                        pl.col("available_at")
+                        == pl.col("timestamp").dt.offset_by(
+                            f"{int(bar_delta.total_seconds())}s"
+                        )
                     ).all()
                 ).item(),
                 "deterministic_input_hash": original_hash == _frame_hash(ordered),

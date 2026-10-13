@@ -1,0 +1,15 @@
+# RESEARCH LEAD FINAL PRE-FREEZE CORRECTIONS. CONTINUE SAME CODEX SESSION NOW.
+
+Same Codex session 01a133cf-0604-77e0-b214-02fab933a5e5, branch feat/m8-n8-cfd-pilot, worktree /home/quant/.devspace/worktrees/quant-research-c0f474ba. Preserve ALL dirty edits and existing jobs. Last scoped tests 38 passed, Ruff clean, source contract/spec/manifest ready. No frozen session and no N8 pilot outcome observed. DO NOT redo broad exploration.
+
+Risk metrics: research lead independently VERIFIED installed from ml4t.diagnostic.api import PortfolioAnalysis; PortfolioAnalysis(returns=pl.Series(daily_returns),periods_per_year=252).compute_summary_stats() yields calmar_ratio, sharpe_ratio, max_drawdown, annual_return. User REQUIRES Calmar. Current summarize_n8_scenario sets Calmar=None. Patch to use installed PortfolioAnalysis production risk metrics and independent arithmetic sanity check; handle undefined/null sample honestly; regression tests.
+
+CRITICAL M8-C false-success bypass: _restore_completed_artifact currently accepts fake b'native-fill-artifact' as .parquet if fake self-consistent JSON hashes match. Before source freeze, bind manifest to exact attempt_id, permit SHA, session, code/config identities, validate real readable Parquet with native fills/equity schema and matching complete 1x/2x/3x scenarios plus stored independent audit PASS. Add adversarial wrong-attempt/wrong-permit/fake-parquet/partial/truncated/tampered cases. Reject, no fabricated worker success.
+
+RunPermitV1 verifies single exit-clock anchor in Jan 2020, not all five years; disclose its coverage honestly. Runtime MUST independently enumerate all scheduled signals and verify actual t+1/t+2 bar existence, all fills and every cash/equity row with fail closed. No pretending permit is universal per-fill.
+
+Broker schedule GMT vs Zurich distinction now corrected; add explicit winter/summer Sunday and Friday/DST full-bar boundary tests if missing. Keep no ex-post future-bar signal selection.
+
+FINISH: Fix these narrow blockers now, run tests/Ruff, commit task-owned source/spec/evidence, freeze ResearchSessionV1 against FINAL code before the first real N8 outcome. Then execute ONE RunPermit-backed named tmux native trial, inspect logs and all artifacts, record 1x/2x/3x stresses, M8-C actual managed/adversarial/recovery, full relevant tests, independently auditable evidence, push PR and wait CI, merge only accepted, close satisfied issues. User authorized commit/push/merge, no live trading. If genuine source gap or version contract blocks, record exact evidence and continue independent work. DO NOT stop merely planning.
+
+Approved frozen research decision docs/plans/m8_b_research_lead_freeze_decision.md, read latest. Original 12p PDF page7 text and verified upstream hash already available. Preserve original strategy and risk assumptions. No strategy optimization.

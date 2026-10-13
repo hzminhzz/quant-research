@@ -43,7 +43,8 @@ def test_m8_absent_running_job_blocks_then_records_new_attempt_after_lease(tmp_p
     )
     assert ledger.latest()[first.attempt_id]["status"] == "RUNNING"
 
-    # After lease expiry, the ledger preserves ABORTED and requires a new ID.
+    # After lease expiration and confirmed process absence, the aborted
+    # attempt remains terminal and any retry has a new accountable identity.
     now[0] += timedelta(seconds=31)
     retry = ledger.claim(
         permit, job_name="ml4t-m8-recovery", command="native", lease_seconds=30
@@ -52,3 +53,7 @@ def test_m8_absent_running_job_blocks_then_records_new_attempt_after_lease(tmp_p
     assert retry.attempt_id != first.attempt_id
     assert ledger.latest()[first.attempt_id]["status"] == "ABORTED"
     assert ledger.latest()[retry.attempt_id]["status"] == "PLANNED"
+    assert (
+        ledger.transition(first.attempt_id, "COMPLETED").reason_code
+        == "ATTEMPT_ALREADY_TERMINAL"
+    )

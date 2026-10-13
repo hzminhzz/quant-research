@@ -1,0 +1,13 @@
+# RESEARCH-LEAD INTEGRITY DECISION; FINAL CONTINUATION
+
+Session 01a133cf-0604-77e0-b214-02fab933a5e5. Working repo /home/quant/.devspace/worktrees/quant-research-c0f474ba. All dirty work preserved. Keep same branch. No frozen trial result yet. DO NOT recreate code/spec or duplicate job.
+
+Research lead independently vetoed the ABORTED -> PLANNED same-attempt replay that appeared in an in-progress attempts.py diff. It violated M4-C terminal failure accounting. I precisely restored src/research_control/attempts.py and tests/test_attempts.py to previous behavior, and added assertion to tests/test_m8_agent_qualification.py that terminal attempt cannot complete. Independently verified 6 passed in attempts+M8 tests. DO NOT REINTRODUCE old ABORTED same-ID replay. Existing running job and complete artifact may be inspected/reused idempotently; expired absent job leaves ABORTED immutable and new claim allocates distinct attempt ID (counted).
+
+Research lead independently found full-calendar UTC returns with weekends filled zero being annualized with periods_per_year=252. This IS NOT approved. When using 365 calendar dates per year, set PortfolioAnalysis(... periods_per_year=365) and matching oracle sqrt(365), change metric labels, docs BEFORE freezing. Alternative is 252 trading-day-only observations without inserted weekend zeros; do not mix. All M8 metrics must report valid native Calmar/Sharpe/maxDD.
+
+Research lead directly verified data Parquet max timestamp 2024-12-31T23:30Z, holdout starts 2025-01-01T00:00Z. Eligible t must require t+2x30m STRICTLY < holdout/evaluation_end; this uses known time boundary, not future market bar inspection. Add regression.
+
+Already independently verified 46 scoped tests in earlier dirty state, Ruff clean; new stricter recovery tests 7 passed and native PortfolioAnalysis verified. Before freezing now finish only critical corrections, run full relevant suite + Ruff, then create/commit final spec and freeze before ANY real N8 pilot outcome, then RunPermit+tmux real data trial, independent fills/cash and cost metrics, M8-C adversarial, PR and CI, merge if qualified. No real live orders. No source changes AFTER freezing except via explicit new session and new trial record. Finish rather than re-explore.
+
+Research lead freeze file docs/plans/m8_b_research_lead_freeze_decision.md is authority; its latest pre-outcome append includes calendar annualization and end boundary. Original PDF source already verified upstream; no PDF binary on VPS. If genuinely blocked, do honest record and continue independent tasks.

@@ -1,0 +1,31 @@
+schema_version: 1
+session_id: m8_n8_dukascopy_nas100_cfd_30m_v2
+dataset:
+  requested_product: Dukascopy USATECH.IDX/USD CFD price proxy; one normalized $1-per-point research unit
+  source_vendor: Dukascopy
+  source_symbol: usatechidxusd
+  catalog_dataset_key: index_minute_NQ
+  external_exception_id: null
+  authority: canonical
+  product_class: cfd
+  role: price_proxy
+  volume_semantics: broker_tick_or_quote_proxy
+  timeframe: 30m
+  timestamp_convention: bar_start
+  timezone: UTC
+  group_columns: [symbol]
+feature_set:
+  - id: prior_high_50
+    provider:
+      kind: extension.approved
+      extension_id: prior_n_high_low
+      version: 1.0.0
+      field: high
+      period: 50
+    inputs: {high: high}
+strategy:
+  rule_id: nesnidal_model_8_prior_50_high_one_bar_long_v1
+  engine: ml4t.backtest
+evaluation:
+  development: ["2020-01-01", "2025-01-01"]
+  holdout_start: "2025-01-01"
