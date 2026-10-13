@@ -1,0 +1,77 @@
+session_id: m8_n8_dukascopy_us_cash_30m_v2
+thesis: >-
+  After a strict 50-completed-bar high breakout during XNAS regular hours,
+  one 30-minute bar of long continuation has positive expected price change in
+  the Dukascopy USATECH.IDX/USD CFD price proxy.
+mechanism: >-
+  Trend-following orders may continue after a regular-session breakout. The
+  effect should weaken in mean-reverting conditions. CFD prices proxy the
+  PDF's continuous futures rule and do not establish futures or broker fills.
+falsifier: >-
+  Falsify if native gross total PnL is nonpositive or 1x native net expectancy
+  is nonpositive. Report 2x and 3x cost sensitivity. No trades is inconclusive.
+  This already-observed development sample is not pristine out-of-sample evidence.
+market: indices
+instruments:
+  - symbol: usatechidxusd
+    kind: cfd
+    venue: Dukascopy Bank SA historical CFD price proxy
+    identity: USATECH.IDX/USD; not CME NQ futures
+    session: XNAS regular session and scheduled half-days; actual missing planned fill blocks
+    timezone: America/New_York
+data:
+  - id: nas100_cfd_30m_201912_warmup_2024
+    path: data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet
+    role: prices
+    symbol: usatechidxusd
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  retrospective_data_already_seen: true
+  holdout_accessed: false
+  trial_count: 1
+  trial_id: N8_cash_session_primary_3cost_stress
+  strategy: >-
+    Strict close[t] > max(high[t-50:t]) after the completed 30-minute bar;
+    enter at open[t+1], exit at open[t+2], no stops or targets. Signal bar
+    completion and both planned opens must fit the XNAS schedule and precede
+    2025-01-01T00:00:00Z. Eligibility does not inspect future row presence.
+  cost_scenarios: [1x, 2x, 3x]
+  falsifier_rule: >-
+    INCONCLUSIVE if no trades; FALSIFIED if gross total PnL <= 0 or 1x net
+    expectancy <= 0; FRAGILE if 1x is positive and 2x or 3x expectancy <= 0;
+    otherwise NOT_FALSIFIED_IN_RETROSPECTIVE_SAMPLE_ONLY.
+  holdout_boundary: >-
+    Strictly exclude any signal, entry, or exit at or after
+    2025-01-01T00:00:00Z. Do not load or inspect holdout data.
+baseline: >-
+  $100000 normalized cash and one long unit at most. One unit means $1 per
+  index point for arithmetic only. This is not a verified broker multiplier.
+costs:
+  commission_bps: 0.6
+  slippage_bps: 3.0
+  source: run_log/m8/n8/cash_session_cost_evidence.json
+  assumptions: >-
+    3 bps adverse price impact and 0.6 bps commission per fill; scale both
+    components at 1x, 2x and 3x. These estimates are not verified execution costs.
+trials:
+  - id: N8_cash_session_primary_3cost_stress
+    kind: preregistered
+    description: >-
+      One fixed 2020-2024 Model 8 cash-session CFD price-proxy replay with one
+      prior-high rule and three declared cost stresses.
+config: config/research_contract_m8_n8_cash_v2.yaml
+evidence:
+  - docs/plans/m8_b_research_lead_freeze_decision.md
+  - docs/audit/m8_n8_pilot_execution_blocker.md
+  - docs/plans/m8_cash_session_protocol.md
+  - run_log/m8/n8/execution_gap_diagnostic_70841083.json
+  - run_log/m8/n8/cash_session_calendar_evidence.json
+  - run_log/m8/n8/cash_session_cost_evidence.json
+  - run_log/m8/n8/cash_session_audit_recipe.json
+  - run_log/m8/n8/cash_session_run_intent_v2.json
+  - run_log/m8/n8/multiplier_evidence.json
+  - docs/audit/m8_cash_session_freeze_recovery.md
+  - run_log/m8/n8/source_fingerprints_recovery.json
+  - run_log/m8/original_rulebook_extracted_pages.txt

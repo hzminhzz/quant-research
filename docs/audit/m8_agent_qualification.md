@@ -52,3 +52,13 @@ managed runner and an explicit replay policy. Until this exists, the current
 behavior remains fail-closed and no same-attempt recovery claim is valid.
 Issue [#25](https://github.com/hzminhzz/quant-research/issues/25) tracks this
 work. The prior M7 tests remain unchanged.
+
+## Cash-session managed execution and recovery evidence
+
+The separate frozen session `m8_n8_dukascopy_us_cash_30m_v7` passed actual `RunPermit` and feature-proof preflight, then completed one bounded native pilot through `scripts/run_m8_cash_session.py` in `ml4t-m8-cash-pilot`. The attempt and report are linked in the M8 result record. A fresh native run was compared with the completed artifact. The verifier checked exact attempt and permit identity, all three cost scenarios, readable Parquet schemas, audit statuses and row counts, and exact fills/equity equality.
+
+New negative fixtures reject hash-consistent fake Parquet bytes, wrong attempt ID, mismatched permit, missing/duplicate scenarios, altered fills with recomputed hashes, missing audit, missing native replay, partial artifacts, and disappeared tmux workers while the lease is active. Existing fixtures also reject bad audit status, truncated Parquet, and stale source identity. Terminal `ABORTED` attempts remain terminal; retry uses a new attempt ID.
+
+The real pilot process ended after successful completion. No real process was killed or interrupted. Same-attempt continuation after an active worker disappears remains unsupported; the ledger returns `LEASE_UNCERTAIN` until expiry, then marks the old attempt `ABORTED` and allocates a new ID. This is a deliberate fail-closed limitation, not interrupted-run replay. M8-C remains incomplete and issue #25 stays open.
+
+The native research process passed. The strategy outcome was falsified and the broker remains unqualified. This provides one concrete positive managed-path artifact and adversarial checks, not a general agent reliability rate or M8 qualification.

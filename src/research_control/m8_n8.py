@@ -33,6 +33,11 @@ from .feature_gateway import (
     FeatureComputation,
     FeatureContractError,
 )
+from .m8_cash_calendar import (
+    assert_planned_fill_bars_present,
+    cash_session_dates,
+    cash_session_signal_eligible,
+)
 from .run_permit import RunIntentV1, RunPermitV1, preflight_run
 
 BAR = timedelta(minutes=30)
@@ -55,6 +60,10 @@ class N8Audit:
     status: str
     reason_code: str
     evidence: dict[str, Any]
+
+    def to_record(self) -> dict[str, Any]:
+        """Include audit status in persisted scenario evidence."""
+        return {"status": self.status, "reason_code": self.reason_code, **self.evidence}
 
 
 class N8LongOnly(Strategy):
@@ -157,7 +166,8 @@ def _utc(value: datetime) -> datetime:
 
 
 def expected_signals(
-    data: pl.DataFrame, features: pl.DataFrame, start: datetime, end: datetime
+    data: pl.DataFrame, features: pl.DataFrame, start: datetime, end: datetime,
+    *, cash_session_only: bool = False,
 ) -> list[datetime]:
     """Independent signal oracle; feature values come from the managed gateway."""
     price_rows = data.sort(["symbol", "timestamp"]).to_dicts()
@@ -176,9 +186,10 @@ def expected_signals(
             previous_highs = []
         stamp = _utc(bar["timestamp"])
         level = max(previous_highs[-50:]) if len(previous_highs) >= 50 else None
-        scheduled = all(
-            _dukascopy_bar_complete(stamp + offset)
-            for offset in (timedelta(0), BAR, 2 * BAR)
+        scheduled = (
+            cash_session_signal_eligible(stamp, evaluation_end=end)
+            if cash_session_only
+            else all(_dukascopy_bar_complete(stamp + offset) for offset in (timedelta(0), BAR, 2 * BAR))
         )
         if (
             start <= stamp < end
@@ -247,10 +258,11 @@ def _dukascopy_day_open(day) -> bool:
 
 
 def _feed(
-    data: pl.DataFrame, computation: FeatureComputation, start: datetime, end: datetime
+    data: pl.DataFrame, computation: FeatureComputation, start: datetime, end: datetime,
+    *, cash_session_only: bool = False,
 ) -> tuple[DataFeed, list[datetime]]:
     ordered = data.sort(["symbol", "timestamp"])
-    signals = expected_signals(ordered, computation.data, start, end)
+    signals = expected_signals(ordered, computation.data, start, end, cash_session_only=cash_session_only)
     signal_set = set(signals)
     prices = ordered.rename({"symbol": "asset"}).select(
         "timestamp", "asset", "open", "high", "low", "close", "volume"
@@ -276,10 +288,11 @@ def _run_one(
     start: datetime,
     end: datetime,
     cost_multiple: int,
+    *, cash_session_only: bool = False,
 ) -> tuple[Any, N8LongOnly, list[datetime]]:
     if cost_multiple not in COST_MULTIPLIERS:
         raise ValueError("TRIAL_UNDECLARED: cost scenario was not preregistered")
-    feed, expected = _feed(data, computation, start, end)
+    feed, expected = _feed(data, computation, start, end, cash_session_only=cash_session_only)
     symbol = contract.dataset.source_symbol
     strategy = N8LongOnly(symbol, _utc(start), _utc(end))
     config = BacktestConfig(
@@ -481,6 +494,7 @@ def summarize_n8_scenario(
     audit: dict[str, Any],
     start: datetime,
     end: datetime,
+    *, cash_session_only: bool = False,
 ) -> dict[str, Any]:
     """Use native trade metrics and PortfolioAnalysis on a full UTC-day series."""
     equity = result.to_equity_dataframe()
@@ -494,12 +508,13 @@ def summarize_n8_scenario(
     baseline = daily.filter(pl.col("day") < start_day).tail(1)
     previous_equity = float(baseline["equity"][0]) if baseline.height else INITIAL_CASH
     observed = {row["day"]: float(row["equity"]) for row in daily.to_dicts()}
-    calendar_days = []
-    cursor = start_day
-    while cursor < end_day:
-        if _dukascopy_day_open(cursor):
-            calendar_days.append(cursor)
-        cursor += timedelta(days=1)
+    calendar_days = cash_session_dates(start, end) if cash_session_only else []
+    if not cash_session_only:
+        cursor = start_day
+        while cursor < end_day:
+            if _dukascopy_day_open(cursor):
+                calendar_days.append(cursor)
+            cursor += timedelta(days=1)
     equities = []
     for day in calendar_days:
         if day in observed:
@@ -511,6 +526,19 @@ def summarize_n8_scenario(
             )
         equities.append(previous_equity)
     points = pl.DataFrame({"day": calendar_days, "equity": equities})
+    yearly_descriptive = []
+    prior_year_end = INITIAL_CASH
+    for year in sorted({day.year for day in calendar_days}):
+        year_points = points.filter(pl.col("day").dt.year() == year)
+        if year_points.height:
+            year_end = float(year_points["equity"][-1])
+            yearly_descriptive.append({
+                "year": year,
+                "scheduled_days": year_points.height,
+                "net_return_from_prior_year_end": year_end / prior_year_end - 1.0,
+                "net_pnl_normalized": year_end - prior_year_end,
+            })
+            prior_year_end = year_end
     returns = points.select(
         (pl.col("equity") / pl.col("equity").shift(1).fill_null(INITIAL_CASH) - 1).alias("return")
     )["return"]
@@ -525,15 +553,7 @@ def summarize_n8_scenario(
         mean = sum(values) / len(values)
         sample_variance = sum((value - mean) ** 2 for value in values) / (len(values) - 1)
         oracle_sharpe = mean / math.sqrt(sample_variance) * math.sqrt(252) if sample_variance > 0 else None
-        wealth = [1.0]
-        for value in values:
-            wealth.append(wealth[-1] * (1 + value))
-        peak = wealth[0]
-        drawdowns = []
-        for value in wealth[1:]:
-            peak = max(peak, value)
-            drawdowns.append(value / peak - 1)
-        oracle_max_drawdown = min(drawdowns, default=0.0)
+        oracle_max_drawdown = _portfolio_max_drawdown_oracle(values)
         if oracle_sharpe is not None and not math.isclose(
             float(portfolio.sharpe_ratio), oracle_sharpe, rel_tol=1e-8, abs_tol=1e-10
         ):
@@ -574,11 +594,30 @@ def summarize_n8_scenario(
         "daily_risk_metrics_source": "ml4t.diagnostic.api.PortfolioAnalysis",
         "daily_equity_observations": len(calendar_days),
         "daily_return_observations": len(returns),
+        "yearly_descriptive_stability": yearly_descriptive,
         "closed_dates_omitted": (end_day - start_day).days - len(calendar_days),
         "daily_zero_return_observations": int((returns == 0).sum()),
         "daily_sampling": "initial cash before first evaluation date; last native equity mark per scheduled UTC CFD trading date; zero return on open dates without trades; scheduled closed dates omitted; missing scheduled-open marks block",
+        "drawdown_convention": "Matches PortfolioAnalysis cumulative-return series. The first sampled return establishes its high-water mark; the pre-series initial cash baseline is not an extra return observation.",
         "native_metrics_note": "Native engine trade expectancy is retained in the engine's return units. Intraday engine Sharpe/CAGR are deliberately omitted.",
     }
+
+
+def _portfolio_max_drawdown_oracle(returns: list[float]) -> float:
+    """Independent arithmetic using PortfolioAnalysis' return-series convention."""
+    if not returns:
+        return 0.0
+    wealth = []
+    value = 1.0
+    for daily_return in returns:
+        value *= 1 + daily_return
+        wealth.append(value)
+    peak = wealth[0]
+    drawdowns = []
+    for point in wealth:
+        peak = max(peak, point)
+        drawdowns.append(point / peak - 1)
+    return min(drawdowns, default=0.0)
 
 
 def classify_n8_economics(scenarios: list[dict[str, Any]]) -> str:
@@ -607,6 +646,7 @@ def run_permitted_n8(
     *,
     start: datetime,
     end: datetime,
+    cash_session_only: bool = False,
 ) -> dict[str, Any]:
     checked = preflight_run(root, intent, computation, data, contract)
     if checked.status != "PASS" or checked.permit is None:
@@ -626,9 +666,12 @@ def run_permitted_n8(
     ):
         return {"status": "BLOCKED", "reason_code": "EVALUATION_WINDOW_INVALID"}
 
-    signals = expected_signals(data, computation.data, start, end)
+    signals = expected_signals(data, computation.data, start, end, cash_session_only=cash_session_only)
     try:
-        _assert_scheduled_fills_present(data, signals)
+        if cash_session_only:
+            assert_planned_fill_bars_present({_utc(value) for value in data["timestamp"].to_list()}, signals)
+        else:
+            _assert_scheduled_fills_present(data, signals)
     except FeatureContractError as exc:
         return {
             "status": "BLOCKED",
@@ -639,7 +682,8 @@ def run_permitted_n8(
     scenarios = []
     for multiple in COST_MULTIPLIERS:
         result, strategy, expected = _run_one(
-            data, computation, contract, start, end, multiple
+            data, computation, contract, start, end, multiple,
+            cash_session_only=cash_session_only,
         )
         audit = audit_n8_result(
             result, strategy, data, expected, cost_multiple=multiple
@@ -653,8 +697,8 @@ def run_permitted_n8(
         scenarios.append(
             {
                 "scenario": f"{multiple}x",
-                "audit": audit.evidence,
-                "metrics": summarize_n8_scenario(result, audit.evidence, start, end),
+                "audit": audit.to_record(),
+                "metrics": summarize_n8_scenario(result, audit.evidence, start, end, cash_session_only=cash_session_only),
                 "fills": result.to_fills_dataframe(),
                 "equity": result.to_equity_dataframe(),
             }

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_AFTER_NATIVE_ENGINE",
+  "reason_code": "PORTFOLIO_METRIC_MISMATCH",
+  "attempt_id": "471ee061-0ae4-4d96-a8c2-60dece7d4401",
+  "session_id": "m8_n8_dukascopy_us_cash_30m_v4",
+  "trial_id": "N8_cash_session_primary_3cost_stress",
+  "permit_sha256": "759ac1e10d99f55f6fe757291f96a1c487ca7091a3570f9ae2a3c7cf924cd852",
+  "frozen_session_sha256": "236744e780700329c988d91292c16c8f7a8f51541777fe235fdf08f92514d33a",
+  "native_engine_started": true,
+  "native_engine_result_created": true,
+  "native_audit_called": true,
+  "error": "PortfolioAnalysis max drawdown differs from independent wealth-path oracle",
+  "cost_scenarios_persisted": [],
+  "fills_or_equity_persisted": false,
+  "performance_metrics_returned": false,
+  "holdout_accessed": false,
+  "live_orders": false,
+  "interpretation": "Installed PortfolioAnalysis max_drawdown uses cumulative returns whose first observation sets the first high-water mark. The pre-series cash baseline is not an extra point. The local oracle did not match this library convention. Metrics were not returned or reported. See docs/audit/m8_cash_session_v4_metric_failure.md."
+}

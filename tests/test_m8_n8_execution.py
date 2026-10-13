@@ -16,15 +16,32 @@ from src.research_control.feature_gateway import FeatureContractError
 from src.research_control.m8_n8 import (
     BASE_COST_BPS_PER_FILL,
     COMMISSION_BPS_PER_FILL,
+    N8Audit,
     N8LongOnly,
     _assert_scheduled_fills_present,
     _dukascopy_bar_complete,
     _dukascopy_open,
+    _portfolio_max_drawdown_oracle,
     audit_n8_result,
     classify_n8_economics,
     expected_signals,
     summarize_n8_scenario,
 )
+
+
+def test_portfolio_drawdown_oracle_matches_installed_api_start_convention():
+    returns = pl.Series("returns", [-0.1, 0.1, -0.2, 0.05])
+    native = PortfolioAnalysis(returns=returns, periods_per_year=252).compute_summary_stats()
+    assert _portfolio_max_drawdown_oracle(returns.to_list()) == pytest.approx(native.max_drawdown)
+
+
+def test_audit_record_preserves_terminal_status_for_artifact_recovery():
+    audit = N8Audit("PASS", "AUDIT_OK", {"executed_trade_count": 2})
+    assert audit.to_record() == {
+        "status": "PASS",
+        "reason_code": "AUDIT_OK",
+        "executed_trade_count": 2,
+    }
 
 
 def sample_bars() -> pl.DataFrame:

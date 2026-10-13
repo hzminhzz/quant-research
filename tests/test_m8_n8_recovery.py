@@ -89,33 +89,45 @@ def _artifact(root, *, audit_status="PASS", parquet=True):
     return permit, report
 
 
+def _native_replay(root, report):
+    return {
+        item["scenario"]: {
+            "fills": pl.read_parquet(root / f"fills_{item['scenario']}.parquet"),
+            "equity": pl.read_parquet(root / f"equity_{item['scenario']}.parquet"),
+            "audit": item["audit"],
+        }
+        for item in report["cost_scenarios"]
+    }
+
+
 def test_m8_n8_recovery_reuses_real_complete_permit_bound_artifacts(tmp_path):
-    permit, _ = _artifact(tmp_path)
-    assert _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit)["trade_count"] == 4
+    permit, report = _artifact(tmp_path)
+    assert _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay=_native_replay(tmp_path, report))["trade_count"] == 4
 
 
 @pytest.mark.parametrize("field,value", [("attempt_id", "attempt-other"), ("permit_sha256", "9" * 64)])
 def test_m8_n8_recovery_rejects_wrong_attempt_or_permit(tmp_path, field, value):
-    permit, _ = _artifact(tmp_path)
+    permit, report = _artifact(tmp_path)
+    replay = _native_replay(tmp_path, report)
     with pytest.raises(RuntimeError, match="ARTIFACT_IDENTITY_DRIFT"):
         if field == "attempt_id":
-            _restore_completed_artifact(tmp_path, attempt_id=value, permit=permit)
+            _restore_completed_artifact(tmp_path, attempt_id=value, permit=permit, native_replay=replay)
         else:
             altered = SimpleNamespace(**{**permit.__dict__, "permit_sha256": value})
-            _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=altered)
+            _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=altered, native_replay=replay)
 
 
 def test_m8_n8_recovery_rejects_hash_consistent_fake_parquet(tmp_path):
     permit, _ = _artifact(tmp_path, parquet=False)
     with pytest.raises(RuntimeError, match="ARTIFACT_PARQUET_INVALID"):
-        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit)
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})
 
 
 def test_m8_n8_recovery_rejects_partial_artifact(tmp_path):
     permit, _ = _artifact(tmp_path)
     (tmp_path / "equity_3x.parquet").unlink()
     with pytest.raises(RuntimeError, match="ARTIFACT_PARTIAL"):
-        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit)
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})
 
 
 def test_m8_n8_recovery_rejects_truncated_parquet_and_bad_audit(tmp_path):
@@ -126,16 +138,71 @@ def test_m8_n8_recovery_rejects_truncated_parquet_and_bad_audit(tmp_path):
     manifest["files"][path.name] = _sha(path)
     (tmp_path / "manifest.json").write_text(json.dumps(manifest))
     with pytest.raises(RuntimeError, match="ARTIFACT_PARQUET_INVALID"):
-        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit)
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})
 
     permit, _ = _artifact(tmp_path, audit_status="FAILED")
     with pytest.raises(RuntimeError, match="ARTIFACT_AUDIT_INVALID"):
-        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit)
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})
 
 
 def test_m8_n8_recovery_rejects_tampered_content_even_when_complete(tmp_path):
-    permit, _ = _artifact(tmp_path)
+    permit, report = _artifact(tmp_path)
+    replay = _native_replay(tmp_path, report)
     with (tmp_path / "fills_1x.parquet").open("ab") as stream:
         stream.write(b"tamper")
     with pytest.raises(RuntimeError, match="ARTIFACT_IDENTITY_DRIFT"):
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay=replay)
+
+
+def test_m8_n8_recovery_rejects_rehashed_altered_fills(tmp_path):
+    permit, report = _artifact(tmp_path)
+    replay = _native_replay(tmp_path, report)
+    path = tmp_path / "fills_1x.parquet"
+    pl.read_parquet(path).with_columns(pl.lit(99.0).alias("price")).write_parquet(path)
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    manifest["files"][path.name] = _sha(path)
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(RuntimeError, match="ARTIFACT_NATIVE_REPLAY_MISMATCH"):
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay=replay)
+
+
+def test_m8_n8_recovery_rejects_duplicate_cost_scenario(tmp_path):
+    permit, report = _artifact(tmp_path)
+    report["cost_scenarios"][2]["scenario"] = "2x"
+    path = tmp_path / "report.json"
+    path.write_text(json.dumps(report))
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    manifest["files"][path.name] = _sha(path)
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(RuntimeError, match="ARTIFACT_PARTIAL"):
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})
+
+
+def test_m8_n8_recovery_rejects_missing_cost_scenario(tmp_path):
+    permit, report = _artifact(tmp_path)
+    report["cost_scenarios"] = report["cost_scenarios"][:2]
+    path = tmp_path / "report.json"
+    path.write_text(json.dumps(report))
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    manifest["files"][path.name] = _sha(path)
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(RuntimeError, match="ARTIFACT_PARTIAL"):
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})
+
+
+def test_m8_n8_recovery_requires_independent_native_replay(tmp_path):
+    permit, _ = _artifact(tmp_path)
+    with pytest.raises(RuntimeError, match="ARTIFACT_NATIVE_REPLAY_REQUIRED"):
         _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit)
+
+
+def test_m8_n8_recovery_rejects_missing_audit(tmp_path):
+    permit, report = _artifact(tmp_path)
+    del report["cost_scenarios"][0]["audit"]
+    path = tmp_path / "report.json"
+    path.write_text(json.dumps(report))
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    manifest["files"][path.name] = _sha(path)
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(RuntimeError, match="ARTIFACT_AUDIT_INVALID"):
+        _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay={})

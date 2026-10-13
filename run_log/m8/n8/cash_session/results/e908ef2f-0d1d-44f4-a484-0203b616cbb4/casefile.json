@@ -1,0 +1,186 @@
+{
+  "attempts": [
+    {
+      "attempt_id": "e908ef2f-0d1d-44f4-a484-0203b616cbb4",
+      "command": "uv run python scripts/run_m8_cash_session.py execute --attempt-id {attempt_id}",
+      "detail": "native fills and independent audit recorded",
+      "event_id": "acf13068876a4630b73cc98ac69cf031",
+      "fingerprints": {
+        "code_sha256": "a46abc6ecaeae57b1c12ae5730e38a60461ff59d8dc1205ea498a7c835df5fbb",
+        "config_sha256": "3f595848a8dd1b02ff7293ce3ee72fe848548f1ff80a66c73445b3c5d10ccb53",
+        "data_sha256": "2e3e6fe961ebb81b5adc6b5f1f01a1286dc10f134dc0069fc7598e619597eaf1",
+        "engine": "ml4t.backtest",
+        "engine_version": "0.1.7",
+        "feature_proof_sha256": "a8ca30da87ed59dc99a2a56ba5ba377b639800d43ee537a81f67ef11a489c2d0",
+        "frozen_session_sha256": "b3e756e944b5bd232775017c6c05d64dd598d8f95cba8d60ed6f55a5d72a71dd",
+        "intent_sha256": "5047e69100e4053e90770e0a3c373b79aae8fe456331f08d7c7dcbdc4af06ce1",
+        "source_sha256": "4efc88df16cf743d7a0b3634bd649981fdeab0951ec7068595ea50e37bec2298",
+        "spec_sha256": "8dd1d431176e4e04a47142609fad02b71e993fe5cbeccc6978ceb57faae98f55"
+      },
+      "job_name": "ml4t-m8-cash-pilot",
+      "lease_until": "2026-10-13T11:23:37.610098+00:00",
+      "observed_at": "2026-10-13T09:23:56.943470+00:00",
+      "revision": 3,
+      "run_id": "ad265a6baf8a4ee1f683b7dd8725d43bec89dd651ce488ba0091600649436e45",
+      "schema_version": 1,
+      "status": "COMPLETED",
+      "trial_id": "N8_cash_session_primary_3cost_stress"
+    }
+  ],
+  "effects": [
+    "READ_ONLY"
+  ],
+  "evidence_refs": [
+    "docs/plans/m8_b_research_lead_freeze_decision.md",
+    "docs/audit/m8_n8_pilot_execution_blocker.md",
+    "docs/plans/m8_cash_session_protocol.md",
+    "run_log/m8/n8/execution_gap_diagnostic_70841083.json",
+    "run_log/m8/n8/cash_session_calendar_evidence.json",
+    "run_log/m8/n8/cash_session_cost_evidence.json",
+    "run_log/m8/n8/multiplier_evidence.json",
+    "docs/audit/m8_cash_session_freeze_recovery.md",
+    "docs/audit/m8_cash_session_v2_launch_failure.md",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v2/frozen_spec.json",
+    "run_log/m8/n8/cash_session/results/c0864648-5bfc-491a-a133-295a82d37a94/launch_failure.json",
+    "docs/audit/m8_cash_session_v3_metric_failure.md",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v3/frozen_spec.json",
+    "run_log/m8/n8/cash_session/results/67e2d592-4d19-44f9-973b-600c60a2114a/metric_calendar_failure.json",
+    "docs/audit/m8_cash_session_v4_metric_failure.md",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v4/frozen_spec.json",
+    "run_log/m8/n8/cash_session/results/471ee061-0ae4-4d96-a8c2-60dece7d4401/metric_oracle_failure.json",
+    "run_log/m8/n8/source_fingerprints_recovery.json",
+    "run_log/m8/original_rulebook_extracted_pages.txt",
+    "docs/audit/m8_cash_session_v5_reporting_failure.md",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v5/frozen_spec.json",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v5/trials/N8_cash_session_primary_3cost_stress.json",
+    "run_log/m8/n8/cash_session/results/5b960023-454b-4d1a-8c28-975e314f9895/report.json",
+    "run_log/m8/n8/cash_session/results/5b960023-454b-4d1a-8c28-975e314f9895/manifest.json",
+    "run_log/m8/n8/cash_session_audit_recipe_v7.json",
+    "run_log/m8/n8/cash_session_run_intent_v7.json",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v6/frozen_spec.json",
+    "docs/audit/m8_cash_session_v6_preflight_block.md",
+    "run_log/m8/n8/cash_session/results/e908ef2f-0d1d-44f4-a484-0203b616cbb4/report.json",
+    "run_log/research_sessions/m8_n8_dukascopy_us_cash_30m_v7/attempts/acf13068876a4630b73cc98ac69cf031.json"
+  ],
+  "exposure": {
+    "approval_status": "NOT_APPROVED",
+    "classification": "EXPLORATORY",
+    "holdout_start": "2025-01-01T00:00:00Z",
+    "holdout_verified_unseen": false,
+    "prior_observations_cannot_become_unseen": true
+  },
+  "falsifier": "Falsify if native gross total PnL is nonpositive or 1x native net expectancy is nonpositive. Report 2x and 3x cost sensitivity. No trades is inconclusive. This already-observed development sample is not pristine out-of-sample evidence.",
+  "hypothesis": "After a strict 50-completed-bar high breakout during XNAS regular hours, one 30-minute bar of long continuation has positive expected price change in the Dukascopy USATECH.IDX/USD CFD price proxy.",
+  "limitations": [
+    "This derived view does not scan market data or independently rehash artifacts.",
+    "A terminal or cached attempt is not a valid trading approval.",
+    "Missing independent evidence, unknown tmux or failed jobs never imply PASS."
+  ],
+  "next_safe_action": "Review verified evidence and limitations; no production authorization.",
+  "plan": {
+    "baseline": "$100000 normalized cash and one long unit at most. One unit means $1 per index point for arithmetic only. This is not a verified broker multiplier.",
+    "costs": {
+      "assumptions": "3 bps adverse price impact and 0.6 bps commission per fill; scale both components at 1x, 2x and 3x. These estimates are not verified execution costs.",
+      "commission_bps": 0.6,
+      "slippage_bps": 3.0,
+      "source": "run_log/m8/n8/cash_session_cost_evidence.json"
+    },
+    "declared_trials": [
+      {
+        "description": "One fixed 2020-2024 Model 8 cash-session CFD price-proxy replay with one prior-high rule and three declared cost stresses.",
+        "id": "N8_cash_session_primary_3cost_stress",
+        "kind": "preregistered"
+      }
+    ],
+    "evaluation": {
+      "cost_scenarios": [
+        "1x",
+        "2x",
+        "3x"
+      ],
+      "development_end": "2025-01-01T00:00:00Z",
+      "development_start": "2020-01-01T00:00:00Z",
+      "distinct_protocol_count": 2,
+      "falsifier_rule": "INCONCLUSIVE if no trades; FALSIFIED if gross total PnL <= 0 or 1x net expectancy <= 0; FRAGILE if 1x is positive and 2x or 3x expectancy <= 0; otherwise NOT_FALSIFIED_IN_RETROSPECTIVE_SAMPLE_ONLY.",
+      "holdout_accessed": false,
+      "holdout_boundary": "Strictly exclude any signal, entry, or exit at or after 2025-01-01T00:00:00Z. Do not load or inspect holdout data.",
+      "holdout_start": "2025-01-01T00:00:00Z",
+      "prior_failed_attempt_count": 5,
+      "retrospective_data_already_seen": true,
+      "strategy": "Strict close[t] > max(high[t-50:t]) after the completed 30-minute bar; enter at open[t+1], exit at open[t+2], no stops or targets. Signal bar completion and both planned opens must fit the XNAS schedule and precede 2025-01-01T00:00:00Z. Eligibility does not inspect future row presence.",
+      "trial_count": 1,
+      "trial_id": "N8_cash_session_primary_3cost_stress"
+    }
+  },
+  "reason_code": "TRIALS_RECORDED_NOT_APPROVED",
+  "runtime": {
+    "active_attempts": [],
+    "matching_live_jobs": [
+      "ml4t-m8-cash-pilot"
+    ],
+    "visibility": "available"
+  },
+  "schema_version": 1,
+  "scope": "research_casefile",
+  "session_id": "m8_n8_dukascopy_us_cash_30m_v7",
+  "source": {
+    "catalog_authority": "frozen_source_only",
+    "data": [
+      {
+        "id": "nas100_cfd_30m_201912_warmup_2024",
+        "path": "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet",
+        "role": "prices",
+        "symbol": "usatechidxusd"
+      }
+    ],
+    "declared_instruments": [
+      {
+        "identity": "USATECH.IDX/USD; not CME NQ futures",
+        "kind": "cfd",
+        "session": "XNAS regular session and scheduled half-days; actual missing planned fill blocks",
+        "symbol": "usatechidxusd",
+        "timezone": "America/New_York",
+        "venue": "Dukascopy Bank SA historical CFD price proxy"
+      }
+    ],
+    "frozen_data_identities": [
+      {
+        "exists": true,
+        "path": "data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet",
+        "sha256": "36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8",
+        "size_bytes": 1404224
+      }
+    ],
+    "spec_sha256": "8dd1d431176e4e04a47142609fad02b71e993fe5cbeccc6978ceb57faae98f55"
+  },
+  "status": "REVIEW",
+  "trial_status": {
+    "declared": 1,
+    "pending": 0,
+    "records": [
+      {
+        "record": {
+          "approval_status": "NOT_APPROVED",
+          "artifact": {
+            "exists": true,
+            "path": "run_log/m8/n8/cash_session/results/e908ef2f-0d1d-44f4-a484-0203b616cbb4/report.json",
+            "sha256": "2d38aa080263c56df2f6ea4bd74e003fa567bd5cb8613380fd8c9fc37cedbc4b",
+            "size_bytes": 916456
+          },
+          "artifact_generation_verified": false,
+          "classification": "EXPLORATORY",
+          "evidence_type": "linked_artifact",
+          "kind": "preregistered",
+          "recorded_at": "2026-10-13T09:23:56.939405+00:00",
+          "schema_version": 1,
+          "session_id": "m8_n8_dukascopy_us_cash_30m_v7",
+          "status": "completed",
+          "trial_id": "N8_cash_session_primary_3cost_stress"
+        },
+        "status": "completed",
+        "trial_id": "N8_cash_session_primary_3cost_stress"
+      }
+    ],
+    "terminal": 1
+  }
+}

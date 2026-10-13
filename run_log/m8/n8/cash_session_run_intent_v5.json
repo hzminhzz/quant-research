@@ -1,0 +1,64 @@
+{
+  "budget": {
+    "max_cpu_seconds": 3000,
+    "max_memory_mb": 4096,
+    "max_trials": 1,
+    "max_wall_seconds": 3600
+  },
+  "costs": {
+    "commission_bps": 0.6,
+    "evidence_path": "run_log/m8/n8/cash_session_cost_evidence.json",
+    "slippage_bps": 3.0,
+    "source": "Dukascopy index CFD commission plus declared adverse spread/slippage stress assumptions",
+    "source_sha256": "89a08d8c5e22fc71e852e1d865e0900b976be2d857bb1346a93294d6dfdccd00"
+  },
+  "decision_at": "2020-01-06T14:30:00Z",
+  "effects": [
+    "READ_ONLY",
+    "EVIDENCE_APPEND"
+  ],
+  "evaluation_end": "2025-01-01T00:00:00Z",
+  "evaluation_start": "2020-01-01T00:00:00Z",
+  "exit_at": "2020-01-06T15:30:00Z",
+  "expected_catalog_dataset_key": "index_minute_NQ",
+  "expected_source_symbol": "usatechidxusd",
+  "expected_source_vendor": "Dukascopy",
+  "independent_audit": {
+    "checks": [
+      "signal candle fits scheduled XNAS session",
+      "next two planned opens fit scheduled XNAS session and precede holdout",
+      "signal eligibility does not inspect future data-row presence",
+      "all planned provider fill bars exist or entire trial blocks",
+      "native fills use next-bar entry and following-bar exit",
+      "actual fill timestamps and source open prices match",
+      "1x/2x/3x adverse price cost and explicit commission reconcile",
+      "unit size one, no overlap, no stop or target and flat terminal position",
+      "independent cash and marked-position value reconcile to every native equity mark",
+      "PortfolioAnalysis daily Sharpe, Calmar, max drawdown and descriptive yearly results",
+      "no source timestamp reaches protected holdout boundary"
+    ],
+    "evidence_path": "run_log/m8/n8/cash_session_audit_recipe_v5.json",
+    "implementation": "src.research_control.m8_n8.audit_n8_result",
+    "method": "Native engine reconciliation with independent arithmetic oracle",
+    "source_sha256": "e9d85251b0983ee41538eed356dd00667d0560c37f36a9b10417d9b0f24c791e",
+    "version": "1.0.0"
+  },
+  "multiplier": {
+    "evidence_path": "run_log/m8/n8/multiplier_evidence.json",
+    "instrument_symbol": "usatechidxusd",
+    "source": "normalized research unit; broker lot conversion unknown",
+    "source_sha256": "8b279beaf5b9e3f97e12955d2acde5cb119faf4945458b7e0a906e9194542039",
+    "unit": "normalized USD per index point per research unit",
+    "value": 1.0
+  },
+  "requested_compute": {
+    "max_cpu_seconds": 3000,
+    "max_memory_mb": 4096,
+    "max_trials": 1,
+    "max_wall_seconds": 3600
+  },
+  "required_exit_available_at": "2020-01-06T15:30:00Z",
+  "schema_version": 1,
+  "session_id": "m8_n8_dukascopy_us_cash_30m_v5",
+  "trial_id": "N8_cash_session_primary_3cost_stress"
+}
