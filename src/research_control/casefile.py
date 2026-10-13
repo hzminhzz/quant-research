@@ -220,9 +220,21 @@ def inspect_resume(
         )
     status = record["status"]
     if status in ("PLANNED", "RUNNING") and record["job_name"] in jobs:
+        if record.get("worker_protocol") == "flock-v1":
+            lock_status = ledger.worker_lock_status(attempt_id)
+            if lock_status != "WORKER_LOCK_HELD":
+                return explain_blocker(
+                    {
+                        "reason_code": "WORKER_ALIVE_UNVERIFIED",
+                        "observed": lock_status,
+                        "where_found": str(ledger.worker_lock_path(attempt_id)),
+                    }
+                )
         return {
             "status": "RUNNING",
-            "reason_code": "ATTEMPT_PRESENT",
+            "reason_code": ("WORKER_CONFIRMED_ACTIVE"
+                             if record.get("worker_protocol") == "flock-v1"
+                             else "ATTEMPT_PRESENT"),
             "attempt_id": attempt_id,
             "job_name": record["job_name"],
             "evidence_ref": str(

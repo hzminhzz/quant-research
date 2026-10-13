@@ -1,0 +1,535 @@
+{
+  "adversarial_cases": {
+    "evidence": [
+      "tests/test_m8_managed_recovery.py",
+      "tests/test_m8_n8_recovery.py"
+    ],
+    "expected_reason_codes": [
+      "ACTIVE_RUN_EXISTS",
+      "ARTIFACT_IDENTITY_DRIFT",
+      "ARTIFACT_NATIVE_REPLAY_MISMATCH",
+      "ARTIFACT_PARQUET_INVALID",
+      "ARTIFACT_PARTIAL",
+      "ATTEMPT_RESERVED",
+      "LEASE_UNCERTAIN",
+      "RECOVERY_CHECKPOINT_INVALID",
+      "WORKER_CONFIRMED_ACTIVE",
+      "WORKER_LOCK_HELD"
+    ]
+  },
+  "baseline": "A visible worker may be reattached only when its OS lock is held. An absent worker under lease returns LEASE_UNCERTAIN. After lease expiry, a verified dead worker is ABORTED and a new attempt replays from the beginning.",
+  "case_corpus": "run_log/m8/agent_corpus.json",
+  "controlled_run": {
+    "artifacts": {
+      "225dd0c7-eba4-4cd6-a5f3-996a86a0d823.worker.lock": "40c334e32856a3170803adb53b9cf788b5a64fee1da4c46bc89528c798940222",
+      "9733485c-7e11-4478-b4d6-1f4bddf95427.worker.lock": "f59298971c13cd60d0f6e465ffd07950379b810914530ad2500a5961cb9ca389",
+      "checkpoints/225dd0c7-eba4-4cd6-a5f3-996a86a0d823.75b0227fa476412fb28fc2281cdaf71e.json": "287a040d0de1658886d03b5a1731592fba26c5fee896e3e205de7fdbf79fdda0",
+      "checkpoints/9733485c-7e11-4478-b4d6-1f4bddf95427.2037b586bc9649359ab9cf8429a57d0c.json": "51ba869a3cdabf99ee079c530bc0a321a502fed37280e12ffd90add27e7bd74e",
+      "events/0ccc77bd115f49bd9377cdf2b9e14325.json": "3d1404fe0d28491101ae0537a8f95d51e8e27a57187d16d7edbfb03998b87bce",
+      "events/39645ae9e3844511a0c70b8dae95fa40.json": "303d3847fab75550d8f5c230ffa351bd46c72584b124a4300449c27d5497da8d",
+      "events/55f90ecce939478880625f259115f4c8.json": "d07b57a7e1e05837dc343abd10ff7febbfafc7a3754013afbad2473eff573ab5",
+      "events/5a9af34959c749959d461f523b1de0d4.json": "6195ab8509a7f3686d29f06c7570531e81ff19fc251e81901ffbbff9935f3a63",
+      "events/69a28a94ba844659b57da46d49f959f1.json": "527fc2b69dbba2dbd9ab8ac1d08f8bfb947a32bb17f2fe58741ee037ec171a07",
+      "events/7ed5fb55c19340dc92a3cf1091dcbc29.json": "1b0149365f207e2c2834ce39b34f0ca700258b3fd7453f606b5aa322d43379a8",
+      "events/82dcf49e986e410aa7be5b002848f72b.json": "b6e115a8e8316a40234b8e2b29f802092d7748ef8478c20e89cf3c31676d65fe",
+      "events/91e42b4bcf1646ee98f65c266940785e.json": "8582e486899e8eb5ff4abb28bc54993ed5c83b9990286edf0a895b38de3fdf81",
+      "fixture_inputs/audit.py": "532589e4fe0be0e961ab63a0c6a2528f4ad31f6e4f30852a0ed073f759ce9321",
+      "fixture_inputs/bars.parquet": "18d85e9b25398d9da5fa65008c4c93489912b76eca1fd75c355be290bb021996",
+      "fixture_inputs/costs.json": "072c6ab8a01a8d6285d00035e005e9668eb825ad3b69336aee2d9d756ecf33cc",
+      "fixture_inputs/feature-contract.yaml": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+      "fixture_inputs/frozen_spec.json": "b4cf5cd1fa374172c4fb69ed6abe9a0a726bf5cb94cc7ff383482def0b21bad7",
+      "fixture_inputs/multiplier.json": "31adfcfbecf69db741499dbb8460efd7e3d1b7bbbce18718638dfae2bb7cedd7",
+      "fixture_inputs/run_permit.json": "2751bde83f1eebe6577c4f29b6aa60225dbd8bf7ad8c7ac59545affe3c393e18",
+      "fixture_inputs/session.yaml": "8dd433bd2c07c8f771105cdc88cf2be7f432c80b137e33641f0b3eb394bc524b",
+      "partial.json": "97c32be1d44f63786a1ae76d3e38b0564b5f6c7a83c223561cf578b09a4911f1",
+      "result.json": "14f42ca12e84a3aa23b56d8bb8b1165207857060e8a4cb33ffb0c20450bed292",
+      "worker.log": "eb15ef43e8dba1e5ff7d40a050cdd3d5f594d1309ddfd380e1d6a42ed2dc5695",
+      "worker_pid.txt": "014c25c2a03b759df6ff5cb06e5360e89131522be1d73c5b76a86b6f28f076d6"
+    },
+    "broker_execution": false,
+    "code_sha256": {
+      "scripts/managed_recovery_fixture.py": "c858d5327fc80c213074fbe2935ae2c0ae16fe7786e6aa2ca148967b979a2de4",
+      "scripts/run_m8_cash_session.py": "b4a2b2c2675830166c4cb773ef37ecd34ae18f6cdbc6285fcdaa97090b1277cd",
+      "scripts/run_m8_n8.py": "78f5d5a1d758a5a9af3eb3f0aecf9b932b6ea88bd3a862dd1ba12189c1f217a0",
+      "src/research_control/attempts.py": "fb8b52130e1cc2b132d789d980f034cf283f2bb967a6a257d343af54d373ad99",
+      "src/research_control/casefile.py": "f6bed11e84990a67ee5bd484949e89f49a0ab4453d012480958441e537954da0",
+      "tests/test_m8_managed_recovery.py": "bd6f8156baf24bd24a6c47b4838af2e163bb8385deb37fc29795c444e337edfb"
+    },
+    "complete_runs": 1,
+    "completed_at_utc": "2026-10-13T10:41:54.196641+00:00",
+    "environment": {
+      "ml4t_backtest": "0.1.7",
+      "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+      "python": "3.13.5"
+    },
+    "evidence_directory": "run_log/m8/recovery_qualification_artifacts/225dd0c7-eba4-4cd6-a5f3-996a86a0d823-9733485c-7e11-4478-b4d6-1f4bddf95427/",
+    "killed_at_utc": "2026-10-13T10:41:50.830808+00:00",
+    "killed_worker_pid": 1458035,
+    "launch_commands": [
+      "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py pause --root /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 225dd0c7-eba4-4cd6-a5f3-996a86a0d823 --ready /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/worker.ready --partial /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --release /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/worker.release --pid-file /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/worker.pid >> /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/worker.log 2>&1",
+      "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py finish --root /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 9733485c-7e11-4478-b4d6-1f4bddf95427 --partial /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --result /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/successor/result.json >> /tmp/pytest-of-quant/pytest-873/test_managed_worker_death_repl0/worker.log 2>&1"
+    ],
+    "parent_attempt_id": "225dd0c7-eba4-4cd6-a5f3-996a86a0d823",
+    "parent_status": "ABORTED",
+    "partial_progress_retained": true,
+    "permit_identity": {
+      "code_sha256": "a385bcf43e8bf987e715e3bff6d5d18bc4151c12ffdcfd0952d878ae1892a61e",
+      "config_sha256": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+      "data_sha256": "00a5d4eaa427c42747f6650b08e03ba638f2bad6afeebfdbd27889cf951e9fa2",
+      "engine": "ml4t.backtest",
+      "engine_version": "0.1.7",
+      "feature_proof_sha256": "204162cf78197f3bd9b141fcaa7b4ea66be52e35372c63eb96467271b2a89c4b",
+      "frozen_session_sha256": "cf8441f608cccefff2fd517eab75e7dc03c128f529fa784c115540324fb268da",
+      "intent_sha256": "2d677da51ca41d28a0950208d38c772cf5e40fcf5ff7a12572811596c92b2e54",
+      "source_sha256": "f5903d2122256300de4612ae58403d8921a32397744005efc3d57db6c220198d",
+      "spec_sha256": "9809036df6638d50f6322a4a2298646a5d6c10522794a1fffa5fe395cdeefe0a"
+    },
+    "permit_sha256": "2e1f92079cc6e31cf9a57271e518743aa5a8725be2c9070b403cecf525854d6f",
+    "protected_holdout_accessed": false,
+    "reason_codes": [
+      "ATTEMPT_RESERVED",
+      "WORKER_CONFIRMED_ACTIVE",
+      "LEASE_UNCERTAIN",
+      "SUCCESSOR_REPLAY_RESERVED",
+      "ATTEMPT_ALREADY_TERMINAL"
+    ],
+    "same_attempt_continuation_claimed": false,
+    "schema_version": 1,
+    "started_at_utc": "2026-10-13T10:41:48.277265+00:00",
+    "strategy_execution": false,
+    "successor_attempt_id": "9733485c-7e11-4478-b4d6-1f4bddf95427",
+    "successor_parent_attempt_id": "225dd0c7-eba4-4cd6-a5f3-996a86a0d823",
+    "successor_status": "COMPLETED",
+    "task_owned_tmux_session": "ml4t-m8c-recovery-f152bc1e3e",
+    "test": "test_managed_worker_death_replays_under_successor_attempt",
+    "tmux_session_absent_before_launch": true,
+    "worker_lock_released_after_kill": true,
+    "workspace_head": "dfadae896f1e23593910cc631984a27e47f12a16"
+  },
+  "controlled_run_evidence": "run_log/m8/recovery_qualification_artifacts/225dd0c7-eba4-4cd6-a5f3-996a86a0d823-9733485c-7e11-4478-b4d6-1f4bddf95427/",
+  "development_failures": [
+    {
+      "case": "initial checkpoint harness run",
+      "correction": "Store immutable checkpoint files in an isolated checkpoints subdirectory and reference each checkpoint from its append-only attempt event.",
+      "observed_at_utc": "2026-10-13",
+      "outcome": "FAILED_BEFORE_CHECKPOINT",
+      "reason": "Checkpoint JSON files shared the attempt event directory and AttemptLedger.events rejected them as untrusted events.",
+      "scope": "Synthetic control-plane test only; no trading data, holdout, broker, order, or unrelated tmux session was touched."
+    }
+  ],
+  "falsifier": "Any duplicate worker, same-ID reopening of ABORTED, invalid identity acceptance, missing checkpoint or artifact acceptance, or more than one completed successor falsifies recovery safety.",
+  "hypothesis": "A managed worker can be recovered without duplicate work when the old worker is proven dead, its checkpoint matches the attempt identity, and the parent attempt remains terminal.",
+  "limitations": [
+    "Same-attempt continuation is not supported or claimed.",
+    "The interrupted worker test uses a deterministic synthetic fixture. It does not execute a trading strategy.",
+    "The PDF-derived source rule remains untested because its source document is unavailable.",
+    "This corpus does not estimate general agent reliability rates.",
+    "Strategy approval remains NOT_APPROVED and broker execution remains unqualified."
+  ],
+  "observed_at_utc": "2026-10-13",
+  "parallel_race_case": "tests/test_m8_managed_recovery.py::test_parallel_managed_claims_reserve_only_one_attempt",
+  "planned_trials": [
+    {
+      "acceptance": "exactly one completed valid successor, intact parent ABORTED, no duplicate worker",
+      "id": "managed-worker-interruption-v1",
+      "interruption_point": "after immutable partial-output checkpoint",
+      "kind": "deterministic_control_plane_fixture",
+      "recovery": "new attempt ID, full replay from start, parent retained",
+      "worker_count": 1
+    }
+  ],
+  "prior_controlled_runs": [
+    {
+      "artifacts": {
+        "0c0ea45d-f611-42dd-8d53-f5d53a7f3fe2.worker.lock": "bf879af4f4e220a66fcb5d05d0f863f0681ffae925d1d04913c8b7e052944efc",
+        "3f582ade-9551-4458-a7d6-6a4bebe8b206.worker.lock": "1b2805748a2f76f27efa7815183602c232fc360a3e0251edbacc4d68b694a0b2",
+        "checkpoints/0c0ea45d-f611-42dd-8d53-f5d53a7f3fe2.c7f71a378c294dcf9df7cd94fa21d6c7.json": "c91d7a3b00c8757c6d748c675a0d18b145bc2ae27d9365460a5f4abda5222da0",
+        "checkpoints/3f582ade-9551-4458-a7d6-6a4bebe8b206.0c8c46e26cc14987b8f1e67e60c79a39.json": "be2f68fda9f914f91a4615bfbff4ac78f4d763a3a1234c884f6f13d233f279a7",
+        "events/049889be82a74eddbd112ff7aadf81b3.json": "f10cc914614657973224e793a9bdcbad1523668873ccc6c5b4f339a3acd8b715",
+        "events/21f9d3085d504d68889cfcb6e43c2eec.json": "a514d27f7e2e5d23f3da6d118e6b30007b2997cd5a6dda78b02465878a91961d",
+        "events/59fdeff82ee1468b8e1d5cbb1c1cb35e.json": "1da4beffc7b76c787186344dfc430f57eacd8d00d4275fcf49ed7f251e55d591",
+        "events/69833493d7ff485b933fa0c268b5088d.json": "41516ab9a6e539b7802bf486eb909eb0e17ec627b689bcaf73c0341b5c4758d8",
+        "events/b487d6efd6534a32a8ca786d7ddca907.json": "00e74ce807236bec1508427c7a9a77ccebd60cbeaf1ef30282959e03fc9c9de3",
+        "events/c2ef399a55c84b34abfc1834ea3f868b.json": "2af9fad1bc7a22e8e3474a0f25c62b17d651b912bf86dc87df45851a0aa6c46f",
+        "events/e51de543a848458aae816bb8b20e1884.json": "b39669ccb2e17f15d703bb98399337870fc3e8ea29d95183c970a9e4118cca2d",
+        "events/fdbf9c9c771e49b2a466a55c8ed77e18.json": "29401176e1669d65fe24adc02e02abdef688ff6c30d4a1328489381c21275355",
+        "partial.json": "97c32be1d44f63786a1ae76d3e38b0564b5f6c7a83c223561cf578b09a4911f1",
+        "result.json": "a4b39f7b2a1e6347594c66e2709943b2d90f80b8488bb7f558db07b06983e175",
+        "worker.log": "01e9d1e3a7c353a96edcbaf002649087f1c435785ab3ff5381987c672e9ea3e5",
+        "worker_pid.txt": "52af46cceb4821b59c9bf5346963438cb4439233557184d93d882a3994394891"
+      },
+      "complete_runs": 1,
+      "completed_at_utc": "2026-10-13T10:28:08.849517+00:00",
+      "evidence_directory": "run_log/m8/recovery_qualification_artifacts/3f582ade-9551-4458-a7d6-6a4bebe8b206-0c0ea45d-f611-42dd-8d53-f5d53a7f3fe2/",
+      "killed_at_utc": "2026-10-13T10:28:05.048504+00:00",
+      "killed_worker_pid": 1422151,
+      "parent_attempt_id": "3f582ade-9551-4458-a7d6-6a4bebe8b206",
+      "parent_status": "ABORTED",
+      "partial_progress_retained": true,
+      "same_attempt_continuation_claimed": false,
+      "schema_version": 1,
+      "started_at_utc": "2026-10-13T10:28:01.938738+00:00",
+      "successor_attempt_id": "0c0ea45d-f611-42dd-8d53-f5d53a7f3fe2",
+      "successor_status": "COMPLETED",
+      "task_owned_tmux_session": "ml4t-m8c-recovery-06918213b5",
+      "test": "test_managed_worker_death_replays_under_successor_attempt",
+      "worker_lock_released_after_kill": true
+    },
+    {
+      "artifacts": {
+        "4551b9b8-eb48-4aef-a785-af0fae39973a.worker.lock": "7ac09b303e5ac825a38d5bd737260278c075cf207bafc30e5878f69872f4f749",
+        "4719fbc9-8648-470f-bc64-064f778ce478.worker.lock": "eef768c2ff339b7416aa00e0c32580daa4ab0bcb041947b88e1476a7d7827820",
+        "checkpoints/4551b9b8-eb48-4aef-a785-af0fae39973a.3d8b3d214d4848bcb3c47cc63fdb0ddd.json": "d0730f81264c87847c995f2fe85d25aff4c50baf85937695bd3ed47edbe97c5a",
+        "checkpoints/4719fbc9-8648-470f-bc64-064f778ce478.5153ab3c13094b979177bc0fdc7d0241.json": "b1568aa5a81684d6ad37180d820132007ac24df88301f4ce4a9ffaa20b3f0beb",
+        "events/40ca62d1d9524e07ba0e5557e7d623fd.json": "61e48926e1566611af5ecd4bd9cfabf5338e99a0be8442254fd7f43e3468f2b0",
+        "events/7e65c4cbfcc34d819e7a5d0ecfd8a51e.json": "5c361ca7f9eda02b6d503aa73c23d3c8eaa0db3b19646873607f65b331258ffb",
+        "events/7e9adfb562c44c08b744e0a063a7d80f.json": "2c1db17c6f0bba62e9664648b1102a76b743c6354a5ecf6136dd75440e876fa0",
+        "events/8797c90518f94b689aba04a31e541313.json": "a6bd6bdcf63db89e194d8b8962ba64510843505dd9435ca4bceee1208fea1cf7",
+        "events/c5317b99c66c4fa69931d4c1950ede11.json": "7eb1f29c0ad3eeb4397db1d760aaf3b1c5b6f308e8ff2737358b89955d94efac",
+        "events/d05a0b90bb6b4caa82c7a65b5cdd1614.json": "380be41e05c689c331b633e135ae867a271f084b75b012f842540cbad68789f0",
+        "events/d1ac6d5347c64513b84969346f3dd3a8.json": "8459f3b11c2a25048d8041fe64881e1bd4541ce1b5964d38b3acdd67eaecbafc",
+        "events/dfdbc1edfd5c42b09c66d222546004be.json": "14ca734311243167a08154b69756b8a1143e65e0a1f6ccaea1bcc9bc448cd175",
+        "partial.json": "97c32be1d44f63786a1ae76d3e38b0564b5f6c7a83c223561cf578b09a4911f1",
+        "result.json": "3e53a4547bdf16ea8e1765a87085e3fa078dd7aa140531b007403dd0f4a97aea",
+        "worker.log": "a86045a62824720f2554c8271af633da6a4549b148f5f5504fb2eb9c6ad1346a",
+        "worker_pid.txt": "7010ffcafc336d7679d5b55c9ce6d81d960d78db3e58b9629ea610ebfb8581bf"
+      },
+      "broker_execution": false,
+      "complete_runs": 1,
+      "completed_at_utc": "2026-10-13T10:29:19.469843+00:00",
+      "evidence_directory": "run_log/m8/recovery_qualification_artifacts/4551b9b8-eb48-4aef-a785-af0fae39973a-4719fbc9-8648-470f-bc64-064f778ce478/",
+      "killed_at_utc": "2026-10-13T10:29:15.789061+00:00",
+      "killed_worker_pid": 1425588,
+      "launch_commands": [
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py pause --root /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 4551b9b8-eb48-4aef-a785-af0fae39973a --ready /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/worker.ready --partial /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --release /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/worker.release --pid-file /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/worker.pid >> /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/worker.log 2>&1",
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py finish --root /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 4719fbc9-8648-470f-bc64-064f778ce478 --partial /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --result /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/successor/result.json >> /tmp/pytest-of-quant/pytest-865/test_managed_worker_death_repl0/worker.log 2>&1"
+      ],
+      "parent_attempt_id": "4551b9b8-eb48-4aef-a785-af0fae39973a",
+      "parent_status": "ABORTED",
+      "partial_progress_retained": true,
+      "protected_holdout_accessed": false,
+      "reason_codes": [
+        "ATTEMPT_RESERVED",
+        "WORKER_CONFIRMED_ACTIVE",
+        "LEASE_UNCERTAIN",
+        "SUCCESSOR_REPLAY_RESERVED",
+        "ATTEMPT_ALREADY_TERMINAL"
+      ],
+      "same_attempt_continuation_claimed": false,
+      "schema_version": 1,
+      "started_at_utc": "2026-10-13T10:29:13.007521+00:00",
+      "strategy_execution": false,
+      "successor_attempt_id": "4719fbc9-8648-470f-bc64-064f778ce478",
+      "successor_parent_attempt_id": "4551b9b8-eb48-4aef-a785-af0fae39973a",
+      "successor_status": "COMPLETED",
+      "task_owned_tmux_session": "ml4t-m8c-recovery-3a7bbed334",
+      "test": "test_managed_worker_death_replays_under_successor_attempt",
+      "tmux_session_absent_before_launch": true,
+      "worker_lock_released_after_kill": true
+    },
+    {
+      "artifacts": {
+        "4bed575a-a880-46ea-8010-0fb04cffbe3a.worker.lock": "34d77a01d6a9268e6f594001903459a7a560ff58b11eac585c7ef3ed3b5b94c5",
+        "6bcea2a8-aeda-4146-a679-18156e5f6cce.worker.lock": "40e7c77811ce92750c1a37cf3501d41bf3ab048e8246ab74097b3fa2906c9e3f",
+        "checkpoints/4bed575a-a880-46ea-8010-0fb04cffbe3a.a9190df7da904219ba08183e3214c348.json": "509a34e7784c67dc820926eba0e8c94590d17c08d6b0bc29e1b353385aac054e",
+        "checkpoints/6bcea2a8-aeda-4146-a679-18156e5f6cce.06be1d69bdfd4e4f8ee06a1b237bd059.json": "a94a16d1573c159cf3adb7b5dc5c0375bc1ed388c4d31c483644eb8e94f4558f",
+        "events/4f3549eba47b45d49d0b1d5f18fd3c32.json": "12aa12dff7029a95f8d9b2e245502dd463de6e2e24d11b1b8d2070b96da8eaec",
+        "events/746f226fd7ab42b4928b3ffb1328bb7c.json": "d1af210414ee45148e992451aa82ecd32ad8900184ad9bbcc4e0a314277464ab",
+        "events/8c68c23ab41a407a9e4fcb944fa96fbb.json": "ea35799b89320b601e63d42346f88d93ca2f8c4f3e03ef5a63e1da4c1a29616b",
+        "events/90abeb317e65485faa032adc50c4e197.json": "2fc6d9b2d623166a6f4e2d0bb8f79754570717e31111947c0c2443cf5e9632c0",
+        "events/a74e02c855d04efd98bed4535784b08b.json": "d098d91bb0f4775f6cf69635a4a5c8325fa7052d6f1ff26d00935aefdd3ab9c5",
+        "events/a7c1d122cbeb44158c267479c20151c2.json": "73fc65aa759b8b3ced0738d9d129ea305cd1a74f9574c42c917c64d8ee28ba5a",
+        "events/abb4e893baa24ee4a5f104d112445b45.json": "2750d96407b45d9a0d02f9ed6f025ec06187930455d6b6dd6dc4baaf4bd906b9",
+        "events/c25c45f39957401a9a32a407dbbf56b7.json": "45b8b3bb70f61d92947dff8f12808e4b47a2f20404b72b5033f32069563474c1",
+        "partial.json": "97c32be1d44f63786a1ae76d3e38b0564b5f6c7a83c223561cf578b09a4911f1",
+        "result.json": "349c0081891dc98443b7d513a86f0d7e4081f08328ca6213d8e2acb025b70fa4",
+        "worker.log": "5cbcc494bc702f7d8770a76dfc6915b99b0dd2f9a15c16477eca699f8071e859",
+        "worker_pid.txt": "be680837a11097795c014ffe721b9aa5afa6fda4238d5817b474d8f11c5302f4"
+      },
+      "broker_execution": false,
+      "complete_runs": 1,
+      "completed_at_utc": "2026-10-13T10:35:10.162340+00:00",
+      "evidence_directory": "run_log/m8/recovery_qualification_artifacts/6bcea2a8-aeda-4146-a679-18156e5f6cce-4bed575a-a880-46ea-8010-0fb04cffbe3a/",
+      "killed_at_utc": "2026-10-13T10:35:06.755470+00:00",
+      "killed_worker_pid": 1440648,
+      "launch_commands": [
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py pause --root /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 6bcea2a8-aeda-4146-a679-18156e5f6cce --ready /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/worker.ready --partial /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --release /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/worker.release --pid-file /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/worker.pid >> /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/worker.log 2>&1",
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py finish --root /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 4bed575a-a880-46ea-8010-0fb04cffbe3a --partial /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --result /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/successor/result.json >> /tmp/pytest-of-quant/pytest-868/test_managed_worker_death_repl0/worker.log 2>&1"
+      ],
+      "parent_attempt_id": "6bcea2a8-aeda-4146-a679-18156e5f6cce",
+      "parent_status": "ABORTED",
+      "partial_progress_retained": true,
+      "protected_holdout_accessed": false,
+      "reason_codes": [
+        "ATTEMPT_RESERVED",
+        "WORKER_CONFIRMED_ACTIVE",
+        "LEASE_UNCERTAIN",
+        "SUCCESSOR_REPLAY_RESERVED",
+        "ATTEMPT_ALREADY_TERMINAL"
+      ],
+      "same_attempt_continuation_claimed": false,
+      "schema_version": 1,
+      "started_at_utc": "2026-10-13T10:35:03.954765+00:00",
+      "strategy_execution": false,
+      "successor_attempt_id": "4bed575a-a880-46ea-8010-0fb04cffbe3a",
+      "successor_parent_attempt_id": "6bcea2a8-aeda-4146-a679-18156e5f6cce",
+      "successor_status": "COMPLETED",
+      "task_owned_tmux_session": "ml4t-m8c-recovery-a4cdf89cf5",
+      "test": "test_managed_worker_death_replays_under_successor_attempt",
+      "tmux_session_absent_before_launch": true,
+      "worker_lock_released_after_kill": true
+    },
+    {
+      "artifacts": {
+        "2f13015f-229d-4884-a36e-7563504908fb.worker.lock": "566eecf9df088a61238ae26c53e023110fe9baab2dc52f1bbbf7c678510f2c20",
+        "9226580d-0059-4ce2-973c-078368c6b62a.worker.lock": "10f90ecfe091840b3ea8a58eb15df4c066aff98dc2b2059967bfa6c0e70decec",
+        "checkpoints/2f13015f-229d-4884-a36e-7563504908fb.ed8a2f165ec94490b7d99ad731457ae6.json": "cd5dcd79da851ed8f14d0461fa37076210cdc06def8b71156c8da685eb748e99",
+        "checkpoints/9226580d-0059-4ce2-973c-078368c6b62a.c009de8424e14c42bb74e5902587506d.json": "e69631f33ba6cdd8beba8bcfd512f14f57e4535a502df2a85edf9ad649e996f0",
+        "events/220cc54bb10d47f59919040cda6a9ae1.json": "8af993aed4377c3c96ca59372e55b846d88ebe5276eaf08d006fb7f8450bd2f7",
+        "events/3848f2e83f2b46c79d27ed2dbf7e01ef.json": "1806ec5d5396d119abd794baebaeb6baed4838bc25fc79db3d8398b5a4d05393",
+        "events/421bc50c944b479c821b0e6c9dc58283.json": "9f68a0e783715a160425380b71a180fe1e8559f1275529140957ba4afcdd70cf",
+        "events/4c385d5c97064269a21ed330c932b7bc.json": "95b8de25875fd58713329e06efefce06eb2c83ed27843fc7527bb4b98743c8a2",
+        "events/9a52bf143c6e4ce1844075419f29efba.json": "587c0adcf327435e18399ea5b787f52075dd23ba97bba9d18ac9668ae6e7bf7f",
+        "events/a797f324da9a4180b76ddd23db2146d2.json": "28072c4ed2856870b643bc4637051174e37af52e5a856c29e03e34c2073f9b7b",
+        "events/cb6ce86ed51d4ef5a485ac650ff20c6a.json": "e49fa71706ef8375b11e4d33ab1033dc1adc1b69e390be1785164092908f1889",
+        "events/efd8a9e8c3f642d095738cb749378a3b.json": "1ae4565be23e88182b5c7a90fa408491a4118f1ca768fff8b6b075266a65e9aa",
+        "fixture_inputs/audit.py": "532589e4fe0be0e961ab63a0c6a2528f4ad31f6e4f30852a0ed073f759ce9321",
+        "fixture_inputs/bars.parquet": "18d85e9b25398d9da5fa65008c4c93489912b76eca1fd75c355be290bb021996",
+        "fixture_inputs/costs.json": "072c6ab8a01a8d6285d00035e005e9668eb825ad3b69336aee2d9d756ecf33cc",
+        "fixture_inputs/feature-contract.yaml": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+        "fixture_inputs/frozen_spec.json": "71d92c016b7613911e8e997aa0121e870f9e7a71930af03bee33469246d0b9b5",
+        "fixture_inputs/multiplier.json": "31adfcfbecf69db741499dbb8460efd7e3d1b7bbbce18718638dfae2bb7cedd7",
+        "fixture_inputs/run_permit.json": "24b2ca559bccc540ac19d2f36962ac10fb71948c1f8f40d2e66f7d542107b583",
+        "fixture_inputs/session.yaml": "8dd433bd2c07c8f771105cdc88cf2be7f432c80b137e33641f0b3eb394bc524b",
+        "partial.json": "97c32be1d44f63786a1ae76d3e38b0564b5f6c7a83c223561cf578b09a4911f1",
+        "result.json": "bb51f6750c0c346e464c18717ff97001df88f977022334ef41c3be525b551d07",
+        "worker.log": "b61c240a7a29eab2ac8db96e2573e697385685bcdc50602d65333af2016cd74f",
+        "worker_pid.txt": "b7ade07d07ec176ce97c5f0250143b6537f1242d7078c96b00aacbeb2b547245"
+      },
+      "broker_execution": false,
+      "code_sha256": {
+        "scripts/managed_recovery_fixture.py": "c858d5327fc80c213074fbe2935ae2c0ae16fe7786e6aa2ca148967b979a2de4",
+        "scripts/run_m8_cash_session.py": "b4a2b2c2675830166c4cb773ef37ecd34ae18f6cdbc6285fcdaa97090b1277cd",
+        "scripts/run_m8_n8.py": "78f5d5a1d758a5a9af3eb3f0aecf9b932b6ea88bd3a862dd1ba12189c1f217a0",
+        "src/research_control/attempts.py": "e2062b4214eca5c82da20279a978459680736d6271a37b4a6c7065e7e3313974",
+        "src/research_control/casefile.py": "f6bed11e84990a67ee5bd484949e89f49a0ab4453d012480958441e537954da0",
+        "tests/test_m8_managed_recovery.py": "12947026b2c5363b8e27ea04be9c941aa4486c87c2b44f2aeb3730e889ce3abb"
+      },
+      "complete_runs": 1,
+      "completed_at_utc": "2026-10-13T10:39:25.836326+00:00",
+      "environment": {
+        "ml4t_backtest": "0.1.7",
+        "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+        "python": "3.13.5"
+      },
+      "evidence_directory": "run_log/m8/recovery_qualification_artifacts/2f13015f-229d-4884-a36e-7563504908fb-9226580d-0059-4ce2-973c-078368c6b62a/",
+      "killed_at_utc": "2026-10-13T10:39:22.460667+00:00",
+      "killed_worker_pid": 1451524,
+      "launch_commands": [
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py pause --root /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 2f13015f-229d-4884-a36e-7563504908fb --ready /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/worker.ready --partial /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --release /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/worker.release --pid-file /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/worker.pid >> /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/worker.log 2>&1",
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py finish --root /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 9226580d-0059-4ce2-973c-078368c6b62a --partial /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --result /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/successor/result.json >> /tmp/pytest-of-quant/pytest-870/test_managed_worker_death_repl0/worker.log 2>&1"
+      ],
+      "parent_attempt_id": "2f13015f-229d-4884-a36e-7563504908fb",
+      "parent_status": "ABORTED",
+      "partial_progress_retained": true,
+      "permit_identity": {
+        "code_sha256": "a385bcf43e8bf987e715e3bff6d5d18bc4151c12ffdcfd0952d878ae1892a61e",
+        "config_sha256": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+        "data_sha256": "00a5d4eaa427c42747f6650b08e03ba638f2bad6afeebfdbd27889cf951e9fa2",
+        "engine": "ml4t.backtest",
+        "engine_version": "0.1.7",
+        "feature_proof_sha256": "204162cf78197f3bd9b141fcaa7b4ea66be52e35372c63eb96467271b2a89c4b",
+        "frozen_session_sha256": "2a40086e3f27c921c5ea5b103497e8896306fe56b709eaeb37b5307dc3720f3e",
+        "intent_sha256": "2d677da51ca41d28a0950208d38c772cf5e40fcf5ff7a12572811596c92b2e54",
+        "source_sha256": "f5903d2122256300de4612ae58403d8921a32397744005efc3d57db6c220198d",
+        "spec_sha256": "9809036df6638d50f6322a4a2298646a5d6c10522794a1fffa5fe395cdeefe0a"
+      },
+      "permit_sha256": "eb78ded3befbb153b87aab7bce556ad401b30125fc90cc72587efb81606b1d16",
+      "protected_holdout_accessed": false,
+      "reason_codes": [
+        "ATTEMPT_RESERVED",
+        "WORKER_CONFIRMED_ACTIVE",
+        "LEASE_UNCERTAIN",
+        "SUCCESSOR_REPLAY_RESERVED",
+        "ATTEMPT_ALREADY_TERMINAL"
+      ],
+      "same_attempt_continuation_claimed": false,
+      "schema_version": 1,
+      "started_at_utc": "2026-10-13T10:39:19.782221+00:00",
+      "strategy_execution": false,
+      "successor_attempt_id": "9226580d-0059-4ce2-973c-078368c6b62a",
+      "successor_parent_attempt_id": "2f13015f-229d-4884-a36e-7563504908fb",
+      "successor_status": "COMPLETED",
+      "task_owned_tmux_session": "ml4t-m8c-recovery-eab8af8caa",
+      "test": "test_managed_worker_death_replays_under_successor_attempt",
+      "tmux_session_absent_before_launch": true,
+      "worker_lock_released_after_kill": true,
+      "workspace_head": "dfadae896f1e23593910cc631984a27e47f12a16"
+    },
+    {
+      "artifacts": {
+        "99d3b024-b0e0-4081-9c3f-43634894361c.worker.lock": "c1ed5eba14cc1ede5e1227c4fb569b9242bc5761650e152619eec4a6ac4c0569",
+        "9da01f1a-96f4-4739-9cc8-544799dcf6cf.worker.lock": "3e14a9437e1c1bf4373c41c1b09c6cda41026b36f07beb26f212a46f33b2c51a",
+        "checkpoints/99d3b024-b0e0-4081-9c3f-43634894361c.410c21c0c6d143cfb75467bb4a36f2c6.json": "05b17cbc3368b3a969db95d568724ec09c3de7bc04504e4d11ba766a8dfea20d",
+        "checkpoints/9da01f1a-96f4-4739-9cc8-544799dcf6cf.f8ba9a1d062346ee97a365c2fcba10ca.json": "a7b8a82db055a18c507c90901e6c415a11cd33d092d9e69f9fb1756479510b6f",
+        "events/0fe4fe8d593e4b0f9b25df3151b56c9f.json": "d0ebc2a3120e62bf4431e0c8a2b3b67280bc49639f445c68d3265b05a887f784",
+        "events/27bae786834d4aca8be3a414bda05b96.json": "7e8d5eafe3d25ec077edf1a797d6198040cb2e432619fd97638cd58697afa70b",
+        "events/4ab427c354d54a47b6ef3902edaab175.json": "bc0ccc6862065665e5ce26a6164d0b7930e58df743592a02c40b1d339176cb6e",
+        "events/56cb4ef32c56418a9311f42b2e847923.json": "9e761bf52267c102e0324938097e6719c4819e5ae094ec5ca4b9765e15945dc9",
+        "events/68b97ea3a3ce4ec0a3d7beaa9d534f4d.json": "53dbc18f3064146eafab0247abfdd45f96032e0572970babfe373387889a856b",
+        "events/6ec8ff0cd2a14bc5b9cd896fc60a12af.json": "eb3481bd8e4154d4a08ba2a3b7dabbb9ef0affa05e41bcf5819548e05c173930",
+        "events/d6d1aedcc6674089bb9b65cf6ffd2380.json": "922e06f67bd4f35a71eb7ce66a011b4cf06f0685599f34fad17461de1ae8d95a",
+        "events/ec45d98112504e48877b2364dc5dc12f.json": "204c3c6261835ed0faa9723ce947ca007d18b9b6bdaf41561ec70ed473664cce",
+        "fixture_inputs/audit.py": "532589e4fe0be0e961ab63a0c6a2528f4ad31f6e4f30852a0ed073f759ce9321",
+        "fixture_inputs/bars.parquet": "18d85e9b25398d9da5fa65008c4c93489912b76eca1fd75c355be290bb021996",
+        "fixture_inputs/costs.json": "072c6ab8a01a8d6285d00035e005e9668eb825ad3b69336aee2d9d756ecf33cc",
+        "fixture_inputs/feature-contract.yaml": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+        "fixture_inputs/frozen_spec.json": "d1abfca37f9481f86fa04b52afba000555004f304c337789400a58667c3fb6e7",
+        "fixture_inputs/multiplier.json": "31adfcfbecf69db741499dbb8460efd7e3d1b7bbbce18718638dfae2bb7cedd7",
+        "fixture_inputs/run_permit.json": "3b58b70da879102219e0629418e2a43581ca4878313e999a4a3575d4cd2fada4",
+        "fixture_inputs/session.yaml": "8dd433bd2c07c8f771105cdc88cf2be7f432c80b137e33641f0b3eb394bc524b",
+        "partial.json": "97c32be1d44f63786a1ae76d3e38b0564b5f6c7a83c223561cf578b09a4911f1",
+        "result.json": "684cb56937e6195c3f70d41c8cdec8042836785a26304caba8e4550f4262381d",
+        "worker.log": "f269311adf06d5fae15bf5222ba92a826d513766652d60313f06ba4ac51c2dc8",
+        "worker_pid.txt": "307ff0580c0678720106857fffed4ddc175e5af72fd15a635be6a40ba44f4695"
+      },
+      "broker_execution": false,
+      "code_sha256": {
+        "scripts/managed_recovery_fixture.py": "c858d5327fc80c213074fbe2935ae2c0ae16fe7786e6aa2ca148967b979a2de4",
+        "scripts/run_m8_cash_session.py": "b4a2b2c2675830166c4cb773ef37ecd34ae18f6cdbc6285fcdaa97090b1277cd",
+        "scripts/run_m8_n8.py": "78f5d5a1d758a5a9af3eb3f0aecf9b932b6ea88bd3a862dd1ba12189c1f217a0",
+        "src/research_control/attempts.py": "3665b91aba2443cd97a91b4701e2d04e4020fe887e73b0df3510d8102ff5209a",
+        "src/research_control/casefile.py": "f6bed11e84990a67ee5bd484949e89f49a0ab4453d012480958441e537954da0",
+        "tests/test_m8_managed_recovery.py": "12947026b2c5363b8e27ea04be9c941aa4486c87c2b44f2aeb3730e889ce3abb"
+      },
+      "complete_runs": 1,
+      "completed_at_utc": "2026-10-13T10:40:21.624440+00:00",
+      "environment": {
+        "ml4t_backtest": "0.1.7",
+        "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+        "python": "3.13.5"
+      },
+      "evidence_directory": "run_log/m8/recovery_qualification_artifacts/99d3b024-b0e0-4081-9c3f-43634894361c-9da01f1a-96f4-4739-9cc8-544799dcf6cf/",
+      "killed_at_utc": "2026-10-13T10:40:18.210517+00:00",
+      "killed_worker_pid": 1453775,
+      "launch_commands": [
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py pause --root /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 99d3b024-b0e0-4081-9c3f-43634894361c --ready /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/worker.ready --partial /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --release /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/worker.release --pid-file /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/worker.pid >> /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/worker.log 2>&1",
+        "/home/quant/.devspace/worktrees/quant-research-878293c8/.venv/bin/python /home/quant/.devspace/worktrees/quant-research-878293c8/scripts/managed_recovery_fixture.py finish --root /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0 --session-id permit-synthetic --attempt-id 9da01f1a-96f4-4739-9cc8-544799dcf6cf --partial /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/parent/partial.json --result /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/run_log/m8/recovery-fixture/successor/result.json >> /tmp/pytest-of-quant/pytest-871/test_managed_worker_death_repl0/worker.log 2>&1"
+      ],
+      "parent_attempt_id": "99d3b024-b0e0-4081-9c3f-43634894361c",
+      "parent_status": "ABORTED",
+      "partial_progress_retained": true,
+      "permit_identity": {
+        "code_sha256": "a385bcf43e8bf987e715e3bff6d5d18bc4151c12ffdcfd0952d878ae1892a61e",
+        "config_sha256": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+        "data_sha256": "00a5d4eaa427c42747f6650b08e03ba638f2bad6afeebfdbd27889cf951e9fa2",
+        "engine": "ml4t.backtest",
+        "engine_version": "0.1.7",
+        "feature_proof_sha256": "204162cf78197f3bd9b141fcaa7b4ea66be52e35372c63eb96467271b2a89c4b",
+        "frozen_session_sha256": "6542ee34fd7c7f9842822abe8f89f2c4c8ec5bd3b472f3689514d579bb616a38",
+        "intent_sha256": "2d677da51ca41d28a0950208d38c772cf5e40fcf5ff7a12572811596c92b2e54",
+        "source_sha256": "f5903d2122256300de4612ae58403d8921a32397744005efc3d57db6c220198d",
+        "spec_sha256": "9809036df6638d50f6322a4a2298646a5d6c10522794a1fffa5fe395cdeefe0a"
+      },
+      "permit_sha256": "674ce226ccc15910c283ce8d141fb4f961407f576181db5b288ef53d555ef79a",
+      "protected_holdout_accessed": false,
+      "reason_codes": [
+        "ATTEMPT_RESERVED",
+        "WORKER_CONFIRMED_ACTIVE",
+        "LEASE_UNCERTAIN",
+        "SUCCESSOR_REPLAY_RESERVED",
+        "ATTEMPT_ALREADY_TERMINAL"
+      ],
+      "same_attempt_continuation_claimed": false,
+      "schema_version": 1,
+      "started_at_utc": "2026-10-13T10:40:15.425977+00:00",
+      "strategy_execution": false,
+      "successor_attempt_id": "9da01f1a-96f4-4739-9cc8-544799dcf6cf",
+      "successor_parent_attempt_id": "99d3b024-b0e0-4081-9c3f-43634894361c",
+      "successor_status": "COMPLETED",
+      "task_owned_tmux_session": "ml4t-m8c-recovery-deb069422c",
+      "test": "test_managed_worker_death_replays_under_successor_attempt",
+      "tmux_session_absent_before_launch": true,
+      "worker_lock_released_after_kill": true,
+      "workspace_head": "dfadae896f1e23593910cc631984a27e47f12a16"
+    }
+  ],
+  "prior_runs_role": "Earlier successful synthetic worker runs are retained as implementation rehearsals. The latest run is the qualifying evidence and includes complete synthetic inputs, permit, code hashes, process trace, and outputs.",
+  "qualification_id": "m8-c-issue-25-managed-recovery",
+  "recovery_policy": {
+    "kind": "successor_attempt_replay",
+    "parent_state_after_death": "ABORTED",
+    "same_attempt_resume_supported": false,
+    "successor_replay": "Start the calculation from the beginning under a new attempt ID. Preserve the parent checkpoint and partial artifacts. Independently verify completed artifacts before reuse.",
+    "successor_requires": [
+      "tmux visibility query succeeds and the named job is absent",
+      "worker OS lock exists and is released",
+      "lease is expired",
+      "append-only checkpoint hash matches",
+      "checkpoint attempt, run, and permit fingerprints match the parent",
+      "all checkpointed partial artifact hashes match"
+    ]
+  },
+  "result": "CONTROL_PLANE_RECOVERY_QUALIFIED_WITH_SUCCESSOR_REPLAY",
+  "schema_version": 1,
+  "scope": "Control-plane qualification only. No strategy optimization, protected holdout access, market data, broker, or live order.",
+  "skills": [
+    {
+      "invariants": [
+        "Checkpoint state is explicit and serializable.",
+        "Evidence identity and tool/process trace are retained.",
+        "Replay does not treat transcript or worker claims as proof."
+      ],
+      "local_install": false,
+      "name": "ml4t-agent-state-memory",
+      "reason": "The issue tests checkpointed state, evidence identity, and replay across a process interruption.",
+      "revision": "ml4t/skills c415df0 (upstream file history, 2026-10-13)",
+      "source": "https://github.com/ml4t/skills/tree/c415df0/advanced-ai/agent-state-memory",
+      "verification": [
+        "Attempt events retain parent, checkpoint path, and checkpoint hash.",
+        "The test independently checks checkpoint hash, attempt/run identity, fingerprints, and partial artifact hash.",
+        "The test retains PID, tmux log, attempt events, checkpoint files, and result artifact."
+      ]
+    },
+    {
+      "invariants": [
+        "Identity and execution policy are checked in code.",
+        "Unknown visibility, missing locks, and identity mismatch fail closed.",
+        "Worker status derives from an OS lock rather than tmux presence alone."
+      ],
+      "local_install": false,
+      "name": "ml4t-agent-tool-contracts",
+      "reason": "Recovery crosses typed RunPermit and AttemptLedger boundaries and must reject unknown worker ownership.",
+      "revision": "ml4t/skills c415df0 (upstream file history, 2026-10-13)",
+      "source": "https://github.com/ml4t/skills/tree/c415df0/advanced-ai/agent-tool-contracts",
+      "verification": [
+        "Managed claim and read-only Casefile inspection check exclusive lock status.",
+        "Tests cover active lock, released lock, unknown lease, wrong permit, and tampered checkpoint outcomes."
+      ]
+    },
+    {
+      "invariants": [
+        "Keep the managed operator surface small.",
+        "Run the smallest controlled experiment.",
+        "Retain failures and state the evidence-backed recommendation."
+      ],
+      "local_install": false,
+      "name": "ml4t-research-operator",
+      "reason": "The task qualifies a narrow managed runner and fixed evidence corpus, not a new trading method.",
+      "revision": "ml4t/skills c415df0 (upstream file history, 2026-10-13)",
+      "source": "https://github.com/ml4t/skills/tree/c415df0/advanced-ai/research-operator",
+      "verification": [
+        "One deterministic synthetic tmux worker interruption test exercises the production AttemptLedger worker lock and checkpoint hooks.",
+        "The fixed corpus records reason codes and limitations without a general reliability-rate claim."
+      ]
+    }
+  ],
+  "verification": {
+    "diff_check": "PASS",
+    "focused_recovery_and_artifact_tests": "30 passed after final recovery race guard",
+    "full_non_data_suite": "292 passed, 0 failed, 1 skipped",
+    "full_non_data_suite_note": "The full suite passed after the final managed recovery race guard, checkpoint checks, and real tmux launcher integration.",
+    "managed_feature_ast_policy": "PASS",
+    "scoped_ruff": "PASS"
+  }
+}

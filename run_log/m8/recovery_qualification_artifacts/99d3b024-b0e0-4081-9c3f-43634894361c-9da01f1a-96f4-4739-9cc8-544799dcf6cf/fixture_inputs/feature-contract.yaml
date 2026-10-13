@@ -1,0 +1,36 @@
+dataset:
+  authority: staged_noncanonical
+  catalog_dataset_key: null
+  external_exception_id: synthetic-fixture
+  group_columns:
+  - symbol
+  product_class: spot
+  requested_product: Synthetic research fixture
+  role: price_proxy
+  source_symbol: SYN
+  source_vendor: Synthetic
+  timeframe: 1m
+  timestamp_convention: bar_start
+  timezone: UTC
+  volume_semantics: unknown
+evaluation:
+  development:
+  - '2026-01-05'
+  - '2026-01-06'
+  holdout_start: null
+  retrospective_validation: null
+feature_set:
+- id: typical_price
+  inputs:
+    close: close
+    high: high
+    low: low
+  provider:
+    kind: engineer.native
+    name: typprice
+    params: {}
+schema_version: 1
+session_id: permit-synthetic
+strategy:
+  engine: ml4t.backtest
+  rule_id: synthetic-rule

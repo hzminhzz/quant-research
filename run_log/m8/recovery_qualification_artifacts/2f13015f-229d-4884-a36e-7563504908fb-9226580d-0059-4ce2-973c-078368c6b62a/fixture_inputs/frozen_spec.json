@@ -1,0 +1,121 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_generation_verified": false,
+  "classification": "EXPLORATORY",
+  "created_at": "2026-10-13T10:39:19.611304+00:00",
+  "frozen_sha256": "2a40086e3f27c921c5ea5b103497e8896306fe56b709eaeb37b5307dc3720f3e",
+  "identity": {
+    "config": {
+      "exists": true,
+      "path": "feature-contract.yaml",
+      "sha256": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+      "size_bytes": 756
+    },
+    "data": [
+      {
+        "exists": true,
+        "path": "bars.parquet",
+        "sha256": "18d85e9b25398d9da5fa65008c4c93489912b76eca1fd75c355be290bb021996",
+        "size_bytes": 3458
+      }
+    ],
+    "evidence": [
+      {
+        "exists": true,
+        "path": "costs.json",
+        "sha256": "072c6ab8a01a8d6285d00035e005e9668eb825ad3b69336aee2d9d756ecf33cc",
+        "size_bytes": 40
+      },
+      {
+        "exists": true,
+        "path": "multiplier.json",
+        "sha256": "31adfcfbecf69db741499dbb8460efd7e3d1b7bbbce18718638dfae2bb7cedd7",
+        "size_bytes": 64
+      },
+      {
+        "exists": true,
+        "path": "audit.py",
+        "sha256": "532589e4fe0be0e961ab63a0c6a2528f4ad31f6e4f30852a0ed073f759ce9321",
+        "size_bytes": 27
+      }
+    ],
+    "git": {
+      "available": false,
+      "dirty": null,
+      "head": null
+    },
+    "input_spec": {
+      "path": "session.yaml",
+      "sha256": "8dd433bd2c07c8f771105cdc88cf2be7f432c80b137e33641f0b3eb394bc524b"
+    },
+    "runner": [
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "bbfe529a29a881510ef328ce800150af8262f20bcf61beebb915581a6e46dbb1",
+        "size_bytes": 36486
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      }
+    ],
+    "source": [
+      {
+        "exists": true,
+        "path": "src/strategy.py",
+        "sha256": "c7aa71f7cbdd3964dacfa1a95831e9c3a819ba2d92cc67f4998caccfb1926c34",
+        "size_bytes": 17
+      }
+    ],
+    "source_sha256": "4cc65f62b96d9d04a68304501c65ff1f6c254623addf19552ae0b38bdc996ef0"
+  },
+  "schema_version": 1,
+  "session_id": "permit-synthetic",
+  "spec": {
+    "baseline": "No strategy result.",
+    "config": "feature-contract.yaml",
+    "costs": {
+      "commission_bps": 0,
+      "slippage_bps": 0
+    },
+    "data": [
+      {
+        "id": "synthetic",
+        "path": "bars.parquet",
+        "role": "prices"
+      }
+    ],
+    "evaluation": {
+      "development_end": "2026-01-06T00:00:00Z",
+      "development_start": "2026-01-05T00:00:00Z"
+    },
+    "evidence": [
+      "costs.json",
+      "multiplier.json",
+      "audit.py"
+    ],
+    "falsifier": "Any identity or gate mismatch blocks permit issuance.",
+    "instruments": [
+      {
+        "kind": "spot",
+        "symbol": "SYN"
+      }
+    ],
+    "market": "crypto",
+    "mechanism": "No market claim; verify permit identities.",
+    "session_id": "permit-synthetic",
+    "thesis": "Synthetic permit acceptance fixture.",
+    "trials": [
+      {
+        "description": "Data-free synthetic gate test.",
+        "id": "synthetic-trial",
+        "kind": "preregistered"
+      }
+    ]
+  },
+  "spec_sha256": "9809036df6638d50f6322a4a2298646a5d6c10522794a1fffa5fe395cdeefe0a",
+  "status": "FROZEN"
+}

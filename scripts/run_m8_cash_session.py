@@ -6,7 +6,6 @@ import argparse
 import hashlib
 import importlib.metadata
 import json
-import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +18,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.run_m8_n8 import _restore_completed_artifact
-from src.research_control.attempts import AttemptLedger, tmux_sessions
+from src.research_control.attempts import (
+    AttemptLedger,
+    launch_managed_worker,
+    tmux_sessions,
+)
 from src.research_control.casefile import build_casefile
 from src.research_control.contracts import ResearchContractV1
 from src.research_control.feature_gateway import FeatureGateway
@@ -75,6 +78,7 @@ def prepare() -> int:
         job_name=JOB,
         command=COMMAND,
         lease_seconds=7200,
+        managed_worker=True,
     )
     if decision.status in ("RESUME", "REUSE"):
         if decision.status == "REUSE" and decision.attempt_id:
@@ -95,6 +99,7 @@ def prepare() -> int:
                 _restore_completed_artifact(
                     artifact, attempt_id=decision.attempt_id, permit=gate.permit,
                     native_replay=replay,
+                    parent_attempt_id=ledger.latest()[decision.attempt_id].get("parent_attempt_id"),
                 )
             except (OSError, RuntimeError, ValueError, KeyError, TypeError) as exc:
                 print(json.dumps({"status": "BLOCKED", "reason_code": "ARTIFACT_REUSE_REJECTED", "detail": str(exc)}))
@@ -104,19 +109,25 @@ def prepare() -> int:
     if decision.status != "LAUNCH" or not decision.attempt_id:
         print(json.dumps(decision.__dict__, indent=2, sort_keys=True))
         return 2
-    command = [
-        "tmux", "new-session", "-d", "-s", JOB,
-        "cd " + shlex.quote(str(ROOT)) + " && uv run python scripts/run_m8_cash_session.py execute --attempt-id "
-        + shlex.quote(decision.attempt_id),
-    ]
-    started = subprocess.run(command, capture_output=True, text=True, check=False)
-    if started.returncode:
-        ledger.transition(
-            decision.attempt_id,
-            "FAILED",
-            detail=f"tmux launch failed: {started.stderr.strip()}",
-        )
-        print(json.dumps({"status": "FAILED", "reason_code": "JOB_LAUNCH_FAILED", "detail": started.stderr.strip()}))
+    launched = launch_managed_worker(
+        JOB,
+        ROOT,
+        ["uv", "run", "python", "scripts/run_m8_cash_session.py", "execute",
+         "--attempt-id", decision.attempt_id],
+        log_path=ledger.path / f"{decision.attempt_id}.worker.log",
+    )
+    if launched.reason_code != "JOB_LAUNCHED":
+        if launched.reason_code == "JOB_LAUNCH_FAILED":
+            ledger.transition(
+                decision.attempt_id,
+                "FAILED",
+                detail=f"tmux launch failed: {launched.detail}",
+            )
+        print(json.dumps({
+            "status": "FAILED" if launched.reason_code == "JOB_LAUNCH_FAILED" else "BLOCKED",
+            "reason_code": launched.reason_code,
+            "detail": launched.detail,
+        }))
         return 2
     print(
         json.dumps(
@@ -167,6 +178,12 @@ def execute(attempt_id: str) -> int:
     if current is None or current["job_name"] != JOB:
         print(json.dumps({"status": "BLOCKED", "reason_code": "ATTEMPT_UNKNOWN"}))
         return 2
+    worker_context = ledger.worker_lease(attempt_id)
+    try:
+        worker_context.__enter__()
+    except RuntimeError as exc:
+        print(json.dumps({"status": "BLOCKED", "reason_code": str(exc)}))
+        return 2
     output = ROOT / "run_log/m8/n8/cash_session/results" / attempt_id
     try:
         contract, intent, data, computation, gate = _inputs()
@@ -179,6 +196,7 @@ def execute(attempt_id: str) -> int:
             transition = ledger.transition(attempt_id, "RUNNING", detail="native worker started")
             if transition.reason_code != "ATTEMPT_STATE_RECORDED":
                 raise RuntimeError("ATTEMPT_STATE_INVALID: could not enter RUNNING")
+            ledger.record_checkpoint(attempt_id, progress=0, artifacts={})
         # Recovery compares stored outputs with a fresh native execution and its audit.
         native_result = run_permitted_n8(
             str(ROOT), intent, data, computation, contract,
@@ -200,6 +218,7 @@ def execute(attempt_id: str) -> int:
                 restored = _restore_completed_artifact(
                     candidate, attempt_id=attempt_id, permit=gate.permit,
                     native_replay=native_replay,
+                    parent_attempt_id=ledger.latest()[attempt_id].get("parent_attempt_id"),
                 )
                 output = candidate
                 break
@@ -221,6 +240,14 @@ def execute(attempt_id: str) -> int:
                 scenario["equity"].write_parquet(equity_path)
                 files[fills_path.name] = _hash(fills_path)
                 files[equity_path.name] = _hash(equity_path)
+                ledger.record_checkpoint(
+                    attempt_id,
+                    progress=len(files),
+                    artifacts={
+                        (output / filename).relative_to(ROOT).as_posix(): digest
+                        for filename, digest in files.items()
+                    },
+                )
                 summaries.append(
                     {"scenario": name, "audit": scenario["audit"], "metrics": scenario["metrics"]}
                 )
@@ -241,7 +268,8 @@ def execute(attempt_id: str) -> int:
                     "data_sha256": _hash(DATA_PATH),
                     "feature_proof_sha256": computation.proof.output_sha256,
                     "engine_version": importlib.metadata.version("ml4t-backtest"),
-                    "recovery_policy": "Complete hash-verified result artifacts may be recorded on re-entry. Partial artifacts fail closed; ambiguous jobs are never duplicated.",
+                    "recovery_policy": "An expired worker is appended as ABORTED only after its OS lock is released and its immutable checkpoint matches the permit identity. Recovery creates a successor attempt with a new ID. It retains the parent artifacts and reruns the native calculation from the beginning. It does not claim same-attempt continuation.",
+                    "parent_attempt_id": ledger.latest()[attempt_id].get("parent_attempt_id"),
                 }
             )
             report_path = output / "report.json"
@@ -257,6 +285,9 @@ def execute(attempt_id: str) -> int:
                 "scenarios": ["1x", "2x", "3x"],
                 "files": files,
             }
+            parent_attempt_id = ledger.latest()[attempt_id].get("parent_attempt_id")
+            if parent_attempt_id is not None:
+                manifest["parent_attempt_id"] = parent_attempt_id
             manifest_path = output / "manifest.json"
             manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
             restored = report
@@ -344,6 +375,8 @@ def execute(attempt_id: str) -> int:
             ledger.transition(attempt_id, "FAILED", detail=f"{type(exc).__name__}: {exc}")
         print(json.dumps({"status": "FAILED", "attempt_id": attempt_id, "reason_code": str(exc)}, indent=2))
         return 2
+    finally:
+        worker_context.__exit__(None, None, None)
 
 
 def main() -> int:

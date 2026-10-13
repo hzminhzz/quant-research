@@ -105,15 +105,30 @@ def test_m8_n8_recovery_reuses_real_complete_permit_bound_artifacts(tmp_path):
     assert _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=permit, native_replay=_native_replay(tmp_path, report))["trade_count"] == 4
 
 
-@pytest.mark.parametrize("field,value", [("attempt_id", "attempt-other"), ("permit_sha256", "9" * 64)])
-def test_m8_n8_recovery_rejects_wrong_attempt_or_permit(tmp_path, field, value):
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("attempt_id", "attempt-other"),
+        ("permit_sha256", "9" * 64),
+        ("source_sha256", "8" * 64),
+    ],
+)
+def test_m8_n8_recovery_rejects_wrong_attempt_permit_or_source(tmp_path, field, value):
     permit, report = _artifact(tmp_path)
     replay = _native_replay(tmp_path, report)
     with pytest.raises(RuntimeError, match="ARTIFACT_IDENTITY_DRIFT"):
         if field == "attempt_id":
             _restore_completed_artifact(tmp_path, attempt_id=value, permit=permit, native_replay=replay)
-        else:
+        elif field == "permit_sha256":
             altered = SimpleNamespace(**{**permit.__dict__, "permit_sha256": value})
+            _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=altered, native_replay=replay)
+        else:
+            identity = permit.identity.model_dump(mode="json")
+            identity[field] = value
+            altered = SimpleNamespace(**{
+                **permit.__dict__,
+                "identity": SimpleNamespace(model_dump=lambda mode: identity),
+            })
             _restore_completed_artifact(tmp_path, attempt_id="attempt-1", permit=altered, native_replay=replay)
 
 

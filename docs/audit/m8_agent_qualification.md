@@ -1,5 +1,9 @@
 # M8-C agent qualification
 
+This report has two records. The first records the initial state before issue
+#25 recovery work. The final re-qualification below supersedes its recovery
+status. It does not change the strategy or broker decision.
+
 **Observed:** 2026-10-13. The fixed case labels and expected outcomes are in
 [`agent_corpus.json`](../../run_log/m8/agent_corpus.json).
 
@@ -62,3 +66,44 @@ New negative fixtures reject hash-consistent fake Parquet bytes, wrong attempt I
 The real pilot process ended after successful completion. No real process was killed or interrupted. Same-attempt continuation after an active worker disappears remains unsupported; the ledger returns `LEASE_UNCERTAIN` until expiry, then marks the old attempt `ABORTED` and allocates a new ID. This is a deliberate fail-closed limitation, not interrupted-run replay. M8-C remains incomplete and issue #25 stays open.
 
 The native research process passed. The strategy outcome was falsified and the broker remains unqualified. This provides one concrete positive managed-path artifact and adversarial checks, not a general agent reliability rate or M8 qualification.
+
+## Final control-plane recovery qualification
+
+**Observed:** 2026-10-13. The fixed corpus in
+[`agent_corpus.json`](../../run_log/m8/agent_corpus.json) now includes a real
+managed worker interruption test and stable reason codes. Durable worker,
+ledger, checkpoint, and result evidence is in
+[`recovery_qualification.json`](../../run_log/m8/recovery_qualification.json)
+and its artifact directory.
+
+The managed protocol uses an exclusive OS lock. The worker holds the lock for
+its process lifetime. The runner checks this lock before it treats a visible
+tmux session as active. Missing or released locks do not prove a completed
+run. An absent worker under its lease returns `LEASE_UNCERTAIN`.
+
+Recovery uses a successor attempt. After lease expiry, the runner requires
+known tmux state, a released worker lock, a checkpoint that matches the attempt
+and permit fingerprints, and unchanged partial artifacts. It appends
+`ABORTED` to the parent attempt. It then creates a new attempt ID and links it
+to the parent. The successor reruns from the beginning. Parent artifacts stay
+available. The system does not claim same-attempt continuation.
+
+The controlled test checked the lock while the worker ran. It killed only the
+PID recorded by its unique test-owned tmux session. It checked that the lock
+was released after process death. The successor verified the parent
+checkpoint and partial file. Exactly one successor completed. The test used
+synthetic files. It did not execute a strategy or access market data, a
+protected holdout, a broker, or an order path.
+
+The fixed artifact tests reject a wrong attempt or permit, self-hashed fake
+Parquet, truncated or incomplete Parquet, rehashed altered fills, missing
+audits, tampered checkpoints, and duplicate worker claims. An independent
+native replay remains required before a strategy artifact can be reused. The
+corpus contains deterministic cases. It does not estimate general agent error
+rates.
+
+**Control-plane decision:** The M8-C recovery gate passes for explicit
+successor-attempt replay. Same-attempt recovery remains unsupported. The
+PDF-derived rule remains untested because its source document is unavailable.
+Strategy approval remains `NOT_APPROVED`. This result does not qualify broker
+execution or authorize live orders.

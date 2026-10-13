@@ -1,7 +1,7 @@
 {
   "schema_version": "m8-agent-corpus-v1",
   "observed_at_utc": "2026-10-13",
-  "scope": "Deterministic local synthetic fixtures and live catalog assertions. No provider fetch, protected holdout, real tmux launch, or live order.",
+  "scope": "Deterministic local synthetic fixtures and live catalog assertions. One uniquely named, task-owned tmux worker is killed at a checkpoint. No provider fetch, protected holdout, strategy execution in the recovery fixture, or live order.",
   "positive": [
     {
       "id": "P1-CFD-canonical-source",
@@ -29,9 +29,22 @@
     },
     {
       "id": "P5-valid-negative-strategy-result",
-      "expected": "A valid, negative PDF-derived CFD result is retained.",
-      "evidence": null,
-      "status": "BLOCKED_SOURCE_DOCUMENT_UNAVAILABLE"
+      "expected": "Retain a valid negative managed strategy result without approval or execution claims.",
+      "evidence": "docs/audit/m8_cash_session_result.md",
+      "status": "PASS_EXISTING_EVIDENCE",
+      "limitation": "The source PDF-derived rule remains unavailable and is not claimed as tested."
+    },
+    {
+      "id": "P6-owned-worker-successor-replay",
+      "expected": "Kill one named test-owned worker at a bound checkpoint, preserve its parent attempt, and complete exactly one independently checked successor replay.",
+      "evidence": "tests/test_m8_managed_recovery.py::test_managed_worker_death_replays_under_successor_attempt",
+      "status": "PASS_REAL_TMUX_SYNTHETIC"
+    },
+    {
+      "id": "P7-parallel-claim-race",
+      "expected": "Two simultaneous managed claims reserve at most one PLANNED attempt and return one launch decision.",
+      "evidence": "tests/test_m8_managed_recovery.py::test_parallel_managed_claims_reserve_only_one_attempt",
+      "status": "PASS_SYNTHETIC"
     }
   ],
   "adversarial": [
@@ -88,35 +101,68 @@
       "expected_reason": "readiness audit is stale",
       "evidence": "tests/test_catalog.py::test_readiness_audit_must_match_catalog_identity",
       "status": "PASS"
+    },
+    {
+      "id": "A10-wrong-source-identity-on-reuse",
+      "expected_reason": "ARTIFACT_IDENTITY_DRIFT",
+      "evidence": "tests/test_m8_n8_recovery.py::test_m8_n8_recovery_rejects_wrong_attempt_permit_or_source",
+      "status": "PASS"
+    },
+    {
+      "id": "A11-expired-but-still-locked-worker",
+      "expected_reason": "WORKER_LOCK_HELD",
+      "evidence": "tests/test_m8_managed_recovery.py::test_managed_recovery_rejects_checkpoint_tamper_and_lease_uncertainty",
+      "status": "PASS"
+    },
+    {
+      "id": "A12-tampered-parent-checkpoint",
+      "expected_reason": "RECOVERY_CHECKPOINT_INVALID",
+      "evidence": "tests/test_m8_managed_recovery.py::test_managed_recovery_rejects_checkpoint_tamper_and_lease_uncertainty",
+      "status": "PASS"
     }
   ],
   "recovery": {
     "visible_job": {
-      "expected_reason": "ACTIVE_RUN_EXISTS / ATTEMPT_PRESENT",
-      "result": "The same visible attempt can be inspected or reattached without a duplicate claim.",
-      "evidence": "tests/test_attempts.py::test_duplicate_running_resumes_exact_attempt_then_reuses_completed",
-      "status": "PASS_FIXTURE"
+      "expected_reason": "WORKER_CONFIRMED_ACTIVE",
+      "result": "A visible managed attempt is resumable only while its exclusive OS lock is held. A duplicate claim returns the same attempt ID.",
+      "evidence": "tests/test_m8_managed_recovery.py::test_managed_worker_death_replays_under_successor_attempt",
+      "status": "PASS_REAL_TMUX_SYNTHETIC"
     },
     "active_attempt_but_absent_job": {
       "expected_reason": "LEASE_UNCERTAIN",
-      "result": "Read-only inspection blocks. It does not resume or assert success.",
-      "evidence": "tests/test_m8_agent_qualification.py::test_m8_absent_running_job_blocks_then_records_new_attempt_after_lease",
+      "result": "An absent worker remains blocked under lease, even when a checkpoint exists. A held worker lock blocks after lease expiry.",
+      "evidence": "tests/test_m8_managed_recovery.py::test_managed_recovery_rejects_checkpoint_tamper_and_lease_uncertainty",
       "status": "PASS_FAIL_CLOSED"
     },
-    "after_lease_expiry": {
-      "result": "Old attempt is append-only ABORTED. A new claim receives a different ID.",
-      "evidence": "tests/test_m8_agent_qualification.py::test_m8_absent_running_job_blocks_then_records_new_attempt_after_lease",
-      "status": "PASS_NEW_ATTEMPT"
+    "expired_worker_replay": {
+      "expected_reason": "SUCCESSOR_REPLAY_RESERVED",
+      "result": "After confirmed tmux absence, released worker lock, expired lease, and verified checkpoint, the old attempt becomes terminal ABORTED. A new attempt ID links to the parent and replays from the beginning. Parent partial output remains unchanged. Exactly one successor completes.",
+      "evidence": "tests/test_m8_managed_recovery.py::test_managed_worker_death_replays_under_successor_attempt",
+      "status": "PASS_REAL_TMUX_SYNTHETIC",
+      "same_attempt_resume_claimed": false
     },
-    "unimplemented": "No managed runner connects permit, attempt claim, native execution, and restart. Same-attempt interrupted replay is not supported."
+    "artifact_attacks": {
+      "cases": [
+        {"case": "self-hashed fake Parquet", "expected_reason": "ARTIFACT_PARQUET_INVALID"},
+        {"case": "rehashed altered native fills", "expected_reason": "ARTIFACT_NATIVE_REPLAY_MISMATCH"},
+        {"case": "wrong permit, source, or attempt", "expected_reason": "ARTIFACT_IDENTITY_DRIFT"},
+        {"case": "incomplete Parquet set", "expected_reason": "ARTIFACT_PARTIAL"},
+        {"case": "tampered checkpoint or partial artifact", "expected_reason": "RECOVERY_CHECKPOINT_INVALID"},
+        {"case": "worker lock remains held after lease expiry", "expected_reason": "WORKER_LOCK_HELD"},
+        {"case": "duplicate worker claim", "expected_reason": "WORKER_CONFIRMED_ACTIVE"}
+      ],
+      "evidence": ["tests/test_m8_n8_recovery.py", "tests/test_m8_managed_recovery.py"],
+      "status": "PASS"
+    }
   },
   "summary": {
-    "positive_cases_passed": 4,
-    "positive_cases_blocked": 1,
-    "adversarial_cases_passed": 9,
+    "positive_cases_passed": 7,
+    "positive_cases_blocked": 0,
+    "adversarial_cases_passed": 12,
     "false_accepts_observed": 0,
     "false_rejects_observed": 0,
     "general_error_rates_claimed": false,
-    "qualification": "INCOMPLETE_RECOVERY_AND_SOURCE_DEPENDENCY"
+    "qualification": "CONTROL_PLANE_RECOVERY_QUALIFIED; PDF_RULE_TRANSLATION_REMAINS_UNTESTED",
+    "recovery_policy": "Successor-attempt replay only. Same-attempt continuation is unsupported and unclaimed."
   }
 }

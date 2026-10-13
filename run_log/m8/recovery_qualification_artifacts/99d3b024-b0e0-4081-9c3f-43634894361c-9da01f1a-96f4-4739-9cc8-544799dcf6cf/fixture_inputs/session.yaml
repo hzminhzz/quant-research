@@ -1,0 +1,28 @@
+baseline: No strategy result.
+config: feature-contract.yaml
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+data:
+- id: synthetic
+  path: bars.parquet
+  role: prices
+evaluation:
+  development_end: '2026-01-06T00:00:00Z'
+  development_start: '2026-01-05T00:00:00Z'
+evidence:
+- costs.json
+- multiplier.json
+- audit.py
+falsifier: Any identity or gate mismatch blocks permit issuance.
+instruments:
+- kind: spot
+  symbol: SYN
+market: crypto
+mechanism: No market claim; verify permit identities.
+session_id: permit-synthetic
+thesis: Synthetic permit acceptance fixture.
+trials:
+- description: Data-free synthetic gate test.
+  id: synthetic-trial
+  kind: preregistered
