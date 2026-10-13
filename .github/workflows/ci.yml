@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  managed-policy:
+    name: Managed feature policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+          enable-cache: true
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Run scoped Ruff policy
+        run: uv run --frozen ruff check --config scripts/ruff-managed.toml src/managed_strategies
+      - name: Run managed feature AST policy
+        run: uv run --frozen python scripts/check_managed_features.py
+
+  fast-tests:
+    name: Fast tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+          enable-cache: true
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Run data-free unit tests
+        run: uv run --frozen pytest -m "not data and not slow" -q
+
+  full-tests:
+    name: Full tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+          enable-cache: true
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Run fresh-clone suite (external catalog tests excluded)
+        run: uv run --frozen pytest -m "not data" -q -rs
+      - name: Check Marimo reactive DAG
+        run: uv run --frozen marimo check notebooks/quantified_strategies_engulfing.py
