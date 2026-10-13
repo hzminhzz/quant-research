@@ -27,10 +27,21 @@
       "issue_status": "closed"
     },
     "M8-B1": {
-      "status": "blocked_source_document",
+      "status": "spec_incomplete_source_binary_and_broker_terms_unavailable",
       "issue": 31,
-      "blocker": "SOURCE_DOCUMENT_UNAVAILABLE: requested original PDF not found under /home/quant, /mnt/data, /tmp, or the task worktree.",
-      "issue_status": "open_source_document_unavailable"
+      "issue_status": "open_spec_incomplete",
+      "candidate_examined": "Nesnidal LOD/HOD Index Bounce, long NQ rule only; not frozen",
+      "extraction_path": "run_log/m8/original_rulebook_extracted_pages.txt",
+      "extraction_sha256": "a0ece8b0aad23b28d5041b308a8ed7aa00a75a255338d6c03b6b8c0d0dd6661a",
+      "reported_pdf_name": "Systematic_Breakout_and_Prop_Trading_Strategies_Rulebook(2).pdf",
+      "reported_pdf_sha256_unverified": "b947c5aeaee61da3c8bf660b410b10bb25f5af74b53facc8f04d9a486658b526",
+      "blockers": [
+        "The uploaded PDF binary is unavailable locally; the extraction reports the hash but it cannot be independently verified or matched to the mission-named (1).pdf.",
+        "The extracted source conflicts on the stop: prose says one tick below Low of Day, while page 11 code sets currency loss from space \u00d7 BigPointValue + 10.",
+        "Verified NAS100 CFD point value, lot size, margin, costs, and executable session calendar are unavailable."
+      ],
+      "evidence": "docs/audit/m8_pdf_rules_and_selection.md",
+      "next": "Obtain the original PDF bytes and broker execution terms; resolve the cited stop conflict before freezing a CFD contract."
     },
     "M8-B2": {
       "status": "general_feature_plumbing_verified_strategy_specific_blocked",
@@ -117,7 +128,6 @@
     "existing_m8_tmux_session": "ml4t-m8-qualification (observed only; not started or changed here)"
   },
   "final_verification": {
-    "origin_main": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea",
     "pull_requests": {
       "34": {
         "state": "merged",
@@ -134,6 +144,10 @@
     "live_orders_placed": false,
     "canonical_checkout_modified": false,
     "tmux_sessions_started_or_changed": false,
-    "attempts": "synthetic test attempt only; no candidate trial claimed"
+    "attempts": "synthetic test attempt only; no candidate trial claimed",
+    "origin_main_before_source_followup": "8db51cd1df3ad2a79c8e54d7a6f07fa9f85db6ea",
+    "source_extraction_available": true,
+    "source_pdf_binary_available": false,
+    "pdf_sha256_independently_verified": false
   }
 }
