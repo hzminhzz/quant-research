@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime, timedelta
+
 import polars as pl
 import pytest
 from ml4t.engineer import feature_catalog
@@ -11,38 +13,42 @@ from src.research_control.contracts import ResearchContractV1
 from src.research_control.feature_gateway import (
     FeatureContractError,
     FeatureGateway,
+    _timeframe_delta,
     verify_feature_proof,
 )
 from tests.test_research_control import bars, contract, freeze_feature_contract, native
 
 
-def prior_range_contract() -> ResearchContractV1:
+def prior_range_contract(
+    *, period: int = 3, timeframe: str = "1m"
+) -> ResearchContractV1:
     return contract(
         [
             native(),
             {
-                "id": "prior_high_3",
+                "id": f"prior_high_{period}",
                 "provider": {
                     "kind": "extension.approved",
                     "extension_id": "prior_n_high_low",
                     "version": "1.0.0",
                     "field": "high",
-                    "period": 3,
+                    "period": period,
                 },
                 "inputs": {"high": "high"},
             },
             {
-                "id": "prior_low_3",
+                "id": f"prior_low_{period}",
                 "provider": {
                     "kind": "extension.approved",
                     "extension_id": "prior_n_high_low",
                     "version": "1.0.0",
                     "field": "low",
-                    "period": 3,
+                    "period": period,
                 },
                 "inputs": {"low": "low"},
             },
-        ]
+        ],
+        timeframe=timeframe,
     )
 
 
@@ -139,3 +145,78 @@ def test_m8_oracle_rejects_future_dependent_prior_range(tmp_path, monkeypatch):
     with pytest.raises(FeatureContractError) as error:
         verify_feature_proof(computation, source, request, tmp_path)
     assert error.value.reason_code == "FEATURE_NUMERICAL_MISMATCH"
+
+
+def test_m8_prior_high_50_is_partition_safe_and_available_after_30m_close(tmp_path):
+    request = prior_range_contract(period=50, timeframe="30m")
+    freeze_feature_contract(tmp_path, request)
+    start = datetime(2020, 1, 2, 14, 30, tzinfo=UTC)
+    source = pl.concat(
+        [
+            bars((symbol,), count=64).with_columns(
+                pl.Series(
+                    "timestamp",
+                    [start + timedelta(minutes=30 * index) for index in range(64)],
+                )
+            )
+            for symbol in ("A", "B")
+        ]
+    )
+
+    computation = FeatureGateway().compute(source, request)
+    proof = verify_feature_proof(computation, source, request, tmp_path)
+    assert proof.proof.checks["completed_bar_availability"]
+    assert (
+        computation.data.filter(pl.col("symbol") == "A")["prior_high_50"]
+        .head(50)
+        .null_count()
+        == 50
+    )
+    assert computation.data["available_at"][0] == source["timestamp"][0] + timedelta(
+        minutes=30
+    )
+
+    changed = source.with_columns(
+        pl.when(
+            (pl.col("symbol") == "A")
+            & (
+                pl.col("timestamp")
+                == source.filter(pl.col("symbol") == "A")["timestamp"][55]
+            )
+        )
+        .then(pl.col("high") * 100)
+        .otherwise(pl.col("high"))
+        .alias("high")
+    )
+    recomputed = FeatureGateway().compute(changed, request).data
+    original_a = computation.data.filter(pl.col("symbol") == "A")
+    changed_a = recomputed.filter(pl.col("symbol") == "A")
+    assert (
+        original_a["prior_high_50"][:55].to_list()
+        == changed_a["prior_high_50"][:55].to_list()
+    )
+    other_symbol = source.with_columns(
+        pl.when(pl.col("symbol") == "B")
+        .then(pl.col("high") * 1000)
+        .otherwise(pl.col("high"))
+        .alias("high")
+    )
+    partitioned = (
+        FeatureGateway()
+        .compute(other_symbol, request)
+        .data.filter(pl.col("symbol") == "A")
+    )
+    assert (
+        original_a["prior_high_50"].to_list() == partitioned["prior_high_50"].to_list()
+    )
+
+
+def test_feature_gateway_timeframe_support_is_bounded():
+    assert _timeframe_delta("1m") == timedelta(minutes=1)
+    assert _timeframe_delta("30m") == timedelta(minutes=30)
+    for value in ("0m", "1M", "2m", "1h", "30d", "999999999999999999999999999m"):
+        with pytest.raises(FeatureContractError) as error:
+            _timeframe_delta(value)
+        assert error.value.reason_code == "TIMEFRAME_UNSUPPORTED"
+    with pytest.raises(ValidationError, match="timeframe"):
+        prior_range_contract(timeframe="0m")

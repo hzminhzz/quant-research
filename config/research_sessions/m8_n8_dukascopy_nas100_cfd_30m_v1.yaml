@@ -1,0 +1,89 @@
+session_id: m8_n8_dukascopy_nas100_cfd_30m_v1
+thesis: >-
+  After a prior 50-bar price expansion, one 30-minute bar of long trend continuation
+  has positive expected price change on the Dukascopy USATECH.IDX/USD CFD proxy.
+mechanism: >-
+  A 50-bar high breakout may attract trend-following orders that continue into the
+  next 30-minute bar. The hypothesis should weaken in mean-reverting or low-liquidity
+  conditions. CFD quote prices proxy the original continuous-futures rule.
+falsifier: >-
+  Reject the economic thesis if gross expectancy is non-positive or the baseline
+  net expectancy is non-positive, and report fragility at the fixed 2x and 3x cost
+  stresses. This retrospective study cannot establish pristine out-of-sample
+  validity, verified broker PnL, or strategy approval.
+market: indices
+instruments:
+  - symbol: usatechidxusd
+    kind: cfd
+    venue: Dukascopy Bank SA historical CFD price proxy
+    identity: USATECH.IDX/USD; not CME NQ futures
+    session: Published summer/winter GMT schedule with conservative XNAS weekday holiday filter; unexpected missing scheduled fills block
+    timezone: UTC
+data:
+  - id: nas100_cfd_30m_201912_warmup_2024
+    path: data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet
+    role: prices
+    symbol: usatechidxusd
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  retrospective_data_already_seen: true
+  holdout_accessed: false
+  trial_count: 1
+  trial_id: N8_primary_3cost_stress
+  strategy: Strict close[t] > max(high[t-50:t]); signal at completed bar t close; next-open entry t+1; next-next-open exit t+2; no stops or targets.
+  cost_scenarios: [1x, 2x, 3x]
+  daily_risk_metrics: >-
+    Use the installed ml4t.diagnostic.api.PortfolioAnalysis on one return per
+    scheduled UTC CFD trading date, including Sunday sessions; omit schedule-
+    closed dates, retain zero-return open dates without trades, use
+    periods_per_year=252, and disclose that this is a convention for the
+    six-day schedule. Undefined metrics remain null. Independently reconcile
+    Sharpe, maximum drawdown, and Calmar arithmetic.
+  end_boundary: >-
+    A signal at t is eligible only when its known t+2 30-minute clock is
+    strictly earlier than 2025-01-01T00:00:00Z; eligibility must not inspect
+    future source-bar presence.
+  falsifier_rule: >-
+    INCONCLUSIVE if no trades; FALSIFIED if native gross total PnL <= 0 or 1x
+    native net trade expectancy <= 0; FRAGILE if positive at 1x but net trade
+    expectancy <= 0 at 2x or 3x; otherwise NOT_FALSIFIED_IN_RETROSPECTIVE_SAMPLE_ONLY.
+baseline: >-
+  $100000 normalized cash with one long unit at most, no leverage, and no trades
+  outside the frozen rule. A unit means $1 per index point for arithmetic only.
+costs:
+  commission_bps: 0.6
+  slippage_bps: 3.0
+  source: run_log/m8/n8/cost_evidence.json
+  assumptions: >-
+    3 bps adverse fill-price impact plus 0.6 bps explicit commission per fill.
+    Scale both components at 1x, 2x and 3x. Spread and slippage are assumptions.
+trials:
+  - id: N8_primary_3cost_stress
+    kind: preregistered
+    description: >-
+      One fixed 2020-2024 Model 8 CFD price-proxy replay with the frozen prior-high
+      50 feature and native entry/exit rules; report 1x/2x/3x costs descriptively.
+config: config/research_contract_m8_n8.yaml
+evidence:
+  - docs/plans/m8_b_research_lead_freeze_decision.md
+  - docs/audit/m8_n8_implementation_review.md
+  - m8_bounded_execution_codex.txt
+  - m8_final_lead_acceptance.txt
+  - m8_research_lead_recovery_corrections.txt
+  - m8_scientific_lead_final_gate.txt
+  - run_log/m8/original_rulebook_extracted_pages.txt
+  - run_log/m8/n8/source_fingerprints_recovery.json
+  - run_log/m8/n8/calendar_evidence.json
+  - run_log/m8/n8/cost_evidence.json
+  - run_log/m8/n8/multiplier_evidence.json
+  - run_log/m8/n8/audit_recipe.json
+  - run_log/m8/n8/run_intent.json
+  - tests/test_m8_feature_capability.py
+  - tests/test_m8_n8_data.py
+  - tests/test_m8_n8_execution.py
+  - tests/test_m8_n8_recovery.py
+  - tests/test_m8_agent_qualification.py
+  - tests/test_attempts.py
+  - tests/test_research_control.py

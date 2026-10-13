@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "source": "Research-lead decision cites Dukascopy Bank SA official USATECH.IDX/USD trading-hours table",
+  "source_url": "https://www.dukascopysfx.com/swiss/english/cfd/range-of-markets/index.html",
+  "schedule_utc": {
+    "summer": {"sunday_open": "22:00", "weekday_daily_close": "20:15", "weekday_reopen": "22:00", "friday_close": "20:15"},
+    "winter": {"sunday_open": "23:00", "weekday_daily_close": "21:15", "weekday_reopen": "23:00", "friday_close": "21:15"}
+  },
+  "summer_clock": "Europe/Zurich daylight-saving status selects the lead's summer/winter published UTC schedule.",
+  "known_holiday_filter": "Conservatively require an XNAS session on weekdays using installed exchange_calendars 4.13.2; Sunday weekly open remains eligible. This is a predeclared proxy filter, not an asserted Dukascopy special-hours calendar.",
+  "bar_boundary_rule": "Signal, entry and exit 30m intervals must each finish before the schedule closes; a 20:00 summer UTC start before a 20:15 close is not a complete 30m bar.",
+  "surprise_gap_policy": "After signal eligibility is fixed, a missing actual scheduled t+1 or t+2 bar blocks the whole trial with EXECUTION_EXCEPTION. No signal is dropped based on future provider-bar presence.",
+  "limitations": ["Official broker special-holiday hours were not available in a machine-readable historical feed.", "Early-close dates are not modeled and will fail closed if a selected fill is absent."]
+}

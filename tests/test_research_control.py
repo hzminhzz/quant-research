@@ -38,6 +38,7 @@ def contract(
     volume_semantics: str = "broker_tick_or_quote_proxy",
     requested_product: str = "Dukascopy USATECH.IDX/USD CFD price proxy",
     group_columns: list[str] | None = None,
+    timeframe: str = "1m",
 ) -> ResearchContractV1:
     return ResearchContractV1.model_validate(
         {
@@ -53,7 +54,7 @@ def contract(
                 "product_class": product_class,
                 "role": "price_proxy",
                 "volume_semantics": volume_semantics,
-                "timeframe": "1m",
+                "timeframe": timeframe,
                 "timestamp_convention": "bar_start",
                 "timezone": "America/Chicago",
                 "group_columns": group_columns
@@ -113,7 +114,13 @@ def freeze_feature_contract(root: Path, request: ResearchContractV1) -> None:
         "evaluation": {"scope": "feature proof only"},
         "baseline": "No strategy result.",
         "costs": {"commission_bps": 0, "slippage_bps": 0},
-        "trials": [{"id": "feature-proof", "kind": "preregistered", "description": "Verify feature provenance."}],
+        "trials": [
+            {
+                "id": "feature-proof",
+                "kind": "preregistered",
+                "description": "Verify feature provenance.",
+            }
+        ],
         "config": config.name,
     }
     spec_path = root / "session.yaml"
@@ -223,13 +230,20 @@ def test_runtime_feature_proof_accepts_native_adx_and_approved_vwap(tmp_path):
                     "session_open": "08:30",
                     "timezone": "America/Chicago",
                 },
-                "inputs": {"high": "high", "low": "low", "close": "close", "volume": "volume"},
+                "inputs": {
+                    "high": "high",
+                    "low": "low",
+                    "close": "close",
+                    "volume": "volume",
+                },
             },
         ]
     )
     freeze_feature_contract(tmp_path, request)
     input_data = bars(("A", "B"), count=80)
-    frozen_path = tmp_path / "run_log/research_sessions/vwap-m1-m2-test/frozen_spec.json"
+    frozen_path = (
+        tmp_path / "run_log/research_sessions/vwap-m1-m2-test/frozen_spec.json"
+    )
     frozen_before = frozen_path.read_bytes()
 
     computation = FeatureGateway().compute(input_data, request)
@@ -258,18 +272,29 @@ def test_runtime_feature_proof_rejects_forgery_input_output_and_config_drift(tmp
         verify_feature_proof(computation, changed_input, request, tmp_path)
     assert error.value.reason_code == "FEATURE_INPUT_IDENTITY_DRIFT"
 
-    changed_output = computation.data.with_columns((pl.col("adx_14") + 1).alias("adx_14"))
+    changed_output = computation.data.with_columns(
+        (pl.col("adx_14") + 1).alias("adx_14")
+    )
     with pytest.raises(FeatureContractError) as error:
-        verify_feature_proof(FeatureComputation(changed_output, computation.proof), input_data, request, tmp_path)
+        verify_feature_proof(
+            FeatureComputation(changed_output, computation.proof),
+            input_data,
+            request,
+            tmp_path,
+        )
     assert error.value.reason_code == "FEATURE_OUTPUT_IDENTITY_DRIFT"
 
-    (tmp_path / "feature-contract.yaml").write_text("schema_version: 1\n", encoding="utf-8")
+    (tmp_path / "feature-contract.yaml").write_text(
+        "schema_version: 1\n", encoding="utf-8"
+    )
     with pytest.raises(FeatureContractError) as error:
         verify_feature_proof(computation, input_data, request, tmp_path)
     assert error.value.reason_code == "FEATURE_CONFIG_IDENTITY_DRIFT"
 
 
-def test_runtime_feature_proof_rejects_custom_adx_and_provider_code_drift(tmp_path, monkeypatch):
+def test_runtime_feature_proof_rejects_custom_adx_and_provider_code_drift(
+    tmp_path, monkeypatch
+):
     request = contract([native()])
     freeze_feature_contract(tmp_path, request)
     input_data = bars()
@@ -305,13 +330,21 @@ def test_runtime_feature_gateway_rejects_native_dispatch_bypass(monkeypatch):
     assert error.value.reason_code == "FEATURE_NATIVE_EXECUTION_BYPASS"
 
 
-def test_runtime_feature_gateway_rejects_native_dispatch_result_substitution(monkeypatch):
+def test_runtime_feature_gateway_rejects_native_dispatch_result_substitution(
+    monkeypatch,
+):
     from src.research_control import feature_gateway
 
     def substituted_native(data, feature_id, request, groups, *, dispatch):
         dispatch(
             data,
-            [{"name": request.name, "params": dict(request.params), "output": feature_id}],
+            [
+                {
+                    "name": request.name,
+                    "params": dict(request.params),
+                    "output": feature_id,
+                }
+            ],
             group_col=groups or None,
             timestamp_col="timestamp",
         )
@@ -380,7 +413,12 @@ def test_contract_rejects_unknown_runtime_extension():
                 "session_open": "08:30",
                 "timezone": "America/Chicago",
             },
-            "inputs": {"high": "high", "low": "low", "close": "close", "volume": "volume"},
+            "inputs": {
+                "high": "high",
+                "low": "low",
+                "close": "close",
+                "volume": "volume",
+            },
         }
     ]
     with pytest.raises(ValidationError):
@@ -734,13 +772,23 @@ def _init_status_session(
                 "falsifier": "Status changes or omits declared trial outcomes.",
                 "market": "indices",
                 "instruments": [instrument or {"symbol": "TEST", "kind": "cfd"}],
-                "data": [{"id": "prices", "path": "data/prices.parquet", "role": "prices"}],
+                "data": [
+                    {"id": "prices", "path": "data/prices.parquet", "role": "prices"}
+                ],
                 "evaluation": {"purpose": "CLI status contract test"},
                 "baseline": "No strategy result.",
                 "costs": {"commission_bps": 0, "slippage_bps": 0},
                 "trials": [
-                    {"id": "rule-a", "kind": "preregistered", "description": "First pending rule."},
-                    {"id": "rule-b", "kind": "preregistered", "description": "Second pending rule."},
+                    {
+                        "id": "rule-a",
+                        "kind": "preregistered",
+                        "description": "First pending rule.",
+                    },
+                    {
+                        "id": "rule-b",
+                        "kind": "preregistered",
+                        "description": "Second pending rule.",
+                    },
                 ],
             }
         ),
@@ -807,12 +855,10 @@ def test_cli_discover_doctor_and_status_are_structured_and_read_only(
     assert frozen_path.read_bytes() == frozen_before
     assert doctor["status"] == "BLOCKED"
     assert any(
-        item["reason_code"] == "DATA_SESSION_MISMATCH"
-        for item in doctor["findings"]
+        item["reason_code"] == "DATA_SESSION_MISMATCH" for item in doctor["findings"]
     )
     assert any(
-        item["reason_code"] == "SOURCE_IDENTITY_CONFLICT"
-        for item in doctor["findings"]
+        item["reason_code"] == "SOURCE_IDENTITY_CONFLICT" for item in doctor["findings"]
     )
     assert doctor["effects"] == ["READ_ONLY"]
     assert doctor["approval_status"] == "NOT_APPROVED"
@@ -836,9 +882,7 @@ def test_doctor_reports_missing_catalog_with_safe_next_action(tmp_path, monkeypa
     def missing_catalog():
         raise research_cli.CatalogResolutionError("catalog missing")
 
-    monkeypatch.setattr(
-        research_cli, "load_dataset_catalog", missing_catalog
-    )
+    monkeypatch.setattr(research_cli, "load_dataset_catalog", missing_catalog)
     monkeypatch.setattr(
         research_cli,
         "_runtime_jobs",

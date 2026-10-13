@@ -1,0 +1,18 @@
+{
+  "checks": [
+    "entry at signal bar open plus 30 minutes",
+    "exit at signal bar open plus 60 minutes",
+    "actual fill timestamp and source open match",
+    "adverse 3 bps price impact per fill at 1x; 2x and 3x stress",
+    "explicit 0.6 bps commission per fill at 1x; 2x and 3x stress",
+    "one normalized unit, no stops, no targets, no overlap, zero final position",
+    "independent cash and marked-position equity matches each native equity row",
+    "missing scheduled fill bar blocks the trial",
+    "no post-2024-12-31 data or holdout read"
+  ],
+  "implementation": "src.research_control.m8_n8.audit_n8_result",
+  "method": "ml4t-backtest 0.1.7 native market orders with independent fill, cost, commission, position and cash/equity reconciliation",
+  "schema_version": 1,
+  "source_sha256": "9bd0198230d59c9cd796df1663498676f7f1019a93c593a39011bbbbf7b1119c",
+  "version": "1.0.0"
+}

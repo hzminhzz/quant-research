@@ -1,0 +1,66 @@
+{
+  "budget": {
+    "max_cpu_seconds": 3000,
+    "max_memory_mb": 4096,
+    "max_trials": 1,
+    "max_wall_seconds": 3600
+  },
+  "costs": {
+    "commission_bps": 0.6,
+    "evidence_path": "run_log/m8/n8/cost_evidence.json",
+    "slippage_bps": 3.0,
+    "source": "Dukascopy index CFD commission plus declared adverse spread/slippage stress assumptions",
+    "source_sha256": "89a08d8c5e22fc71e852e1d865e0900b976be2d857bb1346a93294d6dfdccd00"
+  },
+  "decision_at": "2020-01-06T12:00:00Z",
+  "effects": [
+    "READ_ONLY",
+    "EVIDENCE_APPEND"
+  ],
+  "evaluation_end": "2025-01-01T00:00:00Z",
+  "evaluation_start": "2020-01-01T00:00:00Z",
+  "exit_at": "2020-01-06T13:00:00Z",
+  "expected_catalog_dataset_key": "index_minute_NQ",
+  "expected_source_symbol": "usatechidxusd",
+  "expected_source_vendor": "Dukascopy",
+  "independent_audit": {
+    "checks": [
+      "entry at signal bar open plus 30 minutes",
+      "exit at signal bar open plus 60 minutes",
+      "actual fill timestamp and source open match",
+      "adverse 3 bps price impact per fill at 1x; 2x and 3x stress",
+      "explicit 0.6 bps commission per fill at 1x; 2x and 3x stress",
+      "one normalized unit, no stops, no targets, no overlap, zero final position",
+      "independent cash and marked-position equity matches each native equity row",
+      "missing scheduled fill bar blocks the trial",
+      "no post-2024-12-31 data or holdout read",
+      "signal eligibility requires t+2*30m strictly before evaluation_end without future-bar inspection",
+      "PortfolioAnalysis risk metrics use scheduled CFD trading-date returns with periods_per_year=252 and omit closed dates",
+      "independent sample-variance Sharpe, equity-path drawdown, and Calmar arithmetic reconcile with PortfolioAnalysis",
+      "RunPermit exit clock is one representative anchor; runtime independently validates every eligible signal and actual t+1/t+2 bars"
+    ],
+    "evidence_path": "run_log/m8/n8/audit_recipe.json",
+    "implementation": "src.research_control.m8_n8.audit_n8_result",
+    "method": "Native engine reconciliation with independent arithmetic oracle",
+    "source_sha256": "9bd0198230d59c9cd796df1663498676f7f1019a93c593a39011bbbbf7b1119c",
+    "version": "1.0.0"
+  },
+  "multiplier": {
+    "evidence_path": "run_log/m8/n8/multiplier_evidence.json",
+    "instrument_symbol": "usatechidxusd",
+    "source": "normalized research unit; broker lot conversion unknown",
+    "source_sha256": "8b279beaf5b9e3f97e12955d2acde5cb119faf4945458b7e0a906e9194542039",
+    "unit": "normalized USD per index point per research unit",
+    "value": 1.0
+  },
+  "requested_compute": {
+    "max_cpu_seconds": 3000,
+    "max_memory_mb": 4096,
+    "max_trials": 1,
+    "max_wall_seconds": 3600
+  },
+  "required_exit_available_at": "2020-01-06T13:00:00Z",
+  "schema_version": 1,
+  "session_id": "m8_n8_dukascopy_nas100_cfd_30m_v1",
+  "trial_id": "N8_primary_3cost_stress"
+}
