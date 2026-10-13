@@ -1,6 +1,6 @@
 # ADR 0003 — Fail-closed run permits and separate research, holdout, live authority
 
-**Status:** Proposed recommendation; not implemented.
+**Status:** M4-A preflight contract implemented. Managed execution and attempts remain unimplemented.
 **Date:** 2026-10-12.
 
 ## Context
@@ -51,6 +51,25 @@ a research PASS, profitable backtest or completed trial.
 - An OS-enforced holdout/access boundary requires separate design and
   authorization; until then, disclose that arbitrary Python bypasses
   the managed runner.
+
+## M4-A implementation boundary
+
+`src/research_control/run_permit.py` defines strict v1 `RunIntentV1`,
+`RunPermitV1`, compute budget, cost and multiplier evidence, and an independent
+audit recipe. `preflight_run` returns a structured `GateReport` with a stable
+reason code, expected value, observed value, source location, and one safe next
+action. It rechecks frozen v1 identities, the declared preregistered trial,
+the development window, the exact source contract, costs, multiplier evidence,
+the exit bar, and the compute budget.
+
+The preflight calls the M3-B `verify_feature_proof` and
+`require_verified_feature_proof` functions on the runtime computation and its
+input data. It does not accept serialized proof JSON or a caller assertion of
+verification. It issues an identity-bound research permit with
+`live_order_authority: false` and only `READ_ONLY` or `EVIDENCE_APPEND` effects.
+The permit is not an executor, lease, attempt record, protected-data sandbox,
+or permission to place orders. The synthetic acceptance fixture uses only
+locally generated bars and does not access market data or run a backtest.
 
 Related: [architecture](../architecture/agent_research_system.md),
 [contracts](../architecture/research_contracts.md),
