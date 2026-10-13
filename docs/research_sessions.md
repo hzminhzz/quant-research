@@ -1,5 +1,11 @@
 # Thesis-driven research sessions
 
+For the **human operating procedure**, mode selection and copy-ready research
+prompts, start with [Agent-first research operations](research_operations.md).
+That page defines MVP Research (default), Validation and Promotion as
+orchestration modes. It does not replace this session authority or the seven
+ResearchPhases in the [agent architecture](architecture/agent_research_system.md).
+
 Use this guide before starting crypto or index research, changing a strategy,
 or reviewing historical results. A session organizes a falsifiable thesis and
 its evidence; it does not confer permission to trade. All new sessions are

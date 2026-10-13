@@ -2,6 +2,38 @@
 
 This repository is the ongoing crypto and index research workspace. Optimize for falsifiable economic hypotheses, comparable experiments, and auditable evidence, not the highest historical Sharpe. Research completion is separate from strategy approval.
 
+## Default agent-first operating workflow
+
+Read the [human research operating guide](docs/research_operations.md) for the
+three research modes, the prompt contract, ownership, and recovery procedure.
+
+- **Default: MVP Research.** Run the smallest decisive, source-qualified,
+  causally correct and independently audited test of one economic hypothesis.
+  Freeze the baseline, falsifier, data, costs and trial before observing results.
+  A negative valid result is a success of the *research process*, not an alpha.
+- **Validation:** Only deepen a candidate with justified MVP evidence. Use
+  chronological validation, appropriate robustness/cost studies, uncertainty,
+  and complete selection/trial accounting. Do not access the protected final
+  test without explicit authorization.
+- **Promotion:** Apply all seven **applicable ResearchPhases** and independent
+  verification before proposing paper testing or another explicitly approved
+  gate. The seven PipelineStages are a separate, optional technical taxonomy.
+  No mode grants live-order authority or broker-execution approval.
+
+**Role split:** Human provides research intent and high-impact approvals.
+ChatGPT leads thesis/experiment choice and independently verifies evidence.
+Codex implements/tests using the installed ML4T APIs, manages bounded jobs,
+and reports artifacts; specialist agents provide bounded independent reviews.
+One integration owner edits shared code. A worker's claim of completion is not
+proof. Avoid seven separate approval prompts for ordinary research phases.
+
+**Status discipline:** Keep process validity, statistical/economic evidence,
+and broker/execution readiness separate. Preserve append-only attempts,
+failures, source identity, causal timing and holdout integrity in *every* mode.
+MVP reduces research breadth, never integrity standards. When a real
+capability (including interrupted-job recovery) has not been demonstrated,
+report its precise limitation; do not infer implementation from a runbook.
+
 ## Start every research session
 
 When using OMP, read `docs/omp.md` for project settings and memory boundaries.
