@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source": "Dukascopy Bank SA fee schedule; index CFD maximum commission USD 52.5 per USD 1,000,000 notional per side, rounded up conservatively to 0.6 bps per side",
+  "source_url": "https://www.dukascopysfx.com/swiss/english/about/fee-schedule/index.html",
+  "commission_bps": 0.6,
+  "slippage_bps": 3.0,
+  "slippage_assumption": "2 bps adverse half-spread plus 1 bp adverse slippage per fill; assumption, not a historical or live broker quote",
+  "stress_multipliers": [1, 2, 3],
+  "stress_components": "Scale explicit commission and adverse price slippage independently by the same declared multiplier.",
+  "limitations": ["Historical spread, latency, impact, financing and account tier are unknown.", "Costs do not qualify broker execution or live trading."]
+}

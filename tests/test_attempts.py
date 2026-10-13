@@ -43,6 +43,20 @@ def test_duplicate_running_resumes_exact_attempt_then_reuses_completed(tmp_path)
     assert visibility[0] == {"ml4t-m4c", "unrelated-other-task"}
 
 
+def test_disappeared_running_job_is_not_reattached_or_duplicated(tmp_path):
+    visibility = [set()]
+    ledger, permit = prepared(tmp_path, visibility=visibility)
+    first = ledger.claim(permit, job_name="ml4t-m4c", command="python native_test.py")
+    assert first.status == "LAUNCH"
+    assert ledger.transition(first.attempt_id, "RUNNING").reason_code == "ATTEMPT_STATE_RECORDED"
+    # A process that vanished before its lease expires has an uncertain outcome.
+    decision = ledger.claim(permit, job_name="ml4t-m4c", command="python native_test.py")
+    assert decision.status == "BLOCKED"
+    assert decision.reason_code == "LEASE_UNCERTAIN"
+    assert decision.attempt_id == first.attempt_id
+    assert ledger.latest()[first.attempt_id]["status"] == "RUNNING"
+
+
 def test_expired_lease_preserves_aborted_and_new_attempt(tmp_path):
     time = [datetime(2026, 1, 5, tzinfo=UTC)]
     visibility = [set()]
@@ -67,7 +81,7 @@ def test_job_name_conflict_and_state_machine_reject_invalid_transition(tmp_path)
     assert ledger.transition("unknown", "RUNNING").reason_code == "ATTEMPT_UNKNOWN"
 
 
-def test_stale_permit_and_unowned_tmux_fail_closed(tmp_path):
+def test_stale_head_permit_and_unowned_tmux_fail_closed(tmp_path):
     visibility = [{"ml4t-m4c"}]
     ledger, permit = prepared(tmp_path, visibility=visibility)
     assert ledger.claim(permit, job_name="ml4t-m4c", command="native").reason_code == "ACTIVE_UNOWNED_JOB"

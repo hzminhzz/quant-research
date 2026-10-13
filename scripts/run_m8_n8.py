@@ -116,8 +116,11 @@ def prepare() -> int:
 
 
 def _restore_completed_artifact(
-    output: Path, *, attempt_id: str, permit: Any
+    output: Path, *, attempt_id: str, permit: Any,
+    native_replay: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any] | None:
+    if native_replay is None:
+        raise RuntimeError("ARTIFACT_NATIVE_REPLAY_REQUIRED: hashes alone do not prove worker success")
     report_path = output / "report.json"
     manifest_path = output / "manifest.json"
     if not report_path.exists() and not manifest_path.exists():
@@ -158,7 +161,8 @@ def _restore_completed_artifact(
         report.get(key) != value for key, value in expected_identity.items()
     ):
         raise RuntimeError("ARTIFACT_IDENTITY_DRIFT: report identity/status mismatch")
-    if len(report.get("cost_scenarios", [])) != 3:
+    scenario_names = [item.get("scenario") for item in report.get("cost_scenarios", [])]
+    if scenario_names != expected_identity["scenarios"] or report.get("scenarios") != expected_identity["scenarios"]:
         raise RuntimeError("ARTIFACT_PARTIAL: three completed cost scenarios are required")
     for scenario in report["cost_scenarios"]:
         name = scenario.get("scenario")
@@ -175,6 +179,13 @@ def _restore_completed_artifact(
             raise RuntimeError("ARTIFACT_SCHEMA_INVALID: native equity schema mismatch")
         if fills.height != scenario["audit"].get("fill_count") or equity.height != scenario["audit"].get("cash_position_ledger_rows"):
             raise RuntimeError("ARTIFACT_AUDIT_INVALID: stored audit row counts mismatch")
+        replay = native_replay.get(name)
+        if replay is None or replay.get("audit", {}).get("status") != "PASS":
+            raise RuntimeError("ARTIFACT_AUDIT_INVALID: native replay audit is missing")
+        if scenario.get("audit") != replay["audit"]:
+            raise RuntimeError("ARTIFACT_AUDIT_INVALID: stored audit differs from native replay")
+        if not fills.equals(replay["fills"]) or not equity.equals(replay["equity"]):
+            raise RuntimeError("ARTIFACT_NATIVE_REPLAY_MISMATCH: stored fills or equity differ")
     return report
 
 

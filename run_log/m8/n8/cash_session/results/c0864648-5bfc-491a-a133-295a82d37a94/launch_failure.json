@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_BEFORE_NATIVE_ENGINE",
+  "reason_code": "RUNNER_COMMAND_TARGET_MISMATCH",
+  "attempt_id": "c0864648-5bfc-491a-a133-295a82d37a94",
+  "session_id": "m8_n8_dukascopy_us_cash_30m_v2",
+  "trial_id": "N8_cash_session_primary_3cost_stress",
+  "permit_sha256": "2ddad08bf40dbea9fa607f641c42a5fbd387820e352c4a6bdf04cb8745d313d5",
+  "frozen_session_sha256": "a56c3634b451fc450f14c33429c74ef73205087b9b1a79f3a045123f01905a39",
+  "launch_command": "uv run python scripts/run_m8_n8.py execute --attempt-id c0864648-5bfc-491a-a133-295a82d37a94",
+  "expected_runner": "scripts/run_m8_cash_session.py",
+  "observed": "The cash pilot tmux session disappeared immediately. The launcher targeted the extended-hours runner, which uses a different job name and rejected this cash-session attempt before data execution.",
+  "native_engine_started": false,
+  "signals_computed": false,
+  "fills_or_equity_produced": false,
+  "holdout_accessed": false,
+  "live_orders": false,
+  "data_sha256": "36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8",
+  "disposition": "Count as a failed managed launch attempt. This is not an economic result. Preserve the v2 frozen spec and use a separately frozen version for the corrected command."
+}

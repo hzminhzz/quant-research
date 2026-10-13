@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_AFTER_NATIVE_ENGINE",
+  "reason_code": "CALENDAR_RANGE_OUT_OF_BOUNDS",
+  "attempt_id": "67e2d592-4d19-44f9-973b-600c60a2114a",
+  "session_id": "m8_n8_dukascopy_us_cash_30m_v3",
+  "trial_id": "N8_cash_session_primary_3cost_stress",
+  "permit_sha256": "7a2852db0bdcb47b39eff6d0389851a902d5f8d24ef0709bab551d4a4af7dd35",
+  "frozen_session_sha256": "14ca0458546dfc05c7c063a9ecec24e28791d8e33874f0cd0d3a587f19a58c8f",
+  "exception": "DateOutOfBounds: Parameter `start` received as 2020-01-01, before first XNYS session 2020-01-02.",
+  "native_engine_started": true,
+  "native_engine_result_created": true,
+  "native_audit_called": true,
+  "cost_scenarios_persisted": [],
+  "fills_or_equity_persisted": false,
+  "performance_metrics_returned": false,
+  "holdout_accessed": false,
+  "live_orders": false,
+  "data_sha256": "36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8",
+  "interpretation": "The 1x engine result and audit existed in process memory. The metric calendar range error stopped the run before artifacts were written or metrics were returned. Do not report a strategy conclusion from this attempt. Preserve this failure and use a separately frozen retry after the calendar bounds fix."
+}

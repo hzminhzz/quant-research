@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "checks": [
+    "signal candle fits scheduled XNAS session",
+    "next two planned opens fit scheduled XNAS session and precede holdout",
+    "signal eligibility does not inspect future data-row presence",
+    "all planned provider fill bars exist or entire trial blocks",
+    "native fills use next-bar entry and following-bar exit",
+    "actual fill timestamps and source open prices match",
+    "1x/2x/3x adverse price cost and explicit commission reconcile",
+    "unit size one, no overlap, no stop or target and flat terminal position",
+    "independent cash and marked-position value reconcile to every native equity mark",
+    "PortfolioAnalysis daily Sharpe, Calmar, max drawdown and descriptive yearly results",
+    "no source timestamp reaches protected holdout boundary"
+  ],
+  "implementation": "src.research_control.m8_n8.audit_n8_result",
+  "method": "ml4t-backtest 0.1.7 native next-bar execution with independent fill and cash/equity arithmetic",
+  "version": "1.0.0",
+  "source_sha256": "46fda22a4e030f11883075641dd7ffc1e72cdac05898dc667cc2b8405040ae3e"
+}
