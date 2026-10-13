@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "agent-casefile-cold-source-attempt-v1",
+  "scope": "read-only discovery of frozen source, declared trials and latest attempts",
+  "source_session": "vwap_pullback_adx_dukascopy_20261012_v1",
+  "source_identity": {
+    "spec_sha256": "0d62ce1ee4d2d17e493c17ab242bc2ce1bc2bd475e9c146973ecc2ff663f1d2e",
+    "data": [
+      {
+        "id": "duk_usatech_1m",
+        "path": "data/processed/vwap_adx_dukascopy_2026_1m.parquet",
+        "role": "prices",
+        "symbol": "DUK_USATECH"
+      }
+    ]
+  },
+  "attempt_identity_count": 0,
+  "attempt_identities": [],
+  "samples": 9,
+  "environment": {
+    "ml4t_engineer": "0.1.4",
+    "ml4t_backtest": "0.1.7"
+  },
+  "baseline": {
+    "description": "measured fixed baseline: legacy status plus separate attempt ledger lookup; reconstructed, not historical pre-rollout capture",
+    "tool_calls": 2,
+    "cold_latency_ms": 21.0216,
+    "warm_median_ms": 21.0813,
+    "warm_p95_ms": 22.098,
+    "answer_complete": true
+  },
+  "managed": {
+    "description": "one evidence-linked Casefile call",
+    "tool_calls": 1,
+    "cold_latency_ms": 9.0403,
+    "warm_median_ms": 9.8812,
+    "warm_p95_ms": 10.3374,
+    "answer_complete": true
+  },
+  "tool_calls_avoided_per_task": 1,
+  "redundant_market_data_reads_measured": 0,
+  "time_to_first_action_ms": {
+    "baseline": 21.0216,
+    "managed": 9.0403
+  },
+  "full_dataset_hashes_requested": 0,
+  "native_feature_count": 1,
+  "approved_extension_count": 5,
+  "unmanaged_feature_count": 0,
+  "corpus": {
+    "actual_status": "PASS",
+    "suite": "tests/test_agent_efficiency.py",
+    "tests_passed": 13,
+    "positive_valid_tasks_passed": 4,
+    "adversarial_invalid_tasks_rejected": 6,
+    "real_failure_regressions_passed": 1,
+    "casefile_schema_regressions_passed": 1,
+    "benchmark_invariant_cases_passed": 1,
+    "positive_policy_false_failures": 0,
+    "negative_policy_false_acceptances": 0,
+    "duplicate_launch_reservations_prevented": 5,
+    "runtime_tests_disclosed": "13 passed in 2.95s",
+    "scope_limit": "deterministic synthetic fixtures, not human/agent deployment outcomes"
+  },
+  "limitations": [
+    "API-call counts describe named Python API steps, not LLM calls or tokens.",
+    "The baseline is a measured reconstruction of the legacy two-call path, not a contemporaneous pre-rollout capture.",
+    "Both workflows are designed to avoid market-data reads; zero reads is not a claimed optimization.",
+    "Latency varies with CPU load, filesystem cache, unrelated VPS load, tmux visibility and attempt count.",
+    "Nine correlated warm samples do not support a significance claim; first-call values are not process-cold.",
+    "No measured cost or quality improvement outside this fixed task is implied.",
+    "Time-to-action is response latency, not human or agent decision time."
+  ],
+  "no_live_trading": true
+}
