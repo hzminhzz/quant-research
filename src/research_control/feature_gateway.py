@@ -260,15 +260,16 @@ def _adx_reference(high: list[float], low: list[float], close: list[float], peri
     result = [math.nan] * size
     if size <= 2 * period - 1:
         return result
-    smooth_tr = sum(true_range[1 : period + 1])
-    smooth_plus = sum(plus_dm[1 : period + 1])
-    smooth_minus = sum(minus_dm[1 : period + 1])
+    # Seed with period-1 movements, then Wilder-smooth on index period.
+    # This matches TA-Lib/installed Engineer's DX initialization exactly.
+    smooth_tr = sum(true_range[1:period])
+    smooth_plus = sum(plus_dm[1:period])
+    smooth_minus = sum(minus_dm[1:period])
     dx = [math.nan] * size
     for index in range(period, size):
-        if index > period:
-            smooth_tr += true_range[index] - smooth_tr / period
-            smooth_plus += plus_dm[index] - smooth_plus / period
-            smooth_minus += minus_dm[index] - smooth_minus / period
+        smooth_tr += true_range[index] - smooth_tr / period
+        smooth_plus += plus_dm[index] - smooth_plus / period
+        smooth_minus += minus_dm[index] - smooth_minus / period
         plus_di = 100 * smooth_plus / smooth_tr if smooth_tr else 0.0
         minus_di = 100 * smooth_minus / smooth_tr if smooth_tr else 0.0
         total = plus_di + minus_di

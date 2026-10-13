@@ -1,0 +1,101 @@
+session_id: vwap_pullback_adx_dukascopy_managed_v2
+thesis: >-
+  Historical engineering and execution parity for already-observed B1/B2/B3
+  Dukascopy USATECH CFD 2026 development. This is NOT a new independent alpha test.
+mechanism: >-
+  Cash-opening-range continuation with optional quote-volume VWAP reclaim and
+  native ADX14 gate. Native Engine must match original source-specific 15:14 CT
+  liquidation and conservative stop-first order semantics.
+falsifier: >-
+  Any source/feature/session/recorded-signal parity mismatch or unsafe native
+  fill invalidates this migration. Observed profitability is not acceptance.
+market: indices
+instruments:
+  - symbol: DUK_USATECH
+    kind: cfd
+    identity: Dukascopy USATECH.IDX/USD historical broker price and quote-volume proxy
+    session: 08:30-15:14 America/Chicago exact source bar opens
+    timezone: America/Chicago
+data:
+  - id: dukascopy_cfd_1m
+    path: data/processed/vwap_adx_dukascopy_2026_1m.parquet
+    role: prices
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  retrospective_data_already_seen: true
+  strategy_exit: 15:14 America/Chicago next-open, after 15:13 decision
+baseline: B0 cash. All B1/B2/B3 historical observations predate managed migration.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    The schema bps fields are 0 placeholders; separately specified native
+    historical stress variants use illustrative NQ-equivalent 20 USD/point,
+    $2.50/side, and 0/0.25/0.50/1.0-point adverse market/stop slippage.
+    No verified Dukascopy broker contract multiplier or live execution costs.
+trials:
+  - id: B1_gross_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B1/gross January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B1_cost_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B1/cost January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B1_stress_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B1/stress January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B1_stress4tick_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B1/stress4tick January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B2_gross_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B2/gross January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B2_cost_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B2/cost January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B2_stress_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B2/stress January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B2_stress4tick_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B2/stress4tick January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B3_gross_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B3/gross January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B3_cost_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B3/cost January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B3_stress_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B3/stress January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+  - id: B3_stress4tick_development
+    kind: preregistered
+    description: >-
+      Managed parity-only replay of already observed B3/stress4tick January-June
+      2026 Dukascopy CFD data; not unseen OOS or economic retuning.
+config: config/research_contract_dukascopy_managed_v2.yaml
+evidence:
+  - docs/architecture/research_contracts.md

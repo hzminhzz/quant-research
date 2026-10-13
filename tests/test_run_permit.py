@@ -144,15 +144,16 @@ def intent(
     data, evidence, *, source_vendor="Synthetic", source_symbol="SYN", **changes
 ):
     last_available = data["timestamp"][-1] + timedelta(minutes=1)
+    last_executable_open = data["timestamp"][-1]
     payload = {
         "schema_version": 1,
         "session_id": "permit-synthetic",
         "trial_id": "synthetic-trial",
         "evaluation_start": "2026-01-05T14:30:00Z",
         "evaluation_end": last_available.isoformat(),
-        "decision_at": last_available.isoformat(),
-        "exit_at": last_available.isoformat(),
-        "required_exit_available_at": last_available.isoformat(),
+        "decision_at": last_executable_open.isoformat(),
+        "exit_at": last_executable_open.isoformat(),
+        "required_exit_available_at": last_executable_open.isoformat(),
         "expected_source_vendor": source_vendor,
         "expected_source_symbol": source_symbol,
         "expected_catalog_dataset_key": None,

@@ -590,7 +590,9 @@ def preflight_run(
             "M3-B output available_at",
             "Move the decision after feature availability.",
         )
-    timestamps = available_values
+    # A feature becoming available at the next clock is not proof of a real
+    # executable bar at that clock. Require the frozen bar OPEN itself.
+    timestamps = input_data["timestamp"].to_list()
     required_exit_utc = intent.required_exit_available_at.astimezone(UTC)
     if required_exit_utc not in [value.astimezone(UTC) for value in timestamps]:
         return _blocked(
@@ -598,8 +600,8 @@ def preflight_run(
             "Required hard-flat bar is missing.",
             intent.required_exit_available_at.isoformat(),
             max(timestamps).isoformat() if timestamps else None,
-            "verified feature output available_at",
-            "Provide the exact exit bar or declare a new execution clock.",
+            "frozen source bar open timestamps",
+            "Provide the real executable exit bar or declare a new execution clock.",
         )
 
     versions = frozen["identity"].get("runner", [])
