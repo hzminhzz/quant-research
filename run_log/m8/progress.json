@@ -1,0 +1,89 @@
+{
+  "mission": "Autonomous M8 strategy research qualification",
+  "updated_at_utc": "2026-10-13",
+  "branch": "feat/agent-research-m8",
+  "baseline_commit": "e5d14a7f4b2ee1645d07e8b9cc3e7f47306a859c",
+  "worktree": "/home/quant/.devspace/worktrees/quant-research-3d764523",
+  "approved_plan_sha256": "3e7276581f8e26a6da6dd73d2e0cec5c0c83b25677fd5c4c66bd3d46557967e3",
+  "phases": {
+    "M8-A": {
+      "status": "complete_local_verification_pending_ci",
+      "catalog_sha256": "8b37902a270c9d8144d27af63d9c56eb3b214bc01b71b3da3e1ecc795b674b4e",
+      "catalog_identity": "ed739ea21a7bc2293116392b6bc948eab1a608955bda83b36e19fde01d3ac1b9",
+      "findings": [
+        "Four marked catalog test failures reproduce as stale expected aliases/qualification/source-symbol values.",
+        "Live source catalog is canonical and accepted for NQ/NAS100, ES/SPX500 and Nikkei CFD aliases; all report contract_level_futures=false.",
+        "Current readiness audit identity does not match current live catalog identity and may expose stale readiness claims."
+      ],
+      "completed": [
+        "Reproduced the four stale catalog failures and updated live-store expectations.",
+        "Added data-free negative authority, qualification, futures-identity, and stale-audit fixtures.",
+        "Changed readiness reads to reject stale catalog identity.",
+        "Published forensic report and source readiness evidence."
+      ],
+      "next": "Open and pass CI for PR #23, then verify merge and close issue #23."
+    },
+    "M8-B1": {
+      "status": "blocked_source_document",
+      "issue": 31,
+      "blocker": "SOURCE_DOCUMENT_UNAVAILABLE: requested original PDF not found under /home/quant, /mnt/data, /tmp, or the task worktree."
+    },
+    "M8-B2": {
+      "status": "general_feature_plumbing_complete_strategy_specific_blocked",
+      "issue": 32,
+      "evidence": "docs/audit/m8_feature_capability.md and run_log/m8/feature_capability.json",
+      "blocker": "Required candidate features cannot be known until M8-B1 supplies the original PDF rules."
+    },
+    "M8-B3": {
+      "status": "blocked_source_and_execution_evidence",
+      "issue": 33,
+      "blockers": [
+        "M8-B1 strategy source and frozen contract are unavailable.",
+        "Broker session, costs, multiplier, lot, financing, and margin evidence are absent."
+      ],
+      "native_backtest_run": false
+    },
+    "M8-C": {
+      "status": "incomplete_recovery_missing_production_runner",
+      "issue": 25,
+      "findings": [
+        "Existing M7 fixed adversarial corpus covers several managed-path cases.",
+        "CLI resume only inspects; no integrated managed execution/restart path exists."
+      ],
+      "evidence": "docs/audit/m8_agent_qualification.md and run_log/m8/agent_corpus.json",
+      "next": "Implement and verify managed attempt continuation/replay before claiming same-attempt interrupted recovery."
+    }
+  },
+  "github_issues": {
+    "m8_a": 23,
+    "m8_b_integrator": 24,
+    "m8_c": 25,
+    "m8_b1": 31,
+    "m8_b2": 32,
+    "m8_b3": 33
+  },
+  "skill_provenance": {
+    "catalog": "https://github.com/ml4t/skills (upstream main; loaded by TinyFish; no local installed SKILL.md found)",
+    "skills": [
+      "validate-data", "point-in-time", "compute-features", "feature-validation",
+      "run-backtest", "cost-model", "agent-state-memory", "agent-tool-contracts",
+      "research-operator", "backtest-overfitting"
+    ],
+    "invariants": [
+      "Validate timestamped OHLC and gaps before use.",
+      "Use exact source availability and causal feature timing.",
+      "Use the installed Engineer API and independent numerical oracle.",
+      "Run the native backtest engine and independently audit fills and costs.",
+      "Freeze strategy, data, costs, boundaries, and trials before observing outcomes.",
+      "Persist typed evidence and recovery state; never treat agent claims as proof."
+    ]
+  },
+  "protected_state": {
+    "canonical_checkout": "/home/quant/dev/quant/quant-research (read only)",
+    "preexisting_tmux_sessions": [
+      "ml4t-btceth-hft-3d", "ml4t-volt-break-p4", "ml4t-volt-break-phase4-native",
+      "ml4t-volt-break-position-rule"
+    ],
+    "existing_m8_tmux_session": "ml4t-m8-qualification (observed only; not started or changed here)"
+  }
+}
