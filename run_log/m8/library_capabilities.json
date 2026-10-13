@@ -1,0 +1,24 @@
+{
+  "schema_version": "m8-library-capabilities-v1",
+  "observed_at_utc": "2026-10-13",
+  "environment": {
+    "ml4t-engineer": "0.1.4",
+    "ml4t-backtest": "0.1.7",
+    "polars": "1.44.2",
+    "python": "3.13.5"
+  },
+  "engineer": {
+    "compute_features": "(data, features, *, group_col=None, timestamp_col=None, assume_sorted=False)",
+    "donchian_channels": "(high='high', low_col='low', period=20) -> (upper, lower, middle) expressions",
+    "donchian_managed": "Rejected by FeatureGateway; no strategy-specific use approved."
+  },
+  "backtest": {
+    "Strategy.on_data": "(self, timestamp, data, context, broker) -> None",
+    "Engine": "(feed, strategy, config=None, *, contract_specs=None, market_impact_model=None, execution_limits=None, lifecycle_version=V1, execution_policy=None, target_intent_state=None)",
+    "DataFeed": "accepts prices_df and typed feed/contract metadata, plus price and bid/ask column mappings",
+    "run_backtest": "(prices, strategy, signals=None, context=None, config=None, *, feed_spec=None, contract=None, contract_specs=None, market_impact_model=None, execution_limits=None, lifecycle_version=V1, execution_policy=None, target_intent_state=None)",
+    "execution": "Not invoked for an M8 PDF strategy. Only existing synthetic regression fixtures were run.",
+    "installed_source_root": ".venv/lib/python3.13/site-packages/ml4t/backtest"
+  },
+  "interpretation": "Installed API inspection does not establish source readiness, strategy validity, costs, funding, CFD multipliers, or fills."
+}

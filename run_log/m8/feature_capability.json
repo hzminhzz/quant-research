@@ -1,0 +1,114 @@
+{
+  "api": {
+    "compute_features_signature": "(data: polars.dataframe.frame.DataFrame | polars.lazyframe.frame.LazyFrame, features: list[str | dict[str, typing.Any]] | pathlib._local.Path | str, *, group_col: str | list[str] | None = None, timestamp_col: str | None = None, assume_sorted: bool = False) -> polars.dataframe.frame.DataFrame | polars.lazyframe.frame.LazyFrame",
+    "donchian_managed_status": "REJECTED_UNSUPPORTED_SEMANTICS",
+    "donchian_registry_metadata": {
+      "category": "trend",
+      "dependencies": [],
+      "description": "Donchian Channel - highest high / lowest low over period",
+      "formula": "",
+      "input_type": "close",
+      "lookback_period": 19,
+      "name": "donchian_channels",
+      "normalized": false,
+      "output_type": "indicator",
+      "parameters": {
+        "low_col": "low",
+        "period": 20
+      },
+      "references": [],
+      "ta_lib_compatible": false,
+      "tags": [],
+      "value_range": null
+    },
+    "donchian_registry_signature": "(high: str = 'high', low_col: str = 'low', period: int = 20) -> tuple[polars.expr.expr.Expr, polars.expr.expr.Expr, polars.expr.expr.Expr]",
+    "donchian_source": {
+      "relative_path": ".venv/lib/python3.13/site-packages/ml4t/engineer/features/trend/donchian.py",
+      "sha256": "5585e585ddc999fc03f686d05461d8b9e1b3ea522adb5d6198020985833908dd",
+      "semantics": "rolling_max(high, period) and rolling_min(low, period), without a shift; includes the current bar"
+    },
+    "reason": "Engineer 0.1.4 Donchian callable includes current bar and returns three expressions. The managed native gateway only certifies exact adx/typprice contracts."
+  },
+  "approved_extension_proof": {
+    "contract_sha256": "51bd8a44525ac4f64d780d44dbe8aa0a0f4cb95f80367648e68ec4e002d8719a",
+    "extension_id": "prior_n_high_low",
+    "features": [
+      "prior_high_3",
+      "prior_low_3"
+    ],
+    "input_sha256": "2c60adca4a3ed0d8d6e4757ff3c9f1444e891aa6302239f0939e9e91139f0164",
+    "output_sha256": "23bc777e70510611c74bef59158080025f959d8de059f4e77a7525cdc1606eb7",
+    "proof_sha256": "73cf06ccd2b617c3fbc4e88719734895121084acb7d3af84cf8884b296336361",
+    "provider_versions": {
+      "engineer_call_sha256": "eb5c8f59315689f038d75c932ead270d7c63c7954f8cd190bf81a763625cd038",
+      "engineer_expected_call_sha256": "eb5c8f59315689f038d75c932ead270d7c63c7954f8cd190bf81a763625cd038",
+      "engineer_implementation_sha256": "fd61a15bd566e811a938271a1ce042f3f0bfd182a23e416c2728cf412b2cbcba",
+      "extensions_sha256": "4c99a102597ddfc37f418503475834c6a49a8bf27c49f7464f4040e0c9f149e5",
+      "feature_gateway": "1.0.0",
+      "ml4t-engineer": "0.1.4"
+    },
+    "runtime_checks": {
+      "completed_bar_availability": true,
+      "contract_validated": true,
+      "deterministic_input_hash": true,
+      "native_execution_through_engineer": true,
+      "numerical_oracle_references_present": true,
+      "output_hash_recorded": true,
+      "registry_resolution": true,
+      "source_rows_preserved": true
+    },
+    "synthetic_data_only": true,
+    "verified": true,
+    "version": "1.0.0"
+  },
+  "limitation": "Strategy-specific M8-B2 remains blocked until the original PDF identifies required feature semantics.",
+  "native_feature_proof": {
+    "dispatch_trace": [
+      {
+        "dispatcher": {
+          "module": "ml4t.engineer.api",
+          "name": "compute_features",
+          "source_sha256": "1ba4f9abeb4d7601b031f5e733065fac47dc0d2ba1c533f7bfd9989f1598c8dd"
+        },
+        "input_sha256": "2c60adca4a3ed0d8d6e4757ff3c9f1444e891aa6302239f0939e9e91139f0164",
+        "kwargs": {
+          "group_col": [
+            "symbol"
+          ],
+          "timestamp_col": "timestamp"
+        },
+        "returned_feature_sha256": "47dbb6c532d31edb8b24ac3f421ffb87ed831b18c2d299bdac91d60ea395e22d",
+        "returned_frame_sha256": "555de9a1a3284b80c494e5d2891722ec333facfb20d7b32b7c6e76afce6b4069",
+        "specs": [
+          {
+            "name": "adx",
+            "output": "adx_14",
+            "params": {
+              "period": 14
+            }
+          }
+        ]
+      }
+    ],
+    "feature": "adx(period=14)",
+    "independent_oracle": "Wilder ADX recurrence in tests/test_research_control.py",
+    "provider": "ml4t-engineer",
+    "runtime_check": true
+  },
+  "negative_cases": {
+    "future_dependent_prior_range": "FEATURE_NUMERICAL_MISMATCH",
+    "metadata_only_donchian_as_native": "FEATURE_UNSUPPORTED",
+    "wrong_input_or_parameter": "ResearchContractV1 strict validation"
+  },
+  "packages": {
+    "ml4t-backtest": "0.1.7",
+    "ml4t-engineer": "0.1.4"
+  },
+  "schema_version": "m8-feature-capability-v1",
+  "scope": "general managed gateway plumbing only; not a strategy feature selection and not a PDF-derived candidate certification",
+  "tests": [
+    "tests/test_m8_feature_capability.py::test_m8_prior_ranges_have_verified_oracle_and_completed_bar_timing",
+    "tests/test_m8_feature_capability.py::test_m8_metadata_only_donchian_is_not_managed_native_feature",
+    "tests/test_m8_feature_capability.py::test_m8_oracle_rejects_future_dependent_prior_range"
+  ]
+}

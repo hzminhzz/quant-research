@@ -7,7 +7,7 @@
   "approved_plan_sha256": "3e7276581f8e26a6da6dd73d2e0cec5c0c83b25677fd5c4c66bd3d46557967e3",
   "phases": {
     "M8-A": {
-      "status": "complete_local_verification_pending_ci",
+      "status": "merged",
       "catalog_sha256": "8b37902a270c9d8144d27af63d9c56eb3b214bc01b71b3da3e1ecc795b674b4e",
       "catalog_identity": "ed739ea21a7bc2293116392b6bc948eab1a608955bda83b36e19fde01d3ac1b9",
       "findings": [
@@ -21,7 +21,10 @@
         "Changed readiness reads to reject stale catalog identity.",
         "Published forensic report and source readiness evidence."
       ],
-      "next": "Open and pass CI for PR #23, then verify merge and close issue #23."
+      "next": "No further M8-A action; preserve strict source identity and stale-audit gates.",
+      "pull_request": 34,
+      "merge_commit": "adca0fb4f4f99b04979ca81f3a6d3dcaedaaf99e",
+      "issue_status": "closed"
     },
     "M8-B1": {
       "status": "blocked_source_document",
@@ -29,10 +32,11 @@
       "blocker": "SOURCE_DOCUMENT_UNAVAILABLE: requested original PDF not found under /home/quant, /mnt/data, /tmp, or the task worktree."
     },
     "M8-B2": {
-      "status": "general_feature_plumbing_complete_strategy_specific_blocked",
+      "status": "general_feature_plumbing_verified_strategy_specific_blocked",
       "issue": 32,
       "evidence": "docs/audit/m8_feature_capability.md and run_log/m8/feature_capability.json",
-      "blocker": "Required candidate features cannot be known until M8-B1 supplies the original PDF rules."
+      "blocker": "Required candidate features cannot be known until M8-B1 supplies the original PDF rules.",
+      "pull_request": "evidence PR pending"
     },
     "M8-B3": {
       "status": "blocked_source_and_execution_evidence",
@@ -44,14 +48,15 @@
       "native_backtest_run": false
     },
     "M8-C": {
-      "status": "incomplete_recovery_missing_production_runner",
+      "status": "qualification_corpus_recorded_recovery_incomplete",
       "issue": 25,
       "findings": [
         "Existing M7 fixed adversarial corpus covers several managed-path cases.",
         "CLI resume only inspects; no integrated managed execution/restart path exists."
       ],
       "evidence": "docs/audit/m8_agent_qualification.md and run_log/m8/agent_corpus.json",
-      "next": "Implement and verify managed attempt continuation/replay before claiming same-attempt interrupted recovery."
+      "next": "Implement and verify managed attempt continuation/replay before claiming same-attempt interrupted recovery.",
+      "pull_request": "evidence PR pending"
     }
   },
   "github_issues": {
@@ -60,14 +65,24 @@
     "m8_c": 25,
     "m8_b1": 31,
     "m8_b2": 32,
-    "m8_b3": 33
+    "m8_b3": 33,
+    "m8_a_pull_request": 34,
+    "m8_a_merge_commit": "adca0fb4f4f99b04979ca81f3a6d3dcaedaaf99e",
+    "m8_a_status": "closed"
   },
   "skill_provenance": {
     "catalog": "https://github.com/ml4t/skills (upstream main; loaded by TinyFish; no local installed SKILL.md found)",
     "skills": [
-      "validate-data", "point-in-time", "compute-features", "feature-validation",
-      "run-backtest", "cost-model", "agent-state-memory", "agent-tool-contracts",
-      "research-operator", "backtest-overfitting"
+      "validate-data",
+      "point-in-time",
+      "compute-features",
+      "feature-validation",
+      "run-backtest",
+      "cost-model",
+      "agent-state-memory",
+      "agent-tool-contracts",
+      "research-operator",
+      "backtest-overfitting"
     ],
     "invariants": [
       "Validate timestamped OHLC and gaps before use.",
@@ -81,7 +96,9 @@
   "protected_state": {
     "canonical_checkout": "/home/quant/dev/quant/quant-research (read only)",
     "preexisting_tmux_sessions": [
-      "ml4t-btceth-hft-3d", "ml4t-volt-break-p4", "ml4t-volt-break-phase4-native",
+      "ml4t-btceth-hft-3d",
+      "ml4t-volt-break-p4",
+      "ml4t-volt-break-phase4-native",
       "ml4t-volt-break-position-rule"
     ],
     "existing_m8_tmux_session": "ml4t-m8-qualification (observed only; not started or changed here)"
