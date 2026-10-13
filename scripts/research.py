@@ -28,6 +28,11 @@ from src.catalog import (
     load_dataset_catalog,
     load_readiness_audit,
 )
+from src.research_control.casefile import (
+    build_casefile,
+    explain_blocker,
+    inspect_resume,
+)
 from src.research_control.feature_gateway import discover_feature
 from src.research_session import ResearchSessionError, session_status
 
@@ -461,6 +466,21 @@ def parser() -> argparse.ArgumentParser:
     )
     discover_parser.add_argument("--root", type=Path, default=ROOT)
     discover_parser.add_argument("--feature", required=True)
+    casefile_parser = sub.add_parser("casefile", help="cold-start derived frozen session and attempt status")
+    casefile_parser.add_argument("--root", type=Path, default=ROOT)
+    casefile_parser.add_argument("--session", required=True)
+    explain_parser = sub.add_parser("explain", help="one-action explanation for a stable failure code")
+    explain_parser.add_argument("--root", type=Path, default=ROOT)
+    explain_parser.add_argument("--reason-code")
+    explain_parser.add_argument("--gate-file", type=Path)
+    explain_parser.add_argument("--expected")
+    explain_parser.add_argument("--observed")
+    explain_parser.add_argument("--where-found")
+    explain_parser.add_argument("--next-safe-action")
+    resume_parser = sub.add_parser("resume", help="inspect an existing attempt, never launch a duplicate")
+    resume_parser.add_argument("--root", type=Path, default=ROOT)
+    resume_parser.add_argument("--session", required=True)
+    resume_parser.add_argument("--attempt", required=True)
     return command
 
 
@@ -471,6 +491,27 @@ def main(argv: list[str] | None = None) -> int:
             result = doctor(args.root.resolve(), args.session)
         elif args.command == "status":
             result = status(args.session, args.root.resolve())
+        elif args.command == "casefile":
+            result = build_casefile(args.root.resolve(), args.session)
+        elif args.command == "resume":
+            result = inspect_resume(args.root.resolve(), args.session, args.attempt)
+        elif args.command == "explain":
+            if args.gate_file is not None:
+                base = args.root.resolve()
+                requested = args.gate_file if args.gate_file.is_absolute() else base / args.gate_file
+                if (not requested.resolve().is_relative_to(base)
+                    or requested.is_symlink() or not requested.is_file()
+                    or requested.stat().st_size > 1_000_000):
+                    raise ValueError("Gate record must be a regular bounded file inside the workspace")
+                result = explain_blocker(json.loads(requested.read_text(encoding="utf-8")))
+            else:
+                if not args.reason_code:
+                    raise ValueError("Provide a --reason-code or a verified --gate-file")
+                result = explain_blocker({
+                    "reason_code": args.reason_code, "expected": args.expected,
+                    "observed": args.observed, "where_found": args.where_found,
+                    "next_safe_action": args.next_safe_action,
+                })
         else:
             metadata = discover_feature(args.feature.lower())
             if metadata is None:
