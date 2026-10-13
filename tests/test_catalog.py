@@ -15,6 +15,7 @@ from src.catalog import (
 STORE_ROOT = Path("/home/quant/dev/quant/ml4t-data/.data/store")
 
 
+@pytest.mark.data
 def test_load_dataset_catalog():
     catalog = load_dataset_catalog(STORE_ROOT)
     assert "catalog_identity" in catalog
@@ -23,6 +24,7 @@ def test_load_dataset_catalog():
     assert len(catalog["entries"]) > 0
 
 
+@pytest.mark.data
 def test_resolve_accepted_indices():
     for alias, expected_key in [
         ("DE30", "index_minute_DAX"),
@@ -42,6 +44,7 @@ def test_resolve_accepted_indices():
         assert resolved.consumer_identity != ""
 
 
+@pytest.mark.data
 def test_unqualified_canonical_indices_fail_closed_without_override():
     for alias in ["NAS100", "SPX500", "US30"]:
         with pytest.raises(CatalogResolutionError, match="is unqualified"):
@@ -57,6 +60,7 @@ def test_unqualified_canonical_indices_fail_closed_without_override():
         )
 
 
+@pytest.mark.data
 def test_resolve_canonical_forex():
     for pair in ["EURUSD", "USDJPY", "GBPUSD", "AUDUSD", "USDCAD"]:
         resolved = resolve_dataset(pair, store_root=STORE_ROOT)
@@ -65,6 +69,7 @@ def test_resolve_canonical_forex():
         assert resolved.qualification == "accepted"
 
 
+@pytest.mark.data
 def test_resolve_legacy_secondary_requires_explicit_override():
     with pytest.raises(CatalogResolutionError, match="non-canonical authority"):
         resolve_dataset("NQ", store_root=STORE_ROOT)
@@ -83,6 +88,7 @@ def test_resolve_legacy_secondary_requires_explicit_override():
     assert any("non-canonical authority" in w for w in resolved_nq.warnings)
 
 
+@pytest.mark.data
 def test_contract_level_futures_fails_closed_on_cfd_and_continuous():
     with pytest.raises(CatalogResolutionError, match="contract_level_futures=false"):
         resolve_dataset("DE30", store_root=STORE_ROOT, require_contract_level=True)
@@ -106,6 +112,7 @@ def test_contract_level_futures_fails_closed_on_cfd_and_continuous():
         )
 
 
+@pytest.mark.data
 def test_resolve_data_store_returns_provenance_audit():
     store_path, sym, audit = resolve_data_store("DE30", store_root=STORE_ROOT)
     assert store_path == STORE_ROOT / "index_minute_DAX"
@@ -122,6 +129,7 @@ def test_missing_catalog_fails_closed(tmp_path: Path):
         resolve_dataset("DE30", store_root=tmp_path)
 
 
+@pytest.mark.data
 def test_readiness_audit_consumer_interface():
     audit = load_readiness_audit(STORE_ROOT)
     assert audit["schema_version"] == "research-readiness-audit-v1"
