@@ -3,7 +3,10 @@
 from pathlib import Path
 import polars as pl
 import pytest
+from ml4t.backtest import BacktestConfig, run_backtest
+from ml4t.backtest.config import CommissionType, SlippageType
 from src.factory import (
+    FactoryExecutionEngine,
     compute_factory_features,
     get_breakout_strategies,
     run_strategy_backtest,
@@ -56,6 +59,49 @@ def test_factory_feature_computation(sample_15m_data):
     for col in expected_cols:
         assert col in df_feat.columns, f"Missing feature column: {col}"
     assert len(df_feat) > 0
+
+
+def test_native_backtest_engine_runs_a_synthetic_fill_cycle():
+    from datetime import datetime, timedelta, timezone
+
+    timestamps = [
+        datetime(2024, 1, 1, tzinfo=timezone.utc) + timedelta(days=i)
+        for i in range(8)
+    ]
+    prices = [100.0 + i for i in range(len(timestamps))]
+    bars = pl.DataFrame(
+        {
+            "timestamp": timestamps,
+            "symbol": ["TEST"] * len(timestamps),
+            "open": prices,
+            "high": [price + 1 for price in prices],
+            "low": [price - 1 for price in prices],
+            "close": prices,
+            "volume": [100] * len(timestamps),
+        }
+    )
+    signals = pl.DataFrame(
+        {
+            "timestamp": timestamps,
+            "symbol": ["TEST"] * len(timestamps),
+            "signal": [1, 0, 0, 0, 1, 0, 0, 0],
+        }
+    )
+    config = BacktestConfig(
+        initial_cash=10_000,
+        commission_type=CommissionType.PERCENTAGE,
+        commission_rate=0,
+        slippage_type=SlippageType.PERCENTAGE,
+        slippage_rate=0,
+    )
+
+    result = run_backtest(
+        bars, FactoryExecutionEngine(max_hold_bars=2), signals=signals, config=config
+    )
+
+    assert result.metrics["num_fills"] >= 2
+    assert result.metrics["num_trades"] >= 1
+    assert result.to_equity_dataframe()["equity"].is_finite().all()
 
 
 def test_factory_backtest_execution():

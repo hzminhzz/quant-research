@@ -666,64 +666,115 @@ def test_gateway_rejects_naive_timestamps_negative_volume_and_missing_groups():
         FeatureGateway().compute(duplicate, request)
 
 
-def test_cli_discover_doctor_and_status_are_structured_and_read_only():
-    before = (
-        ROOT
-        / "run_log/research_sessions/vwap_pullback_adx_nq_20261012/frozen_spec.json"
-    ).read_bytes()
-    outputs = []
-    for args in (
-        ["discover", "--feature", "adx"],
-        ["doctor", "--session", "vwap_pullback_adx_nq_20261012"],
-        ["status", "--session", "vwap_pullback_adx_nq_20261012"],
-    ):
-        process = subprocess.run(
-            [sys.executable, str(CLI), *args, "--root", str(ROOT)],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            timeout=45,
-            check=False,
-        )
-        assert not process.stderr
-        result = json.loads(process.stdout)
-        assert {
-            "status",
-            "reason_code",
-            "summary",
-            "scope",
-            "effects",
-            "next_actions",
-        } <= result.keys()
-        outputs.append(result)
-    assert outputs[0]["feature"]["name"] == "adx"
-    assert outputs[1]["status"] == "BLOCKED"
-    assert any(
-        item["reason_code"] == "DATA_SESSION_MISMATCH"
-        for item in outputs[1]["findings"]
+def _doctor_fixture(monkeypatch, root: Path) -> dict:
+    session_id = "data-free-doctor-fixture"
+    _init_status_session(
+        root,
+        session_id,
+        instrument={
+            "symbol": "NQ",
+            "kind": "cfd",
+            "venue": "Dukascopy",
+            "session": "15:55",
+        },
     )
-    assert any(
-        item["reason_code"].startswith("SOURCE_IDENTITY")
-        for item in outputs[1]["findings"]
+    monkeypatch.setattr(
+        research_cli,
+        "load_dataset_catalog",
+        lambda: {
+            "catalog_identity": "fixture-catalog",
+            "entries": [
+                {"dataset_key": "lse_futures_minute_NQ", "source_symbol": "NQ.F"}
+            ],
+            "resolutions": {
+                "NQ": {"candidate_dataset_keys": ["lse_futures_minute_NQ"]}
+            },
+        },
     )
-    assert outputs[2]["trials"]["declared"] == len(outputs[2]["trials"]["records"])
-    assert outputs[2]["approval_status"] == "NOT_APPROVED"
-    assert (
-        ROOT
-        / "run_log/research_sessions/vwap_pullback_adx_nq_20261012/frozen_spec.json"
-    ).read_bytes() == before
+    monkeypatch.setattr(research_cli, "load_readiness_audit", dict)
+    monkeypatch.setattr(
+        research_cli,
+        "_coverage",
+        lambda *_args: {
+            "path": "bars.parquet",
+            "last_bar_available_local": "2026-10-12T15:15:00+02:00",
+        },
+    )
+    monkeypatch.setattr(
+        research_cli,
+        "_runtime_jobs",
+        lambda _root: {"visibility": "available", "active_jobs": []},
+    )
+    return research_cli.doctor(root, session_id)
 
 
-def test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict():
+def _init_status_session(
+    root: Path, session_id: str, *, instrument: dict | None = None
+) -> Path:
+    data_dir = root / "data"
+    data_dir.mkdir(exist_ok=True)
+    start = datetime(2026, 1, 1, tzinfo=UTC)
+    prices = [100.0, 101.0, 102.0]
+    pl.DataFrame(
+        {
+            "timestamp": [start + timedelta(minutes=i) for i in range(3)],
+            "open": prices,
+            "high": [price + 1 for price in prices],
+            "low": [price - 1 for price in prices],
+            "close": prices,
+        }
+    ).write_parquet(data_dir / "prices.parquet")
+    spec_path = root / f"{session_id}.yaml"
+    spec_path.write_text(
+        yaml.safe_dump(
+            {
+                "session_id": session_id,
+                "thesis": "Exercise read-only session status output.",
+                "mechanism": "The CLI reads frozen declarations and trial records.",
+                "falsifier": "Status changes or omits declared trial outcomes.",
+                "market": "indices",
+                "instruments": [instrument or {"symbol": "TEST", "kind": "cfd"}],
+                "data": [{"id": "prices", "path": "data/prices.parquet", "role": "prices"}],
+                "evaluation": {"purpose": "CLI status contract test"},
+                "baseline": "No strategy result.",
+                "costs": {"commission_bps": 0, "slippage_bps": 0},
+                "trials": [
+                    {"id": "rule-a", "kind": "preregistered", "description": "First pending rule."},
+                    {"id": "rule-b", "kind": "preregistered", "description": "Second pending rule."},
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    init_session(spec_path, root)
+    return root / "run_log" / "research_sessions" / session_id / "frozen_spec.json"
+
+
+def test_cli_discover_doctor_and_status_are_structured_and_read_only(
+    monkeypatch, tmp_path
+):
     process = subprocess.run(
+        [sys.executable, str(CLI), "discover", "--feature", "adx", "--root", str(ROOT)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        timeout=45,
+        check=False,
+    )
+    assert not process.stderr
+    discovered = json.loads(process.stdout)
+    doctor = _doctor_fixture(monkeypatch, tmp_path)
+    frozen_path = _init_status_session(tmp_path, "status-smoke")
+    frozen_before = frozen_path.read_bytes()
+    status_process = subprocess.run(
         [
             sys.executable,
             str(CLI),
-            "doctor",
+            "status",
             "--session",
-            "vwap_pullback_adx_dukascopy_20261012_v1",
+            "status-smoke",
             "--root",
-            str(ROOT),
+            str(tmp_path),
         ],
         cwd=ROOT,
         capture_output=True,
@@ -731,7 +782,44 @@ def test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict():
         timeout=45,
         check=False,
     )
-    result = json.loads(process.stdout)
+    assert not status_process.stderr
+    status = json.loads(status_process.stdout)
+
+    assert discovered["feature"]["name"] == "adx"
+    assert status_process.returncode == 0
+    assert {
+        "status",
+        "reason_code",
+        "summary",
+        "scope",
+        "effects",
+        "next_actions",
+        "trials",
+        "approval_status",
+    } <= status.keys()
+    assert status["scope"] == "research_session_status"
+    assert status["trials"]["declared"] == 2
+    assert status["trials"]["pending"] == len(status["trials"]["records"]) == 2
+    assert status["trials"]["completed"] == status["trials"]["failed"] == 0
+    assert status["effects"] == ["READ_ONLY"]
+    assert status["approval_status"] == "NOT_APPROVED"
+    assert status["audit"]["data_audit_performed"] is False
+    assert frozen_path.read_bytes() == frozen_before
+    assert doctor["status"] == "BLOCKED"
+    assert any(
+        item["reason_code"] == "DATA_SESSION_MISMATCH"
+        for item in doctor["findings"]
+    )
+    assert any(
+        item["reason_code"] == "SOURCE_IDENTITY_CONFLICT"
+        for item in doctor["findings"]
+    )
+    assert doctor["effects"] == ["READ_ONLY"]
+    assert doctor["approval_status"] == "NOT_APPROVED"
+
+
+def test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict(monkeypatch, tmp_path):
+    result = _doctor_fixture(monkeypatch, tmp_path)
     conflict = next(
         item
         for item in result["findings"]
