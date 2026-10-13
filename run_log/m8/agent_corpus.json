@@ -1,0 +1,122 @@
+{
+  "schema_version": "m8-agent-corpus-v1",
+  "observed_at_utc": "2026-10-13",
+  "scope": "Deterministic local synthetic fixtures and live catalog assertions. No provider fetch, protected holdout, real tmux launch, or live order.",
+  "positive": [
+    {
+      "id": "P1-CFD-canonical-source",
+      "expected": "NAS100 and SPX500 resolve to accepted canonical CFD sources, not futures.",
+      "evidence": "tests/test_catalog.py::test_current_canonical_index_aliases_are_accepted_cfds",
+      "status": "PASS"
+    },
+    {
+      "id": "P2-native-and-extension-proof",
+      "expected": "Engineer ADX runs through installed dispatch; prior high/low has independent oracle and completed-bar availability.",
+      "evidence": "tests/test_m8_feature_capability.py::test_m8_prior_ranges_have_verified_oracle_and_completed_bar_timing",
+      "status": "PASS_SYNTHETIC"
+    },
+    {
+      "id": "P3-native-execution-audit",
+      "expected": "Synthetic engine execution reconciles with independent stop-first audit.",
+      "evidence": "tests/test_agent_efficiency.py::test_positive_native_execution_and_audit",
+      "status": "PASS_SYNTHETIC"
+    },
+    {
+      "id": "P4-visible-job-reattachment",
+      "expected": "A visible running job resumes with the same attempt ID and no duplicate record.",
+      "evidence": "tests/test_casefile.py::test_casefile_running_is_not_pass_and_resume_is_idempotent",
+      "status": "PASS_FIXTURE"
+    },
+    {
+      "id": "P5-valid-negative-strategy-result",
+      "expected": "A valid, negative PDF-derived CFD result is retained.",
+      "evidence": null,
+      "status": "BLOCKED_SOURCE_DOCUMENT_UNAVAILABLE"
+    }
+  ],
+  "adversarial": [
+    {
+      "id": "A1-futures-alias-substitution",
+      "expected_reason": "validation rejection: not Dukascopy",
+      "evidence": "tests/test_agent_efficiency.py::test_adversarial_lse_nq_source_alias_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "A2-unqualified-noncanonical-source",
+      "expected_reason": "non-canonical authority / is unqualified",
+      "evidence": "tests/test_catalog.py::test_noncanonical_unqualified_and_futures_gates_on_fixture",
+      "status": "PASS"
+    },
+    {
+      "id": "A3-future-dependent-feature",
+      "expected_reason": "FEATURE_NUMERICAL_MISMATCH",
+      "evidence": "tests/test_m8_feature_capability.py::test_m8_oracle_rejects_future_dependent_prior_range",
+      "status": "PASS"
+    },
+    {
+      "id": "A4-metadata-only-donchian",
+      "expected_reason": "FEATURE_UNSUPPORTED",
+      "evidence": "tests/test_m8_feature_capability.py::test_m8_metadata_only_donchian_is_not_managed_native_feature",
+      "status": "PASS"
+    },
+    {
+      "id": "A5-false-native-vwap",
+      "expected_reason": "FEATURE_UNSUPPORTED",
+      "evidence": "tests/test_agent_efficiency.py::test_adversarial_false_native_vwap_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "A6-future-decision-time",
+      "expected_reason": "FEATURE_CAUSALITY_FAIL",
+      "evidence": "tests/test_agent_efficiency.py::test_adversarial_future_feature_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "A7-unsafe-same-bar-bracket",
+      "expected_reason": "ENGINE_EXECUTION_INVALID",
+      "evidence": "tests/test_agent_efficiency.py::test_adversarial_unsafe_limit_first_engine_fill_rejected",
+      "status": "PASS_SYNTHETIC"
+    },
+    {
+      "id": "A8-asserted-worker-success",
+      "expected_reason": "ASSERTED_SUCCESS_NOT_EVIDENCE",
+      "evidence": "tests/test_agent_efficiency.py::test_adversarial_fake_worker_done_rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "A9-stale-derived-readiness",
+      "expected_reason": "readiness audit is stale",
+      "evidence": "tests/test_catalog.py::test_readiness_audit_must_match_catalog_identity",
+      "status": "PASS"
+    }
+  ],
+  "recovery": {
+    "visible_job": {
+      "expected_reason": "ACTIVE_RUN_EXISTS / ATTEMPT_PRESENT",
+      "result": "The same visible attempt can be inspected or reattached without a duplicate claim.",
+      "evidence": "tests/test_attempts.py::test_duplicate_running_resumes_exact_attempt_then_reuses_completed",
+      "status": "PASS_FIXTURE"
+    },
+    "active_attempt_but_absent_job": {
+      "expected_reason": "LEASE_UNCERTAIN",
+      "result": "Read-only inspection blocks. It does not resume or assert success.",
+      "evidence": "tests/test_m8_agent_qualification.py::test_m8_absent_running_job_blocks_then_records_new_attempt_after_lease",
+      "status": "PASS_FAIL_CLOSED"
+    },
+    "after_lease_expiry": {
+      "result": "Old attempt is append-only ABORTED. A new claim receives a different ID.",
+      "evidence": "tests/test_m8_agent_qualification.py::test_m8_absent_running_job_blocks_then_records_new_attempt_after_lease",
+      "status": "PASS_NEW_ATTEMPT"
+    },
+    "unimplemented": "No managed runner connects permit, attempt claim, native execution, and restart. Same-attempt interrupted replay is not supported."
+  },
+  "summary": {
+    "positive_cases_passed": 4,
+    "positive_cases_blocked": 1,
+    "adversarial_cases_passed": 9,
+    "false_accepts_observed": 0,
+    "false_rejects_observed": 0,
+    "general_error_rates_claimed": false,
+    "qualification": "INCOMPLETE_RECOVERY_AND_SOURCE_DEPENDENCY"
+  }
+}
