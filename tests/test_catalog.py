@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 import pytest
+
 from src.catalog import (
     CatalogResolutionError,
     ResolvedDataset,
@@ -38,26 +40,30 @@ def test_resolve_accepted_indices():
         assert isinstance(resolved, ResolvedDataset)
         assert resolved.dataset_key == expected_key
         assert resolved.authority == "canonical"
-        assert resolved.qualification == "accepted_with_exclusions"
+        assert resolved.qualification == "accepted"
         assert resolved.store_path == STORE_ROOT / expected_key
         assert resolved.catalog_identity != ""
         assert resolved.consumer_identity != ""
 
 
 @pytest.mark.data
-def test_unqualified_canonical_indices_fail_closed_without_override():
-    for alias in ["NAS100", "SPX500", "US30"]:
-        with pytest.raises(CatalogResolutionError, match="is unqualified"):
-            resolve_dataset(alias, store_root=STORE_ROOT)
-
-        resolved = resolve_dataset(
-            alias, store_root=STORE_ROOT, allow_unqualified=True
-        )
+def test_current_canonical_index_aliases_are_accepted_cfds():
+    for alias, expected_key, expected_symbol in [
+        ("NAS100", "index_minute_NQ", "usatechidxusd"),
+        ("SPX500", "index_minute_ES", "usa500idxusd"),
+    ]:
+        resolved = resolve_dataset(alias, store_root=STORE_ROOT)
+        assert resolved.dataset_key == expected_key
         assert resolved.authority == "canonical"
-        assert resolved.qualification == "unqualified"
-        assert any(
-            "dataset qualification: unqualified" in w for w in resolved.warnings
-        )
+        assert resolved.qualification == "accepted"
+        assert resolved.source_symbol == expected_symbol
+        assert resolved.capabilities["contract_level_futures"] is False
+
+    # US30 remains available only through a non-canonical, unqualified source.
+    with pytest.raises(CatalogResolutionError, match="non-canonical authority"):
+        resolve_dataset("US30", store_root=STORE_ROOT)
+    with pytest.raises(CatalogResolutionError, match="is unqualified"):
+        resolve_dataset("US30", store_root=STORE_ROOT, allow_noncanonical=True)
 
 
 @pytest.mark.data
@@ -70,22 +76,12 @@ def test_resolve_canonical_forex():
 
 
 @pytest.mark.data
-def test_resolve_legacy_secondary_requires_explicit_override():
-    with pytest.raises(CatalogResolutionError, match="non-canonical authority"):
-        resolve_dataset("NQ", store_root=STORE_ROOT)
-
-    with pytest.raises(CatalogResolutionError, match="non-canonical authority"):
-        resolve_dataset("ES", store_root=STORE_ROOT)
-
-    resolved_nq = resolve_dataset(
-        "NQ",
-        store_root=STORE_ROOT,
-        allow_noncanonical=True,
-        allow_unqualified=True,
-    )
-    assert resolved_nq.dataset_key == "lse_futures_minute_NQ"
-    assert resolved_nq.authority == "secondary"
-    assert any("non-canonical authority" in w for w in resolved_nq.warnings)
+def test_futures_aliases_do_not_claim_contract_level_identity():
+    for alias in ["NQ", "ES", "NAS100", "SPX500"]:
+        with pytest.raises(
+            CatalogResolutionError, match="contract_level_futures=false"
+        ):
+            resolve_dataset(alias, store_root=STORE_ROOT, require_contract_level=True)
 
 
 @pytest.mark.data
@@ -116,26 +112,91 @@ def test_contract_level_futures_fails_closed_on_cfd_and_continuous():
 def test_resolve_data_store_returns_provenance_audit():
     store_path, sym, audit = resolve_data_store("DE30", store_root=STORE_ROOT)
     assert store_path == STORE_ROOT / "index_minute_DAX"
-    assert sym == "DE30/EUR"
+    assert sym == "deuidxeur"
     assert audit["dataset_key"] == "index_minute_DAX"
     assert audit["authority"] == "canonical"
-    assert audit["qualification"] == "accepted_with_exclusions"
+    assert audit["qualification"] == "accepted"
     assert "catalog_identity" in audit
     assert "consumer_identity" in audit
 
 
 def test_missing_catalog_fails_closed(tmp_path: Path):
-    with pytest.raises(CatalogResolutionError, match="research dataset catalog missing"):
+    with pytest.raises(
+        CatalogResolutionError, match="research dataset catalog missing"
+    ):
         resolve_dataset("DE30", store_root=tmp_path)
 
 
 @pytest.mark.data
 def test_readiness_audit_consumer_interface():
-    audit = load_readiness_audit(STORE_ROOT)
-    assert audit["schema_version"] == "research-readiness-audit-v1"
-    assert audit["high_level_research_ready"] is True
-    assert is_research_ready("crypto", store_root=STORE_ROOT) is True
-    assert is_research_ready("fx", store_root=STORE_ROOT) is True
-    assert is_research_ready("index", store_root=STORE_ROOT) is True
-    assert is_research_ready("cme_futures", store_root=STORE_ROOT) is False
-    assert is_research_ready(None, store_root=STORE_ROOT) is True
+    with pytest.raises(CatalogResolutionError, match="readiness audit is stale"):
+        load_readiness_audit(STORE_ROOT)
+    with pytest.raises(CatalogResolutionError, match="readiness audit is stale"):
+        is_research_ready("index", store_root=STORE_ROOT)
+
+
+def test_noncanonical_unqualified_and_futures_gates_on_fixture(tmp_path: Path):
+    dataset_key = "fixture_unqualified_index"
+    (tmp_path / dataset_key).mkdir()
+    catalog = {
+        "catalog_identity": "fixture-catalog-v1",
+        "resolutions": {
+            "FIXTURE": {
+                "candidate_dataset_keys": [dataset_key],
+                "default_dataset_key": None,
+                "preferred_noncanonical_dataset_key": dataset_key,
+            }
+        },
+        "entries": [
+            {
+                "dataset_key": dataset_key,
+                "authority": "secondary",
+                "qualification": "unqualified",
+                "source_symbol": "FIXTURE.CFD",
+                "asset_class": "index",
+                "capabilities": {"contract_level_futures": False},
+                "contract_level": None,
+            }
+        ],
+    }
+
+    with pytest.raises(CatalogResolutionError, match="non-canonical authority"):
+        resolve_dataset("FIXTURE", store_root=tmp_path, catalog=catalog)
+    with pytest.raises(CatalogResolutionError, match="is unqualified"):
+        resolve_dataset(
+            "FIXTURE", store_root=tmp_path, catalog=catalog, allow_noncanonical=True
+        )
+    with pytest.raises(CatalogResolutionError, match="contract_level_futures=false"):
+        resolve_dataset(
+            "FIXTURE",
+            store_root=tmp_path,
+            catalog=catalog,
+            allow_noncanonical=True,
+            allow_unqualified=True,
+            require_contract_level=True,
+        )
+    resolved = resolve_dataset(
+        "FIXTURE",
+        store_root=tmp_path,
+        catalog=catalog,
+        allow_noncanonical=True,
+        allow_unqualified=True,
+    )
+    assert resolved.authority == "secondary"
+    assert resolved.qualification == "unqualified"
+
+
+def test_readiness_audit_must_match_catalog_identity(tmp_path: Path):
+    catalog_dir = tmp_path / ".catalog"
+    catalog_dir.mkdir()
+    (catalog_dir / "research-dataset-catalog.json").write_text(
+        '{"catalog_identity":"catalog-v1","entries":[],"resolutions":{}}',
+        encoding="utf-8",
+    )
+    audit_path = catalog_dir / "research-readiness.json"
+    audit_path.write_text('{"catalog_identity":"catalog-v1"}', encoding="utf-8")
+    assert load_readiness_audit(tmp_path)["catalog_identity"] == "catalog-v1"
+
+    audit_path.write_text('{"catalog_identity":"catalog-old"}', encoding="utf-8")
+    with pytest.raises(CatalogResolutionError, match="readiness audit is stale"):
+        load_readiness_audit(tmp_path)

@@ -125,9 +125,7 @@ def resolve_dataset(
     cat = catalog or load_dataset_catalog(root)
     catalog_identity = str(cat.get("catalog_identity", ""))
 
-    entries_by_key = {
-        entry["dataset_key"]: entry for entry in cat.get("entries", [])
-    }
+    entries_by_key = {entry["dataset_key"]: entry for entry in cat.get("entries", [])}
     resolutions = cat.get("resolutions", {})
 
     normalized = _normalize_alias(name)
@@ -150,18 +148,19 @@ def resolve_dataset(
                     f"explicit allow_noncanonical=True (candidates: {candidates}, preferred non-canonical: {pref})"
                 )
         else:
-            chosen_key = (
-                resolution.get("default_dataset_key")
-                or resolution.get("preferred_noncanonical_dataset_key")
+            chosen_key = resolution.get("default_dataset_key") or resolution.get(
+                "preferred_noncanonical_dataset_key"
             )
             if chosen_key is None:
                 candidates = resolution.get("candidate_dataset_keys", [])
                 if candidates:
                     chosen_key = candidates[0]
     # 3. Direct symbol mapping for broad 1h crypto perpetual archive
-    elif normalized in ("BTCUSDT", "ETHUSDT", "SOLUSDT") or normalized.startswith("CRYPTOFUTURESFUNDING"):
-        if "crypto_futures_ohlcv_1h_BINANCE_UM_PERP" in entries_by_key:
-            chosen_key = "crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+    elif (
+        normalized in ("BTCUSDT", "ETHUSDT", "SOLUSDT")
+        or normalized.startswith("CRYPTOFUTURESFUNDING")
+    ) and "crypto_futures_ohlcv_1h_BINANCE_UM_PERP" in entries_by_key:
+        chosen_key = "crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
 
     if chosen_key is None or chosen_key not in entries_by_key:
         raise CatalogResolutionError(f"no policy dataset or alias matches {name!r}")
@@ -181,7 +180,10 @@ def resolve_dataset(
         warnings.append(f"non-canonical authority: {authority}")
 
     # Qualification validation
-    if not allow_unqualified and qualification not in ("accepted", "accepted_with_exclusions"):
+    if not allow_unqualified and qualification not in (
+        "accepted",
+        "accepted_with_exclusions",
+    ):
         raise CatalogResolutionError(
             f"cannot resolve {name!r}: dataset {chosen_key} is unqualified (qualification={qualification})"
         )
@@ -270,6 +272,19 @@ def load_readiness_audit(
         raise CatalogResolutionError(
             f"failed to read readiness audit at {audit_path}: {exc}"
         ) from exc
+
+    # Readiness is a derived view over the catalog. A prior audit can remain
+    # internally well-formed after the catalog changes, so do not trust its
+    # booleans unless it names the current catalog identity.
+    catalog = load_dataset_catalog(root)
+    current_identity = str(catalog.get("catalog_identity", ""))
+    audit_identity = str(audit.get("catalog_identity", ""))
+    if not current_identity or audit_identity != current_identity:
+        raise CatalogResolutionError(
+            f"readiness audit is stale at {audit_path}: "
+            f"catalog_identity={audit_identity!r}, current_catalog_identity="
+            f"{current_identity!r}; rebuild the research readiness audit"
+        )
     return audit
 
 
