@@ -118,6 +118,7 @@ def prepare() -> int:
 def _restore_completed_artifact(
     output: Path, *, attempt_id: str, permit: Any,
     native_replay: dict[str, dict[str, Any]] | None = None,
+    parent_attempt_id: str | None = None,
 ) -> dict[str, Any] | None:
     if native_replay is None:
         raise RuntimeError("ARTIFACT_NATIVE_REPLAY_REQUIRED: hashes alone do not prove worker success")
@@ -136,6 +137,8 @@ def _restore_completed_artifact(
         "identity": identity,
         "scenarios": ["1x", "2x", "3x"],
     }
+    if parent_attempt_id is not None:
+        expected_identity["parent_attempt_id"] = parent_attempt_id
     if (
         manifest.get("schema_version") != 1
         or manifest.get("attempt_id") != attempt_id

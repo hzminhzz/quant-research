@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "permit_sha256": "eb78ded3befbb153b87aab7bce556ad401b30125fc90cc72587efb81606b1d16",
+  "session_id": "permit-synthetic",
+  "trial_id": "synthetic-trial",
+  "identity": {
+    "frozen_session_sha256": "2a40086e3f27c921c5ea5b103497e8896306fe56b709eaeb37b5307dc3720f3e",
+    "spec_sha256": "9809036df6638d50f6322a4a2298646a5d6c10522794a1fffa5fe395cdeefe0a",
+    "config_sha256": "42a9d447d20c68382a31bdb531c8689cccb15acc9ef0e791461819cef8e63823",
+    "data_sha256": "00a5d4eaa427c42747f6650b08e03ba638f2bad6afeebfdbd27889cf951e9fa2",
+    "source_sha256": "f5903d2122256300de4612ae58403d8921a32397744005efc3d57db6c220198d",
+    "code_sha256": "a385bcf43e8bf987e715e3bff6d5d18bc4151c12ffdcfd0952d878ae1892a61e",
+    "feature_proof_sha256": "204162cf78197f3bd9b141fcaa7b4ea66be52e35372c63eb96467271b2a89c4b",
+    "engine": "ml4t.backtest",
+    "engine_version": "0.1.7",
+    "intent_sha256": "2d677da51ca41d28a0950208d38c772cf5e40fcf5ff7a12572811596c92b2e54"
+  },
+  "evaluation_start": "2026-01-05T14:30:00Z",
+  "evaluation_end": "2026-01-05T15:55:00Z",
+  "available_at": "2026-01-05T15:54:00Z",
+  "costs": {
+    "commission_bps": 0,
+    "slippage_bps": 0,
+    "source": "synthetic",
+    "evidence_path": "costs.json",
+    "source_sha256": "072c6ab8a01a8d6285d00035e005e9668eb825ad3b69336aee2d9d756ecf33cc"
+  },
+  "multiplier": {
+    "value": 1.0,
+    "unit": "synthetic unit",
+    "instrument_symbol": "SYN",
+    "source": "synthetic",
+    "evidence_path": "multiplier.json",
+    "source_sha256": "31adfcfbecf69db741499dbb8460efd7e3d1b7bbbce18718638dfae2bb7cedd7"
+  },
+  "exit_at": "2026-01-05T15:54:00Z",
+  "effects": [
+    "READ_ONLY",
+    "EVIDENCE_APPEND"
+  ],
+  "compute_budget": {
+    "max_wall_seconds": 60,
+    "max_cpu_seconds": 60,
+    "max_memory_mb": 512,
+    "max_trials": 1
+  },
+  "independent_audit": {
+    "method": "separate source arithmetic",
+    "implementation": "audit.py",
+    "version": "1",
+    "source_sha256": "532589e4fe0be0e961ab63a0c6a2528f4ad31f6e4f30852a0ed073f759ce9321",
+    "evidence_path": "audit.py",
+    "checks": [
+      "source rows",
+      "availability"
+    ]
+  },
+  "live_order_authority": false
+}

@@ -4,11 +4,14 @@ Separate from SessionSpecV1 terminal records. Never runs shell jobs or trades.
 """
 from __future__ import annotations
 
+import errno
 import fcntl
 import hashlib
 import importlib.metadata
 import json
+import os
 import re
+import shlex
 import subprocess
 import uuid
 from collections.abc import Callable, Iterator
@@ -52,6 +55,44 @@ def tmux_sessions() -> set[str] | None:
     return set(run.stdout.splitlines())
 
 
+def launch_managed_worker(job_name: str, cwd: str | Path, command: list[str],
+                          *, log_path: str | Path | None = None) -> AttemptDecision:
+    """Launch one named worker after a live visibility and ownership check."""
+    if not re.fullmatch(r"ml4t-[A-Za-z0-9_-]+", job_name):
+        return AttemptDecision("BLOCKED", "JOB_NAME_INVALID")
+    if not command or any(not isinstance(part, str) or not part for part in command):
+        return AttemptDecision("BLOCKED", "ATTEMPT_INVALID")
+    working_dir = Path(cwd).resolve()
+    if not working_dir.is_dir():
+        return AttemptDecision("BLOCKED", "WORKER_CWD_INVALID")
+    jobs = tmux_sessions()
+    if jobs is None:
+        return AttemptDecision("BLOCKED", "JOB_VISIBILITY_UNKNOWN")
+    if job_name in jobs:
+        return AttemptDecision("BLOCKED", "ACTIVE_UNOWNED_JOB")
+    shell_command = shlex.join(command)
+    if log_path is not None:
+        logfile = Path(log_path)
+        logfile.parent.mkdir(parents=True, exist_ok=True)
+        if logfile.is_symlink():
+            return AttemptDecision("BLOCKED", "WORKER_LOG_UNSAFE")
+        shell_command += f" >> {shlex.quote(str(logfile))} 2>&1"
+    try:
+        started = subprocess.run(
+            ["tmux", "new-session", "-d", "-s", job_name, "-c", str(working_dir), shell_command],
+            capture_output=True, text=True, check=False, timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return AttemptDecision("BLOCKED", "JOB_LAUNCH_FAILED", detail=str(exc))
+    if started.returncode:
+        return AttemptDecision("BLOCKED", "JOB_LAUNCH_FAILED", detail=started.stderr.strip())
+    visible = tmux_sessions()
+    if visible is None or job_name not in visible:
+        return AttemptDecision("BLOCKED", "JOB_VISIBILITY_UNKNOWN",
+                               detail="launch returned but named session is not verifiably visible")
+    return AttemptDecision("LAUNCH", "JOB_LAUNCHED", detail=job_name)
+
+
 class AttemptLedger:
     """Each event is an immutable file, no update-in-place state or trial deletion."""
 
@@ -75,7 +116,7 @@ class AttemptLedger:
     def _locked(self) -> Iterator[None]:
         self.path.mkdir(parents=True, exist_ok=True)
         lock = self.path / ".lock"
-        if lock.is_symlink():
+        if self.path.is_symlink() or lock.is_symlink():
             raise ValueError("unsafe ledger lock")
         with lock.open("a+") as file:
             fcntl.flock(file.fileno(), fcntl.LOCK_EX)
@@ -105,7 +146,11 @@ class AttemptLedger:
 
     def _append(self, *, attempt_id: str, run_id: str, trial_id: str,
                 state: str, fingerprints: dict[str, Any], job_name: str,
-                lease_until: str, command: str, detail: str = "") -> dict[str, Any]:
+                lease_until: str, command: str, detail: str = "",
+                worker_protocol: str | None = None,
+                parent_attempt_id: str | None = None,
+                checkpoint_path: str | None = None,
+                checkpoint_sha256: str | None = None) -> dict[str, Any]:
         if state not in _STATES:
             raise ValueError("unsupported attempt state")
         event_id = uuid.uuid4().hex
@@ -117,6 +162,10 @@ class AttemptLedger:
             "status": state, "fingerprints": fingerprints, "job_name": job_name,
             "lease_until": lease_until, "command": command,
             "detail": detail, "observed_at": self.clock().astimezone(UTC).isoformat(),
+            "worker_protocol": worker_protocol,
+            "parent_attempt_id": parent_attempt_id,
+            "checkpoint_path": checkpoint_path,
+            "checkpoint_sha256": checkpoint_sha256,
         }
         # Atomic exclusive create. A duplicated UUID fails; do not overwrite evidence.
         with (self.path / (event_id + ".json")).open("x", encoding="utf-8") as out:
@@ -152,8 +201,166 @@ class AttemptLedger:
         except (OSError, ValueError, KeyError, TypeError, ImportError, RuntimeError):
             return False
 
+    def worker_lock_path(self, attempt_id: str) -> Path:
+        if not re.fullmatch(r"[A-Za-z0-9-]{1,80}", attempt_id):
+            raise ValueError("invalid attempt_id")
+        return self.path / f"{attempt_id}.worker.lock"
+
+    def worker_lock_status(self, attempt_id: str) -> str:
+        """Inspect the exclusive worker lock without trusting tmux visibility."""
+        path = self.worker_lock_path(attempt_id)
+        if path.is_symlink():
+            return "WORKER_LOCK_UNSAFE"
+        if not path.is_file():
+            return "WORKER_LOCK_MISSING"
+        try:
+            descriptor = os.open(path, os.O_RDWR | getattr(os, "O_NOFOLLOW", 0))
+            with os.fdopen(descriptor, "a+") as file:
+                if not os.path.isfile(path) or not os.path.samestat(os.fstat(file.fileno()), os.stat(path)):
+                    return "WORKER_LOCK_UNSAFE"
+                try:
+                    fcntl.flock(file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                except BlockingIOError:
+                    return "WORKER_LOCK_HELD"
+                fcntl.flock(file.fileno(), fcntl.LOCK_UN)
+        except OSError:
+            return "WORKER_LOCK_UNKNOWN"
+        return "WORKER_LOCK_RELEASED"
+
+    @contextmanager
+    def worker_lease(self, attempt_id: str) -> Iterator[None]:
+        """Hold an OS lock for the full worker lifetime; death releases it."""
+        path = self.worker_lock_path(attempt_id)
+        self.path.mkdir(parents=True, exist_ok=True)
+        if self.path.is_symlink() or path.is_symlink():
+            raise RuntimeError("WORKER_LOCK_UNSAFE")
+        try:
+            descriptor = os.open(
+                path,
+                os.O_RDWR | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0),
+                0o600,
+            )
+        except OSError as exc:
+            reason = "WORKER_LOCK_UNSAFE" if exc.errno == errno.ELOOP else "WORKER_LOCK_UNKNOWN"
+            raise RuntimeError(reason) from exc
+        with os.fdopen(descriptor, "a+") as file:
+            if not os.path.isfile(path) or not os.path.samestat(os.fstat(file.fileno()), os.stat(path)):
+                raise RuntimeError("WORKER_LOCK_UNSAFE")
+            try:
+                fcntl.flock(file.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as exc:
+                raise RuntimeError("WORKER_LOCK_HELD") from exc
+            file.seek(0)
+            file.truncate()
+            file.write(json.dumps({"pid": os.getpid(), "attempt_id": attempt_id}))
+            file.flush()
+            try:
+                yield
+            finally:
+                fcntl.flock(file.fileno(), fcntl.LOCK_UN)
+
+    def record_checkpoint(self, attempt_id: str, *, progress: int,
+                          artifacts: dict[str, str]) -> dict[str, Any]:
+        """Append a checkpoint bound to the RUNNING attempt and its outputs."""
+        if (isinstance(progress, bool) or not isinstance(progress, int) or
+            progress < 0 or not isinstance(artifacts, dict)):
+            raise ValueError("RECOVERY_CHECKPOINT_INVALID")
+        with self._locked():
+            current = self.latest().get(attempt_id)
+            if current is None or current["status"] != "RUNNING":
+                raise ValueError("RECOVERY_CHECKPOINT_ATTEMPT_INVALID")
+            clean_artifacts: dict[str, str] = {}
+            for relative, digest in artifacts.items():
+                candidate = Path(relative)
+                if (candidate.is_absolute() or ".." in candidate.parts or
+                    not re.fullmatch(r"[0-9a-f]{64}", digest)):
+                    raise ValueError("RECOVERY_CHECKPOINT_INVALID")
+                source_path = self.root / candidate
+                path = source_path.resolve()
+                if (source_path.is_symlink() or self.root not in path.parents or
+                    not path.is_file()):
+                    raise ValueError("RECOVERY_CHECKPOINT_INVALID")
+                if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+                    raise ValueError("RECOVERY_CHECKPOINT_INVALID")
+                clean_artifacts[candidate.as_posix()] = digest
+            checkpoint = {
+                "schema_version": 1,
+                "attempt_id": attempt_id,
+                "run_id": current["run_id"],
+                "fingerprints": current["fingerprints"],
+                "progress": progress,
+                "artifacts": clean_artifacts,
+            }
+            checkpoint_dir = self.path / "checkpoints"
+            if checkpoint_dir.is_symlink():
+                raise ValueError("RECOVERY_CHECKPOINT_INVALID")
+            checkpoint_dir.mkdir(exist_ok=True)
+            checkpoint_path = checkpoint_dir / f"{attempt_id}.{uuid.uuid4().hex}.json"
+            with checkpoint_path.open("x", encoding="utf-8") as out:
+                json.dump(checkpoint, out, sort_keys=True)
+                out.write("\n")
+            checkpoint_hash = hashlib.sha256(checkpoint_path.read_bytes()).hexdigest()
+            return self._append(
+                attempt_id=attempt_id, run_id=current["run_id"],
+                trial_id=current["trial_id"], state="RUNNING",
+                fingerprints=current["fingerprints"], job_name=current["job_name"],
+                lease_until=current["lease_until"], command=current["command"],
+                detail=f"immutable checkpoint progress={progress}",
+                worker_protocol=current.get("worker_protocol"),
+                parent_attempt_id=current.get("parent_attempt_id"),
+                checkpoint_path=str(checkpoint_path.relative_to(self.root)),
+                checkpoint_sha256=checkpoint_hash,
+            )
+
+    def _verified_checkpoint(self, record: dict[str, Any]) -> bool:
+        relative = record.get("checkpoint_path")
+        expected = record.get("checkpoint_sha256")
+        if not relative or not expected:
+            return False
+        candidate = Path(relative)
+        if candidate.is_absolute() or ".." in candidate.parts:
+            return False
+        path = self.root / candidate
+        try:
+            resolved = path.resolve()
+            expected_dir = self.path / "checkpoints"
+            if (self.path.is_symlink() or path.is_symlink() or expected_dir.is_symlink() or
+                resolved.parent != expected_dir.resolve() or
+                self.root not in resolved.parents or not path.is_file()):
+                return False
+            raw = resolved.read_bytes()
+            if hashlib.sha256(raw).hexdigest() != expected:
+                return False
+            checkpoint = json.loads(raw)
+            if (set(checkpoint) != {
+                    "schema_version", "attempt_id", "run_id", "fingerprints",
+                    "progress", "artifacts",
+                } or checkpoint.get("schema_version") != 1 or
+                checkpoint.get("attempt_id") != record["attempt_id"] or
+                checkpoint.get("run_id") != record["run_id"] or
+                checkpoint.get("fingerprints") != record["fingerprints"] or
+                isinstance(checkpoint.get("progress"), bool) or
+                not isinstance(checkpoint.get("progress"), int) or
+                checkpoint["progress"] < 0 or
+                not isinstance(checkpoint.get("artifacts"), dict)):
+                return False
+            for relative_artifact, digest in checkpoint["artifacts"].items():
+                artifact = Path(relative_artifact)
+                if artifact.is_absolute() or ".." in artifact.parts:
+                    return False
+                artifact_path = self.root / artifact
+                resolved_artifact = artifact_path.resolve()
+                if (artifact_path.is_symlink() or self.root not in resolved_artifact.parents or
+                    not artifact_path.is_file() or
+                    hashlib.sha256(resolved_artifact.read_bytes()).hexdigest() != digest):
+                    return False
+        except (OSError, ValueError, TypeError, KeyError):
+            return False
+        return True
+
     def claim(self, gate: GateReport, *, job_name: str, command: str,
-              lease_seconds: int = 3600) -> AttemptDecision:
+              lease_seconds: int = 3600,
+              managed_worker: bool = False) -> AttemptDecision:
         if (gate.status != "PASS" or gate.permit is None or
             gate.permit.session_id != self.session_id):
             return AttemptDecision("BLOCKED", "PERMIT_REQUIRED")
@@ -170,11 +377,21 @@ class AttemptLedger:
              "job_name": job_name}, sort_keys=True).encode()).hexdigest()
         now = self.clock().astimezone(UTC)
         until = (now + timedelta(seconds=lease_seconds)).isoformat()
+        recovery_parent: str | None = None
+        recovery_checkpoint_path: str | None = None
+        recovery_checkpoint_sha256: str | None = None
         with self._locked():
             attempts = self.latest()
             matching = [v for v in attempts.values() if v["run_id"] == run_id]
             other_active = [v for v in attempts.values() if v["job_name"] == job_name
                             and v["status"] not in _TERMINAL]
+            if managed_worker:
+                other_active.extend(
+                    v for v in attempts.values()
+                    if v["trial_id"] == permit.trial_id
+                    and v["status"] not in _TERMINAL
+                    and v["job_name"] != job_name
+                )
             if any(item["fingerprints"] != fingerprints for item in matching + other_active):
                 return AttemptDecision("BLOCKED", "IDENTITY_DRIFT", run_id=run_id)
             jobs = self.list_jobs()
@@ -191,18 +408,44 @@ class AttemptLedger:
                                                record["attempt_id"], run_id)
                     # Failed attempts are retained, but new attempt may be made.
                 elif record["job_name"] in jobs:
+                    if managed_worker:
+                        lock_status = self.worker_lock_status(record["attempt_id"])
+                        if lock_status != "WORKER_LOCK_HELD":
+                            return AttemptDecision("BLOCKED", "WORKER_ALIVE_UNVERIFIED",
+                                                   record["attempt_id"], run_id,
+                                                   detail=lock_status)
+                        return AttemptDecision("RESUME", "WORKER_CONFIRMED_ACTIVE",
+                                               record["attempt_id"], run_id)
                     return AttemptDecision("RESUME", "ACTIVE_RUN_EXISTS",
                                            record["attempt_id"], run_id)
                 elif now <= datetime.fromisoformat(record["lease_until"]):
                     return AttemptDecision("BLOCKED", "LEASE_UNCERTAIN",
                                            record["attempt_id"], run_id)
                 else:
+                    if managed_worker:
+                        lock_status = self.worker_lock_status(record["attempt_id"])
+                        if lock_status != "WORKER_LOCK_RELEASED":
+                            reason = ("WORKER_LOCK_HELD" if lock_status == "WORKER_LOCK_HELD"
+                                      else "RECOVERY_EVIDENCE_MISSING")
+                            return AttemptDecision("BLOCKED", reason,
+                                                   record["attempt_id"], run_id,
+                                                   detail=lock_status)
+                        if not self._verified_checkpoint(record):
+                            return AttemptDecision("BLOCKED", "RECOVERY_CHECKPOINT_INVALID",
+                                                   record["attempt_id"], run_id)
+                        recovery_parent = record["attempt_id"]
+                        recovery_checkpoint_path = record.get("checkpoint_path")
+                        recovery_checkpoint_sha256 = record.get("checkpoint_sha256")
                     self._append(
                         attempt_id=record["attempt_id"], run_id=run_id,
                         trial_id=permit.trial_id, state="ABORTED",
                         fingerprints=fingerprints, job_name=job_name,
                         lease_until=record["lease_until"], command=command,
-                        detail="expired lease, verified absent from tmux"
+                        detail=("expired lease, worker lock released, checkpoint verified"
+                                if managed_worker else "expired lease, verified absent from tmux"),
+                        worker_protocol="flock-v1" if managed_worker else None,
+                        checkpoint_path=record.get("checkpoint_path"),
+                        checkpoint_sha256=record.get("checkpoint_sha256"),
                     )
             if job_name in jobs:
                 return AttemptDecision("BLOCKED", "ACTIVE_UNOWNED_JOB", run_id=run_id)
@@ -212,9 +455,21 @@ class AttemptLedger:
                 trial_id=permit.trial_id, state="PLANNED",
                 fingerprints=fingerprints, job_name=job_name,
                 lease_until=until, command=command,
-                detail="reserved; executor must launch and confirm process separately",
+                detail=(
+                    f"successor replay of {recovery_parent}; parent artifacts retained, "
+                    "native replay starts from the beginning"
+                    if recovery_parent else
+                    "reserved; executor must launch and confirm process separately"
+                ),
+                worker_protocol="flock-v1" if managed_worker else None,
+                parent_attempt_id=recovery_parent,
+                checkpoint_path=recovery_checkpoint_path,
+                checkpoint_sha256=recovery_checkpoint_sha256,
             )
-            return AttemptDecision("LAUNCH", "ATTEMPT_RESERVED", attempt_id, run_id,
+            return AttemptDecision(
+                "LAUNCH",
+                "SUCCESSOR_REPLAY_RESERVED" if recovery_parent else "ATTEMPT_RESERVED",
+                attempt_id, run_id,
                                    evidence_path=str((self.path / (event["event_id"] + ".json")).relative_to(self.root)))
 
     def transition(self, attempt_id: str, state: str, *, detail: str = "") -> AttemptDecision:
@@ -235,7 +490,11 @@ class AttemptLedger:
                 attempt_id=attempt_id, run_id=old["run_id"],
                 trial_id=old["trial_id"], state=state,
                 fingerprints=old["fingerprints"], job_name=old["job_name"],
-                lease_until=old["lease_until"], command=old["command"], detail=detail
+                lease_until=old["lease_until"], command=old["command"], detail=detail,
+                worker_protocol=old.get("worker_protocol"),
+                parent_attempt_id=old.get("parent_attempt_id"),
+                checkpoint_path=old.get("checkpoint_path"),
+                checkpoint_sha256=old.get("checkpoint_sha256"),
             )
             return AttemptDecision("RESUME", "ATTEMPT_STATE_RECORDED",
                                    attempt_id, old["run_id"])

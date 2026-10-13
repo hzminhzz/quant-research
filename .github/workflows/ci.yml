@@ -56,6 +56,10 @@ jobs:
         with:
           python-version: "3.13"
           enable-cache: true
+      - name: Install tmux for managed worker recovery tests
+        run: sudo apt-get update && sudo apt-get install -y tmux
+      - name: Start known tmux control session
+        run: tmux new-session -d -s ml4t-ci-m8-control "sleep 3600"
       - name: Install locked dependencies
         run: uv sync --locked
       - name: Run fresh-clone suite (external catalog tests excluded)
