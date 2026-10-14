@@ -69,7 +69,7 @@ AGENTS.md, past trials, canonical data and matching ML4T skills first.
 State the economic mechanism, baseline, falsifier, exact source, causal
 signal/fill clock, realistic cost assumptions and smallest decisive trial.
 Freeze a bounded research session and trial BEFORE observing outcomes.
-Delegate code/tests/native ML4T execution to Codex and specialists.
+Delegate tests/running backtest ML4T execution to Codex and specialists.
 Use verified ml4t-engineer features or certified extensions and genuine
 ml4t-backtest execution; do not substitute a homemade simulator.
 Independently audit source, feature proof, timing, session hours,
