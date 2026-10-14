@@ -1,0 +1,109 @@
+# Milkman Trades 6x index-CFD feature-research contract.
+# This is a frozen SOURCE->FEATURE adaptation map, not a valid SessionSpecV1.
+# It does NOT authorize native execution, portfolio holdout, or promotion.
+program_id: milkman_six_cfd_features_20261014
+version: 1
+frozen_feature_rules: true
+registered_date_utc: "2026-10-14"
+research_state: EXPLORATORY
+approval_status: NOT_APPROVED
+purpose: data-available CFD adaptations only; no stock or option data required
+development_cutoff_exclusive_utc: "2025-01-01T00:00:00Z"
+allocation_2025_2026_holdout: LOCKED
+source_retrieval_date_utc: "2026-10-14"
+feature_engine: ml4t-engineer==0.1.4
+native_feature_entrypoint: ml4t.engineer.compute_features
+feature_implementation: src/strategies/milkman_native_features.py
+read_only_probe: scripts/probe_milkman_index_features_20261014.py
+source_instrument_separation:
+  ES: "Dukascopy USA500 CFD/index price alias, not CME ES futures"
+  NQ: "Dukascopy USATECH CFD/index price alias, not CME NQ futures"
+  volume: "broker quote/tick-volume proxy; never CME or stock exchange volume"
+source_sha256:
+  morning-dip-limit.html: 52b986782fed55ee973a8c8a6aefe91f8440a0ab1154c518680f76bd9c5a4758
+  legends-buy-day.html: 8d334576bfd6082ec757c39ae3c7796abe1ec7bd67c1e7dd75c52a62499c1387
+  legends-ema.html: 96486e15db3b3a72c972a3dd22fadbe6b1612730fce3df933862019e64c9fa17
+  bilbo-box-replication.html: f9a3d6a4c83c92af47fff0a37052ee7172c1c1e7853cfaf23fb8cce26c11aa44
+  swing-gg-stocks.html: 19b0e15e303b63700417e1615aaff6e94bf03f5f8d5f9bafa81ce19dcbde83fa
+  bilbo-daily.html: 965d454a5d39bb189998973927da03b37de2df02b562e487ce24eaa7a6b0429f
+  bilbo-box-options-v2.html: 8ebb97235e5543056f85dd9863040d9d6aa8231bc5fe450c92603720e558fa96
+  atr-premium-selling.html: c3731876283f81dd0577805d08a6f7e5c69d6c6e55935d1a826d51d0563eeaf2
+package_sha256:
+  morning-dip-limit-package.zip: 1c73509acba1c5f7641d453a5587cc890f033804878ea4c81c209070489131f1
+  legends-buy-day-package.zip: 17ee33f9a15aae4c660e2dc78f2479f058c7d534c2adfca850fc40acf7961d1d
+  legends-ema-package.zip: 771dd340ab6ad22e3fdf74479b1efde2005dd4dbc81317d4b385210d4b00c46f
+  bilbo-box-replication-package.zip: 7056d73fd7efe4f31231315b8c263ff8b6d290d22445f63f3c06737362dd418c
+candidates:
+  morning_dip_limit:
+    source_url: https://milkmantrades.com/morning-dip-limit.html
+    source_market: CME NQ futures; Databento 1-second bars
+    adaptation_market: NQ-alias Dukascopy CFD minute prices
+    feature: morning_dip_features
+    raw_aggregation: UTC 3-minute grid from complete 1-minute CFD bars
+    native_indicators: [trange, sma]
+    local_features: [ER15, level_geometry, choppy]
+    threshold: ER15 <= 0.35
+    author_entry: 09:00-11:00 CT buy resting limit one ATR under 3-minute close, tick-through fill
+    source_parity: BLOCKED_DATA
+    reason: no source-identical 1-second NQ futures data or limit-fill/queue parity
+  legends_buy_day:
+    source_url: https://milkmantrades.com/legends-buy-day.html
+    source_market: CME ES futures; 1-minute full Globex sessions
+    adaptation_market: ES-alias Dukascopy CFD minute prices
+    feature: legends_buy_day_features
+    session: 18:00 previous ET evening to 16:59 ET session print
+    rule: exactly three consecutive lower completed session closes following a non-lower predecessor
+    execution_clock_to_qualify: 18:00 ET next session open -> 09:30 ET open
+    source_parity: ADAPTED_PRICE_FEATURES_ONLY
+  legends_ema:
+    source_url: https://milkmantrades.com/legends-ema.html
+    source_market: CME NQ futures
+    adaptation_market: NQ-alias Dukascopy CFD
+    feature: legends_ema_daily_setups
+    native_indicators: [ema]
+    source_threshold: top 20pct from full sample; lookahead-biased
+    adaptation_threshold: 80th percentile of previous 252 completed RTH trading sessions, lagged
+    rth_clock: 09:30-16:00 ET; 26 complete 15-minute bars
+    fill_clock_to_qualify: following 09:30 ET open; target previous completed 15m EMA, else 15:59 ET close
+    source_parity: ADAPTED_CAUSAL_THRESHOLD
+  bilbo_box_v2:
+    source_url: https://milkmantrades.com/bilbo-box-replication.html
+    source_market: 20 US large-cap stocks and their listed calls
+    adaptation_market: NQ-alias Dukascopy CFD; UNDERLYING SIGNAL ONLY
+    feature: hourly_bilbo_features
+    native_indicators: [ema, atr, stddev]
+    local_extension: exact-grey-rule algebra from public box_signals.py after 21-bar warmup
+    source_ambiguity: public backtest high breakout vs published close breakout; use published close-confirmed rule
+    compression_box: first five grey hourly candles, first out-of-compression bar only, 10-day life
+    gate: previous completed RTH daily close >= EMA21
+    signal_clock: on-the-hour extended 04:00-20:00 ET, eligible 10:00-15:00 ET closes
+    option_pnl: BLOCKED_DATA
+    source_parity: ADAPTED_UNDERLYING_PRICE_FEATURES_ONLY
+  swing_golden_gate:
+    source_url: https://milkmantrades.com/swing-gg-stocks.html
+    source_market: 17 US stocks, 2000-2024 discovery
+    adaptation_market: ES-alias Dukascopy CFD
+    feature: swing_golden_gate_features
+    native_indicators: [atr, ema]
+    fixed_monthly_rails: prior month close minus previous completed monthly Wilder ATR14 times [0.382, 0.618, 1.0]
+    rule: after downside gate opens with previous completed daily close above EMA21, short at completion; stop pivot, target full ATR, flatten month-end
+    source_parity: ADAPTED_PRICE_FEATURES_ONLY
+    remaining: per-month state and intraday stop-first fill policy
+  daily_bilbo_boxes:
+    source_url: https://milkmantrades.com/bilbo-daily.html
+    source_market: 17/30 US stock universes with corporate actions
+    adaptation_market: ES-alias Dukascopy CFD
+    feature: daily_bilbo_features
+    native_indicators: [ema, atr, stddev]
+    local_extension: grey state, frozen 5-bar box and one-shot decision
+    source_entry: resting buy stop after box locks, prior daily close > EMA21; 20 trading-day order lifetime
+    source_exit: initial stop box low, trailing to yesterday EMA50, no-lookahead gap fill
+    prototype_signal: close-confirmed break observation, not resting-stop execution
+    source_parity: ADAPTED_PRICE_FEATURES_ONLY
+    independent_of_bilbo_v2: false
+out_of_scope:
+  - historical listed stock returns or PIT constituent replication without stock data
+  - options quote, strike/expiry execution or option PnL without historical option NBBO
+  - parameter optimization or source leaderboard ranking
+  - strategy promotion or production trading
+  - authorization to inspect 2025-2026 allocation evaluation

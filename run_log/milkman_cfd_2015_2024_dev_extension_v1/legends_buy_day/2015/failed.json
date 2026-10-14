@@ -1,0 +1,12 @@
+{
+  "program": "milkman_2015_2024_cfd_dev_extension_v1",
+  "case": "legends_buy_day",
+  "year": 2015,
+  "attempt_started": "2026-10-14T16:57:40.132182+00:00",
+  "status": "FAILED",
+  "holdout": "2025-2026 LOCKED",
+  "unit": "independent annual $100k book; do not chain as continuous NAV",
+  "costs": "2 bps commission + 2 bps slippage each side",
+  "error": "Traceback (most recent call last):\n  File \"/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py\", line 265, in execute\n    if fills.height and not ((fills[\"timestamp\"].min()>=px[\"timestamp\"].min()) and\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: can't compare offset-naive and offset-aware datetimes\n",
+  "attempt_finished": "2026-10-14T16:57:56.220361+00:00"
+}

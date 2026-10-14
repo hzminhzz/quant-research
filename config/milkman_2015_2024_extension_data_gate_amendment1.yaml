@@ -1,0 +1,29 @@
+# Data-eligibility correction to the pre-registered 2015-2024 extension.
+# Frozen BEFORE running any 2016/2017 correction trials.
+program_id: milkman_2015_2024_cfd_dev_extension_v1_amendment1
+registered_utc: '2026-10-14'
+original_spec: config/milkman_2015_2024_cfd_dev_extension_v1.yaml
+original_attempts: run_log/milkman_cfd_2015_2024_dev_extension_v1_retry1
+reason: Whole-day 220000-minute gate incorrectly combines independent clock requirements
+direct_raw_data_evidence:
+  ES_2016: {raw_minute_rows: 215643, fully_qualified_globex_sessions: 0}
+  ES_2017: {raw_minute_rows: 213862, fully_qualified_globex_sessions: 0}
+  NQ_2016: {complete_26_bar_rth_sessions: 251, complete_04_20_et_hourly_bars: 3072}
+  NQ_2017: {complete_26_bar_rth_sessions: 249, complete_04_20_et_hourly_bars: 3055}
+new_gates:
+  legends_buy_day:
+    required: complete full overnight Globex sessions
+    status_2016_2017: BLOCKED_DATA
+    action: no new attempts; preserve original failures
+  legends_ema:
+    required: at least 200 fully sampled 26-bar RTH sessions with causal 252-session lookback warmup
+    action: retry 2016 and 2017 in separate correction artifacts
+  bilbo_box_v2:
+    required: at least 2000 complete ET 04-20 filtered 60-minute bars each year; honest missing ETH hours
+    action: retry 2016 and 2017 in separate correction artifacts
+restrictions:
+  - do not alter rule thresholds or parameter settings
+  - use ML4T native Engine and broker
+  - do not merge corrected trials with original attempts without reporting both
+  - no 2025-2026 data
+  - no portfolio promotion

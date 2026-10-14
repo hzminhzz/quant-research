@@ -1,0 +1,52 @@
+{
+  "program": "milkman_2015_2024_cfd_dev_extension_v1",
+  "case": "legends_ema",
+  "year": 2020,
+  "attempt_started": "2026-10-14T17:04:24.460534+00:00",
+  "status": "NATIVE_RECONCILED",
+  "holdout": "2025-2026 LOCKED",
+  "unit": "independent annual $100k book; do not chain as continuous NAV",
+  "costs": "2 bps commission + 2 bps slippage each side",
+  "attempt_finished": "2026-10-14T17:04:42.558240+00:00",
+  "input": {
+    "data": {
+      "store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+      "raw_partitions": 921,
+      "raw_rows_with_warmup": 993926,
+      "execution_raw_rows": 344475,
+      "active_dates": 312,
+      "first": "2020-01-01 23:00:00+00:00",
+      "last": "2020-12-31 23:59:00+00:00",
+      "timestamp_semantics": "minute bar OPEN UTC; +1min at decision availability",
+      "volume_semantics": "Dukascopy broker activity, not CME exchange volume",
+      "complete_rth_15min_bars": 19820,
+      "qualifying_full_rth_sessions": 748,
+      "prior_strong_day_flags_in_year": 480
+    },
+    "source_index_cfd": "NQ"
+  },
+  "signals_rows": 344475,
+  "prices_rows": 344475,
+  "hashes": {
+    "prices.parquet": "4e7d2050810be205b82dc9adbbc4526eb0fe8489c46697f7af78594947d6616a",
+    "signals.parquet": "decbf43e68c8e671fd2310363a92d62bd6678782184fae6ca61158e9896c6167"
+  },
+  "fills": 16,
+  "closed_trades": 8,
+  "open_trades": 0,
+  "rejections": 0,
+  "broker_submissions": 16,
+  "net_return_pct": -0.03151439351966837,
+  "native_daily_sharpe": -0.12930362247512509,
+  "native_daily_sortino": -0.06574468156914252,
+  "native_daily_maxdd": -0.0014951749977432309,
+  "native_bar_sharpe_not_comparable": -0.004249027532385522,
+  "total_costs": 64.15478584458555,
+  "pnl_reconcile_abs": 1.5134560271690134e-11,
+  "limitations": [
+    "CFD index aliases, not author's CME futures/stocks/options",
+    "Annual capital reset: not continuous decade equity",
+    "Not a historical broker bid-ask/slippage/financing qualification",
+    "Overnight hours and DST follow CFD source availability"
+  ]
+}
