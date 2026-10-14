@@ -1,0 +1,327 @@
+{
+  "purpose": "data qualification only",
+  "UTC_time": "2026-10-14T17:29:30.348374+00:00",
+  "symbols": {
+    "XAUUSD": {
+      "symbol": "XAUUSD",
+      "source": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_XAUUSD",
+      "source_partition_count": 143,
+      "raw_rows": 3890218,
+      "raw_first": "2013-01-01 23:00:00+00:00",
+      "raw_last": "2024-12-30 23:59:00+00:00",
+      "qualified_daily_rows": 2721,
+      "qualified_start": "2013-01-02 22:00:00+00:00",
+      "qualified_end": "2024-12-30 22:00:00+00:00",
+      "years": [
+        {
+          "year": 2013,
+          "raw_sessions": 258,
+          "eligible_sessions": 241,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2014,
+          "raw_sessions": 259,
+          "eligible_sessions": 222,
+          "under_600_minutes": 10,
+          "inside_gap_gt90": 17
+        },
+        {
+          "year": 2015,
+          "raw_sessions": 259,
+          "eligible_sessions": 241,
+          "under_600_minutes": 9,
+          "inside_gap_gt90": 1
+        },
+        {
+          "year": 2016,
+          "raw_sessions": 258,
+          "eligible_sessions": 243,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2017,
+          "raw_sessions": 257,
+          "eligible_sessions": 241,
+          "under_600_minutes": 9,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2018,
+          "raw_sessions": 258,
+          "eligible_sessions": 241,
+          "under_600_minutes": 9,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2019,
+          "raw_sessions": 258,
+          "eligible_sessions": 242,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 1
+        },
+        {
+          "year": 2020,
+          "raw_sessions": 259,
+          "eligible_sessions": 242,
+          "under_600_minutes": 9,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2021,
+          "raw_sessions": 258,
+          "eligible_sessions": 244,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2022,
+          "raw_sessions": 239,
+          "eligible_sessions": 224,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 1
+        },
+        {
+          "year": 2023,
+          "raw_sessions": 202,
+          "eligible_sessions": 185,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 1
+        },
+        {
+          "year": 2024,
+          "raw_sessions": 176,
+          "eligible_sessions": 155,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 5
+        }
+      ],
+      "post_2024_source_read": false,
+      "data_eligible_criterion": "NY 17:00 close +/- 30m, >=600 bars, no within-session gap >90min",
+      "volume_semantics": "Dukascopy broker quote activity, not genuine exchange volume",
+      "snapshot": "data/processed/gold_fx_trend_diversification_20261015/XAUUSD_NY17_daily_2013_2024.parquet",
+      "sha256": "934a19e0f15ceb30e9f1a0b1e59508e478ab1efd6eb668fbc9d84d10d0b0d8e1"
+    },
+    "EURUSD": {
+      "symbol": "EURUSD",
+      "source": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_EURUSD",
+      "source_partition_count": 3820,
+      "raw_rows": 4481187,
+      "raw_first": "2013-01-02 01:00:00+00:00",
+      "raw_last": "2024-12-31 22:00:00+00:00",
+      "qualified_daily_rows": 3106,
+      "qualified_start": "2013-01-02 22:00:00+00:00",
+      "qualified_end": "2024-12-31 22:00:00+00:00",
+      "years": [
+        {
+          "year": 2013,
+          "raw_sessions": 273,
+          "eligible_sessions": 257,
+          "under_600_minutes": 14,
+          "inside_gap_gt90": 2
+        },
+        {
+          "year": 2014,
+          "raw_sessions": 259,
+          "eligible_sessions": 257,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2015,
+          "raw_sessions": 259,
+          "eligible_sessions": 257,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2016,
+          "raw_sessions": 260,
+          "eligible_sessions": 259,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 1
+        },
+        {
+          "year": 2017,
+          "raw_sessions": 259,
+          "eligible_sessions": 259,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2018,
+          "raw_sessions": 260,
+          "eligible_sessions": 259,
+          "under_600_minutes": 1,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2019,
+          "raw_sessions": 260,
+          "eligible_sessions": 259,
+          "under_600_minutes": 1,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2020,
+          "raw_sessions": 267,
+          "eligible_sessions": 260,
+          "under_600_minutes": 7,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2021,
+          "raw_sessions": 357,
+          "eligible_sessions": 260,
+          "under_600_minutes": 97,
+          "inside_gap_gt90": 25
+        },
+        {
+          "year": 2022,
+          "raw_sessions": 361,
+          "eligible_sessions": 260,
+          "under_600_minutes": 101,
+          "inside_gap_gt90": 29
+        },
+        {
+          "year": 2023,
+          "raw_sessions": 358,
+          "eligible_sessions": 259,
+          "under_600_minutes": 98,
+          "inside_gap_gt90": 27
+        },
+        {
+          "year": 2024,
+          "raw_sessions": 269,
+          "eligible_sessions": 260,
+          "under_600_minutes": 8,
+          "inside_gap_gt90": 2
+        },
+        {
+          "year": 2025,
+          "raw_sessions": 1,
+          "eligible_sessions": 0,
+          "under_600_minutes": 1,
+          "inside_gap_gt90": 0
+        }
+      ],
+      "post_2024_source_read": false,
+      "data_eligible_criterion": "NY 17:00 close +/- 30m, >=600 bars, no within-session gap >90min",
+      "volume_semantics": "Dukascopy broker quote activity, not genuine exchange volume",
+      "snapshot": "data/processed/gold_fx_trend_diversification_20261015/EURUSD_NY17_daily_2013_2024.parquet",
+      "sha256": "faae709c0174378790726b1c29809614031b18f167a72430b1b87127863c4fff"
+    },
+    "AUDUSD": {
+      "symbol": "AUDUSD",
+      "source": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_AUDUSD",
+      "source_partition_count": 3815,
+      "raw_rows": 4478843,
+      "raw_first": "2013-01-02 01:00:00+00:00",
+      "raw_last": "2024-12-31 22:00:00+00:00",
+      "qualified_daily_rows": 3107,
+      "qualified_start": "2013-01-02 22:00:00+00:00",
+      "qualified_end": "2024-12-31 22:00:00+00:00",
+      "years": [
+        {
+          "year": 2013,
+          "raw_sessions": 273,
+          "eligible_sessions": 257,
+          "under_600_minutes": 14,
+          "inside_gap_gt90": 2
+        },
+        {
+          "year": 2014,
+          "raw_sessions": 259,
+          "eligible_sessions": 257,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2015,
+          "raw_sessions": 259,
+          "eligible_sessions": 257,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2016,
+          "raw_sessions": 260,
+          "eligible_sessions": 259,
+          "under_600_minutes": 1,
+          "inside_gap_gt90": 1
+        },
+        {
+          "year": 2017,
+          "raw_sessions": 259,
+          "eligible_sessions": 259,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2018,
+          "raw_sessions": 260,
+          "eligible_sessions": 259,
+          "under_600_minutes": 1,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2019,
+          "raw_sessions": 259,
+          "eligible_sessions": 259,
+          "under_600_minutes": 0,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2020,
+          "raw_sessions": 267,
+          "eligible_sessions": 260,
+          "under_600_minutes": 7,
+          "inside_gap_gt90": 0
+        },
+        {
+          "year": 2021,
+          "raw_sessions": 358,
+          "eligible_sessions": 260,
+          "under_600_minutes": 98,
+          "inside_gap_gt90": 26
+        },
+        {
+          "year": 2022,
+          "raw_sessions": 361,
+          "eligible_sessions": 260,
+          "under_600_minutes": 101,
+          "inside_gap_gt90": 32
+        },
+        {
+          "year": 2023,
+          "raw_sessions": 358,
+          "eligible_sessions": 260,
+          "under_600_minutes": 98,
+          "inside_gap_gt90": 24
+        },
+        {
+          "year": 2024,
+          "raw_sessions": 269,
+          "eligible_sessions": 260,
+          "under_600_minutes": 9,
+          "inside_gap_gt90": 2
+        },
+        {
+          "year": 2025,
+          "raw_sessions": 1,
+          "eligible_sessions": 0,
+          "under_600_minutes": 1,
+          "inside_gap_gt90": 0
+        }
+      ],
+      "post_2024_source_read": false,
+      "data_eligible_criterion": "NY 17:00 close +/- 30m, >=600 bars, no within-session gap >90min",
+      "volume_semantics": "Dukascopy broker quote activity, not genuine exchange volume",
+      "snapshot": "data/processed/gold_fx_trend_diversification_20261015/AUDUSD_NY17_daily_2013_2024.parquet",
+      "sha256": "0cf951a498a445a5e2fa5b6e97b228b02c2d0f21b6100dea7ff9d69c215a1d64"
+    }
+  },
+  "protected_2025_2026": "NOT_TOUCHED"
+}
