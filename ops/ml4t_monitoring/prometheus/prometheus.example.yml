@@ -1,0 +1,17 @@
+# Template only. NOT installed or enabled on the VPS.
+# This assumes Prometheus runs in the host network namespace.
+# Port 9100 is occupied by panda-node on this VPS. Do not rebind it.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+rule_files:
+  - /etc/prometheus/rules/ml4t-live-alerts.yml
+scrape_configs:
+  - job_name: ml4t-native
+    static_configs:
+      - targets: ["127.0.0.1:19147"]
+  - job_name: ml4t-vps-node
+    static_configs:
+      - targets: ["127.0.0.1:19148"]
+# Alertmanager route is intentionally unspecified until the operator
+# supplies a confirmed private destination and verifies delivery.

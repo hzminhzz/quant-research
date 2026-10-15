@@ -1,0 +1,9 @@
+route:
+  receiver: unconfigured_local_only
+  group_wait: 10s
+  group_interval: 5m
+  repeat_interval: 4h
+receivers:
+  - name: unconfigured_local_only
+# No real notification destination has been provided. Alertmanager
+# delivery to a human is BLOCKED; never label these notifications delivered.

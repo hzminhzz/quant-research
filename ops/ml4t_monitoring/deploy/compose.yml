@@ -1,0 +1,61 @@
+name: ml4t-observability
+services:
+  prometheus:
+    image: prom/prometheus:v3.7.3
+    container_name: ml4t-prometheus
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ../prometheus/alerts.yml:/etc/prometheus/rules/alerts.yml:ro
+      - ml4t_prom_data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=7d
+      - --storage.tsdb.retention.size=1GB
+      - --web.listen-address=127.0.0.1:19090
+  node-exporter:
+    image: prom/node-exporter:v1.10.2
+    container_name: ml4t-node-exporter
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    volumes:
+      - /:/host:ro,rslave
+    command:
+      - --path.rootfs=/host
+      - --web.listen-address=127.0.0.1:19148
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    container_name: ml4t-alertmanager
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --web.listen-address=127.0.0.1:19093
+  grafana:
+    image: grafana/grafana:12.2.0
+    container_name: ml4t-grafana
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      GF_SERVER_HTTP_ADDR: 127.0.0.1
+      GF_SERVER_HTTP_PORT: "13000"
+      GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+    volumes:
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/ml4t.yml:ro
+      - ./grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/ml4t.yml:ro
+      - ./provisioned-dashboard.json:/etc/grafana/ml4t/native-safety.json:ro
+      - ml4t_grafana_data:/var/lib/grafana
+
+volumes:
+  ml4t_prom_data:
+  ml4t_grafana_data:

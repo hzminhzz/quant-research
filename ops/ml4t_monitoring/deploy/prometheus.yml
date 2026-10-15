@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+rule_files:
+  - /etc/prometheus/rules/alerts.yml
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["127.0.0.1:19093"]
+scrape_configs:
+  - job_name: ml4t-native
+    static_configs:
+      - targets: ["127.0.0.1:19147"]
+  - job_name: ml4t-vps-node
+    static_configs:
+      - targets: ["127.0.0.1:19148"]
