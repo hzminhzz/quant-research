@@ -2,6 +2,13 @@
 
 ## Default entry points
 
+**For new research, agents invoke only `scripts/quant.py` (factory) or
+`src.workbench.Workbench` (interactive).** Do not discover or launch historic
+`scripts/run_*.py` in order to bypass the common runtime; consult
+`docs/architecture/dual_mode_20261015/archive_inventory.md` only for a
+requested historical reproduction or compatibility investigation. An archived
+script is read-only evidence, not a new workflow template.
+
 New cross-sectional research uses `scripts/quant.py` (autonomous factory) or
 `src.workbench.Workbench` (interactive research). Read
 `docs/architecture/dual_mode_20261015/operations.md` before a new run. Read
@@ -23,7 +30,9 @@ the pre-backtest signal decision; a Workbench experiment is not factory qualific
 
 1. Inspect the actual checkout, branch, dirty changes and relevant GitHub state.
    Preserve concurrent work. The original local checkout may be ahead of GitHub.
-2. Read the candidate YAML, source manifest and relevant ADRs. Specify the
+2. Read the candidate YAML, source manifest and relevant ADRs. For a research
+   handoff, use `python scripts/quant.py ingest <thesis.yaml> -o <candidate.yaml>`;
+   review any explicit unmapped-choice failure instead of guessing a formula. Specify the
    economic mechanism, baseline, falsifier, instruments, windows and costs.
    Locate the exact requested source. A similarly named strategy is not a
    replacement. Label any example or assumed formula explicitly.

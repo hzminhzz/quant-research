@@ -10,7 +10,8 @@ All 505 original byte hashes were rechecked after implementation; none changed.
 The delivered `migration_map.json` and `migration_map.md` expand the per-path
 mapping below for all 505 paths, without claiming a line-by-line semantic audit.
 
-**No original strategy, runner, historical result or frozen contract was deleted.**
+**Phase 2 cutover has relocated twenty-nine tracked files through `git mv`: fourteen scripts and fifteen frozen session YAMLs under `archive/legacy_v1/`; no original code or historical result was deleted.**
+The original byte hashes are proven in `tests/test_legacy_archive_safety.py`. Archived session YAMLs remain immutable, and the active FOMC source/test dependency stays at its original `config/research_sessions/` location. See [`archive_inventory.md`](archive_inventory.md) for exact locations and retention explanations.
 The new shared route is implemented. Except for the explicitly identified bridge
 and imported support file, old call sites remain compatibility surfaces. A target
 in this map is not a claim of equivalent strategy behavior or a completed cutover.
@@ -80,12 +81,12 @@ config/candidates/
 | `src/strategies/independent_seven_data.py` | Same path, byte-identical import from original untracked source | **Imported** to restore reproducible legacy test collection |
 | `scripts/research.py` | `scripts/quant.py` for new-mode execution; old discovery/v1 commands remain | New CLI implemented; old CLI retained |
 | `scripts/research_session.py` | New specs/attempts via `quant.py`; frozen-v1 operations retain existing CLI | No historical record rewriting |
-| `scripts/run_pipeline.py` | `scripts/quant.py run <candidate.yaml>` after strategy representation exists | New entry point implemented; legacy cutover pending |
+| `scripts/run_pipeline.py` | `scripts/quant.py run <candidate.yaml>` after strategy representation exists | Original archived byte-identically; script remains historical evidence, not agent entry point |
 | `scripts/run_m8_n8.py` | `quant.py` plus a migrated M8 strategy | **Not retired** |
 | `scripts/run_m8_cash_session.py` | `quant.py` plus a migrated M8 session strategy | **Not retired** |
-| `scripts/run_eow_rebuild.py` | `quant.py` plus a migrated EOW strategy | **Not retired** |
+| `scripts/run_eow_rebuild.py` | `quant.py` plus a future migrated EOW strategy | Historical runner moved into `archive/legacy_v1/scripts/` via Git rename; EOW strategy is NOT ported |
 | `scripts/run_orb_ml_research.py` | `quant.py` plus a migrated model/ORB strategy | **Not retired** |
-| `scripts/run_orb_raw_optimization.py` | `quant.py` plus a migrated ORB strategy | **Not retired** |
+| `scripts/run_orb_raw_optimization.py` | `quant.py` plus a future migrated ORB strategy | Historical runner archived; specialized ORB strategy is NOT ported |
 | `scripts/run_validated_orb.py` | `quant.py` plus a migrated ORB strategy and complete evidence | **Not retired** |
 | `scripts/run_btc_eth_relative_value.py` | `quant.py` after exact rule/funding parity is checked | Existing strategy is not silently substituted |
 | `config/research_contract_m8_n8_cash_v1.yaml` through `v7.yaml` | Retain immutable historical contracts; new candidate YAML does not require this ladder | **No rewrite or deletion** |

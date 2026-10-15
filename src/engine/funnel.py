@@ -63,9 +63,13 @@ def _cohort(run_log: Path, spec: CandidateSpec) -> tuple[dict[str, dict[str, pl.
     required = {r['spec_hash'] for r in records if (r.get('event') == 'stage3_started'
                 or (r.get('event') == 'workbench_backtest' and r.get('status') == 'STARTED'))
                 and r.get('selection_family_id') == spec.selection_family_id
+                and r.get('market_scope', 'unspecified') == spec.market_scope
+                and r.get('label_horizon_bars') == spec.label_horizon_bars
                 and r.get('spec_hash') != spec.spec_hash}
     for record in records:
-        if record.get('selection_family_id') != spec.selection_family_id:
+        if (record.get('selection_family_id') != spec.selection_family_id
+            or record.get('market_scope', 'unspecified') != spec.market_scope
+            or record.get('label_horizon_bars') != spec.label_horizon_bars):
             continue
         trial = record.get('spec_hash')
         if trial == spec.spec_hash or 'daily_returns' not in record:
@@ -77,9 +81,35 @@ def _cohort(run_log: Path, spec: CandidateSpec) -> tuple[dict[str, dict[str, pl.
                 raise QuantError('INVALID_EVIDENCE', 'Prior trial returns changed')
             pieces[window] = pl.read_parquet(path)
         result[trial] = pieces
-        unresolved.discard(record.get('candidate_id')); unresolved.discard(trial)
+        unresolved.discard(record.get('candidate_id'))
+        unresolved.discard(trial)
     unresolved |= required - set(result)
     return result, sorted(unresolved)
+
+
+def _historical_trial_count(run_log: Path, spec: CandidateSpec, *, current_attempt: str | None = None) -> int:
+    ledger = run_log / 'trial_ledger.jsonl'
+    if not ledger.exists():
+        return 0
+    # The multiple-testing family is market scope + target horizon, NOT an
+    # agent's self-selected name or selection_family_id. Count attempted
+    # specifications from registration, including failed Stage 1/2 searches
+    # and Workbench experiments, while deduplicating lifecycle events.
+    attempts = set()
+    previous = '0' * 64
+    for line in ledger.read_text().splitlines():
+        record = json.loads(line)
+        actual = record.pop('record_hash', None)
+        if record.get('previous_hash') != previous or digest(record) != actual:
+            raise QuantError('INVALID_EVIDENCE', 'Trial ledger hash chain is broken')
+        previous = actual
+        if (record.get('event') in ('registered', 'workbench_backtest', 'stage3_started')
+            and record.get('market_scope', 'unspecified') == spec.market_scope
+            and record.get('label_horizon_bars') == spec.label_horizon_bars
+            and record.get('attempt_id') != current_attempt):
+            attempts.add(record.get('attempt_id') or record.get('spec_hash'))
+    attempts.discard(None)
+    return len(attempts)
 
 
 class ResearchFunnel:
@@ -95,6 +125,7 @@ class ResearchFunnel:
         write_json(output / 'spec.json', spec.model_dump(mode='json'), exclusive=True)
         code = runtime_identity()
         identity = {'candidate_id': spec.candidate_id, 'selection_family_id': spec.selection_family_id,
+                    'market_scope': spec.market_scope, 'label_horizon_bars': spec.label_horizon_bars,
                     'spec_hash': spec.spec_hash, 'code_hash': code, 'attempt_id': attempt,
                     'run_path': str(output.relative_to(self.run_log))}
         append_trial(self.run_log, {**identity, 'event': 'registered', 'status': 'RUNNING',
@@ -154,7 +185,9 @@ class ResearchFunnel:
             # prior_trial_ids was reconciled against ledger IDs above. stage3 receives
             # actual spec-hash keys, so use a copy with equivalent resolved cohort IDs.
             resolved_spec = spec.model_copy(update={'prior_trial_ids': list(prior)})
-            report3, runs = stage3(features, resolved_spec, funding=funding, prior_cohort=prior)
+            report3, runs = stage3(features, resolved_spec, funding=funding, prior_cohort=prior,
+                                   historical_trial_count=_historical_trial_count(
+                                       self.run_log, spec, current_attempt=attempt))
             artifacts = {}
             for name, result in runs.items():
                 artifacts.update(_save_run(result, output, name))
@@ -210,7 +243,9 @@ class ResearchFunnel:
     def _finish(self, output, case, daily_artifacts):
         case['finished_at'] = datetime.now(UTC).isoformat()
         write_json(output / 'casefile.json', case)
-        event = {k: case[k] for k in ('candidate_id', 'selection_family_id', 'spec_hash', 'code_hash', 'attempt_id', 'run_path', 'status')}
+        event = {k: case[k] for k in ('candidate_id', 'selection_family_id', 'market_scope',
+                                      'label_horizon_bars', 'spec_hash', 'code_hash',
+                                      'attempt_id', 'run_path', 'status')}
         event.update(event='completed', daily_returns=daily_artifacts,
                      casefile={'path': str((output / 'casefile.json').relative_to(self.run_log)),
                                'sha256': file_hash(output / 'casefile.json')},

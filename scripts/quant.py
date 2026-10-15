@@ -15,6 +15,7 @@ from src.data_vault import PanelBuilder
 from src.engine.common import QuantError
 from src.engine.funnel import ResearchFunnel
 from src.engine.spec_parser import CandidateSpec, parse_spec
+from src.engine.thesis_ingest import convert_thesis
 
 STORE = '/home/quant/dev/quant/ml4t-data/.data/store'
 
@@ -59,10 +60,23 @@ def main(argv=None) -> int:
                      help='compile development panel before running; protected data remains separate')
     validate = commands.add_parser('validate', help='parse executable YAML without reading market data')
     validate.add_argument('spec')
+    ingest = commands.add_parser('ingest', aliases=['ingest-thesis'],
+                                 help='translate a research thesis into validated executable candidate YAML')
+    ingest.add_argument('source')
+    ingest.add_argument('-o', '--output', required=True)
     args = parser.parse_args(argv)
     try:
         if args.command == 'schema':
             print(json.dumps(CandidateSpec.model_json_schema(), sort_keys=True))
+            return 0
+        if args.command in ('ingest', 'ingest-thesis'):
+            spec = convert_thesis(args.source, args.output)
+            validated = parse_spec(args.output)
+            if validated.spec_hash != spec.spec_hash:
+                raise QuantError('INVALID_EVIDENCE', 'Candidate changed between ingest and validate')
+            print(json.dumps({'status': 'CONVERTED', 'validation': 'VALID_SPEC',
+                              'candidate_id': spec.candidate_id, 'spec_hash': spec.spec_hash,
+                              'output': str(Path(args.output))}, sort_keys=True))
             return 0
         if args.command == 'build-cfd':
             manifest = PanelBuilder(args.source_root, args.output).build_cfd(

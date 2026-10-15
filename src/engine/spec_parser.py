@@ -124,6 +124,8 @@ class CandidateSpec(Model):
     schema_version: Literal[1] = 1
     candidate_id: str
     selection_family_id: str
+    market_scope: str = 'unspecified'
+    barrier_overlay_enabled: bool = False
     source_spec_status: Literal['exact', 'prompt_derived_example', 'synthetic_test'] = 'exact'
     thesis: str
     panel_root: str

@@ -28,6 +28,25 @@ def test_native_features_custom_expression_and_exact_prefixes():
     assert targets.group_by('timestamp').agg(pl.col('target_weight').sum())['target_weight'].abs().max() < 1e-12
 
 
+def test_unrepresentable_three_atr_long_stop_is_excluded_before_rank():
+    panel = make_panel(hours=80, dynamic=True)
+    original = spec_fixture()
+    spec = original.model_copy(update={
+        'universe': original.universe.model_copy(update={'minimum_assets': 2}),
+    })
+    features = FeatureCompiler(spec)(panel)
+    # This asset's stop would be at or below zero for a long entry.
+    features = features.with_columns(
+        pl.when(pl.col('symbol') == 'A_PERP').then(pl.col('close'))
+        .otherwise(pl.col('atr_24h')).alias('atr_24h'))
+    targets = allocate(features, spec)
+    invalid = targets.filter(pl.col('symbol') == 'A_PERP')
+    assert invalid.height > 0
+    assert invalid['target_weight'].abs().max() == 0
+    assert targets['target_weight'].abs().sum() > 0
+    assert targets.group_by('timestamp').agg(pl.col('target_weight').sum())['target_weight'].abs().max() < 1e-12
+
+
 @pytest.mark.parametrize('leak', ['negative_shift', 'global_normalization', 'future_membership'])
 def test_causal_oracle_rejects_future_dependence(leak):
     panel = make_panel(hours=40, dynamic=True)
