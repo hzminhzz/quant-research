@@ -1,0 +1,4462 @@
+{
+  "research_candidate": "fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1",
+  "classification": "SOURCE_QUALIFICATION_ONLY",
+  "terminal_preflight_status": "BLOCKED_DATA",
+  "frozen_session": false,
+  "native_backtest_executed": false,
+  "signal_returns_inspected": false,
+  "phase3_performance_evaluation_executed": false,
+  "trial_started": false,
+  "protected_holdout_scored": false,
+  "source": {
+    "canonical_key": "index_minute_ES",
+    "vendor": "Dukascopy",
+    "underlying_symbol": "usa500idxusd",
+    "product": "US500 bid-only CFD historical price proxy",
+    "execution_bid_ask": "NOT_AVAILABLE",
+    "source_path": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES",
+    "calendar_source": "docs/research_inputs/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1/fed_original_calendar_2017_2024.yaml",
+    "inspection_range": "2017-01-01 to 2024-12-31 inclusive"
+  },
+  "candidate_statement_count": 63,
+  "cancelled_regular_meetings": [
+    {
+      "statement_date": "2020-03-18",
+      "original_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "cancelled_source": "https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm",
+      "reason": "cancelled regular meeting; no trade"
+    }
+  ],
+  "calendar_and_source_counts": {
+    "calendar_eligible": 63,
+    "fill_bars_missing": 10,
+    "some_clock_bar_missing": 10,
+    "fill_bars_complete": 53,
+    "all_eight_endpoint_clock_checks_passed": 53,
+    "calendar_ineligible": 0
+  },
+  "source_complete_pair_count": 53,
+  "source_complete_years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "source_complete_dates": [
+    "2018-05-02",
+    "2018-06-13",
+    "2018-08-01",
+    "2018-09-26",
+    "2018-11-08",
+    "2018-12-19",
+    "2019-01-30",
+    "2019-03-20",
+    "2019-05-01",
+    "2019-06-19",
+    "2019-07-31",
+    "2019-09-18",
+    "2019-10-30",
+    "2019-12-11",
+    "2020-01-29",
+    "2020-04-29",
+    "2020-06-10",
+    "2020-07-29",
+    "2020-09-16",
+    "2020-11-05",
+    "2020-12-16",
+    "2021-01-27",
+    "2021-03-17",
+    "2021-04-28",
+    "2021-06-16",
+    "2021-07-28",
+    "2021-09-22",
+    "2021-11-03",
+    "2021-12-15",
+    "2022-01-26",
+    "2022-03-16",
+    "2022-05-04",
+    "2022-06-15",
+    "2022-07-27",
+    "2022-09-21",
+    "2022-11-02",
+    "2022-12-14",
+    "2023-02-01",
+    "2023-03-22",
+    "2023-05-03",
+    "2023-06-14",
+    "2023-07-26",
+    "2023-09-20",
+    "2023-11-01",
+    "2023-12-13",
+    "2024-01-31",
+    "2024-03-20",
+    "2024-05-01",
+    "2024-06-12",
+    "2024-07-31",
+    "2024-09-18",
+    "2024-11-07",
+    "2024-12-18"
+  ],
+  "events": [
+    {
+      "statement_date": "2017-02-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-01-25",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-01-31T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-01-31T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-01-31T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-02-01T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-02-01T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-02-01T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-01-24T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-01-24T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-01-24T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-01-25T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-01-25T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-01-25T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-03-15",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-03-08",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-03-14T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-03-14T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-03-14T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-03-15T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-03-15T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-03-15T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-03-07T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-03-07T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-03-07T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-03-08T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-03-08T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-03-08T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-05-03",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-04-26",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-05-02T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-05-02T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-05-02T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-05-03T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-05-03T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-05-03T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-04-25T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-04-25T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-04-25T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-04-26T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-04-26T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-04-26T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-06-14",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-06-07",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-06-13T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-06-13T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-06-13T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-06-14T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-06-14T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-06-14T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-06-06T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-06-06T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-06-06T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-06-07T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-06-07T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-06-07T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-07-26",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-07-19",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-07-25T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-07-25T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-07-25T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-07-26T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-07-26T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-07-26T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-07-18T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-07-18T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-07-18T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-07-19T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-07-19T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-07-19T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-09-20",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-09-13",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-09-19T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-09-19T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-09-19T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-09-20T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-09-20T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-09-20T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-09-12T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-09-12T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-09-12T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-09-13T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-09-13T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-09-13T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-11-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-10-25",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-10-31T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-10-31T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-10-31T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-11-01T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-11-01T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-11-01T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-10-24T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-10-24T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-10-24T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-10-25T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-10-25T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-10-25T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2017-12-13",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2017-12-06",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2017-12-12T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-12-12T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-12-12T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2017-12-13T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-12-13T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-12-13T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2017-12-05T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-12-05T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-12-05T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2017-12-06T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2017-12-06T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2017-12-06T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2018-01-31",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-01-24",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-01-30T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-01-30T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-01-30T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-01-31T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-01-31T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-01-31T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-01-23T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-01-23T21:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-01-23T21:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-01-24T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-01-24T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-01-24T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2018-03-21",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-03-14",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-03-20T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-03-20T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-03-20T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-03-21T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-03-21T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-03-21T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-03-13T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-03-13T20:04:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-03-13T20:06:00+00:00",
+            "available": false,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-03-14T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-03-14T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-03-14T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": false,
+      "all_decision_reference_bars": false,
+      "source_coverage_complete": false
+    },
+    {
+      "statement_date": "2018-05-02",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-04-25",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-05-01T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-05-01T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-05-01T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-05-02T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-05-02T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-05-02T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-04-24T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-04-24T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-04-24T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-04-25T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-04-25T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-04-25T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2018-06-13",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-06-06",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-06-12T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-06-12T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-06-12T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-06-13T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-06-13T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-06-13T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-06-05T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-06-05T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-06-05T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-06-06T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-06-06T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-06-06T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2018-08-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-07-25",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-07-31T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-07-31T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-07-31T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-08-01T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-08-01T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-08-01T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-07-24T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-07-24T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-07-24T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-07-25T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-07-25T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-07-25T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2018-09-26",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-09-19",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-09-25T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-09-25T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-09-25T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-09-26T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-09-26T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-09-26T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-09-18T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-09-18T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-09-18T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-09-19T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-09-19T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-09-19T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2018-11-08",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-11-01",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-11-07T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-11-07T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-11-07T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-11-08T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-11-08T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-11-08T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-10-31T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-10-31T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-10-31T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-11-01T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-11-01T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-11-01T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2018-12-19",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2018-12-12",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2018-12-18T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-12-18T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-12-18T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2018-12-19T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-12-19T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-12-19T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2018-12-11T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-12-11T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-12-11T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2018-12-12T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2018-12-12T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2018-12-12T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-01-30",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-01-23",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-01-29T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-01-29T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-01-29T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-01-30T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-01-30T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-01-30T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-01-22T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-01-22T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-01-22T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-01-23T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-01-23T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-01-23T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-03-20",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-03-13",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-03-19T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-03-19T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-03-19T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-03-20T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-03-20T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-03-20T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-03-12T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-03-12T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-03-12T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-03-13T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-03-13T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-03-13T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-05-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-04-24",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-04-30T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-04-30T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-04-30T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-05-01T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-05-01T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-05-01T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-04-23T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-04-23T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-04-23T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-04-24T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-04-24T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-04-24T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-06-19",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-06-12",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-06-18T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-06-18T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-06-18T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-06-19T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-06-19T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-06-19T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-06-11T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-06-11T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-06-11T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-06-12T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-06-12T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-06-12T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-07-31",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-07-24",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-07-30T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-07-30T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-07-30T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-07-31T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-07-31T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-07-31T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-07-23T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-07-23T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-07-23T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-07-24T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-07-24T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-07-24T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-09-18",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-09-11",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-09-17T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-09-17T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-09-17T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-09-18T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-09-18T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-09-18T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-09-10T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-09-10T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-09-10T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-09-11T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-09-11T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-09-11T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-10-30",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-10-23",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-10-29T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-10-29T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-10-29T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-10-30T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-10-30T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-10-30T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-10-22T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-10-22T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-10-22T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-10-23T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-10-23T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-10-23T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2019-12-11",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2019-12-04",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2019-12-10T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-12-10T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-12-10T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2019-12-11T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-12-11T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-12-11T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2019-12-03T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-12-03T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-12-03T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2019-12-04T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2019-12-04T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2019-12-04T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-01-29",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-01-22",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-01-28T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-01-28T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-01-28T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-01-29T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-01-29T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-01-29T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-01-21T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-01-21T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-01-21T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-01-22T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-01-22T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-01-22T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-04-29",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-04-22",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-04-28T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-04-28T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-04-28T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-04-29T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-04-29T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-04-29T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-04-21T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-04-21T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-04-21T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-04-22T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-04-22T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-04-22T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-06-10",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-06-03",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-06-09T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-06-09T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-06-09T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-06-10T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-06-10T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-06-10T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-06-02T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-06-02T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-06-02T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-06-03T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-06-03T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-06-03T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-07-29",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-07-22",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-07-28T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-07-28T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-07-28T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-07-29T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-07-29T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-07-29T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-07-21T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-07-21T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-07-21T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-07-22T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-07-22T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-07-22T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-09-16",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-09-09",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-09-15T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-09-15T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-09-15T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-09-16T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-09-16T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-09-16T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-09-08T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-09-08T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-09-08T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-09-09T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-09-09T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-09-09T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-11-05",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-10-29",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-11-04T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-11-04T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-11-04T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-11-05T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-11-05T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-11-05T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-10-28T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-10-28T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-10-28T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-10-29T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-10-29T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-10-29T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2020-12-16",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2020-12-09",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2020-12-15T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-12-15T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-12-15T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2020-12-16T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-12-16T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-12-16T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2020-12-08T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-12-08T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-12-08T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2020-12-09T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2020-12-09T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2020-12-09T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-01-27",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-01-20",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-01-26T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-01-26T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-01-26T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-01-27T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-01-27T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-01-27T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-01-19T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-01-19T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-01-19T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-01-20T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-01-20T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-01-20T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-03-17",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-03-10",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-03-16T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-03-16T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-03-16T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-03-17T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-03-17T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-03-17T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-03-09T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-03-09T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-03-09T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-03-10T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-03-10T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-03-10T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-04-28",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-04-21",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-04-27T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-04-27T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-04-27T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-04-28T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-04-28T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-04-28T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-04-20T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-04-20T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-04-20T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-04-21T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-04-21T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-04-21T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-06-16",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-06-09",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-06-15T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-06-15T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-06-15T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-06-16T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-06-16T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-06-16T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-06-08T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-06-08T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-06-08T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-06-09T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-06-09T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-06-09T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-07-28",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-07-21",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-07-27T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-07-27T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-07-27T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-07-28T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-07-28T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-07-28T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-07-20T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-07-20T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-07-20T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-07-21T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-07-21T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-07-21T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-09-22",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-09-15",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-09-21T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-09-21T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-09-21T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-09-22T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-09-22T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-09-22T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-09-14T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-09-14T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-09-14T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-09-15T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-09-15T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-09-15T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-11-03",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-10-27",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-11-02T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-11-02T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-11-02T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-11-03T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-11-03T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-11-03T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-10-26T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-10-26T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-10-26T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-10-27T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-10-27T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-10-27T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2021-12-15",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2021-12-08",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2021-12-14T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-12-14T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-12-14T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2021-12-15T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-12-15T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-12-15T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2021-12-07T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-12-07T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-12-07T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2021-12-08T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2021-12-08T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2021-12-08T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-01-26",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-01-19",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-01-25T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-01-25T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-01-25T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-01-26T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-01-26T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-01-26T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-01-18T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-01-18T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-01-18T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-01-19T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-01-19T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-01-19T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-03-16",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-03-09",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-03-15T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-03-15T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-03-15T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-03-16T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-03-16T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-03-16T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-03-08T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-03-08T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-03-08T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-03-09T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-03-09T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-03-09T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-05-04",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-04-27",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-05-03T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-05-03T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-05-03T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-05-04T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-05-04T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-05-04T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-04-26T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-04-26T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-04-26T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-04-27T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-04-27T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-04-27T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-06-15",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-06-08",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-06-14T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-06-14T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-06-14T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-06-15T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-06-15T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-06-15T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-06-07T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-06-07T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-06-07T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-06-08T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-06-08T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-06-08T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-07-27",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-07-20",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-07-26T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-07-26T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-07-26T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-07-27T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-07-27T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-07-27T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-07-19T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-07-19T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-07-19T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-07-20T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-07-20T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-07-20T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-09-21",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-09-14",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-09-20T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-09-20T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-09-20T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-09-21T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-09-21T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-09-21T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-09-13T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-09-13T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-09-13T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-09-14T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-09-14T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-09-14T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-11-02",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-10-26",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-11-01T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-11-01T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-11-01T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-11-02T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-11-02T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-11-02T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-10-25T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-10-25T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-10-25T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-10-26T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-10-26T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-10-26T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2022-12-14",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2022-12-07",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2022-12-13T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-12-13T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-12-13T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2022-12-14T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-12-14T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-12-14T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2022-12-06T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-12-06T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-12-06T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2022-12-07T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2022-12-07T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2022-12-07T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-02-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-01-25",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-01-31T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-01-31T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-01-31T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-02-01T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-02-01T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-02-01T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-01-24T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-01-24T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-01-24T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-01-25T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-01-25T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-01-25T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-03-22",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-03-15",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-03-21T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-03-21T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-03-21T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-03-22T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-03-22T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-03-22T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-03-14T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-03-14T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-03-14T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-03-15T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-03-15T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-03-15T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-05-03",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-04-26",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-05-02T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-05-02T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-05-02T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-05-03T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-05-03T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-05-03T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-04-25T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-04-25T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-04-25T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-04-26T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-04-26T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-04-26T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-06-14",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-06-07",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-06-13T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-06-13T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-06-13T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-06-14T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-06-14T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-06-14T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-06-06T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-06-06T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-06-06T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-06-07T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-06-07T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-06-07T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-07-26",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-07-19",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-07-25T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-07-25T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-07-25T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-07-26T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-07-26T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-07-26T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-07-18T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-07-18T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-07-18T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-07-19T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-07-19T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-07-19T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-09-20",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-09-13",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-09-19T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-09-19T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-09-19T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-09-20T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-09-20T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-09-20T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-09-12T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-09-12T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-09-12T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-09-13T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-09-13T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-09-13T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-11-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-10-25",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-10-31T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-10-31T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-10-31T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-11-01T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-11-01T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-11-01T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-10-24T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-10-24T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-10-24T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-10-25T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-10-25T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-10-25T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2023-12-13",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2023-12-06",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2023-12-12T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-12-12T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-12-12T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2023-12-13T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-12-13T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-12-13T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2023-12-05T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-12-05T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-12-05T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2023-12-06T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2023-12-06T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2023-12-06T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-01-31",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-01-24",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-01-30T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-01-30T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-01-30T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-01-31T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-01-31T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-01-31T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-01-23T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-01-23T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-01-23T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-01-24T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-01-24T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-01-24T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-03-20",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-03-13",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-03-19T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-03-19T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-03-19T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-03-20T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-03-20T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-03-20T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-03-12T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-03-12T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-03-12T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-03-13T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-03-13T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-03-13T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-05-01",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-04-24",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-04-30T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-04-30T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-04-30T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-05-01T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-05-01T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-05-01T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-04-23T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-04-23T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-04-23T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-04-24T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-04-24T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-04-24T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-06-12",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-06-05",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-06-11T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-06-11T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-06-11T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-06-12T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-06-12T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-06-12T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-06-04T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-06-04T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-06-04T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-06-05T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-06-05T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-06-05T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-07-31",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-07-24",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-07-30T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-07-30T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-07-30T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-07-31T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-07-31T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-07-31T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-07-23T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-07-23T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-07-23T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-07-24T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-07-24T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-07-24T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-09-18",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-09-11",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-09-17T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-09-17T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-09-17T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-09-18T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-09-18T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-09-18T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-09-10T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-09-10T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-09-10T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-09-11T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-09-11T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-09-11T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-11-07",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-10-31",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-11-06T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-11-06T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-11-06T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-11-07T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-11-07T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-11-07T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-10-30T20:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-10-30T20:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-10-30T20:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-10-31T13:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-10-31T13:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-10-31T13:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    },
+    {
+      "statement_date": "2024-12-18",
+      "original_calendar_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm",
+      "published_before_signal": true,
+      "calendar_eligibility": true,
+      "calendar_exclusion_reasons": [],
+      "control_statement_date": "2024-12-11",
+      "quote_checks": {
+        "fomc_entry": {
+          "decision_utc": "2024-12-17T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-12-17T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-12-17T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "fomc_exit": {
+          "decision_utc": "2024-12-18T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-12-18T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-12-18T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_entry": {
+          "decision_utc": "2024-12-10T21:05:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-12-10T21:04:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-12-10T21:06:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        },
+        "control_exit": {
+          "decision_utc": "2024-12-11T14:35:00+00:00",
+          "last_complete_bar": {
+            "timestamp_utc": "2024-12-11T14:34:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "required_fill_bar": {
+            "timestamp_utc": "2024-12-11T14:36:00+00:00",
+            "available": true,
+            "partition_quality": "ok"
+          },
+          "bar_clock_correct": true
+        }
+      },
+      "all_four_exact_fill_bars": true,
+      "all_decision_reference_bars": true,
+      "source_coverage_complete": true
+    }
+  ],
+  "blockers": [
+    "Historical broker ask/spread at 16:06 ET entry absent from canonical bid-only minute store.",
+    "Historical account-specific Dukascopy CFD rollover/swap at relevant dates and settlement times unavailable.",
+    "Historical index-CFD dividend adjustment cash flows and ex-dividend settlement terms unavailable.",
+    "Historical market-order slippage/commission and executable USA500 CFD contract identity/multiplier/lot not qualified.",
+    "Official currently published broker trading hours are not an effective-dated proof of 2017-2024 session execution.",
+    "Per-event final decision release clock and schedule amendments still need independent time-as-of confirmation."
+  ],
+  "next_eligible_step": "OBTAIN_EFFECTIVE_DATED_BROKER_COST_AND_ASK_EVIDENCE",
+  "method": "read-only XNYS full-cash-session validation, originally published Federal Reserve schedules, per-event local-to-UTC DST and exact 1m bar START coverage; no price returns, no statistical trials."
+}
