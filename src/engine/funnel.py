@@ -144,7 +144,8 @@ class ResearchFunnel:
                 raise QuantError('INVALID_SPEC', 'Specification and canonical panel frequency differ')
             case['panel_hash'] = vault.manifest_hash
             models = {json.dumps({key: e.get('provenance', {}).get(key) for key in
-                                  ('funding_mark_policy', 'funding_time_policy', 'volume_semantics', 'spread_assumption')}, sort_keys=True)
+                                  ('funding_mark_policy', 'funding_time_policy', 'volume_semantics',
+                                   'spread_assumption', 'carry_status', 'execution_qualified', 'product')}, sort_keys=True)
                       for e in vault.manifest['entries'] if e['kind'] == 'development' and e['table'] == 'prices'}
             case['data_model_assumptions'] = [json.loads(model) for model in sorted(models)]
             case['source_exclusions'] = vault.manifest.get('excluded', [])
@@ -177,6 +178,14 @@ class ResearchFunnel:
             if report2['status'] != 'PASS':
                 case['status'] = report2['status']
                 return self._finish(output, case, daily_artifacts)
+            # A source-only FX/index/metals panel is suitable for causal price
+            # research, but its zero-shaped carry/spread placeholders are NOT
+            # evidence of free financing or free execution. Never promote an
+            # invalid cost model into a native economic simulation.
+            if vault.manifest.get('quality_summary', {}).get('execution_qualified') is False:
+                raise QuantError('INCONCLUSIVE_STAGE_3',
+                                 'Price-only source has unknown spread and directional CFD swap. '
+                                 'Register observed costs and an audited carry adapter before Stage 3.')
             funding = vault.load_funding(spec.windows.train.start, spec.windows.validation.end)
             prior, missing = _cohort(self.run_log, spec)
             if missing:

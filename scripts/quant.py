@@ -12,6 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.data_vault import PanelBuilder
+from src.data_vault.market_materializer import materialize_price_markets
 from src.engine.common import QuantError
 from src.engine.funnel import ResearchFunnel
 from src.engine.spec_parser import CandidateSpec, parse_spec
@@ -52,6 +53,18 @@ def main(argv=None) -> int:
     build.add_argument('--funding-time-tolerance-ms', type=int, default=1000)
     build.add_argument('--include-protected', action='store_true',
                        help='trusted ingestion only: compile separate protected files, never expose them to Workbench')
+    markets = commands.add_parser('materialize-markets',
+                                  help='materialize all observed FX/index/metals price-only vaults')
+    markets.add_argument('--store', default=STORE)
+    markets.add_argument('--output-root', default=str(ROOT / 'data' / 'vault' / 'markets_20261015'))
+    markets.add_argument('--groups', nargs='+', default=['forex', 'index', 'metals'],
+                          choices=['forex', 'index', 'metals'])
+    markets.add_argument('--frequencies', nargs='+', default=['1h', '1d'],
+                          choices=['1s', '1m', '1h', '1d'])
+    markets.add_argument('--start', default='2000-01-01T00:00:00Z')
+    markets.add_argument('--end', default='2026-10-01T00:00:00Z')
+    markets.add_argument('--include-protected', action='store_true',
+                          help='trusted ingestion only: separate 2026 protected partitions, never Workbench access')
     run = commands.add_parser('run', help='execute frozen Stage 1..4, stopping normally on falsification')
     run.add_argument('spec')
     run.add_argument('--run-log', default=str(ROOT / 'run_log'))
@@ -77,6 +90,26 @@ def main(argv=None) -> int:
             print(json.dumps({'status': 'CONVERTED', 'validation': 'VALID_SPEC',
                               'candidate_id': spec.candidate_id, 'spec_hash': spec.spec_hash,
                               'output': str(Path(args.output))}, sort_keys=True))
+            return 0
+        if args.command == 'materialize-markets':
+            for group in args.groups:
+                for granularity in args.frequencies:
+                    if (group == 'metals' and granularity == '1d') or (
+                            group != 'index' and granularity == '1s'):
+                        print(json.dumps({'status': 'NO_SOURCE', 'category': group,
+                                          'frequency': granularity,
+                                          'reason': 'No matching native source in ml4t-data'}), flush=True)
+                        continue
+                    target = Path(args.output_root) / f'{group}_{granularity}'
+                    manifest = materialize_price_markets(
+                        args.store, target, category=group, granularity=granularity,
+                        start=args.start, end=args.end,
+                        trusted_partitioning=args.include_protected)
+                    print(json.dumps({'status': 'COMPILED', 'category': group,
+                                      'frequency': granularity, 'output': str(target),
+                                      'manifest_hash': manifest['manifest_hash'],
+                                      'summary': manifest['quality_summary'],
+                                      'excluded': len(manifest['excluded'])}, sort_keys=True), flush=True)
             return 0
         if args.command == 'build-cfd':
             manifest = PanelBuilder(args.source_root, args.output).build_cfd(

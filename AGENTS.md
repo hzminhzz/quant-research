@@ -128,6 +128,24 @@ The existing research has already examined parts of 2026. Protecting 2026 in a
 new vault does not make that history unseen. Preserve this exposure disclosure.
 A claim prevents cooperative replay, not tampering by the filesystem owner.
 
+## FX and index price-only vaults
+
+The trusted `scripts/quant.py materialize-markets` command compiles local
+`forex_minute_*`, `index_minute_*`, `index_second_*`, `forex_daily_*`, and
+`index_daily_*` source families into nine separate timeframe-specific vaults,
+including unresampled 1m FX/indices/metals and native 1s ES/NQ. Read
+`docs/architecture/dual_mode_20261015/market_materialization.md` for actual
+coverage, source-alias caveats, and safe workbench reads. These are source
+price panels, not CFD execution certification. Quote/tick volume is not true
+exchange turnover, hourly continuity is not a broker session calendar, 1s
+observations may be sparse, and these sources do not provide independently
+verified directional swaps or live spreads. Keep missing 1s/1m timestamps
+unfilled and load bounded second-level windows; do not load full 1s vaults
+into notebook memory. Never use
+zero-shaped price-only carry/spread placeholders as observed zero financing.
+Do not call Stage 3 / Workbench native backtest without an explicitly qualified
+cost and carry adapter. Development and protected partitions remain separate.
+
 ## Native execution and costs
 
 Use the installed, locked ML4T version. The current adapter is qualified against

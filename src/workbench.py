@@ -107,6 +107,10 @@ class Workbench:
 
     def backtest(self):
         """Exploratory native backtest; does not claim factory-stage qualification."""
+        if self._vault.manifest.get('quality_summary', {}).get('execution_qualified') is False:
+            raise QuantError('INCONCLUSIVE_STAGE_3',
+                             'This is a price-only source with unknown spread and directional swap. '
+                             'Use Workbench features()/ic(); native PnL needs a qualified cost/carry adapter.')
         if self.feature_panel is None:
             self.features()
         self._record('backtest', 'STARTED')
