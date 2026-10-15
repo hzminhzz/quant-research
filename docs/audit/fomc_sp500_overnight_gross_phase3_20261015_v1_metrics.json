@@ -1,0 +1,115 @@
+{
+  "session_id": "fomc_sp500_overnight_gross_phase3_20261015_v1",
+  "phase3_signal_decision": "INCONCLUSIVE",
+  "phase3_reason": "Gross proxy result does not meet positive evidence or robust negative falsification.",
+  "recorded_strategy_returns": false,
+  "recorded_historical_hyperliquid_returns": false,
+  "instrument": "Dukascopy ES bid-only price series: US500 quote proxy",
+  "hypothesis": "FOMC overnight risk compensation in US500 prices",
+  "original_cfd_after_cost_status": "BLOCKED_DATA_UNCHANGED",
+  "events": 53,
+  "event_years": 7,
+  "fomc_bid_proxy_gross": {
+    "mean_fraction": 0.0017757912842897461,
+    "mean_bps": 17.75791284289746,
+    "standard_error_bps": 8.606285608545406,
+    "lower_95_bps": 0.4881373230614366,
+    "upper_95_bps": 35.027688362733485,
+    "t_statistic": 2.0633655040759007,
+    "two_sided_p_value": 0.044086290481031305,
+    "n_events": 53,
+    "hac_lags_frozen": 2,
+    "critical_t_df": 52,
+    "method": "OLS intercept, cov_hac nlags=2 correction=True, t critical df=n-1"
+  },
+  "control_bid_proxy_gross": {
+    "mean_fraction": 0.0014450854125606053,
+    "mean_bps": 14.450854125606053,
+    "standard_error_bps": 10.635312447049616,
+    "lower_95_bps": -6.890461617098862,
+    "upper_95_bps": 35.792169868310964,
+    "t_statistic": 1.3587615970431524,
+    "two_sided_p_value": 0.18008711755954027,
+    "n_events": 53,
+    "hac_lags_frozen": 2,
+    "critical_t_df": 52,
+    "method": "OLS intercept, cov_hac nlags=2 correction=True, t critical df=n-1"
+  },
+  "paired_bid_proxy_gross_increment": {
+    "mean_fraction": 0.00033070587172914095,
+    "mean_bps": 3.3070587172914094,
+    "standard_error_bps": 12.037138873257986,
+    "lower_95_bps": -20.847227544815574,
+    "upper_95_bps": 27.46134497939839,
+    "t_statistic": 0.27473793831842014,
+    "two_sided_p_value": 0.7846062043072636,
+    "n_events": 53,
+    "hac_lags_frozen": 2,
+    "critical_t_df": 52,
+    "method": "OLS intercept, cov_hac nlags=2 correction=True, t critical df=n-1"
+  },
+  "candidate_positive_fraction": 0.5849056603773585,
+  "control_positive_fraction": 0.5660377358490566,
+  "paired_positive_fraction": 0.5094339622641509,
+  "paired_serial_correlation_lag1": 0.13605307521664578,
+  "paired_serial_correlation_lag2": -0.0819675211085683,
+  "predeclared_positive_net_cost_budget_bps": 17.75791284289746,
+  "net_cost_budget_interpretation": "Mean candidate gross bid-to-bid price change is not net tradable PnL. Any nonnegative all-in friction above that amount would erase a positive gross mean. Perp funding may be signed.",
+  "by_year": [
+    {
+      "year": 2018,
+      "n": 6,
+      "fomc_gross_mean_bps": 0.40449969177476974,
+      "control_gross_mean_bps": 25.286903452499953,
+      "paired_gross_mean_bps": -24.882403760725182
+    },
+    {
+      "year": 2019,
+      "n": 8,
+      "fomc_gross_mean_bps": 4.39149019431595,
+      "control_gross_mean_bps": 14.07987979810732,
+      "paired_gross_mean_bps": -9.68838960379137
+    },
+    {
+      "year": 2020,
+      "n": 7,
+      "fomc_gross_mean_bps": 59.09058615891686,
+      "control_gross_mean_bps": 60.09518366794864,
+      "paired_gross_mean_bps": -1.004597509031781
+    },
+    {
+      "year": 2021,
+      "n": 8,
+      "fomc_gross_mean_bps": -21.097522272574416,
+      "control_gross_mean_bps": 20.538857255534005,
+      "paired_gross_mean_bps": -41.63637952810842
+    },
+    {
+      "year": 2022,
+      "n": 8,
+      "fomc_gross_mean_bps": 53.695208376087905,
+      "control_gross_mean_bps": 33.89421525680933,
+      "paired_gross_mean_bps": 19.800993119278576
+    },
+    {
+      "year": 2023,
+      "n": 8,
+      "fomc_gross_mean_bps": -1.466802526273181,
+      "control_gross_mean_bps": -33.23567614503156,
+      "paired_gross_mean_bps": 31.76887361875838
+    },
+    {
+      "year": 2024,
+      "n": 8,
+      "fomc_gross_mean_bps": 30.1161611547561,
+      "control_gross_mean_bps": -11.088830882109018,
+      "paired_gross_mean_bps": 41.20499203686512
+    }
+  ],
+  "source_sha256": "56f356157d808057aecd03a65845ff8bd4047aa391429e6491593dbbf3977390",
+  "preflight_sha256": "a9c461e2e720be5ea0392a39d5a9975698b720ce9bf0c70c6bb7257aefbe7b68",
+  "frozen_spec_sha256": "95105c5c3fb41577f25e6f48cbbcd6007511b3b136e47f745f8b5ce3234fda48",
+  "scope": "pre-2025, originally public literature overlap; not independent OOS",
+  "venue_cost_model": "NONE - zero friction strictly for price proxy diagnostics",
+  "prohibited_interpretation": "Never call these bid-quote changes exchange or CFD executions, actual fill PnL, Hyperliquid historical perps, or a deployment pass"
+}
