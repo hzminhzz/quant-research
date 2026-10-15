@@ -71,6 +71,7 @@ def isolated_features(panel: pl.DataFrame, feature_fn: Callable[[pl.DataFrame], 
                     '--ro-bind', str(input_dir), '/input', '--bind', str(output_dir), '/output',
                     '--setenv', 'PYTHONPATH', python_path, '--setenv', 'PYTHONDONTWRITEBYTECODE', '1',
                     '--setenv', 'POLARS_MAX_THREADS', '2', '--setenv', 'OPENBLAS_NUM_THREADS', '1',
+                    '--setenv', 'HOME', '/tmp', '--setenv', 'XDG_CONFIG_HOME', '/tmp', '--setenv', 'MPLCONFIGDIR', '/tmp',
                     '--chdir', '/workspace', str(executable), '-B', '-m', 'src.engine.isolated_worker']
         try:
             run = subprocess.run(command, capture_output=True, text=True, timeout=timeout, check=False)
