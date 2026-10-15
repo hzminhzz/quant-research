@@ -770,7 +770,17 @@ def _prior_range(
 
 
 class FeatureGateway:
-    """Resolve strict feature requests and attach deterministic provenance."""
+    """Frozen v1 compatibility plus the dual-mode runtime feature route."""
+
+    def compute_runtime(self, data: pl.DataFrame, spec: Any, *, isolate: bool = True) -> dict[str, Any]:
+        """Check computed behavior without a native-status or feature-name permit.
+
+        Existing compute(data, ResearchContractV1) keeps its frozen v1 semantics.
+        New research uses this route or the identical factory/Workbench compiler.
+        """
+        from src.engine.feature_compiler import compile_and_verify
+        features, evidence = compile_and_verify(data, spec, isolate=isolate)
+        return {"status": "PASS", "data": features, "evidence": evidence.to_dict()}
 
     def compute(
         self,

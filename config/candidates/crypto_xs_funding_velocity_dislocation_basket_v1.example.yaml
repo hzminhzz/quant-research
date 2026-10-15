@@ -1,0 +1,85 @@
+# PROMPT-DERIVED EXAMPLE, NOT THE MISSING ORIGINAL CANDIDATE.
+# Formula assumptions below are executable and explicit, not attributed to the user.
+schema_version: 1
+candidate_id: crypto_xs_funding_velocity_dislocation_basket_v1_example
+selection_family_id: crypto_xs_funding_velocity_example
+source_spec_status: prompt_derived_example
+thesis: Test whether cross-sectional changes in settled funding predict subsequent relative price reversals.
+panel_root: /home/quant/.devspace/worktrees/quant-research-25440f7a/data/vault/funding_velocity_development
+windows:
+  train: {start: '2019-10-01T00:00:00Z', end: '2024-01-01T00:00:00Z'}
+  validation: {start: '2024-01-01T00:00:00Z', end: '2026-01-01T00:00:00Z'}
+  protected: {start: '2026-01-01T00:00:00Z', end: '2026-10-01T00:00:00Z'}
+universe:
+  top_n: 40
+  minimum_assets: 40
+  lookback_bars: 720
+  minimum_history_bars: 720
+  minimum_dollar_volume: 0
+features:
+  - name: atr_24h
+    native: atr
+    params: {period: 24}
+  - name: settled_funding_24h
+    native_status: EXTENSION_REQUIRED
+    expr:
+      op: rolling_sum
+      window: 24
+      args: [{op: col, name: carry_rate}]
+  - name: funding_velocity_24h
+    expr:
+      op: sub
+      args:
+        - {op: col, name: settled_funding_24h}
+        - op: shift
+          periods: 24
+          args: [{op: col, name: settled_funding_24h}]
+  - name: velocity_reversal_score
+    expr: {op: neg, args: [{op: col, name: funding_velocity_24h}]}
+  - name: static_funding_level_basket
+    expr: {op: neg, args: [{op: col, name: settled_funding_24h}]}
+signal: velocity_reversal_score
+baseline: static_funding_level_basket
+allocation:
+  long_count: 5
+  short_count: 5
+  gross_exposure: 1.0
+  rebalance_bars: 48
+  atr_feature: atr_24h
+  atr_multiple: 3.0
+  timing_lag: 1
+  netting_rule: weight_delta
+costs:
+  commission_bps_one_way: 5.0
+  slippage_bps_one_way: 4.0
+  spread_bps: 0.0
+  spread_included_in_slippage: true
+gates:
+  minimum_ic: 0.015
+  minimum_hac_t: 2.0
+  minimum_ic_observations: 30
+  require_baseline_ic_improvement: true
+  dsr_probability: 0.95
+  maximum_abs_beta: 0.15
+  maximum_short_stop_fraction: 0.20
+  minimum_completed_trades: 1500
+  require_baseline_sharpe_improvement: true
+  minimum_daily_observations: 365
+label_horizon_bars: 48
+bar_seconds: 3600
+periods_per_year: 365
+benchmark: BTCUSDT_PERP
+initial_cash: 100000
+seed: 42
+cutoff_checks: 3
+prior_trial_ids: []
+assumptions:
+  - The original crypto_xs_funding_velocity_dislocation_basket_v1.yaml was not supplied or located; this example is not exact parity.
+  - Velocity means settled funding summed over the last 24 hourly bars minus that sum 24 bars earlier.
+  - Candidate ranks the negative velocity; no unspecified price-stalling or dislocation filter is invented.
+  - Baseline ranks negative settled 24-hour funding; both baskets use the same costs and execution.
+  - Dollar liquidity uses close times base volume as a proxy, not exact quote turnover.
+  - Five long and five short legs rebalance every 48 hours at one-times gross notional.
+  - Nine basis points one-way fee plus slippage is a frozen assumption, not measured execution cost.
+  - Historical funding availability is assumed at recorded settlement; archival dissemination latency is not reconstructed.
+  - Previously examined 2026 outcomes remain historically exposed; partitioning does not make them unseen.

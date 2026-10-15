@@ -1571,6 +1571,8 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "altair" },
+    { name = "cloudpickle" },
+    { name = "exchange-calendars" },
     { name = "lightgbm" },
     { name = "lse-data" },
     { name = "marimo", extra = ["recommended"] },
@@ -1580,8 +1582,14 @@ dependencies = [
     { name = "ml4t-engineer" },
     { name = "ml4t-live", extra = ["experimental"] },
     { name = "ml4t-models", extra = ["integration"] },
+    { name = "numpy", version = "2.3.5", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'x86_64' and sys_platform == 'darwin'" },
+    { name = "numpy", version = "2.5.3", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
+    { name = "pandas" },
     { name = "polars" },
+    { name = "pyarrow" },
+    { name = "pydantic" },
     { name = "pyyaml" },
+    { name = "scipy" },
     { name = "shap" },
     { name = "ta-lib" },
 ]
@@ -1589,24 +1597,31 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "pytest" },
-    { name = "ruff", specifier = "==0.16.8" },
     { name = "pytest-xdist" },
+    { name = "ruff" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "altair", specifier = ">=5.0.0" },
+    { name = "cloudpickle", specifier = "==3.1.2" },
+    { name = "exchange-calendars", specifier = "==4.13.2" },
     { name = "lightgbm", specifier = ">=4.7.0" },
     { name = "lse-data", specifier = ">=0.1.0" },
     { name = "marimo", extras = ["recommended"], specifier = ">=0.24.0" },
-    { name = "ml4t-backtest", specifier = ">=0.1.7" },
+    { name = "ml4t-backtest", specifier = "==0.1.7" },
     { name = "ml4t-data", specifier = "==0.1.0b14" },
-    { name = "ml4t-diagnostic", specifier = ">=0.1.6" },
-    { name = "ml4t-engineer", specifier = ">=0.1.4" },
+    { name = "ml4t-diagnostic", specifier = "==0.1.6.post2" },
+    { name = "ml4t-engineer", specifier = "==0.1.4" },
     { name = "ml4t-live", extras = ["experimental"], specifier = ">=0.1.2" },
     { name = "ml4t-models", extras = ["integration"], specifier = "==0.1.4" },
-    { name = "polars", specifier = ">=1.20.0" },
+    { name = "numpy", specifier = ">=1.26" },
+    { name = "pandas", specifier = ">=2.2" },
+    { name = "polars", specifier = "==1.44.2" },
+    { name = "pyarrow", specifier = ">=15" },
+    { name = "pydantic", specifier = ">=2.8" },
     { name = "pyyaml", specifier = ">=6.0" },
+    { name = "scipy", specifier = ">=1.12" },
     { name = "shap", specifier = ">=0.52.0" },
     { name = "ta-lib", specifier = ">=0.4.0" },
 ]
@@ -1614,8 +1629,8 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "pytest", specifier = ">=9.0" },
-    { name = "ruff", specifier = "==0.16.8" },
     { name = "pytest-xdist", specifier = ">=3.8.0" },
+    { name = "ruff", specifier = "==0.16.8" },
 ]
 
 [[package]]

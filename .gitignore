@@ -14,6 +14,16 @@ __marimo__/
 .omo/
 .omp/
 # Data artifacts
+# Canonical vaults, local worker state and trial outputs are not source code.
+.workspace/
+data/vault/
+run_log/dual_mode/
+run_log/dual_mode_runtime_smoke/
+run_log/workbench/
+run_log/python_features/
+run_log/_holdout_claims/
+run_log/trial_ledger.jsonl
+run_log/leaderboard.json
 data/raw/*
 data/processed/*
 data/features/*

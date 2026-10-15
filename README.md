@@ -1,4 +1,21 @@
-# Quantitative Research Suite & 4-Index Meta-Labeling Engine
+# Quantitative Research Suite & Dual-Mode Research Runtime
+
+## New research: shared Workbench and autonomous factory
+
+New cross-sectional studies use `src.workbench.Workbench` or
+`python scripts/quant.py run config/candidates/<candidate>.yaml`.
+Both share canonical development-only data, native/custom feature compilation,
+runtime causal checks, native IC/HAC and backtests, and append-only evidence.
+The factory evaluates protected data once only after its three development
+stages pass; ordinary falsification is a clean terminal research result.
+
+Read the [operating guide](docs/architecture/dual_mode_20261015/operations.md),
+[verification evidence](docs/architecture/dual_mode_20261015/verification.md), and
+[migration map](docs/architecture/dual_mode_20261015/migration.md).
+The numerical and isolation tests establish the scope stated there, not
+complete source survivorship, universally proven causality, or live readiness.
+Legacy research and runners below remain compatibility/history, not claims that
+every strategy has been migrated to the new target-weight interface.
 
 > **Validation status: `NOT_APPROVED`.** Historical backtest, whitepaper, notebook, and dashboard results are preserved research artifacts, not independently validated evidence of live readiness. See [`run_log/validation_status.json`](run_log/validation_status.json) and [`docs/audit/validation-remediation-status.md`](docs/audit/validation-remediation-status.md).
 
