@@ -41,8 +41,12 @@ jobs:
         with:
           python-version: "3.13"
           enable-cache: true
-      - name: Install bubblewrap for isolated worker tests
-        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - name: Configure kernel and isolation prerequisites
+        run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          sudo apt-get update && sudo apt-get install -y tmux bubblewrap
+      - name: Start known tmux control session
+        run: tmux new-session -d -s ml4t-ci-m8-control "sleep 3600"
       - name: Install locked dependencies
         run: uv sync --locked
       - name: Run data-free unit tests
@@ -58,8 +62,10 @@ jobs:
         with:
           python-version: "3.13"
           enable-cache: true
-      - name: Install tmux for managed worker recovery tests
-        run: sudo apt-get update && sudo apt-get install -y tmux bubblewrap
+      - name: Configure kernel and isolation prerequisites
+        run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          sudo apt-get update && sudo apt-get install -y tmux bubblewrap
       - name: Start known tmux control session
         run: tmux new-session -d -s ml4t-ci-m8-control "sleep 3600"
       - name: Install locked dependencies
