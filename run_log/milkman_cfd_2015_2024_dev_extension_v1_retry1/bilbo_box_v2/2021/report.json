@@ -1,0 +1,51 @@
+{
+  "program": "milkman_2015_2024_cfd_dev_extension_v1",
+  "case": "bilbo_box_v2",
+  "year": 2021,
+  "attempt_started": "2026-10-14T17:06:38.722945+00:00",
+  "status": "NATIVE_RECONCILED",
+  "holdout": "2025-2026 LOCKED",
+  "unit": "independent annual $100k book; do not chain as continuous NAV",
+  "costs": "2 bps commission + 2 bps slippage each side",
+  "attempt_finished": "2026-10-14T17:06:41.556489+00:00",
+  "input": {
+    "data": {
+      "store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+      "raw_partitions": 935,
+      "raw_rows_with_warmup": 1031493,
+      "execution_raw_rows": 344053,
+      "active_dates": 311,
+      "first": "2021-01-03 23:00:00+00:00",
+      "last": "2021-12-31 21:14:00+00:00",
+      "timestamp_semantics": "minute bar OPEN UTC; +1min at decision availability",
+      "volume_semantics": "Dukascopy broker activity, not CME exchange volume",
+      "eth_60min_bars": 10793,
+      "box_signals_in_year": 18
+    },
+    "source_index_cfd": "NQ"
+  },
+  "signals_rows": 18,
+  "prices_rows": 43946,
+  "hashes": {
+    "prices.parquet": "a27a19fd8d7592f3d85c7ee8457388fd3a17170db382e305bfbd924f07343ee2",
+    "signals.parquet": "e64e7ae28211e9021991a782324759653bc73938ba3a9b8fa2178b5fef4b6bc6"
+  },
+  "fills": 20,
+  "closed_trades": 10,
+  "open_trades": 0,
+  "rejections": 0,
+  "broker_submissions": 20,
+  "net_return_pct": 1.1699944518854464,
+  "native_daily_sharpe": 2.080082944545412,
+  "native_daily_sortino": 1.4963925838468557,
+  "native_daily_maxdd": -0.0014420136261134567,
+  "native_bar_sharpe_not_comparable": 0.1788214440628949,
+  "total_costs": 80.86157175127164,
+  "pnl_reconcile_abs": 6.821210263296962e-12,
+  "limitations": [
+    "CFD index aliases, not author's CME futures/stocks/options",
+    "Annual capital reset: not continuous decade equity",
+    "Not a historical broker bid-ask/slippage/financing qualification",
+    "Overnight hours and DST follow CFD source availability"
+  ]
+}

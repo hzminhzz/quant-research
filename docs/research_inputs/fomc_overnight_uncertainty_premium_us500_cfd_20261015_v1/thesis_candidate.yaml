@@ -1,0 +1,382 @@
+candidate_id: fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1
+status: THESIS_READY_UNVERIFIED
+research_mode: THESIS_DESIGN_ONLY
+created_on: '2026-10-15'
+timezone_for_report: Asia/Ho_Chi_Minh
+not_a_frozen_session: true
+not_execution_approved: true
+source_references:
+  - id: lucca_moench_2015
+    category: peer_reviewed_research
+    title: The Pre-FOMC Announcement Drift
+    url: https://doi.org/10.1111/jofi.12196
+    source_pdf: https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr512.pdf
+    relevance: Historical 24-hour pre-announcement equity premium; not an executable CFD rule.
+  - id: kurov_wolfe_gilbert_2021
+    category: peer_reviewed_research_adversarial
+    title: The disappearing pre-FOMC announcement drift
+    url: https://doi.org/10.1016/j.frl.2020.101781
+    relevance: Historical broad pre-FOMC premium weakened or vanished after 2015.
+  - id: knox_vissing_jorgensen_2025
+    category: academic_review
+    title: 'The Effect of the Federal Reserve on the Stock Market: Magnitudes, Channels, and Shocks'
+    url: https://doi.org/10.1146/annurev-financial-090524-120826
+    relevance: Reports an overnight pre-FOMC return component through 2023 with later reversal.
+  - id: federal_reserve_fomc
+    category: official_schedule
+    url: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+    relevance: Official calendar and archive; historical as-of-publication proof still required.
+  - id: dukascopy_europe_market_hours
+    category: official_broker_reference
+    url: https://www.dukascopy.com/europe/english/cfd/range-of-markets/
+    relevance: USA500.IDX/USD product and indicative seasonal market hours; not a historical trade audit.
+  - id: local_repo_catalog_forensics
+    category: inspected_authoritative_vps_repository
+    path: docs/audit/m8_catalog_forensics.md
+    relevance: Canonical index_minute_ES is an accepted Dukascopy CFD bid-price series, not CME ES futures.
+  - id: local_repo_source_manifest
+    category: inspected_authoritative_vps_repository
+    path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json
+    relevance: Maps source symbol usa500idxusd to index_minute_ES, bid-only one-minute snapshots.
+  - id: local_repo_data_eligibility
+    category: inspected_authoritative_vps_repository
+    path: docs/audit/mechanicalpremia-us500-us100-2013-2026-v1-data-eligibility.json
+    relevance: Has per-day acceptance files but bid/ask, trading hours and costs remain unverified.
+  - id: repository_market_policy
+    category: inspected_authoritative_vps_repository
+    path: docs/architecture/market_scope_policy.md
+    relevance: Separate historical CFD price research from original futures or index evidence.
+economic_thesis:
+  statement: >-
+    Scheduled Federal Reserve policy decisions concentrate uncertainty in US equities.
+    Bearing S&P 500 exposure from after the prior cash-market close to just after
+    the next cash-market open may earn a positive incremental risk premium over an
+    ordinary matched overnight exposure after executable CFD expenses.
+  economic_null: >-
+    Mean matched incremental after-cost return of the FOMC overnight exposure
+    is less than or equal to zero; positive general equity overnight carry alone
+    does not constitute the proposed edge.
+  direction: long_only
+  horizon: overnight_before_scheduled_statement
+  independent_portfolio_alpha: not_established
+mechanism:
+  behavior: Possible concentration of expected equity compensation before a scheduled policy announcement.
+  primary_actors: Risk-averse equity holders, macro hedgers, and institutions rebalancing event exposure.
+  who_pays: 'INFERENCE: sellers and hedgers prepared to forgo upside to reduce pre-announcement exposure.'
+  persistence: 'HYPOTHESIS: systematic event risk can require compensation even if timing is widely known.'
+  supports: Greater ex-ante monetary uncertainty with adequate overnight tradability.
+  destroys: Highly anticipated announcements, structural transparency changes, lack of premium, widened spreads and financing.
+  distinct_from_trend_or_reversion: Fixed ex-ante event clock; neither momentum nor price mean reversion supplies the signal.
+  alternative_explanations:
+    - Ordinary equity overnight beta rather than FOMC-specific exposure.
+    - Pre-announcement premium entirely in the daylight interval omitted here.
+    - Source or broker session artifacts around the overnight maintenance break.
+    - Selection from a well-published historical anomaly.
+  evidence_status: >-
+    Historical pre-FOMC returns are VERIFIED in cited studies. The risk-bearing
+    counterpart and current executable CFD excess returns are untested HYPOTHESES.
+instruments:
+  - logical_name: US500
+    source_vendor: Dukascopy
+    source_symbol: usa500idxusd
+    source_product_name: USA500.IDX/USD
+    catalog_dataset_key: index_minute_ES
+    data_store_root: /home/quant/dev/quant/ml4t-data/.data/store
+    data_role: historical_cfd_price_proxy
+    execution_market_intended: Dukascopy USA500.IDX/USD CFD
+    execution_broker_entity: UNVERIFIED_DUKASCOPY_ENTITY
+    product_class: cfd
+    underlying_reference: S&P 500 index exposure
+    quote_currency: USD
+    settlement_currency: USD_assumed_verify
+    leverage: 1.0_gross_notional_ceiling
+    shorting_required: false
+    tick_size: null
+    lot_size: null
+    contract_multiplier: null
+    account_margin_schedule: null
+    product_identity_gate: Verify legal broker entity, executable contract and its data mapping.
+data_requirements:
+  required:
+    - dataset: canonical_dukascopy_us500_1m
+      frequency: 1m
+      raw_columns: [symbol, timestamp, open, high, low, close]
+      historical_price_side: bid_only_reported
+      optional_columns_not_used_for_signal: [volume]
+      quote_data_requirements_for_costs: [historical_ask_or_spread, historical_slippage_evidence]
+      timestamp_convention: bar_start_UTC
+      bar_availability: At the end of its full 60-second interval, never at bar start.
+      data_coverage_proposal: '[2017-01-01T00:00:00Z, 2025-01-01T00:00:00Z)'
+      coverage_verified_for_required_event_bars: false
+    - dataset: official_historical_fomc_scheduled_statement_calendar
+      frequency: event
+      raw_columns: [scheduled_statement_date_et, originally_announced_at_utc, event_kind, status_asof_entry]
+      event_kind: scheduled_policy_statement_only
+      source: Federal Reserve public announcement and as-of evidence
+      historical_asof_availability_verified: false
+    - dataset: us_equity_cash_sessions
+      frequency: daily
+      raw_columns: [session_date, regular_open_et, regular_close_et, full_session, holiday_status]
+      source_semantics: Historical US cash-equity calendar for XNYS; broker CFD calendar is separate.
+    - dataset: broker_costs
+      frequency: effective_dated
+      raw_columns: [spread_or_ask, commission, overnight_long_financing, financing_roll_time, execution_slippage]
+      historical_effective_dated_verification: false
+  forbidden_shortcuts:
+    - Treating usa500idxusd as CME ES futures.
+    - Treating bid-only price OHLC as executable long buy quotes without a credible ask model.
+    - Using index CFD provider volume as CME traded volume.
+    - Using FOMC statement outcomes or revisions as ex-ante signals.
+    - Checking any protected allocation holdout to select rules.
+  source_audit_gate: >-
+    Check each needed entry/exit one-minute quote, timestamp, known-as-of
+    meeting schedule, full cash session, broker maintenance break and
+    effective-dated costs before starting the one trial.
+feature_contracts:
+  - name: scheduled_fomc_overnight_eligibility
+    purpose: Ex-ante calendar trigger; only feature used for entry.
+    classification: EXTENSION_REQUIRED
+    mathematical_definition: >-
+      E(D) = 1 iff D is a preannounced scheduled FOMC policy-statement
+      US cash-session date, the previous calendar date D-1 is a complete
+      US cash-equity session, D is a complete regular cash session,
+      and the announcement calendar record was published no later than
+      the entry decision time on D-1. E(D)=0 otherwise. Unknown
+      publication timestamps produce UNKNOWN, not E=1.
+    raw_inputs: [scheduled_statement_date_et, originally_announced_at_utc, event_kind, status_asof_entry, us_cash_session_calendar]
+    parameters: {day_offset_calendar: 1, require_both_full_cash_sessions: true, exclude_unscheduled: true}
+    lookback: no_rolling_market_history
+    smoothing: none
+    grouping: per_instrument_and_statement_date
+    timeframe: calendar_event_projected_to_1m_execution
+    warmup: Pre-entry historical calendar record; no market-price warmup.
+    earliest_available: max_of_calendar_publication_and_prior_cash_session_verification
+    causal_alignment: Available by 16:05 America/New_York of preceding calendar day.
+    expected_provider: approved_local_calendar_extension_or_event_scheduler
+    native_api_verified: false
+    parity_tests:
+      - Final day of a two-day scheduled meeting maps to statement day, not first meeting day.
+      - Unscheduled emergency announcement must never trigger.
+      - Post-event-revised FOMC date without advance publication is unknown at decision.
+      - US holiday and early cash close do not pass complete-session condition.
+      - America/New_York DST changes do not shift the 16:05/09:35 local clocks.
+  - name: matched_control_overnight_eligibility
+    purpose: One frozen comparison overnight per eligible FOMC event.
+    classification: EXTENSION_REQUIRED
+    mathematical_definition: >-
+      For FOMC statement date D, choose candidate control statement-date
+      C = D minus 7 calendar days. C must be a complete regular US cash
+      session, C-1 must be complete, neither date can be another scheduled
+      FOMC policy statement, and the overnight clock must be covered by
+      the broker calendar. Otherwise mark the event-control pair ineligible
+      before observing price outcomes.
+    raw_inputs: [scheduled_statement_date_et, us_cash_session_calendar, asof_fomc_calendar]
+    parameters: {offset_calendar_days: 7, same_local_wall_clock: true}
+    lookback: 7_calendar_days_not_price_history
+    smoothing: none
+    grouping: event_pair_and_instrument
+    timeframe: calendar_event_projected_to_1m_execution
+    warmup: Valid historical event calendar and cash-session calendar.
+    earliest_available: Candidate eligibility decision at or before 16:05 ET D-1.
+    causal_alignment: Comparison outcomes computed separately only after both positions close.
+    expected_provider: approved_local_calendar_extension_or_event_scheduler
+    native_api_verified: false
+    parity_tests:
+      - Exactly seven calendar days back keeps same weekday and NY local entry/exit clock.
+      - Reject controls overlapping scheduled FOMC statements.
+      - Do not substitute another control based on return or outcome.
+      - DST-crossing same wall-clock changes UTC offsets correctly.
+strategy_rules:
+  origin:
+    published_behavior: >-
+      Lucca and Moench examine the approximately 24-hour return before
+      scheduled FOMC policy announcements, with a historical 2pm-to-2pm
+      convention around the 1994-2011 sample.
+    original_trade_rule_is_not_replicated: true
+    adaptation_reason: Isolate the overnight component in later research using historical CFD minute prices.
+  eligibility:
+    scheduled_statement_only: true
+    exclude_unscheduled_emergency_actions: true
+    statement_must_be_after_planned_exit: true
+    preceding_cash_session_must_be_previous_calendar_day: true
+    full_us_cash_sessions_only: true
+    skip_ineligible_pair_before_inspecting_returns: true
+  entry:
+    direction: BUY
+    decision_time: 'D-1 at 16:05:00 America/New_York'
+    input_cutoff: All data and official schedule known by that timestamp.
+    order_type: market
+    earliest_fill_time: 'D-1 at 16:06:00 America/New_York'
+    fill_type: next_valid_1m_bar_open_or_broker_quote_after_decision
+    no_same_bar_fills: true
+  exit:
+    direction: SELL_TO_FLAT
+    decision_time: 'D at 09:35:00 America/New_York'
+    order_type: market
+    earliest_fill_time: 'D at 09:36:00 America/New_York'
+    no_same_bar_fills: true
+    exit_before_policy_release: true
+    no_stop_or_take_profit: true
+  states: [FLAT, ENTRY_PENDING, LONG, EXIT_PENDING, FLAT]
+  max_concurrent_positions: 1
+  no_reentry_same_event: true
+  missing_data:
+    pre_entry: Mark event and control INELIGIBLE from predeclared evidence gate; do not invent fills.
+    after_filled_entry: >-
+      Preserve open exposure. Mark-to-market using the last valid observable
+      price with an explicit stale-price flag, seek next legally executable
+      quote for forced flattening, and classify the pair as execution-invalid
+      or inconclusive. Never delete a losing trade or assume the planned exit filled.
+  maintenance_break: Hold exposure across the broker break if actual contract allows; charge applicable financing and gap risk.
+  position_at_development_end: No late event may enter unless scheduled exit precedes development cutoff.
+signal_and_execution_clock:
+  timezone_venue: America/New_York
+  timezone_data: UTC
+  daylight_saving: IANA_America_New_York_DST
+  cash_calendar: Historical_XNYS_full_sessions
+  cfd_calendar: Broker_specific_effective_dated_to_be_verified
+  minute_bar_timestamp: inclusive_start
+  minute_bar_close_available: end_exclusive
+  entry_decision_local: '16:05:00'
+  earliest_entry_fill_local: '16:06:00'
+  exit_decision_local: '09:35:00'
+  earliest_exit_fill_local: '09:36:00'
+  primary_risk: Entry close-time spread, overnight broker maintenance, overnight funding, reopening price gaps.
+sizing:
+  signal_notional_fraction_of_equity: 0.10
+  notional_at_entry: 0.10_times_marked_equity_just_before_order
+  gross_leverage_limit: 1.0
+  max_open_positions: 1
+  portfolio_allocation_assumed: standalone_independent_book
+  lot_rounding: Round down to actual broker tradable increment after product verification.
+  sizing_variants: none
+cost_assumptions:
+  status: UNSOURCED_BLOCKS_APPROVED_EXECUTABLE_TEST
+  buy_fill_model: historical_bid_at_entry_plus_historical_spread_plus_adverse_buy_slippage
+  sell_fill_model: historical_bid_at_exit_minus_adverse_sell_slippage
+  commission: effective_dated_contract_specific_cash_commission_both_sides
+  financing: effective_dated_actual_long_cfd_overnight_swap_and_roll_charges
+  spread: effective_dated_historical_spread_at_real_order_times
+  spread_double_counting: Never subtract extra half-spread if buy price already reconstructs ask from bid.
+  financing_roll: Verify actual rollover time and any triple-swap or holiday conventions.
+  currency_conversion: USD_quote_and_USD_account_assumed_verify_product_settlement
+  slippage: Calibrate historical reopening and US-cash-close proximity; unknown until qualified.
+  market_impact: Verify order-size constraints; 10_percent_single_book_relative_market_size_negligible_not_presumed.
+  source_authority: Broker historical terms or independent dated execution evidence, not generic placeholder bps.
+baseline:
+  primary: >-
+    Same instrument, long same 10% of account equity at the same NY local times
+    on the previous week's corresponding overnight (D-8 at 16:06 through
+    D-7 at 09:36), provided both dates are full cash sessions without a
+    scheduled FOMC statement. Apply identical event-time historical cost model.
+  paired_selection: One prespecified matched control; never select control based on its realized return.
+  secondary_reference: Flat cash, no position; tracked separately from FOMC-specific matched excess.
+  compare_units: per_position_notional_net_fraction
+  primary_paired_difference_formula: >-
+    delta_i = net_fomc_return_i_per_notional - net_control_return_i_per_notional.
+    Each net return uses actual reconstructed buy and sell prices, both
+    commissions, all overnight financing and actual account currency conversions.
+  alternative_beta_explanation: Candidate advantage must exceed matched ordinary overnight equity exposure.
+development_evaluation:
+  mode: retrospective_exploratory_MVP_design_not_run
+  proposed_start_inclusive: '2017-01-01T00:00:00Z'
+  proposed_end_exclusive: '2025-01-01T00:00:00Z'
+  protected_2025_2026_allocation_data: never_access
+  historically_published_overlap: >-
+    Significant parts of 2017-2023 are already public in academic evidence;
+    this is not a prospective independent replication. Other 2013-2024
+    repository price studies exist. Do not call this period unseen.
+  causal_warmup: No price indicator warmup; official pre-entry schedule as-of record and calendars needed.
+  primary_metric: mean_paired_net_excess_return_per_position_notional
+  primary_uncertainty: Event-level 95_percent_HAC_interval_for_mean_pair_difference_with_serial_dependence_diagnostics
+  secondary_metrics:
+    - event_and_control_individual_after_cost_mean
+    - event_count_and_year_count
+    - annual_and_by_regime_contribution_without_selection
+    - median_tail_and_worst_event_gap
+    - maximum_marked_equity_drawdown
+    - roundtrip_spread_slippage_commission_swap_decomposition
+    - fill_rate_entry_exit_and_delay
+    - fraction_of_return_from_a_single_year
+    - paired_sign_count_and_normal_overnight_overlap
+    - drawdown_relative_to_10_percent_notional_sizing
+  minimum_observations:
+    valid_paired_events: 50
+    distinct_calendar_years: 6
+    rationale: Exploratory floor; fewer observations make the effect poorly identified; threshold is not a proof of power.
+  planned_trials: 1
+  parameter_sweep: false
+  retrospective_multiple_testing_risk: Known published anomaly and many earlier related equity timing tests.
+  trial_identity_to_be_registered_later: after_data_source_and_cost_gates_and_human_research_lead_verification
+primary_falsifier:
+  clear_rejection: >-
+    After data and costs qualify, the mean after-cost candidate return is
+    non-positive OR the paired mean excess versus ordinary overnight is
+    non-positive. No alternative clock or symbol is tested to rescue it.
+  evidence_threshold: >-
+    For a cautiously positive MVP assessment, the event-mean and paired-mean
+    must both be positive, with a positive lower 95% HAC interval for the
+    paired mean and adequate event and year coverage. This is NOT final OOS proof.
+acceptance_and_stop_rules:
+  data_block: BLOCKED_DATA if ex-ante event calendar, required quotes, actual product identity or effective-dated spreads/financing are unverified.
+  data_validity_block: BLOCKED_DATA if missing post-entry fills, persistent source gaps or incorrect DST/session alignment prevent realistic PnL.
+  event_coverage_block: INCONCLUSIVE if fewer than 50 valid pairs or fewer than 6 calendar years after predeclared eligibility filtering.
+  reject: REJECT if either after-cost absolute mean or paired excess mean is non-positive with valid measurement; report CI even when imprecise.
+  inconclusive: INCONCLUSIVE if positive point estimates fail paired uncertainty requirement or are dominated by one regime, or if power is insufficient.
+  conditional_support: >-
+    Only VALIDATE_MVP_CANDIDATE if all checks pass. This does not grant
+    execution authority, promotion, protected final-test access or live trade.
+  stop_after_one_trial: true
+  no_parameter_optimization_to_recover_loss: true
+parity_and_causality_tests:
+  - Official calendar as-of publication precedes entry; retroactively moved dates are not backfilled.
+  - Exact FOMC statement day, not both two-day meeting days; exclude emergency unscheduled meetings.
+  - Statement effective time must be strictly after planned 09:36 ET exit.
+  - All signal timestamps strictly precede bar open used for market-order fills.
+  - Bar named 16:04 ET is available at 16:05 ET; 16:05 bar is not yet complete at that moment.
+  - No OHLC high/low/close from the entry fill bar enters the entry signal or order decision.
+  - Match New York DST March/November changes independently from the UTC bar labels.
+  - Validate full cash sessions, holidays and early closes; broker hours independently, not by XNYS alone.
+  - Inspect scheduled broker daily trading break and opening gaps.
+  - Confirm no FOMC statement on the control overnight dates, no substitute control fishing.
+  - Missing expected exit quote produces a flagged open exposure; never an invented planned fill.
+  - Entry ask is not silently replaced by bid; spread only counted once.
+  - Verify actual broker fee and financing cash reconciles with every trade and daily equity mark.
+  - Control and event sizing/rounding use the same deterministic rule and independent book.
+  - Correlation to index beta and previously tested ORB/breakout sleeves is unknown until paired validated returns.
+known_adaptations:
+  from: Lucca_and_Moench_SP500_index_24h_pre_FOMC_window
+  to: Dukascopy_USA500_IDX_USD_historical_CFD_overnight_only
+  changed_rules:
+    - Price research uses bid-only Dukascopy US500 CFD rather than SPX index cum-dividend excess returns.
+    - Hold 16:06 pre-day through 09:36 statement day, not the paper's historical 2pm-to-2pm window.
+    - Exit before statement and skip day session entirely to target the overnight component.
+    - Add historical bid/ask, market-order slippage, brokerage fee, overnight swap and maintenance break.
+    - Enforce calendar-day previous session, historical as-of schedule and one previous-week matched control.
+  no_claim_of_author_implementation: true
+verified_facts:
+  - Original journal article documented historical 24-hour pre-FOMC equity drift in its published sample.
+  - Kurov_Wolfe_Gilbert_2021 documented disappearance of the broad effect after 2015.
+  - Knox_Vissing_Jorgensen_2025 documents a historical overnight component through December 2023 and later reversal.
+  - Federal Reserve maintains official scheduled FOMC meeting calendar and archives.
+  - Dukascopy Europe officially lists USA500.IDX/USD CFD and seasonal trading breaks.
+  - VPS repository maps canonical index_minute_ES to Dukascopy usa500idxusd bid-only one-minute data, not CME ES.
+  - Repo market policy requires CFD adaptation and exact broker/source qualification.
+  - Local source manifest and acceptance checks do not establish broker fill prices or swaps.
+assumptions:
+  - The ex-ante Fed calendar dates can be reconstructed with a defensible as-of timestamp.
+  - The CFD minute source will have enough genuine event entry and exit quotes.
+  - An effective-dated spread and financing reconstruction can be sourced for the actual contract.
+  - Fixed overnight clock tests the overnight premium without inadvertently relying on announcement information.
+  - Single-instrument fixed 10_percent notional is adequate for mechanism screening, not deployment risk.
+unresolved_blockers:
+  - Verify historical as-of scheduled FOMC announcement date and time, including revisions and emergency decisions.
+  - Verify that the exact historical broker, legal contract, contract multiplier, min lot and CFD lot value match index_minute_ES proxy semantics.
+  - Prove required 16:06 and 09:36 event and matched-control bar availability, especially quote-session gaps and DST.
+  - Establish historical entry ask or effective-dated spread for 16:06 and exit 09:36 and slippage evidence.
+  - Establish overnight CFD financing/swap for every event and baseline window and roll timing.
+  - Confirm original published overnight window against proposed fixed adapted clock; never call this exact replication.
+  - Verify installed ML4T version, native event calendar and NEXT_BAR order semantics and portfolio/swap accounting.
+  - Confirm chosen 2017-2024 retrospective window respects all existing protected allocation and session boundaries.
+  - Confirm at least 50 eligible paired events across six distinct calendar years from source inspection before trial registration.
+  - Research separate lookthrough correlation only after independently validated return series exist.

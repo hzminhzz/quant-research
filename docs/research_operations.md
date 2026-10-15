@@ -9,7 +9,7 @@ This guide defines an **operating policy**, not new CLI commands, automatic gate
 
 | Mode in the prompt | Use when | Minimum work | Research-lead decision |
 | --- | --- | --- | --- |
-| **MVP Research** (default) | A new hypothesis or published strategy needs a cheap reality check | One testable economic hypothesis, source identity, baseline, falsifier, bounded trial, native/approved features, native executable backtest where relevant, costs, causal fills, independent audit, trial record | **REJECT / INCONCLUSIVE / VALIDATE** |
+| **MVP Research** (default) | A new hypothesis or published strategy needs a cheap reality check | Freeze one thesis, baseline, falsifier and bounded trials; qualify data/features; record a **ResearchPhase 3 signal/economic evidence decision** before the full backtest (or a justified exception); run native execution when warranted; audit and record outcomes | **REJECT / INCONCLUSIVE / VALIDATE** |
 | **Validation** | An MVP survives its predeclared economic and technical gates | Chronological development/validation split, source and session robustness, cost stresses, relevant subperiod/regime analysis, uncertainty, selection/trial accounting and independent audit | **REJECT / REVISE AS A NEW TRIAL / PROMOTION CANDIDATE** |
 | **Promotion** | A validated candidate may justify final-test, paper, or deployment preparation | All applicable seven ResearchPhases; frozen selection rule, independently verified holdout procedure, full reproducibility, risk and execution controls, paper evaluation when appropriate | **REJECT / BLOCKED / APPROVED FOR THE NEXT EXPLICITLY AUTHORIZED GATE** |
 
@@ -22,13 +22,54 @@ This guide defines an **operating policy**, not new CLI commands, automatic gate
 These are still the repository's **ResearchPhases**:
 1. Thesis.
 2. Data.
-3. Alpha/event study (only diagnostics relevant to the thesis).
+3. Signal and economic evidence (event/factor diagnostics suited to the thesis; explicit pre-backtest decision).
 4. Backtest.
 5. Chronological validation.
 6. Robustness.
 7. Independent audit and decision.
 
 MVP completes the required *safety and research validity checks* from these phases at small scope; it does not claim that advanced Phase 5 or Phase 6 evidence exists. Validation deepens the relevant tests. Promotion requires the full applicable gates. The seven **PipelineStages** in `src/pipeline.py` are a separate implementation taxonomy. Do not require ML modeling, cross-sectional IC, CPCV, or labels for a price-only single-instrument thesis unless they help answer the actual question.
+
+### Required ResearchPhase 3 decision before a full backtest
+
+**This is a pre-backtest signal/economic gate, not the post-MVP Validation mode.**
+Before scoring development outcomes, freeze the evidence that would support or
+falsify the thesis. Specify the exact product, decision/availability clock,
+first tradable outcome price, baseline, cost feasibility and trial identities.
+Keep the final holdout sealed.
+
+Match the screen to the mechanism. A single-asset event rule can use signed
+forward returns, conditional hit rate and uncertainty at frozen horizons.
+A cross-sectional ranking can use IC, HAC inference, quantiles and turnover.
+A path-dependent rule may instead need native event execution to assess
+its payoff, with a predeclared reason for skipping the signal-only screen.
+
+Every **new** MVP must declare a Phase 3 `diagnostic` trial and record one
+decision. Follow [the evidence template](phase3_signal_evaluation_template.md).
+Save the report outside the session control directory, for example
+`run_log/diagnostics/<session_id>/phase3_signal_evaluation.md`, and link it
+using `scripts/research_session.py record`. CLI `completed` and `failed`
+describe execution status. They do **not** mean Phase 3 passed or failed.
+
+| Phase 3 decision | Meaning | Permitted next action |
+| --- | --- | --- |
+| **PASS** | A preregistered signal-level diagnostic meets the relevant frozen criteria. This does not establish net strategy profitability. | Proceed to the bounded native Phase 4 backtest. |
+| **FAIL** | Sufficient predeclared evidence falsifies the proposed signal/economic mechanism. | Record **REJECT**, stop ordinary Phase 4 execution; a revised hypothesis is a new trial. |
+| **INCONCLUSIVE** | Missing/weak evidence, dependence, timing, or data makes a signal-level verdict unreliable. | Normally stop and report why. A preregistered **small native execution test** may resolve a specific path-dependent uncertainty; never report it as a signal PASS. |
+| **NOT_APPLICABLE** | A prespecified signal-only statistic cannot measure the thesis, e.g. queue-/fill-dependent outcomes or path-dependent rules where next-open fixed-horizon returns misrepresent payoff. This must be justified **before outcomes**. | Record the reason, exact alternative evidence and the smallest native experiment needed. No automatic economic approval. |
+
+When applicable, record event count, effective independence, effect direction,
+forecast horizon, baseline, subperiod stability, dependence-aware uncertainty
+and cost-to-move comparison. Do not impose universal IC, hit-rate,
+significance or PnL thresholds. Signal-only returns are not native fills or
+net trading results. After seeing a backtest, any new signal study is
+**retrospective** evidence, not preregistered Phase 3 validation.
+
+**Implementation status:** This is an agent operating contract and evidence
+template. It does **not** add a new runtime `RunPermit` block, CLI command or
+research-session v1 schema field. The research lead must inspect and verify
+the Phase 3 evidence before Phase 4. Preserve all existing frozen sessions.
+
 
 ## 2. Who does what
 
@@ -69,7 +110,15 @@ Act as research lead and orchestrator. Inspect the current repository,
 AGENTS.md, past trials, canonical data and matching ML4T skills first.
 State the economic mechanism, baseline, falsifier, exact source, causal
 signal/fill clock, realistic cost assumptions and smallest decisive trial.
-Freeze a bounded research session and trial BEFORE observing outcomes.
+Freeze a bounded research session, Phase 3 diagnostic method, baseline,
+criteria, causal outcome horizon and trial BEFORE observing outcomes.
+Evaluate signal/economic evidence first; save and register a Phase 3
+PASS / FAIL / INCONCLUSIVE / NOT_APPLICABLE decision with reasons.
+Do not force IC on single-asset event or path-dependent strategies.
+If FAIL, stop and REJECT. If INCONCLUSIVE, normally stop; continue to
+a small native execution test only if it was justified in advance.
+If NOT_APPLICABLE, record the pre-result reason and bounded native test.
+Use docs/phase3_signal_evaluation_template.md for the artifact.
 Implement and test through DevSpace directly as ChatGPT Web where practical.
 Use Codex only for bounded heavy or independent tasks, not as the default owner.
 Use verified ml4t-engineer features or certified extensions and genuine
@@ -171,17 +220,18 @@ Write a concise report with these dimensions **separately**:
 
 1. **Source and clock**: dataset/vendor/product identity, coverage, timezone, missing bars and data qualification.
 2. **Method and feature proof**: native API/extension semantics, numerical parity, warmup, availability and lookahead checks.
-3. **Execution correctness**: real native fills, entry/exit clock, broker session, spread/slippage/commission/financing, sizing and independent cash/equity audit.
-4. **Economic evidence**: trade count, win rate, expectancy, Sharpe/Calmar/drawdown on a stated daily clock, yearly/regime performance, costs, uncertainty and selection bias where supported.
-5. **Research control**: frozen spec/permit/attempt IDs, failed and inconclusive trials, holdout integrity, Git HEAD/CI, blockers and limitations.
-6. **Decision**: **REJECT / INCONCLUSIVE / VALIDATE** (MVP), **REJECT / REVISE / PROMOTION CANDIDATE** (Validation), or **REJECT / BLOCKED / NEXT GATE AUTHORIZED** (Promotion).
+3. **Pre-backtest signal evidence (ResearchPhase 3)**: registered diagnostic result, `PASS / FAIL / INCONCLUSIVE / NOT_APPLICABLE`, predeclared criteria, economic baseline, evidence/uncertainty, and any justified native-test exception. State clearly when the study is retrospective.
+4. **Execution correctness (when performed)**: real native fills, entry/exit clock, broker session, spread/slippage/commission/financing, sizing and independent cash/equity audit.
+5. **Economic backtest evidence (when performed)**: trade count, win rate, expectancy, Sharpe/Calmar/drawdown on a stated daily clock, yearly/regime performance, costs, uncertainty and selection bias where supported.
+6. **Research control**: frozen spec/permit/attempt IDs, failed and inconclusive trials, holdout integrity, Git HEAD/CI, blockers and limitations.
+7. **Decision**: **REJECT / INCONCLUSIVE / VALIDATE** (MVP), **REJECT / REVISE / PROMOTION CANDIDATE** (Validation), or **REJECT / BLOCKED / NEXT GATE AUTHORIZED** (Promotion).
 
 **Separate:** (a) the correctness of the *research process*, (b) evidence of profitable expected return, and (c) actual broker/execution readiness. A negative strategy PnL can be a correct and useful research result.
 
 ## 6. Choosing the smallest useful amount of work
 
-- **Published rules / mechanical breakout / single product:** Start with native price + session feature proof, next-bar execution, explicit costs and a small bounded backtest. Do not invent machine-learning labels.
-- **Cross-sectional rank or factor:** Add relevant source-universe proof, group-aware features and appropriate diagnostics such as IC or quantile turnover before expensive trading simulation.
+- **Published rules / mechanical breakout / single product:** After native price, calendar and feature proof, use a **causal event study**: preregistered signed forward returns from the next executable price, event count/spacing, uncertainty, baseline and cost feasibility. If the actual edge depends on stops, fills or order sequencing and this screen cannot test it, register a justified `NOT_APPLICABLE` decision and run only the bounded native test needed. Do not invent machine-learning labels or force rank IC.
+- **Cross-sectional rank or factor:** Prove point-in-time universe eligibility; evaluate cross-sectional IC, HAC inference, quantile profiles, decay and turnover when meaningful, before expensive simulation. Do not treat pooled single-symbol IC as cross-sectional evidence.
 - **ML prediction:** Add point-in-time feature/label checks, chronological out-of-sample prediction and selection-aware validation when a real model is justified.
 - **Tick/limit-order market making:** Use an event/queue-aware execution engine and L2/tick data if fill realism requires it. Bar-only fills do not prove queue position.
 - **Macro/alternative data:** Establish publication timestamps, revision policy, missingness and point-in-time joins before claiming an edge.

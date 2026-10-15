@@ -1,0 +1,51 @@
+{
+  "program": "milkman_2015_2024_cfd_dev_extension_v1",
+  "case": "swing_golden_gate",
+  "year": 2016,
+  "attempt_started": "2026-10-14T17:00:03.392021+00:00",
+  "status": "NATIVE_RECONCILED",
+  "holdout": "2025-2026 LOCKED",
+  "unit": "independent annual $100k book; do not chain as continuous NAV",
+  "costs": "2 bps commission + 2 bps slippage each side",
+  "attempt_finished": "2026-10-14T17:00:05.603869+00:00",
+  "input": {
+    "data": {
+      "source": "index_minute_ES",
+      "asset": "ES",
+      "files": 847,
+      "first": "2014-01-01 00:00:00+00:00",
+      "last": "2016-12-30 00:00:00+00:00",
+      "bars": 779,
+      "min_minutes_per_session": 500,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "New York 17:00 session end",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES",
+      "end_exclusive_utc": "2017-01-01 00:00:00+00:00"
+    },
+    "adjustment": "17:00 America/New_York CFD availability, monthly prior-only ATR"
+  },
+  "signals_rows": 258,
+  "prices_rows": 258,
+  "hashes": {
+    "prices.parquet": "742d7dbb67b0bbb18de5ed2572d1895140bef3c670763415e3705bbf23911c36",
+    "signals.parquet": "960ddea4f7323faf3015fa2d4ea84e4f67d3e31824eaf352070879fe6f5853a6"
+  },
+  "fills": 4,
+  "closed_trades": 2,
+  "open_trades": 0,
+  "rejections": 0,
+  "broker_submissions": 6,
+  "net_return_pct": -0.25734385077361366,
+  "native_daily_sharpe": -0.6438113235447506,
+  "native_daily_sortino": -0.24850480844596423,
+  "native_daily_maxdd": -0.004867513027409602,
+  "native_bar_sharpe_not_comparable": -0.6450598477000106,
+  "total_costs": 15.94012743451507,
+  "pnl_reconcile_abs": 1.4267698134062812e-11,
+  "limitations": [
+    "CFD index aliases, not author's CME futures/stocks/options",
+    "Annual capital reset: not continuous decade equity",
+    "Not a historical broker bid-ask/slippage/financing qualification",
+    "Overnight hours and DST follow CFD source availability"
+  ]
+}

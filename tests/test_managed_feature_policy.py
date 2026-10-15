@@ -88,8 +88,8 @@ def test_cli_reports_json_and_limits_its_visible_scope_to_managed_modules():
 
 
 def test_legacy_module_remains_outside_managed_scope():
-    source = (ROOT / "src/features.py").read_text()
-    assert check_source(source, "src/features.py") == []
+    source = (ROOT / "src/features/legacy.py").read_text()
+    assert check_source(source, "src/features/legacy.py") == []
 
 
 def test_scoped_ruff_rule_rejects_indicator_import(tmp_path):

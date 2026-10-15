@@ -12,6 +12,7 @@ Governed by ML4T Skills:
 
 import numpy as np
 import polars as pl
+import pytest
 
 from src.features import compute_atr
 from src.labeling import compute_forward_returns, triple_barrier_labels
@@ -106,12 +107,26 @@ def test_stage6_and_7_backtest_and_synthesis_contract():
         slippage_bps=1.0,
     )
 
-    assert bt["total_trades"] >= 0
-    assert bt["daily_equity"] is not None
+    # Stage 6 inputs: the run must actually trade. A zero-trade backtest makes
+    # every downstream metric vacuous (win rate 0, profit factor 1, Sharpe 0)
+    # and would still satisfy a >= 0 assertion.
+    assert bt["total_trades"] > 0
+    assert bt["total_trades"] <= int(df["signal"].sum())
+    assert bt["ending_equity"] > 0.0
+    assert 0.0 <= bt["max_drawdown_pct"] <= 100.0
+
+    # Stage 6 artifact: a settled, ordered daily equity series. Stage 7 refuses
+    # to synthesise fewer than 10 daily observations.
+    daily = bt["daily_equity"]
+    assert daily is not None and daily.height >= 10
+    dates = daily["date"].to_list()
+    assert dates == sorted(dates)
+    assert len(dates) == len(set(dates))
+    assert daily["equity"].min() > 0.0
 
     # Synthesis
     tearsheet = generate_tearsheet_metrics(
-        daily_equity_df=bt["daily_equity"],
+        daily_equity_df=daily,
         total_trades=bt["total_trades"],
         win_rate_pct=bt["win_rate_pct"],
         profit_factor=bt["profit_factor"],
@@ -119,8 +134,43 @@ def test_stage6_and_7_backtest_and_synthesis_contract():
         p_value=0.01,
         n_trials=50,
     )
-    assert "annualized_sharpe" in tearsheet
-    assert "total_return_pct" in tearsheet
-    assert "max_drawdown_pct" in tearsheet
-    assert "dsr_probability" in tearsheet
-    assert 0.0 <= tearsheet["dsr_probability"] <= 1.0
+    assert "error" not in tearsheet
+
+    # Pass-through contract: synthesis echoes the backtest values and the
+    # diagnostics it was handed instead of recomputing or dropping them.
+    assert tearsheet["total_trades"] == bt["total_trades"]
+    assert tearsheet["win_rate_pct"] == bt["win_rate_pct"]
+    assert tearsheet["profit_factor"] == bt["profit_factor"]
+    assert tearsheet["rank_ic"] == 0.04
+    assert tearsheet["p_value"] == 0.01
+
+    # Reconciliation: tearsheet returns must follow the daily equity supplied.
+    # generate_tearsheet_metrics drops the leading null pct_change row, so the
+    # first usable mark is daily row 1.
+    settled = daily["equity"].to_numpy()[1:]
+    assert tearsheet["total_return_pct"] == pytest.approx(
+        (settled[-1] / settled[0] - 1.0) * 100.0, rel=1e-12
+    )
+    assert tearsheet["n_daily_obs"] == daily.height - 1
+
+    peak = np.maximum.accumulate(settled)
+    expected_drawdown = float(np.abs(((settled - peak) / peak).min()) * 100.0)
+    assert tearsheet["max_drawdown_pct"] == pytest.approx(expected_drawdown, rel=1e-12)
+
+    # Every headline metric must be a finite number, never NaN or inf.
+    for key in (
+        "annualized_sharpe",
+        "sortino_ratio",
+        "calmar_ratio",
+        "total_return_pct",
+        "max_drawdown_pct",
+    ):
+        assert np.isfinite(tearsheet[key]), f"{key} is not finite: {tearsheet[key]}"
+
+    # Legacy scalar trial list has neither complete search coverage nor
+    # aligned candidate returns. Never manufacture a DSR probability.
+    assert tearsheet["dsr_status"] == "INCONCLUSIVE"
+    assert tearsheet["dsr_probability"] is None
+    assert tearsheet["dsr_haircut_sharpe"] is None
+    lower_ci, upper_ci = tearsheet["sharpe_95_ci"]
+    assert lower_ci <= tearsheet["annualized_sharpe"] <= upper_ci

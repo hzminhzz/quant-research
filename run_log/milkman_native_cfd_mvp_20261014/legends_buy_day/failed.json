@@ -1,0 +1,16 @@
+{
+  "case": "legends_buy_day",
+  "program": "milkman_native_cfd_mvp_20261014",
+  "status": "FAILED",
+  "registered_at": "2026-10-14T16:08:36.915983+00:00",
+  "execution": "ml4t.backtest.Engine NEXT_BAR",
+  "protected_2025_2026_evaluation": "NOT_ACCESSED",
+  "cost_per_side_bps": {
+    "commission": 2,
+    "slippage": 2
+  },
+  "input_capital": 100000,
+  "capital_fraction": 0.1,
+  "ended_at": "2026-10-14T16:08:37.665306+00:00",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/quant/dev/quant/quant-research/scripts/run_milkman_native_cfd_20261014.py\", line 305, in run\n    result = Engine(DataFeed(prices_df=prices, signals_df=signals),\n                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/datafeed.py\", line 192, in __init__\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: entity_col='asset' not found in signal columns ['timestamp', 'entry_at_reopen', 'exit_at_0930']\n"
+}

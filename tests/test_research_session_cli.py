@@ -11,6 +11,9 @@ from tests.test_research_session import prepare, write_spec
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/research_session.py"
 
+# Every test here spawns a subprocess CLI run; the module dominates suite runtime.
+pytestmark = pytest.mark.slow
+
 
 def cli(root: Path, *args: str):
     """Run the real entry point, never main() or an argparse mock."""

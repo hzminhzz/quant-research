@@ -79,47 +79,16 @@ def compute_dsr_audit(
     n_samples: int = 750,
     skew: float = 0.0,
     kurtosis: float = 3.0,
-) -> Dict[str, float]:
-    """Compute Deflated Sharpe Ratio (DSR) using Bailey & López de Prado formula."""
-    n_trials = max(len(all_sharpes), 1)
-    if n_trials <= 1:
-        return {
-            "n_trials": 1,
-            "observed_sharpe": float(observed_annualized_sharpe),
-            "haircut_sharpe": float(observed_annualized_sharpe),
-            "expected_max_null": 0.0,
-            "dsr_probability": 1.0 if observed_annualized_sharpe > 0 else 0.0,
-        }
+) -> Dict[str, Any]:
+    """Legacy signature lacks aligned return paths and complete attempt coverage.
 
-    sr_std = float(np.std(all_sharpes)) if np.std(all_sharpes) > 0 else 0.15
-
-    # Euler-Mascheroni approximation for expected max Sharpe under the null
-    euler = 0.5772156649
-    e_max = sr_std * (
-        (1 - euler) * stats.norm.ppf(1 - 1.0 / n_trials)
-        + euler * stats.norm.ppf(1 - 1.0 / (n_trials * np.e))
-    )
-
-    haircut_sr = observed_annualized_sharpe - e_max
-
-    # Standard error of per-period Sharpe
-    daily_sr = observed_annualized_sharpe / np.sqrt(252)
-    daily_e_max = e_max / np.sqrt(252)
-    sr_se = np.sqrt(
-        (1 - skew * daily_sr + ((kurtosis - 1) / 4.0) * (daily_sr**2))
-        / max(n_samples - 1, 1)
-    )
-
-    test_stat = (daily_sr - daily_e_max) / (sr_se + 1e-12)
-    dsr_prob = float(stats.norm.cdf(test_stat))
-
-    return {
-        "n_trials": n_trials,
-        "observed_sharpe": float(observed_annualized_sharpe),
-        "haircut_sharpe": float(haircut_sr),
-        "expected_max_null": float(e_max),
-        "dsr_probability": float(dsr_prob),
-    }
+    Never manufacture a probability from scalar Sharpes; the governed oracle
+    accepts complete, aligned candidate returns and authoritative trial scope.
+    """
+    return {"status": "INCONCLUSIVE", "reason_code": "TRIAL_COVERAGE_UNKNOWN",
+            "observed_sharpe": observed_annualized_sharpe,
+            "n_trials_recorded": len(all_sharpes), "dsr_probability": None,
+            "haircut_sharpe": None}
 
 
 def generate_tearsheet_metrics(
@@ -159,10 +128,7 @@ def generate_tearsheet_metrics(
 
     # DSR Audit
     dsr_res = compute_dsr_audit(
-        observed_annualized_sharpe=sr_ci["sharpe"],
-        all_sharpes=[sr_ci["sharpe"], 0.2, -0.1, 0.5, 0.9, -0.3],
-        n_samples=n_obs,
-    )
+        observed_annualized_sharpe=sr_ci["sharpe"], all_sharpes=[], n_samples=n_obs)
 
     return {
         "annualized_sharpe": float(sr_ci["sharpe"]),
@@ -178,5 +144,6 @@ def generate_tearsheet_metrics(
         "p_value": p_value,
         "dsr_probability": dsr_res["dsr_probability"],
         "dsr_haircut_sharpe": dsr_res["haircut_sharpe"],
+        "dsr_status": dsr_res["status"],
         "n_daily_obs": n_obs,
     }

@@ -1,0 +1,98 @@
+# Preregistered proxy-only Phase 3 event study.
+# This is a separate adaptation of the user's FOMC CFD proposal,
+# NOT a historical Hyperliquid SP500 strategy or after-cost test.
+session_id: fomc_sp500_overnight_gross_phase3_20261015_v1
+market: indices
+thesis: >-
+  From 2017-2024 scheduled, advance-known FOMC policy-statement dates,
+  bearing US500 price exposure from the prior cash day's 16:06 ET
+  until statement day's 09:36 ET exhibits positive average overnight
+  gross price return, and positive incremental gross price return
+  against the exact same overnight period seven calendar days earlier.
+mechanism: >-
+  Investors may demand compensation for holding US equity market
+  exposure ahead of known monetary-policy uncertainty. This proxy
+  compares scheduled pre-FOMC overnights to one predetermined ordinary
+  overnight. Risk-transfer causality is hypothesized, not identified.
+falsifier: >-
+  SIGNAL-ONLY proxy study, not after-cost strategy validation.
+  PASS signal stage only if >=50 valid event/control pairs spanning
+  >=6 years, candidate gross mean >0, matched-pair gross excess mean >0,
+  and lower 95% two-sided event-level HAC(2) confidence bound on paired
+  excess >0. FAIL stage only if the upper 95% HAC(2) bound for either
+  candidate gross mean or matched excess is <0. Otherwise INCONCLUSIVE.
+  Any signal-stage PASS does not qualify net tradability. The original
+  after-cost CFD hypothesis remains BLOCKED_DATA and is unchanged.
+instruments:
+  - symbol: ES
+    kind: cfd
+    venue: Dukascopy historical price data, not an executable Hyperliquid book
+    identity: >-
+      index_minute_ES is usa500idxusd bid-only 1-minute CFD quote-price
+      PROXY for S&P 500. It is neither CME futures nor a Hyperliquid SP500
+      perpetual. No historical real order fills are inferred.
+    session: XNYS full cash-session eligibility; historical source endpoint presence
+    timezone: America/New_York
+data:
+  - id: historical_proxy_event_price_points
+    symbol: ES
+    role: prices
+    path: data/processed/fomc_sp500_overnight_gross_phase3_20261015_v1/endpoint_bids.parquet
+evaluation:
+  development_start: "2017-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  source_qualified_event_ledger: docs/audit/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1_source_preflight_v2.json
+  clock: >-
+    Original 16:05 ET decision, 16:06 following-minute entry BID-quote
+    bar OPEN. 09:35 ET decision, 09:36 following-minute exit BID-quote
+    bar OPEN. Both timestamp and known-as-of schedule must precede fill.
+  rule: >-
+    Exactly one long candidate, never stop or time optimize, and one
+    matched D-7 calendar-day control. Use only the 53 previously
+    source-qualified four-endpoint sets; exclude the ten known missing
+    pairs without replacement. No OHLC or future return conditions.
+  price_return: >-
+    Candidate gross bid quote return is exit_bid_proxy_open /
+    entry_bid_proxy_open - 1. Control gross return is calculated
+    identically. Event paired increment is candidate gross minus
+    control gross. These returns are non-executable proxy labels.
+  screening: >-
+    Event-level OLS intercept HAC covariance lag=2 with small-sample
+    correction; two-sided 95% t critical with n-1 degrees of freedom.
+    Report mean and CI for candidate, control and matched excess,
+    hit rates, by-year and 2018-2020/2021-2024 subperiods.
+    One test, no parameter sweep, no performance-driven event selection.
+  dependence: >-
+    Predeclared event pairs and D-7 controls are nonoverlapping in time
+    as qualified; lag-2 HAC handles residual chronological association.
+    All 2018-2024 results are retrospective and publication-exposed.
+  version: signal_screen_proxy_1
+baseline: >-
+  Corresponding long ordinary overnight from C-1 at 16:06 ET
+  to C at 09:36 ET where C=D-7 calendar days. No substitute control.
+  Cash zero-reference is secondary.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  costs_mode: not_applicable_to_gross_proxy_signal_screen
+  funding_included: false
+  historical_venue_fees_included: false
+  explanation: >-
+    ZERO is the gross price-proxy diagnostic convention, NOT zero real
+    execution cost. No CFD swap, no real bid/ask, no perp funding and
+    no historical Hyperliquid PnL are estimated here. A positive
+    candidate gross mean is only an upper bound on positive net
+    expectation when actual all-in costs are nonnegative.
+trials:
+  - id: phase3_signal_screen
+    kind: diagnostic
+    description: >-
+      One preregistered long-only FOMC overnight gross bid-quote event
+      study and D-7 matched ordinary overnight, using 53 fixed
+      source-qualified pairs and HAC(2) uncertainty. Not a native
+      order simulation or net trading qualification.
+evidence:
+  - docs/research_inputs/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1/thesis_candidate.yaml
+  - docs/research_inputs/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1/fed_original_calendar_2017_2024.yaml
+  - docs/audit/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1_source_preflight_v2.json

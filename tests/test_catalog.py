@@ -13,8 +13,17 @@ from src.catalog import (
     resolve_data_store,
     resolve_dataset,
 )
+from tests.conftest import require_path
 
+# The catalog lives in the ml4t-data store, which is outside this repository.
 STORE_ROOT = Path("/home/quant/dev/quant/ml4t-data/.data/store")
+
+pytestmark = pytest.mark.data
+
+
+@pytest.fixture(autouse=True)
+def _store_root_must_exist():
+    require_path(STORE_ROOT)
 
 
 @pytest.mark.data
@@ -28,19 +37,25 @@ def test_load_dataset_catalog():
 
 @pytest.mark.data
 def test_resolve_accepted_indices():
-    for alias, expected_key in [
-        ("DE30", "index_minute_DAX"),
-        ("DAX", "index_minute_DAX"),
-        ("DE30/EUR", "index_minute_DAX"),
-        ("JP225", "index_minute_NIKKEI225"),
-        ("NIKKEI225", "index_minute_NIKKEI225"),
-        ("JP225/USD", "index_minute_NIKKEI225"),
+    for alias, expected_key, expected_qual in [
+        ("DE30", "index_minute_DAX", "accepted"),
+        ("DAX", "index_minute_DAX", "accepted"),
+        ("DE30/EUR", "index_minute_DAX", "accepted"),
+        ("JP225", "index_minute_NIKKEI225", "accepted"),
+        ("NIKKEI225", "index_minute_NIKKEI225", "accepted"),
+        ("JP225/USD", "index_minute_NIKKEI225", "accepted"),
+        ("NQ", "index_minute_NQ", "accepted"),
+        ("NAS100", "index_minute_NQ", "accepted"),
+        ("ES", "index_minute_ES", "accepted"),
+        ("SPX500", "index_minute_ES", "accepted"),
+        ("EUSIDXEUR", "index_minute_EUSIDXEUR", "accepted"),
+        ("ESTX50", "index_minute_EUSIDXEUR", "accepted"),
     ]:
         resolved = resolve_dataset(alias, store_root=STORE_ROOT)
         assert isinstance(resolved, ResolvedDataset)
         assert resolved.dataset_key == expected_key
         assert resolved.authority == "canonical"
-        assert resolved.qualification == "accepted"
+        assert resolved.qualification == expected_qual
         assert resolved.store_path == STORE_ROOT / expected_key
         assert resolved.catalog_identity != ""
         assert resolved.consumer_identity != ""
@@ -64,15 +79,37 @@ def test_current_canonical_index_aliases_are_accepted_cfds():
         resolve_dataset("US30", store_root=STORE_ROOT)
     with pytest.raises(CatalogResolutionError, match="is unqualified"):
         resolve_dataset("US30", store_root=STORE_ROOT, allow_noncanonical=True)
+def test_deleted_lse_us_indices_and_futures_fail_closed():
+    for removed in [
+        "lse_futures_minute_NQ",
+        "lse_futures_minute_ES",
+        "index_minute_NAS100",
+        "index_minute_SPX500",
+        "index_minute_US30",
+        "index_minute_USA30",
+        "US30",
+        "USA30",
+        "DOW",
+        "NQ.F",
+        "ES.F",
+    ]:
+        with pytest.raises(CatalogResolutionError):
+            resolve_dataset(
+                removed,
+                store_root=STORE_ROOT,
+                allow_noncanonical=True,
+                allow_unqualified=True,
+            )
 
 
 @pytest.mark.data
 def test_resolve_canonical_forex():
-    for pair in ["EURUSD", "USDJPY", "GBPUSD", "AUDUSD", "USDCAD"]:
+    for pair in ["EURUSD", "USDJPY", "GBPUSD", "AUDUSD", "USDCAD", "GBPJPY", "CADJPY", "USDCHF"]:
         resolved = resolve_dataset(pair, store_root=STORE_ROOT)
         assert resolved.dataset_key == f"forex_minute_{pair}"
         assert resolved.authority == "canonical"
         assert resolved.qualification == "accepted"
+    assert resolve_dataset("CHFUSD", store_root=STORE_ROOT).dataset_key == "forex_minute_USDCHF"
 
 
 @pytest.mark.data
@@ -82,7 +119,6 @@ def test_futures_aliases_do_not_claim_contract_level_identity():
             CatalogResolutionError, match="contract_level_futures=false"
         ):
             resolve_dataset(alias, store_root=STORE_ROOT, require_contract_level=True)
-
 
 @pytest.mark.data
 def test_contract_level_futures_fails_closed_on_cfd_and_continuous():

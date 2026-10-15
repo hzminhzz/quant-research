@@ -1,0 +1,52 @@
+{
+  "program": "milkman_2015_2024_cfd_dev_extension_v1",
+  "case": "legends_ema",
+  "year": 2024,
+  "attempt_started": "2026-10-14T17:05:52.378859+00:00",
+  "status": "NATIVE_RECONCILED",
+  "holdout": "2025-2026 LOCKED",
+  "unit": "independent annual $100k book; do not chain as continuous NAV",
+  "costs": "2 bps commission + 2 bps slippage each side",
+  "attempt_finished": "2026-10-14T17:06:07.931522+00:00",
+  "input": {
+    "data": {
+      "store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+      "raw_partitions": 934,
+      "raw_rows_with_warmup": 1028292,
+      "execution_raw_rows": 344095,
+      "active_dates": 313,
+      "first": "2024-01-01 23:00:00+00:00",
+      "last": "2024-12-31 23:59:00+00:00",
+      "timestamp_semantics": "minute bar OPEN UTC; +1min at decision availability",
+      "volume_semantics": "Dukascopy broker activity, not CME exchange volume",
+      "complete_rth_15min_bars": 19764,
+      "qualifying_full_rth_sessions": 747,
+      "prior_strong_day_flags_in_year": 1140
+    },
+    "source_index_cfd": "NQ"
+  },
+  "signals_rows": 344094,
+  "prices_rows": 344094,
+  "hashes": {
+    "prices.parquet": "55aaf30a0a96b1c9bb3b6a6520510be83db26ddbd46ce47679a525e40e75a279",
+    "signals.parquet": "781c6bf7b00fb1f99dae9dd121ecdd7a8a4e0692222fdc6b5d329ff62299fe1e"
+  },
+  "fills": 38,
+  "closed_trades": 19,
+  "open_trades": 0,
+  "rejections": 0,
+  "broker_submissions": 38,
+  "net_return_pct": 0.4543847225658101,
+  "native_daily_sharpe": 2.353580195824488,
+  "native_daily_sortino": 4.332978214536414,
+  "native_daily_maxdd": -0.00012056350098336253,
+  "native_bar_sharpe_not_comparable": 0.05581683374607286,
+  "total_costs": 152.31000407157165,
+  "pnl_reconcile_abs": 2.9615421226480976e-11,
+  "limitations": [
+    "CFD index aliases, not author's CME futures/stocks/options",
+    "Annual capital reset: not continuous decade equity",
+    "Not a historical broker bid-ask/slippage/financing qualification",
+    "Overnight hours and DST follow CFD source availability"
+  ]
+}

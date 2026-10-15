@@ -1,4 +1,4 @@
-"""ML4T 7-Stage Case Study Pipeline Architecture.
+"""Legacy seven-stage compatibility pipeline and managed native DAG entrypoint.
 
 Governed by ML4T Skills:
 - ml4t-case-study-pipeline
@@ -69,20 +69,12 @@ class CaseStudyPipelineReport:
 
     @property
     def is_production_ready(self) -> bool:
-        """Pipeline is production ready only if all 7 stage gates pass."""
-        return (
-            self.stage1_setup.passed_gate
-            and self.stage2_labels.passed_gate
-            and self.stage3_features.passed_gate
-            and self.stage4_evaluate.passed_gate
-            and self.stage5_models.passed_gate
-            and self.stage6_backtest.passed_gate
-            and self.stage7_synthesis.passed_gate
-        )
+        """Technical stage results never grant production authority."""
+        return False
 
 
 class ML4TCaseStudyPipeline:
-    """Deterministic orchestrator executing the 7-stage ML4T Case Study Pipeline."""
+    """LEGACY_UNMANAGED compatibility only; not a governed research runner."""
 
     def __init__(self, config_path: str = "config/setup.yaml"):
         self.config_path = Path(config_path)
@@ -464,7 +456,8 @@ class ML4TCaseStudyPipeline:
     # FULL END-TO-END PIPELINE EXECUTION
     # --------------------------------------------------------------------------
     def run_pipeline(self, symbol: str) -> CaseStudyPipelineReport:
-        """Run complete 7-stage ML4T Case Study Pipeline for a target asset."""
+        """Unsafe legacy loop intentionally blocked; historical methods remain importable."""
+        raise RuntimeError("LEGACY_UNMANAGED: use ManagedResearchPipeline with a frozen permit")
         # Stage 1
         s1 = self.run_stage1_setup(symbol)
         # Stage 2
@@ -491,3 +484,118 @@ class ML4TCaseStudyPipeline:
             stage6_backtest=s6,
             stage7_synthesis=s7,
         )
+
+
+class ManagedResearchPipeline:
+    """Small managed DAG: frozen input -> gateway -> permit -> attempt -> native audit.
+
+    Only synthetic bracket is executable here. Other implementations must
+    acquire a separately reviewed adapter, feature proof and frozen permit.
+    No labels or classifier are required for this rule-based synthetic trial.
+    """
+
+    def __init__(self, root: str | Path):
+        self.root = Path(root).resolve()
+
+    def plan(self, name: str) -> dict[str, Any]:
+        from src.strategies.synthetic_bracket import registered_strategies
+
+        strategy = registered_strategies().get(name)
+        if strategy is None:
+            return {"status": "BLOCKED", "reason_code": "STRATEGY_UNREGISTERED",
+                    "name": name, "live_order_authority": False}
+        return {"status": "READY", "name": name,
+                "capabilities": sorted(strategy.native_execution_capabilities),
+                "feature_manifest": strategy.get_feature_manifest(),
+                "barriers": strategy.get_barrier_config(),
+                "steps": ["frozen_session", "feature_gateway", "run_permit",
+                          "attempt_ledger", "native_engine", "independent_fill_audit"],
+                "live_order_authority": False}
+
+    def run_synthetic(self, *, session_id: str, trial_id: str,
+                      intent: dict[str, Any], job_name: str,
+                      artifact_dir: str | None = None) -> dict[str, Any]:
+        """Execute an already-frozen synthetic fixture; never create/freeze a session."""
+        from src.research_control.attempts import AttemptLedger
+        from src.data_plane.catalog import DataPolicy, certify
+        from datetime import timedelta
+        from src.research_control.contracts import ResearchContractV1
+        from src.research_control.execution import execute_permitted_native
+        from src.research_control.feature_gateway import FeatureGateway
+        from src.research_control.run_permit import preflight_run
+        from src.research_session import _load
+        from src.strategies.synthetic_bracket import SyntheticBracket
+
+        _, frozen = _load(self.root, session_id)
+        if intent.get("session_id") != session_id or intent.get("trial_id") != trial_id:
+            return {"status": "BLOCKED", "reason_code": "TRIAL_IDENTITY_MISMATCH"}
+        spec = frozen["spec"]
+        data = [item for item in spec["data"] if item["role"] == "prices"]
+        if len(data) != 1 or spec.get("config") is None:
+            return {"status": "BLOCKED", "reason_code": "FROZEN_INPUT_UNSUPPORTED"}
+        root = self.root.resolve()
+        config_path = (root / spec["config"]).resolve()
+        data_path = (root / data[0]["path"]).resolve()
+        if not config_path.is_relative_to(root) or not data_path.is_relative_to(root):
+            return {"status": "BLOCKED", "reason_code": "FROZEN_INPUT_PATH_ESCAPE"}
+        contract = ResearchContractV1.model_validate(
+            yaml.safe_load(config_path.read_text(encoding="utf-8")))
+        if contract.dataset.requested_product != "Synthetic research fixture":
+            return {"status": "BLOCKED", "reason_code": "REAL_MARKET_RUN_UNSUPPORTED"}
+        # Reject unsupported products and escaped paths before loading any data.
+        # This remains a synthetic route, not a general holdout I/O sandbox.
+        bars = pl.read_parquet(data_path)
+        # Synthetic-only catalog fixture. This does not certify a vendor feed:
+        # real products require their authoritative catalog entry and policy.
+        fixture_policy = DataPolicy(
+            dataset_key="synthetic-fixture-v1", catalog_identity="synthetic-fixture-v1",
+            source_vendor="Synthetic", source_symbol=contract.dataset.source_symbol,
+            product_class="spot", role="price_proxy", proxy_target="synthetic-only",
+            volume_semantics="absent", timezone="UTC", calendar="continuous",
+            exchange_calendar=None, revision_policy="append_only",
+            bar_duration=timedelta(minutes=1))
+        fixture_entry = {key: getattr(fixture_policy, key) for key in (
+            "source_vendor", "source_symbol", "product_class", "role",
+            "proxy_target", "volume_semantics", "timezone", "calendar",
+            "exchange_calendar", "revision_policy")}
+        fixture_entry.update(dataset_key=fixture_policy.dataset_key,
+                             authority="canonical", qualification="accepted")
+        fixture_catalog = {"catalog_identity": fixture_policy.catalog_identity,
+                           "entries": [fixture_entry]}
+        certificate_input = bars.select(
+            pl.col("symbol"), pl.col("timestamp").alias("event_at"),
+            (pl.col("timestamp") + pl.duration(minutes=1)).alias("available_at"),
+            "open", "high", "low", "close")
+        try:
+            certificate = certify(certificate_input, catalog=fixture_catalog,
+                                        policy=fixture_policy)
+        except ValueError as exc:
+            return {"status": "BLOCKED", "reason_code": "DATA_CERTIFICATE_INVALID",
+                    "observed": str(exc)}
+        computed = FeatureGateway().compute(bars, contract)
+        gate = preflight_run(str(self.root), intent, computed, bars, contract)
+        if gate.status != "PASS":
+            return {"status": "BLOCKED", "reason_code": gate.reason_code,
+                    "expected": gate.expected, "observed": gate.observed}
+        strategy = SyntheticBracket()
+        event = strategy.generate_events(computed.data)
+        ledger = AttemptLedger(self.root, session_id)
+        claim = ledger.claim(gate, job_name=job_name,
+                             command="managed synthetic native bracket")
+        if claim.status != "LAUNCH":
+            return {"status": "BLOCKED", "reason_code": claim.reason_code,
+                    "attempt_id": claim.attempt_id}
+        ledger.transition(claim.attempt_id, "RUNNING")
+        try:
+            audit = execute_permitted_native(
+                str(self.root), intent, computed, bars, contract,
+                **event, artifact_dir=artifact_dir)
+        except Exception as exc:
+            ledger.transition(claim.attempt_id, "FAILED", detail=repr(exc))
+            raise
+        ledger.transition(claim.attempt_id, "COMPLETED" if audit.status == "PASS" else "FAILED",
+                          detail=audit.reason_code)
+        return {"status": audit.status, "reason_code": audit.reason_code,
+                "attempt_id": claim.attempt_id, "audit": audit.evidence,
+                "certificate_sha256": certificate.frame_sha256,
+                "live_order_authority": False}

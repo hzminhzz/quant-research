@@ -1,0 +1,114 @@
+{
+  "session": "gold_fx_trend_diversification_mvp_20261015",
+  "audited_at": "2026-10-14T17:43:06.600748+00:00",
+  "status": "PASS",
+  "cases": {
+    "XAUUSD": {
+      "case": "xau_tsmom_60_mvp",
+      "symbol": "XAUUSD",
+      "audit": "PASS",
+      "file": "run_log/gold_fx_trend_diversification_mvp_20261015/xau_tsmom_60_mvp/attempt01/report.json",
+      "report_sha256": "30b06131b8213077361865bda64694cf4e087bb6d97edee0ec3eeae73bc2bb10",
+      "input_sha256": "934a19e0f15ceb30e9f1a0b1e59508e478ab1efd6eb668fbc9d84d10d0b0d8e1",
+      "execution_bars": 1694,
+      "decision_months": 84,
+      "native_fills": 84,
+      "rejected_orders": 0,
+      "broker_total_commission": 98.76428639566075,
+      "true_open_position_rows": 1,
+      "realized_partial_close_rows": 31,
+      "closed_trade_rows": 24,
+      "equity_reconciliation_usd": 1.1823431123048067e-11,
+      "net_equity_return_pct": -3.4869175638715095,
+      "daily_sharpe": -0.36865582017824805,
+      "daily_max_drawdown": -0.053298242721258576,
+      "subperiods": {
+        "2015_2017": {
+          "net_change_pct_first_to_last": -4.99090482015474,
+          "daily_sharpe": -1.2827806309661014,
+          "daily_marks": 725
+        },
+        "2018_2021": {
+          "net_change_pct_first_to_last": 1.6971888008989966,
+          "daily_sharpe": 0.3151330884201878,
+          "daily_marks": 969
+        }
+      },
+      "execution_verified": "all 84 fills at next actual native bar open, with 3bps slippage",
+      "caveats": "No certified spread/swap/overnight financing, exposure normalized to 10% notional"
+    },
+    "EURUSD": {
+      "case": "eur_tsmom_60_mvp",
+      "symbol": "EURUSD",
+      "audit": "PASS",
+      "file": "run_log/gold_fx_trend_diversification_mvp_20261015/eur_tsmom_60_mvp/attempt01/report.json",
+      "report_sha256": "1042689966af0d519e82dea56b9c8f847c6f474e51ee3796294b3ab1de5217d7",
+      "input_sha256": "faae709c0174378790726b1c29809614031b18f167a72430b1b87127863c4fff",
+      "execution_bars": 1813,
+      "decision_months": 84,
+      "native_fills": 84,
+      "rejected_orders": 0,
+      "broker_total_commission": 108.86299686623927,
+      "true_open_position_rows": 1,
+      "realized_partial_close_rows": 28,
+      "closed_trade_rows": 26,
+      "equity_reconciliation_usd": 4.547473508864641e-11,
+      "net_equity_return_pct": 1.0849066207581928,
+      "daily_sharpe": 0.19540733055899623,
+      "daily_max_drawdown": -0.01305916956649714,
+      "subperiods": {
+        "2015_2017": {
+          "net_change_pct_first_to_last": 1.2327170731589732,
+          "daily_sharpe": 0.4262333384625762,
+          "daily_marks": 775
+        },
+        "2018_2021": {
+          "net_change_pct_first_to_last": -0.09910318559737119,
+          "daily_sharpe": -0.0346777153252061,
+          "daily_marks": 1038
+        }
+      },
+      "execution_verified": "all 84 fills at next actual native bar open, with 3bps slippage",
+      "caveats": "No certified spread/swap/overnight financing, exposure normalized to 10% notional"
+    },
+    "AUDUSD": {
+      "case": "aud_tsmom_60_mvp",
+      "symbol": "AUDUSD",
+      "audit": "PASS",
+      "file": "run_log/gold_fx_trend_diversification_mvp_20261015/aud_tsmom_60_mvp/attempt01/report.json",
+      "report_sha256": "985674ba394bac50cba573b309bcf3230aa351ea524e7d2277ca066fdb413d6b",
+      "input_sha256": "0cf951a498a445a5e2fa5b6e97b228b02c2d0f21b6100dea7ff9d69c215a1d64",
+      "execution_bars": 1813,
+      "decision_months": 84,
+      "native_fills": 84,
+      "rejected_orders": 0,
+      "broker_total_commission": 114.06227031261159,
+      "true_open_position_rows": 1,
+      "realized_partial_close_rows": 22,
+      "closed_trade_rows": 28,
+      "equity_reconciliation_usd": -7.821654435247183e-11,
+      "net_equity_return_pct": -4.754297978894552,
+      "daily_sharpe": -0.6790358187639056,
+      "daily_max_drawdown": -0.056205307038403145,
+      "subperiods": {
+        "2015_2017": {
+          "net_change_pct_first_to_last": -2.185039603519212,
+          "daily_sharpe": -0.683781189231734,
+          "daily_marks": 775
+        },
+        "2018_2021": {
+          "net_change_pct_first_to_last": -2.59830314855789,
+          "daily_sharpe": -0.668766652186625,
+          "daily_marks": 1038
+        }
+      },
+      "execution_verified": "all 84 fills at next actual native bar open, with 3bps slippage",
+      "caveats": "No certified spread/swap/overnight financing, exposure normalized to 10% notional"
+    }
+  },
+  "positive_net_sharpe": 1,
+  "frozen_two_of_three_gate": false,
+  "decision": "REJECT_MVP_NO_PORTFOLIO_STAGE",
+  "holdout_2025_2026": "NOT_ACCESSED",
+  "trial_accounting": "3 preregistered; 3 completed; no optimizer or cost-search"
+}

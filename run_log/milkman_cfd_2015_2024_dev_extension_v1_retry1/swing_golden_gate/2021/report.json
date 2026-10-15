@@ -1,0 +1,51 @@
+{
+  "program": "milkman_2015_2024_cfd_dev_extension_v1",
+  "case": "swing_golden_gate",
+  "year": 2021,
+  "attempt_started": "2026-10-14T17:00:36.244314+00:00",
+  "status": "NATIVE_RECONCILED",
+  "holdout": "2025-2026 LOCKED",
+  "unit": "independent annual $100k book; do not chain as continuous NAV",
+  "costs": "2 bps commission + 2 bps slippage each side",
+  "attempt_finished": "2026-10-14T17:00:37.530625+00:00",
+  "input": {
+    "data": {
+      "source": "index_minute_ES",
+      "asset": "ES",
+      "files": 935,
+      "first": "2019-01-02 00:00:00+00:00",
+      "last": "2021-12-31 00:00:00+00:00",
+      "bars": 776,
+      "min_minutes_per_session": 500,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "New York 17:00 session end",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES",
+      "end_exclusive_utc": "2022-01-01 00:00:00+00:00"
+    },
+    "adjustment": "17:00 America/New_York CFD availability, monthly prior-only ATR"
+  },
+  "signals_rows": 259,
+  "prices_rows": 259,
+  "hashes": {
+    "prices.parquet": "02b066f44e3e3130f819f8f50ba69f57905c9b3e981234d722e90d4b50393b70",
+    "signals.parquet": "739fd107286b96ad8b8cd68f491312aafcb37d22da6a0343034d4acf4b3692ce"
+  },
+  "fills": 2,
+  "closed_trades": 1,
+  "open_trades": 0,
+  "rejections": 0,
+  "broker_submissions": 2,
+  "net_return_pct": 0.12763264912930025,
+  "native_daily_sharpe": 1.0200207273058306,
+  "native_daily_sortino": null,
+  "native_daily_maxdd": -0.00022241857813701157,
+  "native_bar_sharpe_not_comparable": 1.0219961322191096,
+  "total_costs": 7.7964030487965665,
+  "pnl_reconcile_abs": 2.1032064978498966e-12,
+  "limitations": [
+    "CFD index aliases, not author's CME futures/stocks/options",
+    "Annual capital reset: not continuous decade equity",
+    "Not a historical broker bid-ask/slippage/financing qualification",
+    "Overnight hours and DST follow CFD source availability"
+  ]
+}

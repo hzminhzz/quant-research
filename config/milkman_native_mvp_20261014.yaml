@@ -1,0 +1,67 @@
+# Frozen before first native Engine result. Development-only, no optimizer.
+program: milkman_native_cfd_dev_mvp_20261014
+mode: MVP Research
+frozen_at_utc_date: '2026-10-14'
+status: EXPLORATORY
+approval: NOT_APPROVED
+feature_contract: config/milkman_source_to_cfd_features_20261014.yaml
+engine: ml4t-backtest==0.1.7
+feature_library: ml4t-engineer==0.1.4
+source: /home/quant/dev/quant/ml4t-data/.data/store
+development_only: true
+holdout_start_exclusive: '2025-01-01T00:00:00Z'
+reserved_allocation_2025_2026: NO_ACCESS
+capital_prototype_usd: 100000
+asset_weight_each_single_engine: 0.10
+commission_bps_per_side: 2
+slippage_bps_per_side: 2
+cost_label: Exploratory costs ONLY; missing certified CFD bid-ask, financing and price impact
+execution: NEXT_BAR; native broker fills/positions/cash/equity; no custom PnL
+trials:
+  morning_dip_limit:
+    canonical_alias: NQ
+    sample_utc: ['2022-01-01','2022-04-01']
+    warmup: 2021
+    execution_feed: 1-minute CFD
+    intended: one resting buy limit for 9 minutes, 15-minute time exit, 11:00 CT flat
+    limitations: no 1-second price-through-limit/queue model; conservative 1m completed-bar exits
+  legends_buy_day:
+    canonical_alias: ES
+    sample_utc: ['2022-01-01','2022-04-01']
+    warmup: 2021
+    execution_feed: 1-minute CFD
+    intended: session-close decision after three lower closes; next 18:00 ET open entry; 09:30 ET exit
+    limitations: source CFD closes ~16:15 ET, unlike CME 16:59 session print; require check actual gap
+  legends_ema:
+    canonical_alias: NQ
+    sample_utc: ['2022-01-01','2022-04-01']
+    warmup: 2021
+    execution_feed: 1-minute CFD
+    intended: prior 252 completed RTH session 80pct trend threshold; EMA20; next RTH reversion
+    limitations: next minute entry after observing open; avoid same-open lookahead; source author full-sample percentile rejected
+  bilbo_box_v2:
+    canonical_alias: NQ
+    sample_utc: ['2022-01-01','2022-04-01']
+    warmup: 2021
+    execution_feed: 5-minute CFD
+    intended: first out-of-compression close above frozen hourly box, previous completed RTH EMA21 gate; 5m exits, 10 trading days
+    limitations: stock-options strategy adapted to index price, no options PnL
+  swing_golden_gate:
+    canonical_alias: ES
+    sample_utc: ['2020-01-01','2023-01-01']
+    warmup: 2019
+    execution_feed: daily CFD
+    intended: monthly ATR rails; downside open -0.382, short -0.618, stop pivot, target -1 ATR
+    limitations: resting stop armed after completed daily bar, not author intraday gate; financing omitted
+  daily_bilbo_boxes:
+    canonical_alias: ES
+    sample_utc: ['2020-01-01','2023-01-01']
+    warmup: 2019
+    execution_feed: daily CFD
+    intended: locked 5-day box, resting buy stop, 20-day cancel, EMA50 stop
+    limitations: index CFD not point-in-time stock universe; close-confirmed feature observation != resting stop execution
+report:
+  metric_source: native Engine result.metrics; equity/trades/fills/rejections
+  falsifier: no positive development net after exploratory costs, or unverifiable causal order sequencing
+  decision: REJECT / INCONCLUSIVE / VALIDATE; no promotion
+  trial_budget: exactly one baseline per candidate; no parameter search

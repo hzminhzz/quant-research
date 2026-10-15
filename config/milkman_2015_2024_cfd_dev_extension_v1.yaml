@@ -1,0 +1,49 @@
+# Pre-registered extension. Observed results from 2022 Q1 remain exploratory.
+program_id: milkman_2015_2024_cfd_dev_extension_v1
+registered_utc: '2026-10-14'
+state: EXPLORATORY_NOT_APPROVED
+approval: user approved extension to 2015
+source_feature_contract: config/milkman_source_to_cfd_features_20261014.yaml
+prior_mvp: docs/audit/milkman_native_engine_mvp_20261014.md
+candidate_selection:
+  included: [legends_buy_day, legends_ema, bilbo_box_v2, swing_golden_gate]
+  excluded_rejected_proxy_mvp: [morning_dip_limit, daily_bilbo_boxes]
+study_window:
+  from_inclusive_utc: '2015-01-01T00:00:00Z'
+  through_exclusive_utc: '2025-01-01T00:00:00Z'
+  protected_allocation_2025_2026: LOCKED_DO_NOT_ACCESS
+  warmup_source: '2013-01-01 to previous year where available'
+research_design:
+  native_engine: ml4t-backtest==0.1.7
+  features: ml4t-engineer==0.1.4
+  underlying: canonical Dukascopy ES/NQ aliases; CFDs, not futures
+  baseline_notional_fraction: 0.10
+  initial_equity_each_year_usd: 100000
+  annual_independent_trials: 10 predetermined calendar years; do not stitch as continuous PnL
+  annual_reset: explicit; yearly sum not compound equity result
+  costs_per_side_bps: {commission: 2, slippage: 2}
+  costs_uncertainty: synthetic placeholder; no broker financing or tick spread
+  execution_mode: NEXT_BAR
+  frozen_variants:
+    legends_buy_day: identical setup/next-open CFD approximation to 2022 MVP
+    legends_ema: previous 252 eligible sessions 80pct trend percentile; 26 RTH bars 09:30-16:00 ET only
+    bilbo_box_v2: close-break first out of compression, prior completed RTH daily EMA21, 5m underlying returns only
+    swing_golden_gate: completed monthly ATR gate, native short STOP, month-end native MOC
+  no_parameter_search: true
+  no_promotion_or_deployment: true
+  no_change_existing_allocation_strategies: true
+verification:
+  - test PIT and session boundary invariants
+  - verify actual raw 1m price clocks and full-bar sample
+  - reconcile final native equity with trade PnL
+  - inspect rejected orders and fill chronology
+  - report yearly closed trades, open boundary positions, daily marked-equity Sharpe, drawdown
+  - treat zero-trade years as undefined Sharpe
+  - preserve failed and inconclusive trials
+  - report share of positive years; no selection by best year
+stop_conditions:
+  - essential data gaps or signficant malformed price records
+  - non-causal feature/fill timestamps
+  - native broker/accounting mismatch
+  - inability to fit trial within live VPS resource constraints
+  - 2025 data access required

@@ -1,0 +1,121 @@
+"""Dual-mode research CLI. Economic rejection is not a command failure."""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from datetime import timedelta
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.data_vault import PanelBuilder
+from src.engine.common import QuantError
+from src.engine.funnel import ResearchFunnel
+from src.engine.spec_parser import CandidateSpec, parse_spec
+
+STORE = '/home/quant/dev/quant/ml4t-data/.data/store'
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest='command', required=True)
+    commands.add_parser('schema', help='print the executable candidate JSON schema')
+    cfd = commands.add_parser('build-cfd', help='compile an explicit calendar-qualified CFD cash-session view')
+    cfd.add_argument('--source-root', required=True)
+    cfd.add_argument('--source-identity', required=True)
+    cfd.add_argument('--symbol', required=True)
+    cfd.add_argument('--output', required=True)
+    cfd.add_argument('--start', required=True)
+    cfd.add_argument('--end', required=True)
+    cfd.add_argument('--calendar', required=True)
+    cfd.add_argument('--source-bar-seconds', type=int, default=60)
+    cfd.add_argument('--bar-seconds', type=int, default=1800)
+    cfd.add_argument('--spread-bps', type=float, required=True)
+    cfd.add_argument('--spread-assumption', required=True)
+    cfd.add_argument('--carry-assumption', required=True)
+    discover = commands.add_parser('discover', help='read source names and report exact matched stores')
+    discover.add_argument('--store', default=STORE)
+    build = commands.add_parser('build', help='compile immutable development-only canonical partitions')
+    build.add_argument('--store', default=STORE)
+    build.add_argument('--output', required=True)
+    build.add_argument('--start', required=True)
+    build.add_argument('--end', required=True, help='exclusive UTC endpoint, never after protected start')
+    build.add_argument('--symbols', nargs='*')
+    build.add_argument('--bar-seconds', type=int, default=3600)
+    build.add_argument('--spread-bps', type=float, default=0.)
+    build.add_argument('--spread-assumption', required=True)
+    build.add_argument('--funding-mark-policy', choices=['observed_only', 'trade_open_proxy'], default='trade_open_proxy')
+    build.add_argument('--funding-time-tolerance-ms', type=int, default=1000)
+    build.add_argument('--include-protected', action='store_true',
+                       help='trusted ingestion only: compile separate protected files, never expose them to Workbench')
+    run = commands.add_parser('run', help='execute frozen Stage 1..4, stopping normally on falsification')
+    run.add_argument('spec')
+    run.add_argument('--run-log', default=str(ROOT / 'run_log'))
+    run.add_argument('--store', default=STORE)
+    run.add_argument('--build-if-missing', action='store_true',
+                     help='compile development panel before running; protected data remains separate')
+    validate = commands.add_parser('validate', help='parse executable YAML without reading market data')
+    validate.add_argument('spec')
+    args = parser.parse_args(argv)
+    try:
+        if args.command == 'schema':
+            print(json.dumps(CandidateSpec.model_json_schema(), sort_keys=True))
+            return 0
+        if args.command == 'build-cfd':
+            manifest = PanelBuilder(args.source_root, args.output).build_cfd(
+                source_root=args.source_root, source_identity=args.source_identity, symbol=args.symbol,
+                start=args.start, end=args.end, exchange_calendar=args.calendar,
+                source_bar_seconds=args.source_bar_seconds, bar_seconds=args.bar_seconds,
+                spread_bps=args.spread_bps, spread_assumption=args.spread_assumption,
+                carry_assumption=args.carry_assumption)
+            print(json.dumps({'status': 'COMPILED', 'manifest_hash': manifest['manifest_hash'],
+                              'entries': len(manifest['entries'])}, sort_keys=True))
+            return 0
+        if args.command == 'discover':
+            report = PanelBuilder(args.store, ROOT / 'data' / 'vault').discovery_report()
+            print(json.dumps(report, sort_keys=True))
+            return 0
+        if args.command == 'build':
+            manifest = PanelBuilder(args.store, args.output, funding_mark_policy=args.funding_mark_policy,
+                                    funding_time_tolerance_ms=args.funding_time_tolerance_ms).build(
+                start=args.start, end=args.end, symbols=args.symbols,
+                bar_seconds=args.bar_seconds, spread_bps=args.spread_bps,
+                spread_assumption=args.spread_assumption, trusted_partitioning=args.include_protected)
+            print(json.dumps({'status': 'COMPILED', 'manifest_hash': manifest['manifest_hash'],
+                              'entries': len(manifest['entries']), 'excluded': manifest['excluded']}, sort_keys=True))
+            return 0
+        spec = parse_spec(args.spec)
+        if args.command == 'validate':
+            print(json.dumps({'status': 'VALID_SPEC', 'candidate_id': spec.candidate_id,
+                              'spec_hash': spec.spec_hash, 'source_spec_status': spec.source_spec_status}))
+            return 0
+        if args.build_if_missing and not (Path(spec.panel_root) / 'manifest.json').exists():
+            warmup = timedelta(seconds=spec.bar_seconds * max(spec.universe.lookback_bars,
+                                                              spec.universe.minimum_history_bars))
+            PanelBuilder(args.store, spec.panel_root, spec.windows.protected.start).build(
+                start=spec.windows.train.start - warmup, end=spec.windows.validation.end,
+                bar_seconds=spec.bar_seconds, spread_bps=spec.costs.spread_bps,
+                spread_assumption='Frozen candidate cost model; not a measured historical spread')
+        report = ResearchFunnel(run_log=args.run_log, isolate=True).run(spec)
+        print(json.dumps({'status': report['status'], 'candidate_id': report['candidate_id'],
+                          'casefile': str(Path(report['output_path']) / 'casefile.json'),
+                          'holdout_access': report['holdout_access'], 'reason': report.get('reason'),
+                          'stages': {k: v['status'] for k, v in report['stages'].items()}}, sort_keys=True))
+        if report['status'].startswith('FALSIFIED_') or report['status'] == 'HOLDOUT_EVALUATED':
+            return 0
+        if report['status'].startswith(('INCONCLUSIVE', 'BLOCKED', 'HOLDOUT_')):
+            return 3
+        return 2
+    except QuantError as exc:
+        print(json.dumps({'status': exc.status, 'reason': exc.reason}), file=sys.stderr)
+        return 3 if exc.status.startswith(('BLOCKED', 'INCONCLUSIVE')) else 2
+    except Exception as exc:  # noqa: BLE001 - CLI boundary returns a structured nonzero engineering failure
+        print(json.dumps({'status': 'ENGINEERING_ERROR', 'reason': f'{type(exc).__name__}: {exc}'}), file=sys.stderr)
+        return 2
+
+
+if __name__ == '__main__':
+    sys.exit(main())

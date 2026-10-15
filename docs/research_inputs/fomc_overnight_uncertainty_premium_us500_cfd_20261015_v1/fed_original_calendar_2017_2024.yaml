@@ -1,0 +1,51 @@
+# Pre-announced FOMC schedule reconstruction for SOURCE QUALIFICATION ONLY.
+# Source: Federal Reserve original tentative-meeting press releases dated BEFORE
+# all scheduled 2017-2024 meetings. All dates are STATEMENT dates, not meeting starts.
+# The original release timestamps are provided as local Eastern times with UTC offsets.
+# Release timestamp has no post-result use. Subsequent deviations need independent
+# event-by-event as-of confirmation before any price-return trial.
+# The cancelled 2020-03-18 meeting must NEVER create an entry after Mar 15 cancellation.
+metadata:
+  status: source_calendar_reconstruction_not_frozen_strategy
+  time_zone: America/New_York
+  holdout_cutoff_exclusive_utc: "2025-01-01T00:00:00Z"
+  statement_release_convention: "2pm Eastern second day (subject to per-event audit)"
+  source_calendar: "XNYS (separate from Dukascopy trading hours)"
+years:
+  2017:
+    published_at: "2016-06-28T14:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20160628a.htm
+    statement_dates: [2017-02-01, 2017-03-15, 2017-05-03, 2017-06-14, 2017-07-26, 2017-09-20, 2017-11-01, 2017-12-13]
+  2018:
+    published_at: "2017-05-11T14:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20170511b.htm
+    statement_dates: [2018-01-31, 2018-03-21, 2018-05-02, 2018-06-13, 2018-08-01, 2018-09-26, 2018-11-08, 2018-12-19]
+  2019:
+    published_at: "2018-05-25T12:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm
+    statement_dates: [2019-01-30, 2019-03-20, 2019-05-01, 2019-06-19, 2019-07-31, 2019-09-18, 2019-10-30, 2019-12-11]
+  2020:
+    published_at: "2019-05-17T10:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20190517a.htm
+    statement_dates: [2020-01-29, 2020-03-18, 2020-04-29, 2020-06-10, 2020-07-29, 2020-09-16, 2020-11-05, 2020-12-16]
+    cancelled_statement_dates:
+      - date: 2020-03-18
+        cancelled_asof: "2020-03-15T00:00:00-04:00"
+        note: "March 17-18 regular meeting cancelled following March 15 unscheduled actions; Fed historical 2020 archive. Date is conservative midnight timestamp for exclusion ONLY, not exact news time."
+        url: https://www.federalreserve.gov/monetarypolicy/fomchistorical2020.htm
+  2021:
+    published_at: "2020-07-02T10:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20200702a.htm
+    statement_dates: [2021-01-27, 2021-03-17, 2021-04-28, 2021-06-16, 2021-07-28, 2021-09-22, 2021-11-03, 2021-12-15]
+  2022:
+    published_at: "2021-06-04T11:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm
+    statement_dates: [2022-01-26, 2022-03-16, 2022-05-04, 2022-06-15, 2022-07-27, 2022-09-21, 2022-11-02, 2022-12-14]
+  2023:
+    published_at: "2022-06-24T14:00:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20220624a.htm
+    statement_dates: [2023-02-01, 2023-03-22, 2023-05-03, 2023-06-14, 2023-07-26, 2023-09-20, 2023-11-01, 2023-12-13]
+  2024:
+    published_at: "2023-06-23T11:30:00-04:00"
+    url: https://www.federalreserve.gov/newsevents/pressreleases/monetary20230623a.htm
+    statement_dates: [2024-01-31, 2024-03-20, 2024-05-01, 2024-06-12, 2024-07-31, 2024-09-18, 2024-11-07, 2024-12-18]

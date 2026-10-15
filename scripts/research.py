@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only research control-plane checks and live Engineer feature discovery."""
+"""Research control plane: read-only checks and one permit-gated synthetic run."""
 
 from __future__ import annotations
 
@@ -481,6 +481,18 @@ def parser() -> argparse.ArgumentParser:
     resume_parser.add_argument("--root", type=Path, default=ROOT)
     resume_parser.add_argument("--session", required=True)
     resume_parser.add_argument("--attempt", required=True)
+    list_parser = sub.add_parser("strategies", help="list registered native capabilities")
+    list_parser.add_argument("--root", type=Path, default=ROOT)
+    plan_parser = sub.add_parser("plan", help="validate managed strategy DAG")
+    plan_parser.add_argument("--root", type=Path, default=ROOT)
+    plan_parser.add_argument("--strategy", required=True)
+    run_parser = sub.add_parser("run-synthetic", help="run frozen synthetic native trial only")
+    run_parser.add_argument("--root", type=Path, required=True)
+    run_parser.add_argument("--session", required=True)
+    run_parser.add_argument("--trial", required=True)
+    run_parser.add_argument("--intent", type=Path, required=True)
+    run_parser.add_argument("--job-name", required=True)
+    run_parser.add_argument("--artifact-dir")
     return command
 
 
@@ -512,6 +524,26 @@ def main(argv: list[str] | None = None) -> int:
                     "observed": args.observed, "where_found": args.where_found,
                     "next_safe_action": args.next_safe_action,
                 })
+        elif args.command == "strategies":
+            from src.strategies.synthetic_bracket import registered_strategies
+            from src.pipeline import ManagedResearchPipeline
+            runner = ManagedResearchPipeline(args.root)
+            result = {"status": "READY", "strategies": {
+                name: runner.plan(name) for name in registered_strategies()},
+                "approval_status": "NOT_APPROVED"}
+        elif args.command == "plan":
+            from src.pipeline import ManagedResearchPipeline
+            result = ManagedResearchPipeline(args.root).plan(args.strategy)
+        elif args.command == "run-synthetic":
+            from src.pipeline import ManagedResearchPipeline
+            root = args.root.resolve()
+            intent_path = (root / args.intent).resolve()
+            if not intent_path.is_relative_to(root) or not intent_path.is_file():
+                raise ValueError("intent must be a file inside the frozen fixture root")
+            result = ManagedResearchPipeline(root).run_synthetic(
+                session_id=args.session, trial_id=args.trial,
+                intent=json.loads(intent_path.read_text(encoding="utf-8")),
+                job_name=args.job_name, artifact_dir=args.artifact_dir)
         else:
             metadata = discover_feature(args.feature.lower())
             if metadata is None:

@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
           enable-cache: true
@@ -37,10 +37,16 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
           enable-cache: true
+      - name: Configure kernel and isolation prerequisites
+        run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          sudo apt-get update && sudo apt-get install -y tmux bubblewrap
+      - name: Start known tmux control session
+        run: tmux new-session -d -s ml4t-ci-m8-control "sleep 3600"
       - name: Install locked dependencies
         run: uv sync --locked
       - name: Run data-free unit tests
@@ -52,17 +58,19 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
           enable-cache: true
-      - name: Install tmux for managed worker recovery tests
-        run: sudo apt-get update && sudo apt-get install -y tmux
+      - name: Configure kernel and isolation prerequisites
+        run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          sudo apt-get update && sudo apt-get install -y tmux bubblewrap
       - name: Start known tmux control session
         run: tmux new-session -d -s ml4t-ci-m8-control "sleep 3600"
       - name: Install locked dependencies
         run: uv sync --locked
-      - name: Run fresh-clone suite (external catalog tests excluded)
-        run: uv run --frozen pytest -m "not data" -q -rs
+      - name: Run full suite (data tests skip when artifacts are absent)
+        run: uv run --frozen pytest -q -rs
       - name: Check Marimo reactive DAG
         run: uv run --frozen marimo check notebooks/quantified_strategies_engulfing.py
