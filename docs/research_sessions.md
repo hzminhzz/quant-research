@@ -149,6 +149,45 @@ or profitability thresholds cannot approve deployment. Report net performance
 against the baseline, uncertainty, stability, capacity, and multiple-testing
 limitations; derive research criteria from the thesis and market.
 
+### Pre-backtest signal/economic evaluation: ResearchPhase 3
+
+For a **new** MVP session, decide how to assess the hypothesis's signal **before** running the full execution backtest. A documented Phase 3 decision is the default boundary between verified features and Phase 4 native strategy simulation. This is not the separate post-MVP **Validation mode** and does not open the final holdout. The [human operating guide](research_operations.md#required-researchphase-3-decision-before-a-full-backtest) defines the four decision outcomes.
+
+Freeze in the session's existing `thesis`, `falsifier`, `baseline`, `evaluation`, and `trials` entries (or a prelinked `config` file):
+
+- The expected economic effect, precise decision timestamp and first tradable outcome price; a signal computed from a completed bar may only fill at a subsequent permissible time.
+- The indicator/feature proof, source and eligibility rules, forward outcome/holding horizon, label availability and evaluation window. Exclude observations whose **outcome ends** in the protected holdout, not only signals that start there.
+- One minimal baseline/null, the diagnostic family, effect direction, preregistered criteria and stopping rule. Declare every evaluated variant and horizon before observing results; do not select the best horizon after seeing its scores.
+- Dependence policy (event overlap, clustering, effective sample count, chronological subperiods and HAC/block uncertainty as suitable) and whether the expected move could reasonably exceed round-trip friction.
+- Where required, the specific **pre-result** reason a signal-only proxy cannot test a path-dependent mechanism and a bounded native experiment that could resolve that uncertainty.
+
+Use native `ml4t-diagnostic` when its method matches the study: conditional signed forward returns and event studies for single-symbol event rules; rank IC, quantiles, turnover and decay for comparable cross-sectional panels; purged chronological out-of-sample predictions for actual ML models. **IC is not a mandatory metric or threshold for every thesis.** Signal statistics are not strategy PnL or evidence of executable fills. Do not impose universal hit-rate, IC or PnL cutoffs.
+
+Declare the diagnostic in the existing `SessionSpecV1.trials` list **before** `init` (example):
+
+```yaml
+trials:
+  - id: phase3-signal-screen
+    kind: diagnostic
+    description: 'Predeclared single-symbol event study versus frozen baseline, using causal next-open outcomes; include dependence, uncertainty, and cost-feasibility evidence.'
+```
+
+Record a Phase 3 evidence report using the [single-page template](phase3_signal_evaluation_template.md). Choose **PASS, FAIL, INCONCLUSIVE, or NOT_APPLICABLE**, and retain the supporting numbers or predeclared reason. Store a new immutable result artifact outside the session's control tree. For example:
+
+```bash
+# After init and the predeclared evaluation, create the artifact once:
+# run_log/diagnostics/<session_id>/phase3_signal_evaluation.md
+uv run python scripts/research_session.py record \
+  --session <session_id> --trial phase3-signal-screen \
+  --status completed \
+  --artifact run_log/diagnostics/<session_id>/phase3_signal_evaluation.md \
+  --root .
+```
+
+The `record` CLI's `completed`/`failed` status describes the *trial execution*, not the Phase 3 research decision. Do **not** pass a result under `run_log/research_sessions/<session_id>/` to `record`; the session reserves those paths for control files. `record` hashes an existing artifact but cannot prove the quality of its calculations. Audit the evidence separately.
+
+**Gate policy:** PASS permits a bounded native Phase 4 backtest, but not an economic qualification. A predeclared, adequately powered FAIL ends normal backtesting with an MVP REJECT. INCONCLUSIVE usually stops; only a predeclared native test that can actually resolve the uncertainty may proceed, without claiming Phase 3 passed. NOT_APPLICABLE needs a pre-result, mechanism-specific reason and the smallest native execution experiment; it is not an approval. Record blockers rather than turning uncertainty into rejection. Retrospective Phase 3 diagnostics performed after backtest results are already known remain **historical review** and cannot acquire preregistered status.
+
 ## 3. Track every trial and its evidence
 
 Count every evaluated variant, including manual notebook experiments, changes
