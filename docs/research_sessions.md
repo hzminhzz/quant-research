@@ -1,5 +1,13 @@
 # Thesis-driven research sessions
 
+> **Historical v1 contract.** Frozen session behavior and research integrity rules
+> below remain authoritative for that history. Earlier milestone statements are
+> dated snapshots, not the current backlog. New supported research follows
+> [dual-mode operations](architecture/dual_mode_20261015/operations.md).
+> For system-level decisions and integration work, use
+> [the operating architecture](architecture/trading_system/README.md).
+> Neither a new view nor a new protocol rewrites old trial or holdout exposure.
+
 For the **human operating procedure**, mode selection and copy-ready research
 prompts, start with [Agent-first research operations](research_operations.md).
 That page defines MVP Research (default), Validation and Promotion as

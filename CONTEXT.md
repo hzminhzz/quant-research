@@ -87,3 +87,21 @@ state which meaning is intended.
 A report must identify the **object whose status is stated**. For example:
 `source qualification: PASS` and `deployment: NOT_APPROVED`
 can both be true.
+
+## End-to-end operation
+
+| Term | Meaning and useful distinction |
+| --- | --- |
+| **Action Contract** | Bounded agreement for one operation: objective, inputs, permitted effects, resources, completion evidence and stop conditions. Not authorization by itself. |
+| **Action Frontier** | Currently dependency-ready operations and their unresolved prerequisites; not every conceivable future task. |
+| **Evidence Invalidation** | Withdrawal of a current claim's applicability after a required dependency changes. Historical observations remain preserved. |
+| **Attestation** | A named verifier's scoped statement about specified evidence and checks, with method and limitations. Not a guarantee or permission. |
+| **Strategy Version** | Exact, immutable identity of a strategy's executable rules and declared assumptions. A display name is insufficient. |
+| **Strategy Intent** | Decision to establish, change or reduce exposure under a strategy version and execution policy; may contain related order legs. Not a fill. |
+| **Sleeve** | Separately attributable strategy allocation or risk contribution inside a portfolio. Not necessarily a separate broker account or position. |
+| **Rulebook** | Versioned interpretation of a program's operating constraints and lifecycle conditions. Published rules and account-applicable terms can differ. |
+| **Account Terms** | Rules applicable to a particular account and time, including any grandfathered agreement. |
+| **Risk Reservation** | Committed allowance for pending exposure that is counted before a fill. An uncertain order outcome does not establish that the allowance is free. |
+| **Release Manifest** | Bound set of strategy, portfolio, account, rule, execution and evidence identities selected for a deployment. Approval is separate. |
+| **Lesson** | Scoped, evidence-supported explanation and remedy for a repeatable failure or decision problem, with verification and known limits. Not timeless market truth. |
+| **Verified Cashflow** | Reconciled cash actually paid or received by the owner. Distinct from trading equity, pending payouts and modeled counterfactual losses. |

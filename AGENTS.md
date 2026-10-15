@@ -1,5 +1,15 @@
 # Agent guide: dual-mode quantitative research
 
+## System orientation
+
+For cross-system architecture, portfolio/routing integration, audit, recovery or
+agent-interface work, read
+[the operating architecture](docs/architecture/trading_system/README.md), then
+only the task-specific document it selects. For implementation planning, use
+[the dependency-aware rollout](docs/plans/agent_trading_system_rollout.md).
+These describe target capabilities, not newly available commands or permissions.
+Inspect current code and evidence before treating a target as implemented.
+
 ## Default entry points
 
 **For new research, agents invoke only `scripts/quant.py` (factory) or

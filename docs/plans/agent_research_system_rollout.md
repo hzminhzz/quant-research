@@ -1,5 +1,12 @@
 # Implementation plan — Agent-first ML4T research system
 
+> **Historical rollout snapshot.** Preserve the original milestone definitions
+> and acceptance criteria below. Their status text is not a live backlog; inspect
+> current code/GitHub and [later verification](../architecture/dual_mode_20261015/phase2_cutover_verification.md).
+> New end-to-end operating work is planned in
+> [the agent trading-system rollout](agent_trading_system_rollout.md).
+> It extends existing capability instead of restarting or duplicating M1-M8.
+
 **Status:** Approved; M1, M2, and M3-B implemented. M3-A and M4-M7 remain open.
 **Date:** 2026-10-12. **Repository:** `quant-research`.
 **Scope:** One bounded research control plane over existing code,
