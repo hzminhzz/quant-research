@@ -2,7 +2,7 @@
 
 > **Validation status: `NOT_APPROVED`.** Historical backtest, whitepaper, notebook, and dashboard results are preserved research artifacts, not independently validated evidence of live readiness. See [`run_log/validation_status.json`](run_log/validation_status.json) and [`docs/audit/validation-remediation-status.md`](docs/audit/validation-remediation-status.md).
 
-[![Tests](https://img.shields.io/badge/pytest-33%20passed-brightgreen)]()
+[![Tests](https://github.com/hzminhzz/quant-research/actions/workflows/ci.yml/badge.svg)](https://github.com/hzminhzz/quant-research/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)]()
 [![Backtest](https://img.shields.io/badge/backtest-10%20Years%20(2017--2026)-blue)]()
 [![Framework](https://img.shields.io/badge/framework-Marimo%20Reactive%20DAG-orange)]()
@@ -161,7 +161,7 @@ uv sync
 
 ### 2. Execute Automated Verification Suites
 ```bash
-# Run all 33 unit and contract tests
+# Run unit and contract tests with two balanced workers
 uv run pytest
 ```
 

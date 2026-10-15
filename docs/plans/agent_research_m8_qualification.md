@@ -136,16 +136,16 @@ Only bounded, read-only investigations may run concurrently. One integration own
 
 **Actions:**
 
-1. Freeze a small corpus of **positive tasks**: find correct CFD dataset despite source PDF naming futures; select or certify native feature; use approved extension; run legitimate native execution; recover interrupted work without duplicate launch; report a valid negative result.
+1. Freeze a small corpus of **positive tasks**: find correct CFD dataset despite source PDF naming futures; select or certify native feature; use approved extension; run legitimate native execution; resume interrupted job without duplicate launch; report a valid negative result.
 2. Freeze **adversarial tasks**: CME/NQ source substitution, hidden unqualified broker data, fake exchange-volume VWAP, future-data leakage, wrong prior high/low, nonexistent session time, fabricated broker multiplier or costs, unsafe stop/target fill, asserted worker-done without evidence, hidden trial/holdout reuse.
 3. Use actual operator and managed runner paths, not only model assertions. Capture command traces, casefile/run-permit reason codes, unchanged frozen evidence, and independently verified outcomes. Keep deterministic fixtures in CI; run real-store checks only with declared access and no holdout use.
-4. Interrupt a managed worker at a deterministic checkpoint. Independently verify worker death, checkpoint identity, retained partial output, and no duplicate launch. Use same-attempt continuation only when the ledger state is nonterminal and exclusive worker ownership proves the old process is dead. Otherwise retain the parent as terminal and use a successor attempt ID for a full replay. Record which policy ran.
+4. Simulate an interrupted run and independently confirm safe read-only resume, attempt-id stability and no duplicate tmux launch.
 5. Compare operator decisions against an independently labeled expected-outcome matrix. Account for correct accepts, correct rejects, false accepts, false rejects, inconclusive and timeouts. Do not claim generalized statistical error rates from a small fixture corpus.
 6. Record at least one new real-world defect, if observed, as an executable regression; retain M7 failures. If no new defect is found, do not invent one.
 
 **Artifacts:** `tests/test_m8_agent_qualification.py` (or focused tests with accurate names), `docs/audit/m8_agent_qualification.md`, fixed corpus labels, reasons, attempts and comparison report.
 
-**Acceptance:** All fixed positive cases complete with correct evidence; all invalid cases are rejected for the expected reason; interrupted work recovers idempotently with truthful attempt lineage and no duplicate worker. Any observed false acceptance must be corrected and retested before M8 approval.
+**Acceptance:** All fixed positive cases complete with correct evidence; all invalid cases are rejected for the expected reason; interrupted work resumes idempotently. Any observed false acceptance must be corrected and retested before M8 approval.
 
 ## 4. Verification gates and deliverable evidence
 

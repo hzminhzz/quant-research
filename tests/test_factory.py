@@ -104,6 +104,7 @@ def test_native_backtest_engine_runs_a_synthetic_fill_cycle():
     assert result.to_equity_dataframe()["equity"].is_finite().all()
 
 
+@pytest.mark.data
 def test_factory_backtest_execution():
     parquet_path = Path("data/processed/DE30_EUR_15m_2019_2026.parquet")
     if not parquet_path.exists():

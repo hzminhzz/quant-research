@@ -1,5 +1,25 @@
 # Agent Guide: Thesis-Driven Quantitative Research
 
+## 🚨 MANDATORY EXECUTION GATE (FAIL-CLOSED)
+
+Before writing or running ANY code for market data, features, factor diagnostics, or backtesting:
+
+1. **MUST proactively check and invoke the matching `ml4t-*` skill**:
+   - Polars transformations → MUST invoke `ml4t-polars-patterns`
+   - Feature engineering / labels → MUST invoke `ml4t-compute-features` / `ml4t-engineer`
+   - Signal quality / factor diagnostics → MUST invoke `ml4t-evaluate-factor` / `ml4t-information-coefficient`
+   - Strategy simulation / backtesting → MUST invoke `ml4t-run-backtest` / `ml4t-backtest`
+
+2. **MUST use the installed verified `ml4t` libraries**:
+   - Features & Labels: `from ml4t.engineer import compute_features, labeling`
+   - Factor Diagnostics: `from ml4t.diagnostic import analyze_signal, Evaluator`
+   - Backtesting: Subclass `ml4t.backtest.Strategy` and execute with `ml4t.backtest.Engine(feed, strategy, config)`
+
+3. **PROHIBITION**:
+   - **NEVER** hand-roll custom backtest loops, raw simulation loops, or custom metric calculators.
+   - **NEVER** write ad-hoc feature loops when `ml4t.engineer` or `ml4t-polars-patterns` covers them.
+   - Violation is a hard failure.
+
 This repository is the ongoing crypto and index research workspace. Optimize for falsifiable economic hypotheses, comparable experiments, and auditable evidence, not the highest historical Sharpe. Research completion is separate from strategy approval.
 
 ## Default agent-first operating workflow
@@ -307,3 +327,5 @@ When deploying to remote container environments (e.g., Molab):
 2. **Do not hardcode parameters**: Use the applicable versioned configuration and session specification; `config/setup.yaml` remains the existing pipeline default.
 3. **Account for all trials**: Follow the session guide to retain every tested variation, failure, and deviation with hashed evidence. Keep historical review distinct from preregistered trials; missing legacy records remain disclosed limitations.
 4. **Do not trade unhedged low-capacity signals**: Signals with high turnover ($> 2,000$ trades) on intraday bars must incorporate realistic market impact modeling.
+5. **Never model price-barrier breakout/stop entries as delayed market orders**: In intraday breakout systems, using post-hoc condition checks (`if bar['high'] >= trigger: broker.buy()`) submits a market order that executes on the next bar or bar close after the move has already occurred. This introduces severe artificial slippage and false negatives. Always use native stop orders (`OrderType.STOP` / `stop_price=trigger`) that fill at the exact designated breakout/stop level.
+6. **Never reject a volatility/momentum strategy based solely on a single low-volatility regime**: Intraday momentum and breakout systems derive edge from volatility expansion regimes (e.g., 2018, 2020, 2022). Evaluating exclusively on a low-volatility grinding bull market (e.g., 2024) misdiagnoses regime cyclicality as strategy failure. Always evaluate across multi-year cycles covering both expansion and compression regimes.

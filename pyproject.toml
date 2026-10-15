@@ -18,6 +18,8 @@ dependencies = [
     "pyyaml>=6.0",
     "lightgbm>=4.7.0",
     "shap>=0.52.0",
+    "ml4t-live[experimental]>=0.1.2",
+    "ml4t-models[integration]==0.1.4",
 ]
 
 [tool.marimo.runtime]
@@ -27,6 +29,7 @@ output_max_bytes = 10_000_000
 dev = [
     "pytest>=9.0",
     "ruff==0.16.8",
+    "pytest-xdist>=3.8.0",
 ]
 
 [tool.pytest.ini_options]
@@ -36,6 +39,9 @@ markers = [
     "data: requires the external, gitignored ml4t-data store",
     "slow: long-running integration check",
 ]
+# --strict-markers fails on an unregistered marker instead of silently letting
+# the test fall outside its lane filter (see tests/conftest.py).
+addopts = "-n 2 --dist worksteal --strict-markers"
 
 [tool.basedpyright]
 venvPath = "."
