@@ -126,6 +126,12 @@ def inspect_case(root: str | Path, *, candidate_id: str | None = None,
                 raise ValueError("ARTIFACT_HASH_MISMATCH")
             observed.append(record)
         except (ValueError, OSError, KeyError, TypeError) as exc:
+            observed.append({"candidate_id": row["candidate_id"],
+                             "attempt_id": row["attempt_id"],
+                             "status": row["status"], "status_authority": "LEDGER_ONLY",
+                             "stages": {}, "source_ref": None,
+                             "source_observed_at": row.get("recorded_at"),
+                             "evidence_access": "NOT_VERIFIED"})
             unknowns.append({"attempt_id": row["attempt_id"],
                              "reason_code": str(exc), "authority": "trial_ledger.jsonl"})
     if ledger_error:

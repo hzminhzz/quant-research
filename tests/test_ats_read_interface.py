@@ -130,6 +130,16 @@ def test_protected_result_is_not_opened(tmp_path, monkeypatch):
         read_evidence(tmp_path, "dual_mode/trial-1/attempt-1/casefile.json")
 
 
+def test_oversized_casefile_preserves_ledger_only_status(tmp_path):
+    path = fixture(tmp_path)
+    path.write_text(path.read_text() + (" " * 300000))
+    view = inspect_case(tmp_path, list_jobs=lambda: set())
+    assert view["status"] == "BLOCKED"
+    assert view["research"][0]["status_authority"] == "LEDGER_ONLY"
+    assert view["research"][0]["evidence_access"] == "NOT_VERIFIED"
+    assert any(x["reason_code"] == "EVIDENCE_TOO_LARGE" for x in view["unknowns"])
+
+
 def test_corrupted_ledger_never_authoritative(tmp_path):
     fixture(tmp_path)
     with (tmp_path / "run_log/trial_ledger.jsonl").open("a") as out:
