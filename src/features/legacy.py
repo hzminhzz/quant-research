@@ -1,4 +1,4 @@
-"""Systematic Quantitative Feature Engineering Engine.
+"""Legacy feature implementations. Public entry points remain in src.features.
 
 Provides vectorized, high-performance Polars feature transformers with strict
 zero-lookahead guarantees. Supports single asset series and multi-asset panels
@@ -320,5 +320,4 @@ def extract_breakout_feature_vector(
         "nr7_flag": 1.0 if is_nr7 else 0.0,
         "breakout_bar_range_ratio": float(np.clip(bar_range_ratio, 0.2, 5.0)),
     }
-
 

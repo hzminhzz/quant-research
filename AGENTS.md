@@ -1,5 +1,32 @@
 # Agent Guide: Thesis-Driven Quantitative Research
 
+## Rebuild transition: verified foundation, not a completed cutover
+
+The 2026-10-15 rebuild is isolated on `feat/rebuild-20261015-governed-core`.
+Read `docs/architecture/rebuild_20261015/verification.md` for exact tested
+capabilities and unresolved gates before using its new modules.
+
+- `scripts/research.py strategies` lists the current plugin capability surface.
+  `run-synthetic` executes only an already-frozen synthetic fixture through the
+  existing session, certificate, feature proof, permit, attempt and native engine.
+  It does not authorize real-market runs or create/freeze research sessions.
+- `src.data_plane.catalog.certify`, `verify`, and `view_asof` share one bounded
+  certification implementation. They do not replace `src.catalog`, qualify all
+  stores, or physically sandbox file access. Recheck exact content, source,
+  policy and calendar identities; reject unsupported semantics and stale proof.
+- `src.validation.oracle` provides development diagnostics only. Until global
+  ledger coverage, stitched OOS return paths, both IC/net-Sharpe endpoints, and
+  chronological validation are verified, its decision remains `INCONCLUSIVE`.
+  A low diagnostic p-value does not unlock `_final_oos_claims` or deployment.
+- `src.portfolio.barrier_controller` is a pure research sizing heuristic, not
+  an order router, solved Bellman policy, or guarantee against gap losses.
+- New feature helpers are opt-in. They are not automatically approved in the
+  FeatureGateway. Preserve verified native features and strategy baselines.
+- Preserve original runners and frozen contract versions until individual
+  native-execution and evidence parity is proved. A proposed file-fate map is
+  not deletion permission. Never rewrite failed attempts or historical returns.
+
+
 ## 🚨 MANDATORY EXECUTION GATE (FAIL-CLOSED)
 
 Before writing or running ANY code for market data, features, factor diagnostics, or backtesting:
@@ -46,9 +73,11 @@ three research modes, the prompt contract, ownership, and recovery procedure.
   No mode grants live-order authority or broker-execution approval.
 
 **Role split:** Human provides research intent and high-impact approvals.
-ChatGPT leads thesis/experiment choice and independently verifies evidence.
-Codex implements/tests using the installed ML4T APIs, manages bounded jobs,
-and reports artifacts; specialist agents provide bounded independent reviews.
+ChatGPT leads thesis/experiment choice, architecture and independent acceptance.
+OpenCode is the default local implementation/testing executor and uses native
+subagents for independent bounded work. Herdr runs long deterministic jobs;
+OpenCode inspects their evidence. When a provider is unavailable, explicitly
+record any fallback executor and keep the same scope and permission limits.
 One integration owner edits shared code. A worker's claim of completion is not
 proof. Avoid seven separate approval prompts for ordinary research phases.
 
@@ -332,5 +361,5 @@ When deploying to remote container environments (e.g., Molab):
 2. **Do not hardcode parameters**: Use the applicable versioned configuration and session specification; `config/setup.yaml` remains the existing pipeline default.
 3. **Account for all trials**: Follow the session guide to retain every tested variation, failure, and deviation with hashed evidence. Keep historical review distinct from preregistered trials; missing legacy records remain disclosed limitations.
 4. **Do not trade unhedged low-capacity signals**: Signals with high turnover ($> 2,000$ trades) on intraday bars must incorporate realistic market impact modeling.
-5. **Never model price-barrier breakout/stop entries as delayed market orders**: In intraday breakout systems, using post-hoc condition checks (`if bar['high'] >= trigger: broker.buy()`) submits a market order that executes on the next bar or bar close after the move has already occurred. This introduces severe artificial slippage and false negatives. Always use native stop orders (`OrderType.STOP` / `stop_price=trigger`) that fill at the exact designated breakout/stop level.
+5. **Model resting stop entries with native stop orders**: A post-hoc bar-high check followed by a market buy is not a resting breakout order. Use `OrderType.STOP` with a predeclared trigger when the strategy requires one. Native stops can gap or slip beyond the trigger; verify the installed engine's fill behavior and do not claim exact stop-price fills or broker queue priority from OHLC bars.
 6. **Never reject a volatility/momentum strategy based solely on a single low-volatility regime**: Intraday momentum and breakout systems derive edge from volatility expansion regimes (e.g., 2018, 2020, 2022). Evaluating exclusively on a low-volatility grinding bull market (e.g., 2024) misdiagnoses regime cyclicality as strategy failure. Always evaluate across multi-year cycles covering both expansion and compression regimes.

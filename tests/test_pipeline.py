@@ -164,14 +164,13 @@ def test_stage6_and_7_backtest_and_synthesis_contract():
         "calmar_ratio",
         "total_return_pct",
         "max_drawdown_pct",
-        "dsr_probability",
-        "dsr_haircut_sharpe",
     ):
         assert np.isfinite(tearsheet[key]), f"{key} is not finite: {tearsheet[key]}"
 
-    # Deflation must move the Sharpe down, and the confidence interval must
-    # bracket the point estimate it belongs to.
-    assert 0.0 <= tearsheet["dsr_probability"] <= 1.0
-    assert tearsheet["dsr_haircut_sharpe"] < tearsheet["annualized_sharpe"]
+    # Legacy scalar trial list has neither complete search coverage nor
+    # aligned candidate returns. Never manufacture a DSR probability.
+    assert tearsheet["dsr_status"] == "INCONCLUSIVE"
+    assert tearsheet["dsr_probability"] is None
+    assert tearsheet["dsr_haircut_sharpe"] is None
     lower_ci, upper_ci = tearsheet["sharpe_95_ci"]
     assert lower_ci <= tearsheet["annualized_sharpe"] <= upper_ci

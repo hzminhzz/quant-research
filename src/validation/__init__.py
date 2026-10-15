@@ -1,4 +1,7 @@
-"""Leakage-resistant event ordering, interval purging, and fold-local weights."""
+"""Leakage-resistant event ordering, interval purging, and fold-local weights.
+
+Legacy exports remain available after module-to-package migration.
+"""
 
 from __future__ import annotations
 
