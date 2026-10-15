@@ -1,6 +1,6 @@
 # Agent-first ML4T research: human operating guide
 
-**Audience:** Research owner using ChatGPT and a coding executor.
+**Audience:** Research owner using ChatGPT Web as the principal research engineer, with optional coding-agent support.
 **Scope:** `/home/quant/dev/quant/quant-research`. Use this guide for new strategy ideas, research continuation, and promotion decisions.
 
 This guide defines an **operating policy**, not new CLI commands, automatic gate bypasses, or a claim that every recovery feature is implemented. The current repository contracts, `AGENTS.md`, `docs/research_sessions.md`, market policy, and frozen session evidence remain authoritative.
@@ -75,10 +75,11 @@ the Phase 3 evidence before Phase 4. Preserve all existing frozen sessions.
 
 | Owner | Authority |
 | --- | --- |
-| **Human** | Supplies strategy/source and constraints; authorizes holdout opening, meaningful hypothesis changes, capital, credentials, and destructive actions. |
-| **ChatGPT research lead** | Inspects actual repo and research state; chooses mode, hypothesis, falsifier, trial budget and validation gates; directs bounded implementation; independently verifies results; accepts, rejects or asks for the next justified experiment. |
-| **Codex principal executor** | Reads `AGENTS.md` and installed ML4T skills, inspects repository and native APIs, implements contracts/features/adapters, tests, runs backtests, fixes ordinary failures, records artifacts and handles task-owned Git changes when authorized. |
-| **Specialist subagents** | Independent narrow inspections: source evidence, native API semantics, numerical parity, causal timing, costs, fills/cash reconciliation, adversarial tests and code review. One integration owner makes shared changes. |
+| **Human** | Supplies the thesis or strategy and constraints; authorizes protected holdouts, material hypothesis changes, capital, credentials, and destructive actions. |
+| **Gemini thesis author (optional)** | Develops economic hypotheses and draft rules. Its handoff is research input, not an approved execution permit or verified native API contract. |
+| **ChatGPT Web principal engineer and research lead** | Inspects the real repository and data; resolves necessary implementation details; registers experiments; implements native ML4T features and backtests directly through DevSpace; tests, debugs, audits evidence, and makes the final research decision. Owns the end-to-end work. |
+| **Codex (optional executor)** | Handles bounded long-running, computationally heavy, or independent tasks when this offers a clear advantage. Codex does not take over the main engineering or research decision by default. |
+| **Specialist subagents (optional)** | Perform narrow independent checks, such as numerical parity, execution timing, cost assumptions, and cash/equity reconciliation. ChatGPT integrates and verifies their findings. |
 | **tmux / existing control plane** | Persistent bounded jobs, frozen research identities, `RunPermit`, append-only attempts, `Casefile` and fail-closed checks. Do not claim interrupted same-attempt recovery unless verified in the installed revision. |
 
 ChatGPT is the final research verifier. A worker's message that it is finished is not evidence. **No live orders** follow from an MVP, Validation, or Promotion result without separate explicit authorization.
@@ -118,7 +119,8 @@ If FAIL, stop and REJECT. If INCONCLUSIVE, normally stop; continue to
 a small native execution test only if it was justified in advance.
 If NOT_APPLICABLE, record the pre-result reason and bounded native test.
 Use docs/phase3_signal_evaluation_template.md for the artifact.
-Delegate tests/running backtest ML4T execution to Codex and specialists.
+Implement and test through DevSpace directly as ChatGPT Web where practical.
+Use Codex only for bounded heavy or independent tasks, not as the default owner.
 Use verified ml4t-engineer features or certified extensions and genuine
 ml4t-backtest execution; do not substitute a homemade simulator.
 Independently audit source, feature proof, timing, session hours,
@@ -132,6 +134,37 @@ Conclude REJECT, INCONCLUSIVE or VALIDATE with evidence.
 Only promote a scientifically valid, economically promising candidate
 to a separately accounted validation program. No live orders.
 ```
+
+### Copy-ready prompt: Gemini thesis to native ML4T MVP
+
+When Gemini has already researched the economic thesis, use the
+[Gemini-to-ML4T implementation prompt](prompts/gemini_to_ml4t_mvp.md)
+instead of commissioning a second literature review.
+
+Gemini supplies the thesis and draft rule specification. **ChatGPT Web is the
+principal engineer and research lead**: it verifies implementation-critical
+assumptions against local data and installed ML4T APIs, implements and executes
+the registered MVP through DevSpace, audits broker evidence, and makes the final
+research decision. Codex is optional for bounded heavy or independent work.
+
+```text
+Mode: MVP Research.
+Input: Attached Gemini research brief and thesis YAML.
+Repository: /home/quant/dev/quant/quant-research
+
+Execute the workflow in docs/prompts/gemini_to_ml4t_mvp.md.
+Act as principal engineer and researcher. Do the feature engineering,
+native ML4T backtest, tests, debugging, independent audit, and final
+research decision directly through DevSpace when practical.
+Use Codex selectively, not as the default main worker.
+Continue until REJECT, INCONCLUSIVE, or VALIDATE. No live orders.
+```
+
+The workflow does **not** re-run Gemini's thesis discovery by default. It
+still verifies source identities, native API support, causal timing, costs, and
+frozen trial integrity. These technical gates cannot be bypassed by an external
+research brief. Preserve the existing seven ResearchPhases and the separate
+Validation and Promotion permissions.
 
 ### Follow-up prompt: deeper validation
 
