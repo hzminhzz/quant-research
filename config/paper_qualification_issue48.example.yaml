@@ -1,0 +1,80 @@
+# Issue #48 TEMPLATE ONLY; do not put account UID, keys or private evidence here.
+# Copy to a private 0700 folder outside both repositories before editing.
+# NULL means BLOCKED; no strategy, account, limits or dates are approved.
+schema_version: 1
+subject:
+  strategy_id: null
+  strategy_source: null  # repository-relative frozen Strategy source
+  strategy_sha256: null  # SHA256 of that exact file, lowercase hex
+  venue: bybit
+  environment: demo
+  account_ref_redacted: null  # neutral handle; NEVER Demo UID
+  instruments: []  # e.g. venue-qualified "BTC/USDT:USDT" only after approval
+  bar_cadence: null  # e.g. 1m, 15m, 1h; completed mainnet-public Bybit bars
+  public_feed: bybit_mainnet_public
+approval:
+  research_approval_status: NOT_APPROVED
+  research_approval_ref: null  # link to independent approved ResearchPhases verdict
+  research_approved_by: null
+  risk_reviewed: false
+  risk_reviewed_by: null
+  account_owner_exclusive: false
+  operator_owner: null
+risk:
+  execution_mode: paper
+  fail_on_reconciliation_mismatch: true
+  fail_on_journal_error: true
+  auto_recover: true
+  # Exclusive account-specific state directory (0700), outside repositories.
+  # Native risk state: bybit-demo-account-<private UID>.json in this directory.
+  # Native audit journal: bybit-demo-account-<private UID>-journal.jsonl.
+  # The Bybit connector maintains its own existing intent journal.
+  state_dir: null
+  max_order_shares: null
+  max_order_value: null
+  max_position_shares: null
+  max_position_value: null
+  max_total_exposure: null
+  max_positions: null
+  max_orders_per_minute: null
+  max_daily_loss: null
+  max_drawdown_pct: null
+  max_price_deviation_pct: null
+  max_data_staleness_seconds: null
+  dedup_window_seconds: null
+  feed_silence_seconds: null
+  max_event_age_seconds: null
+  max_recovery_attempts: null
+  recovery_cooldown_seconds: null
+observation:
+  start_utc: null  # fixed future UTC start, before first paper observation
+  end_utc: null    # fixed UTC end, after start
+  abort_reasons:
+    - reconciliation_mismatch
+    - unknown_order_outcome
+    - persistence_error
+    - journal_error
+    - identity_unverified
+    - native_recovery_exhausted
+    - risk_limit_breach
+    - feed_stale
+    - broker_disconnected
+criteria:
+  # Nonnegotiable integrity gates. Zero is a policy, not a performance estimate.
+  max_unreconciled_order_count: 0
+  max_unattributed_fill_count: 0
+  max_unknown_order_outcomes: 0
+  max_unresolved_safety_incidents: 0
+  # Operator must predeclare positive evidence counts and uptime threshold.
+  min_order_lifecycle_drills: null
+  min_recovery_drills: null
+  minimum_healthy_fraction: null
+evidence:
+  output_dir: null  # private 0700, outside both repositories
+  preflight_report: null  # JSON from script/bybit_demo_preflight, mode read_only
+  preflight_state_file: null  # exactly same account-scoped native state path
+  native_health_report: null  # secured JSON of engine/persistence/reconciliation
+  # Extra evidence expected at final paper qualification:
+  # provider_order_position_snapshots, native_audit_journal,
+  # connector_intent_journal, order_fills_cancels ledger, incident_log,
+  # Prometheus scrape and alert delivery, observation decisions.
