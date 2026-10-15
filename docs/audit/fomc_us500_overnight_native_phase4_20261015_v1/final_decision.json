@@ -1,0 +1,79 @@
+{
+  "session_id": "fomc_us500_overnight_native_phase4_20261015_v1",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "research_verdict": "REJECT",
+  "frozen_trial_count": 6,
+  "executed_trial_count": 6,
+  "criteria_failures_or_limits": [
+    "Primary daily-equity Sharpe <0.50",
+    "Double friction 20bps net PnL <=0"
+  ],
+  "holdout_2025_plus": "SEALED",
+  "native_broker": "ml4t-backtest.Engine",
+  "funding_modeled": false,
+  "phase3_incremental_edge": "INCONCLUSIVE",
+  "source": "Dukascopy bid 1m index price proxy only",
+  "trial_metrics": [
+    {
+      "trial": "fomc_primary_3x_10bps",
+      "closed_trades": 53,
+      "net_pnl": 12191.019413907441,
+      "pf": 1.4693966226335662,
+      "win_rate": 0.39622641509433965,
+      "sharpe": 0.3932456113880343,
+      "max_drawdown": -0.08635721233098233,
+      "annual_return": 0.01737822747703799
+    },
+    {
+      "trial": "ordinary_baseline_3x_10bps",
+      "closed_trades": 53,
+      "net_pnl": 6287.877332556773,
+      "pf": 1.1715903670362358,
+      "win_rate": 0.5094339622641509,
+      "sharpe": 0.20430647866111923,
+      "max_drawdown": -0.1856796119610159,
+      "annual_return": 0.00914883254760901
+    },
+    {
+      "trial": "fomc_3x_20bps_cost_stress",
+      "closed_trades": 53,
+      "net_pnl": -4306.5335508815,
+      "pf": 0.8720564700768042,
+      "win_rate": 0.3584905660377358,
+      "sharpe": -0.11901109149749733,
+      "max_drawdown": -0.10511352545223897,
+      "annual_return": -0.006571402635486723
+    },
+    {
+      "trial": "fomc_1x_10bps",
+      "closed_trades": 53,
+      "net_pnl": 4097.304596769928,
+      "pf": 1.487634880038323,
+      "win_rate": 0.39622641509433965,
+      "sharpe": 0.3953583416494282,
+      "max_drawdown": -0.0292548328744387,
+      "annual_return": 0.00603244419821336
+    },
+    {
+      "trial": "fomc_5x_10bps",
+      "closed_trades": 53,
+      "net_pnl": 20051.661424464815,
+      "pf": 1.4507541034751776,
+      "win_rate": 0.39622641509433965,
+      "sharpe": 0.3911770820266685,
+      "max_drawdown": -0.14161042754120756,
+      "annual_return": 0.027749593836874364
+    },
+    {
+      "trial": "fomc_3x_zero_cost_diagnostic",
+      "closed_trades": 53,
+      "net_pnl": 31470.161516216875,
+      "pf": 2.654305211084175,
+      "win_rate": 0.5849056603773585,
+      "sharpe": 0.8875758628570857,
+      "max_drawdown": -0.06947816041960628,
+      "annual_return": 0.041830965999286374
+    }
+  ]
+}

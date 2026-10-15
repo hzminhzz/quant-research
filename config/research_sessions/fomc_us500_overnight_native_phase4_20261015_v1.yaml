@@ -1,0 +1,124 @@
+# New post-Phase-3 exploratory (2026-10-15) -- NOT an unseen validation.
+# Author explicitly approves Phase 4 despite inconclusive incremental FOMC signal.
+session_id: fomc_us500_overnight_native_phase4_20261015_v1
+market: indices
+thesis: >-
+  This is a SEPARATE, post-observation native broker execution test of the
+  originally scheduled 16:06 ET to 09:36 ET FOMC overnight long.
+  Test whether the already-observed positive absolute gross US500 overnight
+  return survives frozen friction under 3x notional leverage; test the exact
+  D-7 matched ordinary overnight with identical native settings.
+  No claim of unseen OOS, Hyperliquid historical fill parity, or live readiness.
+mechanism: >-
+  Investors may earn risk compensation for holding US index exposure across
+  a scheduled FOMC eve. Ordinary overnight equity drift is a substantial
+  alternative explanation, since frozen Phase-3 matched excess was
+  +3.307bps with HAC95 CI [-20.847, +27.461]bps (p=0.785).
+falsifier: >-
+  Mark this new exploratory MVP as REJECT if the primary native 3x 10bps
+  round-trip net equity change is nonpositive, closed-trade profit factor
+  below 1.30, or daily-equity Sharpe below 0.50; also reject a unique
+  FOMC premium if the matched D-7 ordinary overnight has an equal or
+  higher daily-equity Sharpe or profit factor. Additionally, a primary
+  peak-to-trough native-equity drawdown greater than 20%, order rejections,
+  invalid fill clock, fewer than 53 complete FOMC/control trades, or
+  audit mismatch precludes scientific qualification. If the 20bps cost
+  stress loses money, classify cost robustness as failed. All outcomes
+  are exploratory, not protected OOS or deployment authorization.
+instruments:
+  - symbol: ES
+    kind: cfd
+    venue: Dukascopy historical bid-only proxy; synthetic linear price exposure via native broker
+    identity: >-
+      usa500idxusd 1m historical bid OHLC; source alias index_minute_ES.
+      Data are not a tradable futures contract, Hyperliquid equity perp,
+      or historical ASK prices. Simulated notional multiplier=1; fractional
+      index units; zero external financing is only hypothetical.
+    session: frozen XNYS eligible full sessions and actual source quote hours
+    timezone: America/New_York
+data:
+  - id: eligible_overnight_1m_price_windows
+    role: prices
+    symbol: ES
+    path: data/processed/fomc_us500_overnight_native_phase4_20261015_v1/minute_windows_bid.parquet
+evaluation:
+  development_start: "2017-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_policy: >-
+    All input bars and outcomes are strictly pre-2025; no protected holdout
+    accessed and no re-labeling prior observed data as unseen.
+  fixed_event_set: >-
+    The 53 source-complete event/control pairs from Phase 3,
+    2018-05-02 through 2024-12-18, one matched D-7 ordinary overnight.
+    No events excluded by performance. Exclude originally missing
+    2017 and early 2018 bars without time shifting.
+  signal_timing: >-
+    Only publicly scheduled event calendar controls entries and exits.
+    Native Strategy on_data at 16:05 ET submits a market order for NEXT_BAR
+    16:06 ET open, and 09:35 ET submits an exit for NEXT_BAR 09:36 ET open.
+    On-data does not use unfinished bar OHLC to form the calendar signal.
+    No stop loss, target, discretionary delay or optimization.
+  source: >-
+    Canonical Dukascopy 1m bid index_minute_ES from
+    /home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES.
+    Minute trading breaks remain gaps; never interpolate fake fills.
+    Export only price windows bounded by the frozen calendar clock.
+  sizing: >-
+    Long only, never overlapping, target leverage x current native broker
+    account equity at each entry, fractional unit notional multiplier 1.
+    Hypothetical initial margin 10%, maintenance 5%, no validated
+    exchange liquidation or historical financing. Report leverage drift.
+  metrics: >-
+    Full native broker fills, trades, hourly/minute equity snapshots, cash,
+    fees, native reject ledger. Calendar-daily close-of-observed-equity
+    forward-filled ONLY across known flat days; zero returns on flat days,
+    365.25 day annualization. Native trade PF, expectancy, hit rate;
+    365-day equity Sharpe/Sortino/Calmar/MDD; yearly results and matched
+    cost/economic comparisons. No invented significant p-value for PF.
+  revision: 1
+baseline: >-
+  Same 53 ordinary overnights exactly seven calendar days before the
+  scheduled FOMC, identical calendar decisions, fills, sizing and costs.
+  Compare BOTH absolute net PnL/PF/Sharpe AND difference between paths.
+costs:
+  commission_bps: 2.5
+  slippage_bps: 2.5
+  primary_roundtrip_bps: 10.0
+  nominal_leverage: 3.0
+  modeled_spread_bps: 0.0
+  funding_included: false
+  dividends_included: false
+  margin_liquidation_qualified: false
+  interpretation: >-
+    Primary hypothetical market execution 2.5bps fee and 2.5bps
+    percentage slippage PER SIDE = 10bps round trip.
+    Zero standalone spread merely avoids double-counting slippage
+    because historical source is bid-only. No 2018-2024 Hyperliquid
+    SP500 product existed; its real fee tier, bid/ask, impact, funding,
+    contract multiplier and liquidation cannot be recovered from
+    Dukascopy bars. No CFD swap is charged because this is not
+    a qualified historical CFD execution backtest.
+trials:
+  - id: fomc_primary_3x_10bps
+    kind: preregistered
+    description: FOMC 53 events, target 3x equity exposure, 10bps total hypothetical roundtrip costs.
+  - id: ordinary_baseline_3x_10bps
+    kind: preregistered
+    description: D-7 matched 53 ordinary overnights, 3x and the same 10bps costs.
+  - id: fomc_3x_20bps_cost_stress
+    kind: preregistered
+    description: Unchanged FOMC events and 3x, double market-order friction to 20bps roundtrip.
+  - id: fomc_1x_10bps
+    kind: preregistered
+    description: Identical FOMC rules and 10bps cost model, exposure 1x.
+  - id: fomc_5x_10bps
+    kind: preregistered
+    description: Identical FOMC rules and 10bps cost model, exposure 5x as risk sensitivity.
+  - id: fomc_3x_zero_cost_diagnostic
+    kind: preregistered
+    description: Same FOMC 3x with zero execution friction, attribution only; not tradable.
+evidence:
+  - docs/audit/fomc_sp500_overnight_gross_phase3_20261015_v1.md
+  - docs/audit/fomc_sp500_overnight_gross_phase3_20261015_v1_metrics.json
+  - docs/audit/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1_source_preflight_v2.json

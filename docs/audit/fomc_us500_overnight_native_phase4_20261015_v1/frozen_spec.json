@@ -1,0 +1,588 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_generation_verified": false,
+  "classification": "EXPLORATORY",
+  "created_at": "2026-10-15T03:55:56.484832+00:00",
+  "frozen_sha256": "6431cde26922f959d14626e033cdf3b9380e66a4a517c62ea41d5eaecd1cfa0f",
+  "identity": {
+    "config": null,
+    "data": [
+      {
+        "exists": true,
+        "path": "data/processed/fomc_us500_overnight_native_phase4_20261015_v1/minute_windows_bid.parquet",
+        "sha256": "82c6c587affeee45a12be0438e1bcfd436e767316d73687ed1edef3164bc42a2",
+        "size_bytes": 1284196
+      }
+    ],
+    "evidence": [
+      {
+        "exists": true,
+        "path": "docs/audit/fomc_sp500_overnight_gross_phase3_20261015_v1.md",
+        "sha256": "0ce28f49b246e321d04e09c50724bf34d7f71b91a7a4d55c03038eb9c6bd195c",
+        "size_bytes": 2784
+      },
+      {
+        "exists": true,
+        "path": "docs/audit/fomc_sp500_overnight_gross_phase3_20261015_v1_metrics.json",
+        "sha256": "504ff192e141538fa00b90b01620fcb6183f6a18c8dd07992b51c5c4a744998e",
+        "size_bytes": 4546
+      },
+      {
+        "exists": true,
+        "path": "docs/audit/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1_source_preflight_v2.json",
+        "sha256": "a9c461e2e720be5ea0392a39d5a9975698b720ce9bf0c70c6bb7257aefbe7b68",
+        "size_bytes": 153046
+      }
+    ],
+    "git": {
+      "available": true,
+      "dirty": true,
+      "dirty_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "head": "2c2383e9a24255fccb2919dc930158c8aa18f162",
+      "status_porcelain": "?? config/research_sessions/fomc_us500_overnight_native_phase4_20261015_v1.yaml\n?? scripts/fomc_us500_native_phase4_20261015.py\n"
+    },
+    "input_spec": {
+      "path": "config/research_sessions/fomc_us500_overnight_native_phase4_20261015_v1.yaml",
+      "sha256": "24bde664fbbc00f7d1fd8c7a76dc445178d5928ca8a256b6f6df05a015bd6586"
+    },
+    "runner": [
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "bbfe529a29a881510ef328ce800150af8262f20bcf61beebb915581a6e46dbb1",
+        "size_bytes": 36486
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      }
+    ],
+    "source": [
+      {
+        "exists": true,
+        "path": "src/__init__.py",
+        "sha256": "207c7f0dac7ca4ee0d52115d00ce992604166a4f196f31b4d626b2de1efcf5ee",
+        "size_bytes": 2593
+      },
+      {
+        "exists": true,
+        "path": "src/backtest.py",
+        "sha256": "cacab1983743a4d1ad1045f7d482ffd381889d6164c1beddafb7348d27684b13",
+        "size_bytes": 5833
+      },
+      {
+        "exists": true,
+        "path": "src/catalog.py",
+        "sha256": "f6434efde8f20d37fe9874564699394bcd29ebcf9a93d471bd99d565a60bcd6b",
+        "size_bytes": 12250
+      },
+      {
+        "exists": true,
+        "path": "src/diagnostics.py",
+        "sha256": "aebb402bb4696a5ecd6f2b6c78ad9f926451a71027b8cec8aa17ddb77af4d56b",
+        "size_bytes": 6399
+      },
+      {
+        "exists": true,
+        "path": "src/eow_rebuild.py",
+        "sha256": "9edc111e44dcdded8f681bf9489c69aa97f805ccbca969fcecc5d2ce620bb186",
+        "size_bytes": 66561
+      },
+      {
+        "exists": true,
+        "path": "src/experiment.py",
+        "sha256": "0ec6e61466e861ecfc039e7fab416472d83d74cbaecc926dd8aaa2780d367d1d",
+        "size_bytes": 5496
+      },
+      {
+        "exists": true,
+        "path": "src/factory.py",
+        "sha256": "2c20d53f2ecea255a8801320fd913e4069de47cd7c8fae2ca74409be7748bc02",
+        "size_bytes": 11340
+      },
+      {
+        "exists": true,
+        "path": "src/features.py",
+        "sha256": "12b314ac5aa0c85a1dff654ebcb0eb088aaf7411d98292588534c7e0a426424c",
+        "size_bytes": 11777
+      },
+      {
+        "exists": true,
+        "path": "src/ftmo_simulator.py",
+        "sha256": "636d2889d963cd4067d8acda296b77923c229ca39e62e11861c278210b2c592c",
+        "size_bytes": 18183
+      },
+      {
+        "exists": true,
+        "path": "src/labeling.py",
+        "sha256": "a7789b9dce32fad45ef45e65f02b55e4b5ff970c82fb6dd47c785da55a612f3f",
+        "size_bytes": 29294
+      },
+      {
+        "exists": true,
+        "path": "src/managed_strategies/__init__.py",
+        "sha256": "f5fce25ff83927d238b9100d14a97d00592c2af4ae85df8ebe52511d984e4ebe",
+        "size_bytes": 71
+      },
+      {
+        "exists": true,
+        "path": "src/market_time.py",
+        "sha256": "146af457c128fceee95ff351a59d24fad34ffac7f9e2f913cbaf16a11cacb39a",
+        "size_bytes": 6324
+      },
+      {
+        "exists": true,
+        "path": "src/models.py",
+        "sha256": "891057c7707e96d951da81a969a7e85c29c467f1de5dc4a6e844f98c747c6ea5",
+        "size_bytes": 16624
+      },
+      {
+        "exists": true,
+        "path": "src/orb_ml_research.py",
+        "sha256": "e91128fc73d21dc2c599b51f42fe86323516999d79b2c1244a324578182defde",
+        "size_bytes": 42949
+      },
+      {
+        "exists": true,
+        "path": "src/orb_raw_optimization.py",
+        "sha256": "9212b114d9936e6ea62ae64bf56209a63e3a7bbe460ec8f1c5c1c9ae56c992d6",
+        "size_bytes": 54291
+      },
+      {
+        "exists": true,
+        "path": "src/patterns.py",
+        "sha256": "51432b7c9767cf9493a5b41b673c94e4ad094e5ee408e2a74101cc2cc71be073",
+        "size_bytes": 2364
+      },
+      {
+        "exists": true,
+        "path": "src/pipeline.py",
+        "sha256": "fe650b668628cbd5232be5d6f45f3d25cfd62b361d08856d5dc05c26a90ba87e",
+        "size_bytes": 20597
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/__init__.py",
+        "sha256": "15d1331832f575120db91d4c8209d2d309fdc85aa87ded1eed884c55cc77f2d3",
+        "size_bytes": 213
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/attempts.py",
+        "sha256": "fb8b52130e1cc2b132d789d980f034cf283f2bb967a6a257d343af54d373ad99",
+        "size_bytes": 25478
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/casefile.py",
+        "sha256": "f6bed11e84990a67ee5bd484949e89f49a0ab4453d012480958441e537954da0",
+        "size_bytes": 10764
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/contracts.py",
+        "sha256": "df8e4ef3481a8d265af630065640d19e29578c9129b8b4f490c59b71061154f0",
+        "size_bytes": 9391
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/dukascopy_migration.py",
+        "sha256": "655b25285cf0224a66965b4a60ec81af7d7c9882ae2d837d68791b9f5b370e45",
+        "size_bytes": 8083
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/dukascopy_native.py",
+        "sha256": "f2102833eaee60b99af0ce75899160d259d5847d245484896b4f9a81129cadd2",
+        "size_bytes": 8532
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/dukascopy_strategy.py",
+        "sha256": "5bf965d2584f0911fabf2aaed66eaca08a24f4f2ed37794771b1874dd95248eb",
+        "size_bytes": 10017
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/efficiency.py",
+        "sha256": "bba9274f2bff75a65fabba03f0bab6e9bbe21145107f2a210c16a16543769770",
+        "size_bytes": 6209
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/execution.py",
+        "sha256": "d32c3896aab8a9d0bdb8a4aa1ffd1bbeb6a89de25c785bcceee5bc588df4aa45",
+        "size_bytes": 11816
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/feature_gateway.py",
+        "sha256": "04f146c1912159894057c8ce2cf02841b96610e5b567e362f7c07d50996e6d18",
+        "size_bytes": 37608
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/m8_cash_calendar.py",
+        "sha256": "1f484551b40836eb6ab878d8d4d4f2066d30dbce6d3b220ef4614223617e726a",
+        "size_bytes": 3003
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/m8_n8.py",
+        "sha256": "78544009d3d9d55fd6e31b9227277667421bc43288dbfbe8550538f3955a556d",
+        "size_bytes": 30447
+      },
+      {
+        "exists": true,
+        "path": "src/research_control/run_permit.py",
+        "sha256": "5d241ad03b141c76e573d5cc70d0b0eefed8f2a0bb00c2450177004f20dd1427",
+        "size_bytes": 27356
+      },
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "bbfe529a29a881510ef328ce800150af8262f20bcf61beebb915581a6e46dbb1",
+        "size_bytes": 36486
+      },
+      {
+        "exists": true,
+        "path": "src/session_calendar.py",
+        "sha256": "165a24422ecd6c481b23ff55cb1a62bb95c819e4c10769221f1c10e376bceb47",
+        "size_bytes": 5377
+      },
+      {
+        "exists": true,
+        "path": "src/synthesis.py",
+        "sha256": "4bc7d779c5e0c8c84722e3aa2b501dc782437e513da8003222861390010af617",
+        "size_bytes": 5825
+      },
+      {
+        "exists": true,
+        "path": "src/validated_orb_pipeline.py",
+        "sha256": "6731a7cad5dc66250c77cc03a759a53524a37249ef20521c9a4ed6285fe8c4df",
+        "size_bytes": 61012
+      },
+      {
+        "exists": true,
+        "path": "src/validation.py",
+        "sha256": "793ed95f123a8af630881eb5399346d6fc593418f6aec356dc6ebb847357f62c",
+        "size_bytes": 9016
+      },
+      {
+        "exists": true,
+        "path": "src/validation_status.py",
+        "sha256": "b44e882edcc9e1e2e71464da6f2ce5d593daba93389ad3feb118fe5b07795027",
+        "size_bytes": 1398
+      },
+      {
+        "exists": true,
+        "path": "scripts/benchmark_casefile.py",
+        "sha256": "6723b3b0fd19ba10c980dd2144cc4bad3445daf27bd11ee02a1e9958686c7ee4",
+        "size_bytes": 3122
+      },
+      {
+        "exists": true,
+        "path": "scripts/check_managed_features.py",
+        "sha256": "1fb3ff320307bcd49b913431b0c41623ef39e9eed0ccfa72ff917dbd50ceb8fc",
+        "size_bytes": 5184
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_ftmo_baseline_vs_optimized.py",
+        "sha256": "ab937fe6ee14e0a3e0deb189e2751e5508f386b0f03392df4bbf24e45a873cb1",
+        "size_bytes": 2740
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_expanded_assets.py",
+        "sha256": "1e8ba5f7b9c96af762a50c999329061373e7c7cbfc3ba4f25471d94b5aafb476",
+        "size_bytes": 5670
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_historical_2017_2026.py",
+        "sha256": "f3b2e0b12efb6cb0f39822add4479552eba1e77f5ac7a98e69621b456f5156cc",
+        "size_bytes": 3766
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_intraday_data.py",
+        "sha256": "0a1479fb8451642132ee2c1d3209c0d3a26af5b86d2838ede1dc496878fea8e2",
+        "size_bytes": 3535
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_nas100_hk33_2017_2022.py",
+        "sha256": "09cab62c1d542e1beaca79e556aaa07386a4cfd0f44e51e4d5eff7e493603688",
+        "size_bytes": 4425
+      },
+      {
+        "exists": true,
+        "path": "scripts/fomc_overnight_preflight_20261015.py",
+        "sha256": "3d7ee9ca3a31a200498825162c6442fbdf7f63f4cc20ab6218a88640e7bc2e1b",
+        "size_bytes": 12701
+      },
+      {
+        "exists": true,
+        "path": "scripts/fomc_sp500_overnight_phase3_proxy_20261015.py",
+        "sha256": "4b1df12fb1f4e1b2ad4134d9e494760460f4393ffcbf7bdaca6392a786169094",
+        "size_bytes": 19730
+      },
+      {
+        "exists": true,
+        "path": "scripts/fomc_us500_native_phase4_20261015.py",
+        "sha256": "f644c804c96f78793f0fd565103cc049aea8e3b3859ba4e160674b7efcc93edd",
+        "size_bytes": 25946
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_long_short.py",
+        "sha256": "a1120fbefac9f82325bf4697948c03ef252a8bab2a11c75864a192cce5747c5f",
+        "size_bytes": 1232
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_sessions_2017_2026.py",
+        "sha256": "3d1d64bfd2776face574d81a2554a1bd6a5cae3289a72ada6d4883145f631fdb",
+        "size_bytes": 2767
+      },
+      {
+        "exists": true,
+        "path": "scripts/managed_recovery_fixture.py",
+        "sha256": "c858d5327fc80c213074fbe2935ae2c0ae16fe7786e6aa2ca148967b979a2de4",
+        "size_bytes": 4701
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_m8_n8_data.py",
+        "sha256": "272e4e12ddab4b70b6e01902dd4afe304a934d05d9e1fffa47e7d303bff28a91",
+        "size_bytes": 11582
+      },
+      {
+        "exists": true,
+        "path": "scripts/research.py",
+        "sha256": "570ce9734ab75e122e1bb202ee1aa5f4c257ba95cf70aef5fdf8b1808e122a68",
+        "size_bytes": 22353
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_eth_relative_value.py",
+        "sha256": "9d8efc563a89f44b2becc7ec99f8203aed05c298a0965f560c788e456d180bfe",
+        "size_bytes": 23582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_eow_rebuild.py",
+        "sha256": "32f9124ab0f79ed548f2d652b00dbc71517643222d4c94a1e472021b5c6d6096",
+        "size_bytes": 2511
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_challenge_simulation.py",
+        "sha256": "6dfd97b3a400d0b90243f31ddc611acc1ab32bec6ff8a9a146b9023293302d87",
+        "size_bytes": 6862
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_full_10y_backtest.py",
+        "sha256": "9804dab1a6e6304fd72e9d682af37d5388256ba7c7fb6f4e757358438d406c36",
+        "size_bytes": 8202
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_m8_cash_session.py",
+        "sha256": "b4a2b2c2675830166c4cb773ef37ecd34ae18f6cdbc6285fcdaa97090b1277cd",
+        "size_bytes": 17754
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_m8_n8.py",
+        "sha256": "78f5d5a1d758a5a9af3eb3f0aecf9b932b6ea88bd3a862dd1ba12189c1f217a0",
+        "size_bytes": 17785
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_2017_2026.py",
+        "sha256": "8230647e61f8783eed523aa25a0a0da3593908669d5abbd03e9d8dd715784004",
+        "size_bytes": 17416
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_dual_session.py",
+        "sha256": "e054b5e425746f284fe8c89985ff4b72ab7c49f9cc2fac8872586ed01a36e3a0",
+        "size_bytes": 8912
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_filtered_matrix.py",
+        "sha256": "ca12580991a270f49325b713f010b6ddf1647b6478200d77638c6c79c7a11889",
+        "size_bytes": 15977
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_final_benchmark.py",
+        "sha256": "b63eaee7ddaf4516822750e688179b5091616992b353962dbf2c7d935a76f281",
+        "size_bytes": 7199
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_ml_research.py",
+        "sha256": "45a2d41bdacb7d9d96287387c5e1cb631777a236480ddc2b9c922f00473fa5f3",
+        "size_bytes": 1481
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset.py",
+        "sha256": "0f7b1e2abf55150ad60d096bd36ffa3e73a160b5ffc5ceaf3b130098d04fe011",
+        "size_bytes": 13414
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset_evaluation.py",
+        "sha256": "785f5ad3367d717853a17b66228941a4acca62fea7c85c054c918c50ae47023f",
+        "size_bytes": 19745
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_parallel_matrix.py",
+        "sha256": "cd458dc8742c673f59f4dab3b6b9310ea670d0383937b662ea715bf9c2360875",
+        "size_bytes": 12228
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_raw_optimization.py",
+        "sha256": "6c06c2cba46c8de74be761e57abd6a38fd61c861b8aae9eb407ca9701f98d948",
+        "size_bytes": 1566
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pipeline.py",
+        "sha256": "2c2e49f6c5616e8859b6ee7135eaf0f36e2844dec9b92e64a043c128c4e8581c",
+        "size_bytes": 3260
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_validated_orb.py",
+        "sha256": "ce6eca7d5420c967fec64449c9c2e164e14f54e519dfcb7b243f990fd4864fba",
+        "size_bytes": 2970
+      },
+      {
+        "exists": true,
+        "path": "scripts/simulate_ftmo_portfolio.py",
+        "sha256": "98a900a7ef44de2939681c762ca9dd7517cd88ab5b9538c5d132f47076c14e25",
+        "size_bytes": 7669
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_portfolio.py",
+        "sha256": "ccd2f8fe2fafdecd94f9b7636079881a4d3efcb4e44af58ea1f721e5c0653b09",
+        "size_bytes": 10315
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_variants.py",
+        "sha256": "5fb0ca97dc09f2632c064f3b7b4632a5ebfca79e67a0dc70f6dc17ef7135f2bb",
+        "size_bytes": 7489
+      }
+    ],
+    "source_sha256": "a370de39b1651158b16dfde9fff7b51f9062005473c4392376e45d0d50549344"
+  },
+  "schema_version": 1,
+  "session_id": "fomc_us500_overnight_native_phase4_20261015_v1",
+  "spec": {
+    "baseline": "Same 53 ordinary overnights exactly seven calendar days before the scheduled FOMC, identical calendar decisions, fills, sizing and costs. Compare BOTH absolute net PnL/PF/Sharpe AND difference between paths.",
+    "costs": {
+      "commission_bps": 2.5,
+      "dividends_included": false,
+      "funding_included": false,
+      "interpretation": "Primary hypothetical market execution 2.5bps fee and 2.5bps percentage slippage PER SIDE = 10bps round trip. Zero standalone spread merely avoids double-counting slippage because historical source is bid-only. No 2018-2024 Hyperliquid SP500 product existed; its real fee tier, bid/ask, impact, funding, contract multiplier and liquidation cannot be recovered from Dukascopy bars. No CFD swap is charged because this is not a qualified historical CFD execution backtest.",
+      "margin_liquidation_qualified": false,
+      "modeled_spread_bps": 0.0,
+      "nominal_leverage": 3.0,
+      "primary_roundtrip_bps": 10.0,
+      "slippage_bps": 2.5
+    },
+    "data": [
+      {
+        "id": "eligible_overnight_1m_price_windows",
+        "path": "data/processed/fomc_us500_overnight_native_phase4_20261015_v1/minute_windows_bid.parquet",
+        "role": "prices",
+        "symbol": "ES"
+      }
+    ],
+    "evaluation": {
+      "development_end": "2025-01-01T00:00:00Z",
+      "development_start": "2017-01-01T00:00:00Z",
+      "fixed_event_set": "The 53 source-complete event/control pairs from Phase 3, 2018-05-02 through 2024-12-18, one matched D-7 ordinary overnight. No events excluded by performance. Exclude originally missing 2017 and early 2018 bars without time shifting.",
+      "holdout_policy": "All input bars and outcomes are strictly pre-2025; no protected holdout accessed and no re-labeling prior observed data as unseen.",
+      "holdout_start": "2025-01-01T00:00:00Z",
+      "metrics": "Full native broker fills, trades, hourly/minute equity snapshots, cash, fees, native reject ledger. Calendar-daily close-of-observed-equity forward-filled ONLY across known flat days; zero returns on flat days, 365.25 day annualization. Native trade PF, expectancy, hit rate; 365-day equity Sharpe/Sortino/Calmar/MDD; yearly results and matched cost/economic comparisons. No invented significant p-value for PF.",
+      "revision": 1,
+      "signal_timing": "Only publicly scheduled event calendar controls entries and exits. Native Strategy on_data at 16:05 ET submits a market order for NEXT_BAR 16:06 ET open, and 09:35 ET submits an exit for NEXT_BAR 09:36 ET open. On-data does not use unfinished bar OHLC to form the calendar signal. No stop loss, target, discretionary delay or optimization.",
+      "sizing": "Long only, never overlapping, target leverage x current native broker account equity at each entry, fractional unit notional multiplier 1. Hypothetical initial margin 10%, maintenance 5%, no validated exchange liquidation or historical financing. Report leverage drift.",
+      "source": "Canonical Dukascopy 1m bid index_minute_ES from /home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES. Minute trading breaks remain gaps; never interpolate fake fills. Export only price windows bounded by the frozen calendar clock."
+    },
+    "evidence": [
+      "docs/audit/fomc_sp500_overnight_gross_phase3_20261015_v1.md",
+      "docs/audit/fomc_sp500_overnight_gross_phase3_20261015_v1_metrics.json",
+      "docs/audit/fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1_source_preflight_v2.json"
+    ],
+    "falsifier": "Mark this new exploratory MVP as REJECT if the primary native 3x 10bps round-trip net equity change is nonpositive, closed-trade profit factor below 1.30, or daily-equity Sharpe below 0.50; also reject a unique FOMC premium if the matched D-7 ordinary overnight has an equal or higher daily-equity Sharpe or profit factor. Additionally, a primary peak-to-trough native-equity drawdown greater than 20%, order rejections, invalid fill clock, fewer than 53 complete FOMC/control trades, or audit mismatch precludes scientific qualification. If the 20bps cost stress loses money, classify cost robustness as failed. All outcomes are exploratory, not protected OOS or deployment authorization.",
+    "instruments": [
+      {
+        "identity": "usa500idxusd 1m historical bid OHLC; source alias index_minute_ES. Data are not a tradable futures contract, Hyperliquid equity perp, or historical ASK prices. Simulated notional multiplier=1; fractional index units; zero external financing is only hypothetical.",
+        "kind": "cfd",
+        "session": "frozen XNYS eligible full sessions and actual source quote hours",
+        "symbol": "ES",
+        "timezone": "America/New_York",
+        "venue": "Dukascopy historical bid-only proxy; synthetic linear price exposure via native broker"
+      }
+    ],
+    "market": "indices",
+    "mechanism": "Investors may earn risk compensation for holding US index exposure across a scheduled FOMC eve. Ordinary overnight equity drift is a substantial alternative explanation, since frozen Phase-3 matched excess was +3.307bps with HAC95 CI [-20.847, +27.461]bps (p=0.785).",
+    "session_id": "fomc_us500_overnight_native_phase4_20261015_v1",
+    "thesis": "This is a SEPARATE, post-observation native broker execution test of the originally scheduled 16:06 ET to 09:36 ET FOMC overnight long. Test whether the already-observed positive absolute gross US500 overnight return survives frozen friction under 3x notional leverage; test the exact D-7 matched ordinary overnight with identical native settings. No claim of unseen OOS, Hyperliquid historical fill parity, or live readiness.",
+    "trials": [
+      {
+        "description": "FOMC 53 events, target 3x equity exposure, 10bps total hypothetical roundtrip costs.",
+        "id": "fomc_primary_3x_10bps",
+        "kind": "preregistered"
+      },
+      {
+        "description": "D-7 matched 53 ordinary overnights, 3x and the same 10bps costs.",
+        "id": "ordinary_baseline_3x_10bps",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Unchanged FOMC events and 3x, double market-order friction to 20bps roundtrip.",
+        "id": "fomc_3x_20bps_cost_stress",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Identical FOMC rules and 10bps cost model, exposure 1x.",
+        "id": "fomc_1x_10bps",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Identical FOMC rules and 10bps cost model, exposure 5x as risk sensitivity.",
+        "id": "fomc_5x_10bps",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Same FOMC 3x with zero execution friction, attribution only; not tradable.",
+        "id": "fomc_3x_zero_cost_diagnostic",
+        "kind": "preregistered"
+      }
+    ]
+  },
+  "spec_sha256": "c8206f4aa175f8aea84267d83370093126f83eb7b39c7ba58778a9ff77a1ef5d",
+  "status": "FROZEN"
+}
