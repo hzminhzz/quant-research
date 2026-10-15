@@ -11,6 +11,11 @@ three research modes, the prompt contract, ownership, and recovery procedure.
   causally correct and independently audited test of one economic hypothesis.
   Freeze the baseline, falsifier, data, costs and trial before observing results.
   A negative valid result is a success of the *research process*, not an alpha.
+  **Before a full native backtest**, record a preregistered ResearchPhase 3
+  signal/economic decision (`PASS`, `FAIL`, `INCONCLUSIVE`, or justified
+  `NOT_APPLICABLE`) as specified in [research operations](docs/research_operations.md#required-researchphase-3-decision-before-a-full-backtest).
+  Do not force cross-sectional IC on single-instrument or path-dependent rules;
+  document any bounded native-only exception before outcomes are observed.
 - **Validation:** Only deepen a candidate with justified MVP evidence. Use
   chronological validation, appropriate robustness/cost studies, uncertainty,
   and complete selection/trial accounting. Do not access the protected final
