@@ -372,6 +372,47 @@ def _authorization_case(folder: Path) -> dict:
                             "Landlock restricts filesystem access; this experiment does not qualify network isolation or owner-proof integrity"]}
 
 
+def _hard_memory_case(workspace: Path) -> dict:
+    """Prove a genuine cgroup OOM through the signed public ATS-2 action."""
+    data, contract, computation, evidence = setup_trial(workspace)
+    request = intent(data, evidence)
+    request["budget"]["max_memory_mb"] = 128
+    request["requested_compute"]["max_memory_mb"] = 128
+    action = prepare_action(
+        workspace, request, computation, data, contract,
+        signal_at=data["timestamp"][1], quantity=1, stop_price=99.0, limit_price=101.4,
+    )
+    grant, policy = _issue_synthetic_grant(workspace, action, request)
+    response = start_action(
+        workspace, action, request, computation, data, contract,
+        grant=grant, trusted_policy_path=str(policy), list_jobs=lambda: set(),
+    )
+    if response["status"] != "BUDGET_EXHAUSTED":
+        raise AssertionError(f"KERNEL_MEMORY_OOM_NOT_ENFORCED:{response}")
+    resource_path = workspace / response["resource_evidence"]
+    scope = json.loads(resource_path.read_text(encoding="utf-8"))
+    if (scope["requested_memory_max_bytes"] != 128 * 1024**2
+        or scope["last_verified_scope"]["memory_max_bytes"] != 128 * 1024**2
+        or scope["last_verified_scope"]["memory_swap_max_bytes"] != 0
+        or scope["terminal_scope"]["result"] != "oom-kill"):
+        raise AssertionError("KERNEL_MEMORY_LIMIT_PROOF_INVALID")
+    again = start_action(
+        workspace, action, request, computation, data, contract,
+        grant=grant, trusted_policy_path=str(policy), list_jobs=lambda: set(),
+    )
+    ledger = AttemptLedger(workspace, action.session_id, list_jobs=lambda: set())
+    if again["reason_code"] != "TERMINAL_ATTEMPT_RETAINED" or sum(
+        event["status"] == "PLANNED" for event in ledger.events()
+    ) != 1:
+        raise AssertionError("OOM_GRANT_RECONSUMED")
+    return {"status": response["status"], "attempt_id": response["attempt_id"],
+            "memory_limit_bytes": 128 * 1024**2, "swap_limit_bytes": 0,
+            "resource_sha256": _sha(resource_path), "resource_path": str(resource_path),
+            "scope_unit": scope["last_verified_scope"]["unit"],
+            "oom_result": scope["terminal_scope"]["result"],
+            "replay_denial": again["reason_code"]}
+
+
 def ctypes_landlock_abi() -> int:
     import ctypes
     libc = ctypes.CDLL(None, use_errno=True)
@@ -387,6 +428,7 @@ def main() -> int:
         clean = _raw_action_case(root / "clean")
         concurrent = _raw_action_case(root / "concurrent", concurrent=True)
         crash = _raw_crash_case(root / "crash")
+        memory = _hard_memory_case(root / "memory_exhaustion")
         authorization = _authorization_case(root / "authorization")
         raw_files = sorted(p for p in root.rglob("*") if p.is_file())
         manifest = {
@@ -398,11 +440,12 @@ def main() -> int:
                 Path("src/research_control/ats2.py"),
                 Path("src/research_control/action_worker.py"),
                 Path("src/research_control/attempts.py"),
+                Path("src/research_control/resource_cgroup.py"),
                 Path(__file__),
             )},
             "runtime": {"python": sys.version, "platform": platform.platform()},
             "clean_control": clean, "concurrent_control": concurrent,
-            "crash_recovery": crash,
+            "crash_recovery": crash, "hard_memory_cgroup": memory,
             "authorization_boundary": authorization,
             "raw_file_hashes": {str(p.relative_to(root)): _sha(p) for p in raw_files},
             "limitations": ["No protected market outcomes or production credentials used",
@@ -414,7 +457,8 @@ def main() -> int:
         print(json.dumps({"outcome": manifest["outcome"], "acceptance_manifest": str(manifest_path),
                           "clean_attempt": clean["attempt_id"],
                           "concurrent_attempt": concurrent["attempt_id"],
-                          "landlock_abi": authorization["landlock_abi"]}, sort_keys=True))
+                          "landlock_abi": authorization["landlock_abi"],
+                          "memory_oom": memory["oom_result"]}, sort_keys=True))
         return 0
     except (AssertionError, OSError, ValueError, RuntimeError,
             subprocess.SubprocessError, KeyError, TypeError) as exc:

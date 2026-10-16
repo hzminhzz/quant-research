@@ -30,6 +30,15 @@ from .ats2_raw_audit import TOL, audit_native_outputs
 from .attempts import AttemptLedger
 from .contracts import ResearchContractV1, StrictModel
 from .feature_gateway import FeatureComputation, FeatureGateway
+from .resource_cgroup import (
+    final_scope,
+    kill_scope,
+    sample_scope,
+    scoped_command,
+    unit_for_attempt,
+    wait_terminal,
+)
+from .resource_cgroup import supported as hard_memory_supported
 from .run_permit import GateReport, RunIntentV1, _identity_hashes, preflight_run
 
 
@@ -216,6 +225,8 @@ def start_action(root: str | Path, action: ActionContractV1 | dict[str, Any],
     )
     if authorization.status != "AUTHORIZED":
         return {"status": "BLOCKED", "reason_code": authorization.reason_code}
+    if not hard_memory_supported():
+        return {"status": "BLOCKED", "reason_code": "HARD_MEMORY_ISOLATION_UNAVAILABLE"}
     ledger = AttemptLedger(root_path, action.session_id, list_jobs=list_jobs)
     key = _hash(action.model_dump(mode="json"))
     job_name = f"ml4t-ats2-{key[:12]}"
@@ -223,6 +234,16 @@ def start_action(root: str | Path, action: ActionContractV1 | dict[str, Any],
     run_id = hashlib.sha256(json.dumps(
         {"permit_sha256": gate.permit.permit_sha256, "command": command,
          "job_name": job_name}, sort_keys=True).encode()).hexdigest()
+    # Reject a live/unobservable prior kernel scope even after a launcher crash;
+    # the launcher flock alone cannot prove all descendants have stopped.
+    for existing in ledger.latest().values():
+        if existing["run_id"] == run_id and existing["status"] not in (
+            "FAILED", "ABORTED", "COMPLETED", "BLOCKED"
+        ):
+            old_scope = final_scope(unit_for_attempt(existing["attempt_id"]))
+            if old_scope.get("active_state") not in ("inactive", "failed"):
+                return {"status": "BLOCKED", "reason_code": "RESOURCE_SCOPE_VISIBILITY_UNKNOWN",
+                        "attempt_id": existing["attempt_id"]}
     # Budget exhaustion and other terminal outcomes are final under
     # NO_AUTOMATIC_RETRY: a consumed grant must not obtain a second admission.
     for existing in ledger.latest().values():
@@ -266,48 +287,82 @@ def start_action(root: str | Path, action: ActionContractV1 | dict[str, Any],
     process = None
     exhausted = False
     resource_unknown = False
+    unit = unit_for_attempt(claim.attempt_id)
+    bound: dict[str, Any] | None = None
+    max_peak = 0
+    oom_kills = 0
     try:
         with log_path.open("xb") as log:
-            command = _bubblewrap_command(sandbox, worker_request, stage_rel, stage)
-            # RSS polling is a soft observation only; see operations limits.
+            command = scoped_command(
+                unit, action.max_memory_mb,
+                _bubblewrap_command(sandbox, worker_request, stage_rel, stage),
+            )
             process = subprocess.Popen(command, stdin=subprocess.DEVNULL,
                                        stdout=log, stderr=subprocess.STDOUT,
                                        start_new_session=True, close_fds=True)
             with ledger.worker_lease(claim.attempt_id, owner_pid=process.pid):
-                ledger.transition(claim.attempt_id, "RUNNING", detail="isolated worker started")
-                # A zero-progress durable checkpoint makes a crash before the
-                # first native artifact explicitly recoverable, never complete.
+                ledger.transition(claim.attempt_id, "RUNNING", detail="cgroup-v2 scoped worker launched")
+                # The initial checkpoint permits recovery after launcher SIGKILL.
                 ledger.record_checkpoint(claim.attempt_id, progress=0, artifacts={})
+                started_at = time.monotonic()
                 while process.poll() is None:
                     if time.monotonic() >= deadline:
                         exhausted = True
+                        kill_scope(unit)
                         _kill_worker_group(process)
                         break
-                    rss = _rss_bytes(process.pid)
-                    cpu = _cpu_seconds(process.pid)
-                    if rss is None or cpu is None:
-                        if process.poll() is not None:
+                    sample = sample_scope(unit, action.max_memory_mb)
+                    if sample is not None:
+                        bound = sample
+                        max_peak = max(max_peak, sample["memory_peak_bytes"])
+                        oom_kills = max(oom_kills, sample["memory_events"].get("oom_kill", 0))
+                        if oom_kills or sample["cpu_usage_usec"] > action.max_cpu_seconds * 1_000_000:
+                            exhausted = True
+                            kill_scope(unit)
+                            _kill_worker_group(process)
                             break
-                        resource_unknown = True
-                        _kill_worker_group(process)
-                        break
-                    if rss > action.max_memory_mb * 1024**2 or cpu > action.max_cpu_seconds:
-                        exhausted = True
-                        _kill_worker_group(process)
-                        break
+                    elif (bound is not None or time.monotonic() - started_at > 2):
+                        # Disappearing cgroup visibility while a worker is alive
+                        # cannot be treated as continued hard containment.
+                        if process.poll() is None:
+                            resource_unknown = True
+                            kill_scope(unit)
+                            _kill_worker_group(process)
+                            break
                     time.sleep(0.05)
                 process.wait(timeout=5)
+        terminal_scope = wait_terminal(unit)
+        if terminal_scope.get("result") == "oom-kill":
+            exhausted = True
+        if (bound is None or terminal_scope.get("active_state") not in ("inactive", "failed") or
+            terminal_scope.get("result") not in ("success", "oom-kill", "COLLECTED")):
+            resource_unknown = True
+        resource_path = _write_resource_evidence(
+            root_path, claim.attempt_id,
+            {"schema_version": 1, "attempt_id": claim.attempt_id,
+             "action_contract_sha256": action.contract_sha256,
+             "runtime": "systemd_user_scope_cgroup_v2",
+             "requested_memory_max_bytes": action.max_memory_mb * 1024 * 1024,
+             "scope_verified": bound is not None, "last_verified_scope": bound,
+             "memory_peak_observed_bytes": max_peak, "oom_kills_observed": oom_kills,
+             "terminal_scope": terminal_scope, "process_returncode": process.returncode,
+             "wall_exhausted": exhausted, "visibility_unknown": resource_unknown})
         if resource_unknown:
-            return {"status": "BLOCKED", "reason_code": "RESOURCE_OBSERVATION_UNKNOWN",
-                    "attempt_id": claim.attempt_id, "log_path": str(log_path.relative_to(root_path))}
+            if terminal_scope.get("active_state") in ("inactive", "failed"):
+                ledger.transition(claim.attempt_id, "FAILED", detail="RESOURCE_ENFORCEMENT_UNVERIFIED")
+            return {"status": "BLOCKED", "reason_code": "HARD_MEMORY_ENFORCEMENT_UNVERIFIED",
+                    "attempt_id": claim.attempt_id, "resource_evidence": resource_path,
+                    "log_path": str(log_path.relative_to(root_path))}
         if exhausted:
             ledger.transition(claim.attempt_id, "FAILED", detail="BUDGET_EXHAUSTED")
             return {"status": "BUDGET_EXHAUSTED", "reason_code": "RESOURCE_LIMIT",
-                    "attempt_id": claim.attempt_id, "log_path": str(log_path.relative_to(root_path))}
+                    "attempt_id": claim.attempt_id, "resource_evidence": resource_path,
+                    "log_path": str(log_path.relative_to(root_path))}
         if process.returncode:
             ledger.transition(claim.attempt_id, "FAILED", detail=f"WORKER_EXIT:{process.returncode}")
             return {"status": "INCOMPLETE", "reason_code": "WORKER_OR_OUTPUT_UNCERTAIN",
                     "attempt_id": claim.attempt_id, "worker_exit": process.returncode,
+                    "resource_evidence": resource_path,
                     "log_path": str(log_path.relative_to(root_path))}
         staged = stage
         if not staged.is_dir() or not any(staged.iterdir()):
@@ -328,33 +383,76 @@ def start_action(root: str | Path, action: ActionContractV1 | dict[str, Any],
                     relative_path=relative, payload=item.read_bytes(),
                 )
                 output_hashes[relative] = hashlib.sha256(item.read_bytes()).hexdigest()
+        output_hashes[resource_path] = hashlib.sha256(beneath(root_path, resource_path).read_bytes()).hexdigest()
         ledger.record_checkpoint(claim.attempt_id, progress=1, artifacts=output_hashes)
         ledger.transition(claim.attempt_id, "COMPLETED", detail="fenced native output published")
         return {"status": "OUTPUT_READY", "attempt_id": claim.attempt_id,
                 "run_id": claim.run_id, "fencing_token": latest.get("fencing_token"),
-                "artifact_path": artifact_rel,
+                "artifact_path": artifact_rel, "resource_evidence": resource_path,
                 "log_path": str(log_path.relative_to(root_path))}
     finally:
         shutil.rmtree(sandbox, ignore_errors=True)
 
 
-def _rss_bytes(pid: int) -> int | None:
+def _write_resource_evidence(root: Path, attempt_id: str,
+                             evidence: dict[str, Any]) -> str:
+    """Persist scope verification without overwriting earlier run evidence."""
+    relative = f"run_log/ats2/resources/{attempt_id}.json"
+    dest = beneath(root, relative)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest = beneath(root, relative)
+    with dest.open("xb") as stream:
+        stream.write(json_bytes(evidence))
+        stream.flush()
+        os.fsync(stream.fileno())
+    fd = os.open(dest.parent, os.O_RDONLY | os.O_DIRECTORY)
     try:
-        for line in Path(f"/proc/{pid}/status").read_text().splitlines():
-            if line.startswith("VmRSS:"):
-                return int(line.split()[1]) * 1024
-    except (OSError, ValueError, IndexError):
-        return None
-    return None
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+    return relative
 
 
-def _cpu_seconds(pid: int) -> float | None:
+def _verify_resource_evidence(root: Path, action: ActionContractV1,
+                              attempt_id: str, current: dict[str, Any]) -> dict[str, Any]:
+    """Require independently checkable kernel scope evidence for VERIFIED."""
+    relative = f"run_log/ats2/resources/{attempt_id}.json"
     try:
-        stat = Path(f"/proc/{pid}/stat").read_text()
-        fields = stat[stat.rfind(")") + 2:].split()
-        return (int(fields[11]) + int(fields[12])) / os.sysconf("SC_CLK_TCK")
-    except (OSError, ValueError, IndexError):
-        return None
+        record_path = beneath(root, relative, must_exist=True)
+        if record_path.is_symlink() or not record_path.is_file():
+            raise ValueError("HARD_MEMORY_EVIDENCE_INVALID")
+        raw = record_path.read_bytes()
+        checkpoint = json.loads(
+            beneath(root, current["checkpoint_path"], must_exist=True).read_text()
+        )
+        if checkpoint["artifacts"].get(relative) != hashlib.sha256(raw).hexdigest():
+            raise ValueError("HARD_MEMORY_CHECKPOINT_MISSING")
+        doc = json.loads(raw)
+        scope = doc["last_verified_scope"]
+        if (
+            doc["schema_version"] != 1 or doc["attempt_id"] != attempt_id
+            or doc["action_contract_sha256"] != action.contract_sha256
+            or doc["runtime"] != "systemd_user_scope_cgroup_v2"
+            or doc["scope_verified"] is not True
+            or doc["visibility_unknown"] is not False
+            or doc["wall_exhausted"] is not False
+            or doc["process_returncode"] != 0
+            or doc["requested_memory_max_bytes"] != action.max_memory_mb * 1024**2
+            or scope["unit"] != unit_for_attempt(attempt_id)
+            or scope["kernel_enforced"] is not True
+            or scope["memory_max_bytes"] != action.max_memory_mb * 1024**2
+            or scope["memory_swap_max_bytes"] != 0
+            or scope["memory_events"].get("oom_kill", 0) != 0
+            or doc["terminal_scope"]["result"] not in ("success", "COLLECTED")
+            or doc["terminal_scope"]["active_state"] != "inactive"
+        ):
+            raise ValueError("HARD_MEMORY_EVIDENCE_INVALID")
+        return {"path": relative, "sha256": hashlib.sha256(raw).hexdigest(),
+                "scope_unit": scope["unit"], "hard_limit_bytes": scope["memory_max_bytes"],
+                "swap_limit_bytes": 0, "kernel_enforced": True,
+                "observed_peak_bytes": doc["memory_peak_observed_bytes"]}
+    except (OSError, TypeError, KeyError, AttributeError, ValueError) as exc:
+        raise ValueError("HARD_MEMORY_EVIDENCE_INVALID") from exc
 
 
 def _build_worker_snapshot(root: Path, frozen: dict[str, Any], destination: Path) -> None:
@@ -534,6 +632,7 @@ def verify_result(root: str | Path, session_id: str, attempt_id: str) -> dict[st
     if not ledger._verified_checkpoint(current):
         raise ValueError("OUTPUT_CHECKPOINT_INVALID")
     root_path = Path(root).resolve()
+    resource_evidence = _verify_resource_evidence(root_path, action, attempt_id, current)
     base = beneath(root_path, f"{action.write_scope}/{attempt_id}", must_exist=True)
     if base.is_symlink() or not base.is_dir():
         raise ValueError("OUTPUT_MISSING_OR_UNSAFE")
@@ -577,11 +676,13 @@ def verify_result(root: str | Path, session_id: str, attempt_id: str) -> dict[st
                                   "saved fills match expected bracket fills from raw bars",
                                   "saved trades match expected trade identity and PnL",
                                   "saved portfolio/equity match bar-by-bar cash and mark",
-                                  "saved metrics and daily PnL match expected ending values"],
+                                  "saved metrics and daily PnL match expected ending values",
+                                  "native worker was cgroup-v2 memory limited with swap disabled"],
                    "tolerances": f"absolute {TOL}, price 1e-8",
                    "source_identity": action.identity,
                    "output_hashes": evidence,
                    "input_hashes": audit["input_hashes"],
+                   "kernel_resource_enforcement": resource_evidence,
                    "limitations": ["Synthetic/development-only qualification",
                                    "Cooperative filesystem owner can alter local evidence",
                                    "Numerical audit interprets saved native artifacts directly",

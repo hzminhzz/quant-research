@@ -9,6 +9,7 @@ import pytest
 
 from src.research_control.ats2 import observe_run, start_action, verify_result
 from src.research_control.attempts import AttemptLedger
+from src.research_control.resource_cgroup import final_scope, unit_for_attempt
 from tests.test_ats2 import _start_in_process, authorization, prepared
 
 
@@ -45,7 +46,15 @@ def test_public_native_crash_recovery_preserves_grant_and_replays(tmp_path):
                              grant=grant, trusted_policy_path=policy,
                              list_jobs=lambda: set())
     assert uncertain["status"] == "BLOCKED" and uncertain["reason_code"] in (
-        "LEASE_UNCERTAIN", "WORKER_LOCK_HELD")
+        "LEASE_UNCERTAIN", "WORKER_LOCK_HELD", "RESOURCE_SCOPE_VISIBILITY_UNKNOWN")
+    # A killed launcher does not prove its cgroup descendants are gone. The
+    # successor must wait for the old scope to become terminal.
+    old_scope_unit = unit_for_attempt(first["attempt_id"])
+    deadline = time.monotonic() + 30
+    while (final_scope(old_scope_unit).get("active_state") not in ("inactive", "failed")
+           and time.monotonic() < deadline):
+        time.sleep(0.1)
+    assert final_scope(old_scope_unit).get("active_state") in ("inactive", "failed")
     time.sleep(3.2)
     recovered = start_action(crash_root, action, request, computation, data, contract,
                              grant=grant, trusted_policy_path=policy,

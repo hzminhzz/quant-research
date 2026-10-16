@@ -57,9 +57,12 @@ def _crashable_claimed_worker(root, session_id, attempt_id, ready):
             time.sleep(0.1)
 
 
-def prepared(tmp_path):
+def prepared(tmp_path, *, memory_mb: int | None = None):
     data, contract, computation, evidence = setup_trial(tmp_path)
     request = intent(data, evidence)
+    if memory_mb is not None:
+        request["budget"]["max_memory_mb"] = memory_mb
+        request["requested_compute"]["max_memory_mb"] = memory_mb
     action = prepare_action(
         tmp_path, request, computation, data, contract,
         signal_at=data["timestamp"][1], quantity=1,
@@ -105,6 +108,10 @@ def test_prepare_start_observe_verify_native_development_action(tmp_path):
     assert observed["completion"] == "OUTPUT_READY"
     verified = verify_result(tmp_path, action.session_id, result["attempt_id"])
     assert verified["state"] == "VERIFIED"
+    scope = verified["kernel_resource_enforcement"]
+    assert scope["kernel_enforced"] is True
+    assert scope["hard_limit_bytes"] == action.max_memory_mb * 1024**2
+    assert scope["swap_limit_bytes"] == 0
     assert verify_result(tmp_path, action.session_id, result["attempt_id"])["sha256"] == verified["sha256"]
     manifest = json.loads((tmp_path / result["artifact_path"] / "execution_audit.json").read_text())
     assert manifest["live_order_authority"] is False
@@ -209,17 +216,25 @@ def test_sigkill_reclaim_fences_late_write_and_completion(tmp_path):
     assert len(rejected) >= 2
 
 
-def test_resource_budget_exhaustion_is_recorded_without_retry(tmp_path, monkeypatch):
-    import src.research_control.ats2 as ats2_module
-
-    action, request, data, contract, computation = prepared(tmp_path)
+def test_resource_budget_exhaustion_is_recorded_without_retry(tmp_path):
+    # 128 MiB is intentionally insufficient for this real native fixture.
+    # The kernel must terminate it in a cgroup rather than sampled-RSS polling.
+    action, request, data, contract, computation = prepared(tmp_path, memory_mb=128)
     grant, policy_path = authorization(tmp_path, action, request)
-    monkeypatch.setattr(ats2_module, "_rss_bytes", lambda _pid: 1 << 62)
     result = start_action(tmp_path, action, request, computation, data, contract,
                           grant=grant, trusted_policy_path=policy_path)
-    assert result["status"] == "BUDGET_EXHAUSTED"
+    assert result["status"] == "BUDGET_EXHAUSTED", result
+    resource = json.loads((tmp_path / result["resource_evidence"]).read_text())
+    assert resource["requested_memory_max_bytes"] == 128 * 1024**2
+    assert resource["terminal_scope"]["result"] == "oom-kill"
+    assert resource["last_verified_scope"]["memory_max_bytes"] == 128 * 1024**2
+    assert resource["last_verified_scope"]["memory_swap_max_bytes"] == 0
     view = observe_run(tmp_path, action.session_id, result["attempt_id"])
     assert view["state"] == "FAILED"
     ledger = AttemptLedger(tmp_path, action.session_id)
     assert len([event for event in ledger.events()
                 if event["attempt_id"] == result["attempt_id"] and event["status"] == "PLANNED"]) == 1
+    second = start_action(tmp_path, action, request, computation, data, contract,
+                          grant=grant, trusted_policy_path=policy_path)
+    assert second["reason_code"] == "TERMINAL_ATTEMPT_RETAINED"
+    assert len([event for event in ledger.events() if event["status"] == "PLANNED"]) == 1
