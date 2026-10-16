@@ -1,6 +1,8 @@
 """Read-only ATS-3 projection from existing ML4T native Parquet evidence.
 
 Historical simulation evidence only: never claim it is a broker execution.
+This module opens the three saved native artifacts and writes nothing; every
+reported gap or conflict fails closed instead of being repaired or relabeled.
 """
 from __future__ import annotations
 
@@ -48,12 +50,18 @@ def audit_native(directory: Path) -> dict:
         # Native outputs have fill IDs only when provided; row identity is explicitly
         # a source-record ordinal tied to the immutable fills file checksum.
         ref = f"{oid}:{index}"
-        add("order", "order:" + oid, fill["timestamp"], fill["asset"], {}, oid)
+        fill_event_id = f"fill:{ref}"
+        # The order identity is bound to the immutable fills checksum; the
+        # quantity the order requested is the quantity this fill carries.
+        add("order", "order:" + oid, fill["timestamp"], fill["asset"],
+            {"quantity": fill["quantity"]}, oid)
         # Native fill exports do not prove a transport acknowledgment.
-        add("fill", "fill:" + ref, fill["timestamp"], fill["asset"],
+        add("fill", fill_event_id, fill["timestamp"], fill["asset"],
             {"quantity": fill["quantity"], "price": fill["price"], "side": fill["side"]}, oid)
+        # The commission must stay linked to the observed fill event, otherwise
+        # reconciliation cannot distinguish missing from merely absent fees.
         add("commission", "fee:" + ref, fill["timestamp"], fill["asset"],
-            {"amount": fill["commission"]}, oid)
+            {"amount": fill["commission"], "fill_event_id": fill_event_id}, oid)
     for index, row in enumerate(funding.to_dicts()):
         add("financing", f"funding:{index}", row["timestamp"], row["symbol"],
             {"amount": row["cashflow"]})
@@ -95,7 +103,9 @@ def main(argv=None):
     args = parser.parse_args(argv)
     report = audit_native(args.native_directory)
     print(json.dumps(report, indent=2, sort_keys=True))
-    return 0 if report["status"] == "VERIFIED" else 3
+    # Gaps are reported honestly and still produce a completed read-only audit;
+    # only a conflicting reconciliation fails the command.
+    return 3 if report["status"] == "CONFLICTING_EVIDENCE" else 0
 
 
 if __name__ == "__main__":

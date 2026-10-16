@@ -31,3 +31,27 @@ def test_cash_and_position_mismatch():
     result = reconcile(rows, initial_cash='1000')
     assert result['cash'] == '1050'
     assert result['status'] == 'CONFLICTING_EVIDENCE'
+
+
+def test_position_compared_after_replay_not_running_state():
+    # A single declaration is judged after the whole replay, never against a
+    # partially applied running state: computed positions here are empty, so
+    # any declared open position conflicts.
+    declared = [event('position', 'position', {'quantity': '1'})]
+    result = reconcile(declared, initial_cash='1000')
+    assert result['status'] == 'CONFLICTING_EVIDENCE'
+    assert 'POSITION_MISMATCH:BTC' in result['conflicts']
+    # Two differing declarations for one instrument fail closed even when the
+    # later declaration alone would match the replayed position.
+    conflicting = declared + [event('position', 'zzz', {'quantity': '3'})]
+    result = reconcile(conflicting, initial_cash='1000')
+    assert result['status'] == 'CONFLICTING_EVIDENCE'
+    assert 'POSITION_QUANTITY_CONFLICT:BTC' in result['conflicts']
+
+
+def test_second_mark_for_one_instrument_conflicts():
+    rows = [event('mark', 'first', {'price': '105'}),
+            event('mark', 'second', {'price': '106'})]
+    result = reconcile(rows, initial_cash='1000')
+    assert result['status'] == 'CONFLICTING_EVIDENCE'
+    assert 'MARK_OVERWRITE:BTC' in result['conflicts']

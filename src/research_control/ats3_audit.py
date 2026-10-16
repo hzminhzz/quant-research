@@ -1,6 +1,9 @@
 """Read-only, source-preserving ATS-3 operational evidence projection.
 
 No order or broker APIs are imported. Unknown economic inputs never become zero.
+Reconciliation is deterministic, and every missing or conflicting observation
+fails closed: gaps report INSUFFICIENT_EVIDENCE, contradictions report
+CONFLICTING_EVIDENCE, and neither is ever relabeled or silently repaired.
 """
 from __future__ import annotations
 
@@ -73,6 +76,7 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
         conflicts.append("MIXED_ACCOUNT_SCOPE")
     cash = Decimal(str(initial_cash)) if initial_cash is not None else None
     positions: dict[str, Decimal] = defaultdict(Decimal)
+    declared_positions: dict[str, Decimal] = {}
     marks: dict[str, Decimal] = {}
     mark_times: dict[str, datetime] = {}
     order_requested: dict[str, Decimal] = {}
@@ -97,8 +101,11 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
             if event.kind == "order":
                 if not event.execution_id:
                     gaps.add('ORDER_ID_MISSING')
-                order_ids.add(event.execution_id)
-                if 'quantity' in p:
+                else:
+                    order_ids.add(event.execution_id)
+                if 'quantity' not in p or p['quantity'] is None:
+                    gaps.add('ORDER_QUANTITY_MISSING')
+                else:
                     value = _number(p, 'quantity')
                     if value <= 0:
                         raise ValueError('INVALID_ORDER_QUANTITY')
@@ -106,7 +113,10 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
                         conflicts.append('ORDER_QUANTITY_CONFLICT:' + event.execution_id)
                     order_requested[event.execution_id] = value
             elif event.kind == "ack":
-                ack_ids.add(event.execution_id)
+                if not event.execution_id:
+                    gaps.add('ACK_ID_MISSING')
+                else:
+                    ack_ids.add(event.execution_id)
             elif event.kind == "fill":
                 if not event.execution_id:
                     gaps.add("FILL_ORDER_ID_MISSING")
@@ -144,10 +154,21 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
                 price = _number(p, "price")
                 if price <= 0:
                     raise ValueError("INVALID_MARK")
+                if event.instrument in marks:
+                    # One observed mark per instrument. A second distinct mark
+                    # would silently reprice without a superseding correction.
+                    conflicts.append('MARK_OVERWRITE:' + event.instrument)
                 marks[event.instrument] = price
                 mark_times[event.instrument] = event.event_at
-            elif event.kind == "position" and positions[event.instrument] != _number(p, "quantity"):
-                conflicts.append("POSITION_MISMATCH:" + event.instrument)
+            elif event.kind == "position":
+                quantity = _number(p, "quantity")
+                previous = declared_positions.get(event.instrument)
+                if previous is not None and previous != quantity:
+                    # Two differing declarations for one instrument can never be
+                    # reconciled; the last one would silently decide alone.
+                    conflicts.append(
+                        'POSITION_QUANTITY_CONFLICT:' + event.instrument)
+                declared_positions[event.instrument] = quantity
         except ValueError as exc:
             gaps.add(str(exc))
     for order_id, filled in order_filled.items():
@@ -160,6 +181,9 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
     if commission_for:
         for identity in fill_event_ids - commission_for:
             gaps.add('FILL_COMMISSION_UNKNOWN:' + identity)
+    for identity in commission_for - fill_event_ids:
+        # A fee naming a fill that never occurred contradicts the replay.
+        conflicts.append('COMMISSION_FOR_UNKNOWN_FILL:' + identity)
     for order_id in fill_ids:
         if order_id not in order_ids:
             gaps.add("MISSING_ORDER:" + order_id)
@@ -168,6 +192,9 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
     for symbol, quantity in positions.items():
         if quantity and symbol not in marks:
             gaps.add("MISSING_MARK:" + symbol)
+    for symbol, quantity in declared_positions.items():
+        if quantity != positions.get(symbol, Decimal(0)):
+            conflicts.append("POSITION_MISMATCH:" + symbol)
     if not any(e.kind == "commission" for e in ordered) and fill_ids:
         gaps.add("COMMISSION_NOT_OBSERVED")
     if not any(e.kind == "financing" for e in ordered) and fill_ids:
@@ -178,14 +205,15 @@ def reconcile(events: Sequence[AuditEvent], *, initial_cash: str | None = None,
         for symbol, quantity in positions.items():
             if quantity and symbol in mark_times and (mark_times[symbol] > as_of or as_of - mark_times[symbol] > max_mark_age):
                 gaps.add('STALE_MARK:' + symbol)
-    equity = (cash + sum((qty * marks[sym] for sym, qty in positions.items() if qty), Decimal(0))
-              if cash is not None and all(not qty or sym in marks for sym, qty in positions.items()) else None)
+    open_positions = {k: v for k, v in sorted(positions.items()) if v}
+    equity = (cash + sum((qty * marks[sym] for sym, qty in open_positions.items()), Decimal(0))
+              if cash is not None and all(sym in marks for sym in open_positions) else None)
     status = ("CONFLICTING_EVIDENCE" if conflicts else "INSUFFICIENT_EVIDENCE" if gaps
               else "VERIFIED")
     return {"status": status, "event_count": len(ordered), "duplicates": len(events) - len(seen),
             "conflicts": sorted(set(conflicts)), "unknowns": sorted(gaps),
             "cash": str(cash) if cash is not None else None,
             "equity": str(equity) if equity is not None else None,
-            "positions": {k: str(v) for k, v in sorted(positions.items())},
+            "positions": {k: str(v) for k, v in open_positions.items()},
             "commissions": str(fees), "financing": str(financing), "external_cashflow": str(transfers),
             "source_ids": sorted((e.source, e.event_id) for e in ordered)}

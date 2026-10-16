@@ -65,6 +65,14 @@ def test_conflicting_fill_and_correction_never_silently_reprice():
     assert result['status'] == 'CONFLICTING_EVIDENCE'
 
 
+def test_conflicting_order_quantity_never_silently_relax():
+    rows = base()
+    duplicate_order = rows + [row('order', 'ord-alt', {'quantity': '3'})]
+    result = reconcile(duplicate_order, initial_cash='1000')
+    assert 'ORDER_QUANTITY_CONFLICT:ORD-A' in result['conflicts']
+    assert result['status'] == 'CONFLICTING_EVIDENCE'
+
+
 def test_missing_mark_and_invalid_clock():
     rows = [r for r in base() if r.kind != 'mark']
     assert 'MISSING_MARK:BTCUSD' in reconcile(rows, initial_cash='1000')['unknowns']
