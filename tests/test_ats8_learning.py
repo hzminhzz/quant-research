@@ -13,6 +13,7 @@ import pytest
 
 from scripts.benchmark_ats8_learning import benchmark_corpus
 from scripts.benchmark_ats8_learning import main as benchmark_main
+from src.engine.common import beneath
 from src.research_control.learning import (
     AgentLearningState,
     LessonRecordV1,
@@ -274,25 +275,28 @@ def test_real_historical_failure_and_verified_remedy_cycle(tmp_path: Path, monke
 
     casefile_path = fixture(tmp_path, large=True)
 
-    # 1. Historical pre-fix implementation: eager json parsing via Path.read_text
-    def historical_eager_decode(path: Path) -> dict:
-        raw = path.read_text(encoding="utf-8")
-        if len(raw) > 256_000:
-            raise ValueError("EVIDENCE_TOO_LARGE: historical size cap exceeded")
-        return json.loads(raw)
+    # 1. Historical pre-fix implementation from commit 407e6e6 (_safe_json):
+    def historical_commit_407e6e6_safe_json(root: Path, rel: str, *, max_bytes: int = 256_000) -> dict:
+        path = beneath(root, rel, must_exist=True)
+        if path.stat().st_size > max_bytes:
+            raise ValueError("EVIDENCE_TOO_LARGE")
+        return json.loads(path.read_text(encoding="utf-8"))
 
-    # Regression guard from tests/test_ats_qualification.py
+    rel = str(casefile_path.relative_to(tmp_path))
+    # Exact historical implementation raises EVIDENCE_TOO_LARGE on the oversized file:
+    with pytest.raises(ValueError, match="EVIDENCE_TOO_LARGE"):
+        historical_commit_407e6e6_safe_json(tmp_path, rel)
+
+    # 1b. If size check is bypassed to attempt non-streaming read, eager decode triggers the regression guard:
     original_read = Path.read_text
     def forbid_full_casefile_decode(self, *args, **kwargs):
         if self == casefile_path:
-            raise AssertionError("full casefile JSON decoded! Historical bug triggered.")
+            raise AssertionError("full casefile JSON decoded! Historical eager decode triggered.")
         return original_read(self, *args, **kwargs)
 
     monkeypatch.setattr(Path, "read_text", forbid_full_casefile_decode)
-
-    # Faulty implementation MUST trigger the regression assertion
     with pytest.raises(AssertionError, match="full casefile JSON decoded"):
-        historical_eager_decode(casefile_path)
+        historical_commit_407e6e6_safe_json(tmp_path, rel, max_bytes=10_000_000)
 
     # 2. Retrieve lesson from store using observed error and environment version
     _populate_lessons(tmp_path)
