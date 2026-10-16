@@ -1,4 +1,5 @@
 """Append-only attempts and safe tmux recovery without spawning OS processes."""
+import json
 from datetime import UTC, datetime, timedelta
 
 from src.research_control.attempts import AttemptLedger
@@ -94,3 +95,18 @@ def test_stale_head_permit_and_unowned_tmux_fail_closed(tmp_path):
     )
     assert ledger.claim(stale, job_name="ml4t-m4c", command="native").reason_code == "PERMIT_REQUIRED"
     assert ledger.claim(permit, job_name="ml4t-m4c", command="native").reason_code == "IDENTITY_DRIFT"
+
+
+def test_truncated_attempt_record_is_rejected(tmp_path):
+    visibility = [set()]
+    ledger, permit = prepared(tmp_path, visibility=visibility)
+    first = ledger.claim(permit, job_name="ml4t-m4c", command="native")
+    event_path = ledger.path / f"{ledger.events()[0]['event_id']}.json"
+    event_path.write_text("{\"schema_version\":1", encoding="utf-8")
+    try:
+        ledger.events()
+    except json.JSONDecodeError:
+        pass
+    else:
+        raise AssertionError("truncated append-only event was trusted")
+    assert first.status == "LAUNCH"

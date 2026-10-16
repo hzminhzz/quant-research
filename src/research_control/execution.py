@@ -217,9 +217,11 @@ def execute_permitted_native(
         return audit
     root_path = Path(root).resolve()
     destination = (root_path / artifact_dir).resolve()
-    if not destination.is_relative_to(root_path / "run_log") or destination.exists():
+    if not destination.is_relative_to(root_path / "run_log"):
         return blocked("EVIDENCE_PATH_INVALID", "new path under run_log", artifact_dir)
-    destination.mkdir(parents=True)
+    if destination.exists() and any(destination.iterdir()):
+        return blocked("EVIDENCE_PATH_INVALID", "staging directory not empty", artifact_dir)
+    destination.mkdir(parents=True, exist_ok=True)
     result.to_parquet(str(destination / "native"))
     manifest = {
         "schema_version": 1,

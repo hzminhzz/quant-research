@@ -21,6 +21,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any, Literal
 
+from src.engine.common import beneath
 from src.research_session import _identity, _load
 
 from .run_permit import GateReport, RunPermitV1, _identity_hashes
@@ -150,7 +151,9 @@ class AttemptLedger:
                 worker_protocol: str | None = None,
                 parent_attempt_id: str | None = None,
                 checkpoint_path: str | None = None,
-                checkpoint_sha256: str | None = None) -> dict[str, Any]:
+                checkpoint_sha256: str | None = None,
+                metadata: dict[str, Any] | None = None,
+                fencing_token: int | None = None) -> dict[str, Any]:
         if state not in _STATES:
             raise ValueError("unsupported attempt state")
         event_id = uuid.uuid4().hex
@@ -166,10 +169,23 @@ class AttemptLedger:
             "parent_attempt_id": parent_attempt_id,
             "checkpoint_path": checkpoint_path,
             "checkpoint_sha256": checkpoint_sha256,
+            "metadata": metadata or {},
+            "fencing_token": fencing_token,
         }
         # Atomic exclusive create. A duplicated UUID fails; do not overwrite evidence.
-        with (self.path / (event_id + ".json")).open("x", encoding="utf-8") as out:
+        event_path = self.path / (event_id + ".json")
+        descriptor = os.open(event_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
+                             getattr(os, "O_NOFOLLOW", 0), 0o600)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as out:
             json.dump(payload, out, sort_keys=True)
+            out.write("\n")
+            out.flush()
+            os.fsync(out.fileno())
+        directory_fd = os.open(self.path, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
         return payload
 
     def _permit_still_current(self, permit: RunPermitV1) -> bool:
@@ -228,7 +244,7 @@ class AttemptLedger:
         return "WORKER_LOCK_RELEASED"
 
     @contextmanager
-    def worker_lease(self, attempt_id: str) -> Iterator[None]:
+    def worker_lease(self, attempt_id: str, *, owner_pid: int | None = None) -> Iterator[None]:
         """Hold an OS lock for the full worker lifetime; death releases it."""
         path = self.worker_lock_path(attempt_id)
         self.path.mkdir(parents=True, exist_ok=True)
@@ -252,8 +268,16 @@ class AttemptLedger:
                 raise RuntimeError("WORKER_LOCK_HELD") from exc
             file.seek(0)
             file.truncate()
-            file.write(json.dumps({"pid": os.getpid(), "attempt_id": attempt_id}))
+            try:
+                pid = owner_pid or os.getpid()
+                stat = Path(f"/proc/{pid}/stat").read_text()
+                start_ticks = stat[stat.rfind(")") + 2:].split()[19]
+            except (OSError, IndexError):
+                raise RuntimeError("WORKER_IDENTITY_UNKNOWN")
+            file.write(json.dumps({"pid": pid, "attempt_id": attempt_id,
+                                   "start_ticks": start_ticks, "uid": os.getuid()}))
             file.flush()
+            os.fsync(file.fileno())
             try:
                 yield
             finally:
@@ -310,7 +334,74 @@ class AttemptLedger:
                 parent_attempt_id=current.get("parent_attempt_id"),
                 checkpoint_path=str(checkpoint_path.relative_to(self.root)),
                 checkpoint_sha256=checkpoint_hash,
+                metadata=current.get("metadata", {}),
+                fencing_token=current.get("fencing_token"),
             )
+
+    def _reject_late(self, attempt_id: str, kind: str, detail: str,
+                     payload_sha256: str | None = None) -> None:
+        folder = self.path / "rejected_late"
+        if folder.is_symlink():
+            raise ValueError("LATE_EVIDENCE_PATH_UNSAFE")
+        folder.mkdir(exist_ok=True)
+        path = folder / f"{attempt_id}.{uuid.uuid4().hex}.json"
+        record = {"schema_version": 1, "attempt_id": attempt_id,
+                  "kind": kind, "detail": detail,
+                  "payload_sha256": payload_sha256,
+                  "rejected_at": self.clock().astimezone(UTC).isoformat()}
+        with path.open("x", encoding="utf-8") as out:
+            json.dump(record, out, sort_keys=True)
+            out.write("\n")
+            out.flush()
+            os.fsync(out.fileno())
+        fd = os.open(folder, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+
+    def publish_fenced(self, attempt_id: str, fencing_token: int, *,
+                       relative_path: str, payload: bytes) -> dict[str, Any]:
+        """Publish one immutable accepted output only for the live fenced owner."""
+        if (not isinstance(payload, bytes) or not payload or
+            not relative_path.startswith("run_log/ats2/accepted/") or
+            Path(relative_path).is_absolute() or ".." in Path(relative_path).parts):
+            raise ValueError("FENCED_OUTPUT_INVALID")
+        digest = hashlib.sha256(payload).hexdigest()
+        with self._locked():
+            current = self.latest().get(attempt_id)
+            if current is None or current.get("fencing_token") != fencing_token:
+                self._reject_late(attempt_id, "write", "fencing token or owner mismatch", digest)
+                raise ValueError("FENCED_WRITE_REJECTED")
+            peers = [event for event in self.latest().values()
+                     if event["run_id"] == current["run_id"]]
+            owner = max(peers, key=lambda event: int(event.get("fencing_token") or 0))
+            if owner["attempt_id"] != attempt_id:
+                self._reject_late(attempt_id, "write", "worker is not the live fenced owner", digest)
+                raise ValueError("FENCED_WRITE_REJECTED")
+            if current["status"] not in ("RUNNING", "COMPLETED"):
+                self._reject_late(attempt_id, "write", "attempt not in a publishable state", digest)
+                raise ValueError("FENCED_WRITE_REJECTED")
+            destination = beneath(self.root, relative_path)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination = beneath(self.root, relative_path)
+            try:
+                descriptor = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL |
+                                     getattr(os, "O_NOFOLLOW", 0), 0o600)
+            except FileExistsError as exc:
+                self._reject_late(attempt_id, "write", "accepted output already exists", digest)
+                raise ValueError("ACCEPTED_OUTPUT_IMMUTABLE") from exc
+            with os.fdopen(descriptor, "wb") as out:
+                out.write(payload)
+                out.flush()
+                os.fsync(out.fileno())
+            fd = os.open(destination.parent, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                os.fsync(fd)
+            finally:
+                os.close(fd)
+            return {"path": relative_path, "sha256": digest,
+                    "fencing_token": fencing_token, "attempt_id": attempt_id}
 
     def _verified_checkpoint(self, record: dict[str, Any]) -> bool:
         relative = record.get("checkpoint_path")
@@ -360,7 +451,8 @@ class AttemptLedger:
 
     def claim(self, gate: GateReport, *, job_name: str, command: str,
               lease_seconds: int = 3600,
-              managed_worker: bool = False) -> AttemptDecision:
+              managed_worker: bool = False,
+              metadata: dict[str, Any] | None = None) -> AttemptDecision:
         if (gate.status != "PASS" or gate.permit is None or
             gate.permit.session_id != self.session_id):
             return AttemptDecision("BLOCKED", "PERMIT_REQUIRED")
@@ -371,6 +463,14 @@ class AttemptLedger:
         permit = RunPermitV1.model_validate(gate.permit.model_dump(mode="json"))
         if not self._permit_still_current(permit):
             return AttemptDecision("BLOCKED", "IDENTITY_DRIFT")
+        with self._locked():
+            return self._claim_locked(permit, job_name, command,
+                                      lease_seconds, managed_worker, metadata)
+
+    def _claim_locked(self, permit: RunPermitV1, job_name: str, command: str,
+                      lease_seconds: int, managed_worker: bool,
+                      metadata: dict[str, Any] | None) -> AttemptDecision:
+        """Core admission logic; caller must hold the ledger lock."""
         fingerprints = permit.identity.model_dump(mode="json")
         run_id = hashlib.sha256(json.dumps(
             {"permit_sha256": permit.permit_sha256, "command": command,
@@ -380,97 +480,103 @@ class AttemptLedger:
         recovery_parent: str | None = None
         recovery_checkpoint_path: str | None = None
         recovery_checkpoint_sha256: str | None = None
-        with self._locked():
-            attempts = self.latest()
-            matching = [v for v in attempts.values() if v["run_id"] == run_id]
-            other_active = [v for v in attempts.values() if v["job_name"] == job_name
-                            and v["status"] not in _TERMINAL]
-            if managed_worker:
-                other_active.extend(
-                    v for v in attempts.values()
-                    if v["trial_id"] == permit.trial_id
-                    and v["status"] not in _TERMINAL
-                    and v["job_name"] != job_name
-                )
-            if any(item["fingerprints"] != fingerprints for item in matching + other_active):
-                return AttemptDecision("BLOCKED", "IDENTITY_DRIFT", run_id=run_id)
-            jobs = self.list_jobs()
-            if jobs is None:
-                return AttemptDecision("BLOCKED", "JOB_VISIBILITY_UNKNOWN", run_id=run_id)
-            for record in other_active:
-                if record["run_id"] != run_id:
-                    return AttemptDecision("BLOCKED", "ACTIVE_RUN_EXISTS",
-                                           record["attempt_id"], run_id)
-            for record in matching:
-                if record["status"] in _TERMINAL:
-                    if record["status"] == "COMPLETED":
-                        return AttemptDecision("REUSE", "EVIDENCE_REUSABLE",
-                                               record["attempt_id"], run_id)
-                    # Failed attempts are retained, but new attempt may be made.
-                elif record["job_name"] in jobs:
-                    if managed_worker:
-                        lock_status = self.worker_lock_status(record["attempt_id"])
-                        if lock_status != "WORKER_LOCK_HELD":
-                            return AttemptDecision("BLOCKED", "WORKER_ALIVE_UNVERIFIED",
-                                                   record["attempt_id"], run_id,
-                                                   detail=lock_status)
-                        return AttemptDecision("RESUME", "WORKER_CONFIRMED_ACTIVE",
-                                               record["attempt_id"], run_id)
-                    return AttemptDecision("RESUME", "ACTIVE_RUN_EXISTS",
-                                           record["attempt_id"], run_id)
-                elif now <= datetime.fromisoformat(record["lease_until"]):
-                    return AttemptDecision("BLOCKED", "LEASE_UNCERTAIN",
-                                           record["attempt_id"], run_id)
-                else:
-                    if managed_worker:
-                        lock_status = self.worker_lock_status(record["attempt_id"])
-                        if lock_status != "WORKER_LOCK_RELEASED":
-                            reason = ("WORKER_LOCK_HELD" if lock_status == "WORKER_LOCK_HELD"
-                                      else "RECOVERY_EVIDENCE_MISSING")
-                            return AttemptDecision("BLOCKED", reason,
-                                                   record["attempt_id"], run_id,
-                                                   detail=lock_status)
-                        if not self._verified_checkpoint(record):
-                            return AttemptDecision("BLOCKED", "RECOVERY_CHECKPOINT_INVALID",
-                                                   record["attempt_id"], run_id)
-                        recovery_parent = record["attempt_id"]
-                        recovery_checkpoint_path = record.get("checkpoint_path")
-                        recovery_checkpoint_sha256 = record.get("checkpoint_sha256")
-                    self._append(
-                        attempt_id=record["attempt_id"], run_id=run_id,
-                        trial_id=permit.trial_id, state="ABORTED",
-                        fingerprints=fingerprints, job_name=job_name,
-                        lease_until=record["lease_until"], command=command,
-                        detail=("expired lease, worker lock released, checkpoint verified"
-                                if managed_worker else "expired lease, verified absent from tmux"),
-                        worker_protocol="flock-v1" if managed_worker else None,
-                        checkpoint_path=record.get("checkpoint_path"),
-                        checkpoint_sha256=record.get("checkpoint_sha256"),
-                    )
-            if job_name in jobs:
-                return AttemptDecision("BLOCKED", "ACTIVE_UNOWNED_JOB", run_id=run_id)
-            attempt_id = str(uuid.uuid4())
-            event = self._append(
-                attempt_id=attempt_id, run_id=run_id,
-                trial_id=permit.trial_id, state="PLANNED",
-                fingerprints=fingerprints, job_name=job_name,
-                lease_until=until, command=command,
-                detail=(
-                    f"successor replay of {recovery_parent}; parent artifacts retained, "
-                    "native replay starts from the beginning"
-                    if recovery_parent else
-                    "reserved; executor must launch and confirm process separately"
-                ),
-                worker_protocol="flock-v1" if managed_worker else None,
-                parent_attempt_id=recovery_parent,
-                checkpoint_path=recovery_checkpoint_path,
-                checkpoint_sha256=recovery_checkpoint_sha256,
+        attempts = self.latest()
+        matching = [v for v in attempts.values() if v["run_id"] == run_id]
+        other_active = [v for v in attempts.values() if v["job_name"] == job_name
+                        and v["status"] not in _TERMINAL]
+        if managed_worker:
+            other_active.extend(
+                v for v in attempts.values()
+                if v["trial_id"] == permit.trial_id
+                and v["status"] not in _TERMINAL
+                and v["job_name"] != job_name
             )
-            return AttemptDecision(
-                "LAUNCH",
-                "SUCCESSOR_REPLAY_RESERVED" if recovery_parent else "ATTEMPT_RESERVED",
-                attempt_id, run_id,
-                                   evidence_path=str((self.path / (event["event_id"] + ".json")).relative_to(self.root)))
+        if any(item["fingerprints"] != fingerprints for item in matching + other_active):
+            return AttemptDecision("BLOCKED", "IDENTITY_DRIFT", run_id=run_id)
+        jobs = self.list_jobs()
+        if jobs is None:
+            return AttemptDecision("BLOCKED", "JOB_VISIBILITY_UNKNOWN", run_id=run_id)
+        for record in other_active:
+            if record["run_id"] != run_id:
+                return AttemptDecision("BLOCKED", "ACTIVE_RUN_EXISTS",
+                                       record["attempt_id"], run_id)
+        for record in matching:
+            if record["status"] in _TERMINAL:
+                if record["status"] == "COMPLETED":
+                    return AttemptDecision("REUSE", "EVIDENCE_REUSABLE",
+                                           record["attempt_id"], run_id)
+                # Failed attempts are retained, but new attempt may be made.
+            elif record["job_name"] in jobs:
+                if managed_worker:
+                    lock_status = self.worker_lock_status(record["attempt_id"])
+                    if lock_status != "WORKER_LOCK_HELD":
+                        return AttemptDecision("BLOCKED", "WORKER_ALIVE_UNVERIFIED",
+                                               record["attempt_id"], run_id,
+                                               detail=lock_status)
+                    return AttemptDecision("RESUME", "WORKER_CONFIRMED_ACTIVE",
+                                           record["attempt_id"], run_id)
+                return AttemptDecision("RESUME", "ACTIVE_RUN_EXISTS",
+                                       record["attempt_id"], run_id)
+            elif now <= datetime.fromisoformat(record["lease_until"]):
+                return AttemptDecision("BLOCKED", "LEASE_UNCERTAIN",
+                                       record["attempt_id"], run_id)
+            else:
+                if managed_worker:
+                    lock_status = self.worker_lock_status(record["attempt_id"])
+                    if lock_status != "WORKER_LOCK_RELEASED":
+                        reason = ("WORKER_LOCK_HELD" if lock_status == "WORKER_LOCK_HELD"
+                                  else "RECOVERY_EVIDENCE_MISSING")
+                        return AttemptDecision("BLOCKED", reason,
+                                               record["attempt_id"], run_id,
+                                               detail=lock_status)
+                    if not self._verified_checkpoint(record):
+                        return AttemptDecision("BLOCKED", "RECOVERY_CHECKPOINT_INVALID",
+                                               record["attempt_id"], run_id)
+                    recovery_parent = record["attempt_id"]
+                    recovery_checkpoint_path = record.get("checkpoint_path")
+                    recovery_checkpoint_sha256 = record.get("checkpoint_sha256")
+                self._append(
+                    attempt_id=record["attempt_id"], run_id=run_id,
+                    trial_id=permit.trial_id, state="ABORTED",
+                    fingerprints=fingerprints, job_name=job_name,
+                    lease_until=record["lease_until"], command=command,
+                    detail=("expired lease, worker lock released, checkpoint verified"
+                            if managed_worker else "expired lease, verified absent from tmux"),
+                    worker_protocol="flock-v1" if managed_worker else None,
+                    checkpoint_path=record.get("checkpoint_path"),
+                    checkpoint_sha256=record.get("checkpoint_sha256"),
+                    metadata=record.get("metadata", {}),
+                    fencing_token=record.get("fencing_token"),
+                )
+        if job_name in jobs:
+            return AttemptDecision("BLOCKED", "ACTIVE_UNOWNED_JOB", run_id=run_id)
+        attempt_id = str(uuid.uuid4())
+        fencing_token = 1 + max((int(value.get("fencing_token") or 0)
+                                 for value in attempts.values()), default=0)
+        event = self._append(
+            attempt_id=attempt_id, run_id=run_id,
+            trial_id=permit.trial_id, state="PLANNED",
+            fingerprints=fingerprints, job_name=job_name,
+            lease_until=until, command=command,
+            detail=(
+                f"successor replay of {recovery_parent}; parent artifacts retained, "
+                "native replay starts from the beginning"
+                if recovery_parent else
+                "reserved; executor must launch and confirm process separately"
+            ),
+            worker_protocol="flock-v1" if managed_worker else None,
+            parent_attempt_id=recovery_parent,
+            checkpoint_path=recovery_checkpoint_path,
+            checkpoint_sha256=recovery_checkpoint_sha256,
+            metadata=metadata,
+            fencing_token=fencing_token,
+        )
+        return AttemptDecision(
+            "LAUNCH",
+            "SUCCESSOR_REPLAY_RESERVED" if recovery_parent else "ATTEMPT_RESERVED",
+            attempt_id, run_id,
+            evidence_path=str((self.path / (event["event_id"] + ".json")).relative_to(self.root)))
+
 
     def transition(self, attempt_id: str, state: str, *, detail: str = "") -> AttemptDecision:
         if state not in _STATES - {"PLANNED"}:
@@ -481,6 +587,12 @@ class AttemptLedger:
                 return AttemptDecision("BLOCKED", "ATTEMPT_UNKNOWN")
             old = latest[attempt_id]
             if old["status"] in _TERMINAL:
+                if state == "COMPLETED":
+                    self._reject_late(
+                        attempt_id, "completion",
+                        f"late completion rejected after {old['status']}: {detail}",
+                        hashlib.sha256(detail.encode()).hexdigest(),
+                    )
                 return AttemptDecision("BLOCKED", "ATTEMPT_ALREADY_TERMINAL", attempt_id)
             if state == "RUNNING" and old["status"] != "PLANNED":
                 return AttemptDecision("BLOCKED", "ATTEMPT_STATE_INVALID", attempt_id)
@@ -495,6 +607,8 @@ class AttemptLedger:
                 parent_attempt_id=old.get("parent_attempt_id"),
                 checkpoint_path=old.get("checkpoint_path"),
                 checkpoint_sha256=old.get("checkpoint_sha256"),
+                metadata=old.get("metadata", {}),
+                fencing_token=old.get("fencing_token"),
             )
             return AttemptDecision("RESUME", "ATTEMPT_STATE_RECORDED",
                                    attempt_id, old["run_id"])
