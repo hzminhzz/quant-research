@@ -30,7 +30,15 @@ from src.research_control.ats2 import (
     verify_result,
 )
 from src.research_control.attempts import AttemptLedger
+from src.research_control.synthetic_protected_fixture import (
+    fixture_scope,
+    prepare_fixture,
+    read_synthetic_protected_fixture,
+)
 from tests.test_ats2 import _crashable_claimed_worker, _start_in_process
+from tests.test_ats2_native_recovery import (
+    test_public_native_crash_recovery_preserves_grant_and_replays,
+)
 from tests.test_run_permit import gate, intent, setup_trial
 
 _READ = (1 << 0) | (1 << 2) | (1 << 3)
@@ -413,6 +421,143 @@ def _hard_memory_case(workspace: Path) -> dict:
             "replay_denial": again["reason_code"]}
 
 
+def _synthetic_protected_case(folder: Path) -> dict:
+    """Test real fixture bytes behind the same signed, typed ATS-2 authorization."""
+    fixture = folder / "synthetic_only"
+    action = prepare_fixture(fixture)
+    private_key = Ed25519PrivateKey.generate()
+    issuer_dir = folder / "external_issuer"
+    issuer_dir.mkdir(parents=True)
+    private_path = issuer_dir / "fixture_issuer_private.pem"
+    _write(private_path, private_key.private_bytes(
+        serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8,
+        serialization.NoEncryption(),
+    ))
+    private_path.chmod(0o600)
+    policy_path = issuer_dir / "trust_policy.json"
+    policy = TrustPolicyV1.model_validate({
+        "schema_version": 1, "trust_domain": "SYNTHETIC_ONLY",
+        "max_grant_seconds": 3600,
+        "issuers": ({"issuer_id": "external-protected-fixture-issuer",
+                     "public_key_b64": public_key_b64(private_key), "enabled": True},),
+        "revoked_grant_ids": (),
+    })
+    _write(policy_path, policy.model_dump_json().encode() + b"\n")
+    policy_path.chmod(0o600)
+    now = datetime.now(UTC)
+    scope = fixture_scope(action)
+    grant = issue_synthetic_grant(
+        scope, issuer_id="external-protected-fixture-issuer",
+        private_key=private_key, protected_fixture=True,
+        issued_at=now - timedelta(seconds=2),
+        expires_at=now + timedelta(minutes=10),
+    )
+    _write(folder / "signed_protected_grant.json", grant.model_dump_json().encode() + b"\n")
+    # Negative requests are evaluated before the positive claim. Neither
+    # reading the protected fixture nor consuming the grant is allowed.
+    cases = {}
+    bad = grant.model_dump(mode="json")
+    bad["signature_b64"] = ("A" if bad["signature_b64"][0] != "A" else "B") + bad["signature_b64"][1:]
+    wrong_scope = grant.model_dump(mode="json")
+    wrong_scope["scope"]["selection_sha256"] = "0" * 64
+    for name, supplied, reason in (
+        ("missing_grant", {}, "GRANT_SCHEMA_INVALID"),
+        ("forged_signature", bad, "SIGNATURE_INVALID"),
+        ("altered_signed_scope", wrong_scope, "SIGNATURE_INVALID"),
+    ):
+        result = read_synthetic_protected_fixture(
+            fixture, action, supplied,
+            trusted_policy_path=policy_path,
+            issuer_private_path=private_path,
+        )
+        if result != {"status": "BLOCKED", "reason_code": reason}:
+            raise AssertionError(f"SYNTHETIC_PROTECTED_NEGATIVE_FAILED:{name}:{result}")
+        cases[name] = result
+    if list((fixture / "consumed_claims").glob("*.json")) or (fixture / "protected_receipts").exists():
+        raise AssertionError("DENIED_REQUEST_TOUCHED_SYNTHETIC_PROTECTED_BYTES")
+
+    result = read_synthetic_protected_fixture(
+        fixture, action, grant, trusted_policy_path=policy_path,
+        issuer_private_path=private_path,
+    )
+    if result["status"] != "VERIFIED_SYNTHETIC_PROTECTED_READ":
+        raise AssertionError(f"PROTECTED_POSITIVE_NOT_AUTHORIZED:{result}")
+    second = read_synthetic_protected_fixture(
+        fixture, action, grant, trusted_policy_path=policy_path,
+        issuer_private_path=private_path,
+    )
+    if second != {"status": "BLOCKED", "reason_code": "PROTECTED_GRANT_CONSUMED"}:
+        raise AssertionError(f"PROTECTED_GRANT_REPLAY_NOT_DENIED:{second}")
+    proof_path = fixture / result["proof"]
+    proof = json.loads(proof_path.read_text())
+    claim_path = fixture / "consumed_claims" / f"{grant.grant_id}.json"
+    if (not proof["synthetic_only"] or proof["live_order_authority"]
+        or proof["input_sha256"] != action["identity"]["data_sha256"]
+        or proof["bytes_read"] != len((fixture / "synthetic_protected_fixture.bin").read_bytes())
+        or not claim_path.is_file()):
+        raise AssertionError("SYNTHETIC_PROTECTED_PROOF_INVALID")
+    return {
+        "status": result["status"],
+        "action_sha256": action["contract_sha256"],
+        "grant_id": grant.grant_id, "grant_path": str((folder / "signed_protected_grant.json").relative_to(folder)),
+        "issuer_private_sha256": _sha(private_path),
+        "issuer_private_path": str(private_path.relative_to(folder)),
+        "policy_sha256": _sha(policy_path),
+        "policy_path": str(policy_path.relative_to(folder)),
+        "action_path": str((fixture / "fixture_action.json").relative_to(folder)),
+        "input_sha256": action["identity"]["data_sha256"],
+        "claim_path": str(claim_path.relative_to(folder)),
+        "claim_sha256": _sha(claim_path),
+        "proof_path": str(proof_path.relative_to(folder)),
+        "proof_sha256": _sha(proof_path),
+        "negative_cases": cases,
+        "replay_denial": second["reason_code"],
+        "trust_boundary": "External signed synthetic Ed25519 issuer; Bubblewrap worker has only synthetic fixture bytes and digest-output mount, no issuer key, trust policy, host home, network or order authority.",
+    }
+
+
+def _public_native_recovery_case(folder: Path) -> dict:
+    """Prove public API crash recovery and replay with an independent executable."""
+    folder.mkdir(parents=True, exist_ok=False)
+    test_public_native_crash_recovery_preserves_grant_and_replays(folder)
+    crashed = folder / "crashed"
+    clean = folder / "clean"
+    ledger = AttemptLedger(crashed, "permit-synthetic", list_jobs=lambda: set())
+    records = ledger.latest()
+    completed = [row for row in records.values() if row["status"] == "COMPLETED"]
+    aborted = [row for row in records.values() if row["status"] == "ABORTED"]
+    if len(completed) != 1 or len(aborted) != 1:
+        raise AssertionError("PUBLIC_RECOVERY_ATTEMPT_HISTORY_INVALID")
+    current, previous = completed[0], aborted[0]
+    if (current["parent_attempt_id"] != previous["attempt_id"]
+        or current["fencing_token"] <= previous["fencing_token"]
+        or current["metadata"]["authorization"]["grant_id"] != previous["metadata"]["authorization"]["grant_id"]):
+        raise AssertionError("PUBLIC_RECOVERY_FENCE_OR_GRANT_INVALID")
+    judge_dir = folder / "outside_judge"
+    command = [
+        sys.executable, str(Path(__file__).resolve().with_name("ats2_outside_judge.py")),
+        "--native-recovery", "--fixture", str(crashed), "--clean-control", str(clean),
+        "--output", str(judge_dir),
+    ]
+    judge = subprocess.run(command, capture_output=True, text=True, timeout=75, check=False)
+    report_path = judge_dir / "replay_report.json"
+    if judge.returncode != 0 or not report_path.is_file():
+        raise RuntimeError(f"PUBLIC_RECOVERY_OUTSIDE_JUDGE_FAILED:{judge.returncode}:{judge.stderr}")
+    report = json.loads(report_path.read_text())
+    if (report.get("state") != "PASS" or report.get("recovered", {}).get("state") != "RAW_EVIDENCE_REPLAY_PASSED"
+        or report.get("control", {}).get("state") != "RAW_EVIDENCE_REPLAY_PASSED"):
+        raise AssertionError("PUBLIC_RECOVERY_RAW_NUMERIC_REPLAY_FAILED")
+    return {
+        "status": "PASS", "aborted_attempt": previous["attempt_id"],
+        "recovered_attempt": current["attempt_id"],
+        "original_grant_id": previous["metadata"]["authorization"]["grant_id"],
+        "fence_old": previous["fencing_token"], "fence_new": current["fencing_token"],
+        "outside_judge_sha256": _sha(report_path),
+        "outside_judge_path": str(report_path.relative_to(folder)),
+        "native_comparison": "recovered_vs_independent_clean_control",
+    }
+
+
 def ctypes_landlock_abi() -> int:
     import ctypes
     libc = ctypes.CDLL(None, use_errno=True)
@@ -430,9 +575,12 @@ def main() -> int:
         crash = _raw_crash_case(root / "crash")
         memory = _hard_memory_case(root / "memory_exhaustion")
         authorization = _authorization_case(root / "authorization")
+        synthetic_protected = _synthetic_protected_case(root / "synthetic_protected")
+        public_recovery = _public_native_recovery_case(root / "public_native_recovery")
         raw_files = sorted(p for p in root.rglob("*") if p.is_file())
         manifest = {
-            "schema_version": 1, "outcome": "PARTIALLY_QUALIFIED",
+            "schema_version": 1, "outcome": "QUALIFIED",
+            "qualification_scope": "ATS2_SYNTHETIC_ONLY",
             "command": command, "head": subprocess.run(
                 ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
             ).stdout.strip(),
@@ -441,16 +589,25 @@ def main() -> int:
                 Path("src/research_control/action_worker.py"),
                 Path("src/research_control/attempts.py"),
                 Path("src/research_control/resource_cgroup.py"),
+                Path("src/research_control/action_authorization.py"),
+                Path("src/research_control/synthetic_protected_fixture.py"),
+                Path("src/research_control/synthetic_protected_fixture_worker.py"),
+                Path("scripts/ats2_outside_judge.py"),
+                Path("scripts/ats2_qualification_judge.py"),
                 Path(__file__),
             )},
             "runtime": {"python": sys.version, "platform": platform.platform()},
             "clean_control": clean, "concurrent_control": concurrent,
             "crash_recovery": crash, "hard_memory_cgroup": memory,
             "authorization_boundary": authorization,
+            "synthetic_protected_authorization": synthetic_protected,
+            "public_native_crash_recovery": public_recovery,
             "raw_file_hashes": {str(p.relative_to(root)): _sha(p) for p in raw_files},
-            "limitations": ["No protected market outcomes or production credentials used",
+            "limitations": ["No actual protected market outcomes or production credentials used",
+                            "SYNTHETIC_ONLY is the bounded ATS-2 qualification scope",
+                            "Synthetic protected fixture is generated by ATS-2 and is not a general data reader",
                             "Production trusted protected/deployment permission issuance remains closed and unqualified",
-                            "No unrestricted factory run was started"],
+                            "No unrestricted factory run or broker order was started"],
         }
         manifest_path = root / "acceptance.json"
         _write(manifest_path, json.dumps(manifest, sort_keys=True, indent=2, default=str).encode() + b"\n")
@@ -458,7 +615,9 @@ def main() -> int:
                           "clean_attempt": clean["attempt_id"],
                           "concurrent_attempt": concurrent["attempt_id"],
                           "landlock_abi": authorization["landlock_abi"],
-                          "memory_oom": memory["oom_result"]}, sort_keys=True))
+                          "memory_oom": memory["oom_result"],
+                          "protected_fixture": synthetic_protected["status"],
+                          "public_recovery": public_recovery["status"]}, sort_keys=True))
         return 0
     except (AssertionError, OSError, ValueError, RuntimeError,
             subprocess.SubprocessError, KeyError, TypeError) as exc:
