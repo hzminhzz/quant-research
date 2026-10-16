@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261015-OVERSIZE-CASEFILE-STREAM",
+  "knowledge_class": "implementation_recipe",
+  "trigger": "EVIDENCE_TOO_LARGE or MemoryError when loading large factory Casefile JSON into memory",
+  "error_codes": [
+    "EVIDENCE_TOO_LARGE",
+    "RESPONSE_BUDGET_EXCEEDED"
+  ],
+  "affected_scope": [
+    "src/research_control/agent_interface.py",
+    "run_log/dual_mode/*/*/casefile.json"
+  ],
+  "protocol": "dual_mode_v1",
+  "version_bounds": {
+    "ml4t-engineer": "0.1.4"
+  },
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "commit 260b14e5af7f56ccd21c2879c363c0867b89512c (src/research_control/agent_interface.py)",
+  "root_cause": "Eager JSON parsing of high-volume bulk exclusion arrays (>350KB) overflows memory and agent response context budgets.",
+  "verified_remedy": "Stream SHA-256 byte digest (_integrity) against trial ledger hash without decoding full JSON; inspect small stage receipts (stage1.json, etc.) for per-stage status.",
+  "regression_test": "tests/test_ats_qualification.py::test_large_casefile_stream_hash_and_receipts_without_json_decode",
+  "limitations": [
+    "Cryptographic hash match proves uncorrupted storage only; does not revalidate numerical statistics."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": null,
+  "invalidated_by": [],
+  "created_at": "2026-10-15T19:30:00Z",
+  "digest": "119c59eff6612aa1b18add6bdff23c18bd7001c36dd279610bb8d091de704815"
+}

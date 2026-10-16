@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261015-DUAL-MODE-RUNTIME",
+  "knowledge_class": "architectural_decision",
+  "trigger": "New research candidate routing decision",
+  "error_codes": [
+    "LEGACY_RUNTIME_DEPRECATED",
+    "INVALID_ROUTING"
+  ],
+  "affected_scope": [
+    "scripts/quant.py",
+    "src/workbench.py"
+  ],
+  "protocol": "dual_mode_v1",
+  "version_bounds": {},
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "docs/architecture/trading_system/design.md (ADR-0005, commit 827731d)",
+  "root_cause": "Legacy scripts/research.py bypassed native stages and unified feature vault.",
+  "verified_remedy": "Route all new research candidates exclusively through scripts/quant.py (autonomous factory) or src.workbench.Workbench (interactive).",
+  "regression_test": "tests/test_dual_mode_funnel.py",
+  "limitations": [
+    "Legacy ResearchContractV1 records remain accessible read-only for historical reproduction."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": null,
+  "invalidated_by": [],
+  "created_at": "2026-10-15T12:00:00Z",
+  "digest": "abdac6da127f0f0f1326e064781dc66333adb448e38881c7f03632cc169c74a9"
+}
