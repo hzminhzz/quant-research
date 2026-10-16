@@ -1,28 +1,45 @@
 """ATS-0/1 adversarial read-only contract, synthetic only."""
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
 
-from src.engine.common import append_trial, file_hash, write_json
+from src.engine.common import append_trial, digest, file_hash, write_json
 from src.research_control.agent_interface import inspect_case, read_evidence
 
 
-def fixture(root: Path, *, status="FALSIFIED_STAGE_2", artifact=True, completion=True):
+def fixture(root: Path, *, status="FALSIFIED_STAGE_2", artifact=True,
+            completion=True, large=False):
+    if not (root / ".git").exists():
+        subprocess.run(["git", "init", "-q", str(root)], check=True)
+        subprocess.run(["git", "-C", str(root), "-c", "user.name=ATS Fixture",
+                        "-c", "user.email=fixture@example.invalid", "commit",
+                        "--allow-empty", "-qm", "fixture"], check=True)
     base = root / "run_log"
     folder = base / "dual_mode" / "trial-1" / "attempt-1"
     folder.mkdir(parents=True)
     file = folder / "casefile.json"
     payload = {"candidate_id": "trial-1", "attempt_id": "attempt-1",
                "status": status, "stages": {"1": {"status": "PASS"},
-                                          "2": {"status": "FALSIFIED_STAGE_2"}}}
+                                          "2": {"status": "FALSIFIED_STAGE_2"}},
+               "source_exclusions": ["x" * 350000] if large else []}
     if artifact:
         write_json(file, payload)
-    append_trial(base, {"candidate_id": "trial-1", "attempt_id": "attempt-1",
-                        "event": "registered", "status": "RUNNING"})
+    for stage, state in ((1, "PASS"), (2, "FALSIFIED_STAGE_2")):
+        evidence = folder / f"stage{stage}_evidence.json"
+        write_json(evidence, {"status": state})
+        receipt = {"stage": stage, "status": state, "candidate_id": "trial-1",
+                   "spec_hash": "a" * 64, "code_hash": "b" * 64,
+                   "panel_hash": "c" * 64,
+                   "artifacts": {evidence.name: file_hash(evidence)}}
+        receipt["receipt_hash"] = digest(receipt)
+        write_json(folder / f"stage{stage}.json", receipt)
+    identity = {"candidate_id": "trial-1", "attempt_id": "attempt-1",
+                "spec_hash": "a" * 64, "code_hash": "b" * 64}
+    append_trial(base, {**identity, "event": "registered", "status": "RUNNING"})
     if completion:
-        append_trial(base, {"candidate_id": "trial-1", "attempt_id": "attempt-1",
-                            "event": "completed", "status": status,
+        append_trial(base, {**identity, "event": "completed", "status": status,
                             "casefile": {"path": "dual_mode/trial-1/attempt-1/casefile.json",
                                          "sha256": file_hash(file) if artifact else "missing"}})
     return file
@@ -137,7 +154,7 @@ def test_oversized_casefile_preserves_ledger_only_status(tmp_path):
     assert view["status"] == "BLOCKED"
     assert view["research"][0]["status_authority"] == "LEDGER_ONLY"
     assert view["research"][0]["evidence_access"] == "NOT_VERIFIED"
-    assert any(x["reason_code"] == "EVIDENCE_TOO_LARGE" for x in view["unknowns"])
+    assert any(x["reason_code"] == "ARTIFACT_HASH_MISMATCH" for x in view["unknowns"])
 
 
 def test_corrupted_ledger_never_authoritative(tmp_path):
