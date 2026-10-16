@@ -89,15 +89,25 @@ Evaluated across 14 predeclared fixtures (3 samples each) comparing three operat
 | Metric | Baseline Raw | Managed (No Learning) | Managed (With ATS-8 Learning) | Measured Finding |
 | :--- | :---: | :---: | :---: | :--- |
 | **Critical Invariants Correct** | 100% | 100% | **100%** | Zero forbidden side effects, zero order permissions across all arms. |
-| **Median Tool Calls** | 107 | 18 | **33** | **Tool call overhead:** Querying lesson store adds +1 tool call per evaluated error. |
+| **Median Tool Calls** | 107 | 18 | **33** | **Negative efficiency on call count:** Querying store adds +1 tool call per evaluated error (+83% calls). |
 | **Median Context Bytes** | 390,652 B | 56,489 B | **56,489 B** | Zero net context increase on medians (compact JSON lesson records). |
-| **Diagnostic Remedy on Errors** | 0% (unassisted) | 0% (blind `inspect_evidence`) | **100% on matched errors** | Applicable errors return verified root cause, recipe, and regression test link. |
+| **Diagnostic Remedy on Errors** | 0% (unassisted) | 0% (blind `inspect_evidence`) | **NOT_EXERCISED (0/0 in benchmark)** | Benchmark matrix had 0 remedy-resolvable fixtures; verified remedy demonstrated in unit test only. |
 | **Stale Advice Rejection Rate** | N/A | N/A | **100.0% (6/6 measured)** | Evaluated opportunities for superseded or incompatible lessons rejected fail-closed. |
 | **Mutation Sensitivity** | N/A | N/A | **Verified Sensitive** | Disabling filtering in `test_benchmark_mutation_disabling_compatibility_filtering_fails` causes benchmark failure (exit code 1). |
-| **Raw Trace Persistence** | No | No | **Yes** | All per-sample inputs, outputs, latencies, and digests saved in `run_log/ats8/benchmark/`. |
+| **Raw Trace Persistence** | No | No | **Partial (11 runs retained)** | 11 runs persisted in `run_log/ats8/benchmark/`; 3 early runs unrecoverable after intermediate cleanup. |
+
+### Measured Ablation Finding
+In this 14-fixture benchmark matrix, enabling lesson retrieval incurred a **net efficiency cost** (+15 tool calls, 33 vs 18) without altering terminal action correctness (both reached the same action). The operating benchmark did not demonstrate a positive remedy gain across these fixtures; remedy recovery was demonstrated exclusively in unit regression `test_real_historical_failure_and_verified_remedy_cycle`.
 
 ---
 
 ## 5. Ongoing Integration Boundary
 
 ATS-8 provides a small, decoupled interface (`LessonStore.query()`, `AgentLearningState`) ready for future ATS-4 (scientific protocol validation) and ATS-5 (account rulebook replay) consumers without modifying concurrent worktrees or rewriting `AGENTS.md`.
+
+---
+
+## 6. Qualification Status: PARTIALLY QUALIFIED
+
+- **Qualified:** Schema-validated lesson store (`LessonRecordV1`), fail-closed protocol and scope gates, numeric semver bounds (`1.10` > `1.9`), cryptographic digest verification, real historical regression execution, and mutation sensitivity.
+- **Unresolved / Limitation:** The end-to-end operating benchmark demonstrated a negative efficiency ablation (+15 calls) and did not exercise a positive remedy gain in the 14-case matrix (0/0 remedy opportunities). Three early benchmark runs were unrecoverable after cleanup.
