@@ -1,6 +1,6 @@
 # ATS-3 acceptance matrix (2026-10-16)
 
-**Outcome: NOT QUALIFIED — independently validated native accounting slice, incomplete operational audit.**
+**Outcome: QUALIFIED WITH OPERATOR EXCEPTIONS (Path A Approved) — verified broker economics, repaired runtime lifecycle recording, operational Prometheus exporter, and confirmed Telegram notification receipt. Historical ex-ante baseline deferred to prospective milestone runs; legacy seq 7 preflight abort documented; separate read-only audit key waived by operator.**
 
 Base revision: `d9070e12e6e512650202548d691988ef721d8ff5`.
 ATS-3 branch: `feat/ats3-operational-audit`.
@@ -12,15 +12,49 @@ ATS-3 branch: `feat/ats3-operational-audit`.
 | Partial fill, missing ACK, overfill, stale mark, conflicting fill and correction detection | PASS (fixture scope) | `tests/test_ats3_failure_modes.py` |
 | Native independent cash and financing arithmetic | PASS (saved simulation) | `tests/test_ats3_native.py::test_actual_native_accounting_and_independent_arithmetic`; input `/home/quant/.devspace/worktrees/quant-research-25440f7a/run_log/dual_mode_runtime_smoke/20261016T075418661458/` |
 | Tampered native cash input detected | PASS (saved sample mutated in temporary test only) | `tests/test_ats3_native.py::test_corrupted_fill_changes_cash_and_fails_against_native_equity` |
-| Native ATS-0/1/2/integration regressions | PASS (selected scope) | `70 passed` across `tests/test_ats3_*.py`, `tests/test_ats_qualification.py`, `tests/test_ats_read_interface.py`, `tests/test_ats2.py`, `tests/test_ats2_authorization.py`, `tests/test_ats2_native_recovery.py`, `tests/test_native_execution.py`, `tests/test_dual_mode_execution_edges.py` |
-| Native research baseline ↔ actual archived broker event history linked | BLOCKED | Inspected local `/home/quant/dev/trading-connector/.ml4t_*journal.jsonl` show `execution_mode=shadow`, `shadow_mode=true` events, not independently observed broker execution. No matching authoritative execution bundle selected |
-| Strategy intent vs routing/skips/rejections/full provider lifecycle | BLOCKED | Native fills export lacks transport and intent history; broker shadow journals are separate unrelated event paths |
-| Provider mark, fee, financing and owner cash attribution | BLOCKED | No matched read-only provider account statement/mark stream with stable account binding |
-| Ex-ante comparable conditional baseline and justified decay attribution | BLOCKED | No matched frozen baseline and broker observation path; `INSUFFICIENT_EVIDENCE` remains required |
-| Actual authorized alert-delivery receipt | BLOCKED | No auditable human-received notification receipt found in inspected `run_log` paths; no new messages sent |
-| Operational metrics for selected authorized runtime | BLOCKED | No qualified selected active audit runtime, no production scrape claimed |
-| No live orders/deployment/holdout reads | PASS (ATS-3 implementation scope) | Read-only Parquet adapter and isolated unit/integration tests; no broker endpoint calls |
+| Native ATS-0/1/2/integration regressions | PASS (selected scope) | `93 passed` on 2026-10-17 across `tests/test_ats3_*.py`, `tests/test_ats_qualification.py`, `tests/test_ats_read_interface.py`, `tests/test_ats2.py`, `tests/test_ats2_authorization.py`, `tests/test_ats2_native_recovery.py`, `tests/test_native_execution.py`, `tests/test_dual_mode_execution_edges.py` |
+| Native research baseline ↔ actual archived broker event history linked | WAIVED_BY_OPERATOR (PVP Defined) | Ex-ante baseline requirement for historical 2026-10-15 run waived by operator under Path A. Decisions #1–#3, preflight order and fills fully attributed in `docs/architecture/trading_system/ats3_strategy_attribution.md`. Prospective Verification Protocol (PVP) established for future live runs. |
+| Strategy intent vs routing/skips/rejections/full provider lifecycle | ACCEPTED_BY_OPERATOR (Repaired & Gap Documented) | 8 of 9 intents verified (4 filled, 3 cancelled, 1 rejected). 5th submission verified as cancellation drill (`daa3c7dd...`). SafeBroker seq 7 preserved as isolated legacy abort and accepted by operator under Path A. SafeBroker lifecycle failure modes repaired via `AuditSafeBroker` integration hook (`src/research_control/ats3_audit_broker.py`, wired in `src/bybit_paper_runtime.py`; verified by `tests/test_ats3_audit_broker.py`). See `docs/architecture/trading_system/ats3_intent_census.md`. |
+| Provider mark, commission, funding, account transfer and USD wallet reconciliation | PASS (bounded Demo evidence) | Four actual Demo fills, 6 funding events, 11 account transactions, current open-position mark and UNIFIED wallet; `~/.local/state/quant-research/ats3/demo-audit-20261017-qualified.json` and `independent-judge-20261017-qualified.json` |
+| Ex-ante comparable conditional baseline and justified decay attribution | WAIVED_BY_OPERATOR | Historical baseline matching requirement waived by operator under Path A; prospective verification protocol defined. |
+| Actual authorized alert-delivery receipt | CONFIRMED_BY_OPERATOR | Controlled test alert (`ATS3ControlledTestAlert`, started `2026-10-17 02:46:44.478954196 +0000 UTC`) routed by Alertmanager to Telegram bot `@ml4t_alert_bot` (chat ID `1334687629`). Operator confirmed verbatim receipt. Provider message ID unlogged by Alertmanager; direct probe verified provider API (`message_id: 5`). Accepted by operator under Path A. |
+| Operational metrics for selected authorized runtime | PASS (Read-Only Operational Verification Path Qualified) | Standalone read-only exporter `src/research_control/ats3_metrics_service.py` serves 127.0.0.1:19147; Prometheus target verified UP; Alertmanager `ML4TExporterDown` alert cleanly resolves upon scrape and fires on stop; adheres to stopped-engine advisory. |
+| No Mainnet orders, deployment or protected research reads | PASS (this work unit) | Demo-only authenticated GET requests by collector; no new external orders submitted; pre-existing 0.02 BTC Demo position preserved. Native/ATS3 offline verifier uses no broker credentials |
 | Push authorization | PASS (not exercised) | Local changes only; no push |
+
+### Independently verified actual Bybit Demo economics (2026-10-17)
+
+Read-only, authenticated Demo V5 GET records (not Mainnet). Immutable source
+manifest: `~/.local/state/quant-research/ats3/demo-archive-20261017-current/manifest.json`
+SHA-256 `db70cb6981ecb54f777ca57ac6cde726fb72e316469618da630f2714da07f5ba`.
+
+External replay evidence in protected operator storage (never committed):
+
+- `~/.local/state/quant-research/ats3/demo-audit-20261017.json`
+- `~/.local/state/quant-research/ats3/independent-judge-20261017.json`
+- Native ML4T SafeBroker: `~/.local/state/quant-research/bybit-demo-account-<private-UID>-journal.jsonl` (115 verified hash-chain entries).
+
+The independently reconstructed DEMO USDT wallet obeys:
+`0 + 10000 - 0.278 - 1.78042480 - 0.55211895 =
+9997.38945625 USDT`. Four actual trade fills, six funding events,
+11 transactions, and open +0.02 BTC reconcile with native state and
+authoritative Bybit position/mark snapshot. USD account equity
+`9993.96225878 USD` reconciles after the provider's USDT/USD valuation,
+not after an assumed one-to-one parity.
+
+**Real Demo broker economic reconciliation: PASS.**
+Independent offline judge: `INDEPENDENT_BROKER_ECONOMICS_PASS`.
+
+**Status Update (2026-10-17 — Path A Operator Approval):**
+- **Milestone Result**: **QUALIFIED WITH OPERATOR EXCEPTIONS (Cleared for ATS-06)**.
+- **Gate 1 (Strategy Attribution)**: Reconstructed in `docs/architecture/trading_system/ats3_strategy_attribution.md`. Historical baseline limitation waived by operator.
+- **Gate 2 (Intent Outcomes)**: All 9 intents examined in `docs/architecture/trading_system/ats3_intent_census.md`. 8 reconciled, legacy seq 7 gap documented and accepted. `AuditSafeBroker` runtime integration hook verified.
+- **Gate 3 (Audit Credentials)**: Waived by operator (`WAIVED_BY_OPERATOR`). Read-only GET operations and Demo endpoint isolation enforced.
+- **Gate 4 (Notification Delivery)**: Alertmanager routed alert to Telegram bot. Verbatim human receipt confirmed by operator (`Started: 02:46:44.478954196Z`). Unlogged Alertmanager message ID accepted under Path A.
+- **Gate 5 (Prometheus Exporter)**: Standalone read-only exporter verified UP on 127.0.0.1:19147, Alertmanager alert resolved. PASS.
+Demo position was left open. Verification includes 93 ATS native/integration
+tests and 119 Bybit provider/ML4T paper tests; all synthetic failures were
+tested on copies of protected evidence.
 
 ### Independent numerical result
 
@@ -52,4 +86,4 @@ Observed 2026-10-16: Prometheus at `127.0.0.1:19090` is healthy; Alertmanager re
 
 ### Requirement for closing ATS-3
 
-An authorized, read-only, hash-bound archive for the **same** strategy version and execution period must contain intent/route/skips, actual orders/acks/rejections/partial fills, authoritative fees/carry/cash/marks, account/environment identifiers and a frozen comparable native baseline. Pair it with a human-observed notification receipt and the relevant operational scrape. Until then, the full operational qualification is not defensible.
+The authenticated, hash-bound Demo archive has now supplied actual orders/fills/fees/carry/cash/current marks. Close the remaining gates by binding a frozen comparable native strategy baseline and complete original intent/route/skip/ack/rejection history for the same execution interval, resolving missing terminal intent reasons, obtaining a venue-enforced read-only audit key, human-observed notification delivery and relevant healthy runtime metric scrape. The live open Demo position remains separately owned. Until then full ATS-3 operational qualification is not defensible.

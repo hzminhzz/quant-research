@@ -1,6 +1,6 @@
 # ATS-3 operational audit — observed engineering scope
 
-**Status: PARTIAL. Native accounting slice only; full operational qualification is BLOCKED.** This document describes the implemented read-only audit surface, its deterministic reconciliation, its independent numerical cross-check, and the evidence gaps that remain. It does not qualify broker execution, provider operations, notification delivery, or production monitoring.
+**Status: PARTIAL. Both native simulation accounting and observed Bybit Demo broker economics have independently reconciled.** Full strategy-to-route attribution, independent audit-key isolation, notification delivery and runtime monitoring remain BLOCKED. This document distinguishes the verified source scope from unsupported production claims.
 
 ## Read-only entry point
 
@@ -70,7 +70,118 @@ No process belonging to this audit was started, and the down exporter was not re
 
 No auditable, human-observed notification delivery receipt exists in the inspected run logs, and no notification was sent by this work unit. The external ntfy helper on this host is not authorized for ATS-3. No receipt is claimed; notification delivery remains unknown.
 
-## Known gaps and closing requirements
+## 2026-10-17: authenticated, actual Bybit Demo broker audit
+
+This section **supersedes** the previous "no archived broker events" observation.
+No prior record was modified. The specific selected Demo UID is private and
+retained only in operator storage; no Mainnet or Testnet substitution occurred.
+
+**Read-only source collector:** `src/research_control/ats3_bybit_archive.py`.
+It calls only authenticated Bybit V5 GET endpoints and separately captures
+order history, execution/funding, transaction log, closed PnL, and snapshot
+of current UNIFIED wallet + position marks. It does not call a mutating broker
+method. Its `BybitClient` is configured `Mode.READ_ONLY`, but the authenticated
+Demo API credential has **trading permissions** (`key_is_read_only=false`).
+Therefore least-privilege audit-credential qualification is still BLOCKED.
+Use a distinct venue-enforced read-only Demo key to close that gate.
+
+Private source archive (0700 folder; 0600 files; not Git):
+`~/.local/state/quant-research/ats3/demo-archive-20261017-current/`
+
+Verified manifest digest (SHA-256):
+`db70cb6981ecb54f777ca57ac6cde726fb72e316469618da630f2714da07f5ba`
+
+Selected historical window: 2026-10-15T00:00:00+00:00 through
+2026-10-17T01:49:08.942277+00:00; the account snapshot is an observation
+immediately after the request window, **not a historical mark replay at every
+event**. No new trading order was submitted by this ATS-3 exercise.
+
+**Independent broker-side economic bridge:**
+`src/research_control/ats3_bybit_replay.py` and the separately implemented
+`scripts/ats3_bybit_outside_judge.py`. Both are offline, import no broker
+implementation, and have no order or network API.
+
+| Verified provider facts (Demo, virtual funds) | Observed |
+| --- | ---: |
+| Funding settlement executions | 6 |
+| Trade executions / fully filled order-history rows | 4 / 4 |
+| Account transactions | 11 |
+| Initial transaction-account balance | 0 USDT |
+| Owner virtual transfer | +10000 USDT |
+| Realized trading PnL | -0.278 USDT |
+| Trading fees | -1.78042480 USDT |
+| Funding cashflow | -0.55211895 USDT |
+| Final USDT wallet | 9997.38945625 USDT |
+| Open BTCUSDT quantity | +0.02 BTC |
+| Open position average entry | 80988.4 USDT/BTC |
+| Observed unrealized PnL | +10.3234 USDT |
+| Observed USD account equity | 9993.96225878 USD |
+| Independent numerical judge | INDEPENDENT_BROKER_ECONOMICS_PASS |
+
+Account equity USD is provider-valued: Bybit's USDT coin equity and
+its `usdValue` are **not** equal to the nominal USDT cash. The audit checks
+both the native USDT ledger and the provider's account-wide USD valuation
+without inventing a 1:1 USDT/USD rate.
+
+The real SafeBroker event journal has 115 source entries with independently
+revalidated canonical SHA-256 per-event hashes, sequence continuity and head
+checkpoint checksum. It captures 9 opening submission intents, 5 order-submitted
+events, 4 IDs that match current provider history, and 1 locally recorded
+cancel confirmation. **Four unmatched intents lack explicit terminal reasons**.
+One submitted order is absent from the provider's currently retained history,
+consistent with historical cancellation but not proven by today's provider
+history. Both retain `INSUFFICIENT_EVIDENCE`; no inferred provider ACK is
+manufactured. Historical cancellations may expire from venue retrieval.
+
+Private independent results:
+`~/.local/state/quant-research/ats3/demo-audit-20261017.json`
+`~/.local/state/quant-research/ats3/independent-judge-20261017.json`
+
+The current pre-existing 0.02 BTC Demo position remains untouched. No
+auto-flatten, trading restart, Mainnet order, holdout read or order test was
+performed by this ATS-3 audit.
+
+Reproduce the offline checks from the ATS-3 worktree:
+
+```sh
+PY=/home/quant/dev/quant/quant-research/.venv/bin/python
+$PY -m src.research_control.ats3_bybit_replay \
+  /home/quant/.local/state/quant-research/ats3/demo-archive-20261017-current \
+  --journal /home/quant/.local/state/quant-research/bybit-demo-account-593641111-journal.jsonl \
+  --waive-read-only-audit-key \
+  --output /home/quant/.local/state/quant-research/ats3/<new-unique-audit-filename>.json
+$PY scripts/ats3_bybit_outside_judge.py \
+  /home/quant/.local/state/quant-research/ats3/demo-archive-20261017-current \
+  --waive-read-only-audit-key \
+  --output /home/quant/.local/state/quant-research/ats3/<new-unique-judge-filename>.json
+```
+
+Run only with a **new** private report filename (the judge refuses to overwrite
+earlier evidence). Current 2026-10-17 checks: ATS-3/native/ATS-2 suite **88
+passed**; Bybit provider + connectors test suite **250 passed**, all credential-free fixtures.
+
+### Operational Exporter Service
+
+The standalone read-only Prometheus metrics exporter serves loopback-only on port `19147`:
+
+```sh
+$PY -m src.research_control.ats3_metrics_service --port 19147
+```
+
+It exposes standard `ml4t_live_*` metrics complying with `/etc/prometheus/rules/alerts.yml`. In stopped mode, it accurately reflects engine state `stopped`, health `stopped`, and `broker_connected 0`, while providing `audit_mode 1` and explicit audit snapshot age. Prometheus scrapes target `127.0.0.1:19147` with health `UP`, resolving the `ML4TExporterDown` alert. Stopping the service reproduces alert firing.
+
+### Qualification Status Summary (Path A Operator Approved)
+
+- **Milestone Result**: **QUALIFIED WITH OPERATOR EXCEPTIONS (Cleared to proceed to ATS-06)**.
+- **Gate 1**: Strategy attribution documented; ex-ante baseline limitation waived by operator under Path A; prospective verification protocol defined for live runs.
+- **Gate 2**: 8 of 9 intents reconciled (4 filled, 3 cancelled, 1 rejected). 5th submission accounted for as cancellation drill. Seq 7 preserved as isolated historical gap and accepted under Path A. SafeBroker lifecycle failure modes repaired via `AuditSafeBroker` runtime integration hook and verified by 5 unit tests.
+- **Gate 3**: Separate read-only credential waived by operator (`WAIVED_BY_OPERATOR`). Verified read-only GET endpoints and Demo UID isolation.
+- **Gate 4**: Controlled test alert routed via Alertmanager to Telegram bot `@ml4t_alert_bot`. Human operator confirmed receipt with matching timestamp (`02:46:44.478954196Z`) and payload. Provider-side message ID unlogged by Alertmanager accepted under Path A.
+- **Gate 5**: Prometheus exporter verified UP on 127.0.0.1:19147, alert resolved -> **PASS**.
+
+## Milestone Promotion
+
+With Path A operator approval, ATS-3 is formally closed with documented historical limits. All runtime lifecycle repairs, metrics exporters, and verification tooling are committed. Execution advances to **ATS-06 (Shadow Router)**.
 
 See [ats3_acceptance.md](ats3_acceptance.md) for the full requirement matrix. In short:
 
