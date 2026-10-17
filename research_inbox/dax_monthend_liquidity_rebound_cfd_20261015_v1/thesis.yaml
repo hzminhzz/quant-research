@@ -1,0 +1,548 @@
+candidate_id: dax_monthend_liquidity_rebound_cfd_20261015_v1
+status: THESIS_READY_UNVERIFIED
+source_references:
+- id: etula_2020_rfs
+  class: VERIFIED_PUBLICATION
+  citation: 'Etula, Rinne, Suominen, Vaittinen (2020), Dash for Cash: Monthly Market
+    Impact of Institutional Liquidity Needs, Review of Financial Studies 33(1):75-111.'
+  url: https://doi.org/10.1093/rfs/hhz054
+  supports: Month-end institutional cash demand, temporary equity-price pressure,
+    settlement-linked reversals; includes historical Germany DAX analysis.
+  limitations: Evidence largely ends in 2013; does not prove CFD execution or modern
+    profitability.
+- id: mcconnell_xu_2006
+  class: VERIFIED_PUBLICATION
+  citation: McConnell and Xu (2006), Equity Returns at the Turn of the Month, Purdue
+    CIBER Working Paper 43.
+  url: https://docs.lib.purdue.edu/ciberwp/43/
+  supports: Historical turn-of-month equity returns as a broad stylized fact.
+  limitations: Authors reject simple month-end mutual-fund flow explanation in their
+    sample; mechanism contested.
+- id: european_commission_settlement_2025
+  class: VERIFIED_OFFICIAL
+  url: https://finance.ec.europa.eu/news/commission-welcomes-political-agreement-increasing-efficiency-eu-capital-markets-thanks-shorter-2025-06-19_en
+  supports: EU securities settlement T+2; scheduled T+1 transition on 2027-10-11.
+- id: xetra_calendar
+  class: VERIFIED_OFFICIAL
+  url: https://www.cashmarket.deutsche-boerse.com/cash-en/trading/trading-calendar-and-trading-hours
+  supports: Xetra regular cash-session clock 09:00-17:30 Europe/Berlin; holiday and
+    early-close calendar required.
+- id: dukascopy_instrument
+  class: VERIFIED_OFFICIAL
+  url: https://www.dukascopy.com/swiss/deutsch/cfd/range-of-markets/cfd-indices/
+  supports: Dukascopy lists Germany 40 Index as DEU.IDX/EUR CFD.
+- id: dukascopy_trading_hours
+  class: VERIFIED_OFFICIAL
+  url: https://www.dukascopy.com/europe/japanese/cfd/range-of-markets/
+  supports: Dukascopy publishes separate seasonal CFD trading-hour tables; historic
+    effective hours must be checked.
+- id: deutsche_boerse_dax_definition
+  class: VERIFIED_OFFICIAL
+  url: https://www.deutsche-boerse.com/dbg-de/media/news-stories/explainers/DAX-Index-Benchmark-und-Barometer-f-r-den-deutschen-Aktienmarkt-148654
+  supports: The commonly quoted DAX is a performance index; price and net-return variants
+    also exist.
+- id: vps_catalog_20261015
+  class: VERIFIED_REPOSITORY_DOCUMENT
+  supports: Lists index_minute_DAX, Dukascopy CFD proxy, 1-minute, 2018-2026, UTC
+    timestamp and OHLCV schema.
+  limitations: Catalog is a manifest, not a fresh data-quality or bid/ask audit.
+  local_path: docs/DATA_CATALOG.md
+- id: vps_session_policy
+  class: VERIFIED_REPOSITORY_DOCUMENT
+  supports: Permits explicit CFD adaptations while requiring exact source mapping,
+    realistic costs, causal execution, and holdout protection.
+  local_path: docs/architecture/market_scope_policy.md
+economic_thesis:
+  statement: A Germany 40 equity-index CFD position held over the last Xetra trading
+    day of a month and the following three Xetra trading days may earn positive net
+    EUR return and exceed an equal-duration, same-clock, prior-month-window control
+    because institutions temporarily sell equities to obtain cash for clustered month-end
+    payments, then buying demand returns.
+  direction: long_only
+  horizon: four_xetra_cash_sessions_three_intervening_session_gaps
+  phenomenon: monthend_payment_and_settlement_related_liquidity_demand
+  market_tradability_claim: HYPOTHESIS_NOT_ESTABLISHED
+  economic_null: Mean paired (candidate net return minus control net return) <= 0;
+    or candidate mean net return <= 0.
+mechanism:
+  verified: Etula et al. document a payment-cycle connection, settlement-sensitive
+    monthly return reversals, and institutional trading evidence in historical equity
+    markets, with Germany DAX among surveyed indices.
+  inference: Liquidity-motivated investors who must raise cash before month-end and
+    subsequent net buyers may pay a temporary price-pressure premium to investors
+    willing to bear short-term systematic equity risk.
+  hypothesis: This cross-sectional institutional mechanism remains visible in Germany
+    40 index-price movements from 2018-2024 and is not fully absorbed by CFD spread,
+    commission, overnight financing, slippage, or dividend adjustments.
+  effective_payer: End-investors whose funds trade under settlement deadlines, fund
+    inflow/outflow constraints, and institutional liquidity needs; NOT the broker
+    merely by virtue of quoting the CFD.
+  supporting_regimes:
+  - regular_monthend_payment_and_settlement_cycles
+  - sufficient_inventory_risk_and_hedging_demand
+  - liquid_quote_access_to_equity_index_risk
+  destructive_regimes:
+  - persistent_equity_selloffs_or_macro_event_shocks
+  - altered_payment_or_settlement_calendar
+  - crowded_calendar_arbitrage
+  - excessive_cfd_financing_or_dividend_adjustment
+  - structural_disconnect_between_deu_idx_eur_cfd_and_xetra_equities
+  distinguishing_driver: Predetermined institutional payment/settlement calendar,
+    not price trend, ORB volatility compression, mean-reversion indicator, or policy-rate
+    carry.
+  primary_observable_falsifiers:
+  - candidate_paired_net_advantage_nonpositive
+  - candidate_standalone_net_return_nonpositive
+  - direction_only_present_in_misidentified_price_index_or_unpriced_dividend_flows
+  - improvement_disappears_at_verified_historical_costs
+instruments:
+- research_symbol: DAX_CFD_PROXY
+  intended_broker: Dukascopy_Bank_SA
+  intended_execution_symbol: DEU.IDX/EUR
+  execution_venue_type: broker_otc_cfd
+  product_class: cfd
+  underlying_reference: German_DAX_40_equity_index
+  price_source_vendor: Dukascopy
+  catalog_dataset_key: index_minute_DAX
+  dataset_role: price_proxy_pending_identity_audit
+  quote_currency: EUR
+  settlement_currency: EUR_expected_must_verify
+  index_variant: UNKNOWN_requires_price_performance_dividend_mapping
+  contract_multiplier: UNKNOWN_requires_broker_check
+  minimum_contract_size: UNKNOWN_requires_broker_check
+  size_increment: UNKNOWN_requires_broker_check
+  actual_tick_size: UNKNOWN_requires_broker_check
+  shorting_required: false
+  leverage_target: 1.0
+  base_timezone: Europe/Berlin
+  calendar: Xetra_XETR_reference_calendar
+  cfd_actual_trade_calendar: BROKER_SPECIFIC_TO_VERIFY
+  reference_cash_session: 09:00-17:30 Europe/Berlin on regular Xetra days
+  session_exception_policy: skip_if_required_0911_or_1711_quote_missing
+  source_to_execution_parity: UNVERIFIED
+data_requirements:
+  preferred:
+    dataset_key: index_minute_DAX
+    canonical_store_root: /home/quant/dev/quant/ml4t-data/.data/store/
+    known_catalog_span: 2018-2026 (catalog claim only)
+    planned_development_dates:
+    - '2018-01-01'
+    - '2025-01-01'
+    development_end_exclusive: true
+    allowable_trade_months: 2018-01 through 2024-11, subject to complete source and
+      cost coverage
+    granularity: 1m
+    expected_columns:
+    - timestamp
+    - symbol
+    - open
+    - high
+    - low
+    - close
+    - volume
+    raw_schema_validation_required: true
+    timestamp_timezone: UTC
+    timestamp_convention: 'REQUIRED: bar_start; UNKNOWN until verified against vendor
+      tick or metadata'
+    price_semantics: 'UNKNOWN: mid, bid, ask, or synthetic OHLC; do not infer from
+      column names'
+    volume_semantics: broker tick/quote proxy if present; no volume used by strategy
+    dividend_semantics: UNKNOWN
+    issuer_history: DAX 30 to DAX 40 composition change during sample; document
+    historical_broker_cost_history: UNKNOWN; qualification gate
+    quality_checks:
+    - symbol_alias_and_vendor_identity
+    - monotonic_unique_utc_timestamp
+    - timezone_dst_and_early_close_parity
+    - entry_and_exit_1m_quote_completeness
+    - no_stale_or_interpolated_prices
+    - future_exit_quote_completeness_not_used_as_entry_filter
+    - bid_ask_or_defensible_executable_price_mapping
+    - point_in_time_contract_and_dividend_adjustments
+  auxiliary:
+  - official_historical_xetra_sessions_and_holidays
+  - dukascopy_instrument_trading_hours_effective_dated
+  - effective_dated_commission_spread_financing_schedule
+  - broker_deu_idx_eur_contract_multiplier_and_min_lot
+  strictly_excluded:
+  - protected_final_test_data_at_or_after_2025_01_01
+  - exchange_traded_volume_inference_from_cfd_volume
+  - future_or_revised_indicators
+  - current_spread_as_unqualified_historical_spread
+feature_contracts:
+- feature_name: xetra_session_distance_to_monthend
+  classification: EXTENSION_REQUIRED
+  purpose: Label a Xetra cash session by signed offset from its calendar month's last
+    Xetra trading session T.
+  mathematical_definition: 'Given a previously published ordered official Xetra session
+    list S, let T(m)=max{d in S: calendar_month(d)=m}; for each session d in month
+    m or adjacent offsets, distance(d)=ordinal_S(d)-ordinal_S(T(m)). For offsets +1
+    to +3 use the same anchor month m recorded at entry; never infer a new anchor
+    from the exit month''s own T.'
+  raw_inputs:
+  - official_xetra_session_calendar
+  - local_session_date
+  - anchor_month
+  parameters:
+    lookback_sessions: 10
+    forward_exit_offset_sessions: 3
+    timezone: Europe/Berlin
+  grouping: instrument_symbol_and_anchor_month
+  timeframe: 1m_timestamps_mapped_to_Xetra_sessions
+  warmup: 10_prior_Xetra_sessions_for_control_entry
+  earliest_availability: after_official_session_calendar_publication_prior_to_event_month
+  causal_alignment: calendar_known_before_entry; verify_effective_date_not_revised_after_fact
+  expected_provider: calendar extension outside price-indicator registry; inspect
+    native ML4T scheduler first
+  parity_tests:
+  - known_monthend_friday_and_next_month_rollover
+  - monthend_xetra_holiday_and_early_close
+  - europe_berlin_march_october_dst
+  - no_accidental_use_of_next_month_anchor_during_exit
+  - append_future_prices_does_not_change_past_flags
+- feature_name: xetra_local_signal_minute
+  classification: EXTENSION_REQUIRED
+  purpose: Select the exact local order-decision minute without using bar-close prices.
+  mathematical_definition: minute_local = 60 * hour(timestamp converted UTC -> Europe/Berlin)
+    + minute(timestamp); entry = 550 (09:10); exit = 1030 (17:10).
+  raw_inputs:
+  - timestamp_utc
+  - timezone_database
+  - official_xetra_session_calendar
+  parameters:
+    entry_hour: 09:10
+    exit_hour: '17:10'
+    timezone: Europe/Berlin
+  grouping: instrument_symbol
+  timeframe: 1m
+  warmup: 0_bars
+  earliest_availability: calendar_clock_instant_before_order_event
+  causal_alignment: no_bar_prices_needed_for_signal; fill_on_later_eligible_bar_only
+  expected_provider: native event scheduling if available, otherwise narrow calendar-time
+    adapter
+  parity_tests:
+  - local_0910_maps_correctly_across_DST_transitions
+  - no_signal_on_weekends_or_Xetra_holidays
+  - verify_signal_and_fill_are_different_bar_indices
+  - halfday_or_broker_closed_event_skipped_not_time_shifted
+- feature_name: eligible_month_paired_windows
+  classification: EXTENSION_REQUIRED
+  purpose: Select the candidate and one negative-control window from a fixed calendar
+    rule.
+  mathematical_definition: 'Candidate: entry when distance=0, exit when same anchor''s
+    distance=+3. Control: entry when distance=-10, exit when distance=-7. Each uses
+    09:10 local entry decision and 17:10 local exit decision. Require that the start
+    session weekdays match; otherwise record an ineligible paired month instead of
+    shifting dates.'
+  raw_inputs:
+  - xetra_session_distance_to_monthend
+  - xetra_local_signal_minute
+  - historical_session_calendar
+  parameters:
+    candidate_start: 0
+    candidate_end: 3
+    control_start: -10
+    control_end: -7
+  grouping: instrument_symbol_and_anchor_month
+  timeframe: 1m_with_monthly_session_anchor
+  warmup: 10_prior_Xetra_sessions_for_control
+  earliest_availability: once_event_month_official_calendar_available
+  causal_alignment: control_and_candidate_months_chosen_before_any_return_observation
+  expected_provider: calendar-only ML4T strategy event schedule; native support UNVERIFIED
+  parity_tests:
+  - at_most_one_candidate_and_one_control_per_anchor_month
+  - no_overlap_of_candidate_and_control_positions
+  - same_weekday_start_requirement
+  - no_event_has_entry_or_exit_at_or_after_2025_01_01
+  - future_quote_availability_never_used_to_filter_entry; later_gaps_reported_as_data_invalid
+strategy_rules:
+  source_rules:
+    author_trade_strategy: NOT_PROVIDED
+    source_study: Etula et al. analyze market returns and institutional liquidity
+      around month-end; this YAML is a NEW CFD calendar adaptation, not a faithful
+      author trading algorithm or replication of all paper event windows.
+  adaptation:
+    name: dax_tom_cash_rebound_first_four_cash_sessions
+    calendar_anchor: T = last regular Xetra trading session of month m
+    candidate:
+      side: BUY
+      signal: At 09:10 Europe/Berlin on T using the prepublished Xetra calendar and
+        current broker-session eligibility only; never condition entry on future quote
+        coverage.
+      entry_order: market_buy
+      entry_fill: first valid executable bar at or after 09:11 on T, never before
+        09:11
+      hold: without_price_based_stop_or_filter
+      exit_signal: At 17:10 Europe/Berlin on Xetra session T+3 of the entry anchor
+        month.
+      exit_order: market_sell_to_flat
+      exit_fill: first valid executable bar at or after 17:11 on T+3, never before
+        17:11
+    control:
+      side: BUY
+      signal: At 09:10 on Xetra session T-10 of same anchor month.
+      entry_fill: first valid executable bar at or after 09:11 on T-10
+      exit_signal: At 17:10 on Xetra session T-7.
+      exit_fill: first valid executable bar at or after 17:11 on T-7
+      comparability_gate: start weekday candidate must equal start weekday control;
+        otherwise skip both
+    order_behavior: Trigger only at scheduled local event clocks. Use event-driven
+      next-eligible bar fill with spread/fees. If an exact 09:11 or 17:11 quote is
+      missing, fail that monthly pair; do not search forward for a favorable fill.
+    max_concurrent_positions: 1
+    state_machine:
+    - FLAT_TO_CONTROL_LONG
+    - CONTROL_LONG_TO_FLAT
+    - FLAT_TO_CANDIDATE_LONG
+    - CANDIDATE_LONG_TO_FLAT
+    reset: both windows separate; no carry into next anchor month after scheduled
+      exit
+    missing_data: At entry, use only available quotes. If a required later quote is
+      missing, flag the pair as post-event DATA_INVALID, report it and stop qualification
+      when material; never filter entries using future quote completeness or interpolate.
+    session_boundary: No trades outside observed CFD tradable hours; skip if broker
+      open and Xetra reference time disagree.
+    premature_closure: Quote outage or forced broker close -> label BLOCKED_DATA/ineligible;
+      no synthetic liquidation.
+    alternative_filters: none
+    optimization: prohibited_in_this_MVP
+signal_and_execution_clock:
+  timezone: Europe/Berlin
+  primary_session: Xetra
+  source_timestamp: UTC, expected bar_start, unverified
+  signal_condition_known: Only official published calendar and strategy state; no
+    price forecast features
+  decision_timestamps:
+  - T at 09:10 local
+  - T+3 at 17:10 local
+  - T-10 at 09:10 local
+  - T-7 at 17:10 local
+  earliest_legal_fills:
+  - next 1m bar at 09:11 or later
+  - next 1m bar at 17:11 or later
+  same_bar_fill: forbidden
+  missed_exact_fill: fail_closed_month_pair
+  dst: use_IANA_Europe_Berlin_not_fixed_UTC_offset
+  holiday_source: official_historical_Xetra_calendar
+  early_close_behavior: skip_if_required_1711_quote_unavailable
+  month_boundary_behavior: T+1 to T+3 may be next calendar month; retain original
+    T anchor.
+  timestamp_proof_required: bar_start_and_vendor_quote_to_order_event_parity
+  native_ml4t_preference:
+    target: ml4t.engineer.compute_features
+    assessment: No price-indicator feature is needed; native scheduling API uninspected
+      and cannot be claimed supported.
+    implementation_rule: Coding agent must inspect installed ml4t.engineer and ml4t.backtest
+      feature/scheduler interfaces. Reuse native capabilities when possible. If time
+      flags require an extension, keep it minimal and registered; no bespoke backtest
+      or new execution infrastructure.
+sizing:
+  model: fixed_notional
+  gross_exposure_target: 1.0 times initial account equity (notional), no compounding
+    within an event
+  maximum_gross_exposure: 1.0x initial NAV
+  leverage: nominal 1.0x; actual margin/leverage eligibility UNKNOWN
+  quantity_formula: floor_to_broker_increment(initial_EUR_equity / (entry_ask_index_points
+    * EUR_value_per_index_point_per_contract)); require positive broker-valid quantity
+    and margin buffer.
+  equity_base: EUR
+  shorting: false
+  financing: accrues_every_actual_calendar_day_held_per_verified_broker_schedule
+  quantity_conversion_gate: BLOCKED_UNTIL_CONTRACT_MULTIPLIER_AND_MINIMUM_LOT_VERIFIED
+  transaction_comparison: candidate_and_control_use_identical_notional_target
+cost_assumptions:
+  executable_qualification: BLOCKED_UNTIL_EFFECTIVE_DATED_BROKER_COSTS_VERIFIED
+  spread: Observed historical bid/ask by order time preferred; current spread not
+    assumed historical.
+  commissions: Per-side Dukascopy CFD schedule by effective date/account tier, including
+    minimums. UNKNOWN.
+  slippage: Adverse market-order fill vs available quote, fixed ex ante from credible
+    broker fill evidence; UNKNOWN.
+  financing: Daily EUR-index CFD debit/credit including weekend/triple-rollover policy;
+    UNKNOWN.
+  dividend_adjustments: Broker credits/debits and DAX performance-index mapping; UNKNOWN.
+  conversions: EUR reporting, currency conversion only if actual broker account differs.
+  weekend_holiday_charges: explicitly_count_actual_nights_and_broker_calendar
+  market_impact: Assume negligible only after small-notional broker quote/execution
+    qualification.
+  proxy_without_broker_costs: May be reviewed as an indicative price-pattern diagnostic
+    only; cannot receive positive execution verdict.
+baseline:
+  primary: Identical 1x EUR notional long CFD control from 09:11 T-10 through 17:11
+    T-7 (Xetra sessions), same anchor month.
+  cash: No-trade zero-return reference (non-primary).
+  rationale: A fixed four-Xetra-session control outside the late-month payment/recovery
+    window, with matching start weekday and same entry/exit clocks, tests whether
+    the candidate month-end window outperforms generic DAX exposure.
+  statistical_pairing: candidate_minus_control_by_anchor_month
+  baseline_limitations: Holiday span and overnight financing can differ; account for
+    real costs and actual calendar days.
+development_evaluation:
+  mode: MVP_Research_design_only
+  dev_start_inclusive: '2018-01-01T00:00:00+01:00'
+  dev_end_exclusive: '2025-01-01T00:00:00+01:00'
+  last_eligible_anchor_month: 2024-11
+  december_2024_excluded: T+3 exit occurs after assumed protected 2025-01-01 boundary;
+    confirm global holdout policy.
+  holdout: NO_ACCESS
+  trial_count: 1
+  trial_id: single_frozen_candidate_vs_monthly_control
+  parameter_tuning: none
+  available_development_event_count: UNKNOWN; maximum 83 anchors Jan 2018-Nov 2024
+    before data gates
+  minimum_coverage: at least 60 independent paired months spanning at least 6 distinct
+    calendar years
+  primary_metric: Arithmetic mean of monthly paired net EUR PnL divided by frozen
+    initial EUR notional
+  primary_uncertainty: Two-sided 95% HAC confidence interval on monthly paired differences;
+    preregister lag=3 months
+  required_economic_condition: Positive mean candidate net return and lower 95% CI
+    bound for paired advantage > 0
+  supporting_metrics:
+  - paired_eligible_and_ineligible_month_counts
+  - executed_order_and_rejection_counts
+  - average_monthly_candidate_and_control_net_returns
+  - exposure_adjusted_daily_NAV_sharpe_not_trade_annualization
+  - worst_drawdown_and_calmar_if_defined
+  - gross_vs_spread_vs_commission_vs_slippage_vs_financing_vs_dividend_cost_bridge
+  - calendar_day_and_weekend_holding_span_distribution
+  - annual_subperiod_sign_and_volatility_dependence_without_selection
+  - equity_beta_and_overlap_with_existing_index_ORB_sleeves_if_evidence_accessible
+  - delta_of_candidate_vs_baseline_with_uncertainty
+  causal_warmup: 10 prior official Xetra sessions for control entry; no rolling technical
+    indicator warmup
+  leakage_risks:
+  - treating_revised_holiday_schedule_as_ex_ante
+  - cfd_quote_after_broker_close
+  - backdated_spread_or_financing_terms
+  - improper_DAX_dividend_variant
+  - choosing_month_end_days_after_observing_return
+  - using_trades_observed_in_prior_studies_as_unseen
+  historical_selection_status: Retrospective and literature-informed; never call 2018-2024
+    an unseen final test.
+primary_falsifier:
+  statement: The economic thesis fails in the frozen development MVP if the standalone
+    candidate mean executed net return is <= 0 or its mean paired net return advantage
+    over the fixed equal-duration control is <= 0, with at least 60 complete pairs,
+    fully verified costs, native execution, and intact clocks.
+  secondary: If pair advantage is positive but HAC 95% lower bound <= 0, classify
+    INCONCLUSIVE, not profitable.
+acceptance_and_stop_rules:
+- when: Any source, broker-cost, quote-timing, calendar, multiplier or protected-data
+    requirement cannot be verified.
+  action: BLOCKED_DATA
+- when: Fewer than 60 valid pairs or fewer than 6 distinct eligible years; or too
+    many excluded holiday months.
+  action: INCONCLUSIVE
+- when: Post-entry exit quote is missing, preventing trustworthy fill/accounting;
+    do not silently exclude selected entries.
+  action: BLOCKED_DATA
+- when: Causal clock, source identity, dividend accounting or cash/position parity
+    fails.
+  action: INVALID_RESEARCH_DO_NOT_SCORE
+- when: At qualified sample size candidate mean net <= 0 or paired net advantage <=
+    0.
+  action: REJECT
+- when: Candidate and paired excess point estimates > 0 but HAC 95% lower bound <=
+    0.
+  action: INCONCLUSIVE
+- when: Candidate mean net > 0 and paired HAC lower bound > 0 with complete verified
+    accounting.
+  action: CONSIDER_VALIDATION_NOT_PROMOTION
+- when: Any non-predeclared window, entry clock, market, parameter or control change
+    is suggested by observed outcomes.
+  action: NEW_TRIAL_REQUIRED_AND_STOP_THIS_MVP
+- when: Candidate decision reached or qualification blocker logged.
+  action: STOP_AFTER_ONE_TRIAL
+parity_and_causality_tests:
+- Xetra official calendar parity including 2020 holidays, New Year closings, DST switch
+  dates, and early closes.
+- Distinct decision bar and strictly later fill bar at both open/close clocks.
+- Position always flat between control exit and candidate entry.
+- Anchor month not recomputed when exit occurs in following calendar month.
+- No use of timestamps at or after 2025-01-01; December 2024 skipped if needed.
+- Advancing future data leaves all earlier calendar features and decisions unchanged.
+- Duplicate/missing/stale entry or exit quote rejects the entire pair.
+- Bid/ask mark-to-fill, fees, financing, dividend events independently reconcile to
+  NAV.
+- Source symbol DEU.IDX/EUR genuinely maps to catalog index_minute_DAX, with same
+  price/index variant.
+- Compare gross-only results with fully costed results to detect cost absorption,
+  without optimizing settings.
+- Native ML4T strategy, event scheduler, order semantics and lifecycle verified against
+  installed API by executor.
+- No result treated as unseen validation because discovery was literature-informed.
+known_adaptations:
+- Historical study measures DAX cash-index total returns; proposed execution is broker
+  OTC Germany 40 CFD.
+- Paper investigates a broad set of calendar windows; MVP freezes T..T+3 and T-10..T-7,
+  not an exact author strategy.
+- Fixed 09:10/17:10 local timing avoids auction and late-close assumptions; source
+  did not prescribe these clocks.
+- Market orders and real broker debit/credit treatment differ from index total returns.
+- DAX index includes a performance and price variant, while CFD replication treatment
+  is unknown.
+- Index constituent mix changed from 30 to 40 names during the intended retrospective
+  sample.
+- EU equity T+2 is an underlying-cash-market mechanism; CFD itself has no equity settlement
+  cycle.
+verified_facts:
+- Etula et al. (2020) examine Germany DAX and settlement-linked international month-end
+  equity return patterns through 2013.
+- EU equities currently use T+2; transition to T+1 scheduled for 2027-10-11.
+- Dukascopy lists DEU.IDX/EUR as Germany 40 CFD.
+- Xetra publishes a cash session commonly running 09:00-17:30 Europe/Berlin.
+- Repository docs/DATA_CATALOG.md lists index_minute_DAX with 1m 2018-2026 coverage
+  but does not prove every required bar.
+- Repository market policy permits explicit CFD price-proxy adaptations with source
+  and cost gates.
+assumptions:
+- The premium from the older DAX cash-index sample may persist in 2018-2024; this
+  is UNTESTED.
+- T..T+3 captures post-payment institutional reinvestment; author findings motivate
+  but do not verify this adaptation.
+- Small 1x-notional order has negligible price impact only after broker qualification.
+- 2018-2024 development is allowable; 2025 onward conservatively excluded pending
+  repository-level holdout verification.
+- 09:11 and 17:11 executable broker quote bars exist often enough; completeness unverified.
+unresolved_blockers:
+- id: source_identity
+  severity: blocking
+  question: Does index_minute_DAX trace actual Dukascopy DEU.IDX/EUR for each historical
+    date? Which DAX performance/price variant?
+- id: costs
+  severity: blocking
+  question: Are dated executable bid/ask spreads, commissions, index dividends and
+    overnight financing available for the proposed broker and account?
+- id: bar_clock
+  severity: blocking
+  question: Is one-minute timestamp bar_start UTC; are 09:11 and 17:11 both real non-stale
+    executable bars on all candidate/control dates?
+- id: size
+  severity: blocking
+  question: What are historical DEU.IDX/EUR contract multiplier, minimum lot, margin
+    and per-side fee constraints?
+- id: xetra_and_broker_session
+  severity: blocking
+  question: Which historical holidays, early closures, CFD breaks and DST exceptions
+    apply?
+- id: corporate_actions
+  severity: blocking
+  question: How does the broker treat cash adjustments/dividends relative to the commonly
+    published DAX performance index?
+- id: protected_period
+  severity: blocking
+  question: Does any repo-wide protected boundary preclude part of 2018-2024 or shift
+    the permitted development end earlier?
+- id: native_capabilities
+  severity: implementation_gate
+  question: Can the installed native ML4T scheduler express all calendar events and
+    next-bar fills without extension?
+- id: prior_exposure
+  severity: interpretation_gate
+  question: Is the expected return largely shared with existing Germany/DAX index
+    strategies or other equity beta?
+selection_family_id: dax_monthend_liquidity_rebound_cfd
+research_mode: MVP_RESEARCH_DESIGN_ONLY
+not_a_frozen_session: true
+not_execution_approved: true

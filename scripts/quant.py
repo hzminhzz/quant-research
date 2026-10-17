@@ -15,6 +15,7 @@ from src.data_vault import PanelBuilder
 from src.data_vault.market_materializer import materialize_price_markets
 from src.engine.common import QuantError
 from src.engine.funnel import ResearchFunnel
+from src.engine.research_handoff import validate_handoff
 from src.engine.spec_parser import CandidateSpec, parse_spec
 from src.engine.thesis_ingest import convert_thesis
 from src.oracle.research_protocols import parse_research_spec
@@ -68,6 +69,8 @@ def main(argv=None) -> int:
                           help='trusted ingestion only: separate 2026 protected partitions, never Workbench access')
     run = commands.add_parser('run', help='execute frozen Stage 1..4, stopping normally on falsification')
     run.add_argument('spec')
+    run.add_argument('--development-only', action='store_true',
+                     help='fail closed after development Stage 3; never open or claim protected data')
     run.add_argument('--run-log', default=str(ROOT / 'run_log'))
     run.add_argument('--store', default=STORE)
     run.add_argument('--build-if-missing', action='store_true',
@@ -78,6 +81,8 @@ def main(argv=None) -> int:
                                  help='translate a research thesis into validated executable candidate YAML')
     ingest.add_argument('source')
     ingest.add_argument('-o', '--output', required=True)
+    handoff = commands.add_parser('validate-handoff', help='validate descriptive research inbox handoffs')
+    handoff.add_argument('candidate_dir', nargs='?', default=str(ROOT / 'research_inbox'))
     args = parser.parse_args(argv)
     try:
         if args.command == 'schema':
@@ -91,6 +96,15 @@ def main(argv=None) -> int:
             print(json.dumps({'status': 'CONVERTED', 'validation': 'VALID_SPEC',
                               'candidate_id': spec.candidate_id, 'spec_hash': spec.spec_hash,
                               'output': str(Path(args.output))}, sort_keys=True))
+            return 0
+        if args.command == 'validate-handoff':
+            target = Path(args.candidate_dir)
+            candidates = sorted(target.iterdir()) if target.resolve() == (ROOT / 'research_inbox').resolve() else [target]
+            results = [validate_handoff(path) for path in candidates if path.is_dir() and not path.name.startswith('.')]
+            if not results:
+                raise QuantError('INVALID_HANDOFF', 'No candidate directories found')
+            for result in results:
+                print(json.dumps(result, sort_keys=True))
             return 0
         if args.command == 'materialize-markets':
             for group in args.groups:
@@ -155,12 +169,16 @@ def main(argv=None) -> int:
                 start=spec.windows.train.start - warmup, end=spec.windows.validation.end,
                 bar_seconds=spec.bar_seconds, spread_bps=spec.costs.spread_bps,
                 spread_assumption='Frozen candidate cost model; not a measured historical spread')
-        report = ResearchFunnel(run_log=args.run_log, isolate=True).run(spec)
+        funnel = ResearchFunnel(run_log=args.run_log, isolate=True)
+        # Preserve the historical one-argument runner invocation for existing
+        # ATS callers. The holdout-prohibited mode must be explicitly requested.
+        report = (funnel.run(spec, development_only=True)
+                  if args.development_only else funnel.run(spec))
         print(json.dumps({'status': report['status'], 'candidate_id': report['candidate_id'],
                           'casefile': str(Path(report['output_path']) / 'casefile.json'),
                           'holdout_access': report['holdout_access'], 'reason': report.get('reason'),
                           'stages': {k: v['status'] for k, v in report['stages'].items()}}, sort_keys=True))
-        if report['status'].startswith('FALSIFIED_') or report['status'] == 'HOLDOUT_EVALUATED':
+        if report['status'].startswith('FALSIFIED_') or report['status'] in ('HOLDOUT_EVALUATED', 'DEVELOPMENT_QUALIFIED'):
             return 0
         if report['status'] == 'PARTIALLY_QUALIFIED' or report['status'].startswith(('INCONCLUSIVE', 'BLOCKED', 'HOLDOUT_')):
             return 3
