@@ -1,0 +1,31 @@
+# STAGED ONLY. Project-status Telegram egress requires the operator's explicit
+# destination/payload approval following automatic approval review rejection.
+groups:
+  - name: ats7-local-paper
+    interval: 15s
+    rules:
+      - alert: ATS7ServiceUnavailable
+        expr: up{job="ats7-local-paper"} == 0 or absent(up{job="ats7-local-paper"})
+        for: 1m
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 synthetic local paper service unavailable", action: "Preserve state and inspect the systemd unit; restart must remain halted"}
+      - alert: ATS7UnknownOrHalted
+        expr: ats7_unknown_orders > 0 or ats7_release_halted == 1
+        for: 0s
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 new risk is blocked", action: "Inspect release journal and native position snapshot before separate resume"}
+      - alert: ATS7AccountOrReconciliationStale
+        expr: time() - ats7_account_observed_epoch > 15 or time() - ats7_reconciliation_observed_epoch > 15 or ats7_reconciliation_clean == 0
+        for: 15s
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 account evidence is stale or conflicting", action: "Keep halt latched; verify native source evidence"}
+      - alert: ATS7FeedOrPersistenceFailure
+        expr: ats7_native_engine_health{health="feed_silent"} == 1 or ats7_native_state_error == 1 or ats7_native_journal_error == 1 or ats7_native_native_error_count > 0
+        for: 15s
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 native runtime failed a safety check", action: "Preserve journals and compare original feed and account records"}
+      - alert: ATS7ObservationReviewDue
+        expr: time() - ats7_observation_started_epoch >= ats7_observation_minimum_seconds
+        for: 1m
+        labels: {severity: info}
+        annotations: {summary: "ATS7 minimum synthetic observation time elapsed", action: "Review coverage and incidents; elapsed time is not strategy or live approval"}

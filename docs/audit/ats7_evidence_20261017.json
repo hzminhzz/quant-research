@@ -1,0 +1,264 @@
+{
+  "kind": "ats7_qualification_evidence_v1",
+  "scope": "Synthetic native LOCAL_PAPER engineering, authenticated read-only Demo capability observations, and original-event economics; no new external execution",
+  "outcomes": {
+    "engineering": {
+      "status": "QUALIFIED",
+      "scope": "Reviewed release boundary, native local execution and tested failure/recovery controls"
+    },
+    "provider_capabilities": {
+      "status": "PARTIALLY_QUALIFIED",
+      "remaining": "Fresh provider execution cases and current Demo fee-rate capability are unqualified"
+    },
+    "paper_execution": {
+      "status": "PARTIALLY_QUALIFIED",
+      "local_native_lifecycle": "PASS",
+      "provider_demo": "BLOCKED_NO_RELEASE_SPECIFIC_AUTHORIZATION"
+    },
+    "strategy_release": {
+      "status": "BLOCKED",
+      "reason": "No sufficiently qualified compatible strategy research; SyntheticCycle is engineering only"
+    },
+    "operational_observation": {
+      "status": "RUNNING",
+      "runtime_state": "PAPER_RUNNING",
+      "minimum_real_days": 28,
+      "elapsed_gate_met": false
+    },
+    "live_authorization": {
+      "status": "BLOCKED",
+      "reason": "No eligible strategy, completed qualification, separate live approval or qualified live runtime"
+    }
+  },
+  "git": {
+    "branch": "feat/ats7-release-qualification",
+    "base_commit": "10426fcf227869aa5bfc1e07e8fc8337166e9cf7",
+    "main_commit_receipt": "run_log/ats7/deployment.json (written after commit; not self-referential)",
+    "connector_branch": "fix/ats7-bybit-order-boundary",
+    "connector_base": "6175a948e6d253ba6f4b610b97b34d8433662e77",
+    "connector_commit": "ad982e6d644f524626ede3fe7379a8262f6b945f",
+    "pushed": false
+  },
+  "observation": {
+    "unit": "ats7-local-paper@observation-v1.service",
+    "state_root": "/home/quant/.local/state/quant-research/ats7-local/observation-v1",
+    "assessed_at": "2026-10-17T06:41:18.235955+00:00",
+    "bar_coverage": 1,
+    "completed_cycles": 1,
+    "coverage_gate_met": true,
+    "current_health_age_seconds": 1.965508,
+    "earliest_completion": "2026-11-14T06:38:25.888122+00:00",
+    "elapsed_gate_met": false,
+    "expected_bars": 2,
+    "journal_events": 13,
+    "journal_head": "1f9e65a188fd2ef6f9e392291ae51bf56a55811619746f75e5ba3b80e8f38280",
+    "live_authorization": "BLOCKED",
+    "observed_bars": 3,
+    "real_elapsed_seconds": 172.347833,
+    "release_identity": "4beaef6050c75925cb0e07bf1a7e8076f28060f7eef01bd830b19828cf3bc0c0",
+    "remaining_review": [
+      "source stability",
+      "all incidents",
+      "loss controls",
+      "actual alert activation",
+      "independent qualification"
+    ],
+    "required_seconds": 2419200,
+    "runtime_running": true,
+    "scope": "SYNTHETIC_ENGINEERING_ONLY",
+    "service_failures": 0,
+    "source_hashes": {
+      "manifest.json": "125a2e1c7662562822ccbe290b53496535aeb8a39be2deb2363d6409fc7ee28b",
+      "observation-policy.json": "a79457a847872f3d6522324a4d0155537211efb93a1348a2dff828211b0e542e",
+      "observation-start.json": "64467cc6825eb0047af01fc3b64bddd3c79a60733daf785172a6efe52a1159c0"
+    },
+    "started_at": "2026-10-17T06:38:25.888122+00:00",
+    "status": "PAPER_RUNNING",
+    "strategy_release": "BLOCKED_NO_ELIGIBLE_STRATEGY",
+    "unknown_orders": 0,
+    "unit_enabled": true,
+    "user_lingering": true,
+    "minimum_bar_coverage": 0.99,
+    "minimum_completed_cycles": 1,
+    "required_unknown_orders": 0,
+    "purpose": "Synthetic engineering soak; never economic strategy qualification",
+    "manifest_expires_at": "2026-11-21T06:38:08.597034+00:00"
+  },
+  "tests": {
+    "regression": {
+      "passed": 489,
+      "skipped": 1,
+      "failures": 0,
+      "errors": 0,
+      "skip_reason": "Optional test_dual_mode_real_store requires the explicit 2025 BTC/ETH canonical build"
+    },
+    "ats7_targeted": {
+      "passed": 54,
+      "failures": 0
+    },
+    "bybit_connector": {
+      "passed": 67,
+      "failures": 0
+    },
+    "suite_counts_overlap": true,
+    "gates": {
+      "diff_check": {
+        "exitcode": 0,
+        "status": "PASS"
+      },
+      "managed_policy": {
+        "exitcode": 0,
+        "status": "PASS"
+      },
+      "managed_ruff": {
+        "exitcode": 0,
+        "status": "PASS"
+      },
+      "pytest": {
+        "exitcode": 0,
+        "status": "PASS"
+      },
+      "task_ruff": {
+        "exitcode": 0,
+        "status": "PASS"
+      }
+    },
+    "native_lifecycle": {
+      "status": "PASS",
+      "fills": 4,
+      "completed_cycles": 2,
+      "outside_judge": "PASS",
+      "positions_at_end": 0,
+      "pending_orders_at_end": 0,
+      "authority": "Actual native LOCAL_PAPER events with explicit zero-cost/financing simulation assumptions"
+    },
+    "final_systemd_drill": {
+      "status": "PASS",
+      "signal": "SIGKILL",
+      "restart": "HALTED",
+      "retained_simulated_position_and_cash": true,
+      "separate_resume": true,
+      "manual_halt_completed_public_bars": 2,
+      "native_terminal_returncode": 0,
+      "systemd_result": "success"
+    },
+    "preserved_failures": [
+      {
+        "path": "run_log/ats7/service-drill-v6-finalcheck.json",
+        "finding": "Preliminary helper PASS rejected by native LifecycleCountError and systemd failure",
+        "repair": "Delegate suppression through native lifecycle bookkeeping; add two regressions and terminal-service verification"
+      },
+      {
+        "path": "run_log/ats7/service-drill-v7/result.json",
+        "finding": "Runner read first health file before native connection completed",
+        "repair": "Bounded wait for initial health; final actual drill rerun passes"
+      }
+    ],
+    "final_plan_source_change": "Only the dedicated service-drill runner now waits for its first health file; production/runtime and test source hashes match the original full regression plan. The final service drill executes this change, and task Ruff ran after it."
+  },
+  "provider": {
+    "environment": "BYBIT_DEMO",
+    "private_rest": "api-demo.bybit.com",
+    "observations": "Authenticated read-only; intended account fingerprint confirmed; existing position preserved",
+    "new_orders": 0,
+    "cancellations": 0,
+    "archive_manifest_sha256": "5bed3c30876416f627aa333bbb8b79d9adb4483a5fc6ec9b4fd4991cc91bb11a",
+    "original_economics_judge": "INDEPENDENT_BROKER_ECONOMICS_PASS",
+    "archive_counts": {
+      "orders": 4,
+      "trade_fills": 4,
+      "funding_events": 6,
+      "transactions": 11,
+      "closed_pnl": 1
+    },
+    "full_ats3_qualification": false,
+    "complete_historical_intent_dispositions_reconciled": false,
+    "current_fee_rate_capability": "UNQUALIFIED: correctly parameterized Demo request returned retCode 10001",
+    "clock": {
+      "round_trip_seconds": 0.2661149501800537,
+      "server_minus_local_midpoint_seconds": 0.05018019676208496,
+      "allowed_absolute_skew_seconds": 5
+    },
+    "credential_limitation": "Execution-capable audit key with historical read-only-use exception; not a new least-privilege release authorization",
+    "original_account_records_in_git": false
+  },
+  "monitoring": {
+    "prometheus": "http://127.0.0.1:19090",
+    "grafana": "http://127.0.0.1:13000/d/ml4t-native-safety",
+    "alertmanager": "http://127.0.0.1:19093",
+    "paper_metrics": "http://127.0.0.1:19149/metrics",
+    "existing_platform_reused": true,
+    "generic_telegram_delivery": "VERIFIED_API_RECEIPT",
+    "direct_message_id": 6,
+    "human_read_receipt": false,
+    "alertmanager_delivery": "VERIFIED_COUNTER_INCREMENT_WITHOUT_FAILURE",
+    "project_status_alert_rules": "STAGED_NOT_ACTIVE",
+    "staged_rules_count": 5,
+    "approval_block": "Automatic review rejected project-status egress without explicit payload/destination authorization",
+    "observation_evidence_authority": "Durable native/release journals; existing Prometheus retention is seven days"
+  },
+  "preservation": {
+    "ats6_artifact_manifest_sha256": "0ddb698187eb65e64a5b4b5c6be115e07d08648cb492ec613d956807cc53cbc6",
+    "ats6_hashes_verified": 211,
+    "ats6_sqlite_integrity_checks": 31,
+    "ats6_mismatches": 0,
+    "native_lifecycle_artifact_hashes_verified": 13,
+    "native_lifecycle_sqlite_integrity_checks": 3,
+    "original_tracked_work_preserved": true,
+    "work_delegated": false
+  },
+  "reviewed_source_sha256": {
+    "scripts/ats7_acceptance.py": "10facef8e5f72e176f9d93a5c751a17ad59de594b1bfb5fd50bd45215eb1614d",
+    "scripts/ats7_fixtures.py": "5643640d028bf58296d52083deb92d00ff53af83d5cfad0c257286c8de531369",
+    "scripts/ats7_monitoring_check.py": "1c268a842a567d7a2de35e5f3f53ea2b1d96bf49b2c9e4f1e6b4a0d51c424127",
+    "scripts/ats7_notify.py": "fbab65d54f70ebb8bdd37f1a8ffdaeaf82918578e5f32d39133c548998ca3c8b",
+    "scripts/ats7_observation.py": "97b257cc081beda6fb39d71d37dbeb2fd76d39b4bd88f36a69122428c4a80a39",
+    "scripts/ats7_outside_judge.py": "fa4b816db9d84b897ac7050c1531088cb01e01c98448e15f1d016860109f069f",
+    "scripts/ats7_paper.py": "d9ebbc21f92b804d6c8319fdada4742c391c5f49b0592d2bf07aafe370545127",
+    "scripts/ats7_provider_probe.py": "b8befb38d8e5ba50e60352a0473f52efa5d06ecce78a3a4ddd89f4a56370adc0",
+    "scripts/ats7_regression.py": "ad24ea7287617f93163237159042b5875414d576649d24975225165d3765edbf",
+    "scripts/ats7_sandbox.py": "b9d4a90320741a6fb234560410f39745af25010fcddcc22e5cbfe4af4b6d3c64",
+    "scripts/ats7_service_drill.py": "113282aede9c8438086a14dc12bfc9adfc21db7cd48a50d504913d16095db69a",
+    "src/ml4t_native_metrics.py": "d0ae6dddefb5b6087ef917081bb76784c66702c1d70afaa87fbbb802c35fb95c",
+    "src/release_contracts.py": "2bc1a4a578cea020b30e818c3f5409561af84331387e28fb95634a589bf67e09",
+    "src/release_journal.py": "9028d7de7cb88a4e8a59368ced600848674a70bbf13a191a75b2772515d1cf00",
+    "src/release_probe.py": "51775060a353df4afc0a6b2f7084e6e7782a0dfa062d1f892807b90ece959614",
+    "src/release_runtime.py": "9021005f4573a07fb7141a8a7165db8bfca4ee366a993b5a64b2b3a43a222330",
+    "src/research_control/ats3_bybit_archive.py": "3529905e0539b82434f5dbbd083b4faa810d5e3944db71ca32b68d8fb875ecad",
+    "tests/test_ats7_faults.py": "50c599ffc4bce86e39e62b87bced3d9ad69096d006fe509e44e0f1d402f8a320",
+    "tests/test_ats7_operations.py": "6f4f4ba718e52c2b19c92a656e406962d14aa4399066284cc96ffe60c7843f61",
+    "tests/test_ats7_release.py": "58120b1a25850e219f1d8bb2c8d7a2aa803f3d0a0e5c677e85ce4317bb191eea"
+  },
+  "artifact_sha256": {
+    "run_log/ats7/regressions/20261017T062913-712578ae/result.json": "26d2ae6dba3b2c6c56bb99b8151787405a009844215cbc4f1e1e88c0150769e2",
+    "run_log/ats7/regressions/20261017T062913-712578ae/plan.json": "68be65ce78da44168cc2bc2123f9dcd4416f83bcaf0765fd0ab8e3642cbdc998",
+    "run_log/ats7/regressions/20261017T062913-712578ae/pytest.xml": "bdb1b415252186f9deb6b6b276834242528393ebbb16c8bbc6d73fbb11dd3ceb",
+    "run_log/ats7/attempt_007.xml": "e252b889e20caa25af38620d10df8a95a61bedd734b5d45ff341021ec4224e8c",
+    "run_log/ats7/connector-final.txt": "4e59b18c356bbfc41bed06323a770071a5b69dc4a49a3cabb6dcc79d49b614a6",
+    "run_log/ats7/acceptance/20261017T062923-ba118881/result.json": "b01ee646c235f86903f7fc8070af256a8d71fb836b7f1b14401e400cdfb8e2ab",
+    "run_log/ats7/acceptance/20261017T062923-ba118881/outside-judge.json": "0626c0b1c3e91c04a6c1935d69969c3179b48dbc16e289e743b5e7c604357f7d",
+    "run_log/ats7/acceptance/20261017T062923-ba118881/artifact-hashes.json": "5997f2aff592d731c058675692eac67267efc85aafa1d07c7c6eef2686f61842",
+    "run_log/ats7/final-source-verification.json": "20a10386fc0cdcbda5b2f6226cbde5e270bb3a67073973bbeba619e6bae059bb",
+    "run_log/ats7/final-native-artifact-verification.json": "e463b07813d7787aa88e07a1277902688915657517a837ea6e28416cc8d960a5",
+    "run_log/ats7/sandbox-final.json": "1339bb6b29f283070a80934db326f517584bcc2f424da467041e32744fc444e2",
+    "run_log/ats7/notification-generic-delivery.json": "24e24ec9c95e222eee6890864798c5df41749d5662832c230a076ed11565c4f4",
+    "run_log/ats7/alertmanager-generic-delivery.json": "8103018430d9d600960d96ce74f10f9c76c67017552b64487a3f804013ab2cc2",
+    "run_log/ats7/provider-clock.json": "bc0214b31d0efcd3551c583515bf3bd40cd16dfdc1ce0d2912b1a7c86bf1e52d",
+    "/home/quant/.local/state/quant-research/ats3/ats7-readonly-judge-final-20261017.json": "89ed0624bf91758156a125e40d7bee7675dbea4d768b14f65385791206d859f3",
+    "run_log/ats7/service-drill-v6-finalcheck.json": "8d8cd7a9d2e62a2869fde0858437e8fe33bc27b4ee28f6abc317d6b4052a62b3",
+    "run_log/ats7/service-drill-v7/result.json": "0ef11d39b49b66517816603ab7ae302a138d4b7de11c5feedbc5f20ec7a5f65d",
+    "run_log/ats7/service-drill-v7-retry/before-crash.json": "1c1e885cb9e4a45d0b25a9ff156f56a5a7690f3b185e9995480336bab66fa366",
+    "run_log/ats7/service-drill-v7-retry/manual-halt-two-bars-no-new-risk.json": "5d8c19be4f85c448f0cd7147c4e9cf516bda5a5e6514d6258ce804bed8f1bd14",
+    "run_log/ats7/service-drill-v7-retry/restart-halted-exposure-preserved.json": "6ab25c38ae766e951b0c88d1c8278a2f1f17c55b4d9ab9d3bb6ac44515053834",
+    "run_log/ats7/service-drill-v7-retry/result.json": "e9b49a49513f57f0b6ff56c1f99375012ce6d76a90cad48a54994aa4e4e2958b",
+    "run_log/ats7/service-drill-v7-retry/resumed-native-cycle-closed.json": "a6eb321d0d5e7d45b5cfbf2a5761525deab755bcc3312ac28ac818a5197f8564",
+    "run_log/ats7/service-drill-v7-retry/terminal-service.json": "46c929a3097c31cecf43f486d4c5948c2d9b6b244620198d3ae67a6176536b26",
+    "run_log/ats7/observation-initial.json": "21a97daa8a901faca4d5e0d9526e153f0c347e670e54449b00cc99e4f09d028c",
+    "run_log/ats7/observation-initial-activity.json": "45d3bb20ba4f9654ba44414444974dc5f1c32e3773af6a148431a668621c94c1",
+    "run_log/ats7/observation-metrics-initial.json": "f8363aacf4f799181783cd3429fec65dd5c2eea06f4c7e8b84c02ce9317d8b09",
+    "run_log/ats7/bound-source-final.json": "8b421556af9932dfcda67205d2e0cada9a845dbb3f5d2df00784c86f06ca6701",
+    "run_log/ats7/original-worktree-preservation-final.json": "93883e807aca998ae1c4dc4892848565a7a599207c5ccd49126b883a823e9bfc",
+    "run_log/ats7/monitoring-final.json": "9be5e196434e3816eb934a3a80bc136342f2a5f5ff04caab957fe5366ed0dbeb",
+    "run_log/ats7/staged-security-review.json": "8256c9fe00422160599ef4b1216bdaf266e792a781889a583f4825583381669f"
+  }
+}

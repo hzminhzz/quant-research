@@ -45,6 +45,7 @@ Casefile: question -> evidence -> uncertainty -> permitted action
 | Operate current research | [Dual-mode operations](../dual_mode_20261015/operations.md), then the candidate and latest evidence | Exact supported entrypoint, data scope and next action are known |
 | Design a module or decide ownership | [System design](design.md) | Its authority, caller contract and verification seam are explicit |
 | Add agent tools, status or recovery | [Agent interface contracts](agent_contracts.md) | Preconditions, effects, failure semantics and completion are testable |
+| Operate or qualify an ATS7 release | [Release boundary](ats7_release_boundary.md), [runbook](ats7_runbook.md), [qualification](../../audit/ats7_qualification_20261017.md) | Scope, exact identity, actual evidence and remaining gates are explicit |
 | Connect audit, portfolio, rules or routing | [Operating loops](operating_loops.md) | Inputs, deterministic behavior and escalation are explicit |
 | Retain a lesson or measure ergonomics | [Learning and verification](learning_and_verification.md) | A reusable regression or measured decision improvement is specified |
 | Select implementation work | [Dependency-aware rollout](../../plans/agent_trading_system_rollout.md) | One ready slice and its acceptance tests are identified |

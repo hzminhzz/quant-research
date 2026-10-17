@@ -1,0 +1,327 @@
+[
+  {
+    "id": 23,
+    "type": "row",
+    "title": "ATS7 — synthetic local paper; minimum 28 days; strategy and live release blocked",
+    "gridPos": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 42
+    },
+    "collapsed": false,
+    "panels": []
+  },
+  {
+    "id": 24,
+    "title": "ATS7 service",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 0,
+      "y": 43
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "up{job=\"ats7-local-paper\"}",
+        "legendFormat": "ATS7 service",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "none"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 25,
+    "title": "ATS7 halt latched",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 6,
+      "y": 43
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "ats7_release_halted",
+        "legendFormat": "ATS7 halt latched",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "none"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 26,
+    "title": "ATS7 unknown orders",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 12,
+      "y": 43
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "ats7_unknown_orders",
+        "legendFormat": "ATS7 unknown orders",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "none"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 27,
+    "title": "ATS7 account evidence age",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 18,
+      "y": 43
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "time() - ats7_account_observed_epoch",
+        "legendFormat": "ATS7 account evidence age",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "s"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 28,
+    "title": "ATS7 simulated gross exposure",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 0,
+      "y": 48
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "ats7_gross_exposure",
+        "legendFormat": "ATS7 simulated gross exposure",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "currencyUSD"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 29,
+    "title": "ATS7 elapsed observation days",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 6,
+      "y": 48
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "(time() - ats7_observation_started_epoch) / 86400",
+        "legendFormat": "ATS7 elapsed observation days",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "d"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 30,
+    "title": "ATS7 completed synthetic cycles",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 12,
+      "y": 48
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "ats7_completed_cycles",
+        "legendFormat": "ATS7 completed synthetic cycles",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "none"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  },
+  {
+    "id": 31,
+    "title": "ATS7 last completed bar age",
+    "type": "stat",
+    "gridPos": {
+      "h": 5,
+      "w": 6,
+      "x": 18,
+      "y": 48
+    },
+    "datasource": {
+      "type": "prometheus",
+      "uid": "ml4t-prometheus"
+    },
+    "targets": [
+      {
+        "refId": "A",
+        "expr": "ats7_native_last_bar_age_seconds",
+        "legendFormat": "ATS7 last completed bar age",
+        "range": true
+      }
+    ],
+    "fieldConfig": {
+      "defaults": {
+        "unit": "s"
+      },
+      "overrides": []
+    },
+    "options": {
+      "reduceOptions": {
+        "calcs": [
+          "lastNotNull"
+        ],
+        "fields": "",
+        "values": false
+      },
+      "orientation": "auto"
+    }
+  }
+]

@@ -107,6 +107,7 @@ async def capture(start: str, end: str, destination: Path) -> dict[str, Any]:
     errors: dict[str, str] = {}
     counts: dict[str, int] = {}
     client = BybitClient(cfg)
+    client.exchange.userAgent = "OpenAI File Downloader, XaiImageApiFetch/1.0"
     try:
         await client.connect()
         if not client.demo_identity_verified or client.demo_identity_evidence.get("private_rest") != "api-demo.bybit.com":
