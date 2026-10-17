@@ -85,6 +85,26 @@ The full `ats_theses_all_62_cycles.zip` collection was **not present** in
 inspected VPS repo/worktrees, nor in the current container's mounted uploads.
 The other 55 theses were not invented, marked falsified, or counted as ingested.
 
+## Independent PR #63 review addendum (2026-10-17)
+
+The separate merge review expanded verification beyond the original delivery:
+
+- The ATS-4 plus dual-mode and inbox regression selection ran **98 tests,
+  zero failures** on the original feature head, with only existing third-party
+  warnings. Repo-local log: `run_log/inbox_factory/merge_review_regression.log`.
+- Review found and corrected three integration risks: malformed directory
+  names no longer terminate the queue or escape its state root; deduplication
+  now differentiates data, train/validation windows, falsifiers and unresolved
+  prerequisites without treating another citation as a new trial; fixed seven-
+  candidate test fixtures no longer prevent future inbox expansion.
+- Added tests for invalid directory containment, concurrent source mutation,
+  false deduplication across research windows/cost-related prerequisites, and
+  fixture independence. A fresh post-fix queue suite passed **19 tests**.
+- Scoped Ruff and staged diff checks passed. These tests do not promote the
+  seven unsupported event theses or claim a genuine real-market backtest.
+- Merge authorization and protected GitHub CI are separate release gates;
+  do not bypass main-branch protection.
+
 ## Limitations and release gate
 
 - The positive native development-only Stage 3 test uses an openly declared

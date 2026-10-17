@@ -7,6 +7,7 @@ is reachable from this module.
 from __future__ import annotations
 
 import fcntl
+import hashlib
 import json
 import os
 import subprocess
@@ -68,13 +69,22 @@ def _source_hash(directory: Path) -> str:
 
 
 def _semantic_id(doc: dict) -> str:
-    # Preserve exact rule/instrument distinction: same paper alone is not a duplicate.
+    """Deduplicate the frozen *experiment*, not its citation list or filename.
+
+    Different development windows, data, gates, clocks or cost models are
+    separate trials even when a paper and entry formula are identical.
+    Multiple source references to the same experiment are not extra trials;
+    every candidate still retains its own provenance in the admission journal.
+    """
     return digest({
         key: doc.get(key) for key in (
-            "economic_thesis", "mechanism", "instruments", "strategy_rules",
+            "economic_thesis", "mechanism", "instruments", "market",
+            "data_requirements", "feature_contracts", "strategy_rules",
             "entry_and_basket_construction_rules", "signal_and_execution_clock",
-            "feature_contracts", "sizing", "cost_assumptions", "baseline",
-            "source_references",
+            "bar_seconds", "sizing", "cost_assumptions", "baseline", "signal",
+            "development_evaluation", "primary_falsifier",
+            "acceptance_and_stop_rules", "parity_and_causality_tests",
+            "known_adaptations", "assumptions", "unresolved_blockers",
         )
     })
 
@@ -175,10 +185,16 @@ class InboxQueue:
         self.root = self.run_log / "inbox_factory"
 
     def _folder(self, candidate_id: str) -> Path:
-        if not candidate_id or not all(c.isascii() and (c.islower() or c.isdigit() or c == "_")
-                                        for c in candidate_id):
-            raise ValueError("unsafe candidate_id")
-        return self.root / "candidates" / candidate_id
+        if not isinstance(candidate_id, str) or not candidate_id:
+            raise ValueError("candidate_id must be a nonempty string")
+        # Malformed inbox names are evidence to reject, not a reason to abort
+        # the entire batch or allow a directory traversal in the state store.
+        if (not candidate_id.isascii()
+                or not all(c.islower() or c.isdigit() or c == "_" for c in candidate_id)):
+            key = "invalid_" + hashlib.sha256(candidate_id.encode("utf-8")).hexdigest()[:24]
+        else:
+            key = candidate_id
+        return self.root / "candidates" / key
 
     def _load(self, candidate_id: str) -> dict | None:
         folder = self._folder(candidate_id)
@@ -197,6 +213,8 @@ class InboxQueue:
                 raise ValueError(f"broken append-only queue journal: {file}")
             preceding = stored
             current = record["state"]
+            if not isinstance(current, dict) or current.get("candidate_id") != candidate_id:
+                raise ValueError(f"queue state identity mismatch: {file}")
         # A crash between event fsync and projection rename is safe:
         # replay the journal, never trust the stale projection.
         return current
@@ -241,9 +259,11 @@ class InboxQueue:
         candidate_id = directory.name
         # The exact function used by quant.py validate-handoff.
         try:
+            source_hash = _source_hash(directory)
             admitted = validate_handoff(directory)
             document = yaml.safe_load((directory / "thesis.yaml").read_text(encoding="utf-8"))
-            source_hash = _source_hash(directory)
+            if _source_hash(directory) != source_hash:
+                raise QuantError('INVALID_HANDOFF', 'Source changed during admission; no trial registered')
             return {
                 "candidate_id": candidate_id, "source_hash": source_hash,
                 "semantic_id": _semantic_id(document), "source_references": document["source_references"],

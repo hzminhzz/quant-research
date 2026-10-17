@@ -8,10 +8,19 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.research_control.research_inbox_queue import InboxQueue, classify
+from src.research_control.research_inbox_queue import InboxQueue, _semantic_id, classify
 
 ROOT = Path(__file__).resolve().parents[1]
 HANDOFF = ROOT / "research_inbox" / "audusd_policy_carry_cfd_v1"
+PUBLISHED_EVENT_HANDOFFS = (
+    "audusd_policy_carry_cfd_v1",
+    "dax_monthend_liquidity_rebound_cfd_20261015_v1",
+    "fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1",
+    "gbpusd_weekend_gap_reversal_cfd_20261015_v1",
+    "hanna_spy_bear_gap_fade_us500_cfd_20261017_1600_v1",
+    "oil_to_cad_daily_delayed_adjustment_20261015_v1",
+    "us500_european_open_uncertainty_resolution_cfd_v1",
+)
 
 
 def _copy_handoff(tmp_path: Path, name: str = "audusd_policy_carry_cfd_v1") -> Path:
@@ -36,7 +45,11 @@ def test_real_handoffs_are_valid_and_blocked_without_backtest(tmp_path, monkeypa
     import subprocess
 
     monkeypatch.setattr(subprocess, "run", lambda *a, **k: pytest.fail("native runner must not execute"))
-    queue = InboxQueue(ROOT / "research_inbox", tmp_path / "log")
+    for name in PUBLISHED_EVENT_HANDOFFS:
+        shutil.copytree(ROOT / "research_inbox" / name, tmp_path / "inbox" / name)
+    # The seven historical event candidates are a fixed regression corpus.
+    # Adding future executable handoffs must not break this safety test.
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log")
     first = queue.run()
     assert first["counts"] == {
         "total": 7, "admitted": 7, "executable": 0, "falsified": 0,
@@ -64,6 +77,57 @@ def test_explicit_structural_protocols():
     assert classify({"strategy_rules": {"source_rules": {
         "stop": "author's published historical stop"}, "entry": "time"
     }}) == "single_instrument_event"
+
+
+def test_bad_candidate_directory_is_blocked_without_aborting_queue(tmp_path):
+    queue = _queue(tmp_path)
+    shutil.copytree(HANDOFF, tmp_path / "inbox" / "bad-name!")
+    report = queue.run()
+    assert report["counts"]["total"] == 2
+    assert report["counts"]["blocked"] == 2
+    invalid = next(c for c in report["cases"] if c["candidate_id"] == "bad-name!")
+    assert invalid["status"] == "BLOCKED_HANDOFF"
+    assert queue._folder("bad-name!").is_relative_to(queue.root / "candidates")
+    assert queue.run() == report
+
+
+def test_source_revision_during_admission_blocks_without_native_execution(tmp_path, monkeypatch):
+    queue = _queue(tmp_path)
+    import src.research_control.research_inbox_queue as module
+
+    original = module.validate_handoff
+
+    def mutation_after_validation(directory):
+        validated = original(directory)
+        brief = directory / "brief.md"
+        brief.write_text(brief.read_text() + "\nUnexpected concurrent revision.\n")
+        return validated
+
+    monkeypatch.setattr(module, "validate_handoff", mutation_after_validation)
+    report = queue.run()
+    assert report["cases"][0]["status"] == "BLOCKED_HANDOFF"
+    assert "changed during admission" in report["cases"][0]["reason"]
+    assert not (queue.run_log / "trial_ledger.jsonl").exists()
+
+
+def test_deduplication_preserves_distinct_experiment_windows_and_falsifiers():
+    experiment = {
+        "economic_thesis": {"statement": "test edge"},
+        "strategy_rules": {"entry": "10:00 UTC"},
+        "development_evaluation": {"windows": {"train": "2020", "validation": "2021"}},
+        "primary_falsifier": {"threshold": 0.1},
+        "data_requirements": {"panel_root": "canonical_v1"},
+        "source_references": [{"id": "first_paper"}],
+    }
+    reference = _semantic_id(experiment)
+    # Citation differences must not manufacture another economic trial.
+    assert _semantic_id({**experiment, "source_references": [{"id": "second_paper"}]}) == reference
+    assert _semantic_id({**experiment, "development_evaluation": {
+        "windows": {"train": "2020", "validation": "2022"}}}) != reference
+    assert _semantic_id({**experiment, "primary_falsifier": {"threshold": 0.2}}) != reference
+    assert _semantic_id({**experiment, "data_requirements": {
+        "panel_root": "canonical_v2"}}) != reference
+    assert _semantic_id({**experiment, "unresolved_blockers": ["costs unknown"]}) != reference
 
 
 def test_semantic_duplicate_preserves_one_trial_identity(tmp_path):
