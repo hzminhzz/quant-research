@@ -4,6 +4,13 @@ Scope: research and simulated qualification only. No provider order, protected
 market read, ATS7 observation-service change, account purchase, or live approval.
 Historical 2026 observations remain exposed.
 
+**Portfolio-level reconciliation:** The earlier four-strategy shared-capital development
+experiment and 2013-2024 continuous native B0/C3 replays were subsequently
+located and independently checked. They verify an exploratory diversification
+result; see [portfolio evidence reconciliation](ats_promoted_portfolio_evidence_reconciliation_20261017.md).
+The candidate execution blockers below must not be mistaken for a rejection
+of portfolio risk reduction or a claim that no continuous B0/C3 replays exist.
+
 Runtime used for native checks: `ml4t-backtest==0.1.7`,
 `ml4t-diagnostic==0.1.6.post2`, `ml4t-engineer==0.1.4`,
 `ml4t-data==0.1.0b14`, and `ml4t-live==0.1.2` from the existing locked
