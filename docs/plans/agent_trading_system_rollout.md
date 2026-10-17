@@ -157,6 +157,15 @@ diffs rerun affected simulations only. No account purchase or live rule activati
 
 ### ATS-6 — Shadow router with transaction and failure proof
 
+**Engineering acceptance (2026-10-17): QUALIFIED_SYNTHETIC_SHADOW in the isolated
+`feat/ats6-shadow-router` worktree.** Atomic account/shared reservations, local
+outbox, fenced recovery, and execution-risk reconciliation passed 30 acceptance
+gates with a separate event-derived oracle. Final relevant regressions: 435 passed,
+one optional real-store fixture skipped. This is a controlled single-host synthetic
+shadow qualification; real-account authority, broker execution, and ATS-7 deployment
+remain unqualified and unauthorized. See [the qualification record](../audit/ats6_qualification_20261017.md)
+and [operations/recovery](../architecture/trading_system/ats6_shadow_router.md).
+
 Consume approved-for-shadow intents and account snapshots. Apply eligibility,
 atomic account/global risk reservation, a frozen account-ranking policy, stable
 IDs, outbox and reconciliation. Single-account multi-leg intents stay together;

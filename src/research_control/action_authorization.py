@@ -39,7 +39,7 @@ class ScopeV1(StrictModel):
     action_sha256: StrictStr = Field(pattern=r"^[0-9a-f]{64}$")
     session_id: StrictStr = Field(min_length=1, max_length=100)
     trial_id: StrictStr = Field(min_length=1, max_length=160)
-    operation: Literal["development_native_bracket", "synthetic_protected_fixture_read"]
+    operation: Literal["development_native_bracket", "synthetic_protected_fixture_read", "shadow_route"]
     source_sha256: StrictStr = Field(pattern=r"^[0-9a-f]{64}$")
     data_sha256: StrictStr = Field(pattern=r"^[0-9a-f]{64}$")
     spec_sha256: StrictStr = Field(pattern=r"^[0-9a-f]{64}$")
@@ -199,13 +199,16 @@ def _signed_payload(grant: SignedGrantV1 | Mapping[str, Any]) -> dict[str, Any]:
 def issue_synthetic_grant(scope: ScopeV1, *, issuer_id: str,
                           private_key: Ed25519PrivateKey, issued_at: datetime,
                           expires_at: datetime, grant_id: str | None = None,
-                          protected_fixture: bool = False) -> SignedGrantV1:
+                          protected_fixture: bool = False, shadow: bool = False) -> SignedGrantV1:
     """Explicit fixture/test issuer. No policy lookup or automatic issuance occurs."""
     if not isinstance(private_key, Ed25519PrivateKey):
         raise TypeError("private_key must be Ed25519PrivateKey")
     if issued_at.tzinfo is None or expires_at.tzinfo is None or expires_at <= issued_at:
         raise ValueError("GRANT_TIME_INVALID")
-    required_operation = ("synthetic_protected_fixture_read" if protected_fixture
+    if protected_fixture and shadow:
+        raise ValueError("EFFECTS_MUST_BE_EXCLUSIVE")
+    required_operation = ("shadow_route" if shadow else
+                          "synthetic_protected_fixture_read" if protected_fixture
                           else "development_native_bracket")
     if scope.operation != required_operation:
         raise ValueError("SYNTHETIC_GRANT_OPERATION_INVALID")
@@ -215,7 +218,8 @@ def issue_synthetic_grant(scope: ScopeV1, *, issuer_id: str,
         "issuer_id": issuer_id,
         "issued_at": issued_at.astimezone(UTC).isoformat(),
         "expires_at": expires_at.astimezone(UTC).isoformat(),
-        "allowed_effect": ("synthetic_protected_fixture_read" if protected_fixture
+        "allowed_effect": ("shadow_only" if shadow else
+                           "synthetic_protected_fixture_read" if protected_fixture
                            else "development_only"),
         "protected_data": protected_fixture,
         "trading": False,
@@ -268,12 +272,20 @@ def validate_grant(grant: SignedGrantV1 | Mapping[str, Any], action: Any, *,
                    trusted_policy_path: str | Path | None = None,
                    admission_records: tuple[Mapping[str, Any], ...] | list[Mapping[str, Any]] = (),
                    now: datetime | None = None,
-                   protected_fixture: bool = False) -> AuthorizationDecision:
+                   protected_fixture: bool = False, shadow: bool = False,
+                   trusted_policy: TrustPolicyV1 | None = None) -> AuthorizationDecision:
     """Verify signature, trust, expiry, scope, revocation, and durable replay evidence."""
     grant_id = grant.grant_id if isinstance(grant, SignedGrantV1) else (
         grant.get("grant_id") if isinstance(grant, Mapping) else None)
+    if protected_fixture and shadow:
+        return AuthorizationDecision("DENIED", "EFFECTS_MUST_BE_EXCLUSIVE", grant_id)
+    if trusted_policy is not None and (not shadow or trusted_policy_path is not None):
+        return AuthorizationDecision("DENIED", "POLICY_SOURCE_AMBIGUOUS", grant_id)
     try:
-        policy = _policy(trusted_policy_path)
+        # ATS-6 pins this public policy in the same transaction as risk admission.
+        # Only the explicit shadow path accepts a transaction-owned policy.
+        policy = (TrustPolicyV1.model_validate(trusted_policy.model_dump())
+                  if trusted_policy is not None else _policy(trusted_policy_path))
     except FileNotFoundError:
         return AuthorizationDecision("DENIED", "TRUST_POLICY_UNAVAILABLE", grant_id)
     except ValidationError:
@@ -287,7 +299,8 @@ def validate_grant(grant: SignedGrantV1 | Mapping[str, Any], action: Any, *,
                   else SignedGrantV1.model_validate_json(canonical_json(grant)))
     except (ValidationError, TypeError, ValueError):
         return AuthorizationDecision("DENIED", "GRANT_SCHEMA_INVALID", grant_id)
-    required_effect = ("synthetic_protected_fixture_read" if protected_fixture
+    required_effect = ("shadow_only" if shadow else
+                       "synthetic_protected_fixture_read" if protected_fixture
                        else "development_only")
     if parsed.allowed_effect != required_effect:
         return AuthorizationDecision("DENIED", "EFFECT_DENIED", parsed.grant_id)
@@ -295,7 +308,9 @@ def validate_grant(grant: SignedGrantV1 | Mapping[str, Any], action: Any, *,
         return AuthorizationDecision("DENIED", "PROTECTED_DATA_DENIED", parsed.grant_id)
     if protected_fixture and parsed.scope.operation != "synthetic_protected_fixture_read":
         return AuthorizationDecision("DENIED", "FIXTURE_OPERATION_REQUIRED", parsed.grant_id)
-    if not protected_fixture and parsed.scope.operation != "development_native_bracket":
+    if shadow and parsed.scope.operation != "shadow_route":
+        return AuthorizationDecision("DENIED", "OPERATION_DENIED", parsed.grant_id)
+    if not protected_fixture and not shadow and parsed.scope.operation != "development_native_bracket":
         return AuthorizationDecision("DENIED", "OPERATION_DENIED", parsed.grant_id)
     if parsed.trading:
         return AuthorizationDecision("DENIED", "TRADING_DENIED", parsed.grant_id)
