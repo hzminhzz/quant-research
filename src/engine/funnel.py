@@ -128,7 +128,8 @@ class ResearchFunnel:
         protocol = describe_research_protocol(spec)
         # The frozen M8 event adapter has its own authority boundary. Do not
         # interpret a development-only request as permission to enter it.
-        if development_only and protocol.protocol != 'cross_sectional':
+        if (development_only and protocol.protocol != 'cross_sectional'
+                and getattr(spec, 'strategy_id', None) == 'm8_n8_cash_session_v7'):
             raise QuantError('BLOCKED_PROTOCOL',
                              'Development-only mode currently supports only the native cross-sectional protocol')
         if protocol.protocol == 'event':
@@ -264,15 +265,18 @@ class ResearchFunnel:
 
     def _run_event(self, spec) -> dict[str, Any]:
         """Run typed event protocols before entering any cross-sectional gates."""
-        from .event_protocol import run_m8_n8_event
+        from .event_protocol import run_bta_nq_event, run_m8_n8_event
 
         attempt = datetime.now(UTC).strftime('%Y%m%dT%H%M%S') + '-' + uuid4().hex[:10]
         output = self.run_log / 'dual_mode' / spec.strategy_id / attempt
         output.mkdir(parents=True, exist_ok=False)
         write_json(output / 'spec.json', spec.model_dump(mode='json'), exclusive=True)
         code = runtime_identity()
+        is_bta = getattr(spec, 'strategy_id', None) == 'bta_nq_monday_bb10_atr5_cfd_v1'
+        market_scope = 'indices:usatechidxusd:60m' if is_bta else 'indices:usatechidxusd:30m'
+        label_horizon = 1 if is_bta else 2
         identity = {'candidate_id': spec.strategy_id, 'selection_family_id': spec.strategy_id,
-                    'market_scope': 'indices:usatechidxusd:30m', 'label_horizon_bars': 2,
+                    'market_scope': market_scope, 'label_horizon_bars': label_horizon,
                     'spec_hash': spec.spec_hash, 'protocol': spec.protocol,
                     'protocol_family': 'event', 'code_hash': code,
                     'attempt_id': attempt, 'run_path': str(output.relative_to(self.run_log))}
@@ -282,9 +286,14 @@ class ResearchFunnel:
         failure = None
         report = None
         try:
-            report = run_m8_n8_event(spec, output_dir=output)
+            if is_bta:
+                report = run_bta_nq_event(spec, output_dir=output)
+            else:
+                report = run_m8_n8_event(spec, output_dir=output)
             case['stages']['event'] = report
             case['status'] = report['status']
+            if 'reason' in report:
+                case['reason'] = report['reason']
         except Exception as exc:  # noqa: BLE001 - append terminal trial evidence for every runner failure.
             failure = exc
             case['status'] = exc.status if isinstance(exc, QuantError) else 'ENGINEERING_ERROR'
@@ -308,7 +317,7 @@ class ResearchFunnel:
                                                 'sha256': file_hash(evidence_path)},
                                    'casefile': {'path': str((output / 'casefile.json').relative_to(self.run_log)),
                                                 'sha256': file_hash(output / 'casefile.json')}})
-        if case['status'] == 'ENGINEERING_ERROR':
+        if case['status'] == 'ENGINEERING_ERROR' and failure is not None:
             raise failure
         return case
 

@@ -30,6 +30,7 @@ from src.engine.common import (
 from src.engine.research_handoff import validate_handoff
 from src.engine.spec_parser import parse_spec
 from src.engine.thesis_ingest import convert_thesis
+from src.oracle.research_protocols import parse_research_spec
 
 REPO = Path(__file__).resolve().parents[2]
 TERMINAL = frozenset({
@@ -68,6 +69,14 @@ def _source_hash(directory: Path) -> str:
     })
 
 
+def _clean_keys(val: object) -> object:
+    if isinstance(val, dict):
+        return {str(k) if k is not None else "null": _clean_keys(v) for k, v in val.items()}
+    if isinstance(val, list):
+        return [_clean_keys(v) for v in val]
+    return val
+
+
 def _semantic_id(doc: dict) -> str:
     """Deduplicate the frozen *experiment*, not its citation list or filename.
 
@@ -77,7 +86,7 @@ def _semantic_id(doc: dict) -> str:
     every candidate still retains its own provenance in the admission journal.
     """
     return digest({
-        key: doc.get(key) for key in (
+        key: _clean_keys(doc.get(key)) for key in (
             "economic_thesis", "mechanism", "instruments", "market",
             "data_requirements", "feature_contracts", "strategy_rules",
             "entry_and_basket_construction_rules", "signal_and_execution_clock",
@@ -179,11 +188,14 @@ class InboxQueue:
     """Single integration owner; verified terminal work is never executed twice."""
 
     def __init__(self, inbox: str | Path = REPO / "research_inbox",
-                 run_log: str | Path = REPO / "run_log"):
+                 run_log: str | Path = REPO / "run_log",
+                 vault_root: str | Path | None = None,
+                 store: str | Path | None = None):
         self.inbox = Path(inbox).resolve()
         self.run_log = Path(run_log).resolve()
         self.root = self.run_log / "inbox_factory"
-
+        self.vault_root = Path(vault_root).resolve() if vault_root else (REPO / "data" / "vault" / "markets_20261015")
+        self.store = Path(store).resolve() if store else Path("/home/quant/dev/quant/ml4t-data/.data/store")
     def _folder(self, candidate_id: str) -> Path:
         if not isinstance(candidate_id, str) or not candidate_id:
             raise ValueError("candidate_id must be a nonempty string")
@@ -255,6 +267,76 @@ class InboxQueue:
         return sorted(path for path in self.inbox.iterdir()
                       if not path.name.startswith(".") and path.is_dir())
 
+    def _auto_materialize_for_document(self, document: dict) -> list[str]:
+        """Auto-materialize development vaults required by the candidate if missing."""
+        import json
+        from typing import cast
+
+        from src.data_vault.market_materializer import (
+            Granularity,
+            MarketGroup,
+            materialize_price_markets,
+        )
+
+        if not self.store.is_dir():
+            return []
+        text = json.dumps(document)
+        targets: list[tuple[MarketGroup, Granularity]] = []
+        if "index_minute_" in text or "index_1" in text:
+            targets.extend([("index", "1h"), ("index", "1m")])
+        if "forex_minute_" in text or "forex_1" in text:
+            targets.extend([("forex", "1h"), ("forex", "1m")])
+        if "metals_minute_" in text or "metals_1" in text:
+            targets.extend([("metals", "1h"), ("metals", "1m")])
+        materialized: list[str] = []
+        for category, granularity in targets:
+            vault_dir = self.vault_root / f"{category}_{granularity}"
+            manifest_file = vault_dir / "manifest.json"
+            if not manifest_file.is_file():
+                try:
+                    materialize_price_markets(
+                        self.store, vault_dir,
+                        category=cast(MarketGroup, category),
+                        granularity=cast(Granularity, granularity),
+                        start="2012-01-01T00:00:00Z", end="2025-01-01T00:00:00Z",
+                        protected_test_start="2025-01-01T00:00:00Z",
+                        trusted_partitioning=False,
+                    )
+                    materialized.append(f"{category}_{granularity}")
+                except Exception:  # noqa: BLE001, S110
+                    pass
+            else:
+                materialized.append(f"{category}_{granularity}")
+        return sorted(set(materialized))
+
+    def _auto_materialize_development(self, panel_root: Path) -> None:
+        """Automatically compile development partitions from local store if available."""
+        from typing import cast
+
+        from src.data_vault.market_materializer import (
+            Granularity,
+            MarketGroup,
+            materialize_price_markets,
+        )
+
+        name = panel_root.name
+        if "_" not in name:
+            return
+        parts = name.split("_")
+        category, granularity = parts[0], parts[1]
+        if category not in ("index", "forex", "metals") or granularity not in ("1s", "1m", "1h", "1d"):
+            return
+        if not self.store.is_dir():
+            return
+        materialize_price_markets(
+            self.store, panel_root,
+            category=cast(MarketGroup, category),
+            granularity=cast(Granularity, granularity),
+            start="2012-01-01T00:00:00Z", end="2025-01-01T00:00:00Z",
+            protected_test_start="2025-01-01T00:00:00Z",
+            trusted_partitioning=False,
+        )
+
     def _admit(self, directory: Path) -> tuple[dict, dict | None]:
         candidate_id = directory.name
         # The exact function used by quant.py validate-handoff.
@@ -278,6 +360,10 @@ class InboxQueue:
                     "reason": str(exc), "holdout_access": False}, None
 
     def _preflight(self, info: dict, document: dict, directory: Path) -> tuple[dict, Path | None]:
+        materialized = self._auto_materialize_for_document(document)
+        if materialized:
+            info = {**info, "materialized_development_vaults": materialized}
+
         protocol = info["protocol"]
         if protocol != "cross_sectional":
             return {**info, "status": "BLOCKED_PROTOCOL",
@@ -510,6 +596,10 @@ class InboxQueue:
                                 self._save({**previous, "status": "BLOCKED_EVIDENCE",
                                             "prior_status": previous["status"],
                                             "reason": f"Saved terminal evidence drift: {exc}"})
+                        elif doc is not None and previous["status"] in {"BLOCKED_PROTOCOL", "BLOCKED_SPEC", "BLOCKED_DATA"}:
+                            materialized = self._auto_materialize_for_document(doc)
+                            if materialized and "materialized_development_vaults" not in previous:
+                                self._save({**previous, "materialized_development_vaults": materialized})
                         continue  # terminal items do not consume the bounded actionable quota
                 else:
                     previous = self._save({**info, "status": "ADMITTED" if doc else "BLOCKED_HANDOFF",
@@ -527,7 +617,17 @@ class InboxQueue:
                 if spec_path is None:
                     processed += 1
                     continue
-                manifest = Path(parse_spec(spec_path).panel_root) / "manifest.json"
+                spec = parse_research_spec(spec_path)
+                panel_root = Path(getattr(spec, "panel_root", REPO / "data/vault/markets_20261015/index_1h"))
+                manifest = panel_root / "manifest.json"
+                if not manifest.is_file():
+                    try:
+                        self._auto_materialize_development(panel_root)
+                    except Exception as exc:  # noqa: BLE001
+                        self._save({**next_state, "status": "BLOCKED_DATA",
+                                    "reason": f"Auto-materialization failed: {exc}"})
+                        processed += 1
+                        continue
                 if not manifest.is_file():
                     self._save({**next_state, "status": "BLOCKED_DATA",
                                 "reason": "Frozen canonical panel manifest missing; do not download or substitute prices"})

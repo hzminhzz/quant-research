@@ -1,0 +1,141 @@
+candidate_id: bta_nq_monday_bb10_atr5_cfd_v1
+selection_family_id: bta_nq_monday_bollinger_atr_breakout
+status: THESIS_READY_UNVERIFIED
+research_mode: MVP_RESEARCH_DESIGN_ONLY
+created_on: '2026-10-17'
+not_execution_approved: true
+not_a_frozen_session: true
+
+source_references:
+  - id: BTA_MONDAY_NQ_20260716_PRIMARY
+    role: original_author_report
+    publisher: Breakout Trading Academy
+    publication_date: '2026-07-16'
+    url: https://breakouttradingacademy.com/steal-this-monday-nasdaq-strategy-super-simple/
+  - id: BTA_BB_1800_20260708
+    role: distinct_parameter_selection_adverse_evidence
+    publisher: Breakout Trading Academy
+    publication_date: '2026-07-08'
+    url: https://breakouttradingacademy.com/i-tested-1800-bollinger-bands-strategies/
+  - id: DUKASCOPY_NQ_SOURCE_PROXY
+    role: research_price_feed
+    publisher: Dukascopy
+    url: https://www.dukascopy.com/swiss/english/marketwatch/historical/
+    local_path: data/vault/markets_20261015/index_1h
+  - id: ATS_INBOX_GOVERNANCE
+    role: local_source_of_admission_rules
+    local_path: docs/research_inbox_operations.md
+
+economic_thesis:
+  question: Does a Monday stop-buy through a volatility-adjusted lower-Bollinger anchor predict positive post-trigger NQ CFD price continuation beyond costs?
+  'null': Conditional cost-adjusted filled-event performance does not beat an otherwise identical time-matched Monday long-NQ control.
+  scope: Descriptive entry and exit hypothesis adapted to Dukascopy CFD price proxy; historical performance is unverified.
+mechanism:
+  hypothesis: Monday repricing and buy-side liquidity demand could cause continuation once a band-plus-ATR price is crossed.
+  prospective_counterparty: Later liquidity-demanding buyers and short covering; no actual order-flow observation exists.
+  confounds:
+    - Positive Nasdaq index beta and intraday long drift.
+    - Monday subset chosen after inspecting weekday effects.
+    - Selection among many Bollinger and ATR parameter trials.
+    - Recent-regime concentration and non-generalization across indexes.
+instruments:
+  original:
+    venue: CME Globex
+    product: E-mini Nasdaq-100 quarterly futures contract
+    symbol: NQ
+    interval: 60-minute
+    trading_currency: USD
+  proposed:
+    product: CFD_INDEX_PROXY
+    provider: Dukascopy
+    source_symbol: usatechidxusd
+    canonical_symbol: NQ
+    interval: 60-minute
+    trading_currency: USD
+    adaptation_status: UNQUALIFIED_PRODUCT_MAPPING
+    disclosure: Cash index CFD and crypto perpetuals have distinct financing, margin, and liquidation rules; not equivalent to CME futures.
+data_requirements:
+  source: Dukascopy index_minute_NQ (usatechidxusd) resampled to 60m completed bars.
+  vault_root: data/vault/markets_20261015/index_1h
+  data_role: Historical price proxy only; does not provide verified broker execution quotes or directional swaps.
+  protected_data: Do not read any sealed or protected partitions (2025+).
+feature_contracts:
+  source_parameters:
+    band: lower Bollinger Band, 10 bars, one standard deviation
+    volatility: ATR of 5 bars
+    buffer: plus 0.8 times ATR5
+  proposed_causal_math:
+    lower_band: Mean of the ten most recently completed hourly closes minus one standard deviation of those closes.
+    true_range: max(high-low, abs(high-previous_close), abs(low-previous_close)) using completed hourly bars.
+    atr_smoothing: SMA_5 on completed true range bars.
+    band_stdev: Sample standard deviation (ddof=1) of completed closes.
+    trigger: lower_band_t + 0.8 * ATR5_t, with stop order placed only after bar t closes for possible fill in bar t+1.
+  parity_status: NOT_NATIVE_VERIFIED; candidate math is a declared adaptation.
+strategy_rules:
+  ORIGINAL_AUTHOR_RULES:
+    direction: long-only as implied by a buy stop
+    entry_level: lower_Bollinger_10_1sigma plus 0.8 times ATR5
+    order: stop entry, activated only when hit in the following hour
+    filter: Monday only
+    entry_window: 00:00 to 23:00, timezone NOT published
+    exit: 23:00 on the same Monday, timezone NOT published
+    instrument: NQ futures, 60-minute bars
+  adapted_rules:
+    instrument: Dukascopy NQ index CFD (usatechidxusd), 60-minute completed bars
+    entry_window: Monday 00:00 to 23:00 America/New_York
+    exit: Monday 23:00 America/New_York
+    order: Next-bar buy-stop order placed at trigger level; fills if High_t+1 >= trigger.
+signal_and_execution_clock:
+  declared_timezone: America/New_York
+  clock_status: DECLARED_RESEARCH_CONVENTION
+  bar_anchor: Top of the hour (HH:00:00 to HH:59:59)
+  eligible_order_sequence: After completed hourly bar t, submit stop for immediately following eligible bar only.
+  exit: 23:00 America/New_York on the same Monday.
+  stop_gap_rule: Entry executes at max(Open_t+1, Trigger) with adverse slippage.
+sizing:
+  model: Fixed notional research normalization (1 unit = 1 index point notional), not an executable broker order.
+  restrictions: Unqualified broker margin, leverage, and lot constraints.
+cost_assumptions:
+  status: UNQUALIFIED_ASSUMPTION
+  spread_bps: 1.5
+  commission_bps_one_way: 0.25
+  slippage_bps_one_way: 1.0
+  financing: Unverified; intraday exit assumes zero overnight hold, but venue funding remains unqualified.
+baseline:
+  primary: Unconditional long NQ on Mondays with identical entry decision boundary, exit time, notional and cost model.
+  identification: The baseline distinguishes stop-trigger drift from ordinary Monday Nasdaq beta.
+development_evaluation:
+  windows:
+    train:
+      start: '2012-01-01T00:00:00Z'
+      end: '2020-01-01T00:00:00Z'
+    validation:
+      start: '2020-01-01T00:00:00Z'
+      end: '2025-01-01T00:00:00Z'
+    protected:
+      start: '2025-01-01T00:00:00Z'
+      end: '2026-10-01T00:00:00Z'
+  interval: '[start,end)'
+  holdout: SEALED, never inspected during this task.
+primary_falsifier:
+  criterion: The upper one-sided 95 percent confidence bound of the conservative-cost incremental mean per correctly filled event against time-matched control is at or below zero.
+  dependence: Cluster Monday events by week; do not treat hourly bars as independent returns.
+  failure_classification: Use INCONCLUSIVE for insufficient events (< 50) or wide intervals; BLOCKED_DATA for missing valid quotes/costs.
+acceptance_and_stop_rules:
+  admission: A two-file research description is not an executable CandidateSpec and grants no permission for native strategy testing.
+  stop: No return computation, Phase 3 economics, Phase 4 backtest, holdout access, order or deployment in this discovery task.
+parity_and_causality_tests:
+  - Independently compare Bollinger and ATR outputs on completed bars with native output.
+  - Assert no fill on the bar used to construct the signal; expire stop if not triggered in bar t+1.
+  - Verify America/New_York Monday session mapping, holiday pauses, and exit eligibility.
+known_adaptations:
+  - Substitution of CME NQ futures with Dukascopy index CFD proxy usatechidxusd.
+  - Predeclared America/New_York session clock (00:00-23:00 ET).
+  - Explicit sample standard deviation and SMA true range smoothing.
+assumptions:
+  - HYPOTHESIS that Monday buy-side continuation compensates spread and stop slippage.
+  - UNQUALIFIED broker execution costs, live spreads, and financing terms.
+unresolved_blockers:
+  - Broker-specific execution spread, slippage, and overnight carry certification.
+  - Confirmation of author original platform clock and smoothing.
+  - Typed ATS-4 event adapter qualification for single-instrument stop orders.
