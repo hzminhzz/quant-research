@@ -48,3 +48,11 @@ run_log/**/*.lock
 .DS_Store
 
 ops/ml4t_monitoring/deploy/alertmanager.yml
+
+# Local-only bulk artifacts: raw exchange panels, runtime/intent journals and
+# per-run equity dumps. Not source — regenerate them, or keep the run summaries
+# and frozen specs instead. The milkman pattern is deliberately narrow to the
+# sessions whose full per-year equity series are already discarded from git.
+/data/hftbacktest/
+/.propr_*.db
+/run_log/milkman_*/**/equity.csv
