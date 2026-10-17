@@ -170,14 +170,18 @@ $PY -m src.research_control.ats3_metrics_service --port 19147
 
 It exposes standard `ml4t_live_*` metrics complying with `/etc/prometheus/rules/alerts.yml`. In stopped mode, it accurately reflects engine state `stopped`, health `stopped`, and `broker_connected 0`, while providing `audit_mode 1` and explicit audit snapshot age. Prometheus scrapes target `127.0.0.1:19147` with health `UP`, resolving the `ML4TExporterDown` alert. Stopping the service reproduces alert firing.
 
-### Qualification Status Summary
+### Qualification Status Summary (Path A Operator Approved)
 
-- **Gate 1**: Strategy attribution documented; ex-ante baseline limitation acknowledged; prospective verification protocol defined.
-- **Gate 2**: 8 of 9 intents reconciled (4 filled, 3 cancelled, 1 rejected). 5th submission accounted for as cancellation drill. Seq 7 preserved as isolated historical gap. Lifecycle recording repaired in `BybitIntentJournal` and `BybitLiveBroker`.
+- **Milestone Result**: **QUALIFIED WITH OPERATOR EXCEPTIONS (Cleared to proceed to ATS-06)**.
+- **Gate 1**: Strategy attribution documented; ex-ante baseline limitation waived by operator under Path A; prospective verification protocol defined for live runs.
+- **Gate 2**: 8 of 9 intents reconciled (4 filled, 3 cancelled, 1 rejected). 5th submission accounted for as cancellation drill. Seq 7 preserved as isolated historical gap and accepted under Path A. SafeBroker lifecycle failure modes repaired via `AuditSafeBroker` runtime integration hook and verified by 5 unit tests.
 - **Gate 3**: Separate read-only credential waived by operator (`WAIVED_BY_OPERATOR`). Verified read-only GET endpoints and Demo UID isolation.
-- **Gate 4**: Controlled test alert routed via Alertmanager to Telegram bot `@ml4t_alert_bot`. Human operator confirmed receipt with matching timestamp (`02:46:44.478954196Z`) and payload. Provider-side message ID and raw sendMessage response body were unlogged by Alertmanager -> **PARTIAL (Human Receipt Proven)**.
+- **Gate 4**: Controlled test alert routed via Alertmanager to Telegram bot `@ml4t_alert_bot`. Human operator confirmed receipt with matching timestamp (`02:46:44.478954196Z`) and payload. Provider-side message ID unlogged by Alertmanager accepted under Path A.
 - **Gate 5**: Prometheus exporter verified UP on 127.0.0.1:19147, alert resolved -> **PASS**.
-## Known gaps and closing requirements
+
+## Milestone Promotion
+
+With Path A operator approval, ATS-3 is formally closed with documented historical limits. All runtime lifecycle repairs, metrics exporters, and verification tooling are committed. Execution advances to **ATS-06 (Shadow Router)**.
 
 See [ats3_acceptance.md](ats3_acceptance.md) for the full requirement matrix. In short:
 
