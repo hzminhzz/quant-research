@@ -1,6 +1,6 @@
 # ATS-3 acceptance matrix (2026-10-16)
 
-**Outcome: NOT QUALIFIED — independently validated native accounting slice, incomplete operational audit.**
+**Outcome: PARTIALLY VERIFIED — independently validated native and observed Bybit Demo economics, but full ATS-3 strategy attribution and operations remain unqualified.**
 
 Base revision: `d9070e12e6e512650202548d691988ef721d8ff5`.
 ATS-3 branch: `feat/ats3-operational-audit`.
@@ -12,15 +12,50 @@ ATS-3 branch: `feat/ats3-operational-audit`.
 | Partial fill, missing ACK, overfill, stale mark, conflicting fill and correction detection | PASS (fixture scope) | `tests/test_ats3_failure_modes.py` |
 | Native independent cash and financing arithmetic | PASS (saved simulation) | `tests/test_ats3_native.py::test_actual_native_accounting_and_independent_arithmetic`; input `/home/quant/.devspace/worktrees/quant-research-25440f7a/run_log/dual_mode_runtime_smoke/20261016T075418661458/` |
 | Tampered native cash input detected | PASS (saved sample mutated in temporary test only) | `tests/test_ats3_native.py::test_corrupted_fill_changes_cash_and_fails_against_native_equity` |
-| Native ATS-0/1/2/integration regressions | PASS (selected scope) | `70 passed` across `tests/test_ats3_*.py`, `tests/test_ats_qualification.py`, `tests/test_ats_read_interface.py`, `tests/test_ats2.py`, `tests/test_ats2_authorization.py`, `tests/test_ats2_native_recovery.py`, `tests/test_native_execution.py`, `tests/test_dual_mode_execution_edges.py` |
-| Native research baseline ↔ actual archived broker event history linked | BLOCKED | Inspected local `/home/quant/dev/trading-connector/.ml4t_*journal.jsonl` show `execution_mode=shadow`, `shadow_mode=true` events, not independently observed broker execution. No matching authoritative execution bundle selected |
-| Strategy intent vs routing/skips/rejections/full provider lifecycle | BLOCKED | Native fills export lacks transport and intent history; broker shadow journals are separate unrelated event paths |
-| Provider mark, fee, financing and owner cash attribution | BLOCKED | No matched read-only provider account statement/mark stream with stable account binding |
+| Native ATS-0/1/2/integration regressions | PASS (selected scope) | `93 passed` on 2026-10-17 across `tests/test_ats3_*.py`, `tests/test_ats_qualification.py`, `tests/test_ats_read_interface.py`, `tests/test_ats2.py`, `tests/test_ats2_authorization.py`, `tests/test_ats2_native_recovery.py`, `tests/test_native_execution.py`, `tests/test_dual_mode_execution_edges.py` |
+| Native research baseline ↔ actual archived broker event history linked | BLOCKED | Authentic Bybit Demo fills and account evidence were collected 2026-10-17; no frozen ex-ante native strategy baseline for **the same exact decisions and time period** has been linked. See private `~/.local/state/quant-research/ats3/demo-archive-20261017-current/manifest.json` |
+| Strategy intent vs routing/skips/rejections/full provider lifecycle | BLOCKED | Historical ML4T native *paper*, not shadow, journal: 9 intents, 5 submissions, 4 current provider IDs linked, 1 local cancel receipt, 4 intents without recorded terminal reason; one submitted order not in currently retained provider order history. `~/.local/state/quant-research/ats3/demo-audit-20261017.json` |
+| Provider mark, commission, funding, account transfer and USD wallet reconciliation | PASS (bounded Demo evidence) | Four actual Demo fills, 6 funding events, 11 account transactions, current open-position mark and UNIFIED wallet; `~/.local/state/quant-research/ats3/demo-audit-20261017.json` and `independent-judge-20261017.json` |
 | Ex-ante comparable conditional baseline and justified decay attribution | BLOCKED | No matched frozen baseline and broker observation path; `INSUFFICIENT_EVIDENCE` remains required |
 | Actual authorized alert-delivery receipt | BLOCKED | No auditable human-received notification receipt found in inspected `run_log` paths; no new messages sent |
 | Operational metrics for selected authorized runtime | BLOCKED | No qualified selected active audit runtime, no production scrape claimed |
-| No live orders/deployment/holdout reads | PASS (ATS-3 implementation scope) | Read-only Parquet adapter and isolated unit/integration tests; no broker endpoint calls |
+| No Mainnet orders, deployment or protected research reads | PASS (this work unit) | Demo-only authenticated GET requests by collector; no new external orders submitted; pre-existing 0.02 BTC Demo position preserved. Native/ATS3 offline verifier uses no broker credentials |
 | Push authorization | PASS (not exercised) | Local changes only; no push |
+
+### Independently verified actual Bybit Demo economics (2026-10-17)
+
+Read-only, authenticated Demo V5 GET records (not Mainnet). Immutable source
+manifest: `~/.local/state/quant-research/ats3/demo-archive-20261017-current/manifest.json`
+SHA-256 `db70cb6981ecb54f777ca57ac6cde726fb72e316469618da630f2714da07f5ba`.
+
+External replay evidence in protected operator storage (never committed):
+
+- `~/.local/state/quant-research/ats3/demo-audit-20261017.json`
+- `~/.local/state/quant-research/ats3/independent-judge-20261017.json`
+- Native ML4T SafeBroker: `~/.local/state/quant-research/bybit-demo-account-<private-UID>-journal.jsonl` (115 verified hash-chain entries).
+
+The independently reconstructed DEMO USDT wallet obeys:
+`0 + 10000 - 0.278 - 1.78042480 - 0.55211895 =
+9997.38945625 USDT`. Four actual trade fills, six funding events,
+11 transactions, and open +0.02 BTC reconcile with native state and
+authoritative Bybit position/mark snapshot. USD account equity
+`9993.96225878 USD` reconciles after the provider's USDT/USD valuation,
+not after an assumed one-to-one parity.
+
+**Real Demo broker economic reconciliation: PASS.**
+Independent offline judge: `INDEPENDENT_BROKER_ECONOMICS_PASS`.
+
+**Still unqualified:** 9 local intents vs 5 submissions, 4 provider
+IDs linked and 1 locally confirmed canceled request; 4 other intents
+lack authoritative terminal explanations. Frozen comparable strategy
+expectations, full route/skip/rejection census, venue-enforced
+read-only audit key, human-observed alert delivery receipt and selected
+Prometheus exporter at `127.0.0.1:19147` remain unresolved.
+
+No new broker orders were placed in this review. The existing 0.02 BTC
+Demo position was left open. Verification includes 93 ATS native/integration
+tests and 119 Bybit provider/ML4T paper tests; all synthetic failures were
+tested on copies of protected evidence.
 
 ### Independent numerical result
 
@@ -52,4 +87,4 @@ Observed 2026-10-16: Prometheus at `127.0.0.1:19090` is healthy; Alertmanager re
 
 ### Requirement for closing ATS-3
 
-An authorized, read-only, hash-bound archive for the **same** strategy version and execution period must contain intent/route/skips, actual orders/acks/rejections/partial fills, authoritative fees/carry/cash/marks, account/environment identifiers and a frozen comparable native baseline. Pair it with a human-observed notification receipt and the relevant operational scrape. Until then, the full operational qualification is not defensible.
+The authenticated, hash-bound Demo archive has now supplied actual orders/fills/fees/carry/cash/current marks. Close the remaining gates by binding a frozen comparable native strategy baseline and complete original intent/route/skip/ack/rejection history for the same execution interval, resolving missing terminal intent reasons, obtaining a venue-enforced read-only audit key, human-observed notification delivery and relevant healthy runtime metric scrape. The live open Demo position remains separately owned. Until then full ATS-3 operational qualification is not defensible.
