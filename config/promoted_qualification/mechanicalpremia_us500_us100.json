@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "candidate_id": "mechanicalpremia:C3_US500_US100_H1_D1_SOURCE_WEIGHTED",
+  "frozen_before_new_outcome_review": true,
+  "source_files": [
+    {"path": "README.md", "sha256": "57c292dd935a47de0a6510da8ec5f60f3d554c724d14eabadf729293d1f5e568"},
+    {"path": "STATUS.md", "sha256": "53269b810b710780822399782aa86c2dbb5bb2b55a23fd6c07b10d33521a4324"},
+    {"path": "strategy.yaml", "sha256": "01e404b1d7459b7e80857710ab42e73cbe45048c9b7d3929e96c42cf40840211"},
+    {"path": "research_next.md", "sha256": "50a263ad6611ebbcb652d780961ee245eaebd8b8093ffb35c2147e4c055a059a"},
+    {"path": "audits/h1_source_parity.md", "sha256": "de49b1fee8fb9f7e81a2e67cb8c2d17a37d2e75ebd34f8afbb711534e703b774"},
+    {"path": "audits/initial_thesis_and_trial_plan.md", "sha256": "23ba6fa848c52b4a1aa878116a07a81be892810232afe49f6133fe5aba1f702c"},
+    {"path": "config/research_session.yaml", "sha256": "1511f96fce1854fb917181d800ef7e8f342f9295753deeb26dce4b48077c4b6f"},
+    {"path": "provenance/data_manifest.json", "sha256": "27ee38d571428f6290dcb244bc6ff903ab4f9961767f11b35d14dcb345f493d6"},
+    {"path": "provenance/manifest.json", "sha256": "2632ca102ed3ae05f1e7bd92d54fb208d15043baae9c541215ecebf8bc44e873"},
+    {"path": "reports/three_candidate_summary.json", "sha256": "39a3e3b9b081bc8ee008e1fc5d0bc682525629e7afe4301e3671618bb8d91a07"},
+    {"path": "reports/linked_roi_diagnostics.json", "sha256": "bc6d5c5ef5525d97e0f37f22cc1c585da10fbe955d2c6b680bb852fb197d5164"},
+    {"path": "reports/all_annual_metrics.csv", "sha256": "4cdaa3812a1ed402870500a4164ed106e2a19533304e044beb2fdea4ef85d398"},
+    {"path": "src/mechanicalpremia_us2_2013_2026_v1.py", "sha256": "24c0bec21e9530b523b39becbdde49cf85fd07cd796729cf3dfe6ca66d63fc33"},
+    {"path": "src/run_mechanicalpremia_us2_2013_2026_v1.py", "sha256": "8a1da58203eb3959f11ee544bbb254c3f9d53e07f08847e9d4fdbc4b9add9c07"}
+  ],
+  "verdict": "RESTRUCTURE",
+  "economic_edge": "INCONCLUSIVE_UNQUALIFIED_FRICTION_AND_NONCONTINUOUS_CAPITAL",
+  "decision_rule": {
+    "KEEP": "continuous same-grid native C3 remains positive at 1.5x and source-justified friction including carry and impact, with H1 positive incremental risk-adjusted contribution",
+    "RESTRUCTURE": "D1 evidence remains potentially useful but H1 increment or any execution/carry/impact component is unresolved",
+    "SHELVE": "source-compliant continuous C3 is nonpositive at qualified 1.5x friction or neither sleeve retains edge"
+  },
+  "frozen_comparison": {
+    "sleeves": ["H1_STANDALONE", "D1_STANDALONE", "C3_JOINT_SOURCE_WEIGHTED"],
+    "weights": {"H1": "0.2336", "D1": "0.7664"},
+    "modeled_costs_per_side_bps": {"commission": "1", "slippage": "2"},
+    "cost_multiples": ["1.0", "1.5"],
+    "same_continuous_time_grid_available": false,
+    "annual_native_cells_c3": "84/84",
+    "three_candidate_native_cells": "252/252"
+  },
+  "archival_attribution": {
+    "H1": {"closed_trades": 1347, "profit_factor": "1.06", "linked_sharpe": "0.18"},
+    "D1": {"closed_trades": 58, "profit_factor": "8.07", "linked_sharpe": "0.86"},
+    "C3": {
+      "closed_trades": 1405,
+      "linked_sharpe": "0.75",
+      "modeled_1x_mean_annual_return_pct": "2.9881403515274534",
+      "modeled_1_5x_mean_annual_return_pct": "2.0738828190283"
+    },
+    "classification": "ARCHIVAL_ANNUAL_RESET_DIAGNOSTIC_NOT_CONTINUOUS_ROI"
+  },
+  "friction_attribution": {
+    "gross": "AVAILABLE_ONLY_INSIDE_ARCHIVAL_NATIVE_ANNUAL_RUNS",
+    "commission": "MODELED_1_BPS_PER_SIDE",
+    "slippage": "MODELED_2_BPS_PER_SIDE",
+    "spread": "UNAVAILABLE",
+    "carry_financing": "UNAVAILABLE",
+    "market_impact": "UNAVAILABLE_NO_TRUE_ADV_FROM_CFD_TICK_VOLUME"
+  },
+  "barriers": [
+    "ANNUAL_ACCOUNT_RESETS_NOT_CONTINUOUS_CAPITAL",
+    "STANDALONE_AND_JOINT_SLEEVES_USE_DIFFERENT_POSITION_SIZES",
+    "NO_D_SPECIFIC_ATS4_NATIVE_SLEEVE_BRIDGE",
+    "H1_INITIAL_STOP_HAS_FIRST_MINUTE_GAP",
+    "BID_ONLY_NO_HISTORICAL_ASK_SPREAD",
+    "NO_DIRECTIONAL_CFD_FINANCING",
+    "NO_BROKER_POINT_VALUE_LOT_MARGIN_CONTRACT",
+    "NO_TRUE_ADV_OR_MARKET_IMPACT_MODEL",
+    "FULL_2013_2026_HISTORY_POST_SELECTED"
+  ]
+}

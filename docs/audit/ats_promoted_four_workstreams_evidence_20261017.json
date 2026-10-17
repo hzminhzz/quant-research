@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "authority": "docs/audit/ats_promoted_four_workstreams_mission_20261017.md",
+  "base_commit": "041477bec24eb4936ed65214c20227b747f3b0c3",
+  "authorization": "RESEARCH_AND_SIMULATED_QUALIFICATION_ONLY",
+  "live_approved": false,
+  "protected_data_read": false,
+  "provider_orders_submitted": false,
+  "ats7_observation_service_touched": false,
+  "runtime": {
+    "ml4t-backtest": "0.1.7",
+    "ml4t-diagnostic": "0.1.6.post2",
+    "ml4t-engineer": "0.1.4",
+    "ml4t-data": "0.1.0b14",
+    "ml4t-live": "0.1.2"
+  },
+  "workstreams": {
+    "A": {
+      "candidate_id": "one_bar_nq_30m:B0_FIXED_50_POINT_STOP",
+      "source_identity": "VERIFIED",
+      "account_risk_replay": "INCONCLUSIVE",
+      "terminal": "INCONCLUSIVE",
+      "release": "BLOCKED_UNSUPPORTED_STOP_OCO_STRATEGY_FEED",
+      "tests": [
+        {"scope": "candidate_qa", "passed": 7, "failed": 0},
+        {"scope": "ats2_ats4_ats5_ats6_ats7_candidate", "passed": 74, "failed": 0},
+        {"scope": "ats7_release_connector", "passed": 34, "failed": 0}
+      ],
+      "independent_judge": "PASS"
+    },
+    "B": {
+      "candidate_id": "rsi_30_50_spy:DUKASCOPY_ES_CFD_PROXY_NO_RISING_MA",
+      "source_identity": "VERIFIED",
+      "archival_native_evidence": "VERIFIED_ARCHIVE_NOT_NEW_RESULT",
+      "account_risk_replay": "INCONCLUSIVE",
+      "terminal": "BLOCKED_EXTERNAL_DATA",
+      "tests": [{"scope": "candidate_mapping_and_source", "passed": 4, "failed": 0}],
+      "independent_judge": "PASS"
+    },
+    "C": {
+      "candidate_id": "donchian_btc:BINANCE_BTCUSDT_PERP_DAILY_V1",
+      "source_identity": "VERIFIED",
+      "funding_overlay": "VERIFIED_EXPLORATORY_FIXED_FILL_OVERLAY_NOT_NATIVE_INTEGRATED",
+      "exact_funding_period": "2019-2024_ONLY_PARTLY_PROXY_PRICED",
+      "terminal": "INCONCLUSIVE_MARGIN_LIQUIDATION_AND_EXACT_FUNDING",
+      "tests": [{"scope": "funding_scope_annualization_and_risk", "passed": 5, "failed": 0}],
+      "independent_judge": "PASS"
+    },
+    "D": {
+      "candidate_id": "mechanicalpremia:C3_US500_US100_H1_D1_SOURCE_WEIGHTED",
+      "source_identity": "VERIFIED",
+      "archival_native_cells": {"c3": "84/84", "comparison": "252/252"},
+      "economic_edge": "INCONCLUSIVE_UNQUALIFIED_FRICTION_AND_NONCONTINUOUS_CAPITAL",
+      "terminal": "RESTRUCTURE",
+      "tests": [{"scope": "frozen_comparison_cost_and_decision", "passed": 4, "failed": 0}],
+      "independent_judge": "PASS"
+    }
+  }
+}
