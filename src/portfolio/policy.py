@@ -14,6 +14,27 @@ from zoneinfo import ZoneInfo
 PRAGUE = ZoneInfo("Europe/Prague")
 
 
+def barrier_leverage_scale(*, equity: float, initial_balance: float,
+                           midnight_balance: float | None, marks_available: bool,
+                           daily_loss_fraction: float = 0.05,
+                           overall_loss_fraction: float = 0.10,
+                           target_fraction: float = 0.10) -> float:
+    """Conservatively taper target leverage near prop barriers; never guarantees no gap breach."""
+    values = (equity, initial_balance, daily_loss_fraction, overall_loss_fraction, target_fraction)
+    if not marks_available or midnight_balance is None or any(not isfinite(x) for x in values + (midnight_balance,)):
+        return 0.0
+    if initial_balance <= 0 or midnight_balance <= 0:
+        return 0.0
+    daily_floor = midnight_balance - daily_loss_fraction * initial_balance
+    overall_floor = initial_balance * (1 - overall_loss_fraction)
+    target = initial_balance * (1 + target_fraction)
+    tolerance = 1e-12 * initial_balance
+    if equity <= max(daily_floor, overall_floor) + tolerance or equity >= target - tolerance:
+        return 0.0
+    cushion = min(equity - daily_floor, equity - overall_floor, target - equity)
+    return max(0.0, min(1.0, cushion / (0.02 * initial_balance)))
+
+
 @dataclass(frozen=True)
 class RiskSnapshot:
     now: datetime

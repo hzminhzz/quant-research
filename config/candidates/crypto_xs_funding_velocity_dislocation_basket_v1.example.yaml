@@ -3,9 +3,10 @@
 schema_version: 1
 candidate_id: crypto_xs_funding_velocity_dislocation_basket_v1_example
 selection_family_id: crypto_xs_funding_velocity_example
+market_scope: BINANCE_UM_USDT_PERP
 source_spec_status: prompt_derived_example
 thesis: Test whether cross-sectional changes in settled funding predict subsequent relative price reversals.
-panel_root: /home/quant/.devspace/worktrees/quant-research-25440f7a/data/vault/funding_velocity_development
+panel_root: /home/quant/.devspace/worktrees/quant-research-25440f7a/data/vault/full_530_20261015
 windows:
   train: {start: '2019-10-01T00:00:00Z', end: '2024-01-01T00:00:00Z'}
   validation: {start: '2024-01-01T00:00:00Z', end: '2026-01-01T00:00:00Z'}
@@ -80,6 +81,7 @@ assumptions:
   - Baseline ranks negative settled 24-hour funding; both baskets use the same costs and execution.
   - Dollar liquidity uses close times base volume as a proxy, not exact quote turnover.
   - Five long and five short legs rebalance every 48 hours at one-times gross notional.
+  - A symbol whose decision-time 3x ATR exceeds its price is excluded before ranking because a valid long stop cannot be represented; no stop-distance cap is invented.
   - Nine basis points one-way fee plus slippage is a frozen assumption, not measured execution cost.
   - Historical funding availability is assumed at recorded settlement; archival dissemination latency is not reconstructed.
   - Previously examined 2026 outcomes remain historically exposed; partitioning does not make them unseen.

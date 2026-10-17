@@ -1,5 +1,14 @@
 # Dual-mode research operations
 
+> **Scope and later evidence.** This is the implemented research-route guide,
+> not an end-to-end live-trading runbook. The later
+> [Phase 2 cutover report](phase2_cutover_verification.md) supersedes earlier
+> ingestion/scale limitations where explicitly demonstrated; it records a
+> negative Stage 2 outcome, not real Stage 3/4 profitability. For portfolio,
+> audit, routing, agent interfaces and their implementation gates, use
+> [the operating architecture](../trading_system/README.md). Proposed tools there
+> are not commands available in this runtime.
+
 ## What runs now
 
 The shared runtime implements canonical development/protected partitions,

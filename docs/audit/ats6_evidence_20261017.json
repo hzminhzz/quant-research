@@ -1,0 +1,932 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-17",
+  "qualification": "QUALIFIED_SYNTHETIC_SHADOW",
+  "scope": "Cooperative single-host Linux/SQLite shadow ledger with typed synthetic account, risk, execution, and time inputs",
+  "worktree": "/home/quant/.devspace/worktrees/quant-research-25440f7a-39b7dab4-d00c5a58",
+  "delivery_receipt": "run_log/ats6/delivery.json",
+  "acceptance": {
+    "deployment_permission": false,
+    "requirements": {
+      "account_limit_change": "PASS",
+      "admit_after_commit": "PASS",
+      "admit_before_commit": "PASS",
+      "clean_control": "PASS",
+      "clean_interrupted_economic_equivalence": "PASS",
+      "conflicting_events": "PASS",
+      "coverage_source": "PASS",
+      "credential_free_namespace": "PASS",
+      "frozen_policy_comparison": "PASS",
+      "global_limit_change": "PASS",
+      "incomplete_reconciliation": "PASS",
+      "indivisible_multileg": "PASS",
+      "late_after_certified_terminal": "PASS",
+      "lost_ack_restart_duplicates": "PASS",
+      "margin_source": "PASS",
+      "mark_source": "PASS",
+      "partial_cancel_late_close": "PASS",
+      "preexisting_unknown_restart": "PASS",
+      "prepared_account_change": "PASS",
+      "projection_rebuild": "PASS",
+      "publish_after_commit": "PASS",
+      "publish_before_commit": "PASS",
+      "rejection_reconciliation": "PASS",
+      "reordered_duplicate_events": "PASS",
+      "revoke_change": "PASS",
+      "rule_change": "PASS",
+      "simultaneous_multiple_accounts": "PASS",
+      "simultaneous_shared_cushion": "PASS",
+      "stale_control_and_audit_clocks": "PASS",
+      "superseded_owner": "PASS"
+    },
+    "run_id": "20261017T041533-9b9f0ee7",
+    "runtime": "b9ac357a1a00a8ac3ebcc68e61332822a75ef17f790c73dcfb79bc58343eed73",
+    "scope": "SYNTHETIC_SHADOW_ONLY",
+    "status": "QUALIFIED_SYNTHETIC_SHADOW"
+  },
+  "acceptance_manifest_sha256": "0ddb698187eb65e64a5b4b5c6be115e07d08648cb492ec613d956807cc53cbc6",
+  "artifact_hash_mismatches": [],
+  "databases": [
+    {
+      "case": "account_limit_change",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 8,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 0,
+        "used": 600
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "admit_after_commit",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 10,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "admit_before_commit",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 9,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "clean_control",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 8,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "conflicting_events",
+      "halts": [
+        "events:EXECUTION_ID_CONFLICT:one"
+      ],
+      "journal_mode": "delete",
+      "journal_records": 9,
+      "remaining": 1100,
+      "shared": {
+        "margin": 180,
+        "recognized": 200,
+        "reserved": 700,
+        "unknown": 700,
+        "used": 900
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "coverage_source",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 6,
+      "remaining": 1000,
+      "shared": {
+        "margin": 0,
+        "recognized": 0,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 0
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "credential_free_namespace",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 7,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "global_limit_change",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 8,
+      "remaining": -300,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 0,
+        "used": 600
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "incomplete_reconciliation",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 9,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 200,
+        "reserved": 400,
+        "unknown": 400,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "indivisible_multileg",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 7,
+      "remaining": 2000,
+      "shared": {
+        "margin": 0,
+        "recognized": 0,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 0
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "late_after_certified_terminal",
+      "halts": [
+        "first:LATE_EXECUTION_AFTER_TERMINAL:unexpected-late"
+      ],
+      "journal_mode": "delete",
+      "journal_records": 12,
+      "remaining": -400,
+      "shared": {
+        "margin": 280,
+        "recognized": 300,
+        "reserved": 1100,
+        "unknown": 300,
+        "used": 1400
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "lost_ack_restart_duplicates",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 12,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "margin_source",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 6,
+      "remaining": 1000,
+      "shared": {
+        "margin": 0,
+        "recognized": 0,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 0
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "mark_source",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 6,
+      "remaining": 1000,
+      "shared": {
+        "margin": 0,
+        "recognized": 0,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 0
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "partial_cancel_late_close",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 13,
+      "remaining": 900,
+      "shared": {
+        "margin": 60,
+        "recognized": 300,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 300
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "policy_comparison/cushion",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 33,
+      "remaining": 60,
+      "shared": {
+        "margin": 260,
+        "recognized": 500,
+        "reserved": 840,
+        "unknown": 840,
+        "used": 1340
+      },
+      "sink_messages": 5
+    },
+    {
+      "case": "policy_comparison/first_fit",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 33,
+      "remaining": 55,
+      "shared": {
+        "margin": 260,
+        "recognized": 520,
+        "reserved": 825,
+        "unknown": 825,
+        "used": 1345
+      },
+      "sink_messages": 5
+    },
+    {
+      "case": "policy_comparison/least_used",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 33,
+      "remaining": 55,
+      "shared": {
+        "margin": 260,
+        "recognized": 520,
+        "reserved": 825,
+        "unknown": 825,
+        "used": 1345
+      },
+      "sink_messages": 5
+    },
+    {
+      "case": "preexisting_unknown_restart",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 6,
+      "remaining": 300,
+      "shared": {
+        "margin": 140,
+        "recognized": 0,
+        "reserved": 700,
+        "unknown": 700,
+        "used": 700
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "prepared_account_change",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 7,
+      "remaining": 1000,
+      "shared": {
+        "margin": 0,
+        "recognized": 0,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 0
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "projection_rebuild",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 6,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 0,
+        "used": 600
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "publish_after_commit",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 11,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "publish_before_commit",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 10,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "rejection_reconciliation",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 9,
+      "remaining": 1000,
+      "shared": {
+        "margin": 0,
+        "recognized": 0,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 0
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "reordered_duplicate_events",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 10,
+      "remaining": 1700,
+      "shared": {
+        "margin": 60,
+        "recognized": 300,
+        "reserved": 0,
+        "unknown": 0,
+        "used": 300
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "revoke_change",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 8,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 0,
+        "used": 600
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "rule_change",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 8,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 0,
+        "used": 600
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "simultaneous_multiple_accounts",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 7,
+      "remaining": 0,
+      "shared": {
+        "margin": 200,
+        "recognized": 0,
+        "reserved": 1000,
+        "unknown": 0,
+        "used": 1000
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "simultaneous_shared_cushion",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 7,
+      "remaining": 300,
+      "shared": {
+        "margin": 140,
+        "recognized": 0,
+        "reserved": 700,
+        "unknown": 0,
+        "used": 700
+      },
+      "sink_messages": 0
+    },
+    {
+      "case": "stale_control_and_audit_clocks",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 11,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 200,
+        "reserved": 400,
+        "unknown": 400,
+        "used": 600
+      },
+      "sink_messages": 1
+    },
+    {
+      "case": "superseded_owner",
+      "halts": [],
+      "journal_mode": "delete",
+      "journal_records": 11,
+      "remaining": 400,
+      "shared": {
+        "margin": 120,
+        "recognized": 0,
+        "reserved": 600,
+        "unknown": 600,
+        "used": 600
+      },
+      "sink_messages": 1
+    }
+  ],
+  "git": {
+    "base_head": "a7827ee09125df0f6a6d0d8d64ec16ac307e9b8e",
+    "branch": "feat/ats6-shadow-router"
+  },
+  "runtime": {
+    "packages": {
+      "cryptography": "50.0.1",
+      "ml4t-backtest": "0.1.7",
+      "ml4t-diagnostic": "0.1.6.post2",
+      "ml4t-engineer": "0.1.4",
+      "ml4t-live": "0.1.2",
+      "pydantic": "2.13.5",
+      "pytest": "9.1.1",
+      "ruff": "0.16.8"
+    },
+    "python": "3.13.5",
+    "sqlite": "3.45.3"
+  },
+  "source_sha256": {
+    "pyproject.toml": "30af47f171543c8f9f4b227189e509f89bae3def1eadf25263a65e994a874774",
+    "scripts/ats6_acceptance.py": "e85bf43c6296df5907a21d73e3b58ef08bd0fbaf70262c6cc9c750f348f386b8",
+    "scripts/ats6_fixtures.py": "4ff446175923e1d8fd3faa80e6c1c6aeb0e202225723aee4c6ebfbb550768ae4",
+    "scripts/ats6_outside_judge.py": "b060b655a687e9fd6eb3cb5ac83d26a7438ec04e997fc424db1005cd1617e04b",
+    "scripts/ats6_policy_comparison.py": "492cf4b0a7ba812bed3a0c904c6a6f4aff4bdc0de85fb8399e4cae7c7c91fc56",
+    "scripts/ats6_regression.py": "5c4f7b9b92b015dafcfd89e7d2b0704400785e4ea797004a2a1c1bc2ec9343d5",
+    "scripts/ats6_shadow_worker.py": "bead7128732e97fbe2b8866bffc6cddf1dee6ae64cf2e6c5d9c34123d2baa20b",
+    "src/account_rules.py": "da4184735dd7a3ef060364ebec48beb2151dbf4ba2b0df7ea5cb1bcce9ccafe3",
+    "src/portfolio_evidence.py": "c58cf07007e4bdc80c201eec9f321f3c477a00af16a2c73afb4f07c56b6d3194",
+    "src/research_control/action_authorization.py": "59550e6ccfe5cb81f6b8b56e1f3d2c69c2253be96844f7d4313cf4f27d45e89a",
+    "src/research_control/ats3_audit.py": "4f1e1fc0410909aea7daecbb2cb224f3bf85a0404b3b8640bdb6bc7dab6f1f65",
+    "src/shadow_contracts.py": "903f2e8bdeff167513702a5b53db28f1dd6383e58d3db129383f7dcb757d2386",
+    "src/shadow_router.py": "88fcdf2984daef23c9a95f26a12cee69436330e9817f13bdc998d25ea7cedea6",
+    "tests/test_ats6_independent.py": "4f51554b30ef291b0a1d96eb1042601d881020bdb62173ec2b5ddf85ff43370e",
+    "tests/test_ats6_shadow_router.py": "884937ae37877a6699a435b2cd45a67f18265696abb242f3252d5861aa6e68ad",
+    "uv.lock": "a7e8a326248584d57cbaa4249c127f1bd99202f25803f9f075f99fbcefbc5628"
+  },
+  "verified_artifacts": 211,
+  "database_integrity_checks": {
+    "count": 31,
+    "result": "All PRAGMA integrity_check results were ok; all modes were delete; all journal counts matched independent reports"
+  },
+  "final_regression": {
+    "diff_check": {
+      "exitcode": 0,
+      "status": "PASS"
+    },
+    "managed_policy": {
+      "exitcode": 0,
+      "status": "PASS"
+    },
+    "managed_ruff": {
+      "exitcode": 0,
+      "status": "PASS"
+    },
+    "pytest": {
+      "exitcode": 0,
+      "status": "PASS"
+    },
+    "task_ruff": {
+      "exitcode": 0,
+      "status": "PASS"
+    }
+  },
+  "final_regression_directory": "run_log/ats6/regressions/20261017T042204-50962e5b",
+  "final_task_source_sha256": {
+    "scripts/ats6_acceptance.py": "e85bf43c6296df5907a21d73e3b58ef08bd0fbaf70262c6cc9c750f348f386b8",
+    "scripts/ats6_fixtures.py": "4ff446175923e1d8fd3faa80e6c1c6aeb0e202225723aee4c6ebfbb550768ae4",
+    "scripts/ats6_outside_judge.py": "b060b655a687e9fd6eb3cb5ac83d26a7438ec04e997fc424db1005cd1617e04b",
+    "scripts/ats6_policy_comparison.py": "492cf4b0a7ba812bed3a0c904c6a6f4aff4bdc0de85fb8399e4cae7c7c91fc56",
+    "scripts/ats6_regression.py": "5c4f7b9b92b015dafcfd89e7d2b0704400785e4ea797004a2a1c1bc2ec9343d5",
+    "scripts/ats6_shadow_worker.py": "bead7128732e97fbe2b8866bffc6cddf1dee6ae64cf2e6c5d9c34123d2baa20b",
+    "src/research_control/action_authorization.py": "59550e6ccfe5cb81f6b8b56e1f3d2c69c2253be96844f7d4313cf4f27d45e89a",
+    "src/shadow_contracts.py": "903f2e8bdeff167513702a5b53db28f1dd6383e58d3db129383f7dcb757d2386",
+    "src/shadow_router.py": "88fcdf2984daef23c9a95f26a12cee69436330e9817f13bdc998d25ea7cedea6",
+    "tests/test_ats6_independent.py": "4f51554b30ef291b0a1d96eb1042601d881020bdb62173ec2b5ddf85ff43370e",
+    "tests/test_ats6_shadow_router.py": "884937ae37877a6699a435b2cd45a67f18265696abb242f3252d5861aa6e68ad"
+  },
+  "regression_receipt_sha256": {
+    "run_log/ats6/regressions/20261017T042204-50962e5b/diff_check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/managed_policy.log": "6e3a29027b14997544e5d1c9420e5b14c20a1fef06d3186d37dad4768c57c4a9",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/managed_ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/plan.json": "65435a394b8bbfc4cf096100e5c8154231adf491f9cf1c19c910a66e05ee7cf9",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/pytest.log": "52bffa36cc19ec012cbc8f876ee397cc30be9ab5298ee601fa574268583e0061",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/pytest.xml": "a0e244a8e92ab4760cf6ef33ca2dae6717b1a42efba814a6caf9f1b31dc07f95",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/result.json": "26d2ae6dba3b2c6c56bb99b8151787405a009844215cbc4f1e1e88c0150769e2",
+    "run_log/ats6/regressions/20261017T042204-50962e5b/task_ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "skips": [
+    {
+      "reason": "Run the explicit 2025 BTC/ETH canonical build first",
+      "test": "tests.test_dual_mode_real_store.test_real_btc_eth_development_only_native_smoke"
+    }
+  ],
+  "source_drift": [],
+  "test_groups": {
+    "ats2": {
+      "failed": 0,
+      "passed": 28,
+      "skipped": 0
+    },
+    "ats3": {
+      "failed": 0,
+      "passed": 40,
+      "skipped": 0
+    },
+    "ats4": {
+      "failed": 0,
+      "passed": 75,
+      "skipped": 0
+    },
+    "ats5": {
+      "failed": 0,
+      "passed": 18,
+      "skipped": 0
+    },
+    "ats6": {
+      "failed": 0,
+      "passed": 34,
+      "skipped": 0
+    },
+    "dual_mode": {
+      "failed": 0,
+      "passed": 52,
+      "skipped": 1
+    },
+    "m8": {
+      "failed": 0,
+      "passed": 47,
+      "skipped": 0
+    },
+    "other_legacy_governance": {
+      "failed": 0,
+      "passed": 141,
+      "skipped": 0
+    }
+  },
+  "xml_history": {
+    "run_log/ats6/attempt_001.xml": {
+      "sha256": "28562a8fea10ed6a16757df34e7bf53c7c902bc2cf661095a713bc774318ee6a",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "1",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "1",
+          "time": "3.277",
+          "timestamp": "2026-10-17T05:46:40.100383+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/attempt_002.xml": {
+      "sha256": "7f9f9421b20cdade1d3438fe27bd9de4a8bc3c216644a0352217fb18231b0d76",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "29",
+          "time": "21.136",
+          "timestamp": "2026-10-17T05:47:20.470576+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/attempt_003.xml": {
+      "sha256": "7b060d0cdfaf797d174c1c5e686357361ddff4f5d4cd6480211d8cb7e2474b10",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "39",
+          "time": "20.448",
+          "timestamp": "2026-10-17T05:54:29.906141+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/baseline/compatibility.xml": {
+      "sha256": "dd46b7e3650615c58706ad6da5fb323d65b4ee820429038f8147e9a9331514ee",
+      "suites": [
+        {
+          "errors": "1",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "1",
+          "time": "3.516",
+          "timestamp": "2026-10-17T05:36:38.502930+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/baseline/compatibility_with_connector.xml": {
+      "sha256": "e88ad5b5ecf835c2baaadde7688c734cad16becbcad26c19ab67cbad2acd77bf",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "123",
+          "time": "24.889",
+          "timestamp": "2026-10-17T05:37:55.580550+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/independent_001.xml": {
+      "sha256": "8cf7ba097eb8191a995d2b01681bdba15d5bdd74889c6340d86d029009d5c1c1",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "4",
+          "time": "2.633",
+          "timestamp": "2026-10-17T05:58:02.996513+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/regressions/20261017T041519-c0c830bc/pytest.xml": {
+      "sha256": "30dd79f2bf2c3d0937df6d16fc012445ac49815ba2e87153f3345b19b4aa00a5",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "7",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "1",
+          "tests": "436",
+          "time": "291.442",
+          "timestamp": "2026-10-17T06:15:19.486912+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/regressions/20261017T042204-50962e5b/pytest.xml": {
+      "sha256": "a0e244a8e92ab4760cf6ef33ca2dae6717b1a42efba814a6caf9f1b31dc07f95",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "1",
+          "tests": "436",
+          "time": "269.919",
+          "timestamp": "2026-10-17T06:22:04.406733+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/regressions/final_001.xml": {
+      "sha256": "98fbb2d87f0d13eda9301925fafbf4be16017c84fa0864678f2eb2c03a6fc88e",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "1",
+          "tests": "435",
+          "time": "273.857",
+          "timestamp": "2026-10-17T06:07:57.396051+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/review_regression_green.xml": {
+      "sha256": "e42e7236caa709fd5289d179c75c9649979dc78236ee1110bc286e3cfd66eec9",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "2",
+          "time": "2.615",
+          "timestamp": "2026-10-17T06:15:03.145607+02:00"
+        }
+      ]
+    },
+    "run_log/ats6/review_regression_red.xml": {
+      "sha256": "8e763fe1df1a891e84c0d9d2fb4940941a8b603842f91e2aaba9616bc89099eb",
+      "suites": [
+        {
+          "errors": "0",
+          "failures": "2",
+          "hostname": "vmi2637217",
+          "name": "pytest",
+          "skipped": "0",
+          "tests": "2",
+          "time": "2.635",
+          "timestamp": "2026-10-17T06:13:47.100116+02:00"
+        }
+      ]
+    }
+  },
+  "policy_skip_causes": {
+    "cushion": {
+      "skipped_intents": {
+        "t4": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t6": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t7": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t9": [
+          "SHARED_RISK_LIMIT"
+        ]
+      },
+      "blocking_causes_per_skipped_intent": {
+        "SHARED_RISK_LIMIT": 4,
+        "ACCOUNT_RISK_LIMIT": 3
+      }
+    },
+    "first_fit": {
+      "skipped_intents": {
+        "t4": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t6": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t7": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t9": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ]
+      },
+      "blocking_causes_per_skipped_intent": {
+        "SHARED_RISK_LIMIT": 4,
+        "ACCOUNT_RISK_LIMIT": 4
+      }
+    },
+    "least_used": {
+      "skipped_intents": {
+        "t4": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t6": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t7": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ],
+        "t9": [
+          "ACCOUNT_RISK_LIMIT",
+          "SHARED_RISK_LIMIT"
+        ]
+      },
+      "blocking_causes_per_skipped_intent": {
+        "SHARED_RISK_LIMIT": 4,
+        "ACCOUNT_RISK_LIMIT": 4
+      }
+    }
+  },
+  "repository_wide_lint": {
+    "status": "FAIL_PRE_EXISTING_OUTSIDE_TASK",
+    "diagnostics": 625,
+    "all_diagnostic_files_tracked": true,
+    "changed_diagnostic_files": [],
+    "task_owned_diagnostics": 0,
+    "evidence": "run_log/ats6/regressions/repository_ruff.json"
+  },
+  "final_acceptance_directory": "run_log/ats6/acceptance/20261017T041533-9b9f0ee7",
+  "retained_acceptance_attempts": [
+    {
+      "directory": "run_log/ats6/acceptance/20261017T040126-67f02efb",
+      "status": "PARTIALLY_QUALIFIED",
+      "cause": "Post-publication harness assertion and pinned SQLite dynamic-loader mount; dependent clean/crash comparison unavailable"
+    },
+    {
+      "directory": "run_log/ats6/acceptance/20261017T040339-bf6b535b",
+      "status": "QUALIFIED_SYNTHETIC_SHADOW",
+      "gates_passed": 29,
+      "source_runtime": "6d6bd3a37efc4cdcb771ef5d0afc99c22ddf4896a0096c7defddbfa445422e3a"
+    },
+    {
+      "directory": "run_log/ats6/acceptance/20261017T041533-9b9f0ee7",
+      "status": "QUALIFIED_SYNTHETIC_SHADOW",
+      "gates_passed": 30,
+      "source_runtime": "b9ac357a1a00a8ac3ebcc68e61332822a75ef17f790c73dcfb79bc58343eed73"
+    }
+  ],
+  "source_authority_limits": [
+    "Existing ATS-2 SYNTHETIC_ONLY trust domain; no real-account or deployment authority",
+    "Independent account-rule arithmetic restricted to flat synthetic static-floor fixtures",
+    "Reconciliation completeness and replay UTC supplied by a trusted synthetic supervisor",
+    "No real returns, empirical co-loss probability, intraday account-barrier survival, or realized profit",
+    "No multi-host, writable database forks, network filesystem, power-loss, or malicious-owner qualification",
+    "No migration/release protocol for immutable imported opening obligations"
+  ]
+}

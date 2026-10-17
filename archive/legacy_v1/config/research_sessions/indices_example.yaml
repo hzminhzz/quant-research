@@ -1,0 +1,52 @@
+# Declaration example only: vendor index aliases do not identify tradable contracts.
+# Fill product identity/calendar and data before freezing a research session.
+session_id: indices-example
+market: indices
+thesis: >-
+  Provisional hypothesis: opening-session price pressure persists through a
+  declared horizon and improves on a no-trade baseline after contract-specific costs.
+mechanism: >-
+  Scheduled liquidity demand at the underlying cash open may produce temporary
+  directional pressure; deeper liquidity or price discovery may instead reverse it.
+falsifier: >-
+  Reject if chronological development trials fail to improve net baseline
+  returns or the effect disappears under correct session timing and roll execution.
+instruments:
+  - symbol: UNMAPPED_INDEX_CONTRACT
+    kind: futures
+    # identity, session and timezone intentionally omitted: check must block.
+    # Supply venue, actual dated contract and underlying, currency, multiplier,
+    # tick/lot, cash/futures calendar, DST-aware session and IANA timezone.
+data:
+  - id: prices
+    symbol: UNMAPPED_INDEX_CONTRACT
+    role: prices
+    path: data/research_sessions/index_contract_prices.parquet
+evaluation:
+  development_start: "2027-01-01T00:00:00Z"
+  development_end: "2027-02-01T00:00:00Z"
+  holdout_start: "2027-02-01T00:00:00Z"
+  plan: >-
+    Illustrative future boundaries, not a claimed unseen sample. Replace before
+    init with justified chronological folds, overlap purge/embargo and a frozen
+    final-test rule; diagnose uses only the half-open development interval.
+baseline: No trade; zero strategy return before any cash financing assumptions.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Unfilled numeric placeholders, not free trading. Replace with dated exchange,
+    clearing and broker per-contract fees converted using actual contract value,
+    spread/impact stress, expiry/roll trades and basis accounting. Continuous
+    adjusted price series are not executable contract PnL.
+trials:
+  - id: development-summary
+    kind: diagnostic
+    description: Bounded descriptive development data summary; no strategy or holdout score.
+  - id: thesis-baseline
+    kind: preregistered
+    description: Proposed economic baseline comparison; execute separately after completing the specification.
+  - id: legacy-review
+    kind: historical_review
+    description: Link the existing ORB NOT_APPROVED decision without revalidating its historical metrics.
+    artifact: run_log/validation_status.json

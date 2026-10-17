@@ -11,9 +11,12 @@ import polars as pl
 
 
 def main() -> int:
-    resource.setrlimit(resource.RLIMIT_CPU, (120, 120))
+    # CPU seconds accumulate over every Polars worker thread. Parent owns a
+    # 600-second WALL-CLOCK deadline and terminates bwrap on expiry.
     resource.setrlimit(resource.RLIMIT_NOFILE, (256, 256))
-    resource.setrlimit(resource.RLIMIT_AS, (8 * 1024**3, 8 * 1024**3))
+    # Virtual address reservations can exceed RSS by a large factor in Arrow.
+    # 64 GiB protects gross address exhaustion without an 8-GiB false OOM.
+    resource.setrlimit(resource.RLIMIT_AS, (64 * 1024**3, 64 * 1024**3))
     try:
         frame = pl.read_ipc('/input/panel.arrow', memory_map=False)
         callback = cloudpickle.loads(Path('/input/callback.pkl').read_bytes())

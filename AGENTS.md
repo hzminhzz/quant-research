@@ -1,6 +1,23 @@
 # Agent guide: dual-mode quantitative research
 
+## System orientation
+
+For cross-system architecture, portfolio/routing integration, audit, recovery or
+agent-interface work, read
+[the operating architecture](docs/architecture/trading_system/README.md), then
+only the task-specific document it selects. For implementation planning, use
+[the dependency-aware rollout](docs/plans/agent_trading_system_rollout.md).
+These describe target capabilities, not newly available commands or permissions.
+Inspect current code and evidence before treating a target as implemented.
+
 ## Default entry points
+
+**For new research, agents invoke only `scripts/quant.py` (factory) or
+`src.workbench.Workbench` (interactive).** Do not discover or launch historic
+`scripts/run_*.py` in order to bypass the common runtime; consult
+`docs/architecture/dual_mode_20261015/archive_inventory.md` only for a
+requested historical reproduction or compatibility investigation. An archived
+script is read-only evidence, not a new workflow template.
 
 New cross-sectional research uses `scripts/quant.py` (autonomous factory) or
 `src.workbench.Workbench` (interactive research). Read
@@ -23,7 +40,9 @@ the pre-backtest signal decision; a Workbench experiment is not factory qualific
 
 1. Inspect the actual checkout, branch, dirty changes and relevant GitHub state.
    Preserve concurrent work. The original local checkout may be ahead of GitHub.
-2. Read the candidate YAML, source manifest and relevant ADRs. Specify the
+2. Read the candidate YAML, source manifest and relevant ADRs. For a research
+   handoff, use `python scripts/quant.py ingest <thesis.yaml> -o <candidate.yaml>`;
+   review any explicit unmapped-choice failure instead of guessing a formula. Specify the
    economic mechanism, baseline, falsifier, instruments, windows and costs.
    Locate the exact requested source. A similarly named strategy is not a
    replacement. Label any example or assumed formula explicitly.
@@ -108,6 +127,24 @@ owner or turn the whole notebook into an air-gapped host.
 The existing research has already examined parts of 2026. Protecting 2026 in a
 new vault does not make that history unseen. Preserve this exposure disclosure.
 A claim prevents cooperative replay, not tampering by the filesystem owner.
+
+## FX and index price-only vaults
+
+The trusted `scripts/quant.py materialize-markets` command compiles local
+`forex_minute_*`, `index_minute_*`, `index_second_*`, `forex_daily_*`, and
+`index_daily_*` source families into nine separate timeframe-specific vaults,
+including unresampled 1m FX/indices/metals and native 1s ES/NQ. Read
+`docs/architecture/dual_mode_20261015/market_materialization.md` for actual
+coverage, source-alias caveats, and safe workbench reads. These are source
+price panels, not CFD execution certification. Quote/tick volume is not true
+exchange turnover, hourly continuity is not a broker session calendar, 1s
+observations may be sparse, and these sources do not provide independently
+verified directional swaps or live spreads. Keep missing 1s/1m timestamps
+unfilled and load bounded second-level windows; do not load full 1s vaults
+into notebook memory. Never use
+zero-shaped price-only carry/spread placeholders as observed zero financing.
+Do not call Stage 3 / Workbench native backtest without an explicitly qualified
+cost and carry adapter. Development and protected partitions remain separate.
 
 ## Native execution and costs
 

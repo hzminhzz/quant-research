@@ -1,0 +1,9 @@
+# Merge into the existing scrape_configs. ATS7 names prevent unintended reuse of historical ATS3 alerts.
+  - job_name: ats7-local-paper
+    static_configs:
+      - targets: ["127.0.0.1:19149"]
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: "ml4t_live_(.*)"
+        target_label: __name__
+        replacement: "ats7_native_${1}"

@@ -1,5 +1,12 @@
 # Agent Casefile: read-only cold-start and recovery UX
 
+> **Scope:** Existing v1 read-only Casefile behavior. The new factory has a
+> separate derived research Casefile; neither implements the complete proposed
+> cross-system view. Its target contract is in
+> [agent interfaces](trading_system/agent_contracts.md), with
+> [implementation gates](../plans/agent_trading_system_rollout.md).
+> Preserve the read-only and evidence-authority semantics below.
+
 The authoritative data still lives in frozen `SessionSpecV1`, v1 terminal
 records, and append-only attempt events. The Casefile is a rebuildable derived
 view. It does not re-hash full source files, scan Parquet, run models or certify

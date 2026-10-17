@@ -6,6 +6,7 @@ assumption, not a fabricated historical ingestion timestamp.
 """
 from __future__ import annotations
 
+import hashlib
 import math
 import re
 from dataclasses import asdict, dataclass
@@ -23,6 +24,21 @@ CANONICAL_COLUMNS = ['timestamp', 'symbol', 'open', 'high', 'low', 'close', 'vol
 SCHEMA = {'timestamp': pl.Datetime('us', 'UTC'), 'symbol': pl.String,
           **{k: pl.Float64 for k in ('open', 'high', 'low', 'close', 'volume', 'carry_rate', 'spread_bps')},
           'session_id': pl.String, 'bar_in_session': pl.Int32, 'is_tradable': pl.Boolean}
+
+
+def symbol_partition_name(symbol: str) -> str:
+    """Use stable, portable paths without changing venue-defined symbol identity.
+
+    Binance has listed instruments with non-ASCII names. Hash the *path* only;
+    retain the exact UTF-8 venue symbol in the panel and manifest.
+    """
+    if not isinstance(symbol, str) or not symbol or len(symbol) > 240:
+        raise QuantError('INVALID_SPEC', 'Invalid source symbol identity')
+    if any(ord(char) < 32 for char in symbol) or '/' in symbol or '\\' in symbol:
+        raise QuantError('INVALID_SPEC', 'Source symbol is not a safe path component')
+    if re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,159}', symbol):
+        return symbol
+    return 'unicode-' + hashlib.sha256(symbol.encode('utf-8')).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -154,22 +170,102 @@ class PanelBuilder:
             if wanted != {s.symbol for s in selected}:
                 raise QuantError('BLOCKED_DATA', 'Requested price sources were not all discovered')
         entries, excluded = [], []
+        checkpoint_root = self.output / '.checkpoints'
+        checkpoint_root.mkdir(parents=True, exist_ok=True)
         segments = [('development', start, min(end, self.cutoff))]
         if end > self.cutoff:
             segments.append(('protected', max(start, self.cutoff), end))
+        # The bounded production universe is the deterministic hourly Binance
+        # directory/funding-directory intersection. Other discovered layouts
+        # remain visible as exclusions rather than silently joining the cohort.
+        funding_names = {p.name.removeprefix('crypto_futures_funding_').removesuffix('_PERP')
+                         for p in self.store.glob('crypto_futures_funding_*_PERP') if p.is_dir()}
+        consolidated = self.store / 'crypto_futures_ohlcv_1h_BINANCE_UM_PERP'
+        eligible = {p.name.removeprefix('symbol=') for p in consolidated.glob('symbol=*') if p.is_dir()} & funding_names
+        if symbols is None:
+            discovered = {x.symbol.removesuffix('_PERP') for x in selected}
+            excluded.extend({'symbol': s + '_PERP', 'partition': 'discovery', 'status': 'EXCLUDED_SOURCE',
+                             'reason': 'Outside hourly BINANCE_UM price/funding directory intersection'}
+                            for s in sorted(discovered - eligible))
+            excluded.extend({'symbol': s + '_PERP', 'partition': 'discovery', 'status': 'EXCLUDED_SOURCE',
+                             'reason': 'Funding directory has no hourly BINANCE_UM price directory'}
+                            for s in sorted(funding_names - discovered))
+            selected = [s for s in selected if s.venue == 'BINANCE_UM' and s.funding is not None
+                        and s.symbol.removesuffix('_PERP').endswith('USDT')]
         for source in selected:
             for kind, first, last in segments:
                 if first >= last:
                     continue
-                try:
-                    if source.venue == 'STORE_METADATA_REQUIRED' and not allow_unverified_venue:
-                        raise QuantError('BLOCKED_SOURCE', 'Standalone store venue needs explicit qualification')
-                    frame, funding, provenance = self._build_symbol(source, first, last, bar_seconds,
-                                                                    spread_bps, spread_assumption,
-                                                                    trusted_partitioning=trusted_partitioning)
-                    entries.extend(self.publish(frame, funding=funding, provenance=provenance, write_manifest=False))
-                except QuantError as exc:
-                    excluded.append({'symbol': source.symbol, 'partition': kind, 'status': exc.status, 'reason': exc.reason})
+                cursor = datetime(first.year, first.month, 1, tzinfo=UTC)
+                while cursor < last:
+                    next_month = (cursor.replace(day=28) + timedelta(days=4)).replace(day=1)
+                    chunk_start, chunk_end = max(first, cursor), min(last, next_month)
+                    try:
+                        source_files = (self._files(Path(source.prices), chunk_start, chunk_end,
+                                                    protected=trusted_partitioning)
+                                        + self._files(Path(source.funding), chunk_start - timedelta(days=2), chunk_end,
+                                                      protected=trusted_partitioning)) if source.funding else []
+                    except QuantError as exc:
+                        excluded.append({'symbol': source.symbol, 'partition': kind,
+                                         'slice': cursor.strftime('%Y-%m'), 'status': exc.status, 'reason': exc.reason})
+                        cursor = next_month
+                        continue
+                    key_data = {'symbol': source.symbol, 'partition': kind, 'start': chunk_start.isoformat(),
+                                'end': chunk_end.isoformat(), 'bar_seconds': bar_seconds, 'spread_bps': spread_bps,
+                                'spread_assumption': spread_assumption, 'source': asdict(source),
+                                'mark_policy': self.funding_mark_policy, 'tolerance_ms': self.funding_time_tolerance_ms,
+                                'source_files': {str(path): file_hash(path) for path in source_files}}
+                    key = digest(key_data)
+                    receipt_path = checkpoint_root / f'{key}.json'
+                    try:
+                        if receipt_path.exists():
+                            from src.engine.common import read_json
+                            receipt = read_json(receipt_path)
+                            check = dict(receipt); checksum = check.pop('receipt_hash', None)
+                            if checksum != digest(check) or receipt.get('key_data') != key_data:
+                                raise QuantError('INVALID_EVIDENCE', 'Corrupt ingestion checkpoint receipt')
+                            for item in receipt['entries']:
+                                output_path = self.output / item['path']
+                                if not output_path.is_file() or file_hash(output_path) != item['sha256']:
+                                    raise QuantError('INVALID_EVIDENCE', 'Checkpoint output is missing or has a bad sha256')
+                                parquet = pq.ParquetFile(output_path)
+                                if parquet.metadata.num_rows != item['rows']:
+                                    raise QuantError('INVALID_EVIDENCE', 'Checkpoint partition row count changed')
+                                bounds = parquet_bounds(output_path)
+                                if (bounds[0].isoformat(), bounds[1].isoformat()) != (item['start'], item['last']):
+                                    raise QuantError('INVALID_EVIDENCE', 'Checkpoint partition bounds changed')
+                                entries.append(item)
+                            cursor = next_month
+                            continue
+                        # A file without its durable receipt is an interrupted
+                        # publication. Never overwrite or guess that it is valid.
+                        prefix = f'{kind}/{symbol_partition_name(source.symbol)}/'
+                        # Only detect the exact deterministic slice names below.
+                        slice_name = f'{chunk_start:%Y-%m}'
+                        slice_folder = self.output / prefix
+                        if any((slice_folder / f'{table}-{slice_name}.parquet').exists()
+                               for table in ('panel', 'funding')):
+                            raise QuantError('INVALID_EVIDENCE', 'Unreceipted partial slice exists')
+                        if source.venue == 'STORE_METADATA_REQUIRED' and not allow_unverified_venue:
+                            raise QuantError('BLOCKED_SOURCE', 'Standalone store venue needs explicit qualification')
+                        frame, funding, provenance = self._build_symbol(source, chunk_start, chunk_end, bar_seconds,
+                                                                        spread_bps, spread_assumption,
+                                                                        trusted_partitioning=trusted_partitioning)
+                        new_entries = self.publish(frame, funding=funding, provenance=provenance, write_manifest=False,
+                                                   bar_seconds=bar_seconds, slice_name=slice_name)
+                        receipt = {'key_data': key_data, 'entries': new_entries,
+                                   'partition_stats': [{'path': x['path'], 'rows': x['rows'], 'start': x['start'],
+                                                        'last': x['last'], 'sha256': x['sha256']}
+                                                       for x in new_entries]}
+                        receipt['receipt_hash'] = digest(receipt)
+                        write_json(receipt_path, receipt, exclusive=True)
+                        entries.extend(new_entries)
+                    except QuantError as exc:
+                        if exc.status == 'INVALID_EVIDENCE':
+                            raise
+                        excluded.append({'symbol': source.symbol, 'partition': kind, 'slice': cursor.strftime('%Y-%m'),
+                                         'status': exc.status, 'reason': exc.reason})
+                    cursor = next_month
         if not entries:
             raise QuantError('BLOCKED_DATA', f'No matched source passed ingestion: {excluded[:5]}')
         manifest = self._manifest(entries, excluded, bar_seconds)
@@ -360,7 +456,7 @@ class PanelBuilder:
 
     def publish(self, panel: pl.DataFrame, *, funding: pl.DataFrame | None = None,
                 provenance: dict[str, Any], write_manifest: bool = True,
-                bar_seconds: int = 3600) -> list[dict[str, Any]]:
+                bar_seconds: int = 3600, slice_name: str | None = None) -> list[dict[str, Any]]:
         """Trusted ingestion only: physically separate files on both sides of cutoff.
 
         This operation may receive protected data; unlike DataVault.load, it is
@@ -375,11 +471,13 @@ class PanelBuilder:
             if part.is_empty():
                 continue
             for group in part.partition_by('symbol', maintain_order=True):
-                symbol = safe_name(group['symbol'][0])
-                folder = self.output / kind / symbol
+                symbol = group['symbol'][0]
+                folder = self.output / kind / symbol_partition_name(symbol)
                 folder.mkdir(parents=True, exist_ok=True)
-                path = folder / 'panel.parquet'
-                if path.exists():
+                suffix = f'-{slice_name}' if slice_name else ''
+                path = folder / f'panel{suffix}.parquet'
+                fp = folder / f'funding{suffix}.parquet'
+                if path.exists() or (funding is not None and fp.exists()):
                     raise QuantError('BLOCKED_DATA', 'Immutable panel already exists; use a new snapshot output directory')
                 group.write_parquet(path, statistics=True)
                 item = {'path': str(path.relative_to(self.output)), 'kind': kind, 'table': 'prices',
@@ -390,7 +488,6 @@ class PanelBuilder:
                 if funding is not None:
                     side = funding.filter(condition & (pl.col('symbol') == symbol))
                     if side.height:
-                        fp = folder / 'funding.parquet'
                         side.write_parquet(fp, statistics=True)
                         entries.append({'path': str(fp.relative_to(self.output)), 'kind': kind,
                                         'table': 'funding', 'symbol': symbol, 'rows': side.height,

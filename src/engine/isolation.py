@@ -41,7 +41,7 @@ def feature_function(spec):
 
 
 def isolated_features(panel: pl.DataFrame, feature_fn: Callable[[pl.DataFrame], pl.DataFrame],
-                      *, timeout: int = 120) -> pl.DataFrame:
+                      *, timeout: int = 600) -> pl.DataFrame:
     if shutil.which('bwrap') is None:
         raise QuantError('ISOLATION_UNAVAILABLE', 'Bubblewrap is required for an untrusted callback')
     source = Path(__file__).resolve().parents[1]
@@ -70,7 +70,7 @@ def isolated_features(panel: pl.DataFrame, feature_fn: Callable[[pl.DataFrame], 
         command += ['--dir', '/workspace', '--ro-bind', str(source), '/workspace/src',
                     '--ro-bind', str(input_dir), '/input', '--bind', str(output_dir), '/output',
                     '--setenv', 'PYTHONPATH', python_path, '--setenv', 'PYTHONDONTWRITEBYTECODE', '1',
-                    '--setenv', 'POLARS_MAX_THREADS', '2', '--setenv', 'OPENBLAS_NUM_THREADS', '1',
+                    '--setenv', 'POLARS_MAX_THREADS', '4', '--setenv', 'OPENBLAS_NUM_THREADS', '1',
                     '--setenv', 'HOME', '/tmp', '--setenv', 'XDG_CONFIG_HOME', '/tmp', '--setenv', 'MPLCONFIGDIR', '/tmp',
                     '--chdir', '/workspace', str(executable), '-B', '-m', 'src.engine.isolated_worker']
         try:

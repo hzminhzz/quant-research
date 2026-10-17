@@ -1,0 +1,424 @@
+# Frozen exploratory specification. No strategy trials are authorized yet.
+session_id: altcoin-momentum-202610
+market: crypto
+thesis: >-
+  On a point-in-time universe of crypto-native Binance USDⓈ-M USDT
+  perpetual altcoins, a weekly long-only cross-sectional momentum strategy
+  will outperform zero-return cash after modeled trading costs and before
+  perpetual funding.
+mechanism: >-
+  Gradual information diffusion and slow repositioning may extend relative
+  price moves after news. This effect should be strongest in liquid contracts.
+  Reversal pressure and trading costs may erase the effect.
+falsifier: >-
+  Do not support the thesis if the single sequentially selected model fails
+  the one-sided 95% stationary-bootstrap lower-bound test for mean daily net
+  excess return versus zero-return cash at 2x costs, or if the development
+  stability rule fails. A failed historical holdout is a failed confirmation,
+  not proof of negative expected return.
+instruments:
+  - symbol: PIT_BINANCE_USDT_CRYPTO_ALTCOIN_PERP_UNIVERSE
+    kind: perpetual
+    venue: Binance USDⓈ-M Futures
+    identity: >-
+      A date-specific universe of crypto-native USDT-margined linear perpetuals.
+      Exclude BTC, ETH, fiat/cash-pegged assets, and index, equity, commodity,
+      FX, or other non-crypto-underlying products. Freeze the dated product
+      classification registry before any performance calculation.
+data:
+  - id: binance-usdm-1h-ohlcv
+    path: data/research_sessions/altcoin_momentum/prices.parquet
+    role: prices
+evidence:
+  - data/research_sessions/altcoin_momentum/inventory_audit.json
+evaluation:
+  time_zone: UTC
+  signal_frequency: daily_from_1h_ohlcv
+  primary_rebalance:
+    cadence_days: 7
+    anchor: Monday 00:00 UTC
+    signal_bar: last fully completed UTC daily bar
+    execution: next available 1h bar open
+    same_bar_close_execution: prohibited
+  sensitivities:
+    rebalance_phase:
+      1d: every UTC day at 00:00, anchored at the primary Monday 00:00 phase
+      3d: every 72 hours from Monday 00:00 UTC; no phase search
+      7d: Monday 00:00 UTC
+    momentum_lookback_days: [14, 28]
+    composite_momentum: mean_cross_sectional_rank_of_7d_14d_28d_returns
+    selection_percentiles: [10, 30]
+    liquidity_universe_sizes: [30, 50]
+    alternative_trend_filter: EMA20_above_EMA50
+    high_nearness_conditions: [0.90, 0.95, 0.98, new_52w_high]
+    alternative_volatility_weighting: inverse_ATR_percent
+    breakout_filter_atr_thresholds: [0.0, 0.5, 1.0]
+    breakout_persistence_consecutive_daily_closes: [1, 2, 3]
+    breakout_sensitivity_prerequisite: M4_is_accepted
+    bootstrap_expected_block_lengths_days: [7, 14, 28]
+    rule: >-
+      Each sensitivity is a separate, counted development trial. Do not combine
+      parameter axes. Sensitivities cannot change the canonical primary sequence
+      or select the final model. Record a declared sensitivity as not run when
+      its prerequisite is not met.
+  universe:
+    venue: Binance USDⓈ-M Futures
+    quote_asset: USDT
+    product: linear_perpetual
+    asset_definition: >-
+      Crypto-native base asset other than BTC or ETH. Exclude assets designed
+      to track fiat, cash, or a cash-equivalent peg, even if they depeg. Exclude
+      index, equity, commodity, FX, and other non-crypto-underlying products.
+    membership: point_in_time
+    liquidity_rank:
+      field: quote_volume
+      lookback_days: 30
+      unit: USDT
+      selection: up_to_top_100_at_each_rebalance
+      data_cutoff: last fully available hour at decision time
+    minimum_history_days: 365
+    history_quality: >-
+      Require 365 consecutive complete UTC daily bars before the decision.
+      Each daily bar must contain all 24 hourly rows and quote-volume values.
+      Do not synthesize or backfill missing bars. Exclude an asset only for
+      availability or classification information known by that decision time.
+  development_start: '2023-04-03T00:00:00Z'
+  development_end: '2025-10-01T00:00:00Z'
+  development_end_inclusive_date: '2025-09-30'
+  development_start_basis: >-
+    User-authorized available-data MVP. Start at 2023-04-03 because the source
+    audit found complete 365-day price history for the preliminary candidates.
+    Include only candidates with body-backed USDT-M launch evidence available
+    in the retained archive; apply only body-backed effective delist events.
+    Do not infer a missing event from absence. Permit fewer than 100 names,
+    rank the available set, and do not backfill. This is a price-only diagnostic
+    with incomplete asset classification and lifecycle evidence, not a complete
+    point-in-time-universe result. Run development only; do not open the
+    historical holdout or claim thesis confirmation.
+  development_folds:
+    method: four_non_overlapping_chronological_equal_calendar_folds
+    intervals_half_open_utc:
+      - ['2023-04-03T00:00:00Z', '2023-11-17T00:00:00Z']
+      - ['2023-11-17T00:00:00Z', '2024-07-02T00:00:00Z']
+      - ['2024-07-02T00:00:00Z', '2025-02-15T00:00:00Z']
+      - ['2025-02-15T00:00:00Z', '2025-10-01T00:00:00Z']
+    positive_net_excess_return_required_at_2x_costs: 3_of_4
+    promotion_increment_rule: >-
+      Compare paired daily net returns of each candidate with its currently
+      accepted parent on identical dates. Promote only when the full-development
+      mean daily incremental net return is positive at 2x costs and incremental
+      net return is positive in at least 3 of 4 chronological folds.
+    terminal_development_boundary: >-
+      Do not rebalance on 2025-09-29. The last scheduled development entry is
+      2025-09-22; close it at the next weekly open on 2025-09-29 and hold zero-
+      return cash through the development boundary. No development position or
+      return may use any price after 2025-09-30 23:59:59 UTC.
+  cpcv:
+    scope: development_only
+    n_groups: 6
+    n_test_groups: 2
+    label_horizon_days: 7
+    purge_days: 7
+    embargo_days: 2
+    group_intervals_half_open_utc:
+      - ['2023-04-03T00:00:00Z', '2023-09-02T00:00:00Z']
+      - ['2023-09-02T00:00:00Z', '2024-02-01T00:00:00Z']
+      - ['2024-02-01T00:00:00Z', '2024-07-02T00:00:00Z']
+      - ['2024-07-02T00:00:00Z', '2024-12-01T00:00:00Z']
+      - ['2024-12-01T00:00:00Z', '2025-05-02T00:00:00Z']
+      - ['2025-05-02T00:00:00Z', '2025-10-01T00:00:00Z']
+    combinations: 15
+    report: full_distribution_not_best_path
+    use_for_selection: false
+  primary_sequence:
+    score_rank_method: cross_sectional_percentile_rank_higher_is_better
+    rank_ties: average_rank_then_symbol_ascending_for_selection
+    universe_before_alpha_ranking: point_in_time_available_top_100_by_trailing_30d_quote_volume
+    selection: top_20_percent_of_ranked_universe
+    target_gross_exposure: 1.0
+    max_single_position_weight: 0.10
+    cash_daily_return: 0.0
+    sequence:
+      M0:
+        name: baseline_momentum
+        feature:
+          name: ret_7d
+          formula: close_t / close_t_minus_7_utc_daily_bars - 1
+          input: fully_completed_utc_daily_closes
+        score: rank(ret_7d)
+        direction: long_only
+        weighting: equal_weight
+        purpose: establish_baseline_edge_vs_zero_return_cash
+      M1:
+        name: add_52w_high_nearness
+        inherits: currently_accepted_parent
+        feature:
+          name: near_52w
+          formula: close_t / max(high over latest 365 completed daily bars through t)
+          current_completed_bar_in_window: true
+        score: mean(rank_ret_7d, rank_near_52w)
+      M2:
+        name: add_ema20_filter
+        inherits: currently_accepted_parent
+        operation_order:
+          - rank_and_select_top_20_percent_using_inherited_score
+          - retain_only_close_above_EMA20
+        rejected_allocation: zero_return_cash
+        backfill_lower_ranked_names: false
+        trend_filter:
+          indicator: src.features.compute_ema
+          parameters: {span: 20, price_col: close, group_col: symbol, adjust: false}
+          input: fully_completed_utc_daily_closes
+      M3:
+        name: inverse_ewma_volatility_weights
+        inherits: currently_accepted_parent
+        volatility:
+          input: close_to_close_daily_returns
+          half_life_daily_bars: 20
+          use_only_completed_bars: true
+          estimator: sqrt_ewm_mean_of_squared_close_to_close_daily_returns
+          decay_alpha: 1_minus_2_to_the_power_minus_1_over_20
+          adjust: false
+        raw_weight: inverse_ewma_volatility
+        target_gross: gross_exposure_inherited_from_currently_accepted_parent_after_filters
+        individual_cap: 0.10
+        after_cap: >-
+          Clip each normalized inverse-volatility weight at 10%. Do not
+          redistribute clipped excess. Unused weight remains zero-return cash.
+      M4:
+        name: add_normalized_20d_high_distance
+        inherits: currently_accepted_parent
+        feature:
+          name: high20_distance_atr
+          formula: (close_t - prior_20d_high_t) / ATR14_t
+          prior_20d_high_t: max(high[t-20], ..., high[t-1])
+          atr14:
+            implementation: src.features.compute_atr
+            period: 14
+            smoothing: Wilder_EWMA_alpha_1_over_14_adjust_false
+            group_by: symbol
+            input: UTC_daily_high_low_close_sorted_by_symbol_and_timestamp
+            uses_current_completed_bar: true
+            no_lookahead: true
+          current_bar_in_prior_high: false
+          construction: cross_sectional_percentile_rank
+          universe: current_point_in_time_top_100_eligible_universe
+          direction: higher_is_better
+        score: mean(each_individual_rank_component_in_parent, rank_high20_distance_atr)
+        threshold_in_primary: false
+        diagnostics:
+          - weekly_forward_rank_IC
+          - HAC_IC_t_statistic_with_7_day_lag
+          - five_quantile_forward_return_monotonicity
+          - rank_correlation_with_ret_7d
+          - rank_correlation_with_near_52w
+          - rank_correlation_with_current_parent_composite
+        redundancy_flag: absolute_rank_correlation_above_0.70
+        diagnostics_role: additional_evidence_not_standalone_promotion_gate
+    omitted_primary_steps:
+      - M5_funding_crowding_filter
+      - M6_breakout_confirmation
+    promotion:
+      start: M0
+      order: [M0, M1, M2, M3, M4]
+      rule: >-
+        Test each feature against the currently accepted parent. Promote only
+        under promotion_increment_rule. If it fails, reject it and retain the
+        parent; test the next feature family on that accepted parent. The final
+        holdout receives exactly one model. Never select the highest-Sharpe
+        member of M0-M4.
+  final_historical_holdout:
+    start: '2025-10-01T00:00:00Z'
+    end_inclusive_date: '2026-10-02'
+    end_exclusive: '2026-10-03T00:00:00Z'
+    use: one_time_confirmation_of_single_frozen_model
+    open_count: 1
+    require_model_frozen_before_open: true
+    first_scheduled_rebalance: '2025-10-06T00:00:00Z'
+    initial_cash_until_first_scheduled_rebalance: true
+    terminal_liquidation: >-
+      Liquidate at the next available 1h open after the last holdout bar, charge
+      the declared per-side cost, and include no post-holdout price return.
+    current_source_coverage: >-
+      The source manifest currently ends at 2026-08-31. Do not open the holdout
+      until 2026-09-01 through 2026-10-02 coverage and the terminal fill are
+      archived and verified. The coverage audit did not inspect strategy
+      outcomes.
+    acceptance:
+      statistic: mean_daily_net_excess_return
+      formula: mean(strategy_net_daily_return - 0.0)
+      cost_multiplier: 2
+      bootstrap: stationary_block_bootstrap
+      block_length_estimator: Politis_White_optimal_stationary_block_length
+      estimator_data: development_daily_net_excess_returns_of_selected_model_at_2x_costs
+      estimator_timing: estimate_after_development_selection_freeze_before_holdout_open
+      minimum_expected_block_length_days: 7
+      freeze_estimated_block_length_before_holdout: true
+      confidence_level: 0.95
+      confidence_bound: one_sided_lower_bound_above_zero
+      resamples: 10000
+      annualization_factor_days: 365
+      annualized_mean_formula: mean_daily_net_excess_return_times_365
+      robustness_block_lengths_days: [7, 14, 28]
+      rule: >-
+        The 5th percentile of the bootstrap mean-return distribution must be
+        greater than zero. Do not choose a block length by its resulting
+        confidence interval.
+      failure_interpretation: >-
+        Report “prospective/historical holdout confirmation failed.” Do not say
+        that the strategy has proven negative expected return.
+  future_prospective_validation:
+    start: '2027-01-01T00:00:00Z'
+    status: not_available_yet
+    purpose: live_or_paper_forward_validation_only
+  reporting:
+    for_each_primary_candidate:
+      compare_with: currently_accepted_parent
+      metrics:
+        - delta_sharpe
+        - delta_cagr
+        - delta_max_drawdown
+        - delta_turnover
+        - delta_calmar
+        - delta_average_trade
+        - delta_costs
+        - number_of_positions
+        - performance_by_year
+    selection_corrections:
+      count_all_actual_trials: true
+      report_DSR_when_reproducible: true
+      report_PBO_when_methodologically_applicable: true
+      use_complete_search_history: true
+      PBO_from_6_group_2_test_CPCV: false
+      no_selection_from_CPCV_best_path: true
+    no_deployment_decision: true
+  trial_accounting:
+    record_every_primary_candidate: true
+    record_every_rejected_feature: true
+    record_every_sensitivity: true
+    record_abandoned_variant_if_evaluated: true
+    include_failed_and_not_run_trials: true
+    cost_multipliers_per_evaluated_candidate: [1, 2, 3]
+    cost_sensitivity_outputs_counted: true
+    no_combined_grid_search: true
+baseline: >-
+  Compare the long-only portfolio with zero-return cash. At each eligible
+  rebalance, rank the available eligible crypto-native altcoins by prior
+  30-day USDT quote volume, retain up to the top 100, and select the top 20%
+  by accepted score. M0 weights selected names equally. Filters do not
+  backfill; unused allocations remain cash. This MVP permits fewer than 100
+  names when inputs are missing and records the smaller universe. Net
+  portfolio returns include 5 bps per-side trading friction and exclude
+  perpetual funding because historical settlement mark prices are unavailable.
+  M3 changes only selected-name weights and does not lever the portfolio. M1
+  and M4 add equally weighted cross-sectional ranks to the accepted score.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  all_in_trading_cost_bps_per_side: 5
+  schema_field_semantics: >-
+    The required commission_bps and slippage_bps split fields are non-operative
+    compatibility fields. Do not read their zeros as free trading and do not
+    add them to the operative all-in rate.
+  composition: fees_spread_slippage
+  application: actual_traded_notional_from_absolute_portfolio_weight_changes
+  per_side: true
+  cost_multipliers: [1, 2, 3]
+  bps_per_side_by_multiplier: {1: 5, 2: 10, 3: 15}
+  funding_included: false
+  funding_treatment: >-
+    Not included in MVP returns. The session has no historical settlement
+    mark-price input aligned with funding events. Do not treat omitted funding
+    as zero; report results as before-funding and acquire/validate the event
+    rate and settlement mark-price series before funding-adjusted evaluation.
+  cash_return: 0.0
+  size_scaled_impact_model: false
+  capacity_claim_allowed: false
+trials:
+  - id: m0-baseline
+    kind: preregistered
+    description: M0 weekly 7-day momentum long-only portfolio versus zero-return cash.
+  - id: m1-near-52w
+    kind: preregistered
+    description: Sequential M1 52-week-high nearness rank promotion test.
+  - id: m2-ema20
+    kind: preregistered
+    description: Sequential M2 EMA20 post-selection filter promotion test.
+  - id: m3-ewma20-inverse-vol
+    kind: preregistered
+    description: Sequential M3 inverse-EWMA-volatility weight promotion test.
+  - id: m4-high20-distance-atr
+    kind: preregistered
+    description: Sequential M4 continuous ATR-normalized prior-20-day-high-distance rank promotion test.
+  - id: sensitivity-ret-14d
+    kind: preregistered
+    description: Development-only 14-day momentum lookback sensitivity.
+  - id: sensitivity-ret-28d
+    kind: preregistered
+    description: Development-only 28-day momentum lookback sensitivity.
+  - id: sensitivity-composite-ret
+    kind: preregistered
+    description: Development-only mean-rank 7/14/28-day momentum sensitivity.
+  - id: sensitivity-rebalance-1d
+    kind: preregistered
+    description: Development-only daily rebalance sensitivity anchored Monday 00:00 UTC.
+  - id: sensitivity-rebalance-3d
+    kind: preregistered
+    description: Development-only 72-hour rebalance sensitivity anchored Monday 00:00 UTC.
+  - id: sensitivity-selection-top-10
+    kind: preregistered
+    description: Development-only top-10-percent selection sensitivity.
+  - id: sensitivity-selection-top-30
+    kind: preregistered
+    description: Development-only top-30-percent selection sensitivity.
+  - id: sensitivity-universe-top-30
+    kind: preregistered
+    description: Development-only top-30 trailing-volume universe sensitivity.
+  - id: sensitivity-universe-top-50
+    kind: preregistered
+    description: Development-only top-50 trailing-volume universe sensitivity.
+  - id: sensitivity-trend-ema20-ema50
+    kind: preregistered
+    description: Development-only EMA20-above-EMA50 trend sensitivity.
+  - id: sensitivity-near52-090
+    kind: preregistered
+    description: Development-only near-52-week-high threshold sensitivity at 0.90.
+  - id: sensitivity-near52-095
+    kind: preregistered
+    description: Development-only near-52-week-high threshold sensitivity at 0.95.
+  - id: sensitivity-near52-098
+    kind: preregistered
+    description: Development-only near-52-week-high threshold sensitivity at 0.98.
+  - id: sensitivity-new-52w-high
+    kind: preregistered
+    description: Development-only new-52-week-high condition sensitivity.
+  - id: sensitivity-inverse-atr-percent
+    kind: preregistered
+    description: Development-only inverse-ATR-percent weighting sensitivity.
+  - id: sensitivity-breakout-0atr
+    kind: preregistered
+    description: Separate development sensitivity; M4 high20 distance above 0 ATR, only if M4 is accepted.
+  - id: sensitivity-breakout-05atr
+    kind: preregistered
+    description: Separate development sensitivity; M4 high20 distance above 0.5 ATR, only if M4 is accepted.
+  - id: sensitivity-breakout-1atr
+    kind: preregistered
+    description: Separate development sensitivity; M4 high20 distance above 1 ATR, only if M4 is accepted.
+  - id: sensitivity-breakout-persistence-1d
+    kind: preregistered
+    description: Separate development sensitivity; one consecutive close above the prior 20-day high, only if M4 is accepted.
+  - id: sensitivity-breakout-persistence-2d
+    kind: preregistered
+    description: Separate development sensitivity; two consecutive closes above the prior 20-day high, only if M4 is accepted.
+  - id: sensitivity-breakout-persistence-3d
+    kind: preregistered
+    description: Separate development sensitivity; three consecutive closes above the prior 20-day high, only if M4 is accepted.
+  - id: bootstrap-block-7d
+    kind: preregistered
+    description: Holdout bootstrap-length robustness check; fixed 7-day expected blocks, not a selection trial.
+  - id: bootstrap-block-14d
+    kind: preregistered
+    description: Holdout bootstrap-length robustness check; fixed 14-day expected blocks, not a selection trial.
+  - id: bootstrap-block-28d
+    kind: preregistered
+    description: Holdout bootstrap-length robustness check; fixed 28-day expected blocks, not a selection trial.

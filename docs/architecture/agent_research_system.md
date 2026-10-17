@@ -1,5 +1,13 @@
 # Agent-first research control plane
 
+> **Historical design snapshot.** The milestone/runtime statements below describe
+> an earlier implementation checkpoint, not today's backlog. New research uses
+> [dual-mode operations](dual_mode_20261015/operations.md); later capability
+> evidence is recorded in [Phase 2 verification](dual_mode_20261015/phase2_cutover_verification.md).
+> For the target research/portfolio/deployment/audit system, use
+> [the operating architecture](trading_system/README.md). Existing authority and
+> frozen-history principles below remain applicable unless explicitly superseded.
+
 **Status:** Approved M1/M2 architecture, 2026-10-12.
 **Runtime status:** M1 read-only CLI, M2 strict feature contracts/gateway, and
 the M3-B runtime feature-proof gate are implemented. M3-A and M4-M7 remain

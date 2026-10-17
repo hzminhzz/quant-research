@@ -23,7 +23,12 @@ def allocate(features: pl.DataFrame, spec: CandidateSpec, *, signal: str | None 
                                         & pl.col(signal).is_not_null() & pl.col(signal).is_finite()
                                         & pl.col(spec.allocation.atr_feature).is_not_null()
                                         & pl.col(spec.allocation.atr_feature).is_finite()
-                                        & (pl.col(spec.allocation.atr_feature) > 0))
+                                        & (pl.col(spec.allocation.atr_feature) > 0)
+                                        # A 3x ATR long protective stop must remain
+                                        # above zero. Exclude unrepresentable assets
+                                        # before ranking, using decision-time prices.
+                                        & (spec.allocation.atr_multiple *
+                                           pl.col(spec.allocation.atr_feature) < pl.col('close')))
         ordered = eligible.sort([signal, 'symbol'], descending=[True, False])
         weights: dict[str, float] = {}
         if ordered.height >= max(spec.universe.minimum_assets,

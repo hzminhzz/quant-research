@@ -1,5 +1,14 @@
 # Quantitative Research Suite & Dual-Mode Research Runtime
 
+## System orientation
+
+Start with [the operating architecture](docs/architecture/trading_system/README.md)
+for the target research -> portfolio -> governed deployment -> audit system.
+Use [the rollout plan](docs/plans/agent_trading_system_rollout.md) to select
+implementation work. Proposed tools and controls are labeled as targets; they
+are not runtime or trading-approval claims. Current capabilities remain scoped
+to inspected code and dated verification evidence.
+
 ## New research: shared Workbench and autonomous factory
 
 New cross-sectional studies use `src.workbench.Workbench` or
@@ -21,15 +30,13 @@ every strategy has been migrated to the new target-weight interface.
 
 [![Tests](https://github.com/hzminhzz/quant-research/actions/workflows/ci.yml/badge.svg)](https://github.com/hzminhzz/quant-research/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)]()
-[![Backtest](https://img.shields.io/badge/backtest-10%20Years%20(2017--2026)-blue)]()
 [![Framework](https://img.shields.io/badge/framework-Marimo%20Reactive%20DAG-orange)]()
 [![Methodology](https://img.shields.io/badge/standards-ML4T%204--Stage%20Pipeline-purple)]()
-[![Prop Firm](https://img.shields.io/badge/FTMO-79.1%25%20Funded%20Pass%20Rate-success)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
 A systematic quantitative research, factor diagnostics, and event-driven backtesting platform. Built on pure-Python **Marimo reactive notebooks**, **Polars** vectorization, and the **Machine Learning for Algorithmic Trading (ML4T)** methodology inspired by Stefan Jansen and Marcos López de Prado.
 
-For new crypto or index studies and historical reviews, follow the [**thesis-driven research session guide**](docs/research_sessions.md): define an economic hypothesis, mechanism, falsifier, and exact tradable instruments, then use point-in-time data, chronological evaluation, market-specific costs, and complete trial accounting. New sessions are `EXPLORATORY`; the session CLI records hashed evidence and does not execute models or backtests. The guide includes YAML declaration examples and concrete commands.
+For historical v1 session work, use the [**thesis-driven research session guide**](docs/research_sessions.md). Its session CLI records hashed evidence rather than executing models or backtests. New supported research uses the shared route above. All routes retain explicit economic hypotheses, point-in-time data, chronological evaluation, market-specific costs and complete known trial accounting. The legacy descriptions below preserve historical work; they do not establish current qualification or direct new agents to archived runners.
 
 The BTC/ETH relative-value runner reads canonical hourly Binance perpetual OHLCV and funding from `ml4t-data/.data/store/`; it does not acquire or repair data. Missing hourly bars, missing funding cadence evidence, or settlement timestamps inconsistent with the stored per-event `funding_interval_hours` stop the run. Funding checks include one 8-hour context window on each side of the evaluation range; each result records the price manifest, consumed partition hashes, and frame fingerprints.
 
