@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261010-LEGACY-V1-PERMIT-OVERRIDE",
+  "knowledge_class": "implementation_recipe",
+  "trigger": "Feature permit manual override for v1 research contracts",
+  "error_codes": [
+    "PERMIT_OVERRIDE_DEPRECATED"
+  ],
+  "affected_scope": [
+    "src/research_control/run_permit.py"
+  ],
+  "protocol": "legacy_v1",
+  "version_bounds": {},
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "commit df516b8 (run_log/research_sessions)",
+  "root_cause": "Manual permit overrides caused schema drift across unversioned session folders.",
+  "verified_remedy": "Superseded by dual-mode factory and ActionContractV1 cryptographic permits.",
+  "regression_test": "tests/test_run_permit.py",
+  "limitations": [
+    "Obsolete; do not apply to dual-mode candidates."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": "LSN-20261015-DUAL-MODE-RUNTIME",
+  "invalidated_by": [],
+  "created_at": "2026-10-10T10:00:00Z",
+  "digest": "9b257c5ed21f802e844a1e45d90a56cc0d628b827bd65eade9b5c01621231ba5"
+}

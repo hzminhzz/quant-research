@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261016-TZ-AWARE-UTC-NORMALIZATION",
+  "knowledge_class": "implementation_recipe",
+  "trigger": "False comparison failure or silent drift when comparing ISO timestamps with explicit timezone offsets",
+  "error_codes": [
+    "FILL_TIME_MISMATCH",
+    "TRADE_CLOCK_MISMATCH",
+    "EQUITY_CLOCK_MISMATCH"
+  ],
+  "affected_scope": [
+    "src/research_control/ats2_raw_audit.py"
+  ],
+  "protocol": "native_bracket_v1",
+  "version_bounds": {},
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "commit 16d56a3e144a36f9870425c2759e66ff4d84f9cf (src/research_control/ats2_raw_audit.py)",
+  "root_cause": "Using .replace(tzinfo=None) strips the timezone offset without converting to UTC, causing false mismatches between local and UTC representations.",
+  "verified_remedy": "Normalize timezone-aware timestamps using .astimezone(UTC).replace(tzinfo=None) before comparison.",
+  "regression_test": "tests/test_ats2.py::test_prepare_start_observe_verify_native_development_action",
+  "limitations": [
+    "Requires valid ISO-8601 strings or datetime objects; invalid strings raise ValueError."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": null,
+  "invalidated_by": [],
+  "created_at": "2026-10-16T05:00:00Z",
+  "digest": "8a5dd46f4696fde4251db29db4ad234a2e34eba3ee55695aa1b3c5b1317b23e7"
+}

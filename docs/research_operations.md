@@ -1,5 +1,14 @@
 # Agent-first ML4T research: human operating guide
 
+> **Routing note (2026-10-15).** This guide preserves the research-mode and
+> historical v1 operating contract. New supported studies use
+> [dual-mode operations](architecture/dual_mode_20261015/operations.md), not an
+> archived runner. Protocol-specific evidence requirements still apply; a
+> cross-sectional factory does not qualify every event strategy. For cross-system
+> architecture and the next implementation plan, start with
+> [the operating architecture](architecture/trading_system/README.md).
+> Current code and dated verification determine actual capability and permission.
+
 **Audience:** Research owner using ChatGPT Web as the principal research engineer, with optional coding-agent support.
 **Scope:** `/home/quant/dev/quant/quant-research`. Use this guide for new strategy ideas, research continuation, and promotion decisions.
 

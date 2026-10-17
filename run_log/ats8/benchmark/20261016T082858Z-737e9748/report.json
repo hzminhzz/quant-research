@@ -1,0 +1,1425 @@
+{
+  "schema_version": "ats8-benchmark-v1",
+  "benchmark": "ats8_continuous_learning_and_operating_benchmark_v1",
+  "generated_at": "2026-10-16T08:28:56.785515+00:00",
+  "head": "368d8f00beb5e51ac1f0e5215a339c770198c1ee",
+  "fixture_count": 14,
+  "samples_per_fixture": 3,
+  "all_critical_correct": true,
+  "effects": [
+    "SYNTHETIC_TEMP_FILES_ONLY"
+  ],
+  "cases": [
+    {
+      "fixture": "clean_rejection",
+      "expected_action": "review_research",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Clean falsified Stage 2 attempt; scientific rejection",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5275,
+        "median_latency_ms": 13.95
+      },
+      "managed_no_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5275,
+        "median_latency_ms": 15.09
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 3053,
+        "median_latency_ms": 5.36
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 3.3837,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 13.0113,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5275
+          },
+          "managed_with_learning": {
+            "latency_ms": 13.5636,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5275,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.3618,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 21.2938,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5275
+          },
+          "managed_with_learning": {
+            "latency_ms": 22.5639,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5275,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.9623,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 15.0872,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5275
+          },
+          "managed_with_learning": {
+            "latency_ms": 13.9528,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5275,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "large_casefile",
+      "expected_action": "review_research",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Large casefile (>350KB); streaming SHA verification succeeds",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5278,
+        "median_latency_ms": 21.58
+      },
+      "managed_no_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5278,
+        "median_latency_ms": 17.69
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 353055,
+        "median_latency_ms": 5.64
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 12.5218,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 353055
+          },
+          "managed_no_learning": {
+            "latency_ms": 18.4281,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5278
+          },
+          "managed_with_learning": {
+            "latency_ms": 21.5817,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5278,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.643,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 353055
+          },
+          "managed_no_learning": {
+            "latency_ms": 17.6947,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5278
+          },
+          "managed_with_learning": {
+            "latency_ms": 23.158,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5278,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 4.5078,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 353055
+          },
+          "managed_no_learning": {
+            "latency_ms": 10.2533,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5278
+          },
+          "managed_with_learning": {
+            "latency_ms": 12.4331,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5278,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "conflicting_old_docs",
+      "expected_action": "review_research",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Stale README claim contradicted by trial ledger",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5275,
+        "median_latency_ms": 25.56
+      },
+      "managed_no_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5275,
+        "median_latency_ms": 15.66
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 3053,
+        "median_latency_ms": 9.51
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 2.9949,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 10.8868,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5275
+          },
+          "managed_with_learning": {
+            "latency_ms": 29.4892,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5275,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 12.5396,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 26.1983,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5275
+          },
+          "managed_with_learning": {
+            "latency_ms": 22.1463,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5275,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 9.5087,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 15.6619,
+            "action": "review_research",
+            "tool_calls": 2,
+            "context_bytes": 5275
+          },
+          "managed_with_learning": {
+            "latency_ms": 25.5586,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 5275,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "missing_artifact",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Casefile deleted; fails closed",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 2942,
+        "median_latency_ms": 9.95
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 2942,
+        "median_latency_ms": 11.64
+      },
+      "baseline_raw": {
+        "tool_calls": 4,
+        "context_bytes": 1740,
+        "median_latency_ms": 3.96
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 3.9647,
+            "action": "inspect_evidence",
+            "tool_calls": 4,
+            "context_bytes": 1740
+          },
+          "managed_no_learning": {
+            "latency_ms": 9.9727,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2942
+          },
+          "managed_with_learning": {
+            "latency_ms": 9.9451,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2942,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 3.0237,
+            "action": "inspect_evidence",
+            "tool_calls": 4,
+            "context_bytes": 1740
+          },
+          "managed_no_learning": {
+            "latency_ms": 11.6381,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2942
+          },
+          "managed_with_learning": {
+            "latency_ms": 11.4755,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2942,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 4.7401,
+            "action": "inspect_evidence",
+            "tool_calls": 4,
+            "context_bytes": 1740
+          },
+          "managed_no_learning": {
+            "latency_ms": 11.9817,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2942
+          },
+          "managed_with_learning": {
+            "latency_ms": 9.5329,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2942,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "corrupt_artifact",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Casefile hash mismatch; fails closed without false remedy",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 2955,
+        "median_latency_ms": 14.03
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 2955,
+        "median_latency_ms": 13.07
+      },
+      "baseline_raw": {
+        "tool_calls": 5,
+        "context_bytes": 2035,
+        "median_latency_ms": 5.4
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 4.4334,
+            "action": "inspect_evidence",
+            "tool_calls": 5,
+            "context_bytes": 2035
+          },
+          "managed_no_learning": {
+            "latency_ms": 13.0711,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2955
+          },
+          "managed_with_learning": {
+            "latency_ms": 20.9219,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2955,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 9.8766,
+            "action": "inspect_evidence",
+            "tool_calls": 5,
+            "context_bytes": 2035
+          },
+          "managed_no_learning": {
+            "latency_ms": 19.2585,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2955
+          },
+          "managed_with_learning": {
+            "latency_ms": 14.0294,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2955,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.3976,
+            "action": "inspect_evidence",
+            "tool_calls": 5,
+            "context_bytes": 2035
+          },
+          "managed_no_learning": {
+            "latency_ms": 11.1629,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2955
+          },
+          "managed_with_learning": {
+            "latency_ms": 13.855,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2955,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "contradictory_stage",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Stage 2 receipt claims PASS contradicting ledger",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 2957,
+        "median_latency_ms": 11.11
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 2957,
+        "median_latency_ms": 12.47
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 3040,
+        "median_latency_ms": 3.92
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 3.9224,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 3040
+          },
+          "managed_no_learning": {
+            "latency_ms": 12.4726,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2957
+          },
+          "managed_with_learning": {
+            "latency_ms": 11.1129,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2957,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 7.9808,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 3040
+          },
+          "managed_no_learning": {
+            "latency_ms": 16.291,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2957
+          },
+          "managed_with_learning": {
+            "latency_ms": 14.6629,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2957,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 3.6536,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 3040
+          },
+          "managed_no_learning": {
+            "latency_ms": 7.8991,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2957
+          },
+          "managed_with_learning": {
+            "latency_ms": 9.8329,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2957,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "stale_source",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Artifact mtime in future compared to ledger",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 2965,
+        "median_latency_ms": 14.09
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 2965,
+        "median_latency_ms": 14.15
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 3053,
+        "median_latency_ms": 3.89
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 3.8923,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 18.0539,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2965
+          },
+          "managed_with_learning": {
+            "latency_ms": 20.9661,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2965,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 6.364,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 14.1514,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2965
+          },
+          "managed_with_learning": {
+            "latency_ms": 14.0892,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2965,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 2.8942,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 10.1359,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2965
+          },
+          "managed_with_learning": {
+            "latency_ms": 10.688,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2965,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "stale_worker_checkpoint",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Tmux pane active but checkpoint >1800s stale",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 3,
+        "context_bytes": 5806,
+        "median_latency_ms": 20.82
+      },
+      "managed_no_learning": {
+        "tool_calls": 2,
+        "context_bytes": 5806,
+        "median_latency_ms": 14.5
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 3440,
+        "median_latency_ms": 5.55
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 7.6173,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 3440
+          },
+          "managed_no_learning": {
+            "latency_ms": 14.1106,
+            "action": "inspect_evidence",
+            "tool_calls": 2,
+            "context_bytes": 5806
+          },
+          "managed_with_learning": {
+            "latency_ms": 20.8171,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 3,
+            "context_bytes": 5806,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 3.771,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 3440
+          },
+          "managed_no_learning": {
+            "latency_ms": 14.5022,
+            "action": "inspect_evidence",
+            "tool_calls": 2,
+            "context_bytes": 5806
+          },
+          "managed_with_learning": {
+            "latency_ms": 14.1794,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 3,
+            "context_bytes": 5806,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.5541,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 3440
+          },
+          "managed_no_learning": {
+            "latency_ms": 16.5892,
+            "action": "inspect_evidence",
+            "tool_calls": 2,
+            "context_bytes": 5806
+          },
+          "managed_with_learning": {
+            "latency_ms": 25.7162,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 3,
+            "context_bytes": 5806,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "worker_done_without_completion",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Worker pane active but no completion in ledger",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 3,
+        "context_bytes": 3645,
+        "median_latency_ms": 17.87
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 3645,
+        "median_latency_ms": 19.29
+      },
+      "baseline_raw": {
+        "tool_calls": 4,
+        "context_bytes": 1281,
+        "median_latency_ms": 8.12
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 13.5207,
+            "action": "inspect_evidence",
+            "tool_calls": 4,
+            "context_bytes": 1281
+          },
+          "managed_no_learning": {
+            "latency_ms": 12.4007,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 3645
+          },
+          "managed_with_learning": {
+            "latency_ms": 20.1079,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 3,
+            "context_bytes": 3645,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 8.1165,
+            "action": "inspect_evidence",
+            "tool_calls": 4,
+            "context_bytes": 1281
+          },
+          "managed_no_learning": {
+            "latency_ms": 19.6087,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 3645
+          },
+          "managed_with_learning": {
+            "latency_ms": 10.9463,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 3,
+            "context_bytes": 3645,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 7.3638,
+            "action": "inspect_evidence",
+            "tool_calls": 4,
+            "context_bytes": 1281
+          },
+          "managed_no_learning": {
+            "latency_ms": 19.2857,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 3645
+          },
+          "managed_with_learning": {
+            "latency_ms": 17.8693,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 3,
+            "context_bytes": 3645,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "holdout_redaction",
+      "expected_action": "review_research",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Holdout outcome evaluated; protected read redacted",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 1,
+        "context_bytes": 3078,
+        "median_latency_ms": 18.06
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 3078,
+        "median_latency_ms": 12.17
+      },
+      "baseline_raw": {
+        "tool_calls": 4,
+        "context_bytes": 1485,
+        "median_latency_ms": 4.92
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 7.9179,
+            "action": "review_research",
+            "tool_calls": 4,
+            "context_bytes": 1485
+          },
+          "managed_no_learning": {
+            "latency_ms": 12.1736,
+            "action": "review_research",
+            "tool_calls": 1,
+            "context_bytes": 3078
+          },
+          "managed_with_learning": {
+            "latency_ms": 21.527,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 1,
+            "context_bytes": 3078,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 4.9186,
+            "action": "review_research",
+            "tool_calls": 4,
+            "context_bytes": 1485
+          },
+          "managed_no_learning": {
+            "latency_ms": 10.4532,
+            "action": "review_research",
+            "tool_calls": 1,
+            "context_bytes": 3078
+          },
+          "managed_with_learning": {
+            "latency_ms": 18.0639,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 1,
+            "context_bytes": 3078,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 3.4345,
+            "action": "review_research",
+            "tool_calls": 4,
+            "context_bytes": 1485
+          },
+          "managed_no_learning": {
+            "latency_ms": 23.4128,
+            "action": "review_research",
+            "tool_calls": 1,
+            "context_bytes": 3078
+          },
+          "managed_with_learning": {
+            "latency_ms": 17.957,
+            "action": "review_research",
+            "correct": true,
+            "tool_calls": 1,
+            "context_bytes": 3078,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "superseded_lesson_rejection",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "INVALID_SPEC error with superseded lesson; obsolete advice filtered out",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 4,
+        "context_bytes": 4505,
+        "median_latency_ms": 16.48
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 4505,
+        "median_latency_ms": 16.59
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 4100,
+        "median_latency_ms": 5.25
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 4.1799,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4100
+          },
+          "managed_no_learning": {
+            "latency_ms": 16.5858,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4505
+          },
+          "managed_with_learning": {
+            "latency_ms": 15.5271,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 4505,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.248,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4100
+          },
+          "managed_no_learning": {
+            "latency_ms": 18.1203,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4505
+          },
+          "managed_with_learning": {
+            "latency_ms": 22.8994,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 4505,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 7.664,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4100
+          },
+          "managed_no_learning": {
+            "latency_ms": 13.9908,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4505
+          },
+          "managed_with_learning": {
+            "latency_ms": 16.4813,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 4505,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "version_incompatible_rejection",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": "LSN-20261016-CGROUP-V2-MEMORY-CONTAINMENT",
+      "description": "ISOLATION_UNAVAILABLE with future lesson; incompatible advice filtered out",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 4,
+        "context_bytes": 5567,
+        "median_latency_ms": 13.65
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 4521,
+        "median_latency_ms": 13.34
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 4107,
+        "median_latency_ms": 5.37
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 6.6596,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4107
+          },
+          "managed_no_learning": {
+            "latency_ms": 13.3409,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4521
+          },
+          "managed_with_learning": {
+            "latency_ms": 13.6528,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 5567,
+            "matched_remedy": "LSN-20261016-CGROUP-V2-MEMORY-CONTAINMENT",
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 4.0554,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4107
+          },
+          "managed_no_learning": {
+            "latency_ms": 12.462,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4521
+          },
+          "managed_with_learning": {
+            "latency_ms": 12.268,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 5567,
+            "matched_remedy": "LSN-20261016-CGROUP-V2-MEMORY-CONTAINMENT",
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.371,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4107
+          },
+          "managed_no_learning": {
+            "latency_ms": 17.6449,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4521
+          },
+          "managed_with_learning": {
+            "latency_ms": 18.2085,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 5567,
+            "matched_remedy": "LSN-20261016-CGROUP-V2-MEMORY-CONTAINMENT",
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "changed_input_data_or_code",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Code hash in stage receipt drifts from ledger registration (STAGE_IDENTITY_CONFLICT)",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 2,
+        "context_bytes": 2957,
+        "median_latency_ms": 15.64
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 2957,
+        "median_latency_ms": 11.37
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 3053,
+        "median_latency_ms": 5.78
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 6.604,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 11.3703,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2957
+          },
+          "managed_with_learning": {
+            "latency_ms": 13.0955,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2957,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 3.6182,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 11.1476,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2957
+          },
+          "managed_with_learning": {
+            "latency_ms": 15.6408,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2957,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 5.7788,
+            "action": "review_research",
+            "tool_calls": 9,
+            "context_bytes": 3053
+          },
+          "managed_no_learning": {
+            "latency_ms": 13.2186,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 2957
+          },
+          "managed_with_learning": {
+            "latency_ms": 16.2516,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 2,
+            "context_bytes": 2957,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "incorrect_protocol_selection",
+      "expected_action": "inspect_evidence",
+      "expected_remedy": null,
+      "observed_remedy": null,
+      "description": "Event strategy protocol mismatch rejected; no fabricated IC approval",
+      "all_samples_correct": true,
+      "managed_with_learning": {
+        "tool_calls": 4,
+        "context_bytes": 4507,
+        "median_latency_ms": 12.3
+      },
+      "managed_no_learning": {
+        "tool_calls": 1,
+        "context_bytes": 4507,
+        "median_latency_ms": 11.15
+      },
+      "baseline_raw": {
+        "tool_calls": 9,
+        "context_bytes": 4102,
+        "median_latency_ms": 5.17
+      },
+      "traces": [
+        {
+          "baseline_raw": {
+            "latency_ms": 5.1703,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4102
+          },
+          "managed_no_learning": {
+            "latency_ms": 11.1508,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4507
+          },
+          "managed_with_learning": {
+            "latency_ms": 12.3027,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 4507,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 4.5507,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4102
+          },
+          "managed_no_learning": {
+            "latency_ms": 10.8997,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4507
+          },
+          "managed_with_learning": {
+            "latency_ms": 10.4636,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 4507,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        },
+        {
+          "baseline_raw": {
+            "latency_ms": 8.4872,
+            "action": "inspect_evidence",
+            "tool_calls": 9,
+            "context_bytes": 4102
+          },
+          "managed_no_learning": {
+            "latency_ms": 14.914,
+            "action": "inspect_evidence",
+            "tool_calls": 1,
+            "context_bytes": 4507
+          },
+          "managed_with_learning": {
+            "latency_ms": 15.6974,
+            "action": "inspect_evidence",
+            "correct": true,
+            "tool_calls": 4,
+            "context_bytes": 4507,
+            "matched_remedy": null,
+            "stale_advice_used": false,
+            "incompatible_advice_used": false,
+            "unsupported_claims": 0
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "managed_learning_median_tool_calls": 35,
+    "managed_no_learning_median_tool_calls": 18,
+    "baseline_raw_median_tool_calls": 107,
+    "managed_learning_median_bytes": 57712,
+    "managed_no_learning_median_bytes": 56666,
+    "baseline_raw_median_bytes": 390597,
+    "remedy_success_rate": "13/14",
+    "stale_advice_rejection_rate": "100.0% (9/9)"
+  },
+  "persisted_report_path": "run_log/ats8/benchmark/20261016T082858Z-737e9748/report.json"
+}

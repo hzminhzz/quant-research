@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261017-SAFEBROKER-UNRECORDED-EXCEPTION-LIFECYCLE",
+  "knowledge_class": "implementation_recipe",
+  "trigger": "Unrecorded order intent outcome or INTENT_TERMINAL_REASON_NOT_RECORDED in SafeBroker journal when submission fails",
+  "error_codes": [
+    "INTENT_TERMINAL_REASON_NOT_RECORDED",
+    "SUBMISSION_FAILED_UNJOURNALED"
+  ],
+  "affected_scope": [
+    "src/research_control/ats3_audit_broker.py",
+    "connectors/bybit/journal.py",
+    "src/bybit_paper_runtime.py"
+  ],
+  "protocol": "bybit_paper_v1",
+  "version_bounds": {},
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "commit 37bd51b7 (src/research_control/ats3_audit_broker.py)",
+  "root_cause": "SafeBroker._submit_order_unlocked logs order_submission_intent, but when the broker throws an exception or validation fails, it resets state and re-raises without recording a terminal event in its journal.",
+  "verified_remedy": "Wrap SafeBroker with AuditSafeBroker integration hook: record order_submission_rejected for pre-send rejections, order_accepted_unpersisted for post-acceptance persistence errors, and order_submission_unknown for in-flight transport exceptions.",
+  "regression_test": "tests/test_ats3_audit_broker.py",
+  "limitations": [
+    "Transport exceptions default to unknown because venue may have executed order; requires reconciliation to prove terminal state."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": null,
+  "invalidated_by": [],
+  "created_at": "2026-10-17T03:30:00Z",
+  "digest": "e63ecbde3e9c30278a878825901c30e3857745c5cd466529384c344825f91f5b"
+}

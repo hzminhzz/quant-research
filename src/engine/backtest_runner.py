@@ -12,6 +12,7 @@ import math
 from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import polars as pl
 from ml4t.backtest import BacktestConfig, DataFeed, Engine, OrderType, Strategy
@@ -25,6 +26,8 @@ from ml4t.backtest.config import (
 from ml4t.backtest.execution.fill_executor import FillExecutor
 from ml4t.backtest.types import ExecutionMode, OrderSide
 from ml4t.diagnostic.metrics import sharpe_ratio
+
+from src.portfolio.barrier_controller import barrier_leverage_scale
 
 from .common import QuantError
 from .spec_parser import CandidateSpec
@@ -59,8 +62,32 @@ class TargetStrategy(Strategy):
         self.timing: list[dict[str, Any]] = []
         self.protection_updates: list[dict[str, Any]] = []
         self.opening_phase = False
+        self.barrier_day = None
+        self.barrier_midnight_balance = None
+        self.last_closed_balance = None
+        self.last_closed_at = None
 
     def on_data(self, timestamp, data, context, broker):
+        if self.spec.barrier_overlay_enabled:
+            # A bar opens at `timestamp` and its close only becomes available
+            # at timestamp + bar_seconds. Prague midnight must be anchored to
+            # the PREVIOUS completed bar, not the current bar's future close.
+            # Native cash can include short-sale proceeds; approximate balance
+            # as marked equity less the native position ledger's unrealized PnL.
+            local = timestamp.astimezone(ZoneInfo('Europe/Prague'))
+            if self.barrier_day != local.date():
+                self.barrier_day = local.date()
+                self.barrier_midnight_balance = (
+                    self.last_closed_balance if self.last_closed_at == timestamp else None)
+            held = broker.get_positions()
+            if all(symbol in data for symbol in held):
+                floating = sum(position.unrealized_pnl(float(data[symbol]['close']))
+                               for symbol, position in held.items())
+                self.last_closed_balance = broker.equity() - floating
+                self.last_closed_at = timestamp + timedelta(seconds=self.spec.bar_seconds)
+            else:
+                self.last_closed_balance = None
+                self.last_closed_at = None
         if timestamp == self.final_bar:
             return
         liquidation = timestamp == self.final_signal
@@ -69,6 +96,13 @@ class TargetStrategy(Strategy):
             return
         positions = broker.get_positions()
         equity = broker.equity()
+        leverage_scale = 1.0
+        if self.spec.barrier_overlay_enabled:
+            marks_available = (self.barrier_midnight_balance is not None
+                               and all(name in data for name in set(positions) | set(schedule)))
+            leverage_scale = barrier_leverage_scale(
+                equity=equity, initial_balance=self.spec.initial_cash,
+                midnight_balance=self.barrier_midnight_balance, marks_available=marks_available)
         names = sorted(set(schedule) | set(positions))
         for symbol in names:
             bar = data.get(symbol)
@@ -81,7 +115,7 @@ class TargetStrategy(Strategy):
             if self.stopped_at.get(symbol) == timestamp:
                 weight = 0.0
             price = float(bar.get('close', bar.get('price')))
-            desired = weight * equity / price
+            desired = weight * leverage_scale * equity / price
             current = broker.get_position(symbol)
             current_quantity = current.quantity if current is not None else 0.0
             delta = desired - current_quantity

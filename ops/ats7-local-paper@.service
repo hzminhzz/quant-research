@@ -1,0 +1,24 @@
+[Unit]
+Description=ATS7 synthetic local paper (%i)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/home/quant/.devspace/worktrees/quant-research-96f2e9fc
+Environment=PYTHONPATH=/home/quant/.devspace/worktrees/quant-research-96f2e9fc:/home/quant/.devspace/worktrees/trading-connector-d0370150
+ExecStart=/home/quant/.devspace/worktrees/quant-research-25440f7a/.venv/bin/python -m scripts.ats7_sandbox --run-root /home/quant/.local/state/quant-research/ats7-local/%i
+ExecStop=/home/quant/.devspace/worktrees/quant-research-25440f7a/.venv/bin/python -m scripts.ats7_paper stop --run-root /home/quant/.local/state/quant-research/ats7-local/%i --reason "systemd requested orderly stop" --systemd-stop
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+NoNewPrivileges=yes
+UMask=0077
+MemoryMax=1G
+CPUQuota=50%
+TasksMax=128
+
+[Install]
+WantedBy=default.target

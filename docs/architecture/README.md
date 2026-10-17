@@ -1,77 +1,46 @@
-# Agent entrypoint — Quant research control plane
+# Architecture entrypoint
 
-**Read this first.** M1 read-only status and capability commands and the M2
-strict feature contract/gateway are implemented. Later rollout milestones are
-not implemented. Current repository state and installed APIs remain the
-authority.
+**Start here for orientation, not for an implied approval.** The current new-mode
+research route is the shared Workbench/factory. The end-to-end operating layer is
+a target design over existing authorities. Inspect code and dated evidence before
+claiming that a target capability is implemented.
 
-## The one-minute mental model
+## Choose the question
 
-```text
-Thesis -> Qualified Data -> Proven Features -> Native Execution
-       -> Independent Evidence -> Scoped Research Decision
-```
-
-A **Research Capsule** is a *view* linking the existing frozen session,
-canonical data catalog, feature and execution contracts, run evidence,
-and next safe action. It is not a new database.
-
-When resuming, answer **what is known, which sources are authoritative,
-what is running, what is blocked, and what small action resolves it**.
-Do not start a duplicate job or recreate an observed holdout.
-
-## Which file answers which question?
-
-| Question | Open |
+| Question | Authority or guide |
 | --- | --- |
-| Vocabulary: what does "pass", "trial", "holdout" mean? | [Domain glossary](../../CONTEXT.md) |
-| System boundaries and why they exist | [Architecture](agent_research_system.md) |
-| Exact feature/data/run evidence fields | [Contracts](research_contracts.md) |
-| What should a coding agent build next? | [Rollout plan](../plans/agent_research_system_rollout.md) |
-| Why not a new registry or raw custom indicators? | [ADRs](../adr/0001-research-capsule-authority.md) |
-| Existing working session CLI and freeze behavior | [Research sessions](../research_sessions.md) |
-| Existing agent operating rules | [AGENTS.md](../../AGENTS.md) |
+| How should the whole trading system operate for an agent? | [Decision-centered operating architecture](trading_system/README.md) |
+| What owns each fact and interface? | [Target system design](trading_system/design.md) and [domain glossary](../../CONTEXT.md) |
+| How do current supported research runs work? | [Dual-mode operations](dual_mode_20261015/operations.md), actual `scripts/quant.py` and `src.workbench.Workbench` |
+| What has actually been qualified? | [Initial verification](dual_mode_20261015/verification.md), [later Phase 2 evidence](dual_mode_20261015/phase2_cutover_verification.md), exact tested identities |
+| Which old strategies have moved? | [Migration map](dual_mode_20261015/migration.md) and [archive inventory](dual_mode_20261015/archive_inventory.md) |
+| Which new implementation unit is ready? | [End-to-end rollout](../plans/agent_trading_system_rollout.md) |
+| How are agent actions, state and recovery specified? | [Target action contracts](trading_system/agent_contracts.md) |
+| How do historical v1 sessions work? | [Research sessions](../research_sessions.md), [v1 contracts](research_contracts.md) and [v1 Casefile](agent_casefile_ux.md) |
+| Why choose this structure? | [ADR 0005](../adr/0005-decision-centered-trading-system.md) and existing ADRs |
 
-## Current commands that actually exist
+## Current versus historical interfaces
 
-```bash
-uv run python scripts/research.py doctor
-uv run python scripts/research.py doctor --session vwap_pullback_adx_nq_20261012
-uv run python scripts/research.py status --session vwap_pullback_adx_nq_20261012
-uv run python scripts/research.py discover --feature adx
-uv run python scripts/research_session.py report --session <id> --root .
-uv run python scripts/research_session.py check --session <id> --root .
-```
+New supported research uses `scripts/quant.py` and `src.workbench.Workbench`.
+Read current help/schema, applicable AGENTS and the exact candidate first. The
+factory is presently qualified for the scopes in its evidence reports, not every
+legacy event/CFD/stop-entry strategy. `quant.py run` may progress to protected
+access after its internal gates; verify scope and authorization before running.
 
-The second command checks declared input data identities; it does
-**not** prove feature math, backtest execution, or approval.
-Always inspect HEAD, dirty state, applicable skill, source metadata,
-active tmux jobs and artifact identities before further work.
+The older `scripts/research.py` and `scripts/research_session.py` support
+historical v1 evidence and compatibility. A `resume` inspection is not proof that
+an interrupted job can resume safely. Historical milestone documents below keep
+their original design/status snapshots; they are not the current feature backlog.
 
-`doctor`, `status`, and `discover` are read-only. A `status` result is a
-derived view of the existing frozen v1 session. It does not scan data or
-rehash artifacts; use the legacy `report` command for those checks.
-`doctor --session` also checks the declared source identity and the last input
-bar against the declared session exit. `discover` queries the installed
-Engineer registry. No managed run or resume command exists yet.
+Before acting, identify the exact checkout and dirty state, source/spec/clock,
+active worker, current evidence, permission and smallest useful next step.
+Keep native ML4T execution, complete known trial/exposure accounting and independent
+checks. Research completion does not grant broker or deployment authority.
 
-## Nonnegotiable boundaries
+## Historical design references
 
-- Use `src.catalog` authority and the **requested** exact product.
-  Do not silently substitute a different feed.
-- Use the installed Engineer registry for supported indicators.
-  Verify input field, lookback and time semantics; unsupported
-  features need a reviewed extension.
-- Treat an index/CFD or continuous proxy as a **proxy**.
-  Do not claim real contract-level futures execution.
-- Use native ML4T backtest and independent fill/ledger checks.
-- Keep trials and failed attempts. No holdout reset or silent
-  repricing of old results.
-- A successful mechanical test, profitable simulation, or
-  completed record **never grants live-trading approval**.
-- Preserve unrelated dirty work. No automatic reset/clean/stash.
-
-**Current implementation authority:** `src/research_session.py`,
-`src/catalog.py`, `src/research_control/`, current code, and current artifacts.
-M1/M2 and the M3-B runtime feature-proof gate are additive. Existing session
-v1 files and historical evidence remain unchanged.
+[Agent research design](agent_research_system.md),
+[original rollout](../plans/agent_research_system_rollout.md), and
+[rebuild checkpoint](rebuild_20261015.md) explain earlier decisions. Their dated
+implementation statements can be superseded by newer code and verification.
+Preserve frozen artifacts rather than rewriting them to match today's narrative.

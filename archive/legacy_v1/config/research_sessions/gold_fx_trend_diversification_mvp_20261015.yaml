@@ -1,0 +1,113 @@
+# Development-only Gold / major-FX macro-trend diversification research.
+# The session is NOT an approval for backtests, optimization, promotion, or live trading.
+session_id: gold_fx_trend_diversification_mvp_20261015
+market: fx
+
+thesis: >-
+  A fixed 60-completed-session own-price trend sign on Gold, EUR/USD and
+  AUD/USD may produce positive net monthly-position returns from slow macro
+  repricing. Gold and major FX may add distinct daily return exposures to
+  the existing NQ/ES/BTC-heavy portfolio. Compare each instrument against
+  cash, then assess contribution only after individual native execution passes.
+mechanism: >-
+  Monetary-policy repricing, capital reallocation, hedging demand and
+  institutional adjustment can persist for months. The effect should break
+  during choppy range-bound periods, abrupt macro reversals, regime transitions
+  and when CFD spread, slippage and financing exceed price persistence.
+falsifier: >-
+  This is a fixed, no-search MVP. REJECT any candidate with no positive
+  development net daily-equity Sharpe after declared costs or with a major
+  clock/data/ledger error. Consider a VALIDATE recommendation only if at
+  least two of three stand-alone candidates earn positive net expectancy
+  across more than one subperiod, the matched common-window equal-risk mix
+  beats cash net of costs, and downside/turnover statistics remain credible.
+  An inconclusive period or missing broker swap data is not a pass.
+  Do not select candidates by observed historical maximum Sharpe.
+
+instruments:
+  - symbol: XAUUSD
+    kind: cfd
+    venue: Dukascopy historical quote feed, not a named executable account
+    identity: Gold quoted as USD per troy ounce, canonical forex_minute_XAUUSD; broker CFD terms unverified
+    session: broker quote session, daily close approx 17:00 America/New_York
+    timezone: America/New_York
+  - symbol: EURUSD
+    kind: cfd
+    venue: Dukascopy historical quote feed, not a named executable account
+    identity: EUR/USD quote denominated USD, canonical forex_minute_EURUSD; broker CFD terms unverified
+    session: FX 24/5, daily close approx 17:00 America/New_York
+    timezone: America/New_York
+  - symbol: AUDUSD
+    kind: cfd
+    venue: Dukascopy historical quote feed, not a named executable account
+    identity: AUD/USD quote denominated USD, canonical forex_minute_AUDUSD; broker CFD terms unverified
+    session: FX 24/5, daily close approx 17:00 America/New_York
+    timezone: America/New_York
+
+data:
+  - id: xauusd_daily_2013_2024
+    symbol: XAUUSD
+    role: prices
+    path: data/processed/gold_fx_trend_diversification_20261015/XAUUSD_NY17_daily_2013_2024.parquet
+  - id: eurusd_daily_2013_2024
+    symbol: EURUSD
+    role: prices
+    path: data/processed/gold_fx_trend_diversification_20261015/EURUSD_NY17_daily_2013_2024.parquet
+  - id: audusd_daily_2013_2024
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/gold_fx_trend_diversification_20261015/AUDUSD_NY17_daily_2013_2024.parquet
+
+evaluation:
+  mode: MVP Research
+  cadence: completed NY 17:00 CFD quote-session bars
+  warmup_start: '2013-01-01T00:00:00Z'
+  development_start: '2015-01-01T00:00:00Z'
+  development_end: '2022-01-01T00:00:00Z'
+  holdout_start: '2025-01-01T00:00:00Z'
+  selection_2022_2024: >-
+    This previously observed historical period is not treated as unseen.
+    XAUUSD 2022-2024 has incomplete coverage (224/185/155 eligible sessions).
+    Do not use 2022-2024 for the primary three-market comparable verdict.
+  protected_allocation_2025_2026: LOCKED
+  feature: native ml4t.engineer ROC(period=60) on same-symbol completed daily close
+  decision: after each first completed session in a calendar month
+  execution: native ml4t.backtest.Engine NEXT_BAR; next observed tradable open
+  risk: each stand-alone instrument at 10 percent equity notional, no optimization
+  exit: switch or close on next monthly signal, no intraday stop inferred
+  guard: >-
+    If a source session gap exceeds the certified limit, do not treat missing
+    bars as tradable. Do not forward-fill prices for orders. Incomplete daily
+    samples remain visible in the data qualification artifact.
+  portfolio_stage: >-
+    Only after individual cash/equity/fill audit, compare synchronized daily
+    marked-equity with unchanged incumbents at matched volatility. Do not
+    open reserved 2025-2026 evaluation to do this.
+
+baseline: >-
+  Cash/no-trade for each instrument. Descriptive buy-and-hold is secondary.
+  A matched 2015-2021 comparison is required; no per-year equity reset.
+costs:
+  commission_bps: 2.0
+  slippage_bps: 3.0
+  assumptions: >-
+    Exploratory placeholder per side, not broker-certified. Bid/ask spread
+    quotes, CFD overnight financing, rollover and swaps are unavailable in
+    this research snapshot and must remain explicit blockers to deployment.
+  stress_rule: 2x combined friction only after preregistered baseline has
+    passed process-validity checks; count as an additional documented trial.
+
+trials:
+  - id: xau_tsmom_60_mvp
+    kind: preregistered
+    description: Native-ROC60 sign, monthly long/short XAUUSD CFD proxy, 2015-2021.
+  - id: eur_tsmom_60_mvp
+    kind: preregistered
+    description: Native-ROC60 sign, monthly long/short EURUSD CFD proxy, 2015-2021.
+  - id: aud_tsmom_60_mvp
+    kind: preregistered
+    description: Native-ROC60 sign, monthly long/short AUDUSD CFD proxy, 2015-2021.
+
+evidence:
+  - data/processed/gold_fx_trend_diversification_20261015/data_qualification.json
+  - docs/audit/milkman_2015_2024_cfd_dev_extension_v1.md

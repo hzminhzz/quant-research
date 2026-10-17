@@ -64,7 +64,19 @@ def positive_fixture(tmp_path):
     return CandidateSpec.model_validate(spec)
 
 
-def test_all_four_stages_real_native_path_and_consumed_claim(tmp_path):
+def test_stage4_claim_with_explicit_synthetic_dsr_stub(tmp_path, monkeypatch):
+    # Stage 4 exercises the real native broker, receipt verification and one-shot
+    # claim. Its DSR is a declared synthetic stub, NOT a historical promotion.
+    # The separate negative test below asserts that genuine single-trial
+    # selection evidence cannot unlock a protected evaluation.
+    from src.oracle import stage3_falsifier
+
+    def synthetic_selection_dsr(candidate, others, periods_per_year, *, historical_trial_count=0):
+        return {'status': 'COMPUTED', 'probability': 1.0,
+                'has_adequate_sample': True, 'scope': 'test-stub-only',
+                'n_trials_aligned': 10, 'n_trials_raw': 10, 'n_trials_effective': 10.0}
+
+    monkeypatch.setattr(stage3_falsifier, 'scoped_dsr', synthetic_selection_dsr)
     spec = positive_fixture(tmp_path)
     log = tmp_path / 'logs'
     result = ResearchFunnel(run_log=log, isolate=False).run(spec)
@@ -84,6 +96,17 @@ def test_all_four_stages_real_native_path_and_consumed_claim(tmp_path):
     with pytest.raises(QuantError) as rejected:
         vault.unlock_holdout(spec.candidate_id, spec.spec_hash)
     assert rejected.value.status == 'HOLDOUT_DENIED'
+
+
+def test_native_single_trial_dsr_never_unlocks_holdout(tmp_path):
+    spec = positive_fixture(tmp_path)
+    log = tmp_path / 'logs'
+    result = ResearchFunnel(run_log=log, isolate=False).run(spec)
+    assert result['stages']['2']['status'] == 'PASS'
+    assert result['status'] == 'INCONCLUSIVE_STAGE_3'
+    assert result['stages']['3']['splits']['train']['dsr']['status'] == 'INCONCLUSIVE'
+    assert result['holdout_access'] is False
+    assert not (log / '_holdout_claims').exists()
 
 
 def test_stage2_falsification_cli_exits_zero_without_stage3(tmp_path):

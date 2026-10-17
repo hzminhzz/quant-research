@@ -1,5 +1,13 @@
 # Thesis-driven research sessions
 
+> **Historical v1 contract.** Frozen session behavior and research integrity rules
+> below remain authoritative for that history. Earlier milestone statements are
+> dated snapshots, not the current backlog. New supported research follows
+> [dual-mode operations](architecture/dual_mode_20261015/operations.md).
+> For system-level decisions and integration work, use
+> [the operating architecture](architecture/trading_system/README.md).
+> Neither a new view nor a new protocol rewrites old trial or holdout exposure.
+
 For the **human operating procedure**, mode selection and copy-ready research
 prompts, start with [Agent-first research operations](research_operations.md).
 That page defines MVP Research (default), Validation and Promotion as
@@ -215,9 +223,9 @@ files. Quote YAML timestamps to keep values JSON-compatible. Declare trial
 kinds as `preregistered`, `diagnostic`, or `historical_review`; only historical
 review declarations include an `artifact` path.
 
-Use [`crypto_example.yaml`](../config/research_sessions/crypto_example.yaml) or
-[`indices_example.yaml`](../config/research_sessions/indices_example.yaml) as a
-declaration example. Their `UNMAPPED_*` symbols, missing identity fields, missing
+For legacy session reproduction only, use [`crypto_example.yaml`](../archive/legacy_v1/config/research_sessions/crypto_example.yaml) or
+[`indices_example.yaml`](../archive/legacy_v1/config/research_sessions/indices_example.yaml) as a
+v1 declaration example. New agents must use `scripts/quant.py ingest` and `scripts/quant.py run`. Their `UNMAPPED_*` symbols, missing identity fields, missing
 data files, illustrative future dates, and zero cost placeholders are deliberate.
 They demonstrate initialization followed by a blocked audit, not executable
 strategy claims. The legacy-review trial links an existing `NOT_APPROVED` ORB
@@ -249,12 +257,12 @@ produce `BLOCKED` from `check` and a recorded `failed` diagnostic from
 JSON to stdout and does not save a separate report file.
 
 ```bash
-uv run python scripts/research_session.py init --spec config/research_sessions/crypto_example.yaml --root .
+uv run python scripts/research_session.py init --spec archive/legacy_v1/config/research_sessions/crypto_example.yaml --root .
 uv run python scripts/research_session.py check --session crypto-example --root .
 uv run python scripts/research_session.py diagnose --session crypto-example --trial development-summary --root .
 uv run python scripts/research_session.py report --session crypto-example --root .
 
-uv run python scripts/research_session.py init --spec config/research_sessions/indices_example.yaml --root .
+uv run python scripts/research_session.py init --spec archive/legacy_v1/config/research_sessions/indices_example.yaml --root .
 uv run python scripts/research_session.py check --session indices-example --root .
 uv run python scripts/research_session.py diagnose --session indices-example --trial development-summary --root .
 uv run python scripts/research_session.py report --session indices-example --root .

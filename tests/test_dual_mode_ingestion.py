@@ -65,11 +65,36 @@ def test_observed_only_policy_retains_missing_marks_instead_of_inventing(tmp_pat
     assert funding['mark_source'].unique().to_list() == ['missing']
 
 
+def test_non_ascii_venue_symbol_keeps_identity_under_portable_partition_path(tmp_path):
+    from src.data_vault.panel_builder import symbol_partition_name
+
+    symbol = '龙虾USDT_PERP'
+    store = tmp_path / 'raw'
+    price_dir = store / 'crypto_futures_ohlcv_1h_BINANCE_UM_PERP' / 'symbol=龙虾USDT' / 'year=2025/month=1'
+    funding_dir = store / 'crypto_futures_funding_龙虾USDT_PERP/year=2025/month=1'
+    price_dir.mkdir(parents=True)
+    funding_dir.mkdir(parents=True)
+    base = datetime(2025, 1, 1, tzinfo=UTC)
+    make_panel(hours=24, symbols=(symbol,), start=base).select(
+        'timestamp', 'symbol', 'open', 'high', 'low', 'close', 'volume'
+    ).write_parquet(price_dir / 'data.parquet')
+    pl.DataFrame([{'timestamp': base + timedelta(hours=h), 'symbol': symbol,
+                   'funding_rate': 0.0001, 'funding_interval_hours': 8, 'mark_price': 100.0}
+                  for h in range(0, 24, 8)]).write_parquet(funding_dir / 'data.parquet')
+    assert symbol_partition_name(symbol).startswith('unicode-')
+    output = tmp_path / 'vault'
+    manifest = PanelBuilder(store, output).build(start='2025-01-01', end='2025-01-02',
+                                                  spread_assumption='synthetic fixture')
+    assert {entry['symbol'] for entry in manifest['entries']} == {symbol}
+    assert all('unicode-' in entry['path'] for entry in manifest['entries'])
+    assert DataVault(output).load()['symbol'].unique().to_list() == [symbol]
+
+
 def test_missing_funding_source_is_not_zero_carry(tmp_path):
     store = tmp_path / 'raw'
     price = store / 'crypto_futures_ohlcv_1h_BINANCE_UM_PERP/symbol=BTCUSDT'
     price.mkdir(parents=True)
-    with pytest.raises(QuantError, match='Missing funding source'):
+    with pytest.raises(QuantError, match='No matched source passed ingestion'):
         PanelBuilder(store, tmp_path / 'vault').build(start='2025-01-01', end='2025-01-02', spread_assumption='fixture')
 
 

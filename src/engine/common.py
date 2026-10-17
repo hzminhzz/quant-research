@@ -133,7 +133,7 @@ def append_trial(root: Path, event: dict[str, Any]) -> dict[str, Any]:
 
 def runtime_identity() -> str:
     source = Path(__file__).resolve().parents[1]
-    paths = sorted(p for folder in ('engine', 'oracle', 'data_vault')
+    paths = sorted(p for folder in ('engine', 'oracle', 'data_vault', 'portfolio')
                    for p in (source / folder).glob('*.py'))
     if (source / 'workbench.py').exists():
         paths.append(source / 'workbench.py')

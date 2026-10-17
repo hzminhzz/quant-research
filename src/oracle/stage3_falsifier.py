@@ -18,7 +18,8 @@ from src.engine.signal_allocator import allocate
 from src.engine.spec_parser import CandidateSpec
 
 
-def scoped_dsr(candidate: pl.DataFrame, others: dict[str, pl.DataFrame], periods_per_year: int) -> dict[str, Any]:
+def scoped_dsr(candidate: pl.DataFrame, others: dict[str, pl.DataFrame], periods_per_year: int,
+               *, historical_trial_count: int = 0) -> dict[str, Any]:
     """All trial returns must align; a period split is not a second strategy."""
     if not others:
         return {'status': 'INCONCLUSIVE', 'reason': 'A single series is PSR, not multiple-trial DSR'}
@@ -31,24 +32,43 @@ def scoped_dsr(candidate: pl.DataFrame, others: dict[str, pl.DataFrame], periods
     matrix = np.column_stack(arrays)
     if not np.isfinite(matrix).all():
         return {'status': 'INCONCLUSIVE', 'reason': 'Nonfinite daily return evidence'}
+    aligned_trials = matrix.shape[1]
+    # Neither the current candidate nor its static-funding baseline counts as
+    # historical trial evidence. Prior returns are hash-verified by _cohort.
+    aligned_priors = len(others) - int('baseline' in others)
+    raw_trials = max(aligned_trials, historical_trial_count + 1)
+    if historical_trial_count < 10 or aligned_priors < 10:
+        reason = ('Fewer than 10 prior attempts in global (market_scope, horizon) ledger'
+                  if historical_trial_count < 10 else
+                  'Fewer than 10 distinct historical trials with return-aligned evidence')
+        return {'status': 'INCONCLUSIVE', 'reason': reason,
+                'n_trials_raw': raw_trials, 'n_trials_prior': historical_trial_count,
+                'n_trials_aligned': aligned_trials, 'n_trials_aligned_prior': aligned_priors,
+                'n_trials_effective': None}
     try:
         cohort = deflated_sharpe_ratio(matrix, frequency='daily', periods_per_year=periods_per_year,
                                        correlation_method='effective_rank', min_k_eff=2.)
         sharpe, skew, pearson_kurtosis, autocorrelation, n = compute_return_statistics(arrays[0])
         # The matrix API selects its own best Sharpe. Evaluate the declared candidate
-        # against that SAME native cohort correction, never report the baseline's DSR.
+        # instead. Trials without aligned return artifacts cannot justify a
+        # correlation discount: conservatively count them as independent.
+        penalized_trials = max(float(cohort.n_trials_effective), float(raw_trials))
         selected = deflated_sharpe_ratio_from_statistics(
-            observed_sharpe=sharpe, n_samples=n, n_trials=len(arrays),
+            observed_sharpe=sharpe, n_samples=n, n_trials=raw_trials,
             variance_trials=cohort.variance_trials, skewness=skew,
             excess_kurtosis=pearson_kurtosis - 3., autocorrelation=autocorrelation,
             frequency='daily', periods_per_year=periods_per_year,
-            effective_trials=cohort.n_trials_effective, min_k_eff=2.)
+            effective_trials=penalized_trials, min_k_eff=2.)
     except (ValueError, ZeroDivisionError, FloatingPointError, np.linalg.LinAlgError) as exc:
         return {'status': 'INCONCLUSIVE', 'reason': f'Native DSR cannot evaluate this cohort: {exc}'}
     if not math.isfinite(selected.probability):
         return {'status': 'INCONCLUSIVE', 'reason': 'Native DSR probability is not finite'}
     return {'status': 'COMPUTED', 'probability': float(selected.probability),
-            'n_trials_raw': len(arrays), 'n_trials_effective': float(cohort.n_trials_effective),
+            'n_trials_raw': raw_trials, 'n_trials_prior': historical_trial_count,
+            'n_trials_aligned': aligned_trials,
+            'n_trials_aligned_prior': aligned_priors,
+            'n_trials_effective': penalized_trials,
+            'n_trials_effective_aligned_only': float(cohort.n_trials_effective),
             'has_adequate_sample': bool(selected.has_adequate_sample),
             'scope': 'declared selection family and recorded aligned returns; not all historical research',
             'candidate_native_sharpe': float(sharpe)}
@@ -76,9 +96,11 @@ def benchmark_beta(prices: pl.DataFrame, daily: pl.DataFrame, symbol: str) -> di
 
 
 def evaluate_native_pair(runs: dict[str, NativeRun], prices: pl.DataFrame, spec: CandidateSpec,
-                         *, prior_cohort: dict[str, pl.DataFrame] | None = None) -> dict[str, Any]:
+                         *, prior_cohort: dict[str, pl.DataFrame] | None = None,
+                         historical_trial_count: int = 0) -> dict[str, Any]:
     candidate, baseline = runs['candidate'], runs['baseline']
-    dsr = scoped_dsr(candidate.daily, {'baseline': baseline.daily, **(prior_cohort or {})}, spec.periods_per_year)
+    dsr = scoped_dsr(candidate.daily, {'baseline': baseline.daily, **(prior_cohort or {})}, spec.periods_per_year,
+                     historical_trial_count=historical_trial_count)
     beta = benchmark_beta(prices, candidate.daily, spec.benchmark)
     limitations = []
     if candidate.daily.height < spec.gates.minimum_daily_observations:
@@ -108,7 +130,8 @@ def evaluate_native_pair(runs: dict[str, NativeRun], prices: pl.DataFrame, spec:
 
 
 def stage3(features: pl.DataFrame, spec: CandidateSpec, *, funding: pl.DataFrame,
-           prior_cohort: dict[str, dict[str, pl.DataFrame]] | None = None):
+           prior_cohort: dict[str, dict[str, pl.DataFrame]] | None = None,
+           historical_trial_count: int = 0):
     """Train and validation run separately with frozen rules and train-history features."""
     reports, outputs = {}, {}
     prior_cohort = prior_cohort or {}
@@ -130,7 +153,8 @@ def stage3(features: pl.DataFrame, spec: CandidateSpec, *, funding: pl.DataFrame
             if name not in splits:
                 return {'status': 'INCONCLUSIVE_STAGE_3', 'reason': f'Prior trial lacks {name}: {trial_id}'}, outputs
             prior[trial_id] = splits[name]
-        reports[name] = evaluate_native_pair(arms, panel, spec, prior_cohort=prior)
+        reports[name] = evaluate_native_pair(arms, panel, spec, prior_cohort=prior,
+                                             historical_trial_count=historical_trial_count)
     statuses = [report['status'] for report in reports.values()]
     status = ('FALSIFIED_STAGE_3' if 'FALSIFIED_STAGE_3' in statuses else
               'PASS' if all(s == 'PASS' for s in statuses) else 'INCONCLUSIVE_STAGE_3')
