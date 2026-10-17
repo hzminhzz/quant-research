@@ -1,0 +1,162 @@
+candidate_id: bta_nq_monday_bb10_atr5_breakout_v1
+selection_family_id: bta_nq_monday_bollinger_atr_breakout
+status: THESIS_READY_UNVERIFIED
+research_mode: MVP_RESEARCH_DESIGN_ONLY
+created_on: '2026-10-17'
+not_execution_approved: true
+not_a_frozen_session: true
+
+source_references:
+  - id: BTA_MONDAY_NQ_20260716_PRIMARY
+    role: original_author_report
+    publisher: Breakout Trading Academy
+    publication_date: '2026-07-16'
+    url: https://breakouttradingacademy.com/steal-this-monday-nasdaq-strategy-super-simple/
+  - id: BTA_BB_1800_20260708
+    role: distinct_parameter_selection_adverse_evidence
+    publisher: Breakout Trading Academy
+    publication_date: '2026-07-08'
+    url: https://breakouttradingacademy.com/i-tested-1800-bollinger-bands-strategies/
+  - id: ROBOT_WEALTH_2015_REJECTED
+    role: alternative_practitioner_review
+    author: Kris Longmore
+    url: https://robotwealth.com/exploring-mean-reversion-and-cointegration-with-zorro-and-r-part-1/
+  - id: CARVER_2015_REJECTED
+    role: alternative_practitioner_review
+    author: Rob Carver
+    url: https://qoppac.blogspot.com/2015/03/simulating-my-futures-system.html
+  - id: CME_NQ_PRODUCT
+    role: official_futures_product
+    publisher: CME Group
+    url: https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html
+  - id: CME_FUTURES_ROLL
+    role: official_contract_roll_explanation
+    publisher: CME Group
+    url: https://www.cmegroup.com/education/courses/introduction-to-futures/understanding-futures-expiration-contract-roll
+  - id: ATS_INBOX_GOVERNANCE
+    role: local_source_of_admission_rules
+    local_path: docs/research_inbox_operations.md
+
+economic_thesis:
+  question: Does a Monday stop-buy through a volatility-adjusted lower-Bollinger anchor predict positive post-trigger NQ price continuation beyond costs?
+  null: Conditional cost-adjusted filled-event performance does not beat an otherwise identical time-matched Monday long-NQ control.
+  scope: Descriptive entry and exit hypothesis only; historical performance is unverified.
+mechanism:
+  hypothesis: Monday repricing and buy-side liquidity demand could cause continuation once a band-plus-ATR price is crossed.
+  prospective_counterparty: Later liquidity-demanding buyers and short covering; no actual order-flow observation exists.
+  confounds:
+    - Positive Nasdaq index beta and intraday long drift.
+    - Monday subset chosen after inspecting weekday effects.
+    - Selection among many Bollinger and ATR parameter trials.
+    - Recent-regime concentration and non-generalization across indexes.
+instruments:
+  original:
+    venue: CME Globex
+    product: E-mini Nasdaq-100 quarterly futures contract
+    symbol: NQ
+    interval: 60-minute
+    trading_currency: USD
+  proposed:
+    product: SAME_NQ_FUTURES_ONLY
+    not_equivalent: QQQ, MNQ, cash index and cash-index CFD are not authorized source substitutions.
+    contract_multiplier: CME states USD 20 per index point and minimum tick 0.25 index point.
+data_requirements:
+  indispensable:
+    - Actual contract-month NQ 60-minute OHLC with historical session boundaries and explicit roll identities.
+    - Intrabar timestamped bid and ask quotes or authoritative order/trade events to determine stop eligibility, trigger and executable exit.
+    - Historical CME calendar, maintenance pause, early closes, US DST transitions, and contract expiry.
+    - Verified commissions, exchange fees, spread, stop-buy slippage, adverse gaps, and price-limit restrictions.
+  availability: No fill-grade NQ bid-ask or specific roll-feed provenance verified.
+  local_proxy_warning: Local AGENTS.md mentions price-only NQ 1-second data; this is not proof of executable futures prices.
+  protected_data: Do not read any sealed or protected partitions.
+feature_contracts:
+  source_parameters:
+    band: lower Bollinger Band, 10 bars, one standard deviation
+    volatility: ATR of 5 bars
+    buffer: plus 0.8 times ATR5
+  proposed_causal_math:
+    lower_band: Mean of the ten most recently completed hourly closes minus one standard deviation of those closes.
+    true_range: max(high-low, abs(high-previous_close), abs(low-previous_close)) using completed hourly bars.
+    atr_smoothing: UNKNOWN; SMA and Wilder smoothing are distinct and must be reconciled with author platform before freezing.
+    band_stdev: UNKNOWN whether population/sample deviation and platform offset.
+    trigger: lower_band_t + 0.8 * ATR5_t, with stop order placed only after bar t closes for possible fill in bar t+1.
+  parity_status: NOT_NATIVE_VERIFIED; candidate math cannot be called original platform code.
+strategy_rules:
+  ORIGINAL_AUTHOR_RULES:
+    direction: long-only as implied by a buy stop
+    entry_level: lower_Bollinger_10_1sigma plus 0.8 times ATR5
+    order: stop entry, activated only when hit in the following hour
+    filter: Monday only
+    entry_window: 00:00 to 23:00, timezone NOT published
+    exit: 23:00 on the same Monday, timezone NOT published
+    instrument: NQ futures, 60-minute bars
+    order_cancel_stop_and_sizing: No exact rules published for expiry/rearming, loss stop, profit target or risk allocation.
+  researcher_constraints:
+    - No assumed same-bar stop fill or favorable gap execution.
+    - No imported 1.8 ATR setting from a different July 8 strategy.
+    - No invented session timezone or missing exit data.
+signal_and_execution_clock:
+  publisher_timezone: UNKNOWN
+  author_hour_bar_anchor: UNKNOWN
+  eligible_order_sequence: After completed hourly bar t, submit stop for immediately following eligible bar only, pending source-code clarification.
+  exchange_calendar: CME_GLOBEX_DST_AWARE_SOURCE_REQUIRED
+  exit: Source 23:00 same day is unresolved until timezone and exchange break mapped.
+  stop_gap_rule: Entry executes at first lawful ask with adverse slippage, not assumed at trigger.
+  blocker: Source timezone, Globex day/date mapping, and 23:00 exit practicality require verification.
+sizing:
+  original: UNKNOWN original leverage, margin budget, contracts and risk stop.
+  LOCAL_ADAPTATION: Normalize later event economics to one NQ contract if separately qualified, not an executable order.
+  restrictions: Tick rounding, contract value, actual margin and maximum simultaneous exposure remain unaudited.
+cost_assumptions:
+  publisher: UNKNOWN historical fee, spread and slippage assumptions.
+  proposed_screen: Broker commissions plus exchange/clearing fees, entry ask, exit bid, adverse buy-stop gaps and slippage; justify inputs before any calculation.
+  financing: NQ futures basis and explicit roll accounting, not crypto funding, ETF costs or CFD swaps.
+  data_limitation: Historical 1-hour OHLC is not a fill-price or realized-cost record.
+baseline:
+  primary: Unconditional long NQ on Mondays with identical entry decision boundary, exit time, notional and cost model; compare net incremental filled-event economics using matched dates.
+  identification: The baseline distinguishes stop-trigger drift from ordinary Monday Nasdaq beta.
+development_evaluation:
+  source_evidence: Original author says 15 years hourly NQ, in-sample plus out-of-sample checks, proprietary 72 percent audit, near-100 percent parameter-neighbor robustness; unsuccessful other-index validation.
+  unavailable_details: Exact dates, trade count, loss years, max drawdown, Sharpe, PnL and historical fees were not published.
+  phase3_design: FILL_DEPENDENT_EVENT. Cross-sectional IC NOT_APPLICABLE; 1-hour high crossing cannot establish stop order fill or post-entry return.
+  phase3_prebacktest: Calendar, bar/ATR/Bollinger parity, causal order placement, timestamp and available bid-ask coverage verification without market returns.
+  later_smallest_native_probe: Require separate approval; one NQ contract stream, exact author clock, one genuine native stop-order lifecycle, development-only data and frozen control with no parameter tuning.
+  selection_bias: Author describes Monday selection after mapping weekdays; related article tested 1800 Bollinger configurations. Treat historical audit as selected evidence, not independent OOS.
+  holdout: SEALED, never inspected during this task.
+primary_falsifier:
+  future_test: The upper one-sided 95 percent confidence bound of the conservative-cost incremental mean per correctly filled event against time-matched control is at or below zero.
+  dependence: Cluster Monday events by week; do not treat hourly bars as independent returns.
+  failure_classification: Use INCONCLUSIVE for insufficient events or wide intervals; BLOCKED_DATA for unresolved source clock or lack of executable quotes.
+acceptance_and_stop_rules:
+  admission: A two-file research description is not an executable CandidateSpec and grants no permission for native strategy testing.
+  prerequisites:
+    - Verify the article timezone, complete bar convention and stop expiration from original platform code or author.
+    - Qualify actual NQ historical contract months, exchange calendar and fill-grade market data.
+    - Predeclare costs, fee/slip robustness assumptions, and chronological evaluation exposure.
+    - Inspect installed native ML4T order interface and independently test exact stop/fill/accounting parity.
+  stop: No return computation, Phase 3 economics, Phase 4 backtest, holdout access, order or deployment in this discovery task.
+parity_and_causality_tests:
+  - Independently compare Bollinger and ATR outputs on completed bars with native output and source conventions.
+  - Append future bars or alter future quotes and require preceding signals and orders unchanged.
+  - Assert no fill on the bar used to construct the signal; expire or cancel as source requires.
+  - Check DST, Globex weekend, holidays, missing bars, scheduled maintenance, quarterly futures rolls and exit eligibility.
+  - For a separately approved native probe verify adverse stop gaps, tick rounding, bid-ask cost accounting and matched baseline treatment.
+known_adaptations:
+  - Potential population standard deviation and completed-bar math are proposed interpretations, not verified author formulas.
+  - One-contract research normalization and conditional matched Monday control are locally proposed evaluation rules.
+  - Product identity remains NQ futures; no CFD, ETF, MNQ or perp adaptation is asserted.
+verified_facts:
+  - July 16 BTA primary text specifies Monday, NQ, 60-minute, BB lower 10/1sigma, plus 0.8 ATR5, next-bar buy stop and 23:00 exit.
+  - Primary BTA article itself reports 15 years, IS/OOS validation, 72 percent audit, near-100 percent space robustness and adverse cross-index findings; these are unverified SOURCE CLAIMS.
+  - July 8 BTA article tests a distinct 1.8 ATR choice, reporting 1800 screened strategy variants, and cannot corroborate the exact 0.8 ATR performance.
+  - CME official publication specifies the NQ futures product; source URL existence does not prove vendor historical fill data.
+assumptions:
+  - HYPOTHESIS that Monday order-flow continuation outlives aggressive stop fill costs.
+  - INFERENCE that post-filter historical score is materially exposed to many trials.
+  - UNKNOWN original session clock, ATR smoothing, band variance convention, source stops, sizing, trade count, costs, drawdowns and OOS years.
+unresolved_blockers:
+  - Exact published timezone, Monday session classification and 23:00 flat time.
+  - Source-specific ATR smoothing, Bollinger standard-deviation convention, stop rearming and cancellation.
+  - Tradable bid/ask NQ contract data, quarterly roll mapping, historical fees and gap/limit fill behavior.
+  - Installed native ML4T event-order parity and independently authorized development partition.
+  - Author's missing drawdown, trade ledger, fees and OOS subperiods; possible recent regime overfit.
