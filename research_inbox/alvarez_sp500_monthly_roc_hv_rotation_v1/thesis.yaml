@@ -1,0 +1,231 @@
+candidate_id: alvarez_sp500_monthly_roc_hv_rotation_v1
+selection_family_id: alvarez_sp500_monthly_roc_hv_rotation
+status: THESIS_READY_UNVERIFIED
+research_mode: MVP_RESEARCH_DESIGN_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: ALVAREZ_2021_ROC_HV_PRIMARY
+    role: original_tested_strategy_and_explicit_ranking_formula
+    author: Cesar Alvarez
+    publication_date: '2021-05-12'
+    title: Different ranking methods for a monthly S&P500 Stock Rotation Strategy
+    url: https://alvarezquanttrading.com/blog/different-ranking-methods-for-a-monthly-sp500-stock-rotation-strategy/
+  - id: ALVAREZ_2021_FOLLOWUP
+    role: author_postpublication_alternative_rankings_and_adverse_comparators
+    author: Cesar Alvarez
+    publication_date: '2021-06-16'
+    title: More ideas for ranking methods on a monthly S&P500 Stock Rotation Strategy
+    url: https://alvarezquanttrading.com/blog/more-ideas-for-ranking-methods-on-a-monthly-sp500-stock-rotation-strategy/
+  - id: ALVAREZ_2013_ROTATION
+    role: earlier_related_original_experiment_and_drawdown_warning_not_same_system
+    author: Cesar Alvarez
+    publication_date: '2013-12-05'
+    title: Monthly S&P500 Stock Rotation Strategy
+    url: https://alvarezquanttrading.com/blog/monthly-sp500-stock-rotation-strategy/
+  - id: NYSE_SESSION_RULES
+    role: official_calendar_and_cash_equity_opening_rules_context
+    publisher: NYSE
+    url: https://www.nyse.com/markets/hours-calendars
+  - id: LOCAL_RESEARCH_OPERATIONS
+    role: governing_scientific_protocol
+    local_path: docs/research_operations.md
+  - id: LOCAL_MARKET_POLICY
+    role: market_identity_and_substitution_policy
+    local_path: docs/architecture/market_scope_policy.md
+economic_thesis:
+  scope: point_in_time_sp500_us_cash_equities_monthly_cross_sectional
+  question: Does multiplying positive trailing stock momentum by its trailing realized volatility improve cross-sectional next-month ranking of S&P 500 constituents relative to raw momentum alone, without the apparent gain being explained by high-beta, small-cap-within-index, or sector concentration?
+  null: The incremental month-ahead cross-sectional predictive information of ROC63 times HV63 over ROC63 alone is not positive on chronological development observations.
+  source_author_claim: The author's 2007-2020 comparison found ROC times historical volatility better than raw ROC in aggregate report metrics; this is neither a validated independent reproduction nor evidence of current net profitability.
+  expected_horizon: one_exchange_calendar_month
+mechanism:
+  economic_story_hypothesis: High realized volatility multiplying strong recent positive momentum might identify stock-specific repricing episodes with continuing delayed institutional reaction, beyond plain momentum.
+  risk_premium_alternative: An apparent advantage may simply load on high-volatility high-beta growth stocks, momentum crashes, sector concentration, or bull-market beta rather than exploitable cross-sectional alpha.
+  potential_counterparty: Slower discretionary rebalancers reacting to new stock information; unproven conjecture, not a measured flow.
+  why_might_persist: Heterogeneous reaction speeds to firm news and constraints on rapid portfolio rotation; not established by the practitioner test.
+  failure_modes:
+    - Risk-on beta and winner-concentration fully explain apparent advantage.
+    - Top-ranked names suffer volatility drag, overnight gap slippage and momentum crashes.
+    - Static current-constituent lists create false survivorship alpha.
+    - Entering after the open rather than at the historical open removes any advantage.
+instruments:
+  original:
+    asset_class: US_listed_cash_equities
+    universe: historically_effective_SP500_members_on_each_signal_date
+    market_index_filter: S_and_P_500_cash_index_SPX
+    currency: USD
+    data_vendor_author: Norgate_Data
+    backtest_engine_author: AmiBroker
+    product_substitution: forbidden_for_source_parity
+  local_adaptation:
+    instrument_class: actual_US_listed_common_equities
+    execution_venue: NYSE_or_Nasdaq_as_applicable
+    allowed_universe: historical_effective_SP500_members_only
+    trading_currency: USD
+    no_CFD_futures_ETF_or_perpetual_proxy_for_executed_stock_fills: true
+    readiness: source_qualified_universe_and_executable_quotes_not_yet_verified
+data_requirements:
+  required:
+    - historical_month_end_SP500_constituent_membership_with_effective_dates_and_delisted_names
+    - constituent_D1_OHLCV_with_corporate_actions_and_delisting_returns_and_contemporaneous_security_ID
+    - full_SPX_D1_close_history_and_valid_SMA200_warmup
+    - NYSE_Nasdaq_exchange_sessions_DST_holidays_and_early_closes
+    - executable_first_session_opening_auction_prices_or_after_open_bid_ask_quotes
+    - effective_dated_commissions_fees_and_market_impact_evidence
+  source_claim: Author reports using Norgate Data and AmiBroker; possession and full lineage of those data are not established locally.
+  timestamp: America/New_York_local_exchange_session_with_UTC_canonical_mapping
+  membership_availability: use_only_membership_announced_and_effective_by_signal_date
+  corporate_actions: preserve point_in_time_known_adjustments_and_total_return_cashflows
+  source_study_window: '2007-01-01 through 2020-12-31, author-reported'
+  local_coverage_status: not_audited_do_not_claim_dataset_availability
+  final_holdout: sealed_never_read_in_discovery
+feature_contracts:
+  - id: roc63
+    feature_type: cross_sectional_trailing_price_momentum
+    formula: 100 * (adjusted_close_t / adjusted_close_t_minus_63_completed_sessions - 1)
+    source_equivalent: AmiBroker_ROC_C_63
+    window: 63_completed_daily_stock_sessions
+    availability: after_finalized_last_trading_day_month_close
+    strict_grouping: security_id_as_of_date
+    caution: Split_and_dividend_convention_must_be_reconciled_against_source
+  - id: hv63
+    feature_type: trailing_realized_daily_log_return_volatility
+    formula: 100 * sqrt(252) * sample_stddev(last_63_completed_log(C_t / C_t_minus_1))
+    source_equivalent: AmiBroker_StDev_log_C_over_Ref_C_minus_1_63_times_sqrt_252_times_100
+    window: 63_completed_daily_return_observations_requires_64_closes
+    availability: after_finalized_last_trading_day_month_close
+    caution: ddof_sample_vs_population_and_adjustment_convention_require_source_parity
+  - id: roc63_times_hv63
+    feature_type: cross_sectional_stock_rank
+    formula: roc63 * hv63
+    direction: descending_highest_first
+    availability: after_both_roc63_and_hv63_are_finalized
+    source_equivalent: AmiBroker_ROC_C_63_times_HV_63
+  - id: individual_sma200
+    feature_type: eligibility_filter
+    formula: arithmetic_mean_of_stock_last_200_completed_session_closes
+    condition: stock_month_end_close_greater_than_sma200
+    availability: after_month_end_close_finalized
+  - id: spx_sma200
+    feature_type: market_state_filter
+    formula: arithmetic_mean_of_SPX_last_200_completed_session_closes
+    condition: SPX_month_end_close_greater_than_sma200
+    availability: after_month_end_close_finalized
+strategy_rules:
+  original_author_rules:
+    sample: 2007_01_01_to_2020_12_31
+    decision_day: last_trading_day_of_each_month
+    member_filter: member_of_SP500_on_that_day
+    stock_filter: stock_close_above_200_day_SMA
+    market_filter: SPX_close_above_200_day_SMA
+    published_rank_lookbacks: [63, 126, 189, 252]
+    original_comparison_ranks:
+      - ROC_of_daily_close
+      - ROC_of_EMA
+      - ROC_divided_by_HV
+      - ROC_multiplied_by_HV
+      - HV_alone
+    published_explicit_example: ROC_C_63_times_HV_63
+    allocation_selection: buy_top_10_ranked_stocks
+    entry: opening_price_of_next_exchange_trading_day
+    exit_text: sell_all_at_open_of_first_trading_day_of_month
+    exit_interpretation: following_month_first_trading_day_open_for_the_held_month; verify_against_author_code
+    additional_author_variations: 5_stock_selection_and_no_stock_SMA200_rule_in_gated_spreadsheet
+    stops_take_profit_and_sizing: not_specified_in_public_2021_article
+  local_adaptation_predeclared_single_configuration:
+    rank_lookback: 63_completed_daily_sessions
+    comparator_rank: ROC63_alone
+    selected_rank: ROC63_times_HV63
+    selection_count: 10
+    eligibility_filters: both_author_SMA200_filters
+    rebalance: first_exchange_trading_day_month_open_to_next_month_first_exchange_trading_day_open
+    position_rule: equally_weighted_10_percent_of_invested_notional_each
+    market_filter_false: remain_in_cash_until_next_monthly_decision
+    ties: deterministic_security_id_order
+    missing_or_untradable_stock: mark_not_eligible_and_log_reason_without_retroactive_replacement
+    overlapping_positions: rebalance_once_per_month_no_intramonth_stops
+signal_and_execution_clock:
+  source_decision: last_US_exchange_trading_day_of_month_after_final_daily_close
+  earliest_unambiguous_preopen_information: after_all_rank_and_membership_inputs_are_published
+  author_assumed_fill: first_next_month_trading_day_09_30_America_New_York_open
+  proposed_executable_fill: first_nonstale_quote_after_open_or_proven_eligible_auction_order_after_data_finalization
+  ambiguity_to_test: actual_MOO_submission_cutoff_and_auction_fill_eligibility; forbid_assuming_open_fill_without_an_orderable_path
+  exit: following_first_trading_day_open_or_first_proven_executable_quote_under_same_semantics
+  calendar: exchange_holidays_DST_half_days_and_membership_effective_date_changes_required
+  no_same_bar_information_use: true
+sizing:
+  source: public_2021_article_top_10_count_only; weights_leverage_cash_and_position_limits_unreported
+  local_proposed: unlevered_equal_dollar_weight_for_each_of_10_selected_stocks_and_cash_when_filter_ineligible
+  capital_and_fills: not_assumed_until_broker_effective_rules_and_AUM_defined
+cost_assumptions:
+  author_2021: detailed_commissions_spreads_impact_and_open_auction_slippage_not_disclosed
+  author_2013_different_study: USD_0_01_per_share_commission_reported; do_not_impute_to_2021_test
+  local_required: commissions_fees_half_spread_execution_slippage_open_gap_impact_dividends_and_corporate_actions
+  sizing_sensitivity: participation_rate_vs_actual_ADV_and_spread_by_stock_and_event
+  funding: no_perp_funding_for_cash_equities; cash_interest_and_margin_debit_if_any_must_be_effective_dated
+  cost_stress: design_1x_2x_3x_of_independently_sourced_cost_model_not_an_unverified_fixed_bps_guess
+  ability_to_claim_net_edge: blocked_until_cost_and_fill_data_qualified
+baseline:
+  primary: ROC63_rank_top_10_with_identical_PIT_universe_SMA200_filters_holding_interval_equal_weights_and_fill_cost_model
+  secondary:
+    - equal_weight_eligible_SP500_cohort_same_horizon_and_spx_gate
+    - SPY_total_return_benchmark_not_an_execution_substitute
+    - HV63_only_source_competitor
+  control_exposures: month_end_market_beta_sector_industry_size_volatility_and_turnover
+development_evaluation:
+  discovery_scope: preregistration_only_no_market_return_computation
+  initial_data_gate: refuse_evaluation_without_effective_dated_historical_member_universe_corporate_actions_and_auction_or_bid_ask_execution_mapping
+  splits: choose_and_register_disjoint_chronological_development_validation_protected_final_test_before_seeing_outcomes
+  source_2007_2020: previously_explored_by_author_not_a_clean_independent_holdout
+  phase3_method: cross_sectional_month_end_Spearman_rank_IC_of_ROC63_times_HV63_and_ROC63_vs_next_month_forward_return_using_only_PIT_eligible_stocks
+  phase3_incremental_test: month_by_month_paired_delta_rank_IC_and_top_10_conditional_forward_markout_vs_ROC63_baseline_with_autocorrelation_and_multiple_trial_accounting
+  phase3_time_alignment: signals_as_of_month_end_close_then_label_from_actual_next_open_to_following_first_open; distinct_from_same_close_to_close_factor_IC
+  phase3_not_executed: true
+  phase4_native_backtest: blocked_without_separate_research_phase3_decision_and_independent_source_and_fill_gates
+  robustness_prespecified: report_calendar_month_year_and_market_regime_slices_turnover_concentration_delistings_and_cliff_risk_not_optimize_lookback
+primary_falsifier:
+  metric: paired_monthly_incremental_cross_sectional_Spearman_IC_of_ROC63_times_HV63_minus_ROC63_on_exact_same_PIT_members
+  decision: stop_if_incremental_IC_nonpositive_in_chronological_development_and_no_positive_effect_survives_predeclared_sampling_uncertainty_or_multiplicity_correction
+  information_set: only_signals_known_after_month_end_close_and_forward_first_open_to_next_first_open_labels
+  interpretation: rejects_volatility_multiplier_incremental_rank_story_even_if_market_beta_creates_positive_total_returns
+acceptance_and_stop_rules:
+  admission_only: valid_ATS_two_file_descriptive_handoff_is_not_any_engine_or_broker_approval
+  stop_data: missing_PIT_SP500_membership_or_price_adjustment_lineage_or_unambiguous_tradable_open
+  stop_causality: future_constituent_filter_corporate_action_information_or_nonorderable_source_open_fill
+  stop_science: falsifier_passes_or_author_variant_family_cannot_be_accounted_for
+  next_allowed_action: separately_authorized_data_and_source_parity_diagnostic_no_protected_period_reads
+  promotion: no_automatic_progression_to_phase4_or_execution
+parity_and_causality_tests:
+  - compute_ROC_and_HV_against_AmiBroker_reference_for_predeclared_63_day_configuration_including_252_sqrt_scaling
+  - distinguish_population_from_sample_StDev_and_quoted_price_adjustments_before_comparison
+  - append_future_bars_should_not_change_historical_signals_and_PIT_memberships
+  - verify_all_features_finalize_before_next_month_order_and_fills_are_obtainable
+  - enforce_exchange_calendar_leap_year_DST_early_close_and_month_roll
+  - explicitly_handle_delisted_restructured_and_halted_names_without_survivorship
+  - crosscheck_SPX_vs_SPY_index_values_and_use_SPX_only_for_source_market_filter
+  - turnover_and_cost_accounting_against_original_ROC_only_on_identical_fill_clock
+known_adaptations:
+  - Equal_dollar_unlevered_sizing_is_proposed_not_a_verified_author_rule
+  - Locking_to_63_sessions_is_author_shown_example_not_a_claim_author_singular_best_setting
+  - next_executable_auction_or_quote_is_stricter_than_unqualified_next_open_source_assumption
+  - exact_exchange_member_history_and_trade_prices_required_no_current_constituent_or_CFD_substitution
+verified_facts:
+  - Cesar_Alvarez_published_ranking_comparison_on_2021_05_12_for_2007_2020_using_AmiBroker_and_Norgate
+  - Author_provides_explicit_ROC_C_63_times_HV_63_formula_and_HV_annualization_formula
+  - Author_says_ROC_divided_by_HV_worsened_CAR_and_Sharpe_and_ROC_multiplied_by_HV_improved_reported_aggregate
+  - June_2021_author_followup_concluded_several_alternatives_did_not_beat_ROC_times_HV
+  - None_of_these_statements_verify_an_independent_return_or_a_local_market_dataset
+assumptions:
+  - Public_2021_article_not_spreadsheet_is_the_accessible_strategy_specification
+  - Calendar_month_holding_until_next_month_first_open_is_semantically_inferred_from_rotation_rules
+  - Source_author_results_may_reflect_tuned_variants_unreported_turnover_and_costs
+  - Hypothesized_counterparty_and_causal_mechanism_are_unverified
+unresolved_blockers:
+  - No_independent_source_trade_list_or_full_cost_accounting_in_public_article
+  - No_publicly_observed_per_configuration_63_day_trade_count_CAGR_MDD_or_losing_years
+  - Author_reported_relative_25_percent_CAR_and_22_percent_Sharpe_improvement_requires_context_from_hidden_spreadsheet
+  - Check_if_PIT_SP500_stock_and_membership_data_exist_in_approved_development_catalog
+  - Need_author_code_or_methodology_for_equal_weight_rebalancing_auction_corporate_actions_and_exit_month_disambiguation
+  - Need_proven_open_fill_data_and_effective_commissions_and_market_impact_model
+  - Current_candidate_is_a_descriptive_research_design_not_a_frozen_session_or_CandidateSpec
