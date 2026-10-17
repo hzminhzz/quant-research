@@ -17,6 +17,7 @@ from src.engine.common import QuantError
 from src.engine.funnel import ResearchFunnel
 from src.engine.spec_parser import CandidateSpec, parse_spec
 from src.engine.thesis_ingest import convert_thesis
+from src.oracle.research_protocols import parse_research_spec
 
 STORE = '/home/quant/dev/quant/ml4t-data/.data/store'
 
@@ -134,11 +135,19 @@ def main(argv=None) -> int:
             print(json.dumps({'status': 'COMPILED', 'manifest_hash': manifest['manifest_hash'],
                               'entries': len(manifest['entries']), 'excluded': manifest['excluded']}, sort_keys=True))
             return 0
-        spec = parse_spec(args.spec)
+        spec = parse_research_spec(args.spec)
+        is_event = not isinstance(spec, CandidateSpec)
         if args.command == 'validate':
-            print(json.dumps({'status': 'VALID_SPEC', 'candidate_id': spec.candidate_id,
-                              'spec_hash': spec.spec_hash, 'source_spec_status': spec.source_spec_status}))
+            if is_event:
+                print(json.dumps({'status': 'VALID_SPEC', 'candidate_id': spec.strategy_id,
+                                  'spec_hash': spec.spec_hash, 'source_spec_status': 'exact',
+                                  'protocol': spec.protocol}))
+            else:
+                print(json.dumps({'status': 'VALID_SPEC', 'candidate_id': spec.candidate_id,
+                                  'spec_hash': spec.spec_hash, 'source_spec_status': spec.source_spec_status}))
             return 0
+        if is_event and args.build_if_missing:
+            raise QuantError('INVALID_SPEC', 'Frozen event authority cannot be rebuilt by --build-if-missing')
         if args.build_if_missing and not (Path(spec.panel_root) / 'manifest.json').exists():
             warmup = timedelta(seconds=spec.bar_seconds * max(spec.universe.lookback_bars,
                                                               spec.universe.minimum_history_bars))
@@ -153,7 +162,7 @@ def main(argv=None) -> int:
                           'stages': {k: v['status'] for k, v in report['stages'].items()}}, sort_keys=True))
         if report['status'].startswith('FALSIFIED_') or report['status'] == 'HOLDOUT_EVALUATED':
             return 0
-        if report['status'].startswith(('INCONCLUSIVE', 'BLOCKED', 'HOLDOUT_')):
+        if report['status'] == 'PARTIALLY_QUALIFIED' or report['status'].startswith(('INCONCLUSIVE', 'BLOCKED', 'HOLDOUT_')):
             return 3
         return 2
     except QuantError as exc:

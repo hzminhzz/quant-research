@@ -11,6 +11,10 @@ from uuid import uuid4
 import polars as pl
 
 from src.data_vault import DataVault
+from src.oracle.research_protocols import (
+    describe_research_protocol,
+    parse_research_spec,
+)
 from src.oracle.stage2_diagnostic import stage2
 from src.oracle.stage3_falsifier import stage3
 
@@ -27,7 +31,7 @@ from .common import (
 from .feature_compiler import compile_and_verify
 from .isolation import feature_function, isolated_features
 from .signal_allocator import allocate
-from .spec_parser import CandidateSpec, parse_spec
+from .spec_parser import CandidateSpec
 
 
 def _save_run(run: NativeRun, root: Path, name: str) -> dict[str, str]:
@@ -118,7 +122,12 @@ class ResearchFunnel:
         self.isolate = isolate
 
     def run(self, specification: CandidateSpec | str | Path) -> dict[str, Any]:
-        spec = parse_spec(specification) if not isinstance(specification, CandidateSpec) else specification
+        spec = parse_research_spec(specification)
+        protocol = describe_research_protocol(spec)
+        if protocol.protocol == 'event':
+            return self._run_event(spec)
+        if protocol.protocol != 'cross_sectional' or not isinstance(spec, CandidateSpec):
+            raise QuantError('INVALID_SPEC', f'Unsupported research protocol: {protocol.protocol}')
         attempt = datetime.now(UTC).strftime('%Y%m%dT%H%M%S') + '-' + uuid4().hex[:10]
         output = self.run_log / 'dual_mode' / spec.candidate_id / attempt
         output.mkdir(parents=True, exist_ok=False)
@@ -237,6 +246,56 @@ class ResearchFunnel:
             case['status'], case['reason'] = 'ENGINEERING_ERROR', f'{type(exc).__name__}: {exc}'
             self._finish(output, case, daily_artifacts)
             raise
+
+    def _run_event(self, spec) -> dict[str, Any]:
+        """Run typed event protocols before entering any cross-sectional gates."""
+        from .event_protocol import run_m8_n8_event
+
+        attempt = datetime.now(UTC).strftime('%Y%m%dT%H%M%S') + '-' + uuid4().hex[:10]
+        output = self.run_log / 'dual_mode' / spec.strategy_id / attempt
+        output.mkdir(parents=True, exist_ok=False)
+        write_json(output / 'spec.json', spec.model_dump(mode='json'), exclusive=True)
+        code = runtime_identity()
+        identity = {'candidate_id': spec.strategy_id, 'selection_family_id': spec.strategy_id,
+                    'market_scope': 'indices:usatechidxusd:30m', 'label_horizon_bars': 2,
+                    'spec_hash': spec.spec_hash, 'protocol': spec.protocol,
+                    'protocol_family': 'event', 'code_hash': code,
+                    'attempt_id': attempt, 'run_path': str(output.relative_to(self.run_log))}
+        append_trial(self.run_log, {**identity, 'event': 'registered', 'status': 'RUNNING'})
+        case = {**identity, 'status': 'RUNNING', 'output_path': str(output), 'holdout_access': False,
+                'live_order_authority': False, 'stages': {}}
+        failure = None
+        report = None
+        try:
+            report = run_m8_n8_event(spec, output_dir=output)
+            case['stages']['event'] = report
+            case['status'] = report['status']
+        except Exception as exc:  # noqa: BLE001 - append terminal trial evidence for every runner failure.
+            failure = exc
+            case['status'] = exc.status if isinstance(exc, QuantError) else 'ENGINEERING_ERROR'
+            case['reason'] = f'{type(exc).__name__}: {exc}'
+        case['finished_at'] = datetime.now(UTC).isoformat()
+        if failure is not None:
+            partial_artifacts = {str(path.relative_to(output)): file_hash(path)
+                                 for path in sorted(output.rglob('*')) if path.is_file()
+                                 and path.name not in {'casefile.json', 'failure_evidence.json'}}
+            write_json(output / 'failure_evidence.json',
+                       {'status': case['status'], 'reason': case['reason'],
+                        'artifacts': partial_artifacts, 'holdout_access': False})
+        elif not (output / 'event_evidence.json').is_file():
+            write_json(output / 'event_evidence.json', report)
+        write_json(output / 'casefile.json', case)
+        evidence_path = output / ('event_evidence.json' if (output / 'event_evidence.json').is_file()
+                                  else 'failure_evidence.json')
+        append_trial(self.run_log, {**identity, 'event': 'completed', 'status': case['status'],
+                                   'holdout_access': False,
+                                   'evidence': {'path': str(evidence_path.relative_to(self.run_log)),
+                                                'sha256': file_hash(evidence_path)},
+                                   'casefile': {'path': str((output / 'casefile.json').relative_to(self.run_log)),
+                                                'sha256': file_hash(output / 'casefile.json')}})
+        if case['status'] == 'ENGINEERING_ERROR':
+            raise failure
+        return case
 
     def _receipt(self, output, spec, panel_hash, code, stage, report, artifacts=()):
         path = output / f'stage{stage}_evidence.json'

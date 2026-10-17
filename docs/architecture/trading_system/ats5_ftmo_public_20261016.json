@@ -1,0 +1,54 @@
+{
+  "version_id": "ftmo-2step-public-2026-10-16-v1",
+  "program_id": "FTMO_CFD_2STEP_PUBLIC",
+  "source": {
+    "source_id": "ftmo-trading-objectives-accessed-2026-10-16",
+    "url": "https://ftmo.com/en/trading-objectives/",
+    "captured_at": "2026-10-16T00:00:00+00:00",
+    "evidence_type": "published",
+    "published_at": null,
+    "stated_effective_at": null
+  },
+  "phases": [
+    {
+      "name": "challenge",
+      "role": "evaluation",
+      "target_fraction": "0.10",
+      "min_open_days": 4,
+      "next_phase": "verification"
+    },
+    {
+      "name": "verification",
+      "role": "evaluation",
+      "target_fraction": "0.05",
+      "min_open_days": 4,
+      "next_phase": "funded"
+    },
+    {
+      "name": "funded",
+      "role": "funded",
+      "target_fraction": null,
+      "min_open_days": null,
+      "payout_fraction": null,
+      "payout_wait_calendar_days": null
+    }
+  ],
+  "timezone_name": "Europe/Prague",
+  "reset_hour": 0,
+  "daily_loss_fraction": "0.05",
+  "max_loss_fraction": "0.10",
+  "max_loss_mode": "static",
+  "breach_on_touch": false,
+  "mark_max_age_seconds": 0,
+  "unknown_rules": [
+    "trading_permissions",
+    "payout_conditions",
+    "account_agreement",
+    "grandfathered_terms",
+    "fees",
+    "withdrawal_effects",
+    "news_restrictions",
+    "phase_confirmation",
+    "cohort_effective_date"
+  ]
+}
