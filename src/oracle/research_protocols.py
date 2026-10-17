@@ -71,8 +71,12 @@ def parse_research_spec(source):
     if isinstance(source, CandidateSpec):
         return source
     if not isinstance(source, (str, Path)):
-        from src.engine.event_protocol import M8N8EventSpec, validate_event_spec
-        if isinstance(source, M8N8EventSpec):
+        from src.engine.event_protocol import (
+            BtaNqMondayEventSpec,
+            M8N8EventSpec,
+            validate_event_spec,
+        )
+        if isinstance(source, (M8N8EventSpec, BtaNqMondayEventSpec)):
             return validate_event_spec(source)
         from src.engine.common import QuantError
         raise QuantError('INVALID_SPEC', f'Unsupported specification object: {type(source).__name__}')

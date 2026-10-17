@@ -258,3 +258,48 @@ def test_cli_preflight_does_not_read_data_or_make_trades(tmp_path):
     assert report["cases"][0]["status"] == "BLOCKED_PROTOCOL"
     assert not (tmp_path / "log" / "trial_ledger.jsonl").exists()
     assert not (tmp_path / "log" / "_holdout_claims").exists()
+
+
+def test_persisted_blocked_protocol_triggers_development_materialization(tmp_path, monkeypatch):
+    handoff_name = "dax_monthend_liquidity_rebound_cfd_20261015_v1"
+    target_inbox = tmp_path / "inbox" / handoff_name
+    shutil.copytree(ROOT / "research_inbox" / handoff_name, target_inbox)
+
+    vault_root = tmp_path / "vaults"
+    vault_root.mkdir()
+    fake_store = tmp_path / "store"
+    fake_store.mkdir()
+
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", vault_root=vault_root, store=fake_store)
+    info, _doc = queue._admit(target_inbox)
+    assert info is not None
+    queue._save({**info, "status": "BLOCKED_PROTOCOL", "attempts": [], "holdout_access": False})
+
+    events_folder = queue._folder(handoff_name) / "events"
+    assert len(list(events_folder.glob("*.json"))) == 1
+
+    materialized_calls = []
+
+    def fake_materialize(_store, output, *, category, granularity, **_kwargs):
+        manifest_file = Path(output) / "manifest.json"
+        manifest_file.parent.mkdir(parents=True, exist_ok=True)
+        manifest_file.write_text('{"status": "MOCK_COMPILED"}', encoding="utf-8")
+        materialized_calls.append(f"{category}_{granularity}")
+        return {"manifest_hash": "a" * 64}
+
+    import src.data_vault.market_materializer as mm
+    monkeypatch.setattr(mm, "materialize_price_markets", fake_materialize)
+
+    report = queue.run()
+    assert report["cases"][0]["status"] == "BLOCKED_PROTOCOL"
+    assert len(list(events_folder.glob("*.json"))) == 2
+    assert "index_1h" in materialized_calls
+    assert "index_1m" in materialized_calls
+
+    state = queue._load(handoff_name)
+    assert state is not None
+    assert state["status"] == "BLOCKED_PROTOCOL"
+    assert state["revision"] == 2
+    assert "materialized_development_vaults" in state
+    assert "index_1h" in state["materialized_development_vaults"]
+    assert "index_1m" in state["materialized_development_vaults"]

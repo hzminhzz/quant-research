@@ -63,14 +63,29 @@ class M8N8EventSpec(BaseModel):
         return hashlib.sha256(self.model_dump_json().encode()).hexdigest()
 
 
-def validate_event_spec(spec: M8N8EventSpec) -> M8N8EventSpec:
+class BtaNqMondayEventSpec(BaseModel):
+    model_config = ConfigDict(extra='forbid', frozen=True)
+    protocol: Literal['event']
+    strategy_id: Literal['bta_nq_monday_bb10_atr5_cfd_v1']
+
+    @property
+    def spec_hash(self) -> str:
+        return hashlib.sha256(self.model_dump_json().encode()).hexdigest()
+
+
+def validate_event_spec(spec: M8N8EventSpec | BtaNqMondayEventSpec) -> M8N8EventSpec | BtaNqMondayEventSpec:
     try:
-        if not isinstance(spec, M8N8EventSpec) or getattr(spec, '__pydantic_extra__', None):
-            raise ValueError('expected a strict M8N8EventSpec without extra fields')
+        if not isinstance(spec, (M8N8EventSpec, BtaNqMondayEventSpec)) or getattr(spec, '__pydantic_extra__', None):
+            raise ValueError('expected a strict event spec without extra fields')
         if set(vars(spec)) != {'protocol', 'strategy_id'}:
             raise ValueError('event spec contains forged fields')
         payload = spec.model_dump(mode='python')
-        validated = M8N8EventSpec.model_validate(payload)
+        if isinstance(spec, M8N8EventSpec):
+            validated = M8N8EventSpec.model_validate(payload)
+        elif isinstance(spec, BtaNqMondayEventSpec):
+            validated = BtaNqMondayEventSpec.model_validate(payload)
+        else:
+            raise TypeError(f'unsupported event spec type: {type(spec).__name__}')
         if set(payload) != {'protocol', 'strategy_id'} or validated != spec:
             raise ValueError('event spec contains altered or unsupported fields')
         return validated
@@ -78,14 +93,19 @@ def validate_event_spec(spec: M8N8EventSpec) -> M8N8EventSpec:
         raise QuantError('INVALID_SPEC', str(exc)) from exc
 
 
-def parse_event_spec(source: str | Path | M8N8EventSpec) -> M8N8EventSpec:
-    if isinstance(source, M8N8EventSpec):
+def parse_event_spec(source: str | Path | M8N8EventSpec | BtaNqMondayEventSpec) -> M8N8EventSpec | BtaNqMondayEventSpec:
+    if isinstance(source, (M8N8EventSpec, BtaNqMondayEventSpec)):
         return validate_event_spec(source)
     try:
         payload = yaml.safe_load(Path(source).read_text(encoding='utf-8'))
         if not isinstance(payload, dict) or 'protocol' not in payload:
             raise ValueError('missing explicit protocol discriminator')
-        return validate_event_spec(M8N8EventSpec.model_validate(payload))
+        strategy_id = payload.get('strategy_id')
+        if strategy_id == 'm8_n8_cash_session_v7':
+            return validate_event_spec(M8N8EventSpec.model_validate(payload))
+        if strategy_id == 'bta_nq_monday_bb10_atr5_cfd_v1':
+            return validate_event_spec(BtaNqMondayEventSpec.model_validate(payload))
+        raise ValueError(f'unsupported event strategy_id: {strategy_id}')
     except (OSError, yaml.YAMLError, ValueError, TypeError) as exc:
         if isinstance(exc, QuantError):
             raise
@@ -462,4 +482,65 @@ def run_m8_n8_event(spec: M8N8EventSpec, *, output_dir: str | Path | None = None
         report['native_artifacts'] = native_artifacts
         (folder / 'event_evidence.json').write_text(
             json.dumps(report, sort_keys=True, indent=2, default=str), encoding='utf-8')
+    return report
+
+
+def run_bta_nq_event(spec: BtaNqMondayEventSpec, *, output_dir: str | Path | None = None) -> dict[str, Any]:
+    """Audit BTA NQ Monday Bollinger ATR breakout prerequisites on Dukascopy index CFD data."""
+    from src.data_vault import DataVault
+
+    folder = Path(output_dir).resolve() if output_dir is not None else None
+    vault_path = REPOSITORY / 'data/vault/markets_20261015/index_1h'
+    if not vault_path.exists():
+        from src.data_vault.market_materializer import materialize_price_markets
+        materialize_price_markets(
+            Path('/home/quant/dev/quant/ml4t-data/.data/store'), vault_path,
+            category='index', granularity='1h',
+            start='2012-01-01T00:00:00Z', end='2025-01-01T00:00:00Z',
+            protected_test_start='2025-01-01T00:00:00Z',
+            trusted_partitioning=False,
+        )
+    if not vault_path.exists():
+        raise QuantError('BLOCKED_DATA', f'canonical index_1h vault missing: {vault_path}')
+    vault = DataVault(vault_path)
+    dev_start = datetime(2012, 1, 1, tzinfo=UTC)
+    dev_end = datetime(2025, 1, 1, tzinfo=UTC)
+    df = vault.load(end=dev_end).filter(
+        (pl.col('symbol') == 'NQ') & (pl.col('timestamp') >= dev_start) & (pl.col('timestamp') < dev_end)
+    ).sort('timestamp')
+    if df.is_empty():
+        raise QuantError('BLOCKED_DATA', 'No development NQ rows found in vault')
+
+    report = {
+        'status': 'BLOCKED_EXECUTION',
+        'strategy_id': spec.strategy_id,
+        'spec_hash': spec.spec_hash,
+        'protocol': 'event',
+        'market_scope': 'indices:usatechidxusd:60m',
+        'instrument': 'Dukascopy US Tech 100 CFD proxy (usatechidxusd)',
+        'development_window': ['2012-01-01T00:00:00Z', '2025-01-01T00:00:00Z'],
+        'holdout_access': False,
+        'development_rows': df.height,
+        'reason': (
+            'BLOCKED_EXECUTION: Native ml4t.backtest.Engine stop-order execution adapter is not qualified for '
+            'hourly Dukascopy CFD bars. Hand-rolled Python simulation loops are prohibited by AGENTS.md; '
+            'high-crossing approximations on 60m OHLC fabricate stop fills without verified intrabar quote depth, '
+            'adverse gap execution, or independent cash/equity reconciliation. Also, Monday 23:00 America/New_York '
+            'exit requires verified broker session calendar mapping rather than arbitrary end-of-day bar indexing.'
+        ),
+        'missing_requirements': [
+            'Native ml4t.backtest.Engine stop-order execution adapter with intrabar queue priority and gap accounting.',
+            'Verified America/New_York Monday session calendar with exact 23:00 exit and pause handling.',
+            'Contemporaneous broker bid/ask spreads and financing evidence to replace placeholder assumptions.',
+        ],
+        'artifacts': {},
+    }
+
+    if folder is not None:
+        evidence_path = folder / 'stage3_evidence.json'
+        evidence_path.write_text(json.dumps(report, indent=2, sort_keys=True), encoding='utf-8')
+        report['artifacts'] = {
+            evidence_path.name: file_hash(evidence_path),
+        }
+        (folder / 'event_evidence.json').write_text(json.dumps(report, indent=2, sort_keys=True), encoding='utf-8')
     return report

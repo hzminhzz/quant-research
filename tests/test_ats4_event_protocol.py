@@ -154,3 +154,29 @@ def test_workbench_backtest_records_content_bound_artifacts(tmp_path, monkeypatc
                           and item['status'] == 'PARTIALLY_QUALIFIED')
     assert len(backtest_event['evidence_sha256']) == 64
     assert backtest_event['artifacts']['fills_1x.parquet']['sha256'] == 'a' * 64
+
+
+def test_validate_event_spec_rejects_extra_and_forged_fields():
+    from src.engine.common import QuantError
+    from src.engine.event_protocol import (
+        BtaNqMondayEventSpec,
+        M8N8EventSpec,
+        parse_event_spec,
+        validate_event_spec,
+    )
+
+    m8 = M8N8EventSpec(protocol='event', strategy_id='m8_n8_cash_session_v7')
+    assert validate_event_spec(m8).strategy_id == 'm8_n8_cash_session_v7'
+    object.__setattr__(m8, '__pydantic_extra__', {'forged': 1})
+    with pytest.raises(QuantError, match='expected a strict event spec without extra fields'):
+        validate_event_spec(m8)
+
+    bta = BtaNqMondayEventSpec(protocol='event', strategy_id='bta_nq_monday_bb10_atr5_cfd_v1')
+    assert validate_event_spec(bta).strategy_id == 'bta_nq_monday_bb10_atr5_cfd_v1'
+    object.__setattr__(bta, '__pydantic_extra__', {'forged': 1})
+    with pytest.raises(QuantError, match='expected a strict event spec without extra fields'):
+        validate_event_spec(bta)
+
+    parsed = parse_event_spec(ROOT / 'config/candidates/bta_nq_monday_bb10_atr5_cfd_v1.yaml')
+    assert isinstance(parsed, BtaNqMondayEventSpec)
+    assert parsed.strategy_id == 'bta_nq_monday_bb10_atr5_cfd_v1'
