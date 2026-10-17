@@ -1,0 +1,79 @@
+session_id: one_bar_nq_stop_scaling_20261012
+status: DRAFT_EXPLORATORY_NO_TRIALS_EXECUTED
+approval_status: NOT_APPROVED_FOR_LIVE
+purpose: "Test whether a stop calibrated to current price volatility preserves one-bar breakout continuation better than an unchanged 50-point stop."
+original_control:
+  strategy_package: promote/one_bar_nq_30m
+  immutable_archive: run_log/one_bar_nq_stop_scaling_20261012/frozen_baseline/one_bar_nq_30m_as_is_20261012.tar.gz
+  archive_sha256: 4553cf1647e9652fc9bb4f2621597648632c0a20678aae1c359b456ffc9de181
+  source_git_head: c095faab89835c49f4cd6fd66d1a9ed922709039
+  source_git_state: uncommitted_worktree_snapshot
+unchanged_signal_and_time_exit:
+  bar_resolution: 30m
+  bar_alignment: "Chicago Globex 17:00 America/Chicago"
+  breakout_lookback_completed_bars: 50
+  long_entry: "buy STOP at prior 50 completed bars' highest high"
+  short_entry: "sell STOP at prior 50 completed bars' lowest low"
+  opposing_entries: intended_OCO
+  time_exit: "market at immediately following 30m bar open"
+  maximum_entries_per_chicago_session_day: 2
+  signal_filters: none
+research_evidence_already_observed:
+  source: "Dukascopy USATECH.IDX/USD BID index/CFD proxy, not verified CME futures"
+  native_engine: ml4t.backtest
+  one_minute_execution_input: true
+  last_evaluated_date_inclusive: "2026-07-14"
+  mean_2026_stop_trades: 44
+  total_2026_trades: 238
+  median_2026_prior_atr20_points: 66.7
+  median_reference_2018_2025_prior_atr20_points: 27.9
+  original_stop_points: 50
+  original_nominal_risk_usd: 1000
+  original_nq_multiplier_usd_per_point: 20
+candidate_trials:
+  - id: B0
+    role: frozen_control
+    stop_points: fixed_50
+    contract: illustrative_NQ_one_contract
+    risk_cap_interpretation: "$1000 nominal trigger risk, excluding gaps"
+  - id: B1
+    role: stop_mechanism_isolation_only
+    stop_points: "1.5 * ATR20 of prior completed 30m bars"
+    contract: illustrative_NQ_one_contract
+    risk_cap_interpretation: "floating dollar risk; NOT a $1000-risk candidate"
+  - id: B2
+    role: primary_fixed_risk_candidate
+    stop_points: "1.5 * ATR20 of prior completed 30m bars"
+    contract: illustrative_MNQ
+    dollars_per_point_per_contract: 2
+    sizing: "floor(1000 / (2 * tick_rounded_stop_points))"
+    min_contracts: 1
+    untradeable_when: "even one MNQ breaches $1000 nominal stop risk"
+    risk_cap_interpretation: "$1000 max nominal trigger risk; gaps can exceed it"
+  - id: B3
+    role: simple_price_level_normalization_comparator
+    stop_points: "0.004 * prior completed 30m bar close"
+    contract: illustrative_MNQ
+    dollars_per_point_per_contract: 2
+    sizing: "floor(1000 / (2 * tick_rounded_stop_points))"
+    untradeable_when: "even one MNQ breaches $1000 nominal stop risk"
+    note: "0.40% is a proposed round comparator, not historically optimized"
+optional_diagnostics_not_initial_trials:
+  - "time exit plus wide catastrophe stop, registered as separate risk experiment"
+  - "ATR multipliers 1.0 and 2.0: small sensitivity, only after initial variants registered and run"
+data_and_validation:
+  canonical_market_data: /home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ
+  retrospective_development: "2013-01-01 through 2025-12-31"
+  already_observed_2026_stress: "2026-01-01 through 2026-07-14"
+  unseen_final_test: none_available_or_authorized
+  point_in_time_features: "calculate ATR and prior close only from fully completed 30m bars, release no earlier than next 30m open"
+  fill_mechanics: "native ML4T Engine, 1m OHLC with conservative ambiguous-fill accounting"
+  known_uncertainties: [bid_only_CFD_proxy, non_atomic_OCO, same_minute_event_order, unknown_dated_NQ_rolls, annual_account_resets]
+  comparison_metrics: [trade_count, net_pnl, expectancy_per_nominal_R, worst_trade_R, stop_frequency, max_drawdown, long_short_attribution, yearly_stability, costs_per_mnq_contract, gap_overshoot]
+  evaluation_rule: "Compare on identical historical source and cost assumptions; do not select parameters using already-observed 2026 results and call it OOS."
+  gate_before_trial:
+    - "Reconcile actual native STOP exit orders against 1m source price paths and intended 50-point placement."
+    - "Verify tick rounding, MNQ contract sizing, gap exposure, broker-specific per-contract fee scenarios."
+    - "Freeze trial ledger and exact data identifiers before backtest."
+    - "Confirm source provenance and cutoff; do not access protected later data."
+next_step: "Obtain user approval to run B0/B1/B2/B3; then execute one small reproducible ML4T experiment, retaining every trial."

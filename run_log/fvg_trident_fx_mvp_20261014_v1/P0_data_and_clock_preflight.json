@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "session_id": "fvg_trident_fx_mvp_20261014_v1",
+  "stage": "P0_data_and_clock_preflight",
+  "inspected_holdout": false,
+  "registry_feature_ema_present": true,
+  "ml4t_compute_features_signature": "(data: polars.dataframe.frame.DataFrame | polars.lazyframe.frame.LazyFrame, features: list[str | dict[str, Any]] | pathlib.Path | str, *, group_col: str | list[str] | None = None, timestamp_col: str | None = None, assume_sorted: bool = False) -> polars.dataframe.frame.DataFrame | polars.lazyframe.frame.LazyFrame",
+  "ml4t_engineer_version": "0.1.4",
+  "ml4t_backtest_version": "0.1.7",
+  "polars_version": "1.44.2",
+  "inputs": [
+    {
+      "pair": "EURUSD",
+      "era": "2010_2017",
+      "rows": 592428,
+      "unique_timestamps": 592428,
+      "first": "2010-01-04 00:00:00+00:00",
+      "last": "2017-12-29 21:55:00+00:00",
+      "bad_ohlc_or_components": 0,
+      "min_source_rows": 5,
+      "path": "data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet",
+      "sha256": "08e12bff7c4a0b312325f34afbfc2863c77fe190bd7a857d8cba8ecd1fdf9383",
+      "source_hash_matches_manifest": true
+    },
+    {
+      "pair": "EURUSD",
+      "era": "2018_2024",
+      "rows": 520575,
+      "unique_timestamps": 520575,
+      "first": "2018-01-01 22:15:00+00:00",
+      "last": "2024-12-31 21:55:00+00:00",
+      "bad_ohlc_or_components": 0,
+      "min_source_rows": 5,
+      "path": "data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet",
+      "sha256": "78ed8f30da687fa31bf6b0b467ffdcfad45c24bdd832f424728ed8f9acac3203",
+      "source_hash_matches_manifest": true
+    },
+    {
+      "pair": "GBPUSD",
+      "era": "2010_2017",
+      "rows": 589143,
+      "unique_timestamps": 589143,
+      "first": "2010-01-04 00:00:00+00:00",
+      "last": "2017-12-29 21:55:00+00:00",
+      "bad_ohlc_or_components": 0,
+      "min_source_rows": 5,
+      "path": "data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet",
+      "sha256": "40dfd96fd780ebffbed249a53d93df85a34c965a6ecc8ac6c90492dba6b54598",
+      "source_hash_matches_manifest": true
+    },
+    {
+      "pair": "GBPUSD",
+      "era": "2018_2024",
+      "rows": 519502,
+      "unique_timestamps": 519502,
+      "first": "2018-01-01 22:55:00+00:00",
+      "last": "2024-12-31 21:55:00+00:00",
+      "bad_ohlc_or_components": 0,
+      "min_source_rows": 5,
+      "path": "data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet",
+      "sha256": "96bb4cc683288cfcf14287e7231ffb930722591b48d6cad9e9d2243edc08eed4",
+      "source_hash_matches_manifest": true
+    },
+    {
+      "pair": "AUDUSD",
+      "era": "2010_2017",
+      "rows": 587742,
+      "unique_timestamps": 587742,
+      "first": "2010-01-04 00:00:00+00:00",
+      "last": "2017-12-29 21:55:00+00:00",
+      "bad_ohlc_or_components": 0,
+      "min_source_rows": 5,
+      "path": "data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet",
+      "sha256": "10d4b632b4bec9e55b6248b09a96f19e3cdc75413c9e1c17f15a399678060105",
+      "source_hash_matches_manifest": true
+    },
+    {
+      "pair": "AUDUSD",
+      "era": "2018_2024",
+      "rows": 519025,
+      "unique_timestamps": 519025,
+      "first": "2018-01-01 21:30:00+00:00",
+      "last": "2024-12-31 21:55:00+00:00",
+      "bad_ohlc_or_components": 0,
+      "min_source_rows": 5,
+      "path": "data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet",
+      "sha256": "6be5b1bd7eef374817551f43642ebaead13be22792739939ff94880ef3540c13",
+      "source_hash_matches_manifest": true
+    }
+  ],
+  "ny_dst_tests": [
+    {
+      "utc": "2024-03-08T08:00:00+00:00",
+      "ny": "2024-03-08T03:00:00-05:00",
+      "pass_check": true
+    },
+    {
+      "utc": "2024-03-11T07:00:00+00:00",
+      "ny": "2024-03-11T03:00:00-04:00",
+      "pass_check": true
+    },
+    {
+      "utc": "2024-11-01T07:00:00+00:00",
+      "ny": "2024-11-01T03:00:00-04:00",
+      "pass_check": true
+    },
+    {
+      "utc": "2024-11-04T08:00:00+00:00",
+      "ny": "2024-11-04T03:00:00-05:00",
+      "pass_check": true
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "holdout_opened": false,
+  "inputs": [
+    {
+      "path": "data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet",
+      "sha256": "08e12bff7c4a0b312325f34afbfc2863c77fe190bd7a857d8cba8ecd1fdf9383"
+    },
+    {
+      "path": "data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet",
+      "sha256": "78ed8f30da687fa31bf6b0b467ffdcfad45c24bdd832f424728ed8f9acac3203"
+    },
+    {
+      "path": "data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet",
+      "sha256": "40dfd96fd780ebffbed249a53d93df85a34c965a6ecc8ac6c90492dba6b54598"
+    },
+    {
+      "path": "data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet",
+      "sha256": "96bb4cc683288cfcf14287e7231ffb930722591b48d6cad9e9d2243edc08eed4"
+    },
+    {
+      "path": "data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet",
+      "sha256": "10d4b632b4bec9e55b6248b09a96f19e3cdc75413c9e1c17f15a399678060105"
+    },
+    {
+      "path": "data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet",
+      "sha256": "6be5b1bd7eef374817551f43642ebaead13be22792739939ff94880ef3540c13"
+    }
+  ],
+  "oof_sha256": "263532619864d5d40bc42428d9f972a41ad70d412d7345ae9dbf8d8c0123b439",
+  "oof_events": 730,
+  "oof_selected": 112,
+  "incomplete_retest_components": [],
+  "arms": [
+    {
+      "arm": "E0_unfiltered_oof_cohort_attempt2",
+      "status": "PASS",
+      "trades": 680,
+      "submitted_entries": 728,
+      "rejected_entries": 48,
+      "unsubmitted_signals": 2,
+      "same_bar_stop_target_ties": 0,
+      "gap_stops": 6,
+      "entries_delayed_by_missing_next_open": 6,
+      "pnl_equity_absolute_error": 1.6007106751203537e-10,
+      "order_statuses": {
+        "filled": 1360,
+        "rejected": 68,
+        "cancelled": 756
+      }
+    },
+    {
+      "arm": "E1_lightgbm_oof_capped_risk",
+      "status": "PASS",
+      "trades": 107,
+      "submitted_entries": 112,
+      "rejected_entries": 5,
+      "unsubmitted_signals": 0,
+      "same_bar_stop_target_ties": 0,
+      "gap_stops": 3,
+      "entries_delayed_by_missing_next_open": 4,
+      "pnl_equity_absolute_error": 1.7462298274040222e-10,
+      "order_statuses": {
+        "filled": 214,
+        "rejected": 8,
+        "cancelled": 114
+      }
+    },
+    {
+      "arm": "E2_lightgbm_cost_stress",
+      "status": "PASS",
+      "trades": 108,
+      "submitted_entries": 112,
+      "rejected_entries": 4,
+      "unsubmitted_signals": 0,
+      "same_bar_stop_target_ties": 0,
+      "gap_stops": 3,
+      "entries_delayed_by_missing_next_open": 4,
+      "pnl_equity_absolute_error": 1.3642420526593924e-10,
+      "order_statuses": {
+        "filled": 216,
+        "rejected": 7,
+        "cancelled": 113
+      }
+    }
+  ],
+  "E3_gap_UTC_timestamps": [
+    "2020-05-25 21:40:00+00:00",
+    "2020-05-25 21:45:00+00:00",
+    "2020-05-25 21:55:00+00:00",
+    "2020-05-25 22:00:00+00:00",
+    "2020-05-25 22:05:00+00:00",
+    "2020-05-25 22:10:00+00:00"
+  ],
+  "verification": "Independent oracle checked exact first available own-pair open, entry cost fractions, stop-first ties, stop gaps, targets, lot sizes, risk caps, statuses and native equity reconciliation.",
+  "limitations": [
+    "E2 applies the same signals and risk rules with stress costs. Its quantities and trade cohort differ from E1, so it is not an identical-order replay.",
+    "The immutable E0 failed terminal record is retained. The corrected completed baseline is in attempt2 and the supplemental attempt ledger."
+  ]
+}

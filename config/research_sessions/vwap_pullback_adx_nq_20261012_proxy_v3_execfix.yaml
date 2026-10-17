@@ -1,0 +1,101 @@
+# Versioned execution-model repair; strategy/data unchanged from v2.
+session_id: vwap_pullback_adx_nq_20261012_proxy_v3_execfix
+market: futures
+thesis: >-
+  Reproduce the frozen 2026 H1 NQ.F price proxy OR/VWAP/ADX strategy from
+  vwap_pullback_adx_nq_20261012_proxy_v2 after correcting a discovered
+  unrealistic adverse slippage charge on resting sell LIMIT fills. Test
+  whether B3 adds incremental net returns relative to B2 under the same
+  cost schedule. This is an execution-model correction, NOT new alpha.
+mechanism: >-
+  Same economic hypothesis and signal definitions as the original Phase 1
+  vwap_pullback_adx_nq_20261012. The repaired execution adapter applies
+  native adverse fixed-point slippage to market and stop orders only, and
+  zero adverse fixed slippage to resting limit orders. The native engine
+  executes fills and maintains the ledger and parent-linked OCO cancellation.
+  This removes legally invalid fills below sell-limit prices, while treating
+  queue fills as an optimistic OHLC-touch assumption requiring bid/ask audit.
+falsifier: >-
+  Fail execution repair if any native limit sell fills below the limit,
+  if linked OCO siblings both fill, if an unrelated position reverses,
+  if a same-minute dual hit is not stop-first, if entry time differs from
+  the next bar open, if TP/SL levels use any later bar, if cash and trade
+  ledgers disagree, or if a position remains after 15:55 CT. Do not
+  approve CME futures execution on a continuous vendor proxy.
+instruments:
+  - symbol: NQ.F
+    kind: futures
+    venue: London Strategic Edge continuous futures price proxy
+    identity: >-
+      Vendor-defined NQ.F continuous series, not a dated CME NQ contract.
+      True CME traded volume, roll semantics, bid/ask and fees are unverified.
+      20 USD/point multiplier and 0.25-point tick are NQ-equivalent
+      illustrative sizing assumptions, not source contract provenance.
+    session: >-
+      Same validated 122 full XNYS cash sessions, 08:30-15:55
+      America/Chicago, exclude March 6, 2026 for a missing minute.
+    timezone: America/Chicago
+data:
+  - id: nqf_dev_1m
+    symbol: NQ.F
+    role: prices
+    path: data/processed/vwap_adx_nqf_2026h1_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  retrospective_validation_start: "2026-07-01T00:00:00Z"
+  retrospective_validation_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  plan: >-
+    Fix the native fill adapter without modifying the installed ML4T package
+    or v2 artifacts. Preserve identical B1/B2/B3 strategy signals and
+    entry/exit paths in January-June 2026. On market and stop fills, apply
+    the fixed adverse price slippage. On resting limit fills apply NONE;
+    still charge the same commission per side. Gross=0 fee 0 slippage,
+    base=$2.50 per contract per side plus 0.25 point on market/stop only,
+    stress=$2.50 plus 0.50 point on market/stop only. No changes in
+    timings, conditions, TP/SL lookbacks, position quantity, or session
+    selection from v2. Compare corrected results to retained v2 runs;
+    count differences rather than reinterpret v2 as unseen. Do not
+    open July-October results or the prospective holdout.
+  invariant_tests: >-
+    Independent broker OCO synthetic dual-hit plus entry-minute collision
+    tests; verify 1:1 linked sibling cancellation, stop-first policy,
+    correct market/stop adverse pricing and no resting limit price
+    violation. Verify daily flat and replay every native trade against
+    its signal and input source. Fail on any issue.
+baseline: >-
+  B0 no trade, B1 OR only, B2 OR+VWAP reclaim, B3 B2+ADX gate,
+  as registered in v2. Use the same frozen entry signals and risk rules.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Schema bps placeholders not operational rates. Active NQ-equivalent
+    engine per side: $2.50 commission, 0.25 points adverse MARKET and
+    STOP fills in base, 0.50 points in stress, 0 for LIMIT slippage.
+    No bid/ask quotes, order book, participation impact or confirmed
+    futures broker fee schedule; illustrative only.
+trials:
+  - id: T0_native_oco_limit_contract_test
+    kind: diagnostic
+    description: >-
+      Verify native ml4t-backtest package v0.1.7 parent_id linked
+      bracket cancellation on stop-first dual-touch bars and entry
+      minute, legal limit-price fill, non-reversal and cost behavior.
+  - id: T1_corrected_native_replay
+    kind: preregistered
+    description: >-
+      Run native Engine B1/B2/B3 gross/base/stress on frozen H1 input;
+      use order-aware slippage wrapper only, original decision logic.
+      Write one artifact directory per trial and do not overwrite v2.
+  - id: T2_independent_reconciliation
+    kind: preregistered
+    description: >-
+      Audit all 9 fill/order/trade/equity ledgers against signal timestamps,
+      source OHLC, levels, OCO, 15:55 exit and limit floors. Compare
+      paired B3-B2 daily PnL, session-cluster bootstrap and uncertainty.
+evidence:
+  - config/research_sessions/vwap_pullback_adx_nq_20261012_proxy_v2.yaml
+  - docs/audit/vwap_pullback_adx_phase4_20261012.md
+  - run_log/vwap_pullback_adx_nq_20261012_proxy_v2/phase4/independent_audit_v2.json

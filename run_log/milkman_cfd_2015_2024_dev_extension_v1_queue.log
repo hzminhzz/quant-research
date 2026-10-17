@@ -1,0 +1,246 @@
+QUEUE_START 2026-10-14T16:59:58Z HEAD=144132cd3986929aa5f1367d004be1c8bfd01d59 BRANCH=local-first-main-sync-20261014
+SKIP_VERIFIED swing_golden_gate 2015
+RUN_START swing_golden_gate 2016 2026-10-14T16:59:58Z
+INPUT swing_golden_gate 2016 258 258
+RESULT {"case": "swing_golden_gate", "year": 2016, "status": "NATIVE_RECONCILED", "closed_trades": 2, "net_return_pct": -0.25734385077361366, "native_daily_sharpe": -0.6438113235447506}
+RUN_OK swing_golden_gate 2016 2026-10-14T17:00:07Z
+RUN_START swing_golden_gate 2017 2026-10-14T17:00:07Z
+INPUT swing_golden_gate 2017 257 257
+RESULT {"case": "swing_golden_gate", "year": 2017, "status": "NATIVE_RECONCILED", "closed_trades": 0, "net_return_pct": 0.0, "native_daily_sharpe": null}
+RUN_OK swing_golden_gate 2017 2026-10-14T17:00:13Z
+RUN_START swing_golden_gate 2018 2026-10-14T17:00:13Z
+INPUT swing_golden_gate 2018 258 258
+RESULT {"case": "swing_golden_gate", "year": 2018, "status": "NATIVE_RECONCILED", "closed_trades": 2, "net_return_pct": 0.09975060894644412, "native_daily_sharpe": 0.6670685741711845}
+RUN_OK swing_golden_gate 2018 2026-10-14T17:00:20Z
+RUN_START swing_golden_gate 2019 2026-10-14T17:00:20Z
+INPUT swing_golden_gate 2019 258 258
+RESULT {"case": "swing_golden_gate", "year": 2019, "status": "NATIVE_RECONCILED", "closed_trades": 2, "net_return_pct": 0.19999490480232635, "native_daily_sharpe": 0.4880084637807485}
+RUN_OK swing_golden_gate 2019 2026-10-14T17:00:26Z
+RUN_START swing_golden_gate 2020 2026-10-14T17:00:26Z
+INPUT swing_golden_gate 2020 259 259
+RESULT {"case": "swing_golden_gate", "year": 2020, "status": "NATIVE_RECONCILED", "closed_trades": 1, "net_return_pct": 0.17246847338780935, "native_daily_sharpe": 0.38376143558884546}
+RUN_OK swing_golden_gate 2020 2026-10-14T17:00:32Z
+RUN_START swing_golden_gate 2021 2026-10-14T17:00:32Z
+INPUT swing_golden_gate 2021 259 259
+RESULT {"case": "swing_golden_gate", "year": 2021, "status": "NATIVE_RECONCILED", "closed_trades": 1, "net_return_pct": 0.12763264912930025, "native_daily_sharpe": 1.0200207273058306}
+RUN_OK swing_golden_gate 2021 2026-10-14T17:00:39Z
+RUN_START swing_golden_gate 2022 2026-10-14T17:00:39Z
+INPUT swing_golden_gate 2022 258 258
+RESULT {"case": "swing_golden_gate", "year": 2022, "status": "NATIVE_RECONCILED", "closed_trades": 4, "net_return_pct": 1.072710051996808, "native_daily_sharpe": 1.825859629349349}
+RUN_OK swing_golden_gate 2022 2026-10-14T17:00:45Z
+RUN_START swing_golden_gate 2023 2026-10-14T17:00:45Z
+INPUT swing_golden_gate 2023 257 257
+RESULT {"case": "swing_golden_gate", "year": 2023, "status": "NATIVE_RECONCILED", "closed_trades": 1, "net_return_pct": -0.2645856068242138, "native_daily_sharpe": -0.9869896035704069}
+RUN_OK swing_golden_gate 2023 2026-10-14T17:00:50Z
+RUN_START swing_golden_gate 2024 2026-10-14T17:00:50Z
+INPUT swing_golden_gate 2024 259 259
+RESULT {"case": "swing_golden_gate", "year": 2024, "status": "NATIVE_RECONCILED", "closed_trades": 3, "net_return_pct": -0.7280921462028637, "native_daily_sharpe": -1.818893461748048}
+RUN_OK swing_golden_gate 2024 2026-10-14T17:00:55Z
+SKIP_VERIFIED legends_buy_day 2015
+RUN_START legends_buy_day 2016 2026-10-14T17:00:55Z
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 320, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 316, in main
+    execute(a.case,a.year,a.out)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 246, in execute
+    px,signals,strategy,src=inputs(case,year)
+                            ~~~~~~^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 146, in inputs
+    raw, manifest = _minute(alias, year)
+                    ~~~~~~~^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 81, in _minute
+    raise ValueError(f"Coverage deficit {alias} {year}: {active.height} minutes")
+ValueError: Coverage deficit ES 2016: 215643 minutes
+RUN_FAILED legends_buy_day 2016 2026-10-14T17:01:01Z
+RUN_START legends_buy_day 2017 2026-10-14T17:01:01Z
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 320, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 316, in main
+    execute(a.case,a.year,a.out)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 246, in execute
+    px,signals,strategy,src=inputs(case,year)
+                            ~~~~~~^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 146, in inputs
+    raw, manifest = _minute(alias, year)
+                    ~~~~~~~^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 81, in _minute
+    raise ValueError(f"Coverage deficit {alias} {year}: {active.height} minutes")
+ValueError: Coverage deficit ES 2017: 213862 minutes
+RUN_FAILED legends_buy_day 2017 2026-10-14T17:01:06Z
+RUN_START legends_buy_day 2018 2026-10-14T17:01:06Z
+INPUT legends_buy_day 2018 306485 306485
+RESULT {"case": "legends_buy_day", "year": 2018, "status": "NATIVE_RECONCILED", "closed_trades": 10, "net_return_pct": 0.05958747670572484, "native_daily_sharpe": 0.40424983118303953}
+RUN_OK legends_buy_day 2018 2026-10-14T17:01:27Z
+RUN_START legends_buy_day 2019 2026-10-14T17:01:27Z
+INPUT legends_buy_day 2019 342965 342965
+RESULT {"case": "legends_buy_day", "year": 2019, "status": "NATIVE_RECONCILED", "closed_trades": 5, "net_return_pct": -0.1907008733330149, "native_daily_sharpe": -1.1372385216666547}
+RUN_OK legends_buy_day 2019 2026-10-14T17:01:47Z
+RUN_START legends_buy_day 2020 2026-10-14T17:01:47Z
+INPUT legends_buy_day 2020 344475 344475
+RESULT {"case": "legends_buy_day", "year": 2020, "status": "NATIVE_RECONCILED", "closed_trades": 10, "net_return_pct": 0.7181958337008691, "native_daily_sharpe": 1.1290972402631607}
+RUN_OK legends_buy_day 2020 2026-10-14T17:02:08Z
+RUN_START legends_buy_day 2021 2026-10-14T17:02:08Z
+INPUT legends_buy_day 2021 344054 344054
+RESULT {"case": "legends_buy_day", "year": 2021, "status": "NATIVE_RECONCILED", "closed_trades": 12, "net_return_pct": 0.202043897970987, "native_daily_sharpe": 0.8412813184106883}
+RUN_OK legends_buy_day 2021 2026-10-14T17:02:28Z
+RUN_START legends_buy_day 2022 2026-10-14T17:02:28Z
+INPUT legends_buy_day 2022 342997 342997
+RESULT {"case": "legends_buy_day", "year": 2022, "status": "NATIVE_RECONCILED", "closed_trades": 23, "net_return_pct": -0.3828969905323611, "native_daily_sharpe": -0.9621399469216839}
+RUN_OK legends_buy_day 2022 2026-10-14T17:02:49Z
+RUN_START legends_buy_day 2023 2026-10-14T17:02:49Z
+INPUT legends_buy_day 2023 341200 341200
+RESULT {"case": "legends_buy_day", "year": 2023, "status": "NATIVE_RECONCILED", "closed_trades": 12, "net_return_pct": -0.23562565439738684, "native_daily_sharpe": -1.2034121651594236}
+RUN_OK legends_buy_day 2023 2026-10-14T17:03:10Z
+RUN_START legends_buy_day 2024 2026-10-14T17:03:10Z
+INPUT legends_buy_day 2024 344094 344094
+RESULT {"case": "legends_buy_day", "year": 2024, "status": "NATIVE_RECONCILED", "closed_trades": 13, "net_return_pct": 0.2085677887181373, "native_daily_sharpe": 1.025407662278331}
+RUN_OK legends_buy_day 2024 2026-10-14T17:03:29Z
+SKIP_VERIFIED legends_ema 2015
+RUN_START legends_ema 2016 2026-10-14T17:03:29Z
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 320, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 316, in main
+    execute(a.case,a.year,a.out)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 246, in execute
+    px,signals,strategy,src=inputs(case,year)
+                            ~~~~~~^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 146, in inputs
+    raw, manifest = _minute(alias, year)
+                    ~~~~~~~^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 81, in _minute
+    raise ValueError(f"Coverage deficit {alias} {year}: {active.height} minutes")
+ValueError: Coverage deficit NQ 2016: 215643 minutes
+RUN_FAILED legends_ema 2016 2026-10-14T17:03:33Z
+RUN_START legends_ema 2017 2026-10-14T17:03:33Z
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 320, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 316, in main
+    execute(a.case,a.year,a.out)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 246, in execute
+    px,signals,strategy,src=inputs(case,year)
+                            ~~~~~~^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 146, in inputs
+    raw, manifest = _minute(alias, year)
+                    ~~~~~~~^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 81, in _minute
+    raise ValueError(f"Coverage deficit {alias} {year}: {active.height} minutes")
+ValueError: Coverage deficit NQ 2017: 213862 minutes
+RUN_FAILED legends_ema 2017 2026-10-14T17:03:38Z
+RUN_START legends_ema 2018 2026-10-14T17:03:38Z
+INPUT legends_ema 2018 306485 306485
+RESULT {"case": "legends_ema", "year": 2018, "status": "NATIVE_RECONCILED", "closed_trades": 22, "net_return_pct": 0.2676249681126501, "native_daily_sharpe": 0.6986809728399153}
+RUN_OK legends_ema 2018 2026-10-14T17:03:58Z
+RUN_START legends_ema 2019 2026-10-14T17:03:58Z
+INPUT legends_ema 2019 342965 342965
+RESULT {"case": "legends_ema", "year": 2019, "status": "NATIVE_RECONCILED", "closed_trades": 12, "net_return_pct": -0.0004623712050233735, "native_daily_sharpe": -0.0018321434908957414}
+RUN_OK legends_ema 2019 2026-10-14T17:04:21Z
+RUN_START legends_ema 2020 2026-10-14T17:04:21Z
+INPUT legends_ema 2020 344475 344475
+RESULT {"case": "legends_ema", "year": 2020, "status": "NATIVE_RECONCILED", "closed_trades": 8, "net_return_pct": -0.03151439351966837, "native_daily_sharpe": -0.12930362247512509}
+RUN_OK legends_ema 2020 2026-10-14T17:04:44Z
+RUN_START legends_ema 2021 2026-10-14T17:04:44Z
+INPUT legends_ema 2021 344054 344054
+RESULT {"case": "legends_ema", "year": 2021, "status": "NATIVE_RECONCILED", "closed_trades": 15, "net_return_pct": 0.17206479170113745, "native_daily_sharpe": 0.7007248558682104}
+RUN_OK legends_ema 2021 2026-10-14T17:05:06Z
+RUN_START legends_ema 2022 2026-10-14T17:05:06Z
+INPUT legends_ema 2022 342997 342997
+RESULT {"case": "legends_ema", "year": 2022, "status": "NATIVE_RECONCILED", "closed_trades": 16, "net_return_pct": -0.2736619832263532, "native_daily_sharpe": -0.5093723223674287}
+RUN_OK legends_ema 2022 2026-10-14T17:05:29Z
+RUN_START legends_ema 2023 2026-10-14T17:05:29Z
+INPUT legends_ema 2023 341200 341200
+RESULT {"case": "legends_ema", "year": 2023, "status": "NATIVE_RECONCILED", "closed_trades": 12, "net_return_pct": 0.11308361486873764, "native_daily_sharpe": 0.6185566899608563}
+RUN_OK legends_ema 2023 2026-10-14T17:05:49Z
+RUN_START legends_ema 2024 2026-10-14T17:05:49Z
+INPUT legends_ema 2024 344094 344094
+RESULT {"case": "legends_ema", "year": 2024, "status": "NATIVE_RECONCILED", "closed_trades": 19, "net_return_pct": 0.4543847225658101, "native_daily_sharpe": 2.353580195824488}
+RUN_OK legends_ema 2024 2026-10-14T17:06:09Z
+SKIP_VERIFIED bilbo_box_v2 2015
+RUN_START bilbo_box_v2 2016 2026-10-14T17:06:09Z
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 320, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 316, in main
+    execute(a.case,a.year,a.out)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 246, in execute
+    px,signals,strategy,src=inputs(case,year)
+                            ~~~~~~^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 146, in inputs
+    raw, manifest = _minute(alias, year)
+                    ~~~~~~~^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 81, in _minute
+    raise ValueError(f"Coverage deficit {alias} {year}: {active.height} minutes")
+ValueError: Coverage deficit NQ 2016: 215643 minutes
+RUN_FAILED bilbo_box_v2 2016 2026-10-14T17:06:12Z
+RUN_START bilbo_box_v2 2017 2026-10-14T17:06:12Z
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 320, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 316, in main
+    execute(a.case,a.year,a.out)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 246, in execute
+    px,signals,strategy,src=inputs(case,year)
+                            ~~~~~~^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 146, in inputs
+    raw, manifest = _minute(alias, year)
+                    ~~~~~~~^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_milkman_extended_2015_2024.py", line 81, in _minute
+    raise ValueError(f"Coverage deficit {alias} {year}: {active.height} minutes")
+ValueError: Coverage deficit NQ 2017: 213862 minutes
+RUN_FAILED bilbo_box_v2 2017 2026-10-14T17:06:16Z
+RUN_START bilbo_box_v2 2018 2026-10-14T17:06:16Z
+INPUT bilbo_box_v2 2018 41783 14
+RESULT {"case": "bilbo_box_v2", "year": 2018, "status": "NATIVE_RECONCILED", "closed_trades": 11, "net_return_pct": -0.15371102927764876, "native_daily_sharpe": -0.3130800409928319}
+RUN_OK bilbo_box_v2 2018 2026-10-14T17:06:22Z
+RUN_START bilbo_box_v2 2019 2026-10-14T17:06:22Z
+INPUT bilbo_box_v2 2019 43824 21
+RESULT {"case": "bilbo_box_v2", "year": 2019, "status": "NATIVE_RECONCILED", "closed_trades": 16, "net_return_pct": -0.07748313878326735, "native_daily_sharpe": -0.10303320377565613}
+RUN_OK bilbo_box_v2 2019 2026-10-14T17:06:28Z
+RUN_START bilbo_box_v2 2020 2026-10-14T17:06:28Z
+INPUT bilbo_box_v2 2020 44031 24
+RESULT {"case": "bilbo_box_v2", "year": 2020, "status": "NATIVE_RECONCILED", "closed_trades": 19, "net_return_pct": 0.3174258512467204, "native_daily_sharpe": 0.2478884286630757}
+RUN_OK bilbo_box_v2 2020 2026-10-14T17:06:35Z
+RUN_START bilbo_box_v2 2021 2026-10-14T17:06:35Z
+INPUT bilbo_box_v2 2021 43946 18
+RESULT {"case": "bilbo_box_v2", "year": 2021, "status": "NATIVE_RECONCILED", "closed_trades": 10, "net_return_pct": 1.1699944518854464, "native_daily_sharpe": 2.080082944545412}
+RUN_OK bilbo_box_v2 2021 2026-10-14T17:06:42Z
+RUN_START bilbo_box_v2 2022 2026-10-14T17:06:42Z
+INPUT bilbo_box_v2 2022 43825 7
+RESULT {"case": "bilbo_box_v2", "year": 2022, "status": "NATIVE_RECONCILED", "closed_trades": 5, "net_return_pct": -0.34475576914801787, "native_daily_sharpe": -0.45558153098255916}
+RUN_OK bilbo_box_v2 2022 2026-10-14T17:06:50Z
+RUN_START bilbo_box_v2 2023 2026-10-14T17:06:50Z
+INPUT bilbo_box_v2 2023 43562 23
+RESULT {"case": "bilbo_box_v2", "year": 2023, "status": "NATIVE_RECONCILED", "closed_trades": 17, "net_return_pct": -0.5719415357715479, "native_daily_sharpe": -0.6417752019607665}
+RUN_OK bilbo_box_v2 2023 2026-10-14T17:06:57Z
+RUN_START bilbo_box_v2 2024 2026-10-14T17:06:57Z
+INPUT bilbo_box_v2 2024 43950 17
+RESULT {"case": "bilbo_box_v2", "year": 2024, "status": "NATIVE_RECONCILED", "closed_trades": 12, "net_return_pct": -0.2239090407115582, "native_daily_sharpe": -0.3245175042494074}
+RUN_OK bilbo_box_v2 2024 2026-10-14T17:07:04Z
+QUEUE_FINISHED 2026-10-14T17:07:04Z failures=6

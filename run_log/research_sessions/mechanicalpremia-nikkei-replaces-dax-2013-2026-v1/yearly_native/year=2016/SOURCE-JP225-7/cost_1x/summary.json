@@ -1,0 +1,113 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2016,
+  "trial": "SOURCE-JP225-7",
+  "cost_multiplier": 1,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "US100",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 153,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "JP225",
+      "rows": 298937,
+      "first": "2016-01-04 01:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 177,
+      "d1_signals": 5,
+      "d1_exits": 19
+    },
+    {
+      "symbol": "EU50",
+      "rows": 215401,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 118,
+      "d1_signals": 1,
+      "d1_exits": 16
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 100842.680866975,
+    "num_trades": 120,
+    "num_orders": 241,
+    "num_fills": 241,
+    "num_rejected_orders": 0,
+    "win_rate": 0.425,
+    "total_commission": 353.69480470242047,
+    "total_slippage": 707.3890859361936,
+    "total_costs": 1056.5941191621766,
+    "max_drawdown_pct": 1.86697916455057
+  },
+  "daily": {
+    "total_return": 0.008426808669750319,
+    "annual_return": 0.00684479777965552,
+    "annual_volatility": 0.019492477238579324,
+    "sharpe_ratio": 0.3596635973086773,
+    "sortino_ratio": 0.5644253756981655,
+    "calmar_ratio": 0.48594088871472363,
+    "omega_ratio": 1.1092289475964396,
+    "tail_ratio": 1.5518620282733417,
+    "max_drawdown": -0.014085659261478254,
+    "skewness": 1.2956920711325848,
+    "kurtosis": 25.302784033649903,
+    "var_95": -0.001207534400684118,
+    "cvar_95": -0.0026251225727377944,
+    "stability": 0.035519177534815316,
+    "win_rate": 0.2161290322580645,
+    "profit_factor": 1.1092289475964396,
+    "avg_win": 0.0013071737421363346,
+    "avg_loss": -0.0009399562439608625,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 120,
+  "open_trades": 1,
+  "closed_net_pnl": 821.5969567411564,
+  "native_end_equity": 100842.680866975,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "JP225_D": {
+      "quantity": 0.7868825141619583,
+      "entry_price": 19021.7725938,
+      "current_price": 19050.469,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/SOURCE-JP225-7/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/SOURCE-JP225-7/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/SOURCE-JP225-7/cost_1x/daily_equity.parquet"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "strategy": "Dynamic Kalman Filter + OU Barriers + Volatility Regime Gate + Maker Execution",
+  "parameters": {
+    "z_entry": 4.0,
+    "z_exit": 0.5,
+    "z_stop": 5.5,
+    "min_hold_minutes": 60,
+    "max_hold_minutes": 720,
+    "cooldown_minutes": 180,
+    "maker_fee_bps": 1.5
+  },
+  "official_metrics": {
+    "initial_cash": 100000.0,
+    "final_value": 97077.22071922602,
+    "total_return": -0.029227792807739794,
+    "total_return_pct": -2.9227792807739794,
+    "max_drawdown": 0.03539394996558908,
+    "max_drawdown_pct": 3.539394996558908,
+    "num_trades": 1516.0,
+    "winning_trades": 741.0,
+    "losing_trades": 775.0,
+    "win_rate": 0.4887862796833773,
+    "total_commission": 4490.780125303023,
+    "total_slippage": 0.0,
+    "sharpe": -0.04023194087038109,
+    "sortino": -0.010982696614551531,
+    "calmar": -0.5859356639252642,
+    "cagr": -0.02073857757202502,
+    "volatility": 0.00024880415091006205,
+    "profit_factor": 0.9156668304565398,
+    "expectancy": -0.00015410347585250892,
+    "avg_trade": 0.00010698566820526442,
+    "avg_win": 0.004444625766074178,
+    "avg_loss": -0.004551082015552734,
+    "largest_win": 0.03553766600768229,
+    "largest_loss": -0.027225402564360082,
+    "payoff_ratio": 0.9766085847025485,
+    "total_gross_pnl": 1526.9894774171605,
+    "total_costs": 4487.621249909232,
+    "avg_cost_drag": 0.0002999825662932372,
+    "gross_profit_factor": 1.0464671657235045,
+    "skipped_bars": 0.0,
+    "num_orders": 3034.0,
+    "num_rejected_orders": 0.0,
+    "num_fills": 3034.0,
+    "num_rebalance_events": 1517.0,
+    "unique_symbols_traded": 2.0,
+    "total_filled_notional": 29938534.16868683,
+    "avg_turnover": 0.00040925775240423305,
+    "max_turnover": 0.21929958456285606,
+    "avg_open_positions": 0.10092413496668816,
+    "max_open_positions": 2.0,
+    "lifecycle_version": "1",
+    "lifecycle_callback_counts": "{'run_start': 1, 'causal_initialization': 1, 'pre_open': 0, 'opening_auction': 0, 'fill_reconciliation': 0, 'intrabar': 0, 'close': 0, 'market_event': 744480, 'run_end': 1}",
+    "lifecycle_invocations": "[]",
+    "execution_policy": "{'policy_id': 'ml4t-backtest-default-v1', 'market_fill_phase': 'opening_auction', 'opening_auction': 'client', 'close_auction': 'client', 'limit': 'client', 'stop': 'client', 'stop_limit': 'disabled', 'trailing': 'client', 'contingent': 'client', 'fee_bps': 1.4999999999999998, 'slippage_bps': 0.0, 'spread_bps': 0.0, 'impact_bps': 0.0, 'latency_ms': 0.0, 'liquidity_fraction': 1.0, 'allow_partial_fills': False, 'bar_path': 'conservative', 'supported_sessions': ['regular'], 'lifecycle_version': '1'}",
+    "target_intent_count": 0.0,
+    "child_order_intent_count": 0.0,
+    "intent_reconciliation_count": 0.0,
+    "target_rule_reconciliation_count": 0.0,
+    "target_intents": "[]",
+    "child_order_intents": "[]",
+    "intent_reconciliations": "[]",
+    "target_rule_reconciliations": "[]"
+  },
+  "cost_stress_testing": {
+    "1.0bps": {
+      "fee_bps": 1.0,
+      "projected_return_pct": -1.426905530804231,
+      "projected_fees": 2991.7474999394876,
+      "survives_friction": false
+    },
+    "1.5bps": {
+      "fee_bps": 1.5,
+      "projected_return_pct": -2.9227792807739754,
+      "projected_fees": 4487.621249909232,
+      "survives_friction": false
+    },
+    "2.0bps": {
+      "fee_bps": 2.0,
+      "projected_return_pct": -4.418653030743719,
+      "projected_fees": 5983.494999878975,
+      "survives_friction": false
+    },
+    "3.0bps": {
+      "fee_bps": 3.0,
+      "projected_return_pct": -7.410400530683208,
+      "projected_fees": 8975.242499818463,
+      "survives_friction": false
+    }
+  }
+}

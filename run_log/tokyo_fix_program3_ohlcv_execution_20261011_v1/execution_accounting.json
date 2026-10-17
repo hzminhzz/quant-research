@@ -1,0 +1,396 @@
+{
+  "status": "ALL_ATTEMPTS_RETAINED",
+  "economic_unique_rules": 14,
+  "cost_overlays": 56,
+  "native_full_artifacts": 28,
+  "engine_runs_returned": 29,
+  "partial_artifact_runtime_failure": "Attempt3 first market Engine.run returned, raw orders/trades preserved; failed touch-count finalization; identical policy replay in attempt4.",
+  "attempts": [
+    {
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt1.log",
+      "sha256": "7a4395705bad0073edd03d3804a6ad2dded1660b3b95cf7ba2c3b366cf428b5f",
+      "status": "FAILED_RUNTIME",
+      "reason": "",
+      "native_artifact_disposition": "No deletion or overwrite"
+    },
+    {
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt2.log",
+      "sha256": "5347572247bac9b0cc0f3b6c4f32e44db5a81311656c709da1a924b83b21902c",
+      "status": "FAILED_RUNTIME",
+      "reason": "ml4t.engineer.core.exceptions.DataSchemaError: Missing required OHLCV columns: ['volume']. Available columns: ['close', 'gotobi', 'high', 'low', 'minute', 'open', 'ordinary', 'session', 'timestamp', 'weekday', 'year']",
+      "native_artifact_disposition": "No deletion or overwrite"
+    },
+    {
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt3.log",
+      "sha256": "b91756098dc393bc134289ab4cbdaa427ec454d659324dbf354ab9ab4159d77f",
+      "status": "FAILED_RUNTIME",
+      "reason": "polars.exceptions.ColumnNotFoundError: unable to find column \"session\"; valid columns: [\"timestamp\", \"symbol\", \"open\", \"high\", \"low\", \"close\", \"volume\"]",
+      "native_artifact_disposition": "No deletion or overwrite"
+    },
+    {
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt4.log",
+      "sha256": "84aef7d0b093079384adc571cfcfd95dd3f852ed3ff82abc5725867e12fdcd81",
+      "status": "COMPLETED",
+      "reason": "Fixed matrix completed",
+      "native_artifact_disposition": "No deletion or overwrite"
+    },
+    {
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt5_corrected.log",
+      "sha256": "8c3f7045b87c0f9b252d9b8a529c0faac1e41a56b8586fcaa2fa14a2f00e1a43",
+      "status": "COMPLETED",
+      "reason": "Fixed matrix completed",
+      "native_artifact_disposition": "No deletion or overwrite"
+    }
+  ],
+  "runs": [
+    {
+      "id": "limit_o0_t1_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t1_b0/result.json",
+      "sha256": "a8282566c6b672fe219fad9699518b9b33dfabe0ede5d9ed206b6ae36a35af42",
+      "signals": 468,
+      "fills": 259,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t1_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t1_b0p5/result.json",
+      "sha256": "9e9626fc449fcaf43fe45c08eeac4ef64a666f5165cb184fd4d9b96044bd0d77",
+      "signals": 468,
+      "fills": 223,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t3_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t3_b0/result.json",
+      "sha256": "14a35ca036a980fe29aee40498e323b2ac4afe11b3ad11685dd63fea84181574",
+      "signals": 468,
+      "fills": 300,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t3_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t3_b0p5/result.json",
+      "sha256": "0521c957363f606f95495f16af7b8d173011fc239fb9c96aa4736dd921e270c1",
+      "signals": 468,
+      "fills": 270,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t1_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t1_b0/result.json",
+      "sha256": "fbe2538a8e1453a8abe93f313c6975d112369c715ebf0db3291b41f13607578d",
+      "signals": 468,
+      "fills": 223,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t1_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t1_b0p5/result.json",
+      "sha256": "86a15e6936450df7969f5d18267b46805b132c716b531360ed5408408fd0f28e",
+      "signals": 468,
+      "fills": 188,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t3_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t3_b0/result.json",
+      "sha256": "703944f979769bf0ec7c79ec53e2920f45fc22bd43c329ce3b2286efeeb38efd",
+      "signals": 468,
+      "fills": 270,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t3_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t3_b0p5/result.json",
+      "sha256": "490fd6dfd6ae3b5bf0b078b14db29f2f29f2209d66dc61a95c1958e08a767c8d",
+      "signals": 468,
+      "fills": 237,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t1_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t1_b0/result.json",
+      "sha256": "df4e39f5aceb01a309a11501d294f926d831fc52245dca967758de444c115b37",
+      "signals": 468,
+      "fills": 188,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t1_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t1_b0p5/result.json",
+      "sha256": "9b3032b14833d57251fdd7269353edece2113dcec680e3bc253de521bef2fdee",
+      "signals": 468,
+      "fills": 157,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t3_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t3_b0/result.json",
+      "sha256": "1ddae9548269e08522411d51f28c2dd06ce6bdec4b9069bf84e3d11202c2eaef",
+      "signals": 468,
+      "fills": 237,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t3_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t3_b0p5/result.json",
+      "sha256": "2547f9b6a1ab8069299c3780f7562ae393a480ad8308bf322fc50e2a6153f77f",
+      "signals": 468,
+      "fills": 200,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "market_gotobi",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/market_gotobi/result.json",
+      "sha256": "fd3a18e643cb19c5f7bb784d6ee9a5747e68cc5b9ae5ed27d8494b27fc02cb09",
+      "signals": 468,
+      "fills": 468,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "market_ordinary",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/market_ordinary/result.json",
+      "sha256": "45846535e7116f44cd6b4de3b738a4d8bd66f46a95009e29fe22554cf17172d5",
+      "signals": 1157,
+      "fills": 1157,
+      "disposition": "Initial execution. Six policies rejected by decimal oracle; all initial artifacts retained. Corrected runs are authoritative.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t1_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t1_b0/result.json",
+      "sha256": "ae4f77a0ed0d3b710696686a65bd01679530a122362a85ac1a3e3ee62ed699d2",
+      "signals": 468,
+      "fills": 259,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t1_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t1_b0p5/result.json",
+      "sha256": "6bed60f10f248c84a2694207d2452a385db4bcbe2e0e91f40c5463b9050c962f",
+      "signals": 468,
+      "fills": 220,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t3_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t3_b0/result.json",
+      "sha256": "c36b7e309491027e3b60bb72f06ff2da319ae37596b0f651d904d31ec5afbff3",
+      "signals": 468,
+      "fills": 300,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0_t3_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t3_b0p5/result.json",
+      "sha256": "21a369bba2d0082df341c8c705ce8c5c405cf7ed300e82ea81e88cc78fae39f1",
+      "signals": 468,
+      "fills": 268,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t1_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t1_b0/result.json",
+      "sha256": "9e1726f1e2c42b814f3af4e42437df013c698938342596256dfecd71db0729e7",
+      "signals": 468,
+      "fills": 220,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t1_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t1_b0p5/result.json",
+      "sha256": "cf872ac79d866253127097ff856742e756fda984b9afc387f1068fa2ad277a4b",
+      "signals": 468,
+      "fills": 188,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t3_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t3_b0/result.json",
+      "sha256": "36efd887cf7fbe33fdc809543fa750c261d505025c86e30c8f384507daec7909",
+      "signals": 468,
+      "fills": 268,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o0p5_t3_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t3_b0p5/result.json",
+      "sha256": "4af7d0fe34baa7aa1ceb2f7dc29e80697415c8f67a5765042580ca3b91e2d0da",
+      "signals": 468,
+      "fills": 237,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t1_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t1_b0/result.json",
+      "sha256": "8aac556f2bc0627b59cbfda63e9c14d7cbf3d467dbc3891396617cd4740d60c3",
+      "signals": 468,
+      "fills": 188,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t1_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t1_b0p5/result.json",
+      "sha256": "092e5d454ac186fd77589ee9f9448ee63399bd5eb6de2d56e53f56554a1008c0",
+      "signals": 468,
+      "fills": 156,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t3_b0",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t3_b0/result.json",
+      "sha256": "d311947bd2e35deeb9d793d9b54c179e142fdae36baef6d26babbf0c198943d1",
+      "signals": 468,
+      "fills": 237,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "limit_o1_t3_b0p5",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t3_b0p5/result.json",
+      "sha256": "e08e5539d8ff6cd43bcd7060ad651890fc0978e8757df8a94f9c0e9fb5b88424",
+      "signals": 468,
+      "fills": 199,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "market_gotobi",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/market_gotobi/result.json",
+      "sha256": "fd3a18e643cb19c5f7bb784d6ee9a5747e68cc5b9ae5ed27d8494b27fc02cb09",
+      "signals": 468,
+      "fills": 468,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    },
+    {
+      "id": "market_ordinary",
+      "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/market_ordinary/result.json",
+      "sha256": "45846535e7116f44cd6b4de3b738a4d8bd66f46a95009e29fe22554cf17172d5",
+      "signals": 1157,
+      "fills": 1157,
+      "disposition": "VERIFIED every fill and missed signal by independent Decimal oracle; hypothetical eligibility only.",
+      "strategic_variant_unchanged": true
+    }
+  ],
+  "initial_run_fill_dispositions": [
+    {
+      "trial": "limit_o0_t1_b0",
+      "status": "PASS",
+      "trades_checked": 259
+    },
+    {
+      "trial": "limit_o0_t1_b0p5",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "limit_o0_t3_b0",
+      "status": "PASS",
+      "trades_checked": 300
+    },
+    {
+      "trial": "limit_o0_t3_b0p5",
+      "status": "REJECTED",
+      "reason": "Native fill is not first eligible source bar"
+    },
+    {
+      "trial": "limit_o0p5_t1_b0",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "limit_o0p5_t1_b0p5",
+      "status": "PASS",
+      "trades_checked": 188
+    },
+    {
+      "trial": "limit_o0p5_t3_b0",
+      "status": "REJECTED",
+      "reason": "Native fill is not first eligible source bar"
+    },
+    {
+      "trial": "limit_o0p5_t3_b0p5",
+      "status": "PASS",
+      "trades_checked": 237
+    },
+    {
+      "trial": "limit_o1_t1_b0",
+      "status": "PASS",
+      "trades_checked": 188
+    },
+    {
+      "trial": "limit_o1_t1_b0p5",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "limit_o1_t3_b0",
+      "status": "PASS",
+      "trades_checked": 237
+    },
+    {
+      "trial": "limit_o1_t3_b0p5",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "market_gotobi",
+      "status": "PASS",
+      "trades_checked": 468
+    },
+    {
+      "trial": "market_ordinary",
+      "status": "PASS",
+      "trades_checked": 1157
+    }
+  ],
+  "correction": "Binary floating dust admitted some exact touches. Compare nominal decimal prices at8decimal places; unchanged raw OHLC and frozen strict-cross policy. No parameter selection. Full corrected replay separate.",
+  "authoritative_comparison": "T2_comparison_corrected/result.json",
+  "original_CLI_terminal_records": "Create-once originals retained; completed means run executed, not fill validation. T3/T4 supply rejected/corrected dispositions and identities.",
+  "implementation_amendment": {
+    "frozen_initial_runner": {
+      "exists": true,
+      "path": "scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py",
+      "sha256": "fbeadc02bd52040b8b251bda00302fab182e3d9255a9a3362df4c249d241dfeb",
+      "size_bytes": 33850
+    },
+    "actual_final_sources": {
+      "scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "1fef99665ee4f33d77faa539322a41d92323d43c9e8211389c640f320e6bb92e",
+      "scripts/verify_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "2a60173486ed05f9cea18dbc588b2854d6cde596e6e38721c4e3c48b3b0d87b7",
+      "scripts/supplement_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "4e26fdec54dbdc292b993853c81386393ee5b392fcfb73b0a4aaebb371f90d02",
+      "scripts/finalize_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "332df993ac33810b0d67065cb6e85df4437a1f31337e16e0fc3a19f376456a4f",
+      "tests/test_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "2337e1f99191fa7f0d270a02ff95f56c50aa045383d93357611de4462be6cba4"
+    }
+  },
+  "additional_skill": {
+    "name": "ml4t-information-coefficient",
+    "path": ".agents/skills/ml4t-information-coefficient/SKILL.md",
+    "sha256": "ed56593e3c4e6590a627833196e80145e19f5aad627a864cceebb8718abd9243",
+    "reason": "Single-asset event Rank correlation; no cross-sectional breadth claim; controlled HAC evidence and yearly stability independently checked."
+  },
+  "no_new_selection_trials": true
+}

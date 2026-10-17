@@ -1,0 +1,123 @@
+{
+  "scope": "strictly year=2013..2024 acceptance and path inventory, no market returns",
+  "source": "Dukascopy 1-minute bid CFD",
+  "holdout_start": "2025-01-01T00:00:00Z",
+  "datasets": {
+    "US500": {
+      "store": "index_minute_ES",
+      "first": "2013-01-01",
+      "last": "2024-12-31",
+      "eligible_partition_count": 3583,
+      "accepted_record_count": 3583,
+      "counts_by_year": {
+        "2013": 313,
+        "2014": 313,
+        "2015": 276,
+        "2016": 258,
+        "2017": 257,
+        "2018": 297,
+        "2019": 312,
+        "2020": 312,
+        "2021": 311,
+        "2022": 310,
+        "2023": 311,
+        "2024": 313
+      },
+      "median_rows_per_day": 1335,
+      "threshold_min_rows": 1000,
+      "issues": {
+        "short_day": 1251,
+        "flags_present": 5
+      },
+      "price_types": {
+        "bid": 3583
+      }
+    },
+    "US100": {
+      "store": "index_minute_NQ",
+      "first": "2013-01-01",
+      "last": "2024-12-31",
+      "eligible_partition_count": 3583,
+      "accepted_record_count": 3583,
+      "counts_by_year": {
+        "2013": 313,
+        "2014": 313,
+        "2015": 276,
+        "2016": 258,
+        "2017": 257,
+        "2018": 297,
+        "2019": 312,
+        "2020": 312,
+        "2021": 311,
+        "2022": 310,
+        "2023": 311,
+        "2024": 313
+      },
+      "median_rows_per_day": 1335,
+      "threshold_min_rows": 1000,
+      "issues": {
+        "short_day": 1251,
+        "flags_present": 5
+      },
+      "price_types": {
+        "bid": 3583
+      }
+    },
+    "DE30": {
+      "store": "index_minute_DAX",
+      "first": "2013-09-30",
+      "last": "2024-12-31",
+      "eligible_partition_count": 3331,
+      "accepted_record_count": 3331,
+      "counts_by_year": {
+        "2013": 80,
+        "2014": 313,
+        "2015": 274,
+        "2016": 256,
+        "2017": 255,
+        "2018": 290,
+        "2019": 312,
+        "2020": 312,
+        "2021": 310,
+        "2022": 310,
+        "2023": 306,
+        "2024": 313
+      },
+      "median_rows_per_day": 1335,
+      "threshold_min_rows": 1000,
+      "issues": {
+        "short_day": 1197,
+        "flags_present": 5
+      },
+      "price_types": {
+        "bid": 3331
+      }
+    },
+    "EU50": {
+      "store": "index_minute_EUSIDXEUR",
+      "first": "2014-06-02",
+      "last": "2024-12-30",
+      "eligible_partition_count": 2712,
+      "accepted_record_count": 2712,
+      "counts_by_year": {
+        "2014": 152,
+        "2015": 257,
+        "2016": 257,
+        "2017": 255,
+        "2018": 255,
+        "2019": 255,
+        "2020": 257,
+        "2021": 258,
+        "2022": 258,
+        "2023": 255,
+        "2024": 253
+      },
+      "median_rows_per_day": 754.0,
+      "threshold_min_rows": 600,
+      "issues": {
+        "short_day": 530
+      },
+      "price_types": {}
+    }
+  }
+}

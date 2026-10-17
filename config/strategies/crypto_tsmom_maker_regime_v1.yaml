@@ -1,0 +1,58 @@
+# ==============================================================================
+# Strategy Configuration: Volatility-Targeted Regime-Conditioned TSMOM (v1.0.0)
+# Frozen Research Handoff: stage5-handoff-crypto-tsmom-v1
+# Status: FROZEN_RESEARCH_ACCEPTED (Stage 5 Ready)
+# ==============================================================================
+
+strategy:
+  id: "crypto_tsmom_maker_regime_v1"
+  name: "Volatility-Targeted Multi-Factor Regime-Conditioned Time-Series Momentum"
+  version: "1.0.0"
+  market: "crypto"
+  venue: "Binance USD-M Futures"
+  quote_currency: "USDT"
+
+universe:
+  symbols:
+    - "BTCUSDT"
+    - "ETHUSDT"
+    - "SOLUSDT"
+  bar_resolution: "1h"
+  timezone: "UTC"
+
+signals:
+  momentum:
+    primary_signal: "roc_168"          # 168-hour (7-day) lookback return
+    conviction_deadband: 0.015         # Dead-band threshold: +/- 1.5%
+  volatility:
+    lookback_hours: 168                # 7-day rolling realized volatility
+    annual_target_vol: 0.20            # 20.0% annualized target volatility
+    min_asset_weight: 0.05             # 5.0% NAV minimum active position
+    max_asset_weight: 0.35             # 35.0% NAV maximum single-asset position
+  regime:
+    adx_period: 14
+    adx_trend_threshold: 25.0
+    vol_rank_window_hours: 2160        # 90-day rolling min-max volatility rank
+    choppiness_threshold: 55.0         # Suppress entries when choppiness > 55
+
+execution:
+  order_type: "LIMIT_POST_ONLY"        # Passive maker orders only
+  fee_tier: "VIP_0"
+  commission_rate: 0.00018             # 1.8 bps maker fee with BNB discount
+  slippage_rate: 0.00000               # 0.0 bps slippage on limit fills
+  max_gross_leverage: 1.0              # 1.0x cash-backed (no borrowed margin)
+  rebalance_on_state_change_only: true # Trade on signal transition, avoid micro-churn
+
+risk_controls:
+  max_portfolio_drawdown_limit: 0.15   # 15.0% hard drawdown limit
+  max_daily_loss_limit: 0.05           # 5.0% max single-day drawdown
+  max_staleness_minutes: 120           # Data feed freshness ceiling
+  kill_switch_action: "HALT_AND_FLATTEN_ALL_POSITIONS"
+
+audited_metrics:
+  development_sharpe: 1.572
+  development_max_drawdown: 0.2426
+  development_fee_drag: 0.0651
+  out_of_sample_return: 0.1063
+  out_of_sample_alpha_vs_market: 0.5689
+  deflated_sharpe_ratio: 0.9821

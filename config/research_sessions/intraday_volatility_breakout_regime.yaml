@@ -1,0 +1,104 @@
+session_id: intraday_volatility_breakout_regime
+market: futures
+
+thesis: >-
+  Conditioning intraday volatility breakout entries on lagged 120-day volatility percentile rank
+  (vol_rank >= 0.25) with continuous risk scaling prevents false breakout whipsaws during
+  low-volatility regimes and preserves positive net expectancy after transaction costs.
+
+mechanism: >-
+  1. Volatility Regime Expansion: Days with high volatility rank exhibit strong directional
+     expansion (Spearman Rank IC = 0.195, p < 1e-10), allowing breakout entries to survive.
+  2. Noise Suppression: Suppressing trades when vol_rank < 0.25 prunes mean-reverting morning
+     chop that hits stops at the open.
+  3. Continuous Risk Scaling: Position risk is scaled continuously by regime rank, adhering
+     to ml4t-regime-awareness without binary market-timing fragility.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Net annualized Sharpe ratio fails to achieve positive value on development data.
+  2. Maximum drawdown exceeds 20.0%.
+  3. Profit factor is less than 1.05 after commissions and slippage.
+  4. Number of profitable calendar quarters is fewer than 4 of 6.
+
+instruments:
+  - symbol: ES
+    kind: future
+    venue: CME
+    session: "09:30-16:00"
+    timezone: America/New_York
+  - symbol: NQ
+    kind: future
+    venue: CME
+    session: "09:30-16:00"
+    timezone: America/New_York
+  - symbol: DAX
+    kind: future
+    venue: Eurex
+    session: "09:00-17:30"
+    timezone: Europe/Berlin
+  - symbol: US30
+    kind: future
+    venue: CBOT
+    session: "09:30-16:00"
+    timezone: America/New_York
+  - symbol: XAUUSD
+    kind: fx
+    venue: Oanda
+    session: "08:00-17:00"
+    timezone: America/New_York
+
+data:
+  - id: es_minute
+    symbol: ES
+    role: prices
+    path: data/processed/es_1m.parquet
+  - id: nq_minute
+    symbol: NQ
+    role: prices
+    path: data/processed/nq_1m.parquet
+  - id: dax_minute
+    symbol: DAX
+    role: prices
+    path: data/processed/dax_1m.parquet
+  - id: us30_minute
+    symbol: US30
+    role: prices
+    path: data/processed/us30_1m.parquet
+  - id: xauusd_minute
+    symbol: XAUUSD
+    role: prices
+    path: data/processed/xauusd_1m.parquet
+
+evaluation:
+  cadence: 1m
+  development_start: "2024-01-02T00:00:00Z"
+  development_end: "2025-06-30T23:59:59Z"
+  holdout_start: "2025-07-01T00:00:00Z"
+  holdout_end: "2025-12-30T23:59:59Z"
+  plan: >-
+    Purged chronological evaluation on 18-month development dataset.
+    Holdout period (H2 2025) remains unread until final confirmation.
+
+baseline: >-
+  Trial 1 raw Peter baseline (mult=0.40, unconditioned, return=-21.34%, Max DD=35.92%).
+
+costs:
+  commission_bps: 0.5
+  slippage_bps: 0.5
+
+trials:
+  - id: trial_1_regime_gated_040
+    kind: preregistered
+    description: >-
+      Regime-gated breakout at 0.40 * ATR(5), suppressing trades when prior_vol_rank < 0.25,
+      with continuous risk scaling (0.5x to 1.5x of 0.33%).
+  - id: trial_2_regime_gated_050
+    kind: preregistered
+    description: >-
+      Regime-gated breakout with wider 0.50 * ATR(5) band and continuous risk scaling.
+  - id: trial_3_adaptive_tier_matrix
+    kind: preregistered
+    description: >-
+      Adaptive multi-tier regime execution: Skip when vol_rank < 0.20; 0.55*ATR with 0.6x risk
+      in moderate vol (0.20-0.50); 0.40*ATR with 1.0x risk in expansion vol (>= 0.50).

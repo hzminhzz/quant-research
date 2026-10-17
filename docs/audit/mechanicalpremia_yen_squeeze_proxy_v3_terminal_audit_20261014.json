@@ -1,0 +1,1513 @@
+{
+  "accounting_audit_disposition": "FAILED_INCONCLUSIVE_FOR_FULL_PATH_RECONCILIATION",
+  "accounting_audit_reason": "Terminal native cash/equity/position state, full native trade PnL sum, final equity and daily close return chain reconcile. However, the retained artifacts do not include the per-bar native portfolio-state series or complete order lifecycle ledger needed to independently reconstruct cash, positions, and marks at every bar. The native daily pnl field is intraday close minus open, so it does not sum to the close-to-close equity change; do not treat it as an additive account ledger.",
+  "approval_status": "NOT_APPROVED",
+  "attribution_disposition": "COMPLETED_NATIVE_TRADE_LEDGER",
+  "attribution_reason": "All six native trade ledgers contain all three symbols, per-symbol trade PnL sums match the portfolio trade PnL, and aggregate per-symbol PnL reconciles to native account net profit.",
+  "audit_scope": "Read-only audit of existing frozen native outputs. No backtests were run. No market data at or after 2025-01-01 was read.",
+  "classification": "EXPLORATORY",
+  "cost_stress": {
+    "20": {
+      "expectancy_monotonic_decreasing": true,
+      "net_profit_monotonic_decreasing": true
+    },
+    "500": {
+      "expectancy_monotonic_decreasing": true,
+      "net_profit_monotonic_decreasing": true
+    }
+  },
+  "decision": "REJECTED_BY_FROZEN_DEVELOPMENT_FALSIFIER",
+  "decision_reason": "Both 2-pip candidates have negative closed-trade expectancy and negative marked daily-equity Sharpe. Both 4-pip net profits are negative. All 6 variants lose net account equity; this rejects the frozen proxy on observed development evidence, independent of deployment limitations.",
+  "frozen_session_sha256": "51635b909c84e66cf14cc8db49d0749d49b32bbc33046fd7f6061161ae729e91",
+  "frozen_snapshot_identities": [
+    {
+      "matches_frozen": true,
+      "path": "data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/USDJPY_2023_2024_1m.parquet",
+      "sha256_actual": "00e8b7ebceab3cec1a2f92d04e20b5061d8994dd84cd86aa51eb46c8f71bfd89",
+      "sha256_frozen": "00e8b7ebceab3cec1a2f92d04e20b5061d8994dd84cd86aa51eb46c8f71bfd89",
+      "size_bytes": 8291318
+    },
+    {
+      "matches_frozen": true,
+      "path": "data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/GBPJPY_2023_2024_1m.parquet",
+      "sha256_actual": "7bf8319bddfa9715bb86eb9513221dea135eebf8156ff11e247fecb03d2d800d",
+      "sha256_frozen": "7bf8319bddfa9715bb86eb9513221dea135eebf8156ff11e247fecb03d2d800d",
+      "size_bytes": 10879934
+    },
+    {
+      "matches_frozen": true,
+      "path": "data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/CADJPY_2023_2024_1m.parquet",
+      "sha256_actual": "dd68ea5fba40a3a229e665aa86db8f17d0e79f8fd032f4c29704abeabe9af590",
+      "sha256_frozen": "dd68ea5fba40a3a229e665aa86db8f17d0e79f8fd032f4c29704abeabe9af590",
+      "size_bytes": 10133529
+    }
+  ],
+  "frozen_spec_sha256": "b220668d837a2932dce60ed98331794dd91b4d951a272832913e2a09e89df00b",
+  "frozen_trial_records_before_terminal_audit": {
+    "DATA-CADJPY-PROVENANCE": {
+      "artifact_path": "docs/audit/mechanicalpremia_yen_squeeze_proxy_v3_data_gate_20261014.json",
+      "artifact_sha256": "97b0a5fb6154db3f54472f41827f7d5258fbc3322c72e6b8e373aafc45e0efe4",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/DATA-CADJPY-PROVENANCE.json",
+      "status": "completed"
+    },
+    "ENGINE-STOP-ORDER-AND-CASH-GATES": {
+      "artifact_path": "docs/audit/mechanicalpremia_yen_squeeze_proxy_v3_engine_gate_20261014.json",
+      "artifact_sha256": "9dd6b57f9df48793e2cae6e0d4e6bf0ca4bb0152626e342b35de60a1c555945e",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/ENGINE-STOP-ORDER-AND-CASH-GATES.json",
+      "status": "completed"
+    },
+    "FEATURE-AND-CLOCK-PARITY": {
+      "artifact_path": "docs/audit/mechanicalpremia_yen_squeeze_proxy_v3_feature_gate_20261014.json",
+      "artifact_sha256": "638a32c08aa047f2acf388cf05da4d5112e8aeb27bafb0b3be1df1b9a7a6b7ed",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/FEATURE-AND-CLOCK-PARITY.json",
+      "status": "completed"
+    },
+    "PORTFOLIO-20-4PIP": {
+      "artifact_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-20-4PIP/summary.json",
+      "artifact_sha256": "d147d75fce83cc9654ff94b13a7e4f39511bdb2a63ce39506fd47c29d024e373",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/PORTFOLIO-20-4PIP.json",
+      "status": "completed"
+    },
+    "PORTFOLIO-20-6PIP": {
+      "artifact_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-20-6PIP/summary.json",
+      "artifact_sha256": "1681df25bb2819043f17c80e9922b02f71b7501f9880ba7c455e9c56fb974693",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/PORTFOLIO-20-6PIP.json",
+      "status": "completed"
+    },
+    "PORTFOLIO-500-2PIP": {
+      "artifact_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-500-2PIP/summary.json",
+      "artifact_sha256": "18bfc0cbd1d85cb77b7e2e14f0002cdcc7d195a94165d61cf1408448472c9cf6",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/PORTFOLIO-500-2PIP.json",
+      "status": "completed"
+    },
+    "PORTFOLIO-500-4PIP": {
+      "artifact_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-500-4PIP/summary.json",
+      "artifact_sha256": "8dca128242a643f7c02e1f79a16f82b02e8b82e3725b213907aaf272d6e704e5",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/PORTFOLIO-500-4PIP.json",
+      "status": "completed"
+    },
+    "PORTFOLIO-500-6PIP": {
+      "artifact_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-500-6PIP/summary.json",
+      "artifact_sha256": "32e00a9a50994d9f7b16933b3044119dd14ed736c4f6ca28b2631e4a7d18e7fb",
+      "record_path": "run_log/research_sessions/mechanicalpremia-yen-squeeze-proxy-20261014-v3/trials/PORTFOLIO-500-6PIP.json",
+      "status": "completed"
+    }
+  },
+  "global_checks": {
+    "all_fills_use_gap_aware_open_price_source": true,
+    "all_native_entry_exit_slippage_proven": true,
+    "all_native_result_timestamps_within_development": true,
+    "all_six_parquet_triplets_and_summaries_match_manifests": true,
+    "all_terminal_trade_and_equity_reconciliations_pass": true,
+    "all_three_frozen_input_hashes_match": true,
+    "six_variants_present": true
+  },
+  "native_library_versions": {
+    "ml4t-backtest": "0.1.7",
+    "ml4t-data": "0.1.0b14",
+    "ml4t-diagnostic": "0.1.6.post2",
+    "ml4t-engineer": "0.1.4"
+  },
+  "process_observation": {
+    "matching_process_table_check": "No matching strategy or queue process was found in visible process table.",
+    "queue_log": "QUEUE_TERMINAL",
+    "tmux_check": "Unable to inspect host tmux socket in sandbox (Operation not permitted); this is an environment observation gap."
+  },
+  "protected_holdout": "No 2025+ market data was accessed. Final test remains protected and unreported.",
+  "schema_version": 1,
+  "session_id": "mechanicalpremia-yen-squeeze-proxy-20261014-v3",
+  "variants": [
+    {
+      "artifacts": {
+        "native_daily_equity.parquet": {
+          "manifest_sha256": "01600aa5b29c580631b0c25e99d704518d5a39ecaae225007857f0b9a2204e0d",
+          "matches_manifest": true,
+          "sha256": "01600aa5b29c580631b0c25e99d704518d5a39ecaae225007857f0b9a2204e0d",
+          "size_bytes": 33731
+        },
+        "native_fills.parquet": {
+          "manifest_sha256": "9bb05deab1551e710d4f6b1c5a7ad468b70a8db0b4b11d44282f64bf47e4f87b",
+          "matches_manifest": true,
+          "sha256": "9bb05deab1551e710d4f6b1c5a7ad468b70a8db0b4b11d44282f64bf47e4f87b",
+          "size_bytes": 111845
+        },
+        "native_trades.parquet": {
+          "manifest_sha256": "1e3c387149c4cdb42585356c77746b085841a73c4d8ddc054d7e2014110ae283",
+          "matches_manifest": true,
+          "sha256": "1e3c387149c4cdb42585356c77746b085841a73c4d8ddc054d7e2014110ae283",
+          "size_bytes": 152909
+        },
+        "summary.json": {
+          "manifest_sha256": "ecf040cd7423e922e7e156543a345c2f8c4cd6f87a22d2e58d844a977a6b620a",
+          "matches_manifest": true,
+          "sha256": "ecf040cd7423e922e7e156543a345c2f8c4cd6f87a22d2e58d844a977a6b620a",
+          "size_bytes": 264102
+        }
+      },
+      "checks": {
+        "all_fill_price_sources_open": true,
+        "all_manifest_hashes_match": true,
+        "daily_close_return_chain_matches_final_equity": true,
+        "daily_period_only_2023_2024": true,
+        "dev_max_exclusive_2025_01_01": true,
+        "final_cash_equals_equity": true,
+        "final_equity_matches_initial_plus_native_net": true,
+        "final_gross_and_net_exposure_zero": true,
+        "final_open_positions_zero": true,
+        "native_fill_slippage_matches_frozen_per_fill": true,
+        "native_trade_pnl_sum_matches_account_change": true,
+        "session_matches": true,
+        "summary_trial_matches_directory": true,
+        "three_symbols": true,
+        "trade_entry_and_exit_slippage_each_match_frozen_per_fill": true,
+        "trade_timestamps_only_2023_2024": true
+      },
+      "closed_losses": 914,
+      "closed_wins": 502,
+      "daily_equity_metrics": {
+        "annual_return": -0.417983412135567,
+        "annual_volatility": 0.5208654182605126,
+        "calmar_ratio": -0.5192433207514461,
+        "max_drawdown": -0.8049856308804584,
+        "sharpe_ratio": -0.7003132227918454,
+        "total_return": -0.750302802870083
+      },
+      "daily_pnl_field": {
+        "difference_usd": -194.3710579803319,
+        "equity_change_usd": -7503.028028700832,
+        "interpretation": "ml4t.backtest.Result.to_daily_pnl defines daily pnl as same-calendar-day close_equity minus open_equity; daily return_pct is close-to-prior-calendar-day-close and compounds to ending equity.",
+        "sum_usd": -7697.399086681164
+      },
+      "limitations": [
+        "CADJPY is Dukascopy bid-only staging, not canonical data; no exact session acceptance manifest exists.",
+        "GBPJPY source timestamps were localized to UTC under an unverified assumption.",
+        "Fixed 150 JPY/USD is an invariant proxy numeraire, not historical conversion.",
+        "No historical bid/ask, financing, swap, broker contract or margin evidence.",
+        "Engine protective stop is installed after entry-bar callback; breached entry bars are delayed to the next eligible native order fill and counted.",
+        "Native Engine dual pending-stop sequencing is retained and ambiguity is counted; no OCO is assumed.",
+        "This is development evidence only, not broker equivalence or approval."
+      ],
+      "lookback_h1": 20,
+      "native_closed_expectancy_usd": -5.396817662896657,
+      "native_closed_win_rate": 0.3545197740112994,
+      "native_end_equity_usd": 2496.971971299168,
+      "native_execution_accounting": {
+        "commission_usd": 0.0,
+        "configuration": "SlippageType.FIXED adverse per unit per fill; Engine multiplies each fill slippage by filled quantity. Fill parquet slippage is per-unit, so its unweighted sum is not the USD cost.",
+        "fill_unit_slippage_sum_notional_weighted_usd": 0.19153333333333336,
+        "long_trade_rows": 785,
+        "max_concurrent_positions_native": 3,
+        "native_costs_equal_slippage_and_no_commission": true,
+        "native_total_costs_usd": 6124.812194778508,
+        "native_total_slippage_cost_usd": 6124.812194778508,
+        "rejected_orders_native": 11,
+        "short_trade_rows": 637,
+        "slippage_cost_reconciles_to_trade_ledger": true,
+        "trade_ledger_total_slippage_cost_usd": 6124.8121947785085
+      },
+      "native_final_account_state": {
+        "cash_usd": 2496.971971299168,
+        "equity_usd": 2496.971971299168,
+        "gross_exposure_usd": 0.0,
+        "net_exposure_usd": 0.0,
+        "open_positions": 0,
+        "timestamp": "2024-12-31T22:00:00+00:00"
+      },
+      "native_initial_cash_usd": 10000.0,
+      "native_net_profit_usd": -7503.028028700832,
+      "native_stop_and_execution_counts": {
+        "decision_bar_spans_both_channels": 4,
+        "entry_protection_gap_bars": 1417,
+        "expired_orders_cancelled_natively": 19879,
+        "opposite_stop_same_minute_fill_groups": 4,
+        "rejected_order_count": 11,
+        "unprotected_entry_bar_stop_breaches": 29
+      },
+      "output_summary_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-20-2PIP/summary.json",
+      "pair_attribution": [
+        {
+          "closed_expectancy_usd": -5.478549500935111,
+          "closed_trades": 462,
+          "closed_win_rate": 0.31385281385281383,
+          "closed_wins": 145,
+          "ledger_pnl_usd": -2550.2647237920182,
+          "symbol": "CADJPY",
+          "trade_rows": 465
+        },
+        {
+          "closed_expectancy_usd": -1.880668269866898,
+          "closed_trades": 451,
+          "closed_win_rate": 0.35476718403547675,
+          "closed_wins": 160,
+          "ledger_pnl_usd": -598.0331406823243,
+          "symbol": "GBPJPY",
+          "trade_rows": 452
+        },
+        {
+          "closed_expectancy_usd": -8.474398710774702,
+          "closed_trades": 503,
+          "closed_win_rate": 0.39165009940357853,
+          "closed_wins": 197,
+          "ledger_pnl_usd": -4354.730164226505,
+          "symbol": "USDJPY",
+          "trade_rows": 505
+        }
+      ],
+      "per_fill_slippage_usd_expected": 6.666666666666667e-05,
+      "quarterly": [
+        {
+          "end": "2023-03-31",
+          "quarter": 1,
+          "return": 0.16766326106375962,
+          "sharpe": 1.318211346227749,
+          "start": "2023-01-01",
+          "year": 2023
+        },
+        {
+          "end": "2023-06-30",
+          "quarter": 2,
+          "return": -0.08628342785135978,
+          "sharpe": -0.6359123812506582,
+          "start": "2023-04-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-09-29",
+          "quarter": 3,
+          "return": -0.2832810439053757,
+          "sharpe": -3.207337679409613,
+          "start": "2023-07-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-12-31",
+          "quarter": 4,
+          "return": 0.02221403539244604,
+          "sharpe": 0.3644405419279451,
+          "start": "2023-10-01",
+          "year": 2023
+        },
+        {
+          "end": "2024-03-31",
+          "quarter": 1,
+          "return": -0.2722722978637889,
+          "sharpe": -2.4605340401143634,
+          "start": "2024-01-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-06-30",
+          "quarter": 2,
+          "return": -0.06051502156877042,
+          "sharpe": -0.44899071163340715,
+          "start": "2024-04-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-09-30",
+          "quarter": 3,
+          "return": 0.2398341963119841,
+          "sharpe": 1.7801020082601617,
+          "start": "2024-07-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-12-31",
+          "quarter": 4,
+          "return": -0.6231474481367124,
+          "sharpe": -2.047874303547865,
+          "start": "2024-10-01",
+          "year": 2024
+        }
+      ],
+      "roundtrip_cost_jpy": 0.02,
+      "rows": {
+        "closed_trade_rows": 1416,
+        "daily_equity": 646,
+        "fills": 2873,
+        "partial_trade_rows": 6,
+        "trades": 1422
+      },
+      "summary_sha256": "ecf040cd7423e922e7e156543a345c2f8c4cd6f87a22d2e58d844a977a6b620a",
+      "trial_id": "PORTFOLIO-20-2PIP",
+      "yearly": [
+        {
+          "end_equity": 7816.635279868027,
+          "max_drawdown": -0.5292879301397604,
+          "return": -0.2183364720131976,
+          "sharpe": -0.29888308357985127,
+          "start_equity": 10000.0,
+          "year": 2023
+        },
+        {
+          "end_equity": 2496.971971299168,
+          "max_drawdown": -0.7182982828368306,
+          "return": -0.6805566740807015,
+          "sharpe": -0.9922926389982911,
+          "start_equity": 7816.635279868027,
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "native_daily_equity.parquet": {
+          "manifest_sha256": "4e64cf8ccbaa1d8460273cc25dc237fda87832f6e0fd308d7afd73373e30c26c",
+          "matches_manifest": true,
+          "sha256": "4e64cf8ccbaa1d8460273cc25dc237fda87832f6e0fd308d7afd73373e30c26c",
+          "size_bytes": 35805
+        },
+        "native_fills.parquet": {
+          "manifest_sha256": "a77b232d9a68d004c8823fba5d2c75357a1ed9def4b613d52a63d839a9da985d",
+          "matches_manifest": true,
+          "sha256": "a77b232d9a68d004c8823fba5d2c75357a1ed9def4b613d52a63d839a9da985d",
+          "size_bytes": 110595
+        },
+        "native_trades.parquet": {
+          "manifest_sha256": "0a63d7d66583435337b05b3ae64d26b0522b045203a7ef71b7c4815c31c870e8",
+          "matches_manifest": true,
+          "sha256": "0a63d7d66583435337b05b3ae64d26b0522b045203a7ef71b7c4815c31c870e8",
+          "size_bytes": 151692
+        },
+        "summary.json": {
+          "manifest_sha256": "d147d75fce83cc9654ff94b13a7e4f39511bdb2a63ce39506fd47c29d024e373",
+          "matches_manifest": true,
+          "sha256": "d147d75fce83cc9654ff94b13a7e4f39511bdb2a63ce39506fd47c29d024e373",
+          "size_bytes": 261649
+        }
+      },
+      "checks": {
+        "all_fill_price_sources_open": true,
+        "all_manifest_hashes_match": true,
+        "daily_close_return_chain_matches_final_equity": true,
+        "daily_period_only_2023_2024": true,
+        "dev_max_exclusive_2025_01_01": true,
+        "final_cash_equals_equity": true,
+        "final_equity_matches_initial_plus_native_net": true,
+        "final_gross_and_net_exposure_zero": true,
+        "final_open_positions_zero": true,
+        "native_fill_slippage_matches_frozen_per_fill": true,
+        "native_trade_pnl_sum_matches_account_change": true,
+        "session_matches": true,
+        "summary_trial_matches_directory": true,
+        "three_symbols": true,
+        "trade_entry_and_exit_slippage_each_match_frozen_per_fill": true,
+        "trade_timestamps_only_2023_2024": true
+      },
+      "closed_losses": 928,
+      "closed_wins": 477,
+      "daily_equity_metrics": {
+        "annual_return": -0.5561572876609813,
+        "annual_volatility": 0.5276168540558496,
+        "calmar_ratio": -0.6186448260048937,
+        "max_drawdown": -0.8989928700326378,
+        "sharpe_ratio": -1.1959992486365252,
+        "total_return": -0.8753550807224306
+      },
+      "daily_pnl_field": {
+        "difference_usd": -125.88999532451635,
+        "equity_change_usd": -8753.550807224306,
+        "interpretation": "ml4t.backtest.Result.to_daily_pnl defines daily pnl as same-calendar-day close_equity minus open_equity; daily return_pct is close-to-prior-calendar-day-close and compounds to ending equity.",
+        "sum_usd": -8879.440802548823
+      },
+      "limitations": [
+        "CADJPY is Dukascopy bid-only staging, not canonical data; no exact session acceptance manifest exists.",
+        "GBPJPY source timestamps were localized to UTC under an unverified assumption.",
+        "Fixed 150 JPY/USD is an invariant proxy numeraire, not historical conversion.",
+        "No historical bid/ask, financing, swap, broker contract or margin evidence.",
+        "Engine protective stop is installed after entry-bar callback; breached entry bars are delayed to the next eligible native order fill and counted.",
+        "Native Engine dual pending-stop sequencing is retained and ambiguity is counted; no OCO is assumed.",
+        "This is development evidence only, not broker equivalence or approval."
+      ],
+      "lookback_h1": 20,
+      "native_closed_expectancy_usd": -6.338404141628828,
+      "native_closed_win_rate": 0.3395017793594306,
+      "native_end_equity_usd": 1246.4491927756944,
+      "native_execution_accounting": {
+        "commission_usd": 0.0,
+        "configuration": "SlippageType.FIXED adverse per unit per fill; Engine multiplies each fill slippage by filled quantity. Fill parquet slippage is per-unit, so its unweighted sum is not the USD cost.",
+        "fill_unit_slippage_sum_notional_weighted_usd": 0.37986666666666674,
+        "long_trade_rows": 779,
+        "max_concurrent_positions_native": 3,
+        "native_costs_equal_slippage_and_no_commission": true,
+        "native_total_costs_usd": 8921.925958167005,
+        "native_total_slippage_cost_usd": 8921.925958167005,
+        "rejected_orders_native": 10,
+        "short_trade_rows": 631,
+        "slippage_cost_reconciles_to_trade_ledger": true,
+        "trade_ledger_total_slippage_cost_usd": 8921.925958167005
+      },
+      "native_final_account_state": {
+        "cash_usd": 1246.4491927756944,
+        "equity_usd": 1246.4491927756944,
+        "gross_exposure_usd": 0.0,
+        "net_exposure_usd": 0.0,
+        "open_positions": 0,
+        "timestamp": "2024-12-31T22:00:00+00:00"
+      },
+      "native_initial_cash_usd": 10000.0,
+      "native_net_profit_usd": -8753.550807224306,
+      "native_stop_and_execution_counts": {
+        "decision_bar_spans_both_channels": 4,
+        "entry_protection_gap_bars": 1405,
+        "expired_orders_cancelled_natively": 19676,
+        "opposite_stop_same_minute_fill_groups": 4,
+        "rejected_order_count": 10,
+        "unprotected_entry_bar_stop_breaches": 31
+      },
+      "output_summary_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-20-4PIP/summary.json",
+      "pair_attribution": [
+        {
+          "closed_expectancy_usd": -5.8298607553125175,
+          "closed_trades": 458,
+          "closed_win_rate": 0.29912663755458513,
+          "closed_wins": 137,
+          "ledger_pnl_usd": -2705.1643045043,
+          "symbol": "CADJPY",
+          "trade_rows": 459
+        },
+        {
+          "closed_expectancy_usd": -3.876220386581161,
+          "closed_trades": 451,
+          "closed_win_rate": 0.3436807095343681,
+          "closed_wins": 155,
+          "ledger_pnl_usd": -1512.0820255366361,
+          "symbol": "GBPJPY",
+          "trade_rows": 452
+        },
+        {
+          "closed_expectancy_usd": -9.046786690942069,
+          "closed_trades": 496,
+          "closed_win_rate": 0.37298387096774194,
+          "closed_wins": 185,
+          "ledger_pnl_usd": -4536.304477183305,
+          "symbol": "USDJPY",
+          "trade_rows": 499
+        }
+      ],
+      "per_fill_slippage_usd_expected": 0.00013333333333333334,
+      "quarterly": [
+        {
+          "end": "2023-03-31",
+          "quarter": 1,
+          "return": 0.08773790495248757,
+          "sharpe": 0.8016297317679397,
+          "start": "2023-01-01",
+          "year": 2023
+        },
+        {
+          "end": "2023-06-30",
+          "quarter": 2,
+          "return": -0.18545177413215952,
+          "sharpe": -1.621004298758466,
+          "start": "2023-04-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-09-29",
+          "quarter": 3,
+          "return": -0.3542763004362588,
+          "sharpe": -4.246553980691932,
+          "start": "2023-07-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-12-31",
+          "quarter": 4,
+          "return": -0.07976189552490487,
+          "sharpe": -0.3167791270036856,
+          "start": "2023-10-01",
+          "year": 2023
+        },
+        {
+          "end": "2024-03-31",
+          "quarter": 1,
+          "return": -0.34950011311370754,
+          "sharpe": -3.2963410882934703,
+          "start": "2024-01-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-06-30",
+          "quarter": 2,
+          "return": -0.17703939953008752,
+          "sharpe": -1.7880411160893468,
+          "start": "2024-04-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-09-30",
+          "quarter": 3,
+          "return": 0.24894269824574944,
+          "sharpe": 1.7307293564670503,
+          "start": "2024-07-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-12-31",
+          "quarter": 4,
+          "return": -0.6459066303145145,
+          "sharpe": -2.2185140355710793,
+          "start": "2024-10-01",
+          "year": 2024
+        }
+      ],
+      "roundtrip_cost_jpy": 0.04,
+      "rows": {
+        "closed_trade_rows": 1405,
+        "daily_equity": 646,
+        "fills": 2849,
+        "partial_trade_rows": 5,
+        "trades": 1410
+      },
+      "summary_sha256": "d147d75fce83cc9654ff94b13a7e4f39511bdb2a63ce39506fd47c29d024e373",
+      "trial_id": "PORTFOLIO-20-4PIP",
+      "yearly": [
+        {
+          "end_equity": 5264.874260427279,
+          "max_drawdown": -0.6688637076984838,
+          "return": -0.4735125739572723,
+          "sharpe": -1.0571390587332463,
+          "start_equity": 10000.0,
+          "year": 2023
+        },
+        {
+          "end_equity": 1246.4491927756944,
+          "max_drawdown": -0.7898413383173624,
+          "return": -0.7632518591859898,
+          "sharpe": -1.3425916872938122,
+          "start_equity": 5264.874260427279,
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "native_daily_equity.parquet": {
+          "manifest_sha256": "ed10e5f6b548e67b5f0d6b1727f5f7dcc355cbd157ada0085ebdf8ec85cbe00b",
+          "matches_manifest": true,
+          "sha256": "ed10e5f6b548e67b5f0d6b1727f5f7dcc355cbd157ada0085ebdf8ec85cbe00b",
+          "size_bytes": 33777
+        },
+        "native_fills.parquet": {
+          "manifest_sha256": "897b69d5168c96374bc87cf5d6ed39515c8a0f7fff9ddc6c21e548e56c9e4157",
+          "matches_manifest": true,
+          "sha256": "897b69d5168c96374bc87cf5d6ed39515c8a0f7fff9ddc6c21e548e56c9e4157",
+          "size_bytes": 110398
+        },
+        "native_trades.parquet": {
+          "manifest_sha256": "d660ef4c590c87561f38b6f38ae7c8351e6a854cfab0ecd510848981a45c6ad6",
+          "matches_manifest": true,
+          "sha256": "d660ef4c590c87561f38b6f38ae7c8351e6a854cfab0ecd510848981a45c6ad6",
+          "size_bytes": 150853
+        },
+        "summary.json": {
+          "manifest_sha256": "1681df25bb2819043f17c80e9922b02f71b7501f9880ba7c455e9c56fb974693",
+          "matches_manifest": true,
+          "sha256": "1681df25bb2819043f17c80e9922b02f71b7501f9880ba7c455e9c56fb974693",
+          "size_bytes": 259954
+        }
+      },
+      "checks": {
+        "all_fill_price_sources_open": true,
+        "all_manifest_hashes_match": true,
+        "daily_close_return_chain_matches_final_equity": true,
+        "daily_period_only_2023_2024": true,
+        "dev_max_exclusive_2025_01_01": true,
+        "final_cash_equals_equity": true,
+        "final_equity_matches_initial_plus_native_net": true,
+        "final_gross_and_net_exposure_zero": true,
+        "final_open_positions_zero": true,
+        "native_fill_slippage_matches_frozen_per_fill": true,
+        "native_trade_pnl_sum_matches_account_change": true,
+        "session_matches": true,
+        "summary_trial_matches_directory": true,
+        "three_symbols": true,
+        "trade_entry_and_exit_slippage_each_match_frozen_per_fill": true,
+        "trade_timestamps_only_2023_2024": true
+      },
+      "closed_losses": 953,
+      "closed_wins": 444,
+      "daily_equity_metrics": {
+        "annual_return": -0.6713645886667085,
+        "annual_volatility": 0.533063805604787,
+        "calmar_ratio": -0.7050733386463566,
+        "max_drawdown": -0.9521911436271803,
+        "sharpe_ratio": -1.7387645412766277,
+        "total_return": -0.9423099264925612
+      },
+      "daily_pnl_field": {
+        "difference_usd": -62.98889913413586,
+        "equity_change_usd": -9423.099264925611,
+        "interpretation": "ml4t.backtest.Result.to_daily_pnl defines daily pnl as same-calendar-day close_equity minus open_equity; daily return_pct is close-to-prior-calendar-day-close and compounds to ending equity.",
+        "sum_usd": -9486.088164059747
+      },
+      "limitations": [
+        "CADJPY is Dukascopy bid-only staging, not canonical data; no exact session acceptance manifest exists.",
+        "GBPJPY source timestamps were localized to UTC under an unverified assumption.",
+        "Fixed 150 JPY/USD is an invariant proxy numeraire, not historical conversion.",
+        "No historical bid/ask, financing, swap, broker contract or margin evidence.",
+        "Engine protective stop is installed after entry-bar callback; breached entry bars are delayed to the next eligible native order fill and counted.",
+        "Native Engine dual pending-stop sequencing is retained and ambiguity is counted; no OCO is assumed.",
+        "This is development evidence only, not broker equivalence or approval."
+      ],
+      "lookback_h1": 20,
+      "native_closed_expectancy_usd": -6.700325296203404,
+      "native_closed_win_rate": 0.3178239083750895,
+      "native_end_equity_usd": 576.9007350743891,
+      "native_execution_accounting": {
+        "commission_usd": 0.0,
+        "configuration": "SlippageType.FIXED adverse per unit per fill; Engine multiplies each fill slippage by filled quantity. Fill parquet slippage is per-unit, so its unweighted sum is not the USD cost.",
+        "fill_unit_slippage_sum_notional_weighted_usd": 0.5660000000000001,
+        "long_trade_rows": 776,
+        "max_concurrent_positions_native": 3,
+        "native_costs_equal_slippage_and_no_commission": true,
+        "native_total_costs_usd": 10053.912457208773,
+        "native_total_slippage_cost_usd": 10053.912457208773,
+        "rejected_orders_native": 9,
+        "short_trade_rows": 626,
+        "slippage_cost_reconciles_to_trade_ledger": true,
+        "trade_ledger_total_slippage_cost_usd": 10053.912457208773
+      },
+      "native_final_account_state": {
+        "cash_usd": 576.9007350743891,
+        "equity_usd": 576.9007350743891,
+        "gross_exposure_usd": 0.0,
+        "net_exposure_usd": 0.0,
+        "open_positions": 0,
+        "timestamp": "2024-12-31T22:00:00+00:00"
+      },
+      "native_initial_cash_usd": 10000.0,
+      "native_net_profit_usd": -9423.099264925611,
+      "native_stop_and_execution_counts": {
+        "decision_bar_spans_both_channels": 4,
+        "entry_protection_gap_bars": 1398,
+        "expired_orders_cancelled_natively": 19679,
+        "opposite_stop_same_minute_fill_groups": 3,
+        "rejected_order_count": 9,
+        "unprotected_entry_bar_stop_breaches": 33
+      },
+      "output_summary_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-20-6PIP/summary.json",
+      "pair_attribution": [
+        {
+          "closed_expectancy_usd": -7.1208694274690805,
+          "closed_trades": 457,
+          "closed_win_rate": 0.27571115973741794,
+          "closed_wins": 126,
+          "ledger_pnl_usd": -3291.492202503511,
+          "symbol": "CADJPY",
+          "trade_rows": 459
+        },
+        {
+          "closed_expectancy_usd": -4.275827066709545,
+          "closed_trades": 446,
+          "closed_win_rate": 0.33408071748878926,
+          "closed_wins": 149,
+          "ledger_pnl_usd": -1907.018871752457,
+          "symbol": "GBPJPY",
+          "trade_rows": 446
+        },
+        {
+          "closed_expectancy_usd": -8.500198863745602,
+          "closed_trades": 494,
+          "closed_win_rate": 0.34210526315789475,
+          "closed_wins": 169,
+          "ledger_pnl_usd": -4224.588190669623,
+          "symbol": "USDJPY",
+          "trade_rows": 497
+        }
+      ],
+      "per_fill_slippage_usd_expected": 0.00019999999999999998,
+      "quarterly": [
+        {
+          "end": "2023-03-31",
+          "quarter": 1,
+          "return": -0.01799625131726479,
+          "sharpe": 0.06402390792883349,
+          "start": "2023-01-01",
+          "year": 2023
+        },
+        {
+          "end": "2023-06-30",
+          "quarter": 2,
+          "return": -0.22776417110696712,
+          "sharpe": -1.9022403610241072,
+          "start": "2023-04-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-09-29",
+          "quarter": 3,
+          "return": -0.455840330431981,
+          "sharpe": -6.1176157176448,
+          "start": "2023-07-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-12-31",
+          "quarter": 4,
+          "return": -0.16346350821725597,
+          "sharpe": -0.9341733160417155,
+          "start": "2023-10-01",
+          "year": 2023
+        },
+        {
+          "end": "2024-03-31",
+          "quarter": 1,
+          "return": -0.4224980574791054,
+          "sharpe": -4.142405971978097,
+          "start": "2024-01-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-06-30",
+          "quarter": 2,
+          "return": -0.26779119899585735,
+          "sharpe": -2.9277233864396535,
+          "start": "2024-04-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-09-30",
+          "quarter": 3,
+          "return": 0.21326752106570845,
+          "sharpe": 1.5077918684906495,
+          "start": "2024-07-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-12-31",
+          "quarter": 4,
+          "return": -0.6742519746069224,
+          "sharpe": -2.4414934402023514,
+          "start": "2024-10-01",
+          "year": 2024
+        }
+      ],
+      "roundtrip_cost_jpy": 0.06,
+      "rows": {
+        "closed_trade_rows": 1397,
+        "daily_equity": 646,
+        "fills": 2830,
+        "partial_trade_rows": 5,
+        "trades": 1402
+      },
+      "summary_sha256": "1681df25bb2819043f17c80e9922b02f71b7501f9880ba7c455e9c56fb974693",
+      "trial_id": "PORTFOLIO-20-6PIP",
+      "yearly": [
+        {
+          "end_equity": 3452.028198369624,
+          "max_drawdown": -0.7731653702451772,
+          "return": -0.6547971801630378,
+          "sharpe": -1.8528780408507655,
+          "start_equity": 10000.0,
+          "year": 2023
+        },
+        {
+          "end_equity": 576.9007350743891,
+          "max_drawdown": -0.850337004999409,
+          "return": -0.8328806423577719,
+          "sharpe": -1.748685181995998,
+          "start_equity": 3452.028198369624,
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "native_daily_equity.parquet": {
+          "manifest_sha256": "9e323fa8dc94df19a10585081fbd12834d6d64223e205662d0f60fd41805c573",
+          "matches_manifest": true,
+          "sha256": "9e323fa8dc94df19a10585081fbd12834d6d64223e205662d0f60fd41805c573",
+          "size_bytes": 16757
+        },
+        "native_fills.parquet": {
+          "manifest_sha256": "839fcfdd4bb16c18ed2eb6d3bd0083785ef32ee423fbe821213cd2f726e4d52b",
+          "matches_manifest": true,
+          "sha256": "839fcfdd4bb16c18ed2eb6d3bd0083785ef32ee423fbe821213cd2f726e4d52b",
+          "size_bytes": 27114
+        },
+        "native_trades.parquet": {
+          "manifest_sha256": "1d76675cd16fb574ef69e9441cb756de599c290e6b6fbb4fd8ce7263dfb97611",
+          "matches_manifest": true,
+          "sha256": "1d76675cd16fb574ef69e9441cb756de599c290e6b6fbb4fd8ce7263dfb97611",
+          "size_bytes": 38285
+        },
+        "summary.json": {
+          "manifest_sha256": "18bfc0cbd1d85cb77b7e2e14f0002cdcc7d195a94165d61cf1408448472c9cf6",
+          "matches_manifest": true,
+          "sha256": "18bfc0cbd1d85cb77b7e2e14f0002cdcc7d195a94165d61cf1408448472c9cf6",
+          "size_bytes": 65444
+        }
+      },
+      "checks": {
+        "all_fill_price_sources_open": true,
+        "all_manifest_hashes_match": true,
+        "daily_close_return_chain_matches_final_equity": true,
+        "daily_period_only_2023_2024": true,
+        "dev_max_exclusive_2025_01_01": true,
+        "final_cash_equals_equity": true,
+        "final_equity_matches_initial_plus_native_net": true,
+        "final_gross_and_net_exposure_zero": true,
+        "final_open_positions_zero": true,
+        "native_fill_slippage_matches_frozen_per_fill": true,
+        "native_trade_pnl_sum_matches_account_change": true,
+        "session_matches": true,
+        "summary_trial_matches_directory": true,
+        "three_symbols": true,
+        "trade_entry_and_exit_slippage_each_match_frozen_per_fill": true,
+        "trade_timestamps_only_2023_2024": true
+      },
+      "closed_losses": 167,
+      "closed_wins": 97,
+      "daily_equity_metrics": {
+        "annual_return": -0.11638920048522094,
+        "annual_volatility": 0.18206081592652096,
+        "calmar_ratio": -0.414344069293033,
+        "max_drawdown": -0.2808998827563959,
+        "sharpe_ratio": -0.5831873681901912,
+        "total_return": -0.27181699468815146
+      },
+      "daily_pnl_field": {
+        "difference_usd": 154.65316959423217,
+        "equity_change_usd": -2718.1699468815204,
+        "interpretation": "ml4t.backtest.Result.to_daily_pnl defines daily pnl as same-calendar-day close_equity minus open_equity; daily return_pct is close-to-prior-calendar-day-close and compounds to ending equity.",
+        "sum_usd": -2563.5167772872883
+      },
+      "limitations": [
+        "CADJPY is Dukascopy bid-only staging, not canonical data; no exact session acceptance manifest exists.",
+        "GBPJPY source timestamps were localized to UTC under an unverified assumption.",
+        "Fixed 150 JPY/USD is an invariant proxy numeraire, not historical conversion.",
+        "No historical bid/ask, financing, swap, broker contract or margin evidence.",
+        "Engine protective stop is installed after entry-bar callback; breached entry bars are delayed to the next eligible native order fill and counted.",
+        "Native Engine dual pending-stop sequencing is retained and ambiguity is counted; no OCO is assumed.",
+        "This is development evidence only, not broker equivalence or approval."
+      ],
+      "lookback_h1": 500,
+      "native_closed_expectancy_usd": -10.296098283642074,
+      "native_closed_win_rate": 0.36742424242424243,
+      "native_end_equity_usd": 7281.83005311848,
+      "native_execution_accounting": {
+        "commission_usd": 0.0,
+        "configuration": "SlippageType.FIXED adverse per unit per fill; Engine multiplies each fill slippage by filled quantity. Fill parquet slippage is per-unit, so its unweighted sum is not the USD cost.",
+        "fill_unit_slippage_sum_notional_weighted_usd": 0.03520000000000001,
+        "long_trade_rows": 212,
+        "max_concurrent_positions_native": 3,
+        "native_costs_equal_slippage_and_no_commission": true,
+        "native_total_costs_usd": 1261.6375174368968,
+        "native_total_slippage_cost_usd": 1261.6375174368968,
+        "rejected_orders_native": 0,
+        "short_trade_rows": 52,
+        "slippage_cost_reconciles_to_trade_ledger": true,
+        "trade_ledger_total_slippage_cost_usd": 1261.637517436897
+      },
+      "native_final_account_state": {
+        "cash_usd": 7281.83005311848,
+        "equity_usd": 7281.83005311848,
+        "gross_exposure_usd": 0.0,
+        "net_exposure_usd": 0.0,
+        "open_positions": 0,
+        "timestamp": "2024-12-31T22:00:00+00:00"
+      },
+      "native_initial_cash_usd": 10000.0,
+      "native_net_profit_usd": -2718.1699468815204,
+      "native_stop_and_execution_counts": {
+        "decision_bar_spans_both_channels": 0,
+        "entry_protection_gap_bars": 264,
+        "expired_orders_cancelled_natively": 33597,
+        "opposite_stop_same_minute_fill_groups": 0,
+        "rejected_order_count": 0,
+        "unprotected_entry_bar_stop_breaches": 15
+      },
+      "output_summary_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-500-2PIP/summary.json",
+      "pair_attribution": [
+        {
+          "closed_expectancy_usd": -7.768528390246012,
+          "closed_trades": 78,
+          "closed_win_rate": 0.32051282051282054,
+          "closed_wins": 25,
+          "ledger_pnl_usd": -605.9452144391889,
+          "symbol": "CADJPY",
+          "trade_rows": 78
+        },
+        {
+          "closed_expectancy_usd": 9.32117868260857,
+          "closed_trades": 80,
+          "closed_win_rate": 0.425,
+          "closed_wins": 34,
+          "ledger_pnl_usd": 745.6942946086856,
+          "symbol": "GBPJPY",
+          "trade_rows": 80
+        },
+        {
+          "closed_expectancy_usd": -26.961500255198153,
+          "closed_trades": 106,
+          "closed_win_rate": 0.3584905660377358,
+          "closed_wins": 38,
+          "ledger_pnl_usd": -2857.9190270510044,
+          "symbol": "USDJPY",
+          "trade_rows": 106
+        }
+      ],
+      "per_fill_slippage_usd_expected": 6.666666666666667e-05,
+      "quarterly": [
+        {
+          "end": "2023-03-31",
+          "quarter": 1,
+          "return": -0.023198741260033406,
+          "sharpe": -0.8941090160033442,
+          "start": "2023-01-01",
+          "year": 2023
+        },
+        {
+          "end": "2023-06-30",
+          "quarter": 2,
+          "return": -0.08451297415193726,
+          "sharpe": -1.7772923619186696,
+          "start": "2023-04-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-09-29",
+          "quarter": 3,
+          "return": -0.10527717057546926,
+          "sharpe": -2.7146254099818323,
+          "start": "2023-07-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-12-31",
+          "quarter": 4,
+          "return": 0.03919949546703583,
+          "sharpe": 0.9646229463813208,
+          "start": "2023-10-01",
+          "year": 2023
+        },
+        {
+          "end": "2024-03-31",
+          "quarter": 1,
+          "return": -0.01748530203611154,
+          "sharpe": -0.3088173574347609,
+          "start": "2024-01-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-06-30",
+          "quarter": 2,
+          "return": -0.004784137312435877,
+          "sharpe": -0.04502186896865176,
+          "start": "2024-04-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-09-30",
+          "quarter": 3,
+          "return": 0.19219849204212025,
+          "sharpe": 3.990754570498348,
+          "start": "2024-07-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-12-31",
+          "quarter": 4,
+          "return": -0.24874084970764498,
+          "sharpe": -2.167256315102792,
+          "start": "2024-10-01",
+          "year": 2024
+        }
+      ],
+      "roundtrip_cost_jpy": 0.02,
+      "rows": {
+        "closed_trade_rows": 264,
+        "daily_equity": 646,
+        "fills": 528,
+        "partial_trade_rows": 0,
+        "trades": 264
+      },
+      "summary_sha256": "18bfc0cbd1d85cb77b7e2e14f0002cdcc7d195a94165d61cf1408448472c9cf6",
+      "trial_id": "PORTFOLIO-500-2PIP",
+      "yearly": [
+        {
+          "end_equity": 8314.685953225235,
+          "max_drawdown": -0.22079289106907218,
+          "return": -0.16853140467747585,
+          "sharpe": -1.0974171508643509,
+          "start_equity": 10000.0,
+          "year": 2023
+        },
+        {
+          "end_equity": 7281.83005311848,
+          "max_drawdown": -0.280899882756396,
+          "return": -0.12422067482971122,
+          "sharpe": -0.33945767533616594,
+          "start_equity": 8314.685953225235,
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "native_daily_equity.parquet": {
+          "manifest_sha256": "16329b0ee6e6850123e4b0d86a985e3491b121d183243264016576352c555dd3",
+          "matches_manifest": true,
+          "sha256": "16329b0ee6e6850123e4b0d86a985e3491b121d183243264016576352c555dd3",
+          "size_bytes": 16927
+        },
+        "native_fills.parquet": {
+          "manifest_sha256": "9e5605896ccede7b95569c41a5068ad49fae2fa44c744dc87f0ec1d88704b59c",
+          "matches_manifest": true,
+          "sha256": "9e5605896ccede7b95569c41a5068ad49fae2fa44c744dc87f0ec1d88704b59c",
+          "size_bytes": 27078
+        },
+        "native_trades.parquet": {
+          "manifest_sha256": "b20b581ecb45097d9f58fb79fb7d0d225b01941f573f3e68aee168096d70db9a",
+          "matches_manifest": true,
+          "sha256": "b20b581ecb45097d9f58fb79fb7d0d225b01941f573f3e68aee168096d70db9a",
+          "size_bytes": 38259
+        },
+        "summary.json": {
+          "manifest_sha256": "8dca128242a643f7c02e1f79a16f82b02e8b82e3725b213907aaf272d6e704e5",
+          "matches_manifest": true,
+          "sha256": "8dca128242a643f7c02e1f79a16f82b02e8b82e3725b213907aaf272d6e704e5",
+          "size_bytes": 65817
+        }
+      },
+      "checks": {
+        "all_fill_price_sources_open": true,
+        "all_manifest_hashes_match": true,
+        "daily_close_return_chain_matches_final_equity": true,
+        "daily_period_only_2023_2024": true,
+        "dev_max_exclusive_2025_01_01": true,
+        "final_cash_equals_equity": true,
+        "final_equity_matches_initial_plus_native_net": true,
+        "final_gross_and_net_exposure_zero": true,
+        "final_open_positions_zero": true,
+        "native_fill_slippage_matches_frozen_per_fill": true,
+        "native_trade_pnl_sum_matches_account_change": true,
+        "session_matches": true,
+        "summary_trial_matches_directory": true,
+        "three_symbols": true,
+        "trade_entry_and_exit_slippage_each_match_frozen_per_fill": true,
+        "trade_timestamps_only_2023_2024": true
+      },
+      "closed_losses": 173,
+      "closed_wins": 91,
+      "daily_equity_metrics": {
+        "annual_return": -0.15814649671553982,
+        "annual_volatility": 0.18394305796048863,
+        "calmar_ratio": -0.44323272697049054,
+        "max_drawdown": -0.3568023909165644,
+        "sharpe_ratio": -0.8382830476341756,
+        "total_return": -0.3568023909165644
+      },
+      "daily_pnl_field": {
+        "difference_usd": 153.60526082041906,
+        "equity_change_usd": -3568.0239091656404,
+        "interpretation": "ml4t.backtest.Result.to_daily_pnl defines daily pnl as same-calendar-day close_equity minus open_equity; daily return_pct is close-to-prior-calendar-day-close and compounds to ending equity.",
+        "sum_usd": -3414.4186483452213
+      },
+      "limitations": [
+        "CADJPY is Dukascopy bid-only staging, not canonical data; no exact session acceptance manifest exists.",
+        "GBPJPY source timestamps were localized to UTC under an unverified assumption.",
+        "Fixed 150 JPY/USD is an invariant proxy numeraire, not historical conversion.",
+        "No historical bid/ask, financing, swap, broker contract or margin evidence.",
+        "Engine protective stop is installed after entry-bar callback; breached entry bars are delayed to the next eligible native order fill and counted.",
+        "Native Engine dual pending-stop sequencing is retained and ambiguity is counted; no OCO is assumed.",
+        "This is development evidence only, not broker equivalence or approval."
+      ],
+      "lookback_h1": 500,
+      "native_closed_expectancy_usd": -13.515242080172888,
+      "native_closed_win_rate": 0.3446969696969697,
+      "native_end_equity_usd": 6431.97609083436,
+      "native_execution_accounting": {
+        "commission_usd": 0.0,
+        "configuration": "SlippageType.FIXED adverse per unit per fill; Engine multiplies each fill slippage by filled quantity. Fill parquet slippage is per-unit, so its unweighted sum is not the USD cost.",
+        "fill_unit_slippage_sum_notional_weighted_usd": 0.07040000000000002,
+        "long_trade_rows": 212,
+        "max_concurrent_positions_native": 3,
+        "native_costs_equal_slippage_and_no_commission": true,
+        "native_total_costs_usd": 2360.2006721260254,
+        "native_total_slippage_cost_usd": 2360.2006721260254,
+        "rejected_orders_native": 0,
+        "short_trade_rows": 52,
+        "slippage_cost_reconciles_to_trade_ledger": true,
+        "trade_ledger_total_slippage_cost_usd": 2360.2006721260254
+      },
+      "native_final_account_state": {
+        "cash_usd": 6431.97609083436,
+        "equity_usd": 6431.97609083436,
+        "gross_exposure_usd": 0.0,
+        "net_exposure_usd": 0.0,
+        "open_positions": 0,
+        "timestamp": "2024-12-31T22:00:00+00:00"
+      },
+      "native_initial_cash_usd": 10000.0,
+      "native_net_profit_usd": -3568.0239091656404,
+      "native_stop_and_execution_counts": {
+        "decision_bar_spans_both_channels": 0,
+        "entry_protection_gap_bars": 264,
+        "expired_orders_cancelled_natively": 33541,
+        "opposite_stop_same_minute_fill_groups": 0,
+        "rejected_order_count": 0,
+        "unprotected_entry_bar_stop_breaches": 17
+      },
+      "output_summary_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-500-4PIP/summary.json",
+      "pair_attribution": [
+        {
+          "closed_expectancy_usd": -12.167411777598572,
+          "closed_trades": 79,
+          "closed_win_rate": 0.2911392405063291,
+          "closed_wins": 23,
+          "ledger_pnl_usd": -961.2255304302871,
+          "symbol": "CADJPY",
+          "trade_rows": 79
+        },
+        {
+          "closed_expectancy_usd": 6.866102801158434,
+          "closed_trades": 79,
+          "closed_win_rate": 0.4177215189873418,
+          "closed_wins": 33,
+          "ledger_pnl_usd": 542.4221212915163,
+          "symbol": "GBPJPY",
+          "trade_rows": 79
+        },
+        {
+          "closed_expectancy_usd": -29.70962735874407,
+          "closed_trades": 106,
+          "closed_win_rate": 0.330188679245283,
+          "closed_wins": 35,
+          "ledger_pnl_usd": -3149.2205000268714,
+          "symbol": "USDJPY",
+          "trade_rows": 106
+        }
+      ],
+      "per_fill_slippage_usd_expected": 0.00013333333333333334,
+      "quarterly": [
+        {
+          "end": "2023-03-31",
+          "quarter": 1,
+          "return": -0.03838251162573092,
+          "sharpe": -1.603253460372108,
+          "start": "2023-01-01",
+          "year": 2023
+        },
+        {
+          "end": "2023-06-30",
+          "quarter": 2,
+          "return": -0.1006195902518423,
+          "sharpe": -2.0078744236118866,
+          "start": "2023-04-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-09-29",
+          "quarter": 3,
+          "return": -0.13398307414558497,
+          "sharpe": -3.432960621854156,
+          "start": "2023-07-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-12-31",
+          "quarter": 4,
+          "return": 0.030192212941804852,
+          "sharpe": 0.7588519954547238,
+          "start": "2023-10-01",
+          "year": 2023
+        },
+        {
+          "end": "2024-03-31",
+          "quarter": 1,
+          "return": -0.03149144374163426,
+          "sharpe": -0.6248437638278375,
+          "start": "2024-01-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-06-30",
+          "quarter": 2,
+          "return": -0.03218638590348255,
+          "sharpe": -0.6836600363218935,
+          "start": "2024-04-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-09-30",
+          "quarter": 3,
+          "return": 0.2052793848614718,
+          "sharpe": 4.0935544075486785,
+          "start": "2024-07-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-12-31",
+          "quarter": 4,
+          "return": -0.26214489799046237,
+          "sharpe": -2.316748905279491,
+          "start": "2024-10-01",
+          "year": 2024
+        }
+      ],
+      "roundtrip_cost_jpy": 0.04,
+      "rows": {
+        "closed_trade_rows": 264,
+        "daily_equity": 646,
+        "fills": 528,
+        "partial_trade_rows": 0,
+        "trades": 264
+      },
+      "summary_sha256": "8dca128242a643f7c02e1f79a16f82b02e8b82e3725b213907aaf272d6e704e5",
+      "trial_id": "PORTFOLIO-500-4PIP",
+      "yearly": [
+        {
+          "end_equity": 7715.9680293813435,
+          "max_drawdown": -0.27549178385568596,
+          "return": -0.22840319706186574,
+          "sharpe": -1.5211522564599806,
+          "start_equity": 10000.0,
+          "year": 2023
+        },
+        {
+          "end_equity": 6431.97609083436,
+          "max_drawdown": -0.28842070308881096,
+          "return": -0.16640710973110862,
+          "sharpe": -0.5077425189127929,
+          "start_equity": 7715.9680293813435,
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "native_daily_equity.parquet": {
+          "manifest_sha256": "4b34490c14b236ad99163d06c20c25c5f1416c24c45c9f6d76b138f2f0f4601e",
+          "matches_manifest": true,
+          "sha256": "4b34490c14b236ad99163d06c20c25c5f1416c24c45c9f6d76b138f2f0f4601e",
+          "size_bytes": 16896
+        },
+        "native_fills.parquet": {
+          "manifest_sha256": "3d56c14c544d648c610c05e66f4388d82046254da8dc5bd6ed315a152f8f59c3",
+          "matches_manifest": true,
+          "sha256": "3d56c14c544d648c610c05e66f4388d82046254da8dc5bd6ed315a152f8f59c3",
+          "size_bytes": 26828
+        },
+        "native_trades.parquet": {
+          "manifest_sha256": "19f60f117869d491430c681c912c80823c7e8c53a3070197c080a74cbe6f2a77",
+          "matches_manifest": true,
+          "sha256": "19f60f117869d491430c681c912c80823c7e8c53a3070197c080a74cbe6f2a77",
+          "size_bytes": 37919
+        },
+        "summary.json": {
+          "manifest_sha256": "32e00a9a50994d9f7b16933b3044119dd14ed736c4f6ca28b2631e4a7d18e7fb",
+          "matches_manifest": true,
+          "sha256": "32e00a9a50994d9f7b16933b3044119dd14ed736c4f6ca28b2631e4a7d18e7fb",
+          "size_bytes": 65333
+        }
+      },
+      "checks": {
+        "all_fill_price_sources_open": true,
+        "all_manifest_hashes_match": true,
+        "daily_close_return_chain_matches_final_equity": true,
+        "daily_period_only_2023_2024": true,
+        "dev_max_exclusive_2025_01_01": true,
+        "final_cash_equals_equity": true,
+        "final_equity_matches_initial_plus_native_net": true,
+        "final_gross_and_net_exposure_zero": true,
+        "final_open_positions_zero": true,
+        "native_fill_slippage_matches_frozen_per_fill": true,
+        "native_trade_pnl_sum_matches_account_change": true,
+        "session_matches": true,
+        "summary_trial_matches_directory": true,
+        "three_symbols": true,
+        "trade_entry_and_exit_slippage_each_match_frozen_per_fill": true,
+        "trade_timestamps_only_2023_2024": true
+      },
+      "closed_losses": 174,
+      "closed_wins": 87,
+      "daily_equity_metrics": {
+        "annual_return": -0.20322529232462205,
+        "annual_volatility": 0.18328739158533688,
+        "calmar_ratio": -0.4603751822490873,
+        "max_drawdown": -0.4414340741214552,
+        "sharpe_ratio": -1.1418016192962068,
+        "total_return": -0.4414340741214552
+      },
+      "daily_pnl_field": {
+        "difference_usd": 154.5398180185348,
+        "equity_change_usd": -4414.340741214546,
+        "interpretation": "ml4t.backtest.Result.to_daily_pnl defines daily pnl as same-calendar-day close_equity minus open_equity; daily return_pct is close-to-prior-calendar-day-close and compounds to ending equity.",
+        "sum_usd": -4259.800923196011
+      },
+      "limitations": [
+        "CADJPY is Dukascopy bid-only staging, not canonical data; no exact session acceptance manifest exists.",
+        "GBPJPY source timestamps were localized to UTC under an unverified assumption.",
+        "Fixed 150 JPY/USD is an invariant proxy numeraire, not historical conversion.",
+        "No historical bid/ask, financing, swap, broker contract or margin evidence.",
+        "Engine protective stop is installed after entry-bar callback; breached entry bars are delayed to the next eligible native order fill and counted.",
+        "Native Engine dual pending-stop sequencing is retained and ambiguity is counted; no OCO is assumed.",
+        "This is development evidence only, not broker equivalence or approval."
+      ],
+      "lookback_h1": 500,
+      "native_closed_expectancy_usd": -16.9131829165308,
+      "native_closed_win_rate": 0.3333333333333333,
+      "native_end_equity_usd": 5585.659258785454,
+      "native_execution_accounting": {
+        "commission_usd": 0.0,
+        "configuration": "SlippageType.FIXED adverse per unit per fill; Engine multiplies each fill slippage by filled quantity. Fill parquet slippage is per-unit, so its unweighted sum is not the USD cost.",
+        "fill_unit_slippage_sum_notional_weighted_usd": 0.10440000000000002,
+        "long_trade_rows": 210,
+        "max_concurrent_positions_native": 3,
+        "native_costs_equal_slippage_and_no_commission": true,
+        "native_total_costs_usd": 3261.1420492851244,
+        "native_total_slippage_cost_usd": 3261.1420492851244,
+        "rejected_orders_native": 0,
+        "short_trade_rows": 51,
+        "slippage_cost_reconciles_to_trade_ledger": true,
+        "trade_ledger_total_slippage_cost_usd": 3261.142049285124
+      },
+      "native_final_account_state": {
+        "cash_usd": 5585.659258785454,
+        "equity_usd": 5585.659258785454,
+        "gross_exposure_usd": 0.0,
+        "net_exposure_usd": 0.0,
+        "open_positions": 0,
+        "timestamp": "2024-12-31T22:00:00+00:00"
+      },
+      "native_initial_cash_usd": 10000.0,
+      "native_net_profit_usd": -4414.340741214546,
+      "native_stop_and_execution_counts": {
+        "decision_bar_spans_both_channels": 0,
+        "entry_protection_gap_bars": 261,
+        "expired_orders_cancelled_natively": 33553,
+        "opposite_stop_same_minute_fill_groups": 0,
+        "rejected_order_count": 0,
+        "unprotected_entry_bar_stop_breaches": 17
+      },
+      "output_summary_path": "run_log/mechanicalpremia_yen_squeeze_proxy_20261014/PORTFOLIO-500-6PIP/summary.json",
+      "pair_attribution": [
+        {
+          "closed_expectancy_usd": -15.441368979682082,
+          "closed_trades": 77,
+          "closed_win_rate": 0.2987012987012987,
+          "closed_wins": 23,
+          "ledger_pnl_usd": -1188.9854114355203,
+          "symbol": "CADJPY",
+          "trade_rows": 77
+        },
+        {
+          "closed_expectancy_usd": 2.575112075065878,
+          "closed_trades": 79,
+          "closed_win_rate": 0.4177215189873418,
+          "closed_wins": 33,
+          "ledger_pnl_usd": 203.43385393020435,
+          "symbol": "GBPJPY",
+          "trade_rows": 79
+        },
+        {
+          "closed_expectancy_usd": -32.65513508294498,
+          "closed_trades": 105,
+          "closed_win_rate": 0.29523809523809524,
+          "closed_wins": 31,
+          "ledger_pnl_usd": -3428.789183709223,
+          "symbol": "USDJPY",
+          "trade_rows": 105
+        }
+      ],
+      "per_fill_slippage_usd_expected": 0.00019999999999999998,
+      "quarterly": [
+        {
+          "end": "2023-03-31",
+          "quarter": 1,
+          "return": -0.04919942192326798,
+          "sharpe": -2.056170530822935,
+          "start": "2023-01-01",
+          "year": 2023
+        },
+        {
+          "end": "2023-06-30",
+          "quarter": 2,
+          "return": -0.1230503477909447,
+          "sharpe": -2.548604316225139,
+          "start": "2023-04-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-09-29",
+          "quarter": 3,
+          "return": -0.15509334470076652,
+          "sharpe": -3.999609886309337,
+          "start": "2023-07-02",
+          "year": 2023
+        },
+        {
+          "end": "2023-12-31",
+          "quarter": 4,
+          "return": 0.02010257775205737,
+          "sharpe": 0.5249063469035686,
+          "start": "2023-10-01",
+          "year": 2023
+        },
+        {
+          "end": "2024-03-31",
+          "quarter": 1,
+          "return": -0.056868982917972044,
+          "sharpe": -1.2108664873423833,
+          "start": "2024-01-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-06-30",
+          "quarter": 2,
+          "return": -0.04802965110130353,
+          "sharpe": -1.0335366578720688,
+          "start": "2024-04-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-09-30",
+          "quarter": 3,
+          "return": 0.18230401322706458,
+          "sharpe": 3.819270939590634,
+          "start": "2024-07-01",
+          "year": 2024
+        },
+        {
+          "end": "2024-12-31",
+          "quarter": 4,
+          "return": -0.26779422080512516,
+          "sharpe": -2.3890323371401987,
+          "start": "2024-10-01",
+          "year": 2024
+        }
+      ],
+      "roundtrip_cost_jpy": 0.06,
+      "rows": {
+        "closed_trade_rows": 261,
+        "daily_equity": 646,
+        "fills": 522,
+        "partial_trade_rows": 0,
+        "trades": 261
+      },
+      "summary_sha256": "32e00a9a50994d9f7b16933b3044119dd14ed736c4f6ca28b2631e4a7d18e7fb",
+      "trial_id": "PORTFOLIO-500-6PIP",
+      "yearly": [
+        {
+          "end_equity": 7186.487480723616,
+          "max_drawdown": -0.32444459764249656,
+          "return": -0.28135125192763877,
+          "sharpe": -1.9533619057536953,
+          "start_equity": 10000.0,
+          "year": 2023
+        },
+        {
+          "end_equity": 5585.659258785454,
+          "max_drawdown": -0.288586538444278,
+          "return": -0.2227553065711274,
+          "sharpe": -0.7553009420805993,
+          "start_equity": 7186.487480723616,
+          "year": 2024
+        }
+      ]
+    }
+  ]
+}

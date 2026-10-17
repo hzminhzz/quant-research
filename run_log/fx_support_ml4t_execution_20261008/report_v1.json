@@ -1,0 +1,52 @@
+{
+  "schema_version": "fx-support-session-report-v1",
+  "session_id": "fx_support_ml4t_execution_20261008",
+  "status": "BLOCKED",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "frozen_spec_sha256": "2dc0d889bf5c5f2d8156158d0d565285865132ea03ed36d81ee0d144c1247bee",
+  "head_at_start": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "p0_artifact": {
+    "path": "run_log/research_sessions/fx_support_ml4t_execution_20261008/diagnostics/P0_engine_execution_gate.json",
+    "trial_record": "run_log/research_sessions/fx_support_ml4t_execution_20261008/trials/P0_engine_execution_gate.json",
+    "recorded_status": "failed",
+    "gate_disposition": "BLOCKED"
+  },
+  "feature_integrity": {
+    "path": "run_log/fx_support_ml4t_execution_20261008/feature_integrity_v1.json",
+    "status": "PASS",
+    "regenerated_with": "ml4t.engineer.compute_features 0.1.4",
+    "rows": 1395,
+    "oof_events": 730,
+    "selected_events": 112,
+    "latest_decision": "2024-11-29T10:00:00Z"
+  },
+  "execution_tests": {
+    "path": "tests/test_fx_support_ml4t_execution_20261008.py",
+    "sha256": "ae106d4a3ef9180129fb9df501ece12262eb16c13e782350e60b4bdfb96b81a2",
+    "command": "MPLCONFIGDIR=/tmp/mpl-fx-support .venv/bin/python -m pytest -q tests/test_fx_support_ml4t_execution_20261008.py",
+    "result": "7 passed"
+  },
+  "feature_verifier": {
+    "path": "scripts/verify_fx_support_ml4t_features_20261008.py",
+    "sha256": "946b256a569c71decc1a0872d5c3cd6f153302ffdd4699f10e764341eb3085f8"
+  },
+  "economic_trials": {
+    "E0_unfiltered_oof_cohort": "not started; blocked by P0 decision-to-fill timestamp invariant",
+    "E1_lightgbm_oof_capped_risk": "not started; blocked by P0 decision-to-fill timestamp invariant",
+    "E2_lightgbm_cost_stress": "not started; blocked by P0 decision-to-fill timestamp invariant",
+    "E3_lightgbm_flat_before_daily_reset": "not started; blocked by P0 decision-to-fill timestamp invariant"
+  },
+  "holdout": {
+    "opened": false,
+    "scored": false,
+    "price_data_after_2024_opened": false
+  },
+  "limitations": [
+    "The engine's NEXT_BAR strategy lifecycle adds one 5-minute bar after a decision first available at the 30-minute close.",
+    "No economic PnL, risk, Sharpe, drawdown, or per-pair results were computed.",
+    "The ML event label precision remains a historical classification result and is not trade evidence.",
+    "No result establishes prop-firm economics or live approval.",
+    "The research_session.py report command was not run because it calls check_session, which reads every frozen data path, including holdout price files. The frozen specification includes holdout identities. The P0 trial was recorded with research_session.py record, which only validated paths and hashed the P0 artifact. This report reconstructs the session outcome without accessing holdout prices."
+  ]
+}

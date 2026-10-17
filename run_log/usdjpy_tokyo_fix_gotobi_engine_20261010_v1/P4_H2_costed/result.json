@@ -1,0 +1,151 @@
+{
+  "status": "PASS_IMPLEMENTATION",
+  "arm": "H2",
+  "costed": true,
+  "engine": "ml4t.backtest.Engine (native NEXT_BAR OPEN)",
+  "accounting": "JPY quote-value proxy, not retail USD account",
+  "source_sha256": "5c6ff1bc3cff0a69e1bb22565249fd8dbe03441fb3363edb510c939841685028",
+  "n_eligible_days": 4,
+  "native_feed_rows": 604,
+  "fixed_usd_base_units": 1000.0,
+  "slippage_fixed_jpy_per_side": 0.005,
+  "submitted_orders": 8,
+  "filled_orders": 8,
+  "engine_metrics": {
+    "initial_cash": "1000000.0",
+    "final_value": "999799.0",
+    "total_return": "-0.00020100000000000673",
+    "total_return_pct": "-0.020100000000000673",
+    "max_drawdown": "0.000341",
+    "max_drawdown_pct": "0.0341",
+    "num_trades": "4",
+    "winning_trades": "1",
+    "losing_trades": "3",
+    "win_rate": "0.25",
+    "total_commission": "0.0",
+    "total_slippage": "40.0",
+    "sharpe": "-0.40366609565626715",
+    "sortino": "-0.3372506012832683",
+    "calmar": "-2.3624483473846034",
+    "cagr": "-0.0008055948864581497",
+    "volatility": "0.00020806013078845047",
+    "profit_factor": "0.19277108433737192",
+    "expectancy": "-0.0003204451269340575",
+    "avg_trade": "-0.0003204451269340575",
+    "avg_win": "0.0002959838688791573",
+    "avg_loss": "-0.0005259214588717958",
+    "largest_win": "0.0002959838688791573",
+    "largest_loss": "-0.0011719521283030838",
+    "payoff_ratio": "0.5627910097338499",
+    "total_gross_pnl": "-200.99999999996498",
+    "total_costs": "40.0",
+    "avg_cost_drag": "6.253123589343504e-05",
+    "gross_profit_factor": "0.1927710843373824",
+    "skipped_bars": "0",
+    "num_orders": "8",
+    "num_rejected_orders": "0",
+    "num_fills": "8",
+    "num_rebalance_events": "8",
+    "unique_symbols_traded": "1",
+    "total_filled_notional": "1279737.0",
+    "avg_turnover": "0.002119156435858807",
+    "max_turnover": "0.1622112283846394",
+    "avg_open_positions": "0.2251655629139073",
+    "max_open_positions": "1",
+    "lifecycle_version": "1",
+    "lifecycle_callback_counts": "{'run_start': 1, 'causal_initialization': 1, 'pre_open': 0, 'opening_auction': 0, 'fill_reconciliation': 0, 'intrabar': 0, 'close': 0, 'market_event': 604, 'run_end': 1}",
+    "lifecycle_invocations": "[]",
+    "execution_policy": "{'policy_id': 'ml4t-backtest-default-v1', 'market_fill_phase': 'opening_auction', 'opening_auction': 'client', 'close_auction': 'client', 'limit': 'client', 'stop': 'client', 'stop_limit': 'disabled', 'trailing': 'client', 'contingent': 'client', 'fee_bps': 0.0, 'slippage_bps': 0.0, 'spread_bps': 0.0, 'impact_bps': 0.0, 'latency_ms': 0.0, 'liquidity_fraction': 1.0, 'allow_partial_fills': False, 'bar_path': 'conservative', 'supported_sessions': ['regular'], 'lifecycle_version': '1'}",
+    "target_intent_count": "0",
+    "child_order_intent_count": "0",
+    "intent_reconciliation_count": "0",
+    "target_rule_reconciliation_count": "0",
+    "target_intents": "[]",
+    "child_order_intents": "[]",
+    "intent_reconciliations": "[]",
+    "target_rule_reconciliations": "[]"
+  },
+  "errors": [],
+  "orders": [
+    {
+      "role": "entry",
+      "session": "2026-05-01",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-01 00:56:00+00:00",
+      "fill_price": "157.003",
+      "order_properties": {
+        "filled_at": "2026-05-01 00:56:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-01",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-01 01:30:00+00:00",
+      "fill_price": "157.18699999999998",
+      "order_properties": {
+        "filled_at": "2026-05-01 01:30:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-15 00:56:00+00:00",
+      "fill_price": "160.1",
+      "order_properties": {
+        "filled_at": "2026-06-15 00:56:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-15 01:30:00+00:00",
+      "fill_price": "160.153",
+      "order_properties": {
+        "filled_at": "2026-06-15 01:30:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-30 00:56:00+00:00",
+      "fill_price": "162.171",
+      "order_properties": {
+        "filled_at": "2026-06-30 00:56:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-30 01:30:00+00:00",
+      "fill_price": "162.123",
+      "order_properties": {
+        "filled_at": "2026-06-30 01:30:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-31 00:56:00+00:00",
+      "fill_price": "160.494",
+      "order_properties": {
+        "filled_at": "2026-07-31 00:56:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-31 01:30:00+00:00",
+      "fill_price": "160.506",
+      "order_properties": {
+        "filled_at": "2026-07-31 01:30:00+00:00"
+      }
+    }
+  ]
+}

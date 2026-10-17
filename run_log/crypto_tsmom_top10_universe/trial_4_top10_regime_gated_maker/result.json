@@ -1,0 +1,33 @@
+{
+  "trial_id": "trial_4_top10_regime_gated_maker",
+  "description": "Multi-Factor Regime-Gated 10-Asset TSMOM",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 20835.666146603526
+  },
+  "performance": {
+    "total_return": 1.0835666146603526,
+    "annualized_daily_sharpe": 1.8412422872653387,
+    "engine_buggy_sharpe": 0.27498459125446295,
+    "max_drawdown": 0.10005559155426408,
+    "win_rate": 0.4474111910842814,
+    "profit_factor": 1.224937706210878
+  },
+  "execution": {
+    "trades": 12921,
+    "total_commission": 2210.779152266932,
+    "total_slippage": 0.0,
+    "total_costs": 2210.779152266932,
+    "gross_pnl": 13046.445298870442,
+    "fee_drag_pct": 16.945452202665052
+  },
+  "falsifier_checks": {
+    "min_sharpe_1_00": true,
+    "max_drawdown_20_pct": true,
+    "fee_drag_under_15_pct": false
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "feature_provider": "ML4T Engineer ATR14/SMA15/TypicalPrice",
+  "data_source": "LSE NQ.F 2025, provider-defined futures series, no 2026",
+  "validated_trials": [
+    {
+      "cost": "zero",
+      "trades": 31,
+      "verified_entry_signals": 31,
+      "same_ct_day": true,
+      "no_exit_after_1430": true,
+      "native_ledger_reconciled": true,
+      "gross_price_multiplier_reconciled": true,
+      "max_filled_entries_on_day": 3,
+      "time_exit_count": 2,
+      "stop_target_or_other_exits": 29,
+      "same_minute_exit_count": 0,
+      "native_exit_reason_counts": {
+        "signal": 31
+      },
+      "net_pnl_usd": 110.0,
+      "win_rate": 0.6451612903225806,
+      "profit_factor": 1.0072463768115942,
+      "sharpe_eligible_days_only": 0.049193361644988054
+    },
+    {
+      "cost": "illustrative",
+      "trades": 31,
+      "verified_entry_signals": 31,
+      "same_ct_day": true,
+      "no_exit_after_1430": true,
+      "native_ledger_reconciled": true,
+      "gross_price_multiplier_reconciled": true,
+      "max_filled_entries_on_day": 3,
+      "time_exit_count": 2,
+      "stop_target_or_other_exits": 29,
+      "same_minute_exit_count": 0,
+      "native_exit_reason_counts": {
+        "signal": 31
+      },
+      "net_pnl_usd": -210.0,
+      "win_rate": 0.6451612903225806,
+      "profit_factor": 0.9862700228832952,
+      "sharpe_eligible_days_only": -0.06746737338079214
+    },
+    {
+      "cost": "double",
+      "trades": 31,
+      "verified_entry_signals": 31,
+      "same_ct_day": true,
+      "no_exit_after_1430": true,
+      "native_ledger_reconciled": true,
+      "gross_price_multiplier_reconciled": true,
+      "max_filled_entries_on_day": 3,
+      "time_exit_count": 2,
+      "stop_target_or_other_exits": 29,
+      "same_minute_exit_count": 0,
+      "native_exit_reason_counts": {
+        "signal": 31
+      },
+      "net_pnl_usd": -530.0,
+      "win_rate": 0.6451612903225806,
+      "profit_factor": 0.9656067488643738,
+      "sharpe_eligible_days_only": -0.1841552212447236
+    }
+  ],
+  "limitations": [
+    "No validated dated futures roll mapping for NQ.F",
+    "No independently authenticated exchange-trade VWAP",
+    "ATR_Daily inner period unspecified by original; ATR14 is conventional assumption",
+    "37 trading sessions / 31 trades insufficient for robust inference",
+    "Cost/slippage are illustrative, not independently measured",
+    "Execution same-minute both-hit stop-first is conservative but minute path unobserved"
+  ]
+}

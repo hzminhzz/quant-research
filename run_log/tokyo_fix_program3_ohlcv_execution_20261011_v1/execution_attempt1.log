@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 322, in <module>
+    else:run()
+         ~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 311, in run
+    raw,bars,panel,reg,gates=load_data(spec);record('T0_quality')
+                             ~~~~~~~~~^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 104, in load_data
+    raw=pl.scan_parquet([str(p) for p in SOURCES]).filter(pl.col('timestamp')<BOUND).with_columns(pl.col('timestamp').dt.convert_time_zone('Asia/Tokyo').alias('jst')).with_columns(pl.col('jst').dt.date().alias('session'),(pl.col('jst').dt.hour().cast(pl.Int32)*60+pl.col('jst').dt.minute()).alias('minute')).sort('timestamp').collect()
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 97, in wrapper
+    return function(*args, **kwargs)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/opt_flags.py", line 361, in wrapper
+    return function(*args, **kwargs)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py", line 2591, in collect
+    return engine_.collect(
+           ~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<2 lines>...
+        post_opt_callback=post_opt_callback,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 443, in collect
+    return wrap_df(ldf.collect(self.name, callback))
+                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+polars.exceptions.SchemaError: could not evaluate '>=' comparison between series 'timestamp_min' of dtype: Datetime('μs', 'UTC') and series 'literal' of dtype: Datetime('μs', 'Asia/Tokyo')
+
+This error occurred in the following expression:
+	[(col("timestamp_min")) >= (2026-09-01 00:00:00 JST)]
+while evaluating this larger expression:
+	[(col("timestamp_min").alias("").is_not_null()) & ([(col("timestamp_min")) >= (2026-09-01 00:00:00 JST)])]
+

@@ -1,0 +1,70 @@
+{
+  "session_id": "crypto_tsmom_flow_increment_20261008",
+  "scope": "Pre-outcome data validation only; no strategy metrics or backtest.",
+  "cli_input_check": {
+    "status": "PASS",
+    "metrics_computed": false,
+    "limitation": "The CLI checks identities and basic schema, not hourly cadence or complete coverage."
+  },
+  "local_hourly_prices": {
+    "BTCUSDT": {
+      "rows": 48912,
+      "unique_timestamps": 48912,
+      "coverage_utc": ["2021-01-01T00:00:00Z", "2026-07-31T23:00:00Z"],
+      "missing_hours": 0,
+      "invalid_ohlcv_rows": 0
+    },
+    "ETHUSDT": {
+      "rows": 48912,
+      "unique_timestamps": 48912,
+      "coverage_utc": ["2021-01-01T00:00:00Z", "2026-07-31T23:00:00Z"],
+      "missing_hours": 0,
+      "invalid_ohlcv_rows": 0
+    },
+    "SOLUSDT": {
+      "rows": 48792,
+      "unique_timestamps": 48792,
+      "coverage_utc": ["2021-01-01T00:00:00Z", "2026-07-31T23:00:00Z"],
+      "missing_hours": 120,
+      "missing_intervals": [
+        {"after": "2022-02-25T23:00:00Z", "before": "2022-03-01T00:00:00Z", "missing_hours": 72},
+        {"after": "2022-03-31T23:00:00Z", "before": "2022-04-03T00:00:00Z", "missing_hours": 48}
+      ],
+      "invalid_ohlcv_rows": 0
+    },
+    "canonical_hourly_store": "The canonical SOLUSDT 1-hour store has the same two gaps."
+  },
+  "minute_source_development_window": {
+    "window_start": "2021-01-01T00:00:00Z",
+    "window_end_exclusive": "2026-08-01T00:00:00Z",
+    "rows_per_symbol": 2934720,
+    "expected_rows_per_symbol": 2934720,
+    "symbols": {
+      "BTCUSDT": {"missing_minutes": 0, "duplicate_timestamps": 0, "zero_quote_and_taker_rows": 367, "invalid_side_volume_rows": 0},
+      "ETHUSDT": {"missing_minutes": 0, "duplicate_timestamps": 0, "zero_quote_and_taker_rows": 272, "invalid_side_volume_rows": 0},
+      "SOLUSDT": {"missing_minutes": 0, "duplicate_timestamps": 0, "zero_quote_and_taker_rows": 276, "invalid_side_volume_rows": 0}
+    },
+    "schema": ["timestamp", "quote_volume", "taker_buy_quote_volume"],
+    "zero_volume_policy": "A zero-volume minute with zero taker-buy quote volume is a complete row. The hourly flow feature is invalid only when its total quote-volume denominator is non-positive. No source values are clipped."
+  },
+  "hourly_rebuild_from_complete_minutes": {
+    "method": "UTC 1-hour dynamic aggregation of 60 consecutive Binance USD-M 1-minute bars; open=first, high=max, low=min, close=last, volumes and trade_count=sum.",
+    "rows_per_symbol": 48912,
+    "minute_count_per_bar": 60,
+    "incomplete_bars": 0,
+    "outputs": [
+      "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+      "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+      "data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_1h.parquet"
+    ]
+  },
+  "funding_schedule": {
+    "BTCUSDT": {"events": 6114, "observed_interval_hours": {"8": 6113}, "max_timestamp_deviation_ms": 47},
+    "ETHUSDT": {"events": 6114, "observed_interval_hours": {"8": 6113}, "max_timestamp_deviation_ms": 47},
+    "SOLUSDT": {"events": 6189, "observed_interval_hours": {"8": 6087, "4": 3, "2": 98}, "max_deviation_from_2h_utc_grid_ms": 47},
+    "policy": "Use each recorded signed settlement and its actual observed schedule. Align to the nearest hourly boundary only within 50 ms. Do not interpolate or assume a fixed 8-hour interval for SOLUSDT."
+  },
+  "decision": "Do not use the first frozen spec's processed SOLUSDT hourly file for features or strategy simulation. The v2 spec uses hourly bars rebuilt from the complete minute source and records the actual per-symbol funding schedule.",
+  "holdout_access": "No price values, flow values, returns, strategy metrics, or backtest results from 2026-08-01 onward were read or scored. Only source coverage metadata was inspected.",
+  "next_spec": "crypto_tsmom_flow_increment_20261008_v2"
+}

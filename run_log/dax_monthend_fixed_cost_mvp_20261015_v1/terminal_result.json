@@ -1,0 +1,381 @@
+{
+  "mvp_decision": "REJECT",
+  "phase3": "PASS",
+  "mode": "HYPOTHETICAL_COSTS_BID_ONLY_NOT_BROKER_APPROVED",
+  "num_complete_pairs": 73,
+  "post_event_invalid_months": 0,
+  "base": {
+    "candidate": {
+      "arm": "candidate",
+      "cost_label": "base",
+      "costs": {
+        "commission_rate": 0.0001,
+        "slippage_rate": 0.0004,
+        "finance_rate_annual": 0.08
+      },
+      "engine": "ml4t.backtest.Engine(NEXT_BAR,OPEN)",
+      "n_trades": 73,
+      "win_rate": 0.4931506849315068,
+      "native_final_value_eur": 94694.69472112626,
+      "native_net_pnl_eur": -5305.3052788737405,
+      "total_finance_eur": 8032.183637954789,
+      "total_commission_eur": 1461.1437516727735,
+      "avg_net_monthly_return": -0.0007267541477909135,
+      "native_cash_pnl_reconciliation_eur": -7.275957614183426e-11,
+      "risk_252d_daily_equity": {
+        "total_return": -0.053053052788736066,
+        "annual_return": -0.007735374374448156,
+        "annual_volatility": 0.07668125141579894,
+        "sharpe_ratio": -0.06295414886027553,
+        "sortino_ratio": -0.08895096943742874,
+        "calmar_ratio": -0.03803943296727663,
+        "omega_ratio": 0.9735154138551352,
+        "tail_ratio": 0.9786098761092277,
+        "max_drawdown": -0.20335146375873955,
+        "skewness": 0.15840219432589867,
+        "kurtosis": 27.384621085844763,
+        "var_95": -0.004704151424130103,
+        "cvar_95": -0.01284842734795927,
+        "stability": 0.13699470291469767,
+        "win_rate": 0.0847936687394008,
+        "profit_factor": 0.9735154138551352,
+        "avg_win": 0.008304227200479915,
+        "avg_loss": -0.009010716072470714
+      },
+      "yearly": {
+        "2018": {
+          "trades": 10,
+          "net_eur": -10022.464679171979,
+          "return_initial_nav": -0.10022464679171979
+        },
+        "2019": {
+          "trades": 10,
+          "net_eur": 4063.9437094054847,
+          "return_initial_nav": 0.04063943709405485
+        },
+        "2020": {
+          "trades": 11,
+          "net_eur": 9827.989605009463,
+          "return_initial_nav": 0.09827989605009463
+        },
+        "2021": {
+          "trades": 10,
+          "net_eur": 6676.618816563978,
+          "return_initial_nav": 0.06676618816563978
+        },
+        "2022": {
+          "trades": 10,
+          "net_eur": -8716.589367396846,
+          "return_initial_nav": -0.08716589367396846
+        },
+        "2023": {
+          "trades": 11,
+          "net_eur": -33.47076964502048,
+          "return_initial_nav": -0.0003347076964502048
+        },
+        "2024": {
+          "trades": 11,
+          "net_eur": -7101.332593638752,
+          "return_initial_nav": -0.07101332593638753
+        }
+      },
+      "candidate_notional_fixed_initial": 100000.0,
+      "source": "Dukascopy BID-only CFD proxy, 2025+ untouched",
+      "quote_and_funding_assumptions_not_broker_validated": true
+    },
+    "control": {
+      "arm": "control",
+      "cost_label": "base",
+      "costs": {
+        "commission_rate": 0.0001,
+        "slippage_rate": 0.0004,
+        "finance_rate_annual": 0.08
+      },
+      "engine": "ml4t.backtest.Engine(NEXT_BAR,OPEN)",
+      "n_trades": 73,
+      "win_rate": 0.3972602739726027,
+      "native_final_value_eur": 86540.9673881617,
+      "native_net_pnl_eur": -13459.032611838295,
+      "total_finance_eur": 7703.394690469274,
+      "total_commission_eur": 1460.122803288343,
+      "avg_net_monthly_return": -0.0018437030975120767,
+      "native_cash_pnl_reconciliation_eur": -1.3096723705530167e-10,
+      "risk_252d_daily_equity": {
+        "total_return": -0.13459032611838284,
+        "annual_return": -0.020381390898264518,
+        "annual_volatility": 0.07067899845197136,
+        "sharpe_ratio": -0.25600117901895897,
+        "sortino_ratio": -0.35212037459086903,
+        "calmar_ratio": -0.09858633823787337,
+        "omega_ratio": 0.8916143929034265,
+        "tail_ratio": 0.9683826342478774,
+        "max_drawdown": -0.2067364633128722,
+        "skewness": 0.07478922888296782,
+        "kurtosis": 47.85047938617529,
+        "var_95": -0.004257498834924756,
+        "cvar_95": -0.011731478098602859,
+        "stability": 0.7692311802124873,
+        "win_rate": 0.07857546636517806,
+        "profit_factor": 0.8916143929034263,
+        "avg_win": 0.007517099520937916,
+        "avg_loss": -0.007659432601630387
+      },
+      "yearly": {
+        "2018": {
+          "trades": 10,
+          "net_eur": -4589.496909621608,
+          "return_initial_nav": -0.045894969096216084
+        },
+        "2019": {
+          "trades": 10,
+          "net_eur": 3691.814109331791,
+          "return_initial_nav": 0.03691814109331791
+        },
+        "2020": {
+          "trades": 11,
+          "net_eur": -2708.0349425717004,
+          "return_initial_nav": -0.027080349425717003
+        },
+        "2021": {
+          "trades": 10,
+          "net_eur": -7595.063421202837,
+          "return_initial_nav": -0.07595063421202837
+        },
+        "2022": {
+          "trades": 10,
+          "net_eur": 1035.3427272087986,
+          "return_initial_nav": 0.010353427272087986
+        },
+        "2023": {
+          "trades": 11,
+          "net_eur": -3454.872303470187,
+          "return_initial_nav": -0.03454872303470187
+        },
+        "2024": {
+          "trades": 11,
+          "net_eur": 161.27812848758575,
+          "return_initial_nav": 0.0016127812848758575
+        }
+      },
+      "candidate_notional_fixed_initial": 100000.0,
+      "source": "Dukascopy BID-only CFD proxy, 2025+ untouched",
+      "quote_and_funding_assumptions_not_broker_validated": true
+    },
+    "hac3": {
+      "candidate_net": {
+        "n": 73,
+        "mean": -0.0007267541477909138,
+        "se_hac3": 0.0029942626861398326,
+        "ci95_lower": -0.006595401172757213,
+        "ci95_upper": 0.005141892877175386
+      },
+      "control_net": {
+        "n": 73,
+        "mean": -0.0018437030975120767,
+        "se_hac3": 0.001762675293980783,
+        "ci95_lower": -0.005298483190082361,
+        "ci95_upper": 0.0016110769950582078
+      },
+      "paired_net": {
+        "n": 73,
+        "mean": 0.0011169489497211637,
+        "se_hac3": 0.003690764264109556,
+        "ci95_lower": -0.006116816083213211,
+        "ci95_upper": 0.00835071398265554
+      }
+    },
+    "n_pairs": 73
+  },
+  "stress_2x": {
+    "candidate": {
+      "arm": "candidate",
+      "cost_label": "2x",
+      "costs": {
+        "commission_rate": 0.0002,
+        "slippage_rate": 0.0008,
+        "finance_rate_annual": 0.16
+      },
+      "engine": "ml4t.backtest.Engine(NEXT_BAR,OPEN)",
+      "n_trades": 73,
+      "win_rate": 0.410958904109589,
+      "native_final_value_eur": 79350.36834456027,
+      "native_net_pnl_eur": -20649.631655439734,
+      "total_finance_eur": 16070.790453548887,
+      "total_commission_eur": 2922.2867007376494,
+      "avg_net_monthly_return": -0.0028287166651287062,
+      "native_cash_pnl_reconciliation_eur": -1.7462298274040222e-10,
+      "risk_252d_daily_equity": {
+        "total_return": -0.20649631655439749,
+        "annual_return": -0.03241214251568114,
+        "annual_volatility": 0.08297167738009728,
+        "sharpe_ratio": -0.35559868660965116,
+        "sortino_ratio": -0.4875084611489604,
+        "calmar_ratio": -0.11528214844221815,
+        "omega_ratio": 0.8600301477454946,
+        "tail_ratio": 0.8035930899190604,
+        "max_drawdown": -0.28115491386705715,
+        "skewness": -0.02547013544504397,
+        "kurtosis": 26.589981704660897,
+        "var_95": -0.0058336546982904434,
+        "cvar_95": -0.01451074756085625,
+        "stability": 0.11333413568508384,
+        "win_rate": 0.08027133973996609,
+        "profit_factor": 0.8600301477454946,
+        "avg_win": 0.008962065985955893,
+        "avg_loss": -0.009864874104253196
+      },
+      "yearly": {
+        "2018": {
+          "trades": 10,
+          "net_eur": -12189.592417348369,
+          "return_initial_nav": -0.12189592417348369
+        },
+        "2019": {
+          "trades": 10,
+          "net_eur": 1913.379934424872,
+          "return_initial_nav": 0.01913379934424872
+        },
+        "2020": {
+          "trades": 11,
+          "net_eur": 7566.187274497243,
+          "return_initial_nav": 0.07566187274497244
+        },
+        "2021": {
+          "trades": 10,
+          "net_eur": 4545.1462230889265,
+          "return_initial_nav": 0.045451462230889264
+        },
+        "2022": {
+          "trades": 10,
+          "net_eur": -10708.697327103944,
+          "return_initial_nav": -0.10708697327103944
+        },
+        "2023": {
+          "trades": 11,
+          "net_eur": -2268.6590534423535,
+          "return_initial_nav": -0.022686590534423536
+        },
+        "2024": {
+          "trades": 11,
+          "net_eur": -9507.396289555929,
+          "return_initial_nav": -0.09507396289555929
+        }
+      },
+      "candidate_notional_fixed_initial": 100000.0,
+      "source": "Dukascopy BID-only CFD proxy, 2025+ untouched",
+      "quote_and_funding_assumptions_not_broker_validated": true
+    },
+    "control": {
+      "arm": "control",
+      "cost_label": "2x",
+      "costs": {
+        "commission_rate": 0.0002,
+        "slippage_rate": 0.0008,
+        "finance_rate_annual": 0.16
+      },
+      "engine": "ml4t.backtest.Engine(NEXT_BAR,OPEN)",
+      "n_trades": 73,
+      "win_rate": 0.3698630136986301,
+      "native_final_value_eur": 71530.79830600102,
+      "native_net_pnl_eur": -28469.201693998984,
+      "total_finance_eur": 15412.949632590262,
+      "total_commission_eur": 2920.2454829785784,
+      "avg_net_monthly_return": -0.00389989064301355,
+      "native_cash_pnl_reconciliation_eur": -7.275957614183426e-11,
+      "risk_252d_daily_equity": {
+        "total_return": -0.2846920169399897,
+        "annual_return": -0.046606802952250836,
+        "annual_volatility": 0.07700055284854761,
+        "sharpe_ratio": -0.5812420412137936,
+        "sortino_ratio": -0.773768712535484,
+        "calmar_ratio": -0.14680182925710825,
+        "omega_ratio": 0.7717219305763114,
+        "tail_ratio": 0.7550481007916057,
+        "max_drawdown": -0.3174810776412318,
+        "skewness": -0.24657712761364417,
+        "kurtosis": 44.800408615959924,
+        "var_95": -0.0052278865448077885,
+        "cvar_95": -0.01342551614544193,
+        "stability": 0.9248482472456766,
+        "win_rate": 0.07518371961560204,
+        "profit_factor": 0.7717219305763114,
+        "avg_win": 0.007985887076856818,
+        "avg_loss": -0.00865599186074067
+      },
+      "yearly": {
+        "2018": {
+          "trades": 10,
+          "net_eur": -6671.109772556501,
+          "return_initial_nav": -0.06671109772556501
+        },
+        "2019": {
+          "trades": 10,
+          "net_eur": 1563.0582436132909,
+          "return_initial_nav": 0.015630582436132908
+        },
+        "2020": {
+          "trades": 11,
+          "net_eur": -4920.493261865214,
+          "return_initial_nav": -0.049204932618652136
+        },
+        "2021": {
+          "trades": 10,
+          "net_eur": -9674.43075899045,
+          "return_initial_nav": -0.09674430758990449
+        },
+        "2022": {
+          "trades": 10,
+          "net_eur": -960.0666297617778,
+          "return_initial_nav": -0.009600666297617778
+        },
+        "2023": {
+          "trades": 11,
+          "net_eur": -5666.485064750126,
+          "return_initial_nav": -0.056664850647501264
+        },
+        "2024": {
+          "trades": 11,
+          "net_eur": -2139.674449688138,
+          "return_initial_nav": -0.02139674449688138
+        }
+      },
+      "candidate_notional_fixed_initial": 100000.0,
+      "source": "Dukascopy BID-only CFD proxy, 2025+ untouched",
+      "quote_and_funding_assumptions_not_broker_validated": true
+    },
+    "hac3": {
+      "candidate_net": {
+        "n": 73,
+        "mean": -0.002828716665128707,
+        "se_hac3": 0.002991092305773101,
+        "ci95_lower": -0.008691149858759047,
+        "ci95_upper": 0.003033716528501633
+      },
+      "control_net": {
+        "n": 73,
+        "mean": -0.0038998906430135504,
+        "se_hac3": 0.001762193360773991,
+        "ci95_lower": -0.0073537261638555885,
+        "ci95_upper": -0.0004460551221715128
+      },
+      "paired_net": {
+        "n": 73,
+        "mean": 0.001071173977884843,
+        "se_hac3": 0.0036907174594885605,
+        "ci95_lower": -0.006162499319678074,
+        "ci95_upper": 0.008304847275447759
+      }
+    },
+    "n_pairs": 73
+  },
+  "source_sha256": "5ff928567df21757d59f6efe34145e34403669d77dabe3b1cfe485e227c2d6a4",
+  "scheduling_sha256": "4784aef34906b8b42ba33fa95de9ff0fb930eb6b684b9d73943f84aa09030c8e",
+  "frozen_spec_sha256": "48d0e6094fc548b40fa89f10a3a9e978d61395d8e87334bb7416a5161439e6b2",
+  "registered_trials_expected": [
+    "phase3-signal-screen",
+    "phase4-native-base",
+    "phase4-native-2x-cost"
+  ],
+  "no_protected_holdout_read": true,
+  "no_promotion_or_live_broker_claim": true
+}

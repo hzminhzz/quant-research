@@ -1,0 +1,37 @@
+{
+  "method": "Exact open price fill comparison; independent of Engine accounting",
+  "result": [
+    {
+      "trial": "P4_H1_zero_cost",
+      "status": "ORACLE_PASS",
+      "trades": 49,
+      "expected_pnl_jpy": 1510.5000000000643,
+      "engine_pnl_jpy": 1510.5,
+      "expected_mean_pips": 3.082653061224621
+    },
+    {
+      "trial": "P4_H1_costed",
+      "status": "ORACLE_PASS",
+      "trades": 49,
+      "expected_pnl_jpy": 1020.50000000051,
+      "engine_pnl_jpy": 1020.5,
+      "expected_mean_pips": 2.0826530612255305
+    },
+    {
+      "trial": "P4_H2_zero_cost",
+      "status": "ORACLE_PASS",
+      "trades": 4,
+      "expected_pnl_jpy": -161.00000000000136,
+      "engine_pnl_jpy": -161.0,
+      "expected_mean_pips": -4.025000000000034
+    },
+    {
+      "trial": "P4_H2_costed",
+      "status": "ORACLE_PASS",
+      "trades": 4,
+      "expected_pnl_jpy": -200.99999999996498,
+      "engine_pnl_jpy": -201.0,
+      "expected_mean_pips": -5.024999999999125
+    }
+  ]
+}

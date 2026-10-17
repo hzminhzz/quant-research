@@ -1,0 +1,35 @@
+# DRAFT ONLY: not initialized. Phase-2 blocking data and cost dependencies remain.
+session_id: crypto_structural_s2_phase12_20261011
+thesis: >-
+  Crowded post-pump long liquidations create negative forward returns after a causal VWAP break.
+mechanism: >-
+  Margin liquidators become forced sellers; short squeezes and continuation are competing mechanisms.
+falsifier: >-
+  Reject if side-labelled liquidations do not precede the negative drift or controls erase net edge.
+instruments:
+  - {symbol: MYXUSDT, kind: perpetual, venue: Binance USD-M Futures}
+  - {symbol: BTCUSDT, kind: perpetual, venue: Binance USD-M Futures}
+data:
+  - {id: pump_m_yx_price, symbol: MYXUSDT, role: prices, path: data/processed/myxusdt_1h.parquet}
+  - {id: pump_btc_control, symbol: BTCUSDT, role: prices, path: data/processed/btcusdt_1h.parquet}
+baseline: No trade and naive short after 35 percent prior 24 hour price increase.
+trials:
+  - {id: oi-liquidation-data-audit, kind: preregistered, description: Verify timestamped open interest and side-labelled forced-liquidation inputs.}
+  - {id: causal-pump-events, kind: preregistered, description: Test VWAP break against matched non-liquidating pumps net of stress costs.}
+market: crypto
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  plan: >-
+    Exploratory development only; prior studies may have seen parts of this history.
+    Holdout is prospective, never open outcomes while gates are unresolved.
+    Entry after completed signal, costs and signed funding mandatory; no live trades.
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Provisional Binance USD-M VIP0 taker fee and 1.5bp slippage per leg.
+    Not a verified broker cost; add spread, impact, funding, borrow where relevant,
+    contract specifications and retail CFD costs before strategy trials.

@@ -1,0 +1,119 @@
+# Phase 5/6 validation registration. Freeze BEFORE reading July-Sep performance.
+session_id: vwap_pullback_adx_nq_20261012_proxy_v4_phase56
+market: futures
+thesis: >-
+  Independently test whether the three previously registered NQ.F continuous
+  price-proxy strategies B1 opening-range breakout, B2 OR/VWAP reclaim,
+  and B3 OR/VWAP reclaim gated by ADX retain positive net expectancy
+  outside January-June 2026 development. Test whether B3 adds value over B2.
+  The B1/B2/B3 strategy signals and original 5/20 minute TP/SL and 15:55
+  Chicago cutoff are unchanged from frozen v3.
+mechanism: >-
+  B1 opening discovery price continuation; B2 VWAP pullback and reclaim;
+  B3 reduced ADX slope as hypothesis for reclaim timing. All three already
+  reported favorable development results. Chronological H2 checks their
+  generalization, not data-driven retuning or feature selection.
+falsifier: >-
+  If a strategy shows negative net PnL, unstable fold sign, weak or negative
+  paired excess return versus a simpler comparator, or fails the cost/queue
+  stress, it fails that evidence gate. If sample CIs span zero or futures
+  provenance is insufficient mark INCONCLUSIVE, not APPROVED. Do not
+  re-optimize any threshold or re-label tested data as unseen.
+instruments:
+  - symbol: NQ.F
+    kind: futures
+    venue: London Strategic Edge vendor-defined continuous futures proxy
+    identity: >-
+      Provider-defined NQ.F continuous Nasdaq-100 reference feed with
+      unverified CME contract mapping, rolls, true CME traded volume and
+      bid/ask depth. Hypothetical one NQ-equivalent contract, $20/point,
+      tick 0.25 points. No exact CME fill or tradability claim.
+    session: >-
+      Full XNYS cash sessions only, 08:30-15:55 America/Chicago. Exclude
+      early close, missing 30-minute OR, any missing minute in cash window.
+      Day and signal semantics identical to prior v3.
+    timezone: America/Chicago
+data:
+  - id: nqf_validation_1m
+    symbol: NQ.F
+    role: prices
+    path: data/processed/vwap_adx_nqf_2026h2_validation_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  retrospective_validation_start: "2026-07-01T00:00:00Z"
+  retrospective_validation_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  plan: >-
+    Frozen protocol as of October 12, 2026, prior to July-Sept strategy
+    outcome inspection. Primary validation is complete full-session
+    calendar-month blocks July 1 through Sep 30, 2026 CT, using the
+    canonical LSE NQ.F data with June 2026 warmup and identical v3
+    native ml4t.Engine and LegalLimitFillExecutor. Run B0=0 and
+    B1/B2/B3 at gross, fixed-base $2.50/side+0.25-point adverse only
+    MARKET/STOP, and 2-tick stress $2.50/side+0.5 point adverse
+    MARKET/STOP. All LIMIT fills must be >= sell limit. Do not tune
+    signals on validation. Evaluate July, August and September as
+    chronological disjoint folds with no fitted parameters. Oct 1-2,
+    if source calendar-valid, must be SEPARATE partial-month diagnostic,
+    never include October in the three full-month primary fold result.
+    Never treat July-Oct as pristine OOS: this is retrospective
+    chronological validation with prior related index-strategy use.
+    Nov 2026 onward prospective holdout stays sealed.
+    Phase 6 uses only January-June development sample for diagnostics:
+    0/1/2/4 adverse tick costs on aggressive fills,
+    1-tick extra high breach for passive sell LIMIT fill eligibility,
+    monthly and first/second-quarter return stability, session-block
+    bootstrap/Monte Carlo and explicit attrition. Conservative
+    model must remain native Engine and same signal definition; no
+    parameter or strategy-rule optimization and no selection on
+    validation performance. Cost and passive queue scenarios are
+    perturbations, not calibrated execution truth.
+baseline: >-
+  B0 cash zero, B1 OR-only, B2 OR+VWAP, B3 OR+VWAP+ADX.
+  Primary comparison B3 minus B2 paired daily net return; separate
+  each strategy versus B0 and assess robustness. All three
+  use identical hypothetical NQ-equivalent position sizing.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Schema placeholders only. Operational: fixed $2.50 USD
+    contract-side commission (unverified), one adverse 0.25-point
+    tick on market/stop, zero adverse slippage on LIMIT; double-tick
+    phase5 stress; phase6 development only 0/1/2/4-tick friction
+    and +1 tick passive target-touch buffer. Account initial 1m USD;
+    drawdown percentages refer to large hypothetical account.
+trials:
+  - id: T0_validation_source_gate
+    kind: diagnostic
+    description: >-
+      Validate canonical source hash, 2026 June warmup, July-September
+      session calendar completeness, 30-bar OR, DST, volume and
+      no duplicate/invalid OHLC. Report missing Oct3-12 data.
+  - id: T1_phase5_chronological_replay
+    kind: preregistered
+    description: >-
+      B1/B2/B3 plus B0 on July-Sep 2026 complete sessions, at
+      gross/base/stress, original native engine and legal-limit adapter,
+      no threshold search, all fills/TP/SL/OCO/cutoff independently audited.
+      Include disjoint July, Aug, Sep fold metrics and matching
+      Jan-Jun development comparison.
+  - id: T2_phase6_development_robustness
+    kind: preregistered
+    description: >-
+      On January-June only all B1/B2/B3: 0/1/2/4-tick aggressive
+      slip costs and +1 tick passive limit fill eligibility,
+      paired daily session bootstrap, monthly signs/rolling
+      equity and trial-accounting caveats, all trials retained.
+  - id: T3_independent_audit_and_decision
+    kind: preregistered
+    description: >-
+      Audit source, exact timing/cost/order/position state, native
+      fills and trial counts. Keep results honest, classify
+      profitable-but-inconclusive and blocked real CME execution
+      separately. Record final decision with no access to November.
+evidence:
+  - config/research_sessions/vwap_pullback_adx_nq_20261012_proxy_v3_execfix.yaml
+  - docs/audit/vwap_pullback_adx_execfix_v3_20261012.md
+  - run_log/vwap_pullback_adx_nq_20261012_proxy_v3_execfix/phase4_remediated/remediation_audit.json

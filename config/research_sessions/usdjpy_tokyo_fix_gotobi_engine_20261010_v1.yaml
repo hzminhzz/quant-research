@@ -1,0 +1,72 @@
+session_id: usdjpy_tokyo_fix_gotobi_engine_20261010_v1
+market: fx
+thesis: >-
+  Implementation-only continuation of frozen usdjpy_tokyo_fix_gotobi_20261010.
+  Replay the unchanged pre-fix long and conditional post-fix short using native
+  event-driven next-bar-open fills on complete Tokyo minutes in 2026 Jan-Aug.
+  This is not an independent test of the previously inspected anomaly.
+mechanism: >-
+  Corporate USD purchase before Tokyo 09:55 fixing; possibly temporary impact
+  that fades after the fix. Previously observed exploratory drift is not proof.
+falsifier: >-
+  Implementation passes only when native engine executes exact intended
+  08:30/09:54 and 09:56/10:30 JST opens, avoids missing minutes,
+  positions are flat by 10:30, and recorded fill economics match
+  independent pip markout after 1.0 pip all-in hypothetical costs.
+  Economic acceptance remains NOT_APPROVED when H1 confidence interval
+  includes zero or H2 has insufficient observations or negative mean.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: >-
+      Quote JPY per USD; LSE spot OHLC price proxy for retail CFD.
+      Backtest accounting unit is JPY with fixed 1000 USD base units, not
+      USD account returns, and assumes no financing/borrowing constraints.
+    session: "FX 24/5, Tokyo 08:00-10:30 JST complete minute window"
+    timezone: Asia/Tokyo
+data:
+  - id: lse_usdjpy_1m_dev
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_fix_gotobi_20261010/USDJPY_dev_20260101_20260831_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-09-01T00:00:00Z"
+  holdout_start: "2026-09-01T00:00:00Z"
+  holdout_end: "2026-10-10T00:00:00Z"
+  inherited_session: usdjpy_tokyo_fix_gotobi_20261010
+  scope: "Execution implementation audit only; historical development reuse."
+  entry: >-
+    H1 submit BUY after 08:29 completed minute, NEXT_BAR OPEN 08:30.
+    Close after 09:53, NEXT_BAR OPEN 09:54. H2 submit SHORT after 09:55
+    based on 09:55 open known before 09:56; NEXT_BAR OPEN 09:56;
+    cover after 10:29, NEXT_BAR OPEN 10:30.
+  calendar: "Official BOJ 2026 Tokyo bank holiday list and weekend rollback"
+  decision: "Neither leg approved without independent statistical significance and broker-calibrated costs."
+baseline: "No position vs time-fixed long or conditional short; no-cost replay also included."
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  hypothetical_slippage_per_side_quote_jpy: 0.005
+  hypothetical_roundtrip_pips: 1.0
+  cost_source: "Frozen user-provided exploratory range; not verified broker bid-ask, commission or executable fills."
+trials:
+  - id: P2_engineer_features
+    kind: diagnostic
+    description: "Document causal features and full-minute data audit."
+  - id: P3_event_diagnostics
+    kind: diagnostic
+    description: "Time series HAC + ml4t diagnostic quintiles on fully complete sessions."
+  - id: P4_H1_zero_cost
+    kind: diagnostic
+    description: "Native NEXT_BAR Engine pre-fix long with zero costs, as timing control."
+  - id: P4_H1_costed
+    kind: diagnostic
+    description: "Native NEXT_BAR Engine pre-fix long with hypothetical half-pip each fill."
+  - id: P4_H2_zero_cost
+    kind: diagnostic
+    description: "Native NEXT_BAR Engine gated post-fix short with zero costs, as timing control."
+  - id: P4_H2_costed
+    kind: diagnostic
+    description: "Native NEXT_BAR Engine gated post-fix short with hypothetical half-pip each fill."

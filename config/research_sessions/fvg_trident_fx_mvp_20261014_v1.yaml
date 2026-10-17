@@ -1,0 +1,202 @@
+session_id: fvg_trident_fx_mvp_20261014_v1
+market: fx
+
+thesis: >-
+  In liquid FX, a bullish three-bar fair value gap (FVG) retrace that rejects
+  its midpoint during an established daily uptrend predicts enough subsequent
+  upside to generate positive net-of-execution-cost expectancy when entered
+  at a causal next-bar open and held with a daily trend exit.
+
+mechanism: >-
+  Directional repricing may leave a temporary pocket of thin trading. A revisit
+  and intrabar rejection can indicate persistent directional demand and
+  replenishment near the gap, especially when short and daily trends agree.
+  This is a hypothesis, not proof that a candlestick gap represents true
+  untraded liquidity in OTC forex. In efficient or reversing markets the
+  behavior should disappear.
+
+falsifier: >-
+  In the 2010-2024 development window, reject the exact baseline if the
+  pooled completed-trade expectancy after modeled entry/exit friction is
+  nonpositive, or if the monthly-cluster bootstrap 95% lower confidence
+  bound on average R does not exceed zero, provided there are at least
+  100 pooled completed trades, at least 20 per pair, and two of three
+  pairs have positive mean R. If sample sizes are smaller, record
+  INCONCLUSIVE, not PASS. Also report the result in 2010-2017 vs 2018-2024
+  without selecting the better era. Overnight financing is not priced
+  in this MVP: positive modeled results cannot qualify the strategy.
+
+instruments:
+  - symbol: EURUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO EUR/USD forex CFD; London Strategic Edge spot OHLCV is a research proxy, not FTMO bid/ask or fills"
+    session: "FX 24/5; New York 17:00 daily roll, exchange breaks and source gaps respected"
+    timezone: America/New_York
+  - symbol: GBPUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO GBP/USD forex CFD; London Strategic Edge spot OHLCV is a research proxy, not FTMO bid/ask or fills"
+    session: "FX 24/5; New York 17:00 daily roll, exchange breaks and source gaps respected"
+    timezone: America/New_York
+  - symbol: AUDUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO AUD/USD forex CFD; London Strategic Edge spot OHLCV is a research proxy, not FTMO bid/ask or fills"
+    session: "FX 24/5; New York 17:00 daily roll, exchange breaks and source gaps respected"
+    timezone: America/New_York
+
+data:
+  - id: eurusd_dev_2010_2017
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet
+  - id: eurusd_dev_2018_2024
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet
+  - id: gbpusd_dev_2010_2017
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet
+  - id: gbpusd_dev_2018_2024
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet
+  - id: audusd_dev_2010_2017
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet
+  - id: audusd_dev_2018_2024
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet
+
+evaluation:
+  source_cadence: 5m
+  signal_cadence: 30m
+  daily_regime_cadence: "daily 17:00 America/New_York completed candle"
+  development_start: "2010-01-04T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-10-07T00:00:00Z"
+  holdout_policy: >-
+    The preexisting 2025-2026 FX holdout is for one later frozen final trial;
+    do not open its prices or inspect its returns during MVP development.
+  canonical_data: >-
+    Reuse the six preexisting canonical 5m development Parquet snapshots
+    declared above; use UTC-aware bar-open timestamps. Require six exactly
+    contiguous 5m observations per 30m signal bar. Preserve gaps. Build D1
+    bars by NY 17:00 sessions using the last fully closed daily bar at each
+    decision. Audit count and completeness of daily bars.
+  rule_origin: >-
+    Four user-provided Chinese screenshots from translated 2026-10-14
+    @OtherSideBJ/another-side trading thread. Claim 6-10 setups per year per
+    pair and 20R exits is unverified source assertion.
+  exact_mvp_rule: >-
+    Long only. Entry fill must be in [03:00,06:30) America/New_York.
+    On the last completed D1 bar, close > EMA200. At FVG creation and
+    confirmation, completed M30 EMA5 > EMA9 > EMA13 > EMA21 and all four
+    rise relative to their own previous completed value. Bullish FVG is
+    three consecutive completed M30 bars A,B,C with high(A)<low(C).
+    Gap zone [high(A),low(C)], midpoint=(high(A)+low(C))/2.
+    Wait at most 48 completed M30 bars after C for the first qualifying
+    retest candle D with low(D)<=midpoint and close(D)>low(C);
+    D must have body/range<=0.25 and lower wick/range>=0.50.
+    Void setup if the forming-candle origin low is breached before D.
+    Confirmation is the immediately next completed M30 candle E;
+    SOURCE-LITERAL rule: close(E)<high(D). Do NOT replace by a close
+    above the Doji high. Recheck daily and M30 trend at E close.
+    Submit one market long after E completes, fill no earlier than
+    the next available 5m open and only inside the specified NY time
+    window. Cancel if the first available opening price is at/below
+    the stop. No overlapping entries on the same pair.
+  mvp_assumptions_not_in_source: >-
+    48-bar FVG age; Doji body<=25% range and lower wick>=50%;
+    retest close above FVG upper edge; all EMA slopes positive over
+    one 30m bar; setup void on origin-low break. The source does not
+    define these numeric thresholds. Stop is placed 1 pip below the
+    minimum low across A,B,C (source says below the FVG-forming candle
+    low without unambiguously identifying it). 1 pip equals 0.0001
+    for the three USD-quoted MVP pairs. Exit at the next tradable
+    5m open after a completed New York 17:00 daily candle closes
+    below its D1 EMA21; initial native protective STOP remains
+    active. These exit definitions are an explicit testable
+    approximation of the source's discretionary daily trend hold.
+  risk_and_execution: >-
+    Native ml4t.backtest Engine only. Risk up to 0.50% of marked
+    equity at entry against actual entry-to-stop distance, with
+    0.01 standard lot (1000 base units) round-down, maximum
+    gross exposure 10x equity and aggregate 1.0% open-stop
+    risk across all pairs. No fixed profit target, trailing stop,
+    pyramiding, or discretionary overrides. Stop intrabar
+    collision must execute before favorable exits. Refuse bad
+    prices, invalid stops, incomplete candles and unverifiable
+    event ordering. Carry positions outside entry window.
+  temporal_guards: >-
+    Check America/New_York DST for March/November, daily 17:00
+    boundaries, candle availability and next-5m-open fills.
+    Never use the current incomplete daily candle. No same-bar
+    future high/low to form entry conditions. Reject overlapping
+    or duplicate setups.
+  minimum_metrics: >-
+    Per-pair/pool number of FVGs, trend-qualified FVGs, valid
+    retests, literal confirmations, eligible session opens, filled
+    entries, completed exits, time-in-market, gross and net R
+    including cost drag, hit rate, PF, Sharpe on daily marked
+    equity returns, max drawdown, max consecutive losses, 1R/5R/
+    10R/20R MFE hit counts, MAE distribution and year-by-year
+    frequency. Report costs, entry rejection reasons, monthly
+    uncertainty, and 2010-2017 vs 2018-2024 results.
+
+baseline: >-
+  Cash/no-trade and T1 literal source-confirmation strategy.
+  A pattern-only or time-matched random entry is not the T1
+  baseline; use additional declared trial if needed.
+
+costs:
+  commission_bps: 0.25
+  slippage_bps: 0.50
+  assumptions: >-
+    Commission 0.25 bps plus spread/slippage proxy 0.50 bps per
+    side (1.50 bps total round trip), inherited as an exploratory
+    FTMO model from the existing FX project, not sourced historical
+    executable quotes. Compare to 2.50 bps round trip stress.
+    Financing/swap and rollover bid/ask spikes are not included.
+  overnight_financing_included: false
+  price_basis: "USD quote per base unit; convert stop risk and PnL to USD"
+
+trials:
+  - id: P0_data_and_clock_preflight
+    kind: diagnostic
+    description: >-
+      Data integrity, exact 5m-to-M30 group coverage, 17:00 NY
+      daily roll, 03:00-06:30 DST and feature-registry parity.
+      No return outcome evaluation.
+  - id: D0_signal_funnel
+    kind: diagnostic
+    description: >-
+      Compute only causal per-pair counts at each rule gate and
+      a small timestamped event audit from 2010-2024. No returns.
+  - id: T1_literal_native_engine
+    kind: preregistered
+    description: >-
+      Execute full risk-sized native Engine T1 with literal
+      next-candle close below Doji high, bracket protective
+      stops and D1 EMA21 exit, development only. Report full
+      trade ledger and risk/equity audit.
+  - id: T2_execution_stress
+    kind: preregistered
+    description: >-
+      Re-run only frozen T1 development trades at 2.50 bps
+      round trip friction; no re-optimization.
+  - id: T3_confirmation_alternative_reserved
+    kind: preregistered
+    description: >-
+      OPTIONAL, do not execute as part of initial MVP. Alternate
+      bullish next-candle close above Doji high is a new
+      hypothesis, explicitly NOT the source-literal rule.
+      Requires a new frozen decision before testing.
+
+evidence:
+  - data/processed/ftmo_fx_reversion_202610/manifest.json

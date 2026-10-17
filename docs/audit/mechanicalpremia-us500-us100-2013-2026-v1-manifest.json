@@ -1,0 +1,36 @@
+{
+  "session": "mechanicalpremia-us500-us100-2013-2026-v1",
+  "source": "https://mechanicalpremia.substack.com/p/building-a-multi-strategy-portfolio",
+  "variant": "Candidate 3: only US500+US100, each in H1 breakout and D1 mean reversion",
+  "inputs": [
+    {
+      "asset": "US500",
+      "store": "index_minute_ES",
+      "source_symbol": "usa500idxusd",
+      "internal_symbol": "ES",
+      "currency": "USD"
+    },
+    {
+      "asset": "US100",
+      "store": "index_minute_NQ",
+      "source_symbol": "usatechidxusd",
+      "internal_symbol": "NQ",
+      "currency": "USD"
+    }
+  ],
+  "date_windows": {
+    "annual": "2013..2025 Jan1-Dec31",
+    "ytd": "2026-01-01 to 2026-10-11 inclusive",
+    "hard_cutoff_exclusive": "2026-10-12T00:00:00Z"
+  },
+  "method": "Original registered indicators and native ML4T Engine, not a homemade simulator",
+  "sizing": "Source D1 76.64% / H1 23.36% risk budgets; equal comparator 50/50; each sleeve divides its risk between 2 instruments (not 3/4). Same 1% total risk cap and native gross notional cap as original versions. Synthetic USD-denominated price units, no actual CFD broker specs.",
+  "limitations": [
+    "Inputs observed / post-selection candidate, NOT OOS",
+    "1min bid quotes only; ASK spread and CFD overnight financing unverified",
+    "H1 stop entry-minute gap remains",
+    "Independent calendar-year synthetic account resets, not continuous 14y compounding",
+    "Reference published universe differs: EU50 and DE30 removed",
+    "Instrument-specific sessions DST not independently certified"
+  ]
+}

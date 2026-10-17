@@ -1,0 +1,120 @@
+session_id: tsmom_40_60_80_lse_2020_2026
+market: futures
+
+thesis: >-
+  Medium-horizon time-series momentum should remain directionally profitable
+  across nearby 40-, 60-, and 80-session lookbacks rather than depend on an
+  isolated 60-session optimum. Volatility targeting should reduce drawdown
+  without removing the underlying trend return.
+
+mechanism: >-
+  Gradual information diffusion, slow institutional positioning, herding, and
+  forced deleveraging can create persistent directional flows over multi-week
+  to multi-month horizons. The effect should fail in choppy or fast-reversal
+  regimes and when execution or financing costs exceed the trend persistence.
+
+falsifier: >-
+  The local parameter plateau is weak if only one of 40, 60, and 80 sessions is
+  net profitable, if signs change sharply between adjacent lookbacks, or if
+  volatility targeting only appears attractive at one lookback. DAX cannot
+  contribute to the primary verdict unless its LSE 1-minute data quality gate
+  passes.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: canonical ml4t-data Binance USD-M 1h archive
+    session: 24/7
+    timezone: UTC
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: canonical ml4t-data Binance USD-M 1h archive
+    session: 24/7
+    timezone: UTC
+  - symbol: HYPEUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: canonical ml4t-data Binance USD-M 1h archive; listed 2025-05-30
+    session: 24/7
+    timezone: UTC
+  - symbol: DAX_LSE
+    kind: cash_index
+    venue: London Strategic Edge
+    identity: fresh DE30/EUR 1m export; supplemental only if continuity repair fails data gate
+    session: Xetra cash session
+    timezone: Europe/Berlin
+  - symbol: NIKKEI225_LSE
+    kind: cash_index
+    venue: London Strategic Edge
+    identity: fresh JP225/USD 1m export
+    session: Tokyo cash session
+    timezone: Asia/Tokyo
+
+data:
+  - id: crypto_archive
+    role: prices
+    path: data/processed/btc_1h.parquet
+    symbol: BTCUSDT
+  - id: dax_provenance_placeholder
+    role: prices
+    path: data/processed/dax_1m.parquet
+    symbol: DAX_LSE
+  - id: nikkei_provenance_placeholder
+    role: prices
+    path: data/processed/JP225_USD_5m_2017_2026.parquet
+    symbol: NIKKEI225_LSE
+
+evaluation:
+  cadence: daily_session
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2026-10-01T00:00:00Z"
+  plan: >-
+    Exploratory development-only run through 2026-09-30. Crypto daily bars are
+    built from the canonical Binance 1h archive. Index daily bars are built from
+    fresh LSE 1m provider exports using local cash-session dates and official
+    trading-day calendars. HYPE starts at listing. No final holdout is claimed.
+
+baseline: Zero-trade cash baseline; all parameter variants are reported without winner selection.
+
+costs:
+  funding_included: false
+  crypto_commission_bps_per_side: 4.5
+  crypto_slippage_bps_per_side: 1.5
+  index_proxy_commission_bps_per_side: 2.0
+  index_proxy_slippage_bps_per_side: 1.0
+  assumptions: >-
+    Crypto funding is excluded because no HYPE funding series is available in
+    the canonical local catalog. Index costs are exploratory proxy costs, not
+    contract-level futures execution costs. A 2x fixed-cost stress is applied
+    to the vol-targeted ensemble.
+
+trials:
+  - id: roc_40_raw
+    kind: preregistered
+    description: Sign of 40-session ROC at full notional.
+  - id: roc_60_raw
+    kind: preregistered
+    description: Sign of 60-session ROC at full notional.
+  - id: roc_80_raw
+    kind: preregistered
+    description: Sign of 80-session ROC at full notional.
+  - id: roc_40_vol20
+    kind: preregistered
+    description: 40-session direction scaled to a 20% annual realized-volatility target, capped at 1x.
+  - id: roc_60_vol20
+    kind: preregistered
+    description: 60-session direction scaled to a 20% annual realized-volatility target, capped at 1x.
+  - id: roc_80_vol20
+    kind: preregistered
+    description: 80-session direction scaled to a 20% annual realized-volatility target, capped at 1x.
+  - id: ensemble_40_60_80_raw
+    kind: preregistered
+    description: Equal average of the three directional signals.
+  - id: ensemble_40_60_80_vol20
+    kind: preregistered
+    description: Equal directional ensemble scaled to a 20% annual realized-volatility target.
+  - id: ensemble_vol20_cost_stress_2x
+    kind: diagnostic
+    description: Repeat the vol-targeted ensemble at twice the base fixed execution costs.

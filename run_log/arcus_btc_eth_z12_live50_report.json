@@ -1,0 +1,19 @@
+{
+  "upgrade": "Lowered Z-score Entry Threshold to 1.2 with 5s Clean Cancel & WS Routing",
+  "status": "LIVE_RUNNING",
+  "instance_name": "btc-eth-ekstrom-live50-20261007-105432",
+  "parameters": {
+    "z_entry": 1.2,
+    "z_exit": 0.2,
+    "z_stop": 3.0,
+    "clip_notional_usd": 50.0,
+    "entry_timeout_seconds": 5.0,
+    "watchdog_timeout_seconds": 25.0
+  },
+  "market_state": {
+    "btc_price": 83687.55,
+    "eth_price": 2578.61,
+    "kalman_beta": 0.6954,
+    "current_z": 0.093
+  }
+}

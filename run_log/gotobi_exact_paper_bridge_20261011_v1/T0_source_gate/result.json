@@ -1,0 +1,57 @@
+{
+  "source_file_sha256": [
+    {
+      "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet",
+      "sha256": "942a0f4abf0a2ea64c125769f4e5447bcbdb559477c9f0011408308641a4d946",
+      "bytes": 1250090
+    },
+    {
+      "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet",
+      "sha256": "bd3b3940ba8da7e45c41ad5e295f9f4393b4760d737bc8e620b15b6c9380d2f5",
+      "bytes": 1233369
+    },
+    {
+      "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet",
+      "sha256": "fbf2e9b8537e4248f0a91885afbeb73278bf18a7b71a3566c4912326cbe61ebb",
+      "bytes": 1424643
+    },
+    {
+      "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet",
+      "sha256": "1e2e12aa1395cafe990fe1cb4b96989ff8b1434e611fe134de64514b63316ca5",
+      "bytes": 1406178
+    },
+    {
+      "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet",
+      "sha256": "2aea64d908eb586294d56e7000aa9bc3907ac8965422a7d44458cdbec1c4570d",
+      "bytes": 1433630
+    },
+    {
+      "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet",
+      "sha256": "c2abd435c7510ebdf7cc4bcc0b3858d1f4787154aa6a40e275ba2281206d977b",
+      "bytes": 1421561
+    }
+  ],
+  "calendar_sha256": "eda13883d1b6165d0f06d8790a0abc894716889d4cbf5ec8b0aa9cf470d04508",
+  "strict_gate_sha256": "9dbfa486ff64f40ad3c238f3e6fc8f07300faebd9dd9301972ae8f24dcfca466",
+  "source_article": "https://www.alphainacademia.com/p/can-you-beat-the-market-by-trading",
+  "source_companion": "Alpha in Academia Gotobi companion v1.0.3 METHODOLOGY.md",
+  "companion_rules": "5 10 15 20 25 final-calendar-day; each rolled back; duplicate dates once; entry open 0300 exit close 0955",
+  "paper_source": "HistData bid candles from fixed UTC-5 to JST 2006-2025; not available locally",
+  "local_source": "LSE reference USDJPY UTC-minute-open 2020-2025; not HistData bid",
+  "observed_price_rows": 735379,
+  "bank_days": 1466,
+  "author_scheduled_days": 429,
+  "old_scheduled_days": 423,
+  "retained_months": 72,
+  "holdout_read": false,
+  "skills": [
+    "ml4t-polars-patterns",
+    "ml4t-calendar-ops",
+    "ml4t-point-in-time",
+    "ml4t-run-backtest",
+    "ml4t-validate-data",
+    "ml4t-cost-model",
+    "ml4t-backtest-overfitting"
+  ],
+  "original_head": "c095faab89835c49f4cd6fd66d1a9ed922709039"
+}

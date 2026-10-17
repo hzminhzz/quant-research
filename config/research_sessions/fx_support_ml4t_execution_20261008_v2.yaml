@@ -1,0 +1,235 @@
+session_id: fx_support_ml4t_execution_20261008_v2
+market: fx
+thesis: >-
+  The previously frozen out-of-fold LightGBM support-retest gate (p>=0.30)
+  selects trades whose executable net results improve on the same-window
+  unfiltered support-hold strategy when entered no earlier than the next
+  five-minute bar, stopped at origin support, and targeted at the prior
+  significant high. Measure actual net R, portfolio equity and risk.
+mechanism: >-
+  A strong origin-support reclaim in aligned momentum and volatility conditions
+  suggests demand has resumed after a retracement. An ML filter may identify
+  favorable target-to-stop paths; a high event-classification precision can
+  nevertheless fail under execution friction, variable payoff ratio, and
+  intrabar support stops.
+falsifier: >-
+  Economic evidence supports this specific variant only if the OOF ML-gated
+  continuous-equity backtest has positive cumulative net PnL, positive mean
+  net realized R, at least 80 completed ML trades, positive performance in
+  at least two of three currency pairs, and net continuous-daily equity
+  Sharpe greater than 0 with maximum drawdown below 6 percent. The net
+  expectancy must improve over the same-calendar development baseline
+  without requiring more gross leverage. The cost-stress run must remain
+  net profitable. The daily-flat variant must be evaluated separately for
+  prop-style feasibility. Missing native stop/order semantics, incomplete
+  trade ledger, or unverifiable costs mean BLOCKED/INCONCLUSIVE, not PASS.
+  This development study cannot approve deployment or override the frozen
+  2025-2026 holdout.
+instruments:
+  - symbol: EURUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO EUR/USD leveraged CFD, USD quote PnL; LSE EUR/USD OHLCV price proxy; base units/lot 100000"
+    session: "FX trading sessions, UTC bar-open timestamps, Prague risk rollover"
+    timezone: Europe/Prague
+  - symbol: GBPUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO GBP/USD leveraged CFD, USD quote PnL; LSE GBP/USD OHLCV price proxy; base units/lot 100000"
+    session: "FX trading sessions, UTC bar-open timestamps, Prague risk rollover"
+    timezone: Europe/Prague
+  - symbol: AUDUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO AUD/USD leveraged CFD, USD quote PnL; LSE AUD/USD OHLCV price proxy; base units/lot 100000"
+    session: "FX trading sessions, UTC bar-open timestamps, Prague risk rollover"
+    timezone: Europe/Prague
+data:
+  - id: eurusd_dev_a
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet
+  - id: eurusd_dev_b
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet
+  - id: eurusd_holdout_sealed
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_holdout_2025_20261006_5m.parquet
+  - id: gbpusd_dev_a
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet
+  - id: gbpusd_dev_b
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet
+  - id: gbpusd_holdout_sealed
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_holdout_2025_20261006_5m.parquet
+  - id: audusd_dev_a
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet
+  - id: audusd_dev_b
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet
+  - id: audusd_holdout_sealed
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_holdout_2025_20261006_5m.parquet
+evaluation:
+  cadence: 5m
+  signal_cadence: 30m
+  development_start: "2010-01-04T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  signal_evaluation_start: "2017-01-01T00:00:00Z"
+  signal_evaluation_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-10-06T23:59:59Z"
+  source_signal: >-
+    Exact immutable, chronologically out-of-fold LightGBM probabilities from
+    fx_support_conditions_20261008_ml_v2 trial I4_purged_lightgbm_v2,
+    filtered at p>=0.30. The same 730 development events define the unfiltered
+    baseline; 112 previously met the ML gate. Do not retrain/tune/reclassify.
+  ml4t_engineer_requirement: >-
+    Independently regenerate and verify the causal EMA50, ATR20, ATR100 and
+    event-time features using installed ml4t.engineer.compute_features.
+    Compare regenerated values/identity against the frozen source panel.
+    Use only prior completed bars and the completed retest 30m bar. The
+    target labels are a custom path-dependent event contract inherited from
+    the frozen diagnostic; do not misrepresent them as a library label.
+  signal_timing: >-
+    Original 30m event timestamp is the RETEST BAR OPEN t. In 5m bar-open
+    data, the six component bars are stamped t, t+5, t+10, t+15, t+20,
+    t+25 minutes. The t+25 bar contains observed OHLC over [t+25,t+30),
+    so the entire completed 30m event becomes available at t+30. The
+    Strategy.on_data callback for that completed t+25 bar is logically a
+    decision at t+30 despite the open-stamp t+25. Submitting market order
+    using t+25 callback and native NEXT_BAR fills at the immediately next
+    available 5m open t+30, with no future OHLC beyond t+30. DO NOT
+    misinterpret callback bar-open timestamp as the live signal's
+    wall-clock availability time. Test filled_at=t+30 with synthetic
+    data and verify the callback uses only t+25 bar and earlier.
+    Never load future outcome/label columns into the Strategy signal.
+  strategy: >-
+    LONG ONLY; no averaging, pyramiding or reversing. One position per
+    symbol at a time, maximum 1.0 percent account capital at stop across
+    concurrent open trades. Initial risk 0.50 percent current portfolio
+    equity per new trade, with no increase above frozen signal sizing
+    limits. Account initial cash USD 100000. Quote-PnL uses USD.
+    Round base-currency quantity DOWN to 1000 units (0.01 lot).
+    Gross notional leverage cap 3x portfolio equity, with appropriate
+    conservative margin configuration. Reject entry if next open <=
+    support + 0.00001 or >= target - 0.00001 or if margin/risk gate fails.
+    Entry MARKET at earliest NEXT 5m open after signal.
+    Target LIMIT at reference_high + 0.00001.
+    Hard stop STOP at origin_support (intrabar low, not 30m close).
+    Conservative stop-before-target when both touch one 5m bar;
+    stop gaps cannot fill better than available open, targets never
+    fill above limit without verified favorable price improvement.
+    Cancel sibling on execution. If library lacks reliable OCO/priority
+    or gap behavior, BLOCK rather than invent PnL. Expire after 240
+    COMPLETE 30m market bars (time exit), one observed timestamp at a time.
+    Do not assume weekend/calendar clock equals observed market bars.
+  maximum_holding_period_30m_bars: 240
+  terminal_positions: "force close before dataset end; never mark open PnL as realized"
+  account: >-
+    Model one combined multi-pair portfolio. Annualized Sharpe must use
+    continuous daily portfolio equity returns, including zero-position
+    days, not multiplied per-trade returns. Disclose any discrepancy
+    with true FTMO lot/commission/rollover mechanics.
+  daily_flat_sensitivity: >-
+    Close before 00:00 Europe/Prague reset using available 5m bars;
+    this is a predeclared separate variant, not a fix made after
+    inspecting returns. No swaps for this variant. Continuous 240-bar
+    variants cross overnight and have UNVERIFIED historical swap costs,
+    so their results cannot establish exact prop-firm net profitability.
+  reporting: >-
+    Each arm: signals, orders, rejects, actual entries/exits, partial
+    fills, close reasons, unclosed positions, USD net PnL, net R after
+    fees, win rate, average win/loss R, daily-equity Sharpe, max DD,
+    worst daily loss (Prague daily reset), per-pair and per-year net
+    results, exposure/risk, loss-barrier breaches, benchmark comparison,
+    and data/engine/config identities. Reconcile engine trades and PnL
+    to reported metrics and record no-trade outcomes as inconclusive.
+  stop_condition: >-
+    Stop if native Engine cannot prove the corrected t+25 completed-bar
+    callback to t+30 NEXT_BAR entry, bracket cancellation, stop-first
+    ties, gap-aware stop prices, and accounting. The prior P0 failure
+    submitted at t+30 callback and filled at t+35; that documented
+    infrastructure attempt is preserved as H0, not erased.
+    The independent synthetic test of the correct final-component
+    alignment (tests/test_fx_support_ml4t_boundary_v2.py) has passed.
+    The economic hypothesis and selection thresholds are unchanged.
+baseline: >-
+  E0 is all 730 OOF-eligible support-hold events (2017-2024) with identical
+  execution, sizing and risk control. E1 is the 112 frozen selected signals
+  from the same period. Compare on matched continuous calendar exposure.
+costs:
+  commission_bps: 0.25
+  slippage_bps: 0.50
+  base_round_trip_bps: 1.50
+  stress_slippage_bps: 1.00
+  stress_round_trip_bps: 2.50
+  note: >-
+    Costs mean 0.25bp commission plus 0.50bp spread/slippage PER SIDE in the
+    base model. The stress case has 1.00bp spread/slippage PER SIDE with
+    unchanged commission. Native engine commission_rate must be 0.000025
+    per side and slippage_rate 0.00005 (base) or 0.00010 (stress), not
+    percentages mislabeled as bps. Costs are indicative; historical
+    FTMO bid/ask, depth, swaps and true USD-per-lot commission conversion
+    are unavailable, so approval remains NOT_APPROVED.
+trials:
+  - id: H0_oof_predictive_parent
+    kind: historical_review
+    artifact: run_log/fx_support_conditions_20261008_ml_v2/I4_purged_lightgbm_v2/result.json
+    description: "Previously observed 49.1 percent support-event label precision, not PnL."
+  - id: H0_initial_timing_gate_failure
+    kind: historical_review
+    artifact: run_log/research_sessions/fx_support_ml4t_execution_20261008/diagnostics/P0_engine_execution_gate.json
+    description: >-
+      Preserve the first P0 failed gate, which used the t+30 bar-open
+      callback and therefore observed a t+35 fill. The corrected
+      final-component t+25 callback was independently verified after
+      that failure without changing economic parameters.
+  - id: P0_engine_execution_gate
+    kind: diagnostic
+    description: >-
+      Prove native ml4t.backtest.Engine/Strategy next-open execution, 5m
+      high/low stop target tie semantics, gap fill, OCO cancellation,
+      risk/cash/notional margins and end-of-data liquidation with
+      synthetic and small real-data timing checks. Test before E trials.
+  - id: E0_unfiltered_oof_cohort
+    kind: preregistered
+    description: >-
+      Same 2017-2024 period, all 730 unfiltered OOF-eligible support holds,
+      long-only hard support stop, reference high target, 240 complete
+      30m bar limit, 1.50bp round-trip modeled costs. Combined portfolio.
+  - id: E1_lightgbm_oof_capped_risk
+    kind: preregistered
+    description: >-
+      Frozen 112 OOF LightGBM selected events, identical execution and risk,
+      same calendar as E0, base 1.50bp modeled round-trip cost.
+  - id: E2_lightgbm_cost_stress
+    kind: preregistered
+    description: >-
+      Identical E1 orders and 240-bar time limit, adverse 2.50bp modeled
+      round-trip cost. No reranking or tuning.
+  - id: E3_lightgbm_flat_before_daily_reset
+    kind: preregistered
+    description: >-
+      Identical ML-selected signal, base costs and stop/target mechanics,
+      but flat before Europe/Prague daily reset to avoid unmodeled
+      overnight financing. Evaluate separately as prop feasibility.
+evidence:
+  - data/processed/ftmo_fx_reversion_202610/manifest.json
+  - data/features/fx_support_conditions_20261008.parquet
+  - data/features/fx_support_conditions_20261008_manifest.json
+  - run_log/fx_support_conditions_20261008_ml_v2/I4_purged_lightgbm_v2/result.json
+  - run_log/fx_support_conditions_20261008_ml_v2/I4_purged_lightgbm_v2/scored_events.parquet
+  - run_log/research_sessions/fx_support_ml4t_execution_20261008/diagnostics/P0_engine_execution_gate.json
+  - run_log/fx_support_ml4t_execution_20261008/feature_integrity_v1.json

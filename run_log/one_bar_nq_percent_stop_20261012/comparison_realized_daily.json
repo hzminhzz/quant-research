@@ -1,0 +1,155 @@
+{
+  "status": "VERIFIED historical ledger-based diagnostic, NOT live approved",
+  "stop_fraction": 0.0034250680732279552,
+  "anchor": "2021 median B0 entry 14598.25; earlier data is hindsight counterfactual",
+  "portfolio_assumption": "fixed illustrative 1000000 USD initial capital",
+  "daily_risk_method": "closed trade net PnL allocated to UTC entry date; every UTC calendar date including zero days; sqrt(365.25), rf0; realized-only not intraday MTM",
+  "source": "Dukascopy USATECH.IDX/USD BID proxy, not CME NQ",
+  "comparison": {
+    "2013_2021_ex_post_anchor": {
+      "B0": {
+        "closed_trades": 3519,
+        "net_pnl_usd": 42414.0,
+        "win_rate": 0.456948,
+        "profit_factor": 1.164212,
+        "average_trade_pnl_usd": 12.05,
+        "daily_realized_entry_date_sharpe": 0.8321,
+        "calmar_on_assigned_1m_account": 0.21813,
+        "max_realized_drawdown_usd": -21212.14,
+        "max_realized_drawdown_fraction": -0.02120978,
+        "cagr_on_assigned_1m_account": 0.00462648,
+        "calendar_days": 3287
+      },
+      "percent_stop": {
+        "closed_trades": 3522,
+        "net_pnl_usd": 45045.9,
+        "win_rate": 0.45343555,
+        "profit_factor": 1.176817,
+        "average_trade_pnl_usd": 12.79,
+        "daily_realized_entry_date_sharpe": 0.90702,
+        "calmar_on_assigned_1m_account": 0.20141,
+        "max_realized_drawdown_usd": -24373.04,
+        "max_realized_drawdown_fraction": -0.02436881,
+        "cagr_on_assigned_1m_account": 0.00490802,
+        "calendar_days": 3287
+      },
+      "net_pnl_delta_usd": 2631.9
+    },
+    "2022_2025": {
+      "B0": {
+        "closed_trades": 1705,
+        "net_pnl_usd": 137860.88,
+        "win_rate": 0.52258065,
+        "profit_factor": 1.475069,
+        "average_trade_pnl_usd": 80.86,
+        "daily_realized_entry_date_sharpe": 2.38883,
+        "calmar_on_assigned_1m_account": 2.14798,
+        "max_realized_drawdown_usd": -17184.4,
+        "max_realized_drawdown_fraction": -0.01527687,
+        "cagr_on_assigned_1m_account": 0.03281442,
+        "calendar_days": 1461
+      },
+      "percent_stop": {
+        "closed_trades": 1704,
+        "net_pnl_usd": 140578.76,
+        "win_rate": 0.52523474,
+        "profit_factor": 1.487681,
+        "average_trade_pnl_usd": 82.5,
+        "daily_realized_entry_date_sharpe": 2.43704,
+        "calmar_on_assigned_1m_account": 2.20912,
+        "max_realized_drawdown_usd": -17074.38,
+        "max_realized_drawdown_fraction": -0.015133,
+        "cagr_on_assigned_1m_account": 0.03343061,
+        "calendar_days": 1461
+      },
+      "net_pnl_delta_usd": 2717.88
+    },
+    "2026_through_jul14": {
+      "B0": {
+        "closed_trades": 238,
+        "net_pnl_usd": -14166.96,
+        "win_rate": 0.47478992,
+        "profit_factor": 0.806444,
+        "average_trade_pnl_usd": -59.53,
+        "daily_realized_entry_date_sharpe": -1.82463,
+        "calmar_on_assigned_1m_account": -1.59042,
+        "max_realized_drawdown_usd": -16607.98,
+        "max_realized_drawdown_fraction": -0.01658154,
+        "cagr_on_assigned_1m_account": -0.0263716,
+        "calendar_days": 195
+      },
+      "percent_stop": {
+        "closed_trades": 237,
+        "net_pnl_usd": -18743.0,
+        "win_rate": 0.5021097,
+        "profit_factor": 0.771092,
+        "average_trade_pnl_usd": -79.08,
+        "daily_realized_entry_date_sharpe": -2.05341,
+        "calmar_on_assigned_1m_account": -1.5236,
+        "max_realized_drawdown_usd": -22925.08,
+        "max_realized_drawdown_fraction": -0.02285345,
+        "cagr_on_assigned_1m_account": -0.0348196,
+        "calendar_days": 195
+      },
+      "net_pnl_delta_usd": -4576.04
+    },
+    "2022_through_jul2026": {
+      "B0": {
+        "closed_trades": 1943,
+        "net_pnl_usd": 123693.92,
+        "win_rate": 0.51672671,
+        "profit_factor": 1.340394,
+        "average_trade_pnl_usd": 63.66,
+        "daily_realized_entry_date_sharpe": 1.88497,
+        "calmar_on_assigned_1m_account": 1.70558,
+        "max_realized_drawdown_usd": -17184.4,
+        "max_realized_drawdown_fraction": -0.01527687,
+        "cagr_on_assigned_1m_account": 0.02605587,
+        "calendar_days": 1656
+      },
+      "percent_stop": {
+        "closed_trades": 1941,
+        "net_pnl_usd": 121835.76,
+        "win_rate": 0.52241113,
+        "profit_factor": 1.329162,
+        "average_trade_pnl_usd": 62.77,
+        "daily_realized_entry_date_sharpe": 1.81531,
+        "calmar_on_assigned_1m_account": 1.28122,
+        "max_realized_drawdown_usd": -22925.08,
+        "max_realized_drawdown_fraction": -0.02004443,
+        "cagr_on_assigned_1m_account": 0.0256814,
+        "calendar_days": 1656
+      },
+      "net_pnl_delta_usd": -1858.16
+    },
+    "2013_through_jul2026": {
+      "B0": {
+        "closed_trades": 5462,
+        "net_pnl_usd": 166107.92,
+        "win_rate": 0.47821311,
+        "profit_factor": 1.267195,
+        "average_trade_pnl_usd": 30.41,
+        "daily_realized_entry_date_sharpe": 1.2811,
+        "calmar_on_assigned_1m_account": 0.53842,
+        "max_realized_drawdown_usd": -21212.14,
+        "max_realized_drawdown_fraction": -0.02120978,
+        "cagr_on_assigned_1m_account": 0.01141988,
+        "calendar_days": 4943
+      },
+      "percent_stop": {
+        "closed_trades": 5463,
+        "net_pnl_usd": 166881.66,
+        "win_rate": 0.47794252,
+        "profit_factor": 1.267053,
+        "average_trade_pnl_usd": 30.55,
+        "daily_realized_entry_date_sharpe": 1.27238,
+        "calmar_on_assigned_1m_account": 0.47066,
+        "max_realized_drawdown_usd": -24373.04,
+        "max_realized_drawdown_fraction": -0.02436881,
+        "cagr_on_assigned_1m_account": 0.01146945,
+        "calendar_days": 4943
+      },
+      "net_pnl_delta_usd": 773.74
+    }
+  }
+}

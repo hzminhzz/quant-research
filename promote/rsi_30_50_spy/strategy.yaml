@@ -1,0 +1,47 @@
+strategy_id: rsi_30_50_spy
+display_name: "RSI(5) 30/50 mean reversion — ES proxy for SPY"
+classification: EXPLORATORY
+workflow_status: PROMOTED_FOR_FURTHER_RESEARCH
+approval_status: NOT_APPROVED
+live_trading_enabled: false
+frozen_selection: post_selected_positive_2020_2022_sharpe_from_seven
+independent_of_shannon: true
+original_strategy_name: rsi-30-50
+source_symbol: SPY
+tested_instrument:
+  symbol: ES
+  kind: index_cfd_price_proxy
+  provider: Dukascopy
+  canonical_store: index_minute_ES
+  exact_spy_etf_reproduction: false
+  daily_session: "17:00 America/New_York end"
+  bid_ask_verified: false
+rules:
+  direction: long_only
+  feature_provider: ml4t.engineer.compute_features
+  rsi_period: 5
+  entry_rsi_lt: 30
+  entry_close_above_sma_period: 200
+  exit_rsi_gte: 50
+  target_long_fraction_current_equity: 0.95
+  order_timing: next_bar_market
+costs:
+  commission_bps_per_side: 2.0
+  slippage_bps_per_side: 2.0
+  modeled_cost_multipliers: [1, 2, 3]
+  true_spread_financing_dividends_unverified: true
+evaluation:
+  first_session: "2011-09-19"
+  last_session: "2026-10-09"
+  protected_data_from_utc: "2026-10-12T00:00:00Z"
+  source_history_previously_observed: true
+  true_untouched_final_test: false
+  engine: ml4t-backtest
+  source_summary: reports/native_summary.json
+  source_ledger: run_log/independent_five_full_history_20261014/rsi-30-50
+known_blockers:
+  - Original SPY ETF source rule and adjusted pricing not replicated
+  - Author source omitted rising moving average filter
+  - Real commission spread slippage corporate actions and CFD overnight financing not certified
+  - Source-author trial history unknown; DSR/PBO not established
+  - 2023-2026 historical observations already reviewed

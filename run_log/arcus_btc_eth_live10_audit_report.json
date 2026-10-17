@@ -1,0 +1,35 @@
+{
+  "deployment": {
+    "instance_name": "btc-eth-ekstrom-live10-20261007-042209",
+    "status": "LIVE_RUNNING",
+    "connector": "arcus_perpetual",
+    "trading_pairs": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "execution_mode": "LIVE_REAL_ORDERS",
+    "clip_notional_usd": 10.0,
+    "strategy": "Ekstrom Policy 2 Stat-Arb"
+  },
+  "market_telemetry": {
+    "btc_price": 84089.95,
+    "eth_price": 2607.77,
+    "kalman_beta": 0.6961,
+    "z_score_current": 0.094,
+    "z_score_range": [
+      0.0,
+      0.316
+    ],
+    "z_entry_threshold": 3.0,
+    "z_exit_threshold": 0.5
+  },
+  "fill_performance": {
+    "dislocations_detected": 0,
+    "orders_placed": 0,
+    "fills_total": 0,
+    "maker_fills": 0,
+    "taker_fills": 0,
+    "fill_rate_pct": 0.0,
+    "explanation": "Strategy is waiting for statistical dislocation (|Z| >= 3.0). Current market spread is closely cointegrated (Z = 0.094)."
+  }
+}

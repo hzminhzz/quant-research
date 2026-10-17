@@ -1,0 +1,136 @@
+{
+  "sensitivity": [
+    {
+      "lookback_hours": 72,
+      "target_vol": 0.15,
+      "daily_sharpe": 1.817,
+      "total_return_pct": 135.78,
+      "max_drawdown_pct": 10.13
+    },
+    {
+      "lookback_hours": 72,
+      "target_vol": 0.2,
+      "daily_sharpe": 1.855,
+      "total_return_pct": 172.43,
+      "max_drawdown_pct": 12.32
+    },
+    {
+      "lookback_hours": 72,
+      "target_vol": 0.25,
+      "daily_sharpe": 1.81,
+      "total_return_pct": 210.24,
+      "max_drawdown_pct": 15.37
+    },
+    {
+      "lookback_hours": 72,
+      "target_vol": 0.3,
+      "daily_sharpe": 1.781,
+      "total_return_pct": 261.36,
+      "max_drawdown_pct": 18.17
+    },
+    {
+      "lookback_hours": 120,
+      "target_vol": 0.15,
+      "daily_sharpe": 1.623,
+      "total_return_pct": 126.19,
+      "max_drawdown_pct": 13.59
+    },
+    {
+      "lookback_hours": 120,
+      "target_vol": 0.2,
+      "daily_sharpe": 1.633,
+      "total_return_pct": 154.89,
+      "max_drawdown_pct": 15.57
+    },
+    {
+      "lookback_hours": 120,
+      "target_vol": 0.25,
+      "daily_sharpe": 1.632,
+      "total_return_pct": 194.19,
+      "max_drawdown_pct": 17.8
+    },
+    {
+      "lookback_hours": 120,
+      "target_vol": 0.3,
+      "daily_sharpe": 1.623,
+      "total_return_pct": 241.65,
+      "max_drawdown_pct": 20.72
+    },
+    {
+      "lookback_hours": 168,
+      "target_vol": 0.15,
+      "daily_sharpe": 1.821,
+      "total_return_pct": 168.84,
+      "max_drawdown_pct": 14.77
+    },
+    {
+      "lookback_hours": 168,
+      "target_vol": 0.2,
+      "daily_sharpe": 1.828,
+      "total_return_pct": 213.95,
+      "max_drawdown_pct": 17.38
+    },
+    {
+      "lookback_hours": 168,
+      "target_vol": 0.25,
+      "daily_sharpe": 1.824,
+      "total_return_pct": 275.21,
+      "max_drawdown_pct": 20.16
+    },
+    {
+      "lookback_hours": 168,
+      "target_vol": 0.3,
+      "daily_sharpe": 1.814,
+      "total_return_pct": 355.01,
+      "max_drawdown_pct": 23.53
+    },
+    {
+      "lookback_hours": 240,
+      "target_vol": 0.15,
+      "daily_sharpe": 1.931,
+      "total_return_pct": 194.14,
+      "max_drawdown_pct": 12.58
+    },
+    {
+      "lookback_hours": 240,
+      "target_vol": 0.2,
+      "daily_sharpe": 1.942,
+      "total_return_pct": 252.24,
+      "max_drawdown_pct": 14.97
+    },
+    {
+      "lookback_hours": 240,
+      "target_vol": 0.25,
+      "daily_sharpe": 1.91,
+      "total_return_pct": 321.57,
+      "max_drawdown_pct": 18.08
+    },
+    {
+      "lookback_hours": 240,
+      "target_vol": 0.3,
+      "daily_sharpe": 1.899,
+      "total_return_pct": 417.78,
+      "max_drawdown_pct": 20.74
+    }
+  ],
+  "stress_testing": [
+    {
+      "crisis": "Terra-Luna Collapse",
+      "period": "2022-05-05 to 2022-05-18",
+      "buy_and_hold_10_return_pct": -43.91,
+      "buy_and_hold_10_drawdown_pct": 48.72,
+      "strategy_return_pct": -1.44,
+      "strategy_drawdown_pct": 1.44,
+      "survives_under_20_pct": true
+    },
+    {
+      "crisis": "FTX Contagion Shock",
+      "period": "2022-11-05 to 2022-11-22",
+      "buy_and_hold_10_return_pct": -36.5,
+      "buy_and_hold_10_drawdown_pct": 41.12,
+      "strategy_return_pct": -3.56,
+      "strategy_drawdown_pct": 3.87,
+      "survives_under_20_pct": true
+    }
+  ]
+}

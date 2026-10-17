@@ -1,0 +1,135 @@
+{
+  "status": "EXPLORATORY_REPAIRED_WITH_EXPLICIT_MARK_PROXIES",
+  "scope": {
+    "development_end_exclusive": "2025-01-01T00:00:00Z",
+    "strategy": "Donchian BTCUSDT_PERP",
+    "2025_2026_evaluation_opened": false,
+    "native_strategy_fills_unchanged": true
+  },
+  "price_sources": {
+    "LOCAL_PERP_1M_CLOSE_PROXY": 313,
+    "OFFICIAL_MARK_8H_CLOSE_PROXY": 4223,
+    "OFFICIAL_FUNDING_SETTLEMENT_MARK": 1283
+  },
+  "proxy_vs_exact_overlap_count": 1283,
+  "proxy_vs_exact_median_abs_bps": 0.013105198045752867,
+  "proxy_vs_exact_max_abs_bps": 6.53830313014827,
+  "funding_accounting": {
+    "event_count": 5819,
+    "total_funding_cashflow_usdt_all_events": "-47096.82643702873005174783297",
+    "total_funding_embedded_at_last_native_snapshot_usdt": "-47090.99157389860720733361245",
+    "unbooked_after_last_native_snapshot_usdt": "-5.83486313012284441422052",
+    "last_native_equity_usdt": "315678.4913477115",
+    "last_adjusted_equity_usdt": "268587.4997738128927926663876",
+    "native_rows": 1941,
+    "same_slot_fill_ambiguous_count": 808,
+    "method": "POST-HOC FIXED-FILL funding cashflow overlay; no size/path feedback; native equity dated UTC day labels"
+  },
+  "network_source": "Official Binance fapi fundingRate and markPriceKlines, strictly pre-2025; local Binance BTC perpetual 1m fallback for 2019 only",
+  "api_pages": [
+    {
+      "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1567296000000&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/funding_000.json",
+      "sha256": "9614a223d9b82f8a63cda51aa7daab0c1bccb2b0efb9126408f6bc38f7ed39d1",
+      "rows": 1000,
+      "first_ms": 1568102400000,
+      "last_ms": 1596873600000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1596873600001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/funding_001.json",
+      "sha256": "f1bacf6688fa743ee3fb9fa273c392ba3ede10edceb8d075c4ceab58ee69c064",
+      "rows": 1000,
+      "first_ms": 1596902400000,
+      "last_ms": 1625673600008
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1625673600009&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/funding_002.json",
+      "sha256": "2d15f9245377dcf3ede23df4603cf941bce69c96869abb09f6adc1d2b9a3ef65",
+      "rows": 1000,
+      "first_ms": 1625702400002,
+      "last_ms": 1654473600000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1654473600001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/funding_003.json",
+      "sha256": "38a33078583c79d1a3fff4fe6d323a27a9a9699cb035ebefc66259f4babf0cb9",
+      "rows": 1000,
+      "first_ms": 1654502400017,
+      "last_ms": 1683273600000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1683273600001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/funding_004.json",
+      "sha256": "e761a9a69f1ecbb5dd340e748a5043f7d3c237daf1baedf1f522aed266bfe6a8",
+      "rows": 1000,
+      "first_ms": 1683302400000,
+      "last_ms": 1712073600000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1712073600001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/funding_005.json",
+      "sha256": "4ecc098c224faf42f6af817fca3bd13798c8186f5a36e90edce3e0e6a35dfd45",
+      "rows": 819,
+      "first_ms": 1712102400000,
+      "last_ms": 1735660800000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/markPriceKlines?symbol=BTCUSDT&interval=8h&startTime=1567296000000&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/mark_kline_000.json",
+      "sha256": "41d647a7c45342a5f37da36d0ad0fc2e7a6df64b983fcaddce0777e73760bfca",
+      "rows": 1000,
+      "first_ms": 1577088000000,
+      "last_ms": 1605859200000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/markPriceKlines?symbol=BTCUSDT&interval=8h&startTime=1605859200001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/mark_kline_001.json",
+      "sha256": "2db9b48488af2756db7a6f9a493471c8cad21a666ad4d33ab4905beb9fc9b6f0",
+      "rows": 1000,
+      "first_ms": 1605888000000,
+      "last_ms": 1634659200000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/markPriceKlines?symbol=BTCUSDT&interval=8h&startTime=1634659200001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/mark_kline_002.json",
+      "sha256": "e66073ab67a4749517b10b245024defa71dd833210c710cf6a03bbfe8774ac1e",
+      "rows": 1000,
+      "first_ms": 1634688000000,
+      "last_ms": 1663459200000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/markPriceKlines?symbol=BTCUSDT&interval=8h&startTime=1663459200001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/mark_kline_003.json",
+      "sha256": "d31829aefc4a57ee1b76eb0369ad87b52380b39bf7be5b2e9e181200b4a646f0",
+      "rows": 1000,
+      "first_ms": 1663488000000,
+      "last_ms": 1692259200000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/markPriceKlines?symbol=BTCUSDT&interval=8h&startTime=1692259200001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/mark_kline_004.json",
+      "sha256": "e7b436af6fc00e982cd0e506d5f179d3f36475d819d88a2273538bd92a52b09d",
+      "rows": 1000,
+      "first_ms": 1692288000000,
+      "last_ms": 1721059200000
+    },
+    {
+      "url": "https://fapi.binance.com/fapi/v1/markPriceKlines?symbol=BTCUSDT&interval=8h&startTime=1721059200001&endTime=1735689599999&limit=1000",
+      "path": "run_log/allocation_prerequisites_20261014/btc/mark_repair_raw/mark_kline_005.json",
+      "sha256": "368c9a3aaac505ce4da07413b88e200689a54540e5d67e0603c064877fa00551",
+      "rows": 507,
+      "first_ms": 1721088000000,
+      "last_ms": 1735660800000
+    }
+  ],
+  "limitations": [
+    "Mark 8h bar close is immediately before settlement but is not certified as exchange settlement mark.",
+    "2019 minute close fallback is contract-specific, not the index/mark price.",
+    "Fill ledger has daily timestamps; same-settlement-clock execution order is unresolved. Conservative slot-time positions used; alternative timestamp positions logged.",
+    "Post-hoc funding overlay does not recalculate volatility-targeted sizing or execution behavior.",
+    "Native account marked daily at UTC date labels. Events strictly earlier than each native equity timestamp are included.",
+    "No 2025+ data was fetched or evaluated."
+  ]
+}

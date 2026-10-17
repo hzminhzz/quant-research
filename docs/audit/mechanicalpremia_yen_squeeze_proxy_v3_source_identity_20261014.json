@@ -1,0 +1,35 @@
+{
+  "check": "post-run source fingerprint recheck",
+  "current_source_inventory_matches": 278,
+  "current_source_inventory_mismatches": 2,
+  "finding": "Two execution wrapper/driver fingerprints differ from the frozen session. Their current mtimes are after session freeze. The frozen versions are not retained in the registered artifacts, so exact source delta and exact wrapper parity cannot be independently established. The core native strategy/feature adapter matches. Do not rerun this frozen study; use a new prospective registration if this provenance gap must be resolved.",
+  "frozen_source_inventory_count": 280,
+  "missing_source_files": 0,
+  "relevant_files": [
+    {
+      "current_mtime": "2026-10-13T18:14:11.997282+00:00",
+      "current_sha256": "394279bee54c904f1cffe526ea803df65d2496d5148b470cee39464583529477",
+      "frozen_sha256": "6f9a2139c7f5043548a8979f25aaf8082789a39d57fc4930ce7369fcd6f2caff",
+      "matches_frozen": false,
+      "path": "scripts/mechanicalpremia_yen_squeeze_proxy_20261014.py",
+      "size_bytes": 12469
+    },
+    {
+      "current_mtime": "2026-10-13T18:14:16.173274+00:00",
+      "current_sha256": "4a4f68ee0d1cf65116a811b51e3ee74f69f3fbdb7941479eedbb9bd16f40d27f",
+      "frozen_sha256": "76a0ca614e066b72f4bc2c15360300f3895c6c21825f5ecb4b08c6f368935650",
+      "matches_frozen": false,
+      "path": "scripts/run_mechanicalpremia_yen_squeeze_proxy_20261014.py",
+      "size_bytes": 9231
+    },
+    {
+      "current_mtime": "2026-10-13T17:48:01.089174+00:00",
+      "current_sha256": "24f80b0912b861eecaef55d4e477a00a4df4c8aac4263d2b6522def0cd7d8d5b",
+      "frozen_sha256": "24f80b0912b861eecaef55d4e477a00a4df4c8aac4263d2b6522def0cd7d8d5b",
+      "matches_frozen": true,
+      "path": "scripts/mechanicalpremia_yen_squeeze_native_strategy_20261014.py",
+      "size_bytes": 13451
+    }
+  ],
+  "session_id": "mechanicalpremia-yen-squeeze-proxy-20261014-v3"
+}

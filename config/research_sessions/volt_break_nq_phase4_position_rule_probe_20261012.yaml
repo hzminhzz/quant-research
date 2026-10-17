@@ -1,0 +1,41 @@
+probe_id: volt_break_nq_phase4_position_rule_probe_20261012
+classification: diagnostic
+registered_at: 2026-10-12
+scope: Installed ml4t-backtest 0.1.7 native PositionRule/RuleChain execution only
+strategy_decision: EXCLUDED
+historical_market_data: forbidden
+live_orders: forbidden
+frozen_contract:
+  quantity: 1 NQ-equivalent contract
+  multiplier_usd_per_point: 20
+  target: +40 absolute price points
+  stop: -75 absolute price points
+  entry: completed-minute decision at 09:59 -> 10:00 source OPEN
+  hard_exit: 14:30 America/Chicago opening quote
+  same_bar_both_touch: ambiguous on OHLC; test stop-first as a conservative stress case
+test_cases:
+  - id: prior_five_regression
+    criterion: Existing five Phase 4 synthetic Engine tests remain passing.
+  - id: next_open_timing
+    criterion: Decision callback at 09:59 UTC fixture boundary fills at 10:00 OPEN, not 10:01.
+  - id: position_rule_entry_bar
+    criterion: Establish whether PositionRule evaluates after an entry fill and can protect the entry bar.
+  - id: rule_chain_dual_touch
+    criterion: RuleChain evaluation order and Engine fill ledger on a post-entry bar touching target and stop.
+  - id: custom_fixed_point_rule
+    criterion: A protocol-conforming custom rule tests absolute +40/-75 point barriers at distinct entry price levels.
+  - id: stop_gap
+    criterion: Stop fill uses gap OPEN when it is more adverse than the stop trigger.
+  - id: single_sibling_touch
+    criterion: Target-only and stop-only rules each create one engine-owned exit and no sibling order residue.
+  - id: causal_hard_exit
+    criterion: A 14:29 decision order fills at 14:30 OPEN; no fill is attributed after the boundary.
+  - id: reconciliation
+    criterion: Engine trade/fill ledger PnL agrees with quantity * multiplier * price change for synthetic closed trades.
+decision_rule:
+  pass: Native pathway protects the entry bar, resolves both-touch conservatively with one exit, preserves stop-gap behavior, timing, hard exit, fixed-point levels and Engine-owned accounting.
+  blocked: Any required execution property cannot be established from Engine-owned orders/fills/accounting. Do not run Phase 4 historical trials.
+limitations:
+  - Bar OHLC cannot identify the true first touch when both barriers lie within one minute.
+  - Stop-first dual-touch handling is a stress convention, not observed intrabar order.
+  - Illustrative dollar value and costs do not establish CME NQ execution economics.

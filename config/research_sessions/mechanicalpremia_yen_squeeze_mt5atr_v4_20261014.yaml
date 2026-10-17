@@ -1,0 +1,152 @@
+session_id: mechanicalpremia-yen-squeeze-mt5atr-v4-20261014
+market: fx
+thesis: Source-corrected MT5 SMA-of-TR ATR14 may resolve the mismatch between the
+  published Yen Squeeze EA and the failed 2023-2024 Wilder-ATR development proxy;
+  no claim that correction makes the strategy profitable.
+mechanism: A change from Wilder ATR14 to the standard MT5 iATR14 may alter quiet-volatility
+  eligibility, stop width, position sizing and trailing behavior of low-ATR breakout
+  entries.
+falsifier: Primary fixed source-code 20-hour/2pip trial fails if net expectancy or
+  daily Sharpe is nonpositive. Do not access 2025+ market data, claim source-equivalence
+  or tune after observing outcomes. 500h is separately declared prose interpretation.
+  All 2/4/6-pip runs are development trials. Account/broker limitations remain INCONCLUSIVE.
+instruments:
+- symbol: USDJPY
+  kind: cfd
+  venue: broker-neutral fixed-numeraire proxy
+  identity: Frozen USDJPY 2023-2024 1m UTC OHLCV snapshot, JPY quote prices divided
+    by fixed 150 JPY/USD for all Engine prices, stop levels, costs, and native USD
+    cash/PnL accounting.
+  session: 24/5 OTC FX proxy; no synthetic weekend bars
+  timezone: UTC
+- symbol: GBPJPY
+  kind: cfd
+  venue: broker-neutral fixed-numeraire proxy
+  identity: Frozen GBPJPY 2023-2024 1m OHLCV snapshot; naive lineage timestamps localized
+    to UTC as previously disclosed; JPY quote prices divided by fixed 150 JPY/USD
+    for Engine accounting.
+  session: 24/5 OTC FX proxy; no synthetic weekend bars
+  timezone: UTC
+- symbol: CADJPY
+  kind: cfd
+  venue: broker-neutral fixed-numeraire proxy
+  identity: Dukascopy-node bid m1 staging snapshot for 2023-2024; JPY quote prices
+    divided by fixed 150 JPY/USD. Staging is not canonical; no bid/ask, financing
+    or broker terms.
+  session: 24/5 OTC FX proxy; no synthetic weekend bars
+  timezone: UTC from naive epoch-ms staging under disclosed provider contract assumption
+data:
+- id: usdjpy-dev-1m
+  symbol: USDJPY
+  role: prices
+  path: data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/USDJPY_2023_2024_1m.parquet
+- id: gbpjpy-dev-1m
+  symbol: GBPJPY
+  role: prices
+  path: data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/GBPJPY_2023_2024_1m.parquet
+- id: cadjpy-dev-1m
+  symbol: CADJPY
+  role: prices
+  path: data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/CADJPY_2023_2024_1m.parquet
+evaluation:
+  development_start: '2023-01-01T00:00:00Z'
+  development_end: '2025-01-01T00:00:00Z'
+  holdout_start: '2025-01-01T00:00:00Z'
+  no_holdout_access: true
+  protected_data_rule: Never read or access market prices timestamped 2025-01-01 or
+    later.
+  cadjpy: Included from staged 2023 and 2024 Arrow inputs. Existing bounded Parquet
+    snapshot was preserved and validated with ml4t.data MultiAssetSchema; not canonical
+    data. UTC localization and completeness limitations remain explicit.
+  price_numeraire: Time-invariant 150 JPY per USD. Scale all OHLC, indicator levels,
+    stops, and fixed slippage by 1/150 before Engine. Compute signal features in unscaled
+    native JPY prices.
+  strategy: Exactly the previous native three-pair v3 proxy EXCEPT replace Wilder
+    ATR with MT5-standard SMA14 of native TRANGE. Native ML4T registry TRANGE/SMA/Donchian
+    and certified registered upper-median extension only. H1 close+1h availability.
+    No change to order/cost/portfolio code.
+  execution_deviation: Native Engine has no pending-entry parent/child protective
+    stop. Use native entry fills then native protective STOP submitted in callback
+    after observed fill, effective no earlier than next 1m bar. Count every entry
+    bar lacking protection; if its range crosses initial stop, submit a native market
+    exit for the next eligible bar and count as unprotected breach. This is a one-bar
+    delayed protection approximation, not broker/source equivalence. No custom fills,
+    cash, PnL, equity, or metrics.
+  evaluation_periods: 2023 and 2024 calendar year and calendar quarter breakdowns
+    only.
+  metrics: Use native Engine outputs and ml4t-diagnostic/result APIs for trades, win
+    percent, net expectancy, net profit, marked daily-equity Sharpe, Calmar, max drawdown;
+    report per-year/quarter and pair.
+  portfolio: All three pairs in one native USD account using fixed 150 JPY/USD numeraire;
+    report each pair attribution.
+  feature_correction: Registered ml4t-engineer trange -> registered ml4t-engineer
+    sma14 on trange -> registered yen_mt5_upper_median(100); independent unit oracle.
+    MT5 precise bootstrap/first bar parity still must be verified on shared test fixture.
+  attribution: Only ATR algorithm intentionally changed. Native backtest wrapper/engine
+    and 2023-24 exact snapshots are reused via task-owned copied sources, with new
+    frozen hashes.
+baseline: Unmodified v3 2023-2024 native Engine results from frozen prior ledger,
+  no exposure cash, and newly fixed MT5 ATR variants. Compare only identical time+market+cost;
+  author 2015-2025 curve not a direct comparison.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  fixed_numeraire_jpy_per_usd: 150
+  roundtrip_jpy_pips:
+  - 2
+  - 4
+  - 6
+  pip_jpy: 0.01
+  per_fill_fixed_slippage_jpy:
+  - 0.01
+  - 0.02
+  - 0.03
+  per_fill_fixed_slippage_engine_usd:
+  - 6.66666666667e-05
+  - 0.0001333333333333
+  - 0.0002
+  assumptions: All-in roundtrip proxy split into two equal fixed adverse native Engine
+    fill slippages; no additional spread or commission is charged. No historical conversion,
+    financing, swap, borrow, or broker contract details. Engine SlippageType.FIXED
+    semantics must be tested for sign and repeated fills before strategy outcomes
+    are inspected.
+trials:
+- id: MT5-ATR-FEATURE-PARITY
+  kind: preregistered
+  description: Certified ml4t-engineer TRANGE/SMA14/upper-median registration, independent
+    oracle, append invariance and decision clock; compare Wilder vs MT5 features on
+    frozen data.
+- id: PORTFOLIO-20-2PIP
+  kind: preregistered
+  description: Frozen three-pair USDJPY/GBPJPY/CADJPY portfolio using 20 H1 Donchian
+    and 2 JPY pip roundtrip proxy.
+- id: PORTFOLIO-20-4PIP
+  kind: preregistered
+  description: Frozen three-pair USDJPY/GBPJPY/CADJPY portfolio using 20 H1 Donchian
+    and 4 JPY pip roundtrip proxy.
+- id: PORTFOLIO-20-6PIP
+  kind: preregistered
+  description: Frozen three-pair USDJPY/GBPJPY/CADJPY portfolio using 20 H1 Donchian
+    and 6 JPY pip roundtrip proxy.
+- id: PORTFOLIO-500-2PIP
+  kind: preregistered
+  description: Frozen three-pair USDJPY/GBPJPY/CADJPY portfolio using 500 H1 Donchian
+    and 2 JPY pip roundtrip proxy.
+- id: PORTFOLIO-500-4PIP
+  kind: preregistered
+  description: Frozen three-pair USDJPY/GBPJPY/CADJPY portfolio using 500 H1 Donchian
+    and 4 JPY pip roundtrip proxy.
+- id: PORTFOLIO-500-6PIP
+  kind: preregistered
+  description: Frozen three-pair USDJPY/GBPJPY/CADJPY portfolio using 500 H1 Donchian
+    and 6 JPY pip roundtrip proxy.
+- id: SOURCE-DELTA-AND-ACCOUNTING
+  kind: preregistered
+  description: Compare v4 with frozen v3 for same inputs, signal directions, decisions,
+    native fills, closed trades, PnL, slippage and marked daily-equity. No optimization.
+evidence:
+- docs/audit/mechanicalpremia_yen_squeeze_author_discrepancy_20261014.md
+- scripts/mechanicalpremia_yen_squeeze_mt5atr_features_20261014.py
+- scripts/mechanicalpremia_yen_squeeze_mt5atr_proxy_v4_20261014.py
+- scripts/run_mechanicalpremia_yen_squeeze_mt5atr_v4_20261014.py
+- tests/test_mechanicalpremia_yen_squeeze_mt5atr_20261014.py

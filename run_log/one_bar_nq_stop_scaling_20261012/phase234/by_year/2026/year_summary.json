@@ -1,0 +1,161 @@
+{
+  "year": 2026,
+  "status": "completed",
+  "generated_at_utc": "2026-10-12T08:48:23.652720+00:00",
+  "command": [
+    "/home/quant/dev/quant/quant-research/.venv/bin/python",
+    "scripts/run_one_bar_nq_b2_yearly_20261012.py",
+    "--year",
+    "2026"
+  ],
+  "runner_sha256": "b944c6cc0b76827dd9f159af45c407385cdca780f8da282029614fd12804443c",
+  "frozen_spec_sha256": "d38c96d79321295995e2c6fc71684ff9e9c0532302bde3055a83d612f38f97e2",
+  "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+  "quality": {
+    "year": 2026,
+    "raw_rows": 184574,
+    "execution_rows_retained": 184574,
+    "complete_30m_bars": 6041,
+    "warmup_complete_bars": 388,
+    "duplicate_timestamps": 0,
+    "null_ohlc": 0,
+    "invalid_ohlc": 0,
+    "incomplete_bins": 185,
+    "source_start": "2025-12-18T00:00:00+00:00",
+    "source_end": "2026-07-14T23:59:00+00:00",
+    "partial_30m_execution_rows_preserved": true,
+    "atr_release": "available on final minute of completed bar; first fill event is next source minute"
+  },
+  "trials": [
+    {
+      "trial_id": "B2_zero_cost",
+      "status": "completed",
+      "closed_trades": 237,
+      "gross_pnl_usd": -5591.293999999587,
+      "net_pnl_usd": -5591.293999999121,
+      "fees_usd": 0.0,
+      "slippage_usd": 0.0,
+      "actual_nominal_risk_usd": 213126.34000000003,
+      "actual_nominal_risk_usd_max": 1000.0,
+      "trades_over_1000_actual_tick_rounded_trigger_risk": 0,
+      "risk_budget_deployment_utilization": 0.8992672573839664,
+      "r_sum": -7.047245333817856,
+      "expectancy_r": -0.029735212378978297,
+      "worst_trade_r": -1.354939682539688,
+      "stop_exit_count_actual_order_type": 23,
+      "gap_overshoot_points_max": 324.3810000000012,
+      "gap_overshoot_usd_total": 22651.75800000008,
+      "late_scheduled_market_exits": 0,
+      "max_late_market_exit_minutes": 0.0,
+      "long_short": {
+        "long": {
+          "trades": 137,
+          "net_pnl_usd": -1267.7939999987284
+        },
+        "short": {
+          "trades": 100,
+          "net_pnl_usd": -4323.500000000393
+        }
+      },
+      "gross_minus_net_equals_fees": true,
+      "native_margin_rejected_orders": 0,
+      "ambiguous_events": 2,
+      "ambiguity_kinds": {
+        "entry_and_stop_same_minute": 2
+      },
+      "qty_distribution": {
+        "2.0": 10,
+        "3.0": 36,
+        "4.0": 73,
+        "5.0": 41,
+        "6.0": 24,
+        "7.0": 29,
+        "8.0": 10,
+        "9.0": 5,
+        "10.0": 6,
+        "11.0": 2,
+        "13.0": 1
+      },
+      "skipped_qty_lt_1": 0,
+      "entry_contract_sides": 1192.0,
+      "round_trip_contract_sides_for_closed_trades": 2384.0,
+      "max_entries_per_chicago_session_day": 2,
+      "commission_per_contract_per_fill_usd": 0.0,
+      "slippage_points_per_fill": 0.0,
+      "initial_margin_per_contract_usd": 2500.0,
+      "maintenance_margin_per_contract_usd": 2000.0,
+      "native_engine_final_value": 994408.7060000026,
+      "native_engine_open_trades": 0,
+      "strategy_entries": 237,
+      "initial_cash_usd": 1000000.0
+    },
+    {
+      "trial_id": "B2_costed",
+      "status": "completed",
+      "closed_trades": 237,
+      "gross_pnl_usd": -6724.293999999587,
+      "net_pnl_usd": -9704.293999999121,
+      "fees_usd": 2980.0,
+      "slippage_usd": 1192.0,
+      "actual_nominal_risk_usd": 213126.34000000003,
+      "actual_nominal_risk_usd_max": 1000.0,
+      "trades_over_1000_actual_tick_rounded_trigger_risk": 0,
+      "risk_budget_deployment_utilization": 0.8992672573839664,
+      "r_sum": -11.574043628913177,
+      "expectancy_r": -0.04883562712621594,
+      "worst_trade_r": -1.366050793650799,
+      "stop_exit_count_actual_order_type": 23,
+      "gap_overshoot_points_max": 324.6310000000012,
+      "gap_overshoot_usd_total": 22695.598000000078,
+      "late_scheduled_market_exits": 0,
+      "max_late_market_exit_minutes": 0.0,
+      "long_short": {
+        "long": {
+          "trades": 137,
+          "net_pnl_usd": -3826.7939999987284
+        },
+        "short": {
+          "trades": 100,
+          "net_pnl_usd": -5877.500000000393
+        }
+      },
+      "gross_minus_net_equals_fees": true,
+      "native_margin_rejected_orders": 0,
+      "ambiguous_events": 2,
+      "ambiguity_kinds": {
+        "entry_and_stop_same_minute": 2
+      },
+      "qty_distribution": {
+        "2.0": 10,
+        "3.0": 36,
+        "4.0": 73,
+        "5.0": 41,
+        "6.0": 24,
+        "7.0": 29,
+        "8.0": 10,
+        "9.0": 5,
+        "10.0": 6,
+        "11.0": 2,
+        "13.0": 1
+      },
+      "skipped_qty_lt_1": 0,
+      "entry_contract_sides": 1192.0,
+      "round_trip_contract_sides_for_closed_trades": 2384.0,
+      "max_entries_per_chicago_session_day": 2,
+      "commission_per_contract_per_fill_usd": 1.25,
+      "slippage_points_per_fill": 0.25,
+      "initial_margin_per_contract_usd": 2500.0,
+      "maintenance_margin_per_contract_usd": 2000.0,
+      "native_engine_final_value": 990295.7060000026,
+      "native_engine_open_trades": 0,
+      "strategy_entries": 237,
+      "initial_cash_usd": 1000000.0
+    }
+  ],
+  "engine_versions": {
+    "ml4t_backtest": "0.1.7",
+    "ml4t_engineer": "0.1.4"
+  },
+  "git_head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "ending_cash_resets_each_year": true
+}

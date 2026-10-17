@@ -1,0 +1,196 @@
+session_id: crypto_xs_plain_funding_decay_validation_20261015_v1
+market: crypto
+
+thesis: >-
+  The already-developed plain cross-sectional Binance USD-M funding strategy
+  remains economically alive in the more mature 2024-2025 market. The edge may
+  be smaller than 2022-2023, but the unchanged strategy should retain positive
+  net economics after frozen costs and positive normalized funding carry.
+
+mechanism: >-
+  Cross-sectional differences in realized perpetual funding still compensate
+  the portfolio for taking the opposite side of leveraged crowding. Price
+  reversion may weaken as the market matures, but funding-transfer economics
+  can remain positive. Decay is therefore diagnosed separately for price IC,
+  funding opportunity-set dispersion, normalized realized carry and price-only
+  portfolio alpha.
+
+falsifier: >-
+  INCONCLUSIVE on any point-in-time, data coverage, official mark-price,
+  accounting or native execution failure. REJECT structural edge survival if
+  the unchanged 2024-2025 portfolio has nonpositive net return at base costs,
+  nonpositive net return at 2x execution costs, or nonpositive annualized
+  realized funding yield on average gross exposure. Otherwise VALIDATE edge
+  survival. The separate decay classification does not alter this terminal
+  economic gate. No signal, universe, rebalance cadence, portfolio weights,
+  execution rule or cost assumption may change after validation outcomes are
+  observed.
+
+instruments:
+  - symbol: BINANCE_UM_USDT_PERP_PANEL
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: >-
+      Dynamic point-in-time Binance USD-M USDT perpetual panel, using exactly
+      the same eligibility and liquidity rules as the frozen development
+      sessions.
+
+data:
+  - id: warmup_prices_2023
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/warmup_prices_2023.parquet
+  - id: warmup_funding_2023
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/warmup_funding_2023.parquet
+  - id: prices_2024
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/prices_2024.parquet
+  - id: prices_2025
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/prices_2025.parquet
+  - id: funding_2024
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/funding_2024.parquet
+  - id: funding_2025
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/funding_2025.parquet
+  - id: funding_mark_proxy
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/required_funding_mark_1m.parquet
+
+evaluation:
+  source_phase3_session: crypto_xs_plain_funding_mvp_20261015_v1
+  source_phase4_session: crypto_xs_plain_funding_phase4_20261015_v1
+  validation_start: "2024-01-01T00:00:00Z"
+  validation_end: "2026-01-01T00:00:00Z"
+  protected_final_test_start: "2026-01-01T00:00:00Z"
+  holdout_policy: >-
+    2024-2025 is opened exactly for this decay-validation mission. No price,
+    funding, mark, signal, label or portfolio observation at or after
+    2026-01-01 may be read. The 2026 final test remains sealed.
+  signal: >-
+    Unchanged: prediction equals minus the sum of all actual canonical funding
+    rates observed in the trailing 24 hours. No momentum, exhaustion, ML,
+    volatility filter, stop or price feature may enter the signal.
+  decision_clock: >-
+    Preserve the original 48-hour cadence anchored at 2020-06-01 00:00 UTC.
+    Use the completed 23:00 bar for a 00:00 decision, funding observable by
+    00:01, and native NEXT_BAR fill at the following 01:00 open.
+  universe: >-
+    Unchanged: require 720 contiguous completed hourly bars and at least one
+    actual funding event in the trailing 24h. Rank eligible contracts by
+    trailing-720h sum(close*base_volume), target top 40, use all eligible names
+    if breadth is 20-39, and stay flat below 20.
+  portfolio: >-
+    Unchanged: every eligible 48h cycle long the five lowest-funding names at
+    +10% each and short the five highest-funding names at -10% each. Target
+    gross 1.0 and dollar net 0.0. Fractional native target-weight rebalancing,
+    no stops, no Kelly scaling and no new risk overlay in this decay test.
+    Pre-outcome execution qualification found all 10,514 required decision,
+    next-hour fill, close and final-flatten symbol/timestamp keys present;
+    final flatten fill is 2025-12-30 01:00 UTC, before the protected 2026 holdout.
+  label: >-
+    48h next-open price return from the 01:00 UTC next-hour entry open to the
+    open exactly 48 hours later.
+  funding_mark_contract: >-
+    Use official Binance USD-M 1-minute markPriceKlines for every held funding
+    event. Missing public-archive minutes may be repaired only from official
+    Binance /fapi/v1/markPriceKlines REST. Primary funding mark is event-minute
+    mark OPEN. If both archive and REST lack that exact event minute, the
+    immediately preceding official mark-minute CLOSE may be used only if
+    explicitly discovered and frozen before validation PnL is computed. Every
+    fallback must be enumerated. Never use ordinary trade OHLCV as the funding
+    mark. Pre-outcome qualification resolved all 42,943 held funding events at
+    the exact event-minute OPEN with zero fallback marks. Binance's public
+    monthly archive lacked the valid Unicode contract 币安人生USDT for November
+    2025, so that one full month was acquired from official paginated
+    /fapi/v1/markPriceKlines REST with response hashes; no universe change was
+    made.
+  funding_timing: >-
+    Preserve Phase 4 accounting: exact hour-boundary events use the position
+    carried from the prior bar; millisecond-offset events use the post-open
+    current position. Funding cashflow is
+    -quantity*mark_proxy*funding_rate and mutates native broker cash.
+  mature_reference_2022_2023:
+    mean_rank_ic: 0.02399168729832182
+    rank_ic_periods: 364
+    mean_top5_minus_bottom5_funding_24h: 0.0027302096098901084
+    mean_cross_section_funding_std: 0.0013136886087678446
+    mean_cross_section_funding_iqr: 0.0003206761538461478
+    annualized_realized_funding_yield_on_average_gross: 0.45797758483123224
+    no_funding_total_return_2022_2023: 0.3622286629428122
+  decay_classification: >-
+    Compare 2024-2025 to the frozen 2022-2023 mature reference. NO_MATERIAL_DECAY
+    requires both mean-IC ratio and normalized funding-yield ratio >=0.50.
+    PARTIAL_DECAY means terminal economics survive but at least one positive
+    ratio is below 0.50. MECHANISM_SHIFT_CARRY means mean IC <=0 while funding
+    yield and the 2x-cost portfolio remain positive. STRUCTURAL_DECAY applies
+    when the terminal economic gate REJECTS. Report funding-spread, cross-
+    sectional funding standard deviation and IQR ratios descriptively.
+  reporting: >-
+    Report combined and annual 2024/2025 rank IC, HAC t-stat, IC IR, positive-IC
+    share, rolling 6m/12m IC, funding top5-bottom5 spread, funding cross-section
+    standard deviation and IQR, normalized realized funding yield on average
+    gross exposure, funding-aware and no-funding native portfolios, base and
+    2x costs, annual returns, Sharpe, max drawdown and all decay ratios.
+
+baseline: >-
+  The fixed 2022-2023 mature-market reference above is the decay comparator.
+  No-trade cash is the portfolio null. The unchanged no-funding arm decomposes
+  price alpha from carry but does not select parameters.
+
+costs:
+  commission_bps: 5.0
+  slippage_bps: 4.0
+  assumptions: >-
+    Same Phase 4 model: 5 bps commission plus 4 bps one-way slippage at base,
+    18 bps round trip for a fully turned leg. The stress arm doubles both to
+    36 bps round trip. No new impact assumption or cost calibration is allowed
+    in this validation.
+
+trials:
+  - id: validation_ic_decay
+    kind: preregistered
+    description: >-
+      Unchanged 48h cross-sectional rank-IC validation on 2024-2025, including
+      annual and rolling diagnostics versus frozen 2022-2023 reference.
+  - id: validation_funding_opportunity_decay
+    kind: preregistered
+    description: >-
+      Compare top5-bottom5 trailing-24h funding spread, cross-sectional
+      dispersion and normalized realized carry versus frozen 2022-2023.
+  - id: validation_native_base_cost
+    kind: preregistered
+    description: >-
+      Unchanged native funding-aware portfolio at base execution costs.
+  - id: validation_native_double_cost
+    kind: preregistered
+    description: >-
+      Unchanged native funding-aware portfolio at doubled execution costs.
+  - id: validation_native_no_funding
+    kind: preregistered
+    description: >-
+      Unchanged native base-cost portfolio with funding cash mutation disabled.
+
+evidence:
+  - docs/audit/crypto_xs_plain_funding_mvp_20261015_v1.md
+  - docs/audit/crypto_xs_plain_funding_phase4_20261015_v1.md
+  - data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/source_manifest.json
+  - data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/mark_requirements.json
+  - data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/mark_materialization_audit.json
+  - data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/mark_source_manifest.json
+  - data/processed/crypto_xs_plain_funding_decay_validation_20261015_v1/required_funding_events_with_marks.parquet

@@ -1,0 +1,7 @@
+{
+  "checked_source_rows": 4328258,
+  "former_vs_correct_30m_bin_mismatches": 0,
+  "mismatch_examples": [],
+  "former_expression": "Polars Int8 hour * 60 + minute >= 1020",
+  "impact_if_zero": "All source minutes remain in the same absolute 30m bins; rolling levels and native trades are unchanged. Only the session-date label was wrong."
+}

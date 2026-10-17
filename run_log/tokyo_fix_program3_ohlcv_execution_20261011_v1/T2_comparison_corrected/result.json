@@ -1,0 +1,454 @@
+{
+  "tests": [
+    {
+      "id": "gotobi_minus_ordinary",
+      "units": "pips",
+      "estimate": {
+        "n": 1625,
+        "coef": 1.4196466840646595,
+        "ci95": [
+          0.39736996206899833,
+          2.4419234060603205
+        ],
+        "p": 0.0065218576676616645,
+        "month_cluster_ci95": [
+          0.3871889588248614,
+          2.4521044093044577
+        ],
+        "p_holm14": 0.06521857667661665
+      }
+    },
+    {
+      "id": "fix_minus_placebo_gotobi",
+      "units": "pips",
+      "n_matched": 466,
+      "estimate": {
+        "n": 466,
+        "coef": 2.703755364806865,
+        "ci95": [
+          1.62503259618068,
+          3.7824781334330497
+        ],
+        "p": 1.1722767320023224e-06,
+        "p_holm14": 1.6411874248032514e-05
+      }
+    },
+    {
+      "id": "limit_o0_t1_b0_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.6678806802236255,
+        "ci95": [
+          -1.1260403844968552,
+          -0.2097209759503958
+        ],
+        "p": 0.004364157568659248,
+        "p_holm14": 0.048005733255251724
+      },
+      "conditional_market_mean_on_filled": 0.33349963983867104,
+      "conditional_market_mean_on_missed": 0.6023632928289842
+    },
+    {
+      "id": "limit_o0_t1_b0p5_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.825595883755413,
+        "ci95": [
+          -1.3047572560937322,
+          -0.34643451141709386
+        ],
+        "p": 0.0007696292030288162,
+        "p_holm14": 0.01000517963937461
+      },
+      "conditional_market_mean_on_filled": 0.1174071683336386,
+      "conditional_market_mean_on_missed": 0.7517772495406172
+    },
+    {
+      "id": "limit_o0_t3_b0_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.5204575745289206,
+        "ci95": [
+          -0.9538453552853547,
+          -0.08706979377248653
+        ],
+        "p": 0.018692938422004732,
+        "p_holm14": 0.10128838292834473
+      },
+      "conditional_market_mean_on_filled": 0.241191711026818,
+      "conditional_market_mean_on_missed": 0.8328144143537389
+    },
+    {
+      "id": "limit_o0_t3_b0p5_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.7121347766557135,
+        "ci95": [
+          -1.1686410686069122,
+          -0.2556284847045148
+        ],
+        "p": 0.0022995662523254048,
+        "p_holm14": 0.027594795027904857
+      },
+      "conditional_market_mean_on_filled": 0.01522905992511907,
+      "conditional_market_mean_on_missed": 1.0409447342977078
+    },
+    {
+      "id": "limit_o0p5_t1_b0_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.6499019697453193,
+        "ci95": [
+          -1.1284132089240637,
+          -0.17139073056657494
+        ],
+        "p": 0.007875155581417591,
+        "p_holm14": 0.06521857667661665
+      },
+      "conditional_market_mean_on_filled": 0.1174071683336386,
+      "conditional_market_mean_on_missed": 0.7517772495406172
+    },
+    {
+      "id": "limit_o0p5_t1_b0p5_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.6983441840133281,
+        "ci95": [
+          -1.200959410588178,
+          -0.19572895743847818
+        ],
+        "p": 0.0065670815823395245,
+        "p_holm14": 0.06521857667661665
+      },
+      "conditional_market_mean_on_filled": 0.15568049431849834,
+      "conditional_market_mean_on_missed": 0.6535800070985568
+    },
+    {
+      "id": "limit_o0p5_t3_b0_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.4953010392975279,
+        "ci95": [
+          -0.9524211093332973,
+          -0.03818096926175857
+        ],
+        "p": 0.033761225008366716,
+        "p_holm14": 0.10128838292834473
+      },
+      "conditional_market_mean_on_filled": 0.01522905992511907,
+      "conditional_market_mean_on_missed": 1.0409447342977078
+    },
+    {
+      "id": "limit_o0p5_t3_b0p5_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.6029224433971205,
+        "ci95": [
+          -1.078515686709538,
+          -0.127329200084703
+        ],
+        "p": 0.013078986597346819,
+        "p_holm14": 0.09155290618142772
+      },
+      "conditional_market_mean_on_filled": -0.04928827122259175,
+      "conditional_market_mean_on_missed": 0.9694876848451418
+    },
+    {
+      "id": "limit_o1_t1_b0_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.5492298355604955,
+        "ci95": [
+          -1.0499925639191876,
+          -0.04846710720180347
+        ],
+        "p": 0.03165283439421687,
+        "p_holm14": 0.10128838292834473
+      },
+      "conditional_market_mean_on_filled": 0.15568049431849834,
+      "conditional_market_mean_on_missed": 0.6535800070985568
+    },
+    {
+      "id": "limit_o1_t1_b0p5_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.6340051935815274,
+        "ci95": [
+          -1.1535685186481701,
+          -0.11444186851488469
+        ],
+        "p": 0.016881397154724122,
+        "p_holm14": 0.10128838292834473
+      },
+      "conditional_market_mean_on_filled": 0.09206140498235686,
+      "conditional_market_mean_on_missed": 0.6343229350712367
+    },
+    {
+      "id": "limit_o1_t3_b0_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.41298197962030214,
+        "ci95": [
+          -0.8876095351101501,
+          0.06164557586954583
+        ],
+        "p": 0.08796133130457277,
+        "p_holm14": 0.10128838292834473
+      },
+      "conditional_market_mean_on_filled": -0.04928827122259175,
+      "conditional_market_mean_on_missed": 0.9694876848451418
+    },
+    {
+      "id": "limit_o1_t3_b0p5_minus_market",
+      "units": "USD per submitted signal",
+      "estimate": {
+        "n": 468,
+        "coef": -0.5915818382752335,
+        "ci95": [
+          -1.0982071989454631,
+          -0.0849564776050038
+        ],
+        "p": 0.02220006844715057,
+        "p_holm14": 0.10128838292834473
+      },
+      "conditional_market_mean_on_filled": -0.2921173176474991,
+      "conditional_market_mean_on_missed": 1.005210710525375
+    }
+  ],
+  "adverse_selection": [
+    {
+      "id": "limit_o0_t1_b0",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 259,
+          "short_markout_pips": -1.1525096525096412
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 259,
+          "short_markout_pips": -0.5389961389961119
+        }
+      ],
+      "exit_short_pips": 0.5843629343629373,
+      "missed_market_net_usd": 125.89392820125768,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0_t1_b0p5",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 220,
+          "short_markout_pips": -1.6018181818181887
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 220,
+          "short_markout_pips": -0.9045454545454651
+        }
+      ],
+      "exit_short_pips": 0.028863636363625614,
+      "missed_market_net_usd": 186.44075788607307,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0_t3_b0",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 300,
+          "short_markout_pips": -0.9733333333333102
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 300,
+          "short_markout_pips": -0.3396666666666495
+        }
+      ],
+      "exit_short_pips": 0.9405000000000143,
+      "missed_market_net_usd": 139.91282161142814,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0_t3_b0p5",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 268,
+          "short_markout_pips": -1.3447761194029582
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 268,
+          "short_markout_pips": -0.7630597014925432
+        }
+      ],
+      "exit_short_pips": 0.5027985074627012,
+      "missed_market_net_usd": 208.18894685954157,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0p5_t1_b0",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 220,
+          "short_markout_pips": -1.1018181818180686
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 220,
+          "short_markout_pips": -0.404545454545345
+        }
+      ],
+      "exit_short_pips": 0.5288636363637458,
+      "missed_market_net_usd": 186.44075788607307,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0p5_t1_b0p5",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 188,
+          "short_markout_pips": -1.5244680851063073
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 188,
+          "short_markout_pips": -0.6984042553190444
+        }
+      ],
+      "exit_short_pips": 0.26994680851073294,
+      "missed_market_net_usd": 183.0024019875959,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0p5_t3_b0",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 268,
+          "short_markout_pips": -0.8447761194028669
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 268,
+          "short_markout_pips": -0.26305970149245184
+        }
+      ],
+      "exit_short_pips": 1.0027985074627925,
+      "missed_market_net_usd": 208.18894685954157,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o0p5_t3_b0p5",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 237,
+          "short_markout_pips": -1.2953586497889487
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 237,
+          "short_markout_pips": -0.5755274261602195
+        }
+      ],
+      "exit_short_pips": 0.6951476793250178,
+      "missed_market_net_usd": 223.95165519922776,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o1_t1_b0",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 188,
+          "short_markout_pips": -1.0244680851063235
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 188,
+          "short_markout_pips": -0.1984042553190607
+        }
+      ],
+      "exit_short_pips": 0.7699468085107166,
+      "missed_market_net_usd": 183.0024019875959,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o1_t1_b0p5",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 156,
+          "short_markout_pips": -1.4378205128204822
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 156,
+          "short_markout_pips": -0.6923076923076275
+        }
+      ],
+      "exit_short_pips": 0.35833333333334083,
+      "missed_market_net_usd": 197.90875574222585,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o1_t3_b0",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 237,
+          "short_markout_pips": -0.7953586497889777
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 237,
+          "short_markout_pips": -0.07552742616024848
+        }
+      ],
+      "exit_short_pips": 1.1951476793249887,
+      "missed_market_net_usd": 223.95165519922776,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    },
+    {
+      "id": "limit_o1_t3_b0p5",
+      "markouts": [
+        {
+          "minutes_after_fill": 1,
+          "n_observed": 199,
+          "short_markout_pips": -1.1824120603014618
+        },
+        {
+          "minutes_after_fill": 3,
+          "n_observed": 199,
+          "short_markout_pips": -0.38592964824113496
+        }
+      ],
+      "exit_short_pips": 0.6603015075377848,
+      "missed_market_net_usd": 270.40168113132586,
+      "label": "Conditional bar markouts, not actual dealer inventory or queue probability"
+    }
+  ],
+  "matched_placebo": {
+    "window": "09:26-09:40",
+    "n": 466,
+    "cost_policy": "Both same14minute duration; raw pip contrast cancels same assumed cost. No optimized placebo time."
+  },
+  "earlier_native": "Frozen v2 Gotobi458+$217.14; ordinary1143-$450.95; different08:29-10:10 complete cohort; unchanged artifact. New raw fill + cost overlay conversion differs slightly from old exit slippage conversion.",
+  "DSR_PBO": "UNKNOWN/unreproducible historical selection adjustment; no selected winner and no unseen OOS."
+}

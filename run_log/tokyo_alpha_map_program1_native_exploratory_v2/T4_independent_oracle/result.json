@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "method": "Independent original snapshot minute opens vs native filled trade ledger and per-trade JPY/USD conversion",
+  "trades_checked": 2059,
+  "fills_checked": 4118,
+  "results": [
+    {
+      "arm": "B1_short",
+      "status": "PASS",
+      "trades_checked": 458,
+      "fills_checked": 916,
+      "expected_USD_pnl": 217.13903967728925,
+      "max_closed_trade_drawdown_including_initial_USD": -83.00750130130837,
+      "reported_closed_trade_dd_USD": -83.00750130134657,
+      "all_executions_next_bar_open": true
+    },
+    {
+      "arm": "B0_short",
+      "status": "PASS",
+      "trades_checked": 1143,
+      "fills_checked": 2286,
+      "expected_USD_pnl": -450.9504644493722,
+      "max_closed_trade_drawdown_including_initial_USD": -486.49501972994403,
+      "reported_closed_trade_dd_USD": -486.4950197301823,
+      "all_executions_next_bar_open": true
+    },
+    {
+      "arm": "H1_long",
+      "status": "PASS",
+      "trades_checked": 458,
+      "fills_checked": 916,
+      "expected_USD_pnl": 456.9384411501251,
+      "max_closed_trade_drawdown_including_initial_USD": -211.92347091491138,
+      "reported_closed_trade_dd_USD": -211.9234709149132,
+      "all_executions_next_bar_open": true
+    }
+  ]
+}

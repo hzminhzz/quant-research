@@ -1,0 +1,123 @@
+{
+  "skills": [
+    {
+      "name": "ml4t-run-backtest",
+      "local_path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "sha256": "6c319d68bd8a933a36ba4266f679fc11b08ab0e666d29c41d1e3cfb41af53d91",
+      "reason_selected": "Native Strategy/Engine simulation and order execution",
+      "required_invariants": "Use next-event native STOP/MARKET orders and reconcile every fill.",
+      "verification": "Causal replay uses Engine NEXT_BAR; synthetic cost and data-gap tests use native Engine."
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "local_path": ".agents/skills/ml4t-calendar-ops/SKILL.md",
+      "sha256": "8e463698e1ccb41edcac3e9164fac409efc3e6a8bd79222bdfc58b7b6cfb467f",
+      "reason_selected": "Chicago session days and DST",
+      "required_invariants": "Use UTC elapsed intervals and America/Chicago session dates.",
+      "verification": "Repeated-hour UTC boundary tests pass; entry cap is recomputed from actual fills."
+    },
+    {
+      "name": "ml4t-build-bars",
+      "local_path": ".agents/skills/ml4t-build-bars/SKILL.md",
+      "sha256": "1f3fd6f903785d6c0d267aa79e2bf420d0976980af36eec5f16d9660a46350d6",
+      "reason_selected": "Thirty-minute bars from one-minute OHLC",
+      "required_invariants": "Retain only 30 distinct minute rows and use session-anchored intervals.",
+      "verification": "Causal bar builder excludes incomplete bars and records counts."
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "local_path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "sha256": "26d18ce123aabee4822dc35325a517690c1b03ac6f04de761ff3d3c7aeaf6695",
+      "reason_selected": "Future availability gate and signal timing",
+      "required_invariants": "Do not read later bar availability when submitting orders.",
+      "verification": "entry_valid removed; the strategy gets no future-availability field."
+    },
+    {
+      "name": "ml4t-transaction-costs",
+      "local_path": ".agents/skills/ml4t-transaction-costs/SKILL.md",
+      "sha256": "d05ca6174949ff57f4bae3b99550a5a00c4a065c9946a9f1a34ca1898afe2c1c",
+      "reason_selected": "Feasibility under full tick friction",
+      "required_invariants": "Record commission, slippage, spread and impact limits.",
+      "verification": "Full-tick run charges $2.50 and 0.25 points per fill; proxy spread and impact remain unavailable."
+    },
+    {
+      "name": "ml4t-cost-model",
+      "local_path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "sha256": "6fe10bce1b17e7f1b1a551aab0eea63a3e13042718ac43a0cce9fbaa532b129c",
+      "reason_selected": "Native per-fill commission and slippage",
+      "required_invariants": "Separate cost fields and reconcile to fill and trade ledgers.",
+      "verification": "Commission and slippage USD reconcile independently to fills and closed trade records."
+    },
+    {
+      "name": "ml4t-continuous-futures",
+      "local_path": ".agents/skills/ml4t-continuous-futures/SKILL.md",
+      "sha256": "36d29e98da813ed648b9510eb0775cb929513e2f7feb07c9736066808abdf653",
+      "reason_selected": "Instrument identity is a CFD proxy",
+      "required_invariants": "Do not infer CME NQ rolls from an index CFD.",
+      "verification": "Report labels the source as Dukascopy BID proxy; no futures contract/roll claim."
+    },
+    {
+      "name": "ml4t-validate-data",
+      "local_path": ".agents/skills/ml4t-validate-data/SKILL.md",
+      "sha256": "50a64b8bbbcc161b8cd5f781f55062722874ef76b83c9f237e46fde9c9c15ade",
+      "reason_selected": "Source integrity and gaps",
+      "required_invariants": "Check frozen partition hashes, timestamps, OHLC, duplicates, and gaps.",
+      "verification": "All 163 partition hashes checked before run; quality counts saved."
+    },
+    {
+      "name": "ml4t-walk-forward-cv",
+      "local_path": ".agents/skills/ml4t-walk-forward-cv/SKILL.md",
+      "sha256": "230a9d26991b4bcf4d3694e02942c5e997ad023783a07b56a956986d1290756c",
+      "reason_selected": "Chronological regime changes",
+      "required_invariants": "Preserve chronology; do not shuffle or tune.",
+      "verification": "Frozen calendar blocks and yearly summaries are retrospective attribution, not OOS."
+    },
+    {
+      "name": "ml4t-sensitivity-analysis",
+      "local_path": ".agents/skills/ml4t-sensitivity-analysis/SKILL.md",
+      "sha256": "a90f8df8edc8555a7643b9dfc5354f784322d18c77bce7b11626003f689e2fb7",
+      "reason_selected": "Bounded execution sensitivity",
+      "required_invariants": "Do not tune strategy parameters; vary only declared costs.",
+      "verification": "Zero-cost, historical quarter-tick, and full-tick cases are separately retained."
+    },
+    {
+      "name": "ml4t-stress-test",
+      "local_path": ".agents/skills/ml4t-stress-test/SKILL.md",
+      "sha256": "0968b4f57c208a554f964e423e163f74c716624ec6c9d7c28d1ca45a31eb1b0e",
+      "reason_selected": "Gap and intrabar failure modes",
+      "required_invariants": "Report gap-through, same-minute ambiguity, and missing event stress.",
+      "verification": "Native one-minute fills and synthetic gap/OCO tests expose unresolved execution states."
+    },
+    {
+      "name": "ml4t-backtest-overfitting",
+      "local_path": ".agents/skills/ml4t-backtest-overfitting/SKILL.md",
+      "sha256": "be65e56bddcbd414ae8b9049a0ad5bf7eda87fdab9118fdc637ff8ba01d4372a",
+      "reason_selected": "Trial accounting",
+      "required_invariants": "Declare all cases and preserve failures; do not claim unreproducible selection adjustment.",
+      "verification": "Frozen trial matrix includes historical references, new trials, ambiguity diagnostic, and skipped delayed-fill."
+    },
+    {
+      "name": "ml4t-tearsheet",
+      "local_path": ".agents/skills/ml4t-tearsheet/SKILL.md",
+      "sha256": "dc409793ec913bfae569dad7ce9ffdca67b10969bada661d7c5e6b7b821d37f5",
+      "reason_selected": "Performance by chronology and drawdown",
+      "required_invariants": "Report equity, drawdown, and block PnL.",
+      "verification": "phase567_tearsheet.png uses native daily equity ledgers and fixed blocks."
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "local_path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "sha256": "bcc9062c8b4947765ef467c3becf3c1873eac16612118c2bdd187adcaf62df8e",
+      "reason_selected": "Data aggregation at 3.8m rows",
+      "required_invariants": "Use sorted Polars expressions for bars and summaries.",
+      "verification": "Parquet loaded lazily; bar, yearly, block, gap and ledger checks use Polars."
+    }
+  ],
+  "ml4t_backtest_version": "0.1.7",
+  "inspected_api_signatures": {
+    "Engine": "(feed: 'DataFeed', strategy: 'Strategy', config: 'BacktestConfig | None' = None, *, contract_specs: 'dict[str, Any] | None' = None, market_impact_model: 'Any | None' = None, execution_limits: 'Any | None' = None, lifecycle_version: 'LifecycleVersion | str' = <LifecycleVersion.V1: '1'>, execution_policy: 'ExecutionPolicy | None' = None, target_intent_state: 'dict[str, Any] | None' = None)",
+    "DataFeed": "(prices_path: str | None = None, signals_path: str | None = None, context_path: str | None = None, prices_df: polars.dataframe.frame.DataFrame | None = None, signals_df: polars.dataframe.frame.DataFrame | None = None, context_df: polars.dataframe.frame.DataFrame | None = None, *, feed_spec: ml4t.specs.market_data.FeedSpec | Any | None = None, contract: ml4t.specs.market_data.FeedSpec | Any | None = None, entity_col: str | None = None, timestamp_col: str | None = None, price_col: str | None = None, open_col: str | None = None, high_col: str | None = None, low_col: str | None = None, close_col: str | None = None, volume_col: str | None = None, vwap_col: str | None = None, bid_col: str | None = None, ask_col: str | None = None, mid_col: str | None = None, bid_size_col: str | None = None, ask_size_col: str | None = None)",
+    "Strategy.on_data": "(self, timestamp: datetime.datetime, data: dict[str, dict], context: dict[str, typing.Any], broker: Any) -> None"
+  },
+  "native_engine": "ml4t.backtest 0.1.7"
+}

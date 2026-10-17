@@ -1,0 +1,22 @@
+{
+  "upgrade": "WebSocket Order Routing + Fill Confirmation Gate + 5s Clean Cancel",
+  "status": "LIVE_RUNNING",
+  "instance_name": "btc-eth-ekstrom-live50-20261007-101411",
+  "connector": "arcus_perpetual",
+  "pairs": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "clip_notional_usd": 50.0,
+  "improvements_deployed": [
+    "Arcus connector orders routed directly through active User Stream WebSocket assistant (latency dropped from ~200ms REST to <20ms WS)",
+    "State machine gate: Only advances to IN_POSITION when BOTH legs receive confirmed WebSocket fills (prevents one-legged phantom trades)",
+    "5-second timeout on entry: Automatically cancels unfilled maker quotes cleanly to avoid paying 25s taker spread-crossing drag"
+  ],
+  "live_state": {
+    "btc_price": 83834.75,
+    "eth_price": 2587.39,
+    "kalman_beta": 0.6956,
+    "z_score": 0.102
+  }
+}

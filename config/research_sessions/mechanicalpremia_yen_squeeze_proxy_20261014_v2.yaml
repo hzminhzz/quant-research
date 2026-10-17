@@ -1,0 +1,163 @@
+session_id: mechanicalpremia-yen-squeeze-proxy-20261014-v2
+market: fx
+thesis: Yen crosses may trend after low H1 ATR conditions due to macro and carry positioning.
+mechanism: Carry and macro positioning may create sustained directional flows after
+  quiet ATR windows; test the frozen three-pair Yen Squeeze proxy over 2023-2024 development
+  data.
+falsifier: Reject if development aggregate net expectancy is nonpositive at 2 JPY
+  pips or marked daily-equity Sharpe is nonpositive; reject 4-pip robustness if net
+  is negative. INCONCLUSIVE for failed native Engine/accounting gates, too few trades,
+  unresolved execution behavior, or any missing required pair. This is an exploratory
+  broker-neutral fixed-numeraire proxy, not broker equivalence or final validation.
+  Never access 2025+ prices.
+instruments:
+- symbol: USDJPY
+  kind: cfd
+  venue: broker-neutral fixed-numeraire proxy
+  identity: Frozen USDJPY 2023-2024 1m UTC OHLCV snapshot, JPY quote prices divided
+    by fixed 150 JPY/USD for all Engine prices, stop levels, costs, and native USD
+    cash/PnL accounting.
+  session: 24/5 OTC FX proxy; no synthetic weekend bars
+  timezone: UTC
+- symbol: GBPJPY
+  kind: cfd
+  venue: broker-neutral fixed-numeraire proxy
+  identity: Frozen GBPJPY 2023-2024 1m OHLCV snapshot; naive lineage timestamps localized
+    to UTC as previously disclosed; JPY quote prices divided by fixed 150 JPY/USD
+    for Engine accounting.
+  session: 24/5 OTC FX proxy; no synthetic weekend bars
+  timezone: UTC
+- symbol: CADJPY
+  kind: cfd
+  venue: broker-neutral fixed-numeraire proxy
+  identity: Dukascopy-node bid m1 staging snapshot for 2023-2024; JPY quote prices
+    divided by fixed 150 JPY/USD. Staging is not canonical; no bid/ask, financing
+    or broker terms.
+  session: 24/5 OTC FX proxy; no synthetic weekend bars
+  timezone: UTC (staged naive epoch-ms localized to UTC under disclosed provider contract
+    assumption)
+data:
+- id: usdjpy-dev-1m
+  symbol: USDJPY
+  role: prices
+  path: data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/USDJPY_2023_2024_1m.parquet
+- id: gbpjpy-dev-1m
+  symbol: GBPJPY
+  role: prices
+  path: data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/GBPJPY_2023_2024_1m.parquet
+- id: cadjpy-dev-1m
+  symbol: CADJPY
+  role: prices
+  path: data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/CADJPY_2023_2024_1m.parquet
+evaluation:
+  development_start: '2023-01-01T00:00:00Z'
+  development_end: '2025-01-01T00:00:00Z'
+  holdout_start: '2025-01-01T00:00:00Z'
+  no_holdout_access: true
+  protected_data_rule: Never read or access market prices timestamped 2025-01-01 or
+    later.
+  cadjpy: Included from the already-running staged 2023 and 2024 Arrow download. Materialized
+    to the bounded Parquet snapshot and validated with ml4t.data MultiAssetSchema.
+    Source staging is noncanonical; UTC localization and completeness limitations
+    remain explicit.
+  price_numeraire: Time-invariant 150 JPY per USD. Scale all OHLC, indicator levels,
+    stops, and fixed slippage by 1/150 before Engine. Compute signal features in unscaled
+    native JPY prices.
+  strategy: At each UTC H1 boundary, use completed H1 ATR14, upper median sorted[50]
+    of last 100 ATR values, and prior completed H1 Donchian lookback (20 source code,
+    500 article prose). If ATR is strictly below median, submit both eligible directional
+    stop entries for each of USDJPY, GBPJPY and CADJPY. Orders expire after one hour
+    by native cancel. Risk 1 percent of native Engine account value at initial stop
+    distance 2 ATR. 5 percent initial margin, fractional base units, no minimum broker
+    lot; no simultaneous OCO. Long and short trailing stops update from the current
+    proxy side mark and completed H1 2 ATR, ratchet by at least 2 price points. Native
+    Engine stop orders/fills/accounting are mandatory.
+  execution_deviation: Native Engine has no pending-entry parent/child protective
+    stop. Use native entry fills then native protective STOP submitted in callback
+    after observed fill, effective no earlier than next 1m bar. Count every entry
+    bar lacking protection; if its range crosses initial stop, submit a native market
+    exit for the next eligible bar and count as unprotected breach. This is a one-bar
+    delayed protection approximation, not broker/source equivalence. No custom fills,
+    cash, PnL, equity, or metrics.
+  evaluation_periods: 2023 and 2024 calendar year and calendar quarter breakdowns
+    only.
+  metrics: Use native Engine outputs and ml4t-diagnostic/result APIs for trades, win
+    percent, net expectancy, net profit, marked daily-equity Sharpe, Calmar, max drawdown;
+    report per-year/quarter and pair.
+  portfolio: All three pairs in one native USD account using fixed 150 JPY/USD numeraire;
+    report each pair attribution.
+baseline: 'Zero exposure and cash baseline: USD 10000 starting capital; equal simultaneous
+  multi-pair account for 20/500 windows; all six predeclared lookback and cost scenarios.'
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  fixed_numeraire_jpy_per_usd: 150
+  roundtrip_jpy_pips:
+  - 2
+  - 4
+  - 6
+  pip_jpy: 0.01
+  per_fill_fixed_slippage_jpy:
+  - 0.01
+  - 0.02
+  - 0.03
+  per_fill_fixed_slippage_engine_usd:
+  - 6.66666666667e-05
+  - 0.0001333333333333
+  - 0.0002
+  assumptions: All-in roundtrip proxy split into two equal fixed adverse native Engine
+    fill slippages; no additional spread or commission is charged. No historical conversion,
+    financing, swap, borrow, or broker contract details. Engine SlippageType.FIXED
+    semantics must be tested for sign and repeated fills before strategy outcomes
+    are inspected.
+trials:
+- id: DATA-CADJPY-PROVENANCE
+  kind: preregistered
+  description: Record CADJPY stage status, 2023-only availability, no active downloader,
+    and exclude it without substitution.
+- id: ENGINE-STOP-ORDER-AND-CASH-GATES
+  kind: preregistered
+  description: Test native STOP gap fills, delayed protection and unprotected breach
+    handling, expiry/cancel, cash/position/equity, short, dual trigger, and 1x/2x/3x
+    fixed slippage before performance.
+- id: FEATURE-AND-CLOCK-PARITY
+  kind: preregistered
+  description: Verify ml4t-engineer features, minute availability, input boundary,
+    and no lookahead before performance.
+- id: PORTFOLIO-20-2PIP
+  kind: preregistered
+  description: Frozen two-pair portfolio using 20 H1 Donchian and 2 JPY pip roundtrip
+    proxy.
+- id: PORTFOLIO-20-4PIP
+  kind: preregistered
+  description: Frozen two-pair portfolio using 20 H1 Donchian and 4 JPY pip roundtrip
+    proxy.
+- id: PORTFOLIO-20-6PIP
+  kind: preregistered
+  description: Frozen two-pair portfolio using 20 H1 Donchian and 6 JPY pip roundtrip
+    proxy.
+- id: PORTFOLIO-500-2PIP
+  kind: preregistered
+  description: Frozen two-pair portfolio using 500 H1 Donchian and 2 JPY pip roundtrip
+    proxy.
+- id: PORTFOLIO-500-4PIP
+  kind: preregistered
+  description: Frozen two-pair portfolio using 500 H1 Donchian and 4 JPY pip roundtrip
+    proxy.
+- id: PORTFOLIO-500-6PIP
+  kind: preregistered
+  description: Frozen two-pair portfolio using 500 H1 Donchian and 6 JPY pip roundtrip
+    proxy.
+- id: SINGLE-PAIR-ATTRIBUTION
+  kind: preregistered
+  description: Frozen same settings and costs reported separately per USDJPY and GBPJPY.
+- id: ACCOUNTING-AND-GAP-AUDIT
+  kind: preregistered
+  description: Independently reconcile all orders, fills, gap entries, unprotected
+    entry bars, cash, positions, marks, and equity from native Engine artifacts.
+evidence:
+- docs/plans/mechanicalpremia_yen_squeeze_broker_neutral_proxy_20261014.md
+- docs/audit/mechanicalpremia_yen_squeeze_native_20261014.md
+- docs/audit/mechanicalpremia_yen_squeeze_execution_gates_20261014.json
+- docs/audit/mechanicalpremia_yen_squeeze_feature_parity_recheck_20261014.json
+- data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/cadjpy_materialization_manifest.json

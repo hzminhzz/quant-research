@@ -1,0 +1,89 @@
+{
+  "session_id": "one_bar_b0_cross_indices_20261012",
+  "stage": "PHASE3_PHASE4_FROZEN_BEFORE_RESULTS",
+  "strategy": "Literal_B0_50_index_point_protective_STOP_no_ATR_no_percent_no_filter",
+  "source_scope": "2013-01-01 through 2026-07-14 UTC, original index_minute_* proxy stores",
+  "instruments": {
+    "NQ": {
+      "role": "FROZEN_CONTROL",
+      "backtest": false
+    },
+    "ES": {
+      "role": "NATIVE_CANDIDATE"
+    },
+    "DAX": {
+      "role": "NATIVE_CANDIDATE"
+    },
+    "NIKKEI225": {
+      "role": "NATIVE_CANDIDATE"
+    },
+    "HSI": {
+      "role": "BLOCKED_1MIN",
+      "data": "data/processed/HK33_5m_2017_2026.parquet"
+    }
+  },
+  "core_rules": {
+    "session": "Chicago Globex 17:00 America/Chicago",
+    "entry": "stop at preceding 50 fully complete 30m bar extreme, both sides intended OCO",
+    "exit": "immediate next 30m opening market or protective earlier",
+    "stop_points": 50,
+    "max_session_trades": 2,
+    "sizing": "one synthetic index unit",
+    "filters": []
+  },
+  "interpretation": {
+    "points_R": "One nominal R=50 index points on one synthetic index unit",
+    "usd_pnl": "Not executable; native Engine forced illustrative USD20/point synthetic solely for code reuse",
+    "ticks": "Synthetic 0.25 point grid from B0; requires product-specific validation",
+    "costs": "ZERO as structural diagnostic; ILLUSTRATIVE +2.5 synthetic accounting USD per fill plus adverse 0.25 point per fill; NOT real ES/DAX/Nikkei fees",
+    "zero_cost_first": true,
+    "source": "index proxy prices, NOT executable dated futures",
+    "cash": "Native Engine simulated $1M synthetic collateral. Not native margin/prop-account risk",
+    "session": "Literal Chicago B0; not exchange-local optimization"
+  },
+  "planned_trials": [
+    "ES_ZERO",
+    "ES_COSTED_SYNTHETIC",
+    "DAX_ZERO",
+    "DAX_COSTED_SYNTHETIC",
+    "NIKKEI225_ZERO",
+    "NIKKEI225_COSTED_SYNTHETIC"
+  ],
+  "trial_count": 6,
+  "predeclared_metrics": [
+    "trade_count",
+    "net_pnl_points",
+    "net_pnl_R",
+    "win_rate",
+    "profit_factor",
+    "stop_exit_count",
+    "same_minute_ambiguities",
+    "max_entries_day",
+    "annual_distribution",
+    "daily_realized_sharpe_proxy"
+  ],
+  "limitations": [
+    "non_atomic_native_OCO",
+    "1m_OHLC_intraminute_unknown",
+    "incomplete_decision_bars",
+    "vendor_hours differ",
+    "no verified product USD conversion",
+    "annual sharded resets",
+    "HSI 1m missing"
+  ],
+  "data_manifest_metadata_sha256": "342b55941a9bdac59d808f4b6285a8ccb00590d21bfd75a72cfa74f8a66a8bf7",
+  "protected_after": "2026-07-14",
+  "param_tuning": false,
+  "independent_unseen_holdout": false,
+  "required_engine": "ml4t.backtest.Engine native",
+  "required_skills": [
+    "ml4t-run-backtest",
+    "ml4t-calendar-ops",
+    "ml4t-polars-patterns",
+    "ml4t-lookahead-bias",
+    "ml4t-validate-data",
+    "ml4t-cost-model",
+    "ml4t-risk-metrics",
+    "ml4t-backtest-overfitting"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "schema": "tsmom_40_60_80_lse_2020_2026_summary/v1",
+  "session_id": "tsmom_40_60_80_lse_2020_2026",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "verified_rerun": true,
+  "window": {
+    "requested_start": "2020-01-01",
+    "end_inclusive": "2026-09-30",
+    "hype_start": "2025-05-31"
+  },
+  "outcome": {
+    "sixty_session_universal_plateau": "NOT_SUPPORTED",
+    "horizon_ensemble_vol20": "SUPPORTED_WITHIN_DEVELOPMENT_SCOPE",
+    "primary_markets_positive": "4/4",
+    "primary_markets_positive_at_2x_cost": "4/4"
+  },
+  "primary_markets": {
+    "BTCUSDT": {
+      "roc40_raw_return": 16.28195234245687,
+      "roc40_raw_sharpe": 0.9996474234268762,
+      "roc60_raw_return": 4.61316555372573,
+      "roc60_raw_sharpe": 0.7226660303021915,
+      "roc80_raw_return": 1.0572518276041127,
+      "roc80_raw_sharpe": 0.4719370285163605,
+      "ensemble_vol20_return": 1.5113618275979896,
+      "ensemble_vol20_sharpe": 0.8054545731265408,
+      "ensemble_vol20_max_drawdown": 0.2270110707594794,
+      "ensemble_vol20_2x_cost_return": 1.3163582369807174,
+      "ensemble_vol20_2x_cost_sharpe": 0.7432281744120947
+    },
+    "ETHUSDT": {
+      "roc40_raw_return": 2.152013954501588,
+      "roc40_raw_sharpe": 0.6282802896129068,
+      "roc60_raw_return": 3.5414585220976083,
+      "roc60_raw_sharpe": 0.69222846982599,
+      "roc80_raw_return": -0.6689586766163027,
+      "roc80_raw_sharpe": 0.17346686616117524,
+      "ensemble_vol20_return": 1.29168566302019,
+      "ensemble_vol20_sharpe": 0.7299000794526385,
+      "ensemble_vol20_max_drawdown": 0.2707007910591889,
+      "ensemble_vol20_2x_cost_return": 1.1400306318655162,
+      "ensemble_vol20_2x_cost_sharpe": 0.6777033439741873
+    },
+    "HYPEUSDT": {
+      "roc40_raw_return": 0.10266014514382982,
+      "roc40_raw_sharpe": 0.5278286944892776,
+      "roc60_raw_return": -0.3528350218149706,
+      "roc60_raw_sharpe": 0.08019543883261158,
+      "roc80_raw_return": 0.03969066334517812,
+      "roc80_raw_sharpe": 0.47228394859981176,
+      "ensemble_vol20_return": 0.04839052111299291,
+      "ensemble_vol20_sharpe": 0.2906918334947607,
+      "ensemble_vol20_max_drawdown": 0.1651979226428077,
+      "ensemble_vol20_2x_cost_return": 0.04011409683880607,
+      "ensemble_vol20_2x_cost_sharpe": 0.25767696748571045,
+      "caveat": "Short sample from 2025-05-31; 60-session vol-targeted return is economically near zero."
+    },
+    "NIKKEI225_LSE": {
+      "roc40_raw_return": -0.07470809025633862,
+      "roc40_raw_sharpe": 0.06098377791944012,
+      "roc60_raw_return": -0.22658104507446752,
+      "roc60_raw_sharpe": -0.072196015178648,
+      "roc80_raw_return": 0.603229651005533,
+      "roc80_raw_sharpe": 0.43973014742653754,
+      "ensemble_vol20_return": 0.32731740822390254,
+      "ensemble_vol20_sharpe": 0.3533226502690742,
+      "ensemble_vol20_max_drawdown": 0.31379296674363183,
+      "ensemble_vol20_2x_cost_return": 0.2441003332452778,
+      "ensemble_vol20_2x_cost_sharpe": 0.2903034722346715
+    }
+  },
+  "supplemental_dax": {
+    "status": "INCONCLUSIVE_DATA_GATE_FAIL",
+    "fresh_lse_raw_rows": 1022188,
+    "raw_daily_returns_over_50pct": 22,
+    "expected_xetra_sessions": 1719,
+    "usable_repaired_sessions": 1320,
+    "missing_or_sparse_sessions": 399,
+    "missing_or_sparse_ratio": 0.23211169284467714,
+    "ensemble_vol20_return": 0.11728101370833821,
+    "ensemble_vol20_sharpe": 0.2222507961294871,
+    "ensemble_vol20_max_drawdown": 0.2407438288042087,
+    "ensemble_vol20_2x_cost_return": 0.07523408030847767,
+    "ensemble_vol20_2x_cost_sharpe": 0.17002835107328637,
+    "note": "Fresh LSE DE30/EUR export contains an interleaved ~600-900 price stream. Causal continuity repair is supplemental only."
+  },
+  "data_quality": {
+    "BTCUSDT": "PASS: 59160 hourly rows; 2465 complete daily bars; no duplicates or OHLC violations.",
+    "ETHUSDT": "PASS: 59160 hourly rows; 2465 complete daily bars; no duplicates or OHLC violations.",
+    "HYPEUSDT": "PASS: starts 2025-05-30 10:00 UTC; first partial day dropped; 488 complete daily bars.",
+    "NIKKEI225_LSE": "PASS: fresh LSE 1m export; 1635 of 1645 XTKS sessions; 10 missing; no extreme scale breaks.",
+    "DAX_LSE": "FAIL primary gate: fresh LSE 1m export has mixed-scale contamination and 23.21% missing/sparse sessions after causal repair."
+  },
+  "methodology": {
+    "features": "ml4t.engineer.compute_features: ROC 40/60/80 and 20-session realized volatility.",
+    "backtest": "ml4t.backtest.Engine",
+    "execution": "NEXT_BAR OPEN",
+    "vol_target": "20% annualized, capped at 1x gross per instrument",
+    "base_costs_crypto_per_side": "4.5 bps commission + 1.5 bps slippage",
+    "base_costs_index_proxy_per_side": "2.0 bps commission + 1.0 bps slippage",
+    "cost_stress": "2x fixed costs on vol-targeted ensemble",
+    "winner_selection": false
+  },
+  "limitations": [
+    "Development/exploratory evidence only; no final holdout was opened.",
+    "The session config was written before execution but not committed/frozen, so this is not formal preregistration.",
+    "Crypto funding is excluded because no canonical HYPE funding series is available locally.",
+    "LSE index series are research price proxies, not contract-level futures.",
+    "HYPE has only approximately 16 months of usable history.",
+    "DAX is excluded from the primary conclusion because its fresh LSE source fails the data-quality gate."
+  ]
+}

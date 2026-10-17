@@ -1,0 +1,114 @@
+{
+  "reference_2022_2023": {
+    "label": "2022_2023_reference",
+    "years": [
+      2022,
+      2023
+    ],
+    "cycles": 364,
+    "legs": 3640,
+    "mean_funding_persistence_rank_ic": 0.8054999508502058,
+    "mean_exante_portfolio_carry_24h": 0.001365104804945054,
+    "mean_realized_portfolio_carry_48h": 0.0021169886428571427,
+    "positive_realized_carry_cycle_share": 0.9917582417582418,
+    "side": {
+      "LONG": {
+        "legs": 1820,
+        "mean_trailing_funding_24h": -0.0023426149175824204,
+        "mean_forward_funding_48h": -0.0037195916813186816,
+        "mean_signed_exante_carry_24h": 0.0023426149175824204,
+        "mean_signed_realized_carry_48h": 0.0037195916813186816,
+        "positive_realized_carry_share": 0.7917582417582417
+      },
+      "SHORT": {
+        "legs": 1820,
+        "mean_trailing_funding_24h": 0.00038759469230768763,
+        "mean_forward_funding_48h": 0.0005143856043956045,
+        "mean_signed_exante_carry_24h": 0.00038759469230768763,
+        "mean_signed_realized_carry_48h": 0.0005143856043956045,
+        "positive_realized_carry_share": 0.9126373626373626
+      }
+    },
+    "annual": [
+      {
+        "year": 2022,
+        "cycles": 182,
+        "mean_funding_persistence_rank_ic": 0.8116439747883183,
+        "mean_exante_portfolio_carry_24h": 0.001028880038461535,
+        "mean_realized_portfolio_carry_48h": 0.0015656798681318682,
+        "positive_realized_carry_cycle_share": 0.9945054945054945,
+        "long_mean_realized_carry_48h": 0.0028024340659340663,
+        "short_mean_realized_carry_48h": 0.0003289256703296704
+      },
+      {
+        "year": 2023,
+        "cycles": 182,
+        "mean_funding_persistence_rank_ic": 0.7993559269120935,
+        "mean_exante_portfolio_carry_24h": 0.0017013295714285732,
+        "mean_realized_portfolio_carry_48h": 0.0026682974175824175,
+        "positive_realized_carry_cycle_share": 0.989010989010989,
+        "long_mean_realized_carry_48h": 0.004636749296703297,
+        "short_mean_realized_carry_48h": 0.0006998455384615385
+      }
+    ]
+  },
+  "validation_2024_2025": {
+    "label": "2024_2025_validation",
+    "years": [
+      2024,
+      2025
+    ],
+    "cycles": 364,
+    "legs": 3640,
+    "mean_funding_persistence_rank_ic": 0.8111176981991599,
+    "mean_exante_portfolio_carry_24h": 0.0021894499203296666,
+    "mean_realized_portfolio_carry_48h": 0.0030145759450549456,
+    "positive_realized_carry_cycle_share": 0.9917582417582418,
+    "side": {
+      "LONG": {
+        "legs": 1820,
+        "mean_trailing_funding_24h": -0.0036815867912087974,
+        "mean_forward_funding_48h": -0.005137772384615385,
+        "mean_signed_exante_carry_24h": 0.0036815867912087974,
+        "mean_signed_realized_carry_48h": 0.005137772384615385,
+        "positive_realized_carry_share": 0.6664835164835164
+      },
+      "SHORT": {
+        "legs": 1820,
+        "mean_trailing_funding_24h": 0.0006973130494505368,
+        "mean_forward_funding_48h": 0.0008913795054945058,
+        "mean_signed_exante_carry_24h": 0.0006973130494505368,
+        "mean_signed_realized_carry_48h": 0.0008913795054945058,
+        "positive_realized_carry_share": 0.9401098901098901
+      }
+    },
+    "annual": [
+      {
+        "year": 2024,
+        "cycles": 183,
+        "mean_funding_persistence_rank_ic": 0.8011445349204408,
+        "mean_exante_portfolio_carry_24h": 0.0007084040491803287,
+        "mean_realized_portfolio_carry_48h": 0.0010345594207650272,
+        "positive_realized_carry_cycle_share": 1.0,
+        "long_mean_realized_carry_48h": 0.0007210801092896173,
+        "short_mean_realized_carry_48h": 0.0013480387322404375
+      },
+      {
+        "year": 2025,
+        "cycles": 181,
+        "mean_funding_persistence_rank_ic": 0.8212010621770917,
+        "mean_exante_portfolio_carry_24h": 0.0036868609392265114,
+        "mean_realized_portfolio_carry_48h": 0.005016471104972377,
+        "positive_realized_carry_cycle_share": 0.9834254143646409,
+        "long_mean_realized_carry_48h": 0.009603267889502762,
+        "short_mean_realized_carry_48h": 0.000429674320441989
+      }
+    ]
+  },
+  "ratios": {
+    "funding_persistence_ratio": 1.006974236737103,
+    "exante_carry_ratio": 1.603869470240267,
+    "realized_carry_ratio": 1.4239924976576142
+  },
+  "interpretation_guardrail": "Rate-space carry is a unit-notional mechanism diagnostic. Native cash PnL additionally depends on mark prices, changing equity and target-weight rescaling."
+}

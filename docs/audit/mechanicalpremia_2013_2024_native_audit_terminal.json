@@ -1,0 +1,26 @@
+{
+  "session": "mechanicalpremia-original-four-2013-2024-v1",
+  "trial_id": "NATIVE-AUDIT",
+  "terminal_status": "completed",
+  "observations": {
+    "status": "completed",
+    "cells": 72,
+    "cash_checks_passed": 72,
+    "order_rejections": 0,
+    "decision": "EXECUTION_RECONCILED_BUT_SOURCE_PARITY_NOT_CERTIFIED"
+  },
+  "benchmark_mode": "annual independent native ML4T backtests",
+  "entrypoint": "scripts/run_mechanicalpremia_extended_2013.py",
+  "parent_evidence": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/yearly_native",
+  "aggregated_audit": "docs/audit/mechanicalpremia_original_2013_2024_final.md",
+  "batch_log": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/batch_log.jsonl",
+  "batch_state": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/batch_state.json",
+  "evidence_limitations": [
+    "source stop first-minute gap",
+    "mixed EUR/USD synthetic units",
+    "no real ask spread or financing",
+    "year-end positions not carried"
+  ],
+  "approval_status": "NOT_APPROVED",
+  "scientific_qualifier": "NOT_PROMOTABLE"
+}

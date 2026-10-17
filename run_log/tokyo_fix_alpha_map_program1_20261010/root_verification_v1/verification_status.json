@@ -1,0 +1,47 @@
+{
+  "full_suite": {
+    "status": "INTERRUPTED_AFTER_STALL",
+    "exit_code": 130,
+    "observed_failure_markers": 5,
+    "observed_pass_markers": 263,
+    "observed_skip_markers": 1,
+    "terminal_pytest_summary_available": false,
+    "log": "pytest_full.log",
+    "limitation": "Failure locations and tracebacks did not reach log; do not claim exact failure causes from markers."
+  },
+  "standalone_marimo": {
+    "status": "INTERRUPTED_AFTER_STALL",
+    "exit_code": 130,
+    "command": "uv run --no-sync marimo check notebooks/quantified_strategies_engulfing.py",
+    "output": "empty",
+    "notebook_changed": false
+  },
+  "mission_tests": {
+    "passed": 5,
+    "warnings": 6,
+    "log": "pytest_mission.log"
+  },
+  "independent_verifier": "PASS",
+  "CLI_check": "PASS",
+  "protected_hashes": {
+    "unchanged": true,
+    "count": 18
+  },
+  "compilation": "PASS",
+  "git_diff_check": "PASS",
+  "suite_without_notebook_check_module": {
+    "status": "PASS",
+    "exit_code": 0,
+    "passed": 268,
+    "skipped": 1,
+    "warnings": 9,
+    "elapsed_seconds": 92.1,
+    "excluded_module": "tests/test_notebook_dag.py",
+    "log": "pytest_without_notebook_checks.log",
+    "warning_sources": [
+      "SHAP PendingDeprecationWarning in colors",
+      "LightGBM TreeExplainer UserWarning in three existing tests"
+    ]
+  },
+  "all_tracked_dirty_changes_preserved_byte_for_byte": true
+}

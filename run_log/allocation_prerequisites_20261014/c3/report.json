@@ -1,0 +1,258 @@
+{
+  "status": "VERIFIED",
+  "classification": "EXPLORATORY_PREREQUISITE",
+  "development_start": "2013-01-01T00:00:00+00:00",
+  "development_end_exclusive": "2025-01-01T00:00:00+00:00",
+  "reserved_2025_2026_accessed": false,
+  "engine": "ml4t.backtest.Engine via frozen C3 run_native",
+  "strategy": {
+    "trial": "SOURCE-US2",
+    "h1_weight": 0.2336,
+    "d1_weight": 0.7664,
+    "risk_budget_fraction": 0.01,
+    "gross_notional_cap": 1.9,
+    "commission_bps_per_side": 1.0,
+    "slippage_bps_per_side": 2.0,
+    "execution": "NEXT_BAR",
+    "daily_clock": "17:00 America/New_York"
+  },
+  "data_coverage": {
+    "canonical_assets": [
+      "US500",
+      "US100"
+    ],
+    "first_scored_timestamp": "2013-01-01 00:00:00+00:00",
+    "last_scored_timestamp": "2024-12-31 23:59:00+00:00",
+    "canonical_partition_years_enumerated": "2012-2024 only"
+  },
+  "account_reconciliation": {
+    "initial_cash": 100000.0,
+    "ending_cash_reconstructed_from_native_fills": 91620.19190610043,
+    "ending_marked_positions_from_native_open_trades": 55678.13822167838,
+    "ending_equity_from_native_engine_curve": 147298.3301277788,
+    "reconciliation_delta": 0.0,
+    "open_positions": [
+      {
+        "symbol": "US500_D",
+        "direction": "long",
+        "quantity": 9.45709053644089,
+        "exit_price": 5887.449,
+        "multiplier": 1.0,
+        "entry_time": "2024-12-18 23:00:00",
+        "exit_time": "2024-12-31 23:59:00"
+      }
+    ],
+    "native_fill_count": 2445,
+    "native_trade_count": 1223,
+    "equity_rows": 3803769,
+    "first_equity_timestamp": "2013-01-01 00:00:00+00:00",
+    "last_equity_timestamp": "2024-12-31 23:59:00+00:00",
+    "annual_equity": [
+      {
+        "year": 2013,
+        "as_of": "2013-12-31 23:59:00+00:00",
+        "year_end_equity": 105984.4667987113
+      },
+      {
+        "year": 2014,
+        "as_of": "2014-12-31 23:59:00+00:00",
+        "year_end_equity": 107975.90841724476
+      },
+      {
+        "year": 2015,
+        "as_of": "2015-12-31 18:00:00+00:00",
+        "year_end_equity": 107012.4887750992
+      },
+      {
+        "year": 2016,
+        "as_of": "2016-12-30 21:00:00+00:00",
+        "year_end_equity": 109657.36785846825
+      },
+      {
+        "year": 2017,
+        "as_of": "2017-12-29 20:59:00+00:00",
+        "year_end_equity": 117449.2666411511
+      },
+      {
+        "year": 2018,
+        "as_of": "2018-12-31 23:59:00+00:00",
+        "year_end_equity": 118408.4592143803
+      },
+      {
+        "year": 2019,
+        "as_of": "2019-12-31 23:59:00+00:00",
+        "year_end_equity": 121242.67253797596
+      },
+      {
+        "year": 2020,
+        "as_of": "2020-12-31 23:59:00+00:00",
+        "year_end_equity": 124255.54771674145
+      },
+      {
+        "year": 2021,
+        "as_of": "2021-12-31 21:14:00+00:00",
+        "year_end_equity": 135983.86204860295
+      },
+      {
+        "year": 2022,
+        "as_of": "2022-12-30 21:14:00+00:00",
+        "year_end_equity": 135975.4676503277
+      },
+      {
+        "year": 2023,
+        "as_of": "2023-12-29 21:14:00+00:00",
+        "year_end_equity": 140631.5135429913
+      },
+      {
+        "year": 2024,
+        "as_of": "2024-12-31 23:59:00+00:00",
+        "year_end_equity": 147298.3301277788
+      }
+    ],
+    "annual_boundary_carry": [
+      {
+        "boundary": "2014-01-01T00:00:00Z",
+        "open_trade_count": 1,
+        "symbols": [
+          "US500_D"
+        ]
+      },
+      {
+        "boundary": "2015-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      },
+      {
+        "boundary": "2016-01-01T00:00:00Z",
+        "open_trade_count": 1,
+        "symbols": [
+          "US500_D"
+        ]
+      },
+      {
+        "boundary": "2017-01-01T00:00:00Z",
+        "open_trade_count": 1,
+        "symbols": [
+          "US500_D"
+        ]
+      },
+      {
+        "boundary": "2018-01-01T00:00:00Z",
+        "open_trade_count": 1,
+        "symbols": [
+          "US500_D"
+        ]
+      },
+      {
+        "boundary": "2019-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      },
+      {
+        "boundary": "2020-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      },
+      {
+        "boundary": "2021-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      },
+      {
+        "boundary": "2022-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      },
+      {
+        "boundary": "2023-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      },
+      {
+        "boundary": "2024-01-01T00:00:00Z",
+        "open_trade_count": 0,
+        "symbols": []
+      }
+    ],
+    "timestamp_preflight": {
+      "continuous_equity.parquet": {
+        "timestamp": {
+          "rows": 3803769,
+          "minimum": "2013-01-01 00:00:00+00:00",
+          "maximum": "2024-12-31 23:59:00+00:00",
+          "cutoff_semantics": "all event instants must satisfy START <= t < END"
+        }
+      },
+      "fills.parquet": {
+        "timestamp": {
+          "rows": 2445,
+          "minimum": "2013-01-09 16:00:00",
+          "maximum": "2024-12-26 08:32:00",
+          "cutoff_semantics": "all event instants must satisfy START <= t < END"
+        }
+      },
+      "trades.parquet": {
+        "entry_time": {
+          "rows": 1223,
+          "minimum": "2013-01-09 16:00:00",
+          "maximum": "2024-12-24 15:00:00",
+          "cutoff_semantics": "all event instants must satisfy START <= t < END"
+        },
+        "exit_time": {
+          "rows": 1223,
+          "minimum": "2013-01-09 17:32:00",
+          "maximum": "2024-12-31 23:59:00",
+          "cutoff_semantics": "all event instants must satisfy START <= t < END"
+        }
+      },
+      "year_end_equity.parquet": {
+        "as_of": {
+          "rows": 12,
+          "minimum": "2013-12-31 23:59:00+00:00",
+          "maximum": "2024-12-31 23:59:00+00:00",
+          "cutoff_semantics": "all event instants must satisfy START <= t < END"
+        }
+      }
+    }
+  },
+  "source": {
+    "promoted_snapshot": {
+      "path": "promote/mechanicalpremia_us500_us100/src/mechanicalpremia_us2_2013_2026_v1.py",
+      "sha256": "24c0bec21e9530b523b39becbdde49cf85fd07cd796729cf3dfe6ca66d63fc33"
+    },
+    "root_run_module": {
+      "path": "scripts/mechanicalpremia_us2_2013_2026_v1.py",
+      "sha256": "24c0bec21e9530b523b39becbdde49cf85fd07cd796729cf3dfe6ca66d63fc33"
+    },
+    "canonical_store": {
+      "US500": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES",
+      "US100": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+      "enumerated_years": "2012-2024 only"
+    }
+  },
+  "artifacts": {
+    "fills.parquet": {
+      "sha256": "849cbb9f5f24971a18053a340fec1d8c983bad8066055dedfb0d985e00061f97",
+      "bytes": 121129
+    },
+    "trades.parquet": {
+      "sha256": "d3f90663e3cde363dab3a2301b5736e07f068692c00c21912bf9d8accdadff74",
+      "bytes": 167271
+    },
+    "continuous_equity.parquet": {
+      "sha256": "15f4f82d6d11e274e018e4aa77a2993e95a05e208b54c64c9415a029d05a2090",
+      "bytes": 21228515
+    },
+    "year_end_equity.parquet": {
+      "sha256": "b4980a16bc0a49ed2f84ef20806b7c5bd4b839b3df5692cd19b26142ce447a15",
+      "bytes": 1443
+    }
+  },
+  "limitations": [
+    "Synthetic CFD price units; multiplier and lot mapping are not verified.",
+    "Direct costs are frozen assumptions. Overnight financing is not modeled.",
+    "BID-only quotes omit observed ASK spread and broker parity.",
+    "H1 stop attaches after entry fill confirmation; the first-minute gap remains.",
+    "The final 2024 open position is marked at cutoff; no 2025 behavior is evaluated."
+  ]
+}

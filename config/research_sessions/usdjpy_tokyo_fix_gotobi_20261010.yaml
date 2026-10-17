@@ -1,0 +1,73 @@
+session_id: usdjpy_tokyo_fix_gotobi_20261010
+market: fx
+thesis: >-
+  On Tokyo Gotobi settlement days, USDJPY rises from 08:30 JST to
+  09:54 JST more than on ordinary Tokyo business days. A separate
+  post-fix hypothesis predicts reversal from 09:56 to 10:30 JST
+  following an unusually large, observable pre-fix price extension.
+mechanism: >-
+  Corporate USD settlement demand may cause dealer dollar buying ahead
+  of the 09:55 JST Tokyo reference-rate setting. Dealers may reduce
+  their demand after fixing. Macro news or anticipatory liquidity
+  provision can eliminate or reverse these effects.
+falsifier: >-
+  Exploratory screen only. Reject H1 if Gotobi minus non-Gotobi mean
+  pre-fix drift is not positive with a calendar-week cluster/HAC
+  95 percent interval above zero, or gross Gotobi mean is below
+  illustrative 1.0-pip round-trip friction. Reject H2 independently
+  if the conditioned post-fix short mean is not positive and robust
+  to event grouping. At least 20 eligible Gotobi sessions required;
+  smaller samples are inconclusive. Never infer broker-level net edge
+  from OHLC without executable bid/ask costs.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: "UNSPECIFIED_RETAIL_FX_BROKER"
+    identity: >-
+      USDJPY retail FX CFD candidate; canonical LSE spot-USDJPY
+      1m OHLC is a proxy, not broker executable quotes; exact
+      account contract and tick/lot requirements are unresolved.
+    session: "24/5 FX, Tokyo business sessions"
+    timezone: Asia/Tokyo
+data:
+  - id: usdjpy_dev_1m
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_fix_gotobi_20261010/USDJPY_dev_20260101_20260831_1m.parquet
+evaluation:
+  cadence: 1m
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-09-01T00:00:00Z"
+  holdout_start: "2026-09-01T00:00:00Z"
+  holdout_end: "2026-10-10T00:00:00Z"
+  timezone: Asia/Tokyo
+  calendar: >-
+    Tokyo bank-business calendar. Roll nominal 5,10,15,20,25,30
+    back to the prior Tokyo bank business day. Month-end is an
+    additional candidate. Record holiday source and verify against BOJ.
+  baseline: "Ordinary Tokyo business sessions with identical entry/exit timestamps"
+  h1: "Buy at the 08:30 JST minute open and sell at 09:54 JST minute open."
+  h2: >-
+    On candidate Gotobi days only, at 09:56 JST short if 09:55
+    minute-open minus 08:00 minute-open exceeds 1.5 times
+    the past 20 eligible Tokyo-business-day standard deviation
+    of 08:00 to 09:55 changes known before the decision.
+    Cover at 10:30 JST minute open. Only complete minute grids.
+  selection: >-
+    H1 and H2 independently diagnosed without parameter optimization.
+    All diagnostic outcomes exploratory. Do not score holdout.
+baseline: "Flat/no trade and same-time-window non-Gotobi FX session returns."
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  round_trip_spread_pips_scenario: [0.8, 1.0, 1.4]
+  assumptions: >-
+    Illustrative one-round-trip all-in pip charges, not a verified
+    broker cost. Gross outcomes are observation-based and not executable.
+trials:
+  - id: H1_prefx_event_diagnostic
+    kind: preregistered
+    description: "Gotobi versus non-Gotobi fixed-window signed pip returns, and cost sensitivity"
+  - id: H2_postfix_event_diagnostic
+    kind: preregistered
+    description: "Conditional post-fix short return and no-condition comparison"

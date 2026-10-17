@@ -1,0 +1,147 @@
+session_id: mechanicalpremia-two-engine-mvp-20261013
+market: indices
+thesis: >-
+  Test whether fixed-rule long-only D1 mean reversion and H1 volatility breakout
+  form a complementary ES/NQ equity-index proxy portfolio that improves net
+  daily-equity risk-adjusted returns and worst drawdown versus either sleeve,
+  at a common total nominal 1% per-trade risk budget, on development data only.
+mechanism: >-
+  Medium-term equity drift can support dip recovery, while quiet-to-expanding
+  momentum can support H1 breakouts. Different holding periods may diversify.
+  Both sleeves are long equity beta, so shared drawdowns can defeat the effect.
+falsifier: >-
+  Reject if the fixed 76.64% D1 / 23.36% H1 source-risk portfolio improves
+  neither net daily-equity Sharpe nor max drawdown versus the fixed equal-risk
+  portfolio and both standalone sleeves on eligible development data, or if
+  any apparent benefit requires impossible fills, unsupported contract
+  conversion, missing costs, or inconsistent source timing. Remain inconclusive
+  if source, data/session mapping, native engine order semantics, or sample
+  length is insufficient. No holdout will be read or scored.
+instruments:
+  - symbol: ES_PROXY
+    kind: cfd
+    identity: >-
+      data/processed/es_1m.parquet; exact vendor, underlying, CFD contract,
+      quote/settlement currency, multiplier, tick/lot, margin and broker mapping
+      must pass DATA-ELIGIBILITY; treat as an unverified research proxy.
+    session: >-
+      Must be established from verified source metadata and exchange schedule;
+      no assumed 24-hour or CME futures session.
+    timezone: America/New_York
+  - symbol: NQ_PROXY
+    kind: cfd
+    identity: >-
+      data/processed/nq_1m.parquet; exact vendor, underlying, CFD contract,
+      quote/settlement currency, multiplier, tick/lot, margin and broker mapping
+      must pass DATA-ELIGIBILITY; treat as an unverified research proxy.
+    session: >-
+      Must be established from verified source metadata and exchange schedule;
+      no assumed 24-hour or CME futures session.
+    timezone: America/New_York
+data:
+  - id: es-1m
+    symbol: ES_PROXY
+    role: prices
+    path: data/processed/es_1m.parquet
+  - id: nq-1m
+    symbol: NQ_PROXY
+    role: prices
+    path: data/processed/nq_1m.parquet
+evaluation:
+  development_start: "2017-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_policy: >-
+    Protected project index holdout begins 2025-01-01. Do not inspect, load,
+    aggregate, summarize, tune on, or score any timestamp at or after the
+    boundary. Development uses only the longest verified common interval in
+    [2017-01-01, 2025-01-01), after warmup and complete session-aware bars.
+  bar_construction: >-
+    Construct H1 and D1 from verified 1m bar-open timestamps and local exchange
+    sessions with DST, holidays, early closes and partial bars handled. Drop
+    incomplete session bars. Signals use only the last completed source-timeframe
+    bar. Fill at the next eligible 1m observation after decision, using ask for
+    buys and bid for sells where observed; absent bid/ask must be disclosed and
+    stressed as an assumed spread proxy. Never fill on the signal bar.
+  walk_forward: >-
+    Report fixed chronological calendar subperiods within development without
+    selecting parameters. Do not use random splits. The six trials are the full
+    declared family; no additional parameter trials are permitted in this MVP.
+  account: >-
+    Compare standalone sleeves each at 1.00% nominal per-trade risk, equal-risk
+    portfolio at 0.50% per-trade risk per sleeve, and source-risk portfolio at
+    0.7664% D1 / 0.2336% H1 per-trade risk; portfolio total open nominal risk is
+    capped at 1.00% NAV and gross notional at 2.00x NAV. Reject and retain any
+    attempted entry that exceeds a cap. These risk measures are conditional on
+    verified contract conversion and fill gap treatment. If unavailable, do not
+    fabricate quantities or claim risk-normalized comparison.
+  metrics: >-
+    Daily marked-to-market equity returns; net PnL; trade count, win rate,
+    expectancy and exit reason; annualized daily Sharpe; max drawdown and Calmar;
+    exposure, open-risk and gross-notional peaks; orders, rejects, fills,
+    commissions, spread, slippage and financing; and fixed calendar subperiod
+    results. Undefined metrics must be labeled undefined. Provide uncertainty
+    intervals only where method and dependence assumptions are documented.
+  acceptance: >-
+    Exploratory support requires positive net expectancy after stressed costs,
+    native-engine accounting and timing invariants to pass, and improvement in
+    both net daily Sharpe and max drawdown over standalone and equal-risk
+    comparators, without a single-subperiod-only result. This is not deployment
+    approval. No final holdout result is part of this session.
+baseline: >-
+  No-trade zero-return baseline, H1-only at 1% nominal per-trade risk, and
+  D1-only at 1% nominal per-trade risk; portfolio comparators use the same total
+  nominal 1% risk budget.
+costs:
+  commission_bps: 1.0
+  slippage_bps: 2.0
+  assumptions: >-
+    Proxy assumptions only until vendor/broker evidence identifies actual
+    commission, quoted spread, slippage, overnight financing, margin and size
+    rules. Apply cost multipliers 1.0x, 1.5x and 2.0x to the declared
+    commission + spread + slippage schedule, per side. Because native bid/ask
+    data and product-specific terms are not yet verified, no run may claim
+    executable economics. Do not import CME multipliers into CFD proxies.
+trials:
+  - id: SOURCE-PARITY
+    kind: preregistered
+    description: >-
+      Archive and audit the author's fetched MQL5 source against this frozen
+      interpretation, including iBands buffers, ATR/median windows, signal and
+      fill timing, repeated D1 checks, and both stop/exit managers.
+  - id: DATA-ELIGIBILITY
+    kind: preregistered
+    description: >-
+      Validate frozen ES/NQ input identities, columns, timestamps, OHLC, 1m
+      coverage, source provenance, sessions, DST, incomplete bars and strict
+      exclusion of the protected holdout. Establish exact CFD/proxy semantics.
+  - id: H1-ONLY
+    kind: preregistered
+    description: >-
+      Run the fixed H1 source rule with verified ml4t-engineer features through
+      native ml4t.backtest.Engine only, if source, data, contract and engine gates
+      pass; otherwise record a failed or inconclusive gate artifact.
+  - id: D1-ONLY
+    kind: preregistered
+    description: >-
+      Run the fixed D1 source rule with verified ml4t-engineer features through
+      native ml4t.backtest.Engine only; preserve no hard stop and ghost-stop-only
+      sizing; otherwise record a failed or inconclusive gate artifact.
+  - id: PORTFOLIO-EQUAL-RISK
+    kind: preregistered
+    description: >-
+      Run both fixed sleeves in one native engine at 0.50% risk per trade each,
+      with shared 1% open-risk and 2x gross caps; stress costs and audit accounting.
+  - id: PORTFOLIO-SOURCE-RISK
+    kind: preregistered
+    description: >-
+      Run both fixed sleeves in one native engine at 0.7664% D1 / 0.2336% H1
+      risk per trade, with shared 1% open-risk and 2x gross caps; stress costs
+      and audit accounting.
+config: config/research_sessions/mechanicalpremia_two_engine_mvp_20261013.yaml
+evidence:
+  - docs/plans/mechanicalpremia_two_engine_mvp_20261013.md
+  - docs/plans/mechanicalpremia_two_engine_mvp_source_archive_20261013.md
+  - data/processed/_manifest.json
+  - config/eow_rebuild.yaml
+  - run_log/validation_status.json

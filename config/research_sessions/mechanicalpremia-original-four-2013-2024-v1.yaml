@@ -1,0 +1,110 @@
+session_id: mechanicalpremia-original-four-2013-2024-v1
+market: indices
+thesis: >-
+  Test whether the unchanged Mechanical Premia D1/H1 index rules across four original index CFDs
+  have positive, stable net returns and improve daily-equity Sharpe and drawdown over each original sleeve,
+  with 2013-2024 canonical Dukascopy bid-price proxies only.
+mechanism: >-
+  Diversify long-equity pullback recovery (D1) with intraday volatility breakout persistence (H1);
+  shared equity-beta during index crashes can defeat diversification.
+falsifier: >-
+  If matched eligible-year source-weighted multi-index portfolio does not improve BOTH daily Sharpe
+  and max drawdown vs equal-risk and standalone portfolios after stressed direct costs, reject
+  diversification for eligible proxy data. If stop-fill, FX conversion, broker fees or data/source
+  identity unresolved, remain inconclusive and do not promote.
+instruments:
+  - symbol: US500
+    kind: cfd
+    venue: Dukascopy historical CFD quote proxy
+    identity: index_minute_ES, usa500idxusd, bid-only, canonical store pointer in manifest
+    session: 17:00 America/New_York daily CFD proxy assumption; H1 60-minute complete
+    timezone: America/New_York
+  - symbol: US100
+    kind: cfd
+    venue: Dukascopy historical CFD quote proxy
+    identity: index_minute_NQ, usatechidxusd, bid-only
+    session: 17:00 America/New_York daily CFD proxy assumption; H1 60-minute complete
+    timezone: America/New_York
+  - symbol: DE30
+    kind: cfd
+    venue: Dukascopy historical CFD quote proxy
+    identity: index_minute_DAX, deuidxeur, bid-only, EUR price-unit
+    session: 17:00 America/New_York daily CFD proxy assumption; H1 60-minute complete
+    timezone: America/New_York
+  - symbol: EU50
+    kind: cfd
+    venue: Dukascopy historical CFD quote proxy
+    identity: index_minute_EUSIDXEUR, eusidxeur, bid-only, EUR price-unit
+    session: 17:00 America/New_York daily CFD proxy assumption; eligible day >=600 quotes; D1 only
+    timezone: America/New_York
+data:
+  - id: canonical-es
+    symbol: US500
+    role: prices
+    path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json
+  - id: canonical-nq
+    symbol: US100
+    role: prices
+    path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json
+  - id: canonical-dax
+    symbol: DE30
+    role: prices
+    path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json
+  - id: canonical-eu50
+    symbol: EU50
+    role: prices
+    path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json
+evaluation:
+  development_start: "2013-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_policy: >-
+    Forbid any access to 2025+ partitions; 2012 is optional feature warmup only.
+    The 2024 portfolio result is already observed in previous session; mark it observed,
+    not OOS. Every research year simulation is reset with $100k price-unit equity.
+  per_year_execution: >-
+    Independent annual development accounting; no cross-year positions or compounding.
+    All four markets active only once eligible, 100-trading-day warmup.
+  source_sleeves: "H1: US500, US100, DE30. D1: US500, US100, DE30, EU50."
+  fixed_risk: >-
+    1pct of native synthetic NAV total; H1 23.36pct vs D1 76.64pct risk budgets in source
+    portfolio, divided equally by 3 H1 and 4 D1 instrument legs, respectively.
+    Equal-risk splits 50pct/50pct before dividing by legs.
+  limitations: >-
+    FX conversion, venue lot multiplier, overnight financing and bid/ask spreads not certified;
+    H1 entry-minute native stop gap unresolved; exact original MT5 broker clock unknown.
+baseline: >-
+  Standalone H1-only (3 source indices), D1-only (4 source indices), equal-risk two sleeves
+  and no-trade zero; matched eligibility intervals used for comparisons.
+costs:
+  commission_bps: 1.0
+  slippage_bps: 2.0
+  assumptions: >-
+    Illustrative per-side cost only. Stress 1.0x/1.5x/2.0x. No observed ask spread, broker FX conversion
+    or CFD overnight financing. Not executable PnL.
+trials:
+  - id: DATA-QUALIFICATION
+    kind: preregistered
+    description: Validate canonical 1-minute 2013-24 input and provider acceptance, sessions, coverage and FX quote semantics
+  - id: H1-SOURCE-3
+    kind: preregistered
+    description: Original H1 breakout only in US500, US100, DE30, annual native simulation 2013-2024
+  - id: D1-SOURCE-4
+    kind: preregistered
+    description: Original D1 pullback only in US500, US100, DE30, EU50, annual native simulation 2013-2024
+  - id: EQUAL-RISK-7
+    kind: preregistered
+    description: Original seven sleeves with 50/50 risk budget (H1/D1), annual native simulation
+  - id: SOURCE-RISK-7
+    kind: preregistered
+    description: Original seven sleeves with 23.36/76.64 risk budget (H1/D1), annual native simulation
+  - id: COST-STRESS
+    kind: preregistered
+    description: Source-risk original seven sleeves with fixed 1.0x 1.5x 2.0x per-side direct costs
+  - id: NATIVE-AUDIT
+    kind: preregistered
+    description: Independently verify native execution/ledger, multi-currency limitations, clock and stop timing and registered attempts
+config: config/research_sessions/mechanicalpremia-original-four-2013-2024-v1.yaml
+evidence:
+  - docs/plans/mechanicalpremia_original_universe_2013_2024_v1.md
+  - docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json

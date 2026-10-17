@@ -1,0 +1,46 @@
+{
+  "session_id": "mechanicalpremia-yen-squeeze-mvp-20261014",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "development_period": "2023-01-01 inclusive through 2025-01-01 exclusive",
+  "protected_holdout_accessed": false,
+  "research_outcome": "INCONCLUSIVE",
+  "library_versions": {
+    "ml4t-engineer": "0.1.4",
+    "ml4t-backtest": "0.1.7",
+    "ml4t-diagnostic": "0.1.6.post2"
+  },
+  "native_api_findings": {
+    "strategy_signature": "on_data(self, timestamp, data, context, broker)",
+    "engine_signature": "Engine(feed, strategy, config=None, *, contract_specs=None, ...)",
+    "execution_mode": "NEXT_BAR processes pending orders at next bar open before strategy dispatch",
+    "stop_orders": "OrderType.STOP with stop_price is supported",
+    "gap_fill": "synthetic native Engine test: buy stop 105 submitted at 00:00 filled at 00:01 open 110",
+    "stop_modification": "Broker.update_order supports stop_price changes",
+    "cancellation": "Broker.cancel_order cancels pending orders; a synthetic test updated then cancelled a pending stop",
+    "expiry": "Order has no expires_at field; a Strategy can cancel by clock, but exact source TimeCurrent()+3600 behavior has not been reproduced",
+    "fill_evidence": "Native Fill carries timestamp, price, stop_price, price_source, bid/ask fields; test fill had no bid/ask because synthetic feed had none",
+    "native_cash_and_positions": "Broker exposes cash, positions, equity and marks positions, but this does not establish JPY-to-account-currency conversion"
+  },
+  "blocking_gates": [
+    "USDJPY 1m source identity and broker mapping remain unverified.",
+    "GBPJPY source timestamps were naive before UTC localization; the source timezone assumption remains uncertified.",
+    "Both snapshots are OHLC without historical bid/ask. The source tests BuyStop against ask and SellStop against bid and manages long/short trailing stops using bid/ask.",
+    "No broker contract size, tick value, point, lot step, minimum lot, margin rule, account currency or JPY conversion feed is verified. The frozen 1 percent risk sizing cannot be reconciled.",
+    "CADJPY is absent. The two-pair data cannot validate the frozen three-pair claim.",
+    "Source code permits both opposite pending orders in one hour and has no OCO. Same-bar dual-trigger handling and shared FX account behavior are not certified for this broker proxy.",
+    "Native NEXT_BAR STOP gap behavior is proven in a synthetic capability test only; no market-data strategy backtest was run."
+  ],
+  "trial_dispositions": {
+    "FEATURE-PARITY": "COMPLETED; corrected feature artifact is feature_parity_corrected.json",
+    "USDJPY-20": "INCONCLUSIVE; blocked before any market-data strategy run by execution, cost and cash-conversion gates",
+    "GBPJPY-20": "INCONCLUSIVE; blocked before any market-data strategy run by timezone, execution, cost and cash-conversion gates",
+    "TWO-PAIR-20": "INCONCLUSIVE; blocked before any market-data strategy run by shared account and currency-conversion gates",
+    "PROSE-500": "INCONCLUSIVE; feature windows were distinguished, but strategy execution is blocked by the same gates",
+    "ACCOUNTING-AUDIT": "INCONCLUSIVE; synthetic native API behavior was checked, but source broker sizing and currency accounting cannot be audited"
+  },
+  "cli_terminal_status_note": "The research-session CLI supports completed or failed terminal records only. For blocked trials, failed means the preregistered attempt could not be completed; each artifact states the scientific disposition as INCONCLUSIVE. No performance result is claimed.",
+  "test_command": ".venv/bin/pytest -q tests/test_mechanicalpremia_yen_squeeze_native_20261014.py",
+  "test_result": "8 passed",
+  "preserved_first_feature_attempt": "artifacts/feature_parity.json contains the initial NaN-as-non-null count attempt. It was preserved. The corrected audit excludes non-finite ATR warmup values and is recorded in feature_parity_corrected.json."
+}

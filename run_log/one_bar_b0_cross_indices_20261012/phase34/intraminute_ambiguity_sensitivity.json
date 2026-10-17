@@ -1,0 +1,572 @@
+{
+  "status": "NON_NATIVE_PESSIMISTIC_ENTRY_STOP_SENSITIVITY_ONLY",
+  "method": "For each matched native evaluation trade with same-minute entry and stop crossing, replace realized net trade PnL by -50 index points times synthetic 20 per point, less native illustrative round-trip costs. All other trades unchanged.",
+  "replacement_R": -1.015,
+  "not_a_guaranteed_loss_floor": "Actual gap-through or bid/ask unavailability may be worse; no tick-level sequence available; original native fills remain unchanged.",
+  "results": {
+    "ES": {
+      "years": [
+        {
+          "year": 2013,
+          "closed_trades": 350,
+          "native_costed_net_R": -3.0480799999999135,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -3.0480799999999135,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2014,
+          "closed_trades": 379,
+          "native_costed_net_R": -2.933819999999937,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -2.933819999999937,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2015,
+          "closed_trades": 333,
+          "native_costed_net_R": -0.624560000000015,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -0.624560000000015,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2016,
+          "closed_trades": 362,
+          "native_costed_net_R": -5.776859999999956,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -5.776859999999956,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2017,
+          "closed_trades": 257,
+          "native_costed_net_R": -3.3945599999999194,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -3.3945599999999194,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2018,
+          "closed_trades": 338,
+          "native_costed_net_R": -1.3342199999998956,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -1.3342199999998956,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2019,
+          "closed_trades": 337,
+          "native_costed_net_R": -1.2561999999999172,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -1.2561999999999172,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2020,
+          "closed_trades": 434,
+          "native_costed_net_R": 1.1757400000001963,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 1.1757400000001963,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2021,
+          "closed_trades": 422,
+          "native_costed_net_R": -4.716779999999762,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -4.716779999999762,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2022,
+          "closed_trades": 414,
+          "native_costed_net_R": 3.947579999999971,
+          "ambiguous_entry_stop_matched_trades": 1,
+          "ambiguous_fraction": 0.0024154589371980675,
+          "actual_net_R_of_ambiguous_trades": 0.6670200000000023,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 2.2655599999999687,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2023,
+          "closed_trades": 410,
+          "native_costed_net_R": -0.48101999999994405,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -0.48101999999994405,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2024,
+          "closed_trades": 403,
+          "native_costed_net_R": -2.7047599999998058,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -2.7047599999998058,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2025,
+          "closed_trades": 420,
+          "native_costed_net_R": -4.955339999999869,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -4.955339999999869,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2026,
+          "closed_trades": 241,
+          "native_costed_net_R": -7.693779999999733,
+          "ambiguous_entry_stop_matched_trades": 1,
+          "ambiguous_fraction": 0.004149377593360996,
+          "actual_net_R_of_ambiguous_trades": -1.0960199999999896,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -7.612759999999743,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        }
+      ],
+      "groups": {
+        "all": {
+          "trades": 5100,
+          "ambiguous_trades": 2,
+          "native_total_R": -33.7966599999985,
+          "pessimistic_sensitivity_total_R": -35.39765999999851,
+          "ambiguous_fraction": 0.000392156862745098
+        },
+        "pre_corruption_2013_2023": {
+          "trades": 4036,
+          "ambiguous_trades": 1,
+          "native_total_R": -18.442779999999093,
+          "pessimistic_sensitivity_total_R": -20.124799999999095,
+          "ambiguous_fraction": 0.0002477700693756194
+        },
+        "2022_2025": {
+          "trades": 1647,
+          "ambiguous_trades": 1,
+          "native_total_R": -4.193539999999648,
+          "pessimistic_sensitivity_total_R": -5.87555999999965,
+          "ambiguous_fraction": 0.0006071645415907711
+        },
+        "2026": {
+          "trades": 241,
+          "ambiguous_trades": 1,
+          "native_total_R": -7.693779999999733,
+          "pessimistic_sensitivity_total_R": -7.612759999999743,
+          "ambiguous_fraction": 0.004149377593360996
+        }
+      }
+    },
+    "DAX": {
+      "years": [
+        {
+          "year": 2013,
+          "closed_trades": 250,
+          "native_costed_net_R": 9.226999999999917,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 9.226999999999917,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2014,
+          "closed_trades": 270,
+          "native_costed_net_R": 1.7109999999996943,
+          "ambiguous_entry_stop_matched_trades": 3,
+          "ambiguous_fraction": 0.011111111111111112,
+          "actual_net_R_of_ambiguous_trades": -1.5580000000000291,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 0.22399999999972353,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2015,
+          "closed_trades": 267,
+          "native_costed_net_R": 19.155999999999985,
+          "ambiguous_entry_stop_matched_trades": 4,
+          "ambiguous_fraction": 0.0149812734082397,
+          "actual_net_R_of_ambiguous_trades": -3.4090000000000145,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 18.505,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2016,
+          "closed_trades": 273,
+          "native_costed_net_R": 15.975999999999804,
+          "ambiguous_entry_stop_matched_trades": 1,
+          "ambiguous_fraction": 0.003663003663003663,
+          "actual_net_R_of_ambiguous_trades": -1.01,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 15.970999999999805,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2017,
+          "closed_trades": 216,
+          "native_costed_net_R": 16.276000000000494,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 16.276000000000494,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2018,
+          "closed_trades": 244,
+          "native_costed_net_R": 11.168999999999796,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 11.168999999999796,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2019,
+          "closed_trades": 267,
+          "native_costed_net_R": -2.4039999999998325,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -2.4039999999998325,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2020,
+          "closed_trades": 235,
+          "native_costed_net_R": 30.208000000000176,
+          "ambiguous_entry_stop_matched_trades": 4,
+          "ambiguous_fraction": 0.01702127659574468,
+          "actual_net_R_of_ambiguous_trades": 5.453999999999978,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 20.694000000000198,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2021,
+          "closed_trades": 232,
+          "native_costed_net_R": -0.22900000000016008,
+          "ambiguous_entry_stop_matched_trades": 1,
+          "ambiguous_fraction": 0.004310344827586207,
+          "actual_net_R_of_ambiguous_trades": 0.39900000000001457,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -1.6430000000001745,
+          "unmatched_native_ambiguous_events_may_be_warmup": 2,
+          "not_native_replay": true
+        },
+        {
+          "year": 2022,
+          "closed_trades": 268,
+          "native_costed_net_R": 14.325000000000218,
+          "ambiguous_entry_stop_matched_trades": 8,
+          "ambiguous_fraction": 0.029850746268656716,
+          "actual_net_R_of_ambiguous_trades": -5.273000000000029,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 11.478000000000248,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2023,
+          "closed_trades": 283,
+          "native_costed_net_R": -2.5619999999996796,
+          "ambiguous_entry_stop_matched_trades": 1,
+          "ambiguous_fraction": 0.0035335689045936395,
+          "actual_net_R_of_ambiguous_trades": -0.025,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -3.55199999999968,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2024,
+          "closed_trades": 85,
+          "native_costed_net_R": -1052.4196,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -1052.4196,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2025,
+          "closed_trades": 0,
+          "native_costed_net_R": 0.0,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": null,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 0.0,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2026,
+          "closed_trades": 21,
+          "native_costed_net_R": -479.15259999999995,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -479.15259999999995,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        }
+      ],
+      "groups": {
+        "all": {
+          "trades": 2911,
+          "ambiguous_trades": 22,
+          "native_total_R": -1418.7191999999995,
+          "pessimistic_sensitivity_total_R": -1435.6271999999994,
+          "ambiguous_fraction": 0.007557540364136035
+        },
+        "pre_corruption_2013_2023": {
+          "trades": 2805,
+          "ambiguous_trades": 22,
+          "native_total_R": 112.8530000000004,
+          "pessimistic_sensitivity_total_R": 95.94500000000049,
+          "ambiguous_fraction": 0.00784313725490196
+        },
+        "2022_2025": {
+          "trades": 636,
+          "ambiguous_trades": 9,
+          "native_total_R": -1040.6565999999993,
+          "pessimistic_sensitivity_total_R": -1044.4935999999993,
+          "ambiguous_fraction": 0.014150943396226415
+        },
+        "2026": {
+          "trades": 21,
+          "ambiguous_trades": 0,
+          "native_total_R": -479.15259999999995,
+          "pessimistic_sensitivity_total_R": -479.15259999999995,
+          "ambiguous_fraction": 0.0
+        }
+      }
+    },
+    "NIKKEI225": {
+      "years": [
+        {
+          "year": 2013,
+          "closed_trades": 143,
+          "native_costed_net_R": 1.8549999999999636,
+          "ambiguous_entry_stop_matched_trades": 2,
+          "ambiguous_fraction": 0.013986013986013986,
+          "actual_net_R_of_ambiguous_trades": -0.40600000000002184,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 0.23099999999998566,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2014,
+          "closed_trades": 150,
+          "native_costed_net_R": 8.538000000000102,
+          "ambiguous_entry_stop_matched_trades": 1,
+          "ambiguous_fraction": 0.006666666666666667,
+          "actual_net_R_of_ambiguous_trades": -1.01,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 8.5330000000001,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2015,
+          "closed_trades": 157,
+          "native_costed_net_R": -2.770000000000291,
+          "ambiguous_entry_stop_matched_trades": 2,
+          "ambiguous_fraction": 0.012738853503184714,
+          "actual_net_R_of_ambiguous_trades": -0.4269999999999709,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -4.37300000000032,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2016,
+          "closed_trades": 166,
+          "native_costed_net_R": -1.3299999999996361,
+          "ambiguous_entry_stop_matched_trades": 3,
+          "ambiguous_fraction": 0.018072289156626505,
+          "actual_net_R_of_ambiguous_trades": -1.4239999999999418,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -2.950999999999694,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2017,
+          "closed_trades": 123,
+          "native_costed_net_R": 4.622999999999811,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 4.622999999999811,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2018,
+          "closed_trades": 159,
+          "native_costed_net_R": 17.77200000000048,
+          "ambiguous_entry_stop_matched_trades": 2,
+          "ambiguous_fraction": 0.012578616352201259,
+          "actual_net_R_of_ambiguous_trades": -2.11,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 17.85200000000048,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2019,
+          "closed_trades": 127,
+          "native_costed_net_R": 2.5979999999995926,
+          "ambiguous_entry_stop_matched_trades": 0,
+          "ambiguous_fraction": 0.0,
+          "actual_net_R_of_ambiguous_trades": 0.0,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 2.5979999999995926,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2020,
+          "closed_trades": 142,
+          "native_costed_net_R": 30.719999999999708,
+          "ambiguous_entry_stop_matched_trades": 9,
+          "ambiguous_fraction": 0.06338028169014084,
+          "actual_net_R_of_ambiguous_trades": -5.152000000000044,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 26.736999999999753,
+          "unmatched_native_ambiguous_events_may_be_warmup": 0,
+          "not_native_replay": true
+        },
+        {
+          "year": 2021,
+          "closed_trades": 162,
+          "native_costed_net_R": 31.261999999999897,
+          "ambiguous_entry_stop_matched_trades": 13,
+          "ambiguous_fraction": 0.08024691358024691,
+          "actual_net_R_of_ambiguous_trades": -13.66700000000019,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 31.734000000000087,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2022,
+          "closed_trades": 191,
+          "native_costed_net_R": -29.455999999999477,
+          "ambiguous_entry_stop_matched_trades": 7,
+          "ambiguous_fraction": 0.03664921465968586,
+          "actual_net_R_of_ambiguous_trades": -6.662000000000116,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -29.89899999999936,
+          "unmatched_native_ambiguous_events_may_be_warmup": 3,
+          "not_native_replay": true
+        },
+        {
+          "year": 2023,
+          "closed_trades": 162,
+          "native_costed_net_R": 15.083000000000029,
+          "ambiguous_entry_stop_matched_trades": 6,
+          "ambiguous_fraction": 0.037037037037037035,
+          "actual_net_R_of_ambiguous_trades": -0.661999999999971,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 9.655,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2024,
+          "closed_trades": 172,
+          "native_costed_net_R": 0.683999999998996,
+          "ambiguous_entry_stop_matched_trades": 20,
+          "ambiguous_fraction": 0.11627906976744186,
+          "actual_net_R_of_ambiguous_trades": -14.307000000000262,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -5.30900000000074,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2025,
+          "closed_trades": 183,
+          "native_costed_net_R": 34.58799999999945,
+          "ambiguous_entry_stop_matched_trades": 22,
+          "ambiguous_fraction": 0.12021857923497267,
+          "actual_net_R_of_ambiguous_trades": -22.929000000000233,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": 35.186999999999685,
+          "unmatched_native_ambiguous_events_may_be_warmup": 1,
+          "not_native_replay": true
+        },
+        {
+          "year": 2026,
+          "closed_trades": 251,
+          "native_costed_net_R": 64.10999999999972,
+          "ambiguous_entry_stop_matched_trades": 91,
+          "ambiguous_fraction": 0.36254980079681276,
+          "actual_net_R_of_ambiguous_trades": -8.472999999999738,
+          "pessimistic_replace_each_with_minus_1R_plus_costs": -19.782000000000536,
+          "unmatched_native_ambiguous_events_may_be_warmup": 9,
+          "not_native_replay": true
+        }
+      ],
+      "groups": {
+        "all": {
+          "trades": 2288,
+          "ambiguous_trades": 178,
+          "native_total_R": 178.27699999999834,
+          "pessimistic_sensitivity_total_R": 74.83599999999885,
+          "ambiguous_fraction": 0.0777972027972028
+        },
+        "pre_corruption_2013_2023": {
+          "trades": 1682,
+          "ambiguous_trades": 45,
+          "native_total_R": 78.89500000000018,
+          "pessimistic_sensitivity_total_R": 64.74000000000044,
+          "ambiguous_fraction": 0.0267538644470868
+        },
+        "2022_2025": {
+          "trades": 708,
+          "ambiguous_trades": 55,
+          "native_total_R": 20.898999999998995,
+          "pessimistic_sensitivity_total_R": 9.633999999999583,
+          "ambiguous_fraction": 0.07768361581920905
+        },
+        "2026": {
+          "trades": 251,
+          "ambiguous_trades": 91,
+          "native_total_R": 64.10999999999972,
+          "pessimistic_sensitivity_total_R": -19.782000000000536,
+          "ambiguous_fraction": 0.36254980079681276
+        }
+      }
+    }
+  }
+}

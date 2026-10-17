@@ -1,0 +1,57 @@
+{
+  "session": "crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "development_start": "2020-06-01T00:00:00+00:00",
+  "development_end_exclusive": "2024-01-01T00:00:00+00:00",
+  "protected_2024_plus_accessed": false,
+  "panel_rows": 25395,
+  "decision_dates": 654,
+  "matched_symbols": 143,
+  "min_top40_rows": 23,
+  "eligible_basket_cycles": 488,
+  "candidate": {
+    "stats": {
+      "mean_ic": 0.01564281743309597,
+      "hac_se": 0.010688880073109702,
+      "t_stat": 1.4634664554286672,
+      "p_value": 0.14382243878310474,
+      "n_periods": 652,
+      "effective_lags": 2,
+      "naive_se": 0.010712444265915421,
+      "naive_t_stat": 1.4602472642838276,
+      "used_naive_fallback": 0
+    },
+    "ic_ir": 0.05718769646583172,
+    "dates": 654,
+    "prediction_rows": 12669
+  },
+  "baseline": {
+    "stats": {
+      "mean_ic": 0.03152322552965052,
+      "hac_se": 0.00772152016592534,
+      "t_stat": 4.082515470044467,
+      "p_value": 5.007646677589716e-05,
+      "n_periods": 654,
+      "effective_lags": 2,
+      "naive_se": 0.007555430801014727,
+      "naive_t_stat": 4.172260505041859,
+      "used_naive_fallback": 0
+    },
+    "ic_ir": 0.1631482961826352,
+    "dates": 654,
+    "prediction_rows": 25395
+  },
+  "ic_gate": {
+    "mean_ic_min": 0.015,
+    "hac_t_min": 2.0,
+    "min_cycles": 150
+  },
+  "decision": "REJECT",
+  "reasons": [
+    "point-in-time matched universe falls below 40",
+    "candidate HAC t-stat 1.463 < 2.0"
+  ],
+  "portfolio_stage_executed": false,
+  "portfolio_stage_reason": "Skipped by preregistered fail-fast rule because IC gate rejected."
+}

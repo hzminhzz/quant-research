@@ -1,0 +1,79 @@
+{
+  "session": "volt_break_nq_20261012",
+  "phase": 3,
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "research_status": "NEGATIVE_PRICE_CONTINUATION_PROXIES",
+  "phase1_frozen_spec": "config/research_sessions/volt_break_nq_20261012.yaml",
+  "head_at_execution": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "source_provider": "Dukascopy USATECH.IDX/USD BID CFD",
+  "source_years": "2018-2025; 2018 ATR warmup; 2019-2025 outcomes",
+  "source_sha_check": "PASS_96_OF_96",
+  "protected_2026_outcomes_read": false,
+  "trials": [
+    {
+      "id": "P3_first_hit_30m",
+      "variant": "strict",
+      "status": "completed",
+      "spec": "config/research_sessions/volt_break_nq_phase3_2019_2025_20261012.yaml",
+      "spec_sha256": "6ea33f708af8e49b771eaf4d49f340a80e0777a0639b115acb4044da43940d86",
+      "code": "scripts/run_volt_break_phase3_20261012.py",
+      "code_sha256": "e0ce812d32200be3e8816467bf36c28c8193d47c6d6451ab956fa040dddd1253",
+      "result": "run_log/research_sessions/volt_break_nq_20261012/phase3_strict_results.json",
+      "result_sha256": "321ee78b5f2e2ae96044e731f0045083b830adbf616aee83d4ba9516acd9197c",
+      "first_hits": 63,
+      "markout30_points": -4.498015873015758,
+      "matched_30_points": -9.176825811585676,
+      "holm3_p": 0.144738928426114
+    },
+    {
+      "id": "P3_ATR_COVERAGE_1000",
+      "variant": "coverage_sensitivity",
+      "status": "completed",
+      "registered_after_original_outcome": true,
+      "method_change": "daily session minimum source minute count from 1300 to 1000",
+      "spec": "config/research_sessions/volt_break_nq_phase3_atr_coverage_v2_20261012.yaml",
+      "spec_sha256": "5066ccbe7958ffb46ca21170ec125c843e96c841c49aff6c13e28046d9ad96d2",
+      "code": "scripts/run_volt_break_phase3_atr_coverage_v2_20261012.py",
+      "code_sha256": "d8a5edca4e079803684de4c8ab49e67729ded3b7ff7fe5182c83c4764b49c443",
+      "result": "run_log/research_sessions/volt_break_nq_20261012/phase3_atr_coverage_v2_results.json",
+      "result_sha256": "3c7509de76dfc78bfb8f382512dfab3e57a838be999eb4da25a172eb52f48e46",
+      "first_hits": 217,
+      "markout30_points": -5.014423963133579,
+      "matched_30_points": -7.2900074038806935,
+      "holm3_p": 0.012753053192644142
+    },
+    {
+      "id": "P3_60m_and_exit",
+      "status": "completed",
+      "kind": "secondary_horizon_family",
+      "results_in": [
+        "run_log/research_sessions/volt_break_nq_20261012/phase3_strict_results.json",
+        "run_log/research_sessions/volt_break_nq_20261012/phase3_atr_coverage_v2_results.json"
+      ]
+    },
+    {
+      "id": "P3_descriptive_filters",
+      "status": "completed",
+      "kind": "descriptive_selection_comparison",
+      "results_in": [
+        "run_log/research_sessions/volt_break_nq_20261012/phase3_strict_results.json",
+        "run_log/research_sessions/volt_break_nq_20261012/phase3_atr_coverage_v2_results.json"
+      ]
+    },
+    {
+      "id": "P3_independent_temporal_check",
+      "status": "partial",
+      "reason": "Source hashes, time alignment and runtime assertions passed, but no separate independent recomputation of all signal/fill timestamps or factor-values was performed"
+    }
+  ],
+  "limitations": [
+    "Research source is BID CFD proxy",
+    "Volume reported as provider units, not CME trade volume",
+    "Exact nested daily ATR definition unverified",
+    "Full 2019-2025 retrospective only, not independent holdout",
+    "Matched-control uncertainty not fully propagated",
+    "No TP/SL or order execution modeled"
+  ],
+  "report": "run_log/research_sessions/volt_break_nq_20261012/phase3_report_20261012.md"
+}

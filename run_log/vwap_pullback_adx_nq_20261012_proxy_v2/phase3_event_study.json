@@ -1,0 +1,190 @@
+{
+  "development_end_exclusive": "2026-07-01",
+  "development_start": "2026-01-01",
+  "first_opportunity_per_session_only": true,
+  "limitations": [
+    "Provider-defined continuous product; contract mapping/rolls not verified.",
+    "Vendor volume may differ from CME traded contracts; VWAP is a proxy.",
+    "No transaction costs, spread, partial fills, TP/SL, or portfolio effects.",
+    "One first qualified signal per day; original strategy permits reentry.",
+    "Paired B2/B3 days condition on future ADX gating and do not identify causal ADX effect.",
+    "First future return starts at next-minute open and ends at completed future bar close.",
+    "No Jul-Oct retrospective validation or Nov-onward prospective holdout accessed."
+  ],
+  "no_trading_execution_or_costs": true,
+  "paired_b3_minus_b2_forward_points": {
+    "1": {
+      "b3_minus_b2_mean_points": -1.226,
+      "bootstrap_95pct_ci_points": [
+        -6.6013,
+        4.1501
+      ],
+      "n_paired_days": 52
+    },
+    "10": {
+      "b3_minus_b2_mean_points": 0.3846,
+      "bootstrap_95pct_ci_points": [
+        -11.0778,
+        12.2802
+      ],
+      "n_paired_days": 52
+    },
+    "30": {
+      "b3_minus_b2_mean_points": -15.255,
+      "bootstrap_95pct_ci_points": [
+        -33.4564,
+        1.3354
+      ],
+      "n_paired_days": 50
+    },
+    "5": {
+      "b3_minus_b2_mean_points": -0.2548,
+      "bootstrap_95pct_ci_points": [
+        -8.002,
+        8.3416
+      ],
+      "n_paired_days": 52
+    }
+  },
+  "per_event_horizon": {
+    "b1": {
+      "1": {
+        "gross_mean_points": -2.0452,
+        "median_points": -2.5,
+        "n": 83,
+        "positive_fraction": 0.3976,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -5.8089,
+          2.0041
+        ]
+      },
+      "10": {
+        "gross_mean_points": -2.5331,
+        "median_points": 2.75,
+        "n": 83,
+        "positive_fraction": 0.5422,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -11.152,
+          5.7169
+        ]
+      },
+      "30": {
+        "gross_mean_points": 5.2169,
+        "median_points": 13.0,
+        "n": 83,
+        "positive_fraction": 0.5904,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -11.7837,
+          21.4762
+        ]
+      },
+      "5": {
+        "gross_mean_points": -3.5633,
+        "median_points": 0.0,
+        "n": 83,
+        "positive_fraction": 0.494,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -11.487,
+          3.0974
+        ]
+      }
+    },
+    "b2": {
+      "1": {
+        "gross_mean_points": 3.4667,
+        "median_points": 4.0,
+        "n": 60,
+        "positive_fraction": 0.6333,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -1.5208,
+          8.5225
+        ]
+      },
+      "10": {
+        "gross_mean_points": 11.55,
+        "median_points": 20.375,
+        "n": 60,
+        "positive_fraction": 0.65,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -1.9564,
+          24.0171
+        ]
+      },
+      "30": {
+        "gross_mean_points": 14.3983,
+        "median_points": 17.75,
+        "n": 59,
+        "positive_fraction": 0.6102,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -8.8103,
+          38.7806
+        ]
+      },
+      "5": {
+        "gross_mean_points": 8.15,
+        "median_points": 5.625,
+        "n": 60,
+        "positive_fraction": 0.6167,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -1.6402,
+          18.6892
+        ]
+      }
+    },
+    "b3": {
+      "1": {
+        "gross_mean_points": 0.9663,
+        "median_points": 1.875,
+        "n": 52,
+        "positive_fraction": 0.5385,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -4.9772,
+          6.2073
+        ]
+      },
+      "10": {
+        "gross_mean_points": 13.6154,
+        "median_points": 8.75,
+        "n": 52,
+        "positive_fraction": 0.6731,
+        "session_bootstrap_95pct_mean_ci_points": [
+          4.4564,
+          23.101
+        ]
+      },
+      "30": {
+        "gross_mean_points": 0.305,
+        "median_points": 3.25,
+        "n": 50,
+        "positive_fraction": 0.56,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -21.168,
+          22.2622
+        ]
+      },
+      "5": {
+        "gross_mean_points": 6.6827,
+        "median_points": 4.5,
+        "n": 52,
+        "positive_fraction": 0.6154,
+        "session_bootstrap_95pct_mean_ci_points": [
+          -2.2405,
+          16.4088
+        ]
+      }
+    }
+  },
+  "phase": 3,
+  "session": "vwap_pullback_adx_nq_20261012_proxy_v2",
+  "signal_funnel": {
+    "b1_sessions": 83,
+    "b2_sessions": 60,
+    "b3_sessions": 52
+  },
+  "source_input_sha256": "a0670b34b2175ca0df4a7ab98fa79bb02650cf4cce64ed67261ad29f706ebaad",
+  "source_label": "LSE_NQ.F_PROVIDER_DEFINED_CONTINUOUS_PROXY",
+  "status": "EXPLORATORY_GROSS_EVENT_DIAGNOSTICS",
+  "valid_sessions": 122,
+  "wait_minutes_mean": 43.75,
+  "wait_minutes_median": 4.5
+}

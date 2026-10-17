@@ -1,0 +1,98 @@
+session_id: volt_break_nq_phase3_2019_2025_20261012
+market: futures
+thesis: >-
+  Exploratory signal test of VOLT BREAK on Dukascopy Nasdaq index BID CFD proxy:
+  a completed 30m close above the midnight CT open plus 0.30 times the
+  previous 15 completed session's mean daily true range, and above
+  midnight CT anchored proxy-VWAP, precedes positive intraday continuation.
+mechanism: >-
+  Directional order pressure continuing after the US cash open may persist
+  into midday; fake breakouts, time-of-day drift, or mean reversion may negate.
+  The dataset does NOT observe true CME traded-contract VWAP.
+falsifier: >-
+  This phase is not an execution qualification. A failure to obtain positive
+  first-qualifying-event matched continuation at the primary next-30m horizon
+  with HAC uncertainty and no meaningful year consistency weakens the thesis.
+  Positive markouts alone do not approve live adoption.
+instruments:
+  - symbol: USATECH.IDX/USD
+    kind: futures
+    venue: Dukascopy index CFD proxy
+    identity: >-
+      Dukascopy USATECH.IDX/USD BID 1m CFD price; explanatory proxy to CME NQ
+      USD20/point only; not a dated CME future; volume=provider units, not NQ
+      contract trades; price basis and broker execution unknown.
+    session: >-
+      CT research day 00:00-14:30 with futures-like 17:00-16:14 prior
+      completed-day ATR; exclude partial source days and holiday closes.
+    timezone: America/Chicago
+data:
+  - id: canonical_nq_reference_subset
+    symbol: USATECH.IDX/USD
+    role: prices
+    path: data/processed/nq_1m.parquet
+evaluation:
+  development_start: "2019-01-01T00:00:00Z"
+  development_end: "2026-01-01T00:00:00Z"
+  holdout_start: "2026-09-01T00:00:00Z"
+  holdout_end: "2026-11-01T00:00:00Z"
+  holdout: SEALED_NEVER_READ
+  plan: >-
+    Run scripts on canonical external 2018-2025 monthly store
+    /home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ/
+    using strictly 2019-2025 fully complete CT 00:00-14:29 1m days plus 14:30
+    opening quote, previously audited n1576. 2018 is ATR warmup only.
+    The internal 2024-2025 file in data[] is an audited reference, NOT the
+    full trial source; external partition fingerprints are in the existing
+    one_bar_dukascopy source_manifest.json and new phase3 source manifest.
+    Never claim that CLI identity of the 2024-25 reference covers 2019-2025.
+    Primary event is FIRST qualifying 30m close per day at 10:00 through
+    14:00 CT inclusive. 30m bar start at 00:00 and end at HH:00/HH:30;
+    signal at boundary of a completed bar; next bar open at that boundary.
+    Strict inequality: close > static noise barrier and > current accumulated
+    proxy VWAP. 30m bar close uses last 1m CLOSE of completed block.
+    Noise=midnight minute open + 0.30 * mean(previous 15 completed Globex
+    session daily TR); session daily high/low from 17:00 prior evening through
+    16:14 CT and previous daily close. For ATR include only days with at least
+    1300 1m updates; otherwise session invalid. This 15-day mean of TR
+    is an explicit candidate interpretation of SMA15(ATR_Daily), not a
+    verified copy of creator's nested-smoothed ATR. Register any nested-smoothed
+    interpretation as a separate trial before evaluation.
+    Anchored proxy-VWAP=sum(((H+L+C)/3)*positive provider_volume)/
+    sum(positive provider_volume) from 00:00 through completed signal bar;
+    no future minute in signal.
+    Primary diagnostic: one-event/day first-hit 30min point markout
+    from boundary OPEN to next 30-minute boundary OPEN, versus non-trigger
+    same clock and year ordinary controls. Also secondary 60m and fixed 14:30
+    open horizon markouts; require valid end before 14:30. Report sign, CI,
+    HAC p values, yearly and subperiod stability, signal counts, unqualified
+    dates, and original joint versus barrier-only/VWAP-only as registered
+    descriptive decomposition. CIs and Holm adjustment across three primary
+    horizons, and no parameter selection. Correlated all-bar events are
+    supplementary only; do not use as independent sample size.
+    All dates 2019-25 are retrospective development already potentially seen
+    by other NQ research; 2026 untouched.
+baseline: No trade; nontrigger same clock-and-year CFD proxy forward returns, plus unconditional same-time return.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Unfilled numeric schema placeholders: event markouts are price continuation
+    diagnostics, not executable after-cost NQ PnL. Native fill costs deferred
+    to Phase 4.
+trials:
+  - id: P3_first_hit_30m
+    kind: preregistered
+    description: First joint qualifying event vs same-clock/year nontrigger controls, 30-minute next-open markout.
+  - id: P3_60m_and_exit
+    kind: preregistered
+    description: Prespecified 60-minute and fixed 14:30 open markouts, no optimization, Holm family.
+  - id: P3_descriptive_filters
+    kind: preregistered
+    description: Barrier-only vs VWAP-only frequency and 30m markout, without winner selection.
+  - id: P3_independent_temporal_check
+    kind: diagnostic
+    description: Independently verify timezone, bar alignment, ATR lag, VWAP last-known quote, and future data isolation.
+evidence:
+  - run_log/research_sessions/volt_break_nq_20261012/phase2_data_audit_20261012.md
+  - run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json

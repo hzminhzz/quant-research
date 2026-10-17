@@ -1,0 +1,25 @@
+{
+  "session": "mechanicalpremia-authorized-2025-2026-ytd-v1",
+  "trial": "NATIVE-AUDIT",
+  "terminal_status": "completed",
+  "scientific_approval": "NOT_APPROVED",
+  "periods": [
+    "2025 full year",
+    "2026 YTD through 2026-10-11 inclusive"
+  ],
+  "explicit_user_holdout_access_authorized": true,
+  "never_claim_unseen": true,
+  "evidence": {
+    "report": "docs/audit/mechanicalpremia_authorized_2025_2026_final.md",
+    "native_results": "run_log/research_sessions/mechanicalpremia-authorized-2025-2026-ytd-v1/yearly_native",
+    "batch": "run_log/research_sessions/mechanicalpremia-authorized-2025-2026-ytd-v1/batch_log.jsonl",
+    "audit_code": "scripts/audit_mechanicalpremia_authorized_2025_2026.py"
+  },
+  "findings": "12/12 complete; no rejected orders; no fills after cutoff; cash+positions reconciliation; broker parity remains unqualified",
+  "limitations": [
+    "Assumed bid-price proxy fees, spread/financing omitted",
+    "Initial H1 stop placed after next callback",
+    "EURUSD conversion, CFD contract lots unknown",
+    "2026 open positions marked but not liquidated"
+  ]
+}

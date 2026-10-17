@@ -1,0 +1,17 @@
+## Phase 4 result: **BLOCKED**
+
+The installed `ml4t-backtest 0.1.7` cannot enforce the frozen bracket safely: the synthetic Engine test reproduced both the target and stop filling in the same minute, which reversed the position. A bracket submitted after entry also leaves the entry minute unprotected. I ran **zero historical strategy trials**, so there are no PnL or performance metrics. This is an execution finding, not a profitability conclusion.
+
+The 2018–2025 source identity check passed **96/96** partitions. I did not read 2026 outcome bars or modify the canonical data store.
+
+The focused synthetic suite passed: **5 tests**. It verified next-bar timing, the same-boundary versus one-minute-late signal case, stop gap fills, entry-minute protection timing, and dual-touch bracket behavior.
+
+Artifacts:
+
+- [Phase 4 report](/home/quant/dev/quant/quant-research/docs/audit/volt_break_phase4_20261012.md)
+- [Frozen Phase 4 spec](/home/quant/dev/quant/quant-research/config/research_sessions/volt_break_nq_phase4_20261012.yaml)
+- [Trial ledger](/home/quant/dev/quant/quant-research/run_log/research_sessions/volt_break_nq_20261012/phase4_trial_ledger_20261012.json)
+- [Execution audit](/home/quant/dev/quant/quant-research/run_log/research_sessions/volt_break_nq_20261012/phase4_execution_audit_20261012.json)
+- [Synthetic tests](/home/quant/dev/quant/quant-research/tests/test_volt_break_phase4_execution_20261012.py) and [test log](/home/quant/dev/quant/quant-research/run_log/research_sessions/volt_break_nq_20261012/phase4_pytest_20261012.log)
+
+Not run: historical cost trials and the full repository test suite. `tmux` could not start in the sandbox, so the focused tests ran inline. Risk: Phase 4 provides no strategy performance evidence.

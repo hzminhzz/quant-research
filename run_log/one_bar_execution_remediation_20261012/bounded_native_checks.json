@@ -1,0 +1,106 @@
+{
+  "status": "VERIFIED",
+  "engine": "ml4t.backtest 0.1.7 Engine",
+  "stop_fill_mode": "STOP_PRICE",
+  "assertions": {
+    "long_entry_gap_up": true,
+    "short_entry_gap_down": true,
+    "long_protective_gap_down": true,
+    "short_protective_gap_up": true
+  },
+  "fills": {
+    "long_entry_gap_up": [
+      {
+        "side": "buy",
+        "price": 101.0,
+        "timestamp": "2024-01-08 15:01:00",
+        "order_type": "stop",
+        "stop_price": 100.0,
+        "price_source": "open",
+        "reference_price": 101.0
+      }
+    ],
+    "short_entry_gap_down": [
+      {
+        "side": "sell",
+        "price": 99.0,
+        "timestamp": "2024-01-08 15:01:00",
+        "order_type": "stop",
+        "stop_price": 100.0,
+        "price_source": "open",
+        "reference_price": 99.0
+      }
+    ],
+    "long_protective_gap_down": [
+      {
+        "side": "buy",
+        "price": 100.0,
+        "timestamp": "2024-01-08 15:01:00",
+        "order_type": "stop",
+        "stop_price": 100.0,
+        "price_source": "open",
+        "reference_price": 100.0
+      },
+      {
+        "side": "sell",
+        "price": 49.0,
+        "timestamp": "2024-01-08 15:02:00",
+        "order_type": "stop",
+        "stop_price": 50.0,
+        "price_source": "open",
+        "reference_price": 49.0
+      }
+    ],
+    "short_protective_gap_up": [
+      {
+        "side": "sell",
+        "price": 100.0,
+        "timestamp": "2024-01-08 15:01:00",
+        "order_type": "stop",
+        "stop_price": 100.0,
+        "price_source": "open",
+        "reference_price": 100.0
+      },
+      {
+        "side": "buy",
+        "price": 151.0,
+        "timestamp": "2024-01-08 15:02:00",
+        "order_type": "stop",
+        "stop_price": 150.0,
+        "price_source": "open",
+        "reference_price": 151.0
+      }
+    ]
+  },
+  "oco_fixture": {
+    "opposing_stop_fills": [
+      {
+        "side": "buy",
+        "price": 100.0,
+        "timestamp": "2024-01-08 15:01:00",
+        "stop_price": 100.0
+      },
+      {
+        "side": "sell",
+        "price": 98.0,
+        "timestamp": "2024-01-08 15:01:00",
+        "stop_price": 98.0
+      }
+    ],
+    "both_sides_filled_same_minute": true,
+    "native_submit_order_parameters": [
+      "self",
+      "asset",
+      "quantity",
+      "side",
+      "order_type",
+      "limit_price",
+      "stop_price",
+      "trail_amount",
+      "_options"
+    ],
+    "atomic_oco_api_available": false,
+    "status": "BLOCKED"
+  },
+  "oco_status": "BLOCKED: native Broker.submit_order has no OCO/contingent group; simultaneous opposing stop fills remain unresolved."
+}

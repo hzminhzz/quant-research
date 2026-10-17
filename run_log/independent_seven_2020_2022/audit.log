@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "audit_type": "artifact_integrity_and_native_ledger_only",
+  "cases": [
+    {
+      "case": "pivot-breakout-btc",
+      "status": "PASS",
+      "native_final_equity": 296140.54488647793,
+      "native_sharpe": 0.9012011074128097,
+      "native_max_dd_pct": 57.26654544061471,
+      "native_net_return_pct": 196.14054488647793,
+      "native_closed_trades": 17,
+      "fills": 34,
+      "bars": 1096,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    },
+    {
+      "case": "donchian-btc",
+      "status": "PASS",
+      "native_final_equity": 194365.0567430755,
+      "native_sharpe": 0.9018524780047423,
+      "native_max_dd_pct": 18.026471555219416,
+      "native_net_return_pct": 94.3650567430755,
+      "native_closed_trades": 479,
+      "fills": 1072,
+      "bars": 1096,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    },
+    {
+      "case": "three-red-spy",
+      "status": "PASS",
+      "native_final_equity": 109904.3279223501,
+      "native_sharpe": 0.4556037134234084,
+      "native_max_dd_pct": 9.460306473425794,
+      "native_net_return_pct": 9.904327922350099,
+      "native_closed_trades": 46,
+      "fills": 92,
+      "bars": 776,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    },
+    {
+      "case": "gold-macd-hook",
+      "status": "PASS",
+      "native_final_equity": 95888.91198785839,
+      "native_sharpe": -0.17012191209182784,
+      "native_max_dd_pct": 9.709347615057073,
+      "native_net_return_pct": -4.111088012141617,
+      "native_closed_trades": 26,
+      "fills": 53,
+      "bars": 731,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    },
+    {
+      "case": "slope-hook",
+      "status": "PASS",
+      "native_final_equity": 123956.9738865397,
+      "native_sharpe": 0.7119981307066707,
+      "native_max_dd_pct": 7.769344108690546,
+      "native_net_return_pct": 23.9569738865397,
+      "native_closed_trades": 43,
+      "fills": 86,
+      "bars": 776,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    },
+    {
+      "case": "fx-timing",
+      "status": "PASS",
+      "native_final_equity": 73545.15602923941,
+      "native_sharpe": -0.5354813616533957,
+      "native_max_dd_pct": 30.58026338811538,
+      "native_net_return_pct": -26.45484397076059,
+      "native_closed_trades": 21,
+      "fills": 43,
+      "bars": 756,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    },
+    {
+      "case": "rsi-30-50",
+      "status": "PASS",
+      "native_final_equity": 121545.7399866958,
+      "native_sharpe": 0.9102282256074874,
+      "native_max_dd_pct": 7.906185323576061,
+      "native_net_return_pct": 21.5457399866958,
+      "native_closed_trades": 18,
+      "fills": 36,
+      "bars": 776,
+      "data_hashes_verified": true,
+      "rejected_orders": 0
+    }
+  ],
+  "research_readiness": "EXPLORATORY; ETF proxy and execution-model limitations unresolved"
+}

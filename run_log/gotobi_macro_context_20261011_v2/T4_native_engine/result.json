@@ -1,0 +1,98 @@
+{
+  "runs": [
+    {
+      "arm": "always_long",
+      "cost_pips": 1.0,
+      "n": 185,
+      "net_usd": -300.6177974242376,
+      "avg_net_usd_per_eligible_gotobi": -1.6249610671580412,
+      "sharpe_flat_inclusive": -1.0563481832997397,
+      "max_dd_pct": -3.82768424273374,
+      "annual": [
+        {
+          "year": 2023,
+          "n": 62,
+          "net_usd": -68.26417203138065
+        },
+        {
+          "year": 2024,
+          "n": 62,
+          "net_usd": -173.22911258679056
+        },
+        {
+          "year": 2025,
+          "n": 61,
+          "net_usd": -59.124512806066356
+        }
+      ],
+      "source_price_error_jpy": 4.5475775922732e-15,
+      "engine_cash_reconciliation_jpy": 5.704350769519806e-09,
+      "risk": "hypothetical fill cost; broker model missing",
+      "holdout_read": false
+    },
+    {
+      "arm": "ridge_calendar_only",
+      "cost_pips": 1.0,
+      "n": 148,
+      "net_usd": -133.32029723529047,
+      "avg_net_usd_per_eligible_gotobi": -0.7206502553258944,
+      "sharpe_flat_inclusive": -0.5379577757510722,
+      "max_dd_pct": -2.093934641190279,
+      "annual": [
+        {
+          "year": 2023,
+          "n": 62,
+          "net_usd": -68.26417203138065
+        },
+        {
+          "year": 2024,
+          "n": 44,
+          "net_usd": -38.375200201561135
+        },
+        {
+          "year": 2025,
+          "n": 42,
+          "net_usd": -26.680925002348722
+        }
+      ],
+      "source_price_error_jpy": 4.5475775922732e-15,
+      "engine_cash_reconciliation_jpy": 5.144102033227682e-09,
+      "risk": "hypothetical fill cost; broker model missing",
+      "holdout_read": false
+    },
+    {
+      "arm": "ridge_with_yield",
+      "cost_pips": 1.0,
+      "n": 147,
+      "net_usd": -133.77394717307598,
+      "avg_net_usd_per_eligible_gotobi": -0.723102417151762,
+      "sharpe_flat_inclusive": -0.5398523362150937,
+      "max_dd_pct": -2.0984632467248003,
+      "annual": [
+        {
+          "year": 2023,
+          "n": 62,
+          "net_usd": -68.26417203138065
+        },
+        {
+          "year": 2024,
+          "n": 44,
+          "net_usd": -38.375200201561135
+        },
+        {
+          "year": 2025,
+          "n": 41,
+          "net_usd": -27.134574940134208
+        }
+      ],
+      "source_price_error_jpy": 4.5475775922732e-15,
+      "engine_cash_reconciliation_jpy": 5.180481821298599e-09,
+      "risk": "hypothetical fill cost; broker model missing",
+      "holdout_read": false
+    }
+  ],
+  "evaluation_cohort": 185,
+  "strategy_order": "baseline always_long, calendar_only, add yield",
+  "model_selection": "None; compare all",
+  "qualification_eligible": false
+}

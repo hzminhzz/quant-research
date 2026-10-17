@@ -1,0 +1,115 @@
+{
+  "primary_three_family_tests": {
+    "spread_10y": {
+      "status": "ESTIMATED",
+      "n": 370,
+      "coefficient_pips_per_unit": -2.062393180332872,
+      "p": 0.11187418466062299,
+      "ci95": [
+        -4.6072233075426245,
+        0.48243694687688077
+      ],
+      "spearman": -0.05823843176104055,
+      "mean_when_positive": 1.2648648648654428,
+      "holm3_p": 0.22374836932124598
+    },
+    "month_end": {
+      "status": "ESTIMATED",
+      "n": 370,
+      "coefficient_pips_per_unit": -0.4014976958528467,
+      "p": 0.9333304932560046,
+      "ci95": [
+        -9.832790604880762,
+        9.029795213175069
+      ],
+      "spearman": -0.021511175501733322,
+      "mean_when_positive": 0.9306451612906406,
+      "holm3_p": 0.9333304932560046
+    },
+    "rolled": {
+      "status": "ESTIMATED",
+      "n": 370,
+      "coefficient_pips_per_unit": -5.828090734649041,
+      "p": 0.06531593403205085,
+      "ci95": [
+        -12.02763058436654,
+        0.371449115068458
+      ],
+      "spearman": -0.053105925958764046,
+      "mean_when_positive": -2.7675438596484883,
+      "holm3_p": 0.19594780209615256
+    }
+  },
+  "hypothesis_periods": {
+    "dev_2020_22": {
+      "n": 185,
+      "mean_net_pips": 4.829729729730023,
+      "gross_sum_usd": 751.9144236233245,
+      "yield_spearman": {
+        "status": "ESTIMATED",
+        "n": 185,
+        "coefficient_pips_per_unit": 2.226391423431615,
+        "p": 0.2645754192691334,
+        "ci95": [
+          -1.6989056797818893,
+          6.15168852664512
+        ],
+        "spearman": 0.0692934711792796,
+        "mean_when_positive": 4.829729729730023
+      }
+    },
+    "test_2023_25": {
+      "n": 185,
+      "mean_net_pips": -2.2999999999991374,
+      "gross_sum_usd": -300.6177974242376,
+      "yield_spearman": {
+        "status": "ESTIMATED",
+        "n": 185,
+        "coefficient_pips_per_unit": -4.885839122052369,
+        "p": 0.2781063436633325,
+        "ci95": [
+          -13.747453931545383,
+          3.9757756874406454
+        ],
+        "spearman": -0.025668276896464993,
+        "mean_when_positive": -2.2999999999991374
+      }
+    },
+    "recent_2024_25": {
+      "n": 123,
+      "mean_net_pips": -2.6504065040642013,
+      "gross_sum_usd": -232.35362539285694,
+      "yield_spearman": {
+        "status": "ESTIMATED",
+        "n": 123,
+        "coefficient_pips_per_unit": -3.9377566218038496,
+        "p": 0.520843270604169,
+        "ci95": [
+          -16.044504201488948,
+          8.168990957881247
+        ],
+        "spearman": 0.027776299857672087,
+        "mean_when_positive": -2.6504065040642013
+      }
+    }
+  },
+  "policy_event_expost_descriptive": [
+    {
+      "near_rate_event_expost": false,
+      "n": 307,
+      "mean_net_pips": 0.7377850162872377,
+      "net_usd": 244.59342159813517
+    },
+    {
+      "near_rate_event_expost": true,
+      "n": 63,
+      "mean_net_pips": 3.8333333333338393,
+      "net_usd": 206.7032046009518
+    }
+  ],
+  "policy_event_proximity_eligible_predictor": false,
+  "policy_event_origin": "Backfilled LSE archive, 99 of 100 records created after event",
+  "historical_yield_vintages_unverified": true,
+  "false_discovery_control": "Holm for 3 preregistered family tests only",
+  "conditional_causality": "Not established by associations"
+}

@@ -1,0 +1,32 @@
+{
+  "trial_id": "trial_3_ma_crossover",
+  "description": "Fast EMA 24 vs Slow EMA 168 Trend Filter",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 99580.85437212631
+  },
+  "performance": {
+    "total_return": 8.958085437212631,
+    "annualized_sharpe": 0.2395268238585185,
+    "max_drawdown": 0.5342323385169497,
+    "win_rate": 0.26146788990825687,
+    "profit_factor": 1.61356007140972
+  },
+  "execution": {
+    "trades": 436,
+    "total_commission": 6188.963797101872,
+    "total_slippage": 2062.9894146883516,
+    "total_costs": 8231.959175515938,
+    "gross_pnl": 97142.58992089334,
+    "fee_drag_pct": 8.474098932527447
+  },
+  "falsifier_checks": {
+    "min_sharpe_0_80": false,
+    "max_drawdown_25_pct": false,
+    "fee_drag_under_40_pct": true
+  }
+}

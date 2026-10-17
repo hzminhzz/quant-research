@@ -1,0 +1,1869 @@
+{
+  "analysis_classification": "EXPLORATORY retrospective historical review; NOT_APPROVED",
+  "observation_cutoff_utc_inclusive": "2026-07-14T23:59:59+00:00",
+  "frozen_strategy_changed": false,
+  "backtest_rerun": false,
+  "holdout_accessed": false,
+  "selected_or_optimized_any_rule": false,
+  "corrective_audit": {
+    "native_exit_order_type_source": "fills.csv odd row indices; paired by native trade row, timestamp-checked against trades.csv and joined to evaluation_trades.csv on (entry_time, exit_time, direction)",
+    "native_fill_pairs_2026": 238,
+    "evaluation_trade_one_to_one_join_2026": 238,
+    "RTH_timezone": "America/Chicago with DST",
+    "RTH_minutes_inclusive_exclusive": [
+      510,
+      900
+    ],
+    "complete_30m_feature_release": "bar_start + 30 minutes; backward as-of with release <= entry",
+    "feature_release_violations": 0,
+    "strategy_or_holdout_scope": "No trading rerun, no strategy change, no holdout access, no live orders",
+    "ledger_input_sha256": {
+      "backtests/practical_yearly/by_year/2018/native_full_tick_cost/evaluation_trades.csv": "838f9811b835592a51bf75a6f623827cb326cdd20e069272f90b06b9b1c13cad",
+      "backtests/practical_yearly/by_year/2018/native_full_tick_cost/trades.csv": "9f75a4808520714bdafadffc3d58220489766bb1f8c1423b16609d6e7f058f2c",
+      "backtests/practical_yearly/by_year/2018/native_full_tick_cost/fills.csv": "d317cfb255b265079642b850aefe948e1853153542d037ce21a480019dfdc879",
+      "backtests/practical_yearly/by_year/2019/native_full_tick_cost/evaluation_trades.csv": "7e371e3deb2609fcf0c2b45ac7ee2a32fb77b202ade47d129a48a95b43e8f4e1",
+      "backtests/practical_yearly/by_year/2019/native_full_tick_cost/trades.csv": "7acf4e464bf36891fba4e0fb5bcabbd7e9903965a886881b71a6107af468a369",
+      "backtests/practical_yearly/by_year/2019/native_full_tick_cost/fills.csv": "ff2c80877b18ee50c529736a22d210e4ca12c939878788f8eecd67e2f981464a",
+      "backtests/practical_yearly/by_year/2020/native_full_tick_cost/evaluation_trades.csv": "95fe1835ef1266ccd342705c6787f4334419936a259dc4d3aea3e17d8f25a83c",
+      "backtests/practical_yearly/by_year/2020/native_full_tick_cost/trades.csv": "edea01a2a8adbc21da0d60efc7b07ee2cf627f702969f61d3f03ccf28fb2976e",
+      "backtests/practical_yearly/by_year/2020/native_full_tick_cost/fills.csv": "236eb31b4d2bc76c3a93b618b59f6be7d5d07cdf55bc07cf704d8d14d1820ecf",
+      "backtests/practical_yearly/by_year/2021/native_full_tick_cost/evaluation_trades.csv": "55fc13b82ad2b58ceb8eb28b090351305269036f4e1c29e114ecbe0fadfe82a4",
+      "backtests/practical_yearly/by_year/2021/native_full_tick_cost/trades.csv": "5a4eb29ad3083610800392ddf50015aae66aff3e532397702edcedec90e8fece",
+      "backtests/practical_yearly/by_year/2021/native_full_tick_cost/fills.csv": "af6bf9eec91ebaebe17f32b034699e390157fefc66acd0e13c08b12174001c6c",
+      "backtests/practical_yearly/by_year/2022/native_full_tick_cost/evaluation_trades.csv": "5b8dadd258f6bb16674d9bd7dd28bbf1f53ed13c708371fab3e5fbd30290c151",
+      "backtests/practical_yearly/by_year/2022/native_full_tick_cost/trades.csv": "3d9bea878b820709f760c2a57a947abbd11bb00c1d6bd7c1bab38550ba885cb8",
+      "backtests/practical_yearly/by_year/2022/native_full_tick_cost/fills.csv": "d5c161e8a87c4e884d0199db4cb799be8569349009b278d6f6f856dd40ecec47",
+      "backtests/practical_yearly/by_year/2023/native_full_tick_cost/evaluation_trades.csv": "592e5f4633b89b1086390d888382da8783eac7446cf2bbd413fcd8eefc4728b3",
+      "backtests/practical_yearly/by_year/2023/native_full_tick_cost/trades.csv": "f820803d722a294b11b0814c215a90bb42feaed3dc733312745cd96fa295c0d5",
+      "backtests/practical_yearly/by_year/2023/native_full_tick_cost/fills.csv": "76f59711ed123cd55f064ef1fb33fd22f47183aeb7ceb488bbdc1bfb55f656cc",
+      "backtests/practical_yearly/by_year/2024/native_full_tick_cost/evaluation_trades.csv": "9db110a33f57d393cbaf71e70cbf5d9304ace48dbc1928a8b08b30ab887ac3c5",
+      "backtests/practical_yearly/by_year/2024/native_full_tick_cost/trades.csv": "eabe4cfe0f20a0f5a11822473a18a34d519eeaf13a45d5039f1525d72e8bd5de",
+      "backtests/practical_yearly/by_year/2024/native_full_tick_cost/fills.csv": "99e6c4cd861750056b5a80a1d73197e80b46709903681715441099f764ae87bb",
+      "backtests/practical_yearly/by_year/2025/native_full_tick_cost/evaluation_trades.csv": "99f78914839ed9389415f7d2bda71dd4fe2af4ded812b227250c691cbab26e39",
+      "backtests/practical_yearly/by_year/2025/native_full_tick_cost/trades.csv": "d1cf326cb7fd7981a45d9b8ec7995c584b2e779bb039471d7aae5298d0a1ecb4",
+      "backtests/practical_yearly/by_year/2025/native_full_tick_cost/fills.csv": "e9f1c2950f5f06e9345eb5641c6fdf15b79a58fc5722ac13b53bd5eae8e8d524",
+      "backtests/practical_yearly/by_year/2026/native_full_tick_cost/evaluation_trades.csv": "a1db2b15f59bfb5ec7f0eb6cd3339f52b88d408865b0f717dadc8397f04a3959",
+      "backtests/practical_yearly/by_year/2026/native_full_tick_cost/trades.csv": "03aec6016e698fba65abd1ec90fe3d6ccd840117bf7e5cc2a33692074fd8dafb",
+      "backtests/practical_yearly/by_year/2026/native_full_tick_cost/fills.csv": "c028d4395f72e2128286545f427f9336e5416da118ab86d4ad8d15ed400c26df",
+      "backtests/practical_yearly/by_year/2026/native_zero_cost/evaluation_trades.csv": "9c5af62f24bef191e8fa26c449c399d7e2f003100c481f9174f50a047a68f037"
+    }
+  },
+  "accounting": {
+    "2026_trades": 238,
+    "zero_cost_pnl_usd": -10806.959999999235,
+    "full_tick_costed_gross_before_commission_usd": -12976.959999999235,
+    "full_tick_net_pnl_usd": -14166.959999999235,
+    "zero_cost_to_full_tick_net_difference_usd": 3360.0,
+    "commissions_usd": 1190.0,
+    "sum_of_total_slippage_cost_usd": 2380.0,
+    "entry_costed_gross_minus_net_usd": 1190.0,
+    "paired_scenario_reconciliation": {
+      "entry_side_pairs": 238,
+      "same_exit_timestamp_pairs": 237,
+      "costed_gross_minus_zero_cost_net_usd": -2170.0,
+      "commission_usd": 1190.0,
+      "recorded_slippage_cost_usd": 2380.0,
+      "simple_recorded_cost_sum_usd": 3570.0,
+      "zero_cost_to_full_tick_net_difference_usd": 3360.0,
+      "simple_cost_sum_less_observed_net_difference_usd": 210.0,
+      "by_exit_fill_type": [
+        {
+          "exit_fill_order_type": "market",
+          "trades": 194,
+          "gross_delta_vs_zero_cost_usd": -1940.0,
+          "recorded_slippage_usd": 1940.0
+        },
+        {
+          "exit_fill_order_type": "stop",
+          "trades": 44,
+          "gross_delta_vs_zero_cost_usd": -230.0,
+          "recorded_slippage_usd": 440.0
+        }
+      ],
+      "note": "Separate scenario ledgers are paired by entry time and side. Recorded fill cost fields do not sum to the scenario PnL difference because exits and modeled fills are path-dependent; do not treat that residual as a pure cost estimate."
+    },
+    "win_rate": 0.47478991596638653,
+    "winning_trades": 113,
+    "losing_trades": 125,
+    "average_winner_usd": 522.3552212389413,
+    "average_loser_usd": -585.5447999999969,
+    "median_net_trade_usd": -19.37999999998283,
+    "mean_bars_held": 15.693277310924369,
+    "median_bars_held": 15.0,
+    "profit_factor": 0.806444050053908,
+    "daily_cashflow_drawdown": {
+      "sessions": 120,
+      "max_drawdown_usd_from_running_cashflow_peak": {
+        "exit_date_chicago": "2026-07-06",
+        "pnl": -356.5400000000227,
+        "equity": -15013.199999999124,
+        "peak": 1594.780000000028,
+        "drawdown": -16607.979999999152
+      }
+    },
+    "top_trade_concentration": {
+      "best_1_sum_usd": 3300.040000000008,
+      "best_3_sum_usd": 8386.820000000007,
+      "best_5_sum_usd": 13094.38000000002,
+      "best_10_sum_usd": 21191.720000000132,
+      "worst_1_sum_usd": -4283.059999999969,
+      "worst_3_sum_usd": -6645.819999999949,
+      "worst_5_sum_usd": -8668.760000000038,
+      "worst_10_sum_usd": -13718.760000000038
+    },
+    "native_exit_fill_summary": [
+      {
+        "exit_class": "MARKET",
+        "trades": 194,
+        "net_pnl_usd": 33891.8000000008,
+        "costed_gross_before_commission_usd": 34861.8000000008,
+        "win_rate": 0.5824742268041238,
+        "wins_usd": 59026.14000000038,
+        "losses_usd": -25134.339999999575,
+        "mean_bars_held": 17.427835051546392,
+        "median_bars_held": 17.0,
+        "profit_factor": 2.3484260975224087
+      },
+      {
+        "exit_class": "STOP",
+        "trades": 44,
+        "net_pnl_usd": -48058.76000000004,
+        "costed_gross_before_commission_usd": -47838.76000000004,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -48058.76000000004,
+        "mean_bars_held": 8.045454545454545,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.0
+      }
+    ],
+    "native_exit_fill_monthly_pnl": [
+      {
+        "month": 1,
+        "stop_trades": 7,
+        "stop_net_usd": -7071.660000000047,
+        "market_net_usd": 5408.400000000111
+      },
+      {
+        "month": 2,
+        "stop_trades": 6,
+        "stop_net_usd": -6060.0,
+        "market_net_usd": 3700.2999999999884
+      },
+      {
+        "month": 3,
+        "stop_trades": 10,
+        "stop_net_usd": -10101.280000000042,
+        "market_net_usd": 3311.519999999946
+      },
+      {
+        "month": 4,
+        "stop_trades": 4,
+        "stop_net_usd": -7313.059999999969,
+        "market_net_usd": 8812.06000000042
+      },
+      {
+        "month": 5,
+        "stop_trades": 3,
+        "stop_net_usd": -3032.479999999996,
+        "market_net_usd": 7098.32000000024
+      },
+      {
+        "month": 6,
+        "stop_trades": 11,
+        "stop_net_usd": -11450.279999999984,
+        "market_net_usd": 2254.8200000001816
+      },
+      {
+        "month": 7,
+        "stop_trades": 3,
+        "stop_net_usd": -3030.0,
+        "market_net_usd": 3306.3799999999173
+      }
+    ],
+    "side_breakdown": [
+      {
+        "direction": "long",
+        "trades": 137,
+        "net_pnl_usd": -2259.6999999985565,
+        "costed_gross_before_commission_usd": -1574.6999999985565,
+        "win_rate": 0.5036496350364964,
+        "wins_usd": 31372.96000000082,
+        "losses_usd": -33632.65999999938,
+        "mean_bars_held": 16.124087591240876,
+        "median_bars_held": 16.0,
+        "profit_factor": 0.9328123318227403
+      },
+      {
+        "direction": "short",
+        "trades": 101,
+        "net_pnl_usd": -11907.260000000679,
+        "costed_gross_before_commission_usd": -11402.260000000679,
+        "win_rate": 0.43564356435643564,
+        "wins_usd": 27653.179999999556,
+        "losses_usd": -39560.440000000235,
+        "mean_bars_held": 15.108910891089108,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.6990109311220853
+      }
+    ],
+    "exit_reason_raw_breakdown": [
+      {
+        "exit_reason": "signal",
+        "trades": 238,
+        "net_pnl_usd": -14166.959999999235,
+        "costed_gross_before_commission_usd": -12976.959999999235,
+        "win_rate": 0.47478991596638653,
+        "wins_usd": 59026.14000000038,
+        "losses_usd": -73193.09999999961,
+        "mean_bars_held": 15.693277310924369,
+        "median_bars_held": 15.0,
+        "profit_factor": 0.806444050053908
+      }
+    ],
+    "exit_fill_order_type_breakdown": [
+      {
+        "exit_fill_order_type": "market",
+        "trades": 194,
+        "net_pnl_usd": 33891.8000000008,
+        "costed_gross_before_commission_usd": 34861.8000000008,
+        "win_rate": 0.5824742268041238,
+        "wins_usd": 59026.14000000038,
+        "losses_usd": -25134.339999999575,
+        "mean_bars_held": 17.427835051546392,
+        "median_bars_held": 17.0,
+        "profit_factor": 2.3484260975224087
+      },
+      {
+        "exit_fill_order_type": "stop",
+        "trades": 44,
+        "net_pnl_usd": -48058.76000000004,
+        "costed_gross_before_commission_usd": -47838.76000000004,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -48058.76000000004,
+        "mean_bars_held": 8.045454545454545,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.0
+      }
+    ],
+    "stop_vs_market_breakdown": [
+      {
+        "exit_class": "MARKET",
+        "trades": 194,
+        "net_pnl_usd": 33891.8000000008,
+        "costed_gross_before_commission_usd": 34861.8000000008,
+        "win_rate": 0.5824742268041238,
+        "wins_usd": 59026.14000000038,
+        "losses_usd": -25134.339999999575,
+        "mean_bars_held": 17.427835051546392,
+        "median_bars_held": 17.0,
+        "profit_factor": 2.3484260975224087
+      },
+      {
+        "exit_class": "STOP",
+        "trades": 44,
+        "net_pnl_usd": -48058.76000000004,
+        "costed_gross_before_commission_usd": -47838.76000000004,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -48058.76000000004,
+        "mean_bars_held": 8.045454545454545,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.0
+      }
+    ],
+    "hold_bars_breakdown": [
+      {
+        "bars_held": 1,
+        "trades": 13,
+        "net_pnl_usd": -12638.199999999997,
+        "costed_gross_before_commission_usd": -12573.199999999997,
+        "win_rate": 0.23076923076923078,
+        "wins_usd": 278.4399999999732,
+        "losses_usd": -12916.63999999997,
+        "mean_bars_held": 1.0,
+        "median_bars_held": 1.0,
+        "profit_factor": 0.0215566896654218
+      },
+      {
+        "bars_held": 2,
+        "trades": 10,
+        "net_pnl_usd": -5456.720000000059,
+        "costed_gross_before_commission_usd": -5406.720000000059,
+        "win_rate": 0.3,
+        "wins_usd": 1013.9800000000105,
+        "losses_usd": -6470.70000000007,
+        "mean_bars_held": 2.0,
+        "median_bars_held": 2.0,
+        "profit_factor": 0.1567032933067519
+      },
+      {
+        "bars_held": 3,
+        "trades": 8,
+        "net_pnl_usd": -46.339999999981956,
+        "costed_gross_before_commission_usd": -6.339999999981956,
+        "win_rate": 0.5,
+        "wins_usd": 1206.820000000007,
+        "losses_usd": -1253.159999999989,
+        "mean_bars_held": 3.0,
+        "median_bars_held": 3.0,
+        "profit_factor": 0.9630214816942909
+      },
+      {
+        "bars_held": 4,
+        "trades": 10,
+        "net_pnl_usd": -126.9199999999546,
+        "costed_gross_before_commission_usd": -76.9199999999546,
+        "win_rate": 0.4,
+        "wins_usd": 1967.0600000000559,
+        "losses_usd": -2093.9800000000105,
+        "mean_bars_held": 4.0,
+        "median_bars_held": 4.0,
+        "profit_factor": 0.9393881507942033
+      },
+      {
+        "bars_held": 5,
+        "trades": 3,
+        "net_pnl_usd": -1843.4999999999854,
+        "costed_gross_before_commission_usd": -1828.4999999999854,
+        "win_rate": 0.3333333333333333,
+        "wins_usd": 176.50000000001455,
+        "losses_usd": -2020.0,
+        "mean_bars_held": 5.0,
+        "median_bars_held": 5.0,
+        "profit_factor": 0.08737623762376959
+      },
+      {
+        "bars_held": 6,
+        "trades": 6,
+        "net_pnl_usd": 265.2799999999843,
+        "costed_gross_before_commission_usd": 295.2799999999843,
+        "win_rate": 0.5,
+        "wins_usd": 1472.8800000000047,
+        "losses_usd": -1207.6000000000204,
+        "mean_bars_held": 6.0,
+        "median_bars_held": 6.0,
+        "profit_factor": 1.2196753892017056
+      },
+      {
+        "bars_held": 7,
+        "trades": 12,
+        "net_pnl_usd": -348.05999999996857,
+        "costed_gross_before_commission_usd": -288.05999999996857,
+        "win_rate": 0.5,
+        "wins_usd": 4058.9800000000105,
+        "losses_usd": -4407.039999999979,
+        "mean_bars_held": 7.0,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.9210218196340468
+      },
+      {
+        "bars_held": 8,
+        "trades": 10,
+        "net_pnl_usd": -2237.199999999866,
+        "costed_gross_before_commission_usd": -2187.199999999866,
+        "win_rate": 0.2,
+        "wins_usd": 484.0400000000227,
+        "losses_usd": -2721.239999999889,
+        "mean_bars_held": 8.0,
+        "median_bars_held": 8.0,
+        "profit_factor": 0.17787479237408038
+      },
+      {
+        "bars_held": 9,
+        "trades": 8,
+        "net_pnl_usd": -2729.03999999995,
+        "costed_gross_before_commission_usd": -2689.03999999995,
+        "win_rate": 0.375,
+        "wins_usd": 1133.7599999999657,
+        "losses_usd": -3862.7999999999156,
+        "mean_bars_held": 9.0,
+        "median_bars_held": 9.0,
+        "profit_factor": 0.29350730040384965
+      },
+      {
+        "bars_held": 10,
+        "trades": 5,
+        "net_pnl_usd": -1972.8399999999965,
+        "costed_gross_before_commission_usd": -1947.8399999999965,
+        "win_rate": 0.2,
+        "wins_usd": 58.51999999998952,
+        "losses_usd": -2031.359999999986,
+        "mean_bars_held": 10.0,
+        "median_bars_held": 10.0,
+        "profit_factor": 0.028808286074349168
+      },
+      {
+        "bars_held": 11,
+        "trades": 8,
+        "net_pnl_usd": -2249.7200000000157,
+        "costed_gross_before_commission_usd": -2209.7200000000157,
+        "win_rate": 0.375,
+        "wins_usd": 1116.2599999999657,
+        "losses_usd": -3365.9799999999814,
+        "mean_bars_held": 11.0,
+        "median_bars_held": 11.0,
+        "profit_factor": 0.3316300156269413
+      },
+      {
+        "bars_held": 12,
+        "trades": 4,
+        "net_pnl_usd": -334.51999999997497,
+        "costed_gross_before_commission_usd": -314.51999999997497,
+        "win_rate": 0.5,
+        "wins_usd": 1007.2400000000198,
+        "losses_usd": -1341.7599999999948,
+        "mean_bars_held": 12.0,
+        "median_bars_held": 12.0,
+        "profit_factor": 0.7506856665871867
+      },
+      {
+        "bars_held": 13,
+        "trades": 8,
+        "net_pnl_usd": 1685.179999999964,
+        "costed_gross_before_commission_usd": 1725.179999999964,
+        "win_rate": 0.75,
+        "wins_usd": 1898.4599999999773,
+        "losses_usd": -213.2800000000134,
+        "mean_bars_held": 13.0,
+        "median_bars_held": 13.0,
+        "profit_factor": 8.90125656414037
+      },
+      {
+        "bars_held": 14,
+        "trades": 11,
+        "net_pnl_usd": -4040.0,
+        "costed_gross_before_commission_usd": -3985.0,
+        "win_rate": 0.2727272727272727,
+        "wins_usd": 685.2999999999884,
+        "losses_usd": -4725.299999999988,
+        "mean_bars_held": 14.0,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.14502782892091295
+      },
+      {
+        "bars_held": 15,
+        "trades": 8,
+        "net_pnl_usd": -187.21999999994296,
+        "costed_gross_before_commission_usd": -147.21999999994296,
+        "win_rate": 0.5,
+        "wins_usd": 870.4000000000087,
+        "losses_usd": -1057.6199999999517,
+        "mean_bars_held": 15.0,
+        "median_bars_held": 15.0,
+        "profit_factor": 0.8229798982621815
+      },
+      {
+        "bars_held": 16,
+        "trades": 5,
+        "net_pnl_usd": -1924.6399999999267,
+        "costed_gross_before_commission_usd": -1899.6399999999267,
+        "win_rate": 0.2,
+        "wins_usd": 59.720000000015716,
+        "losses_usd": -1984.3599999999424,
+        "mean_bars_held": 16.0,
+        "median_bars_held": 16.0,
+        "profit_factor": 0.030095345602621223
+      },
+      {
+        "bars_held": 17,
+        "trades": 8,
+        "net_pnl_usd": -903.779999999897,
+        "costed_gross_before_commission_usd": -863.779999999897,
+        "win_rate": 0.375,
+        "wins_usd": 460.20000000004075,
+        "losses_usd": -1363.9799999999377,
+        "mean_bars_held": 17.0,
+        "median_bars_held": 17.0,
+        "profit_factor": 0.3373949764659759
+      },
+      {
+        "bars_held": 18,
+        "trades": 4,
+        "net_pnl_usd": 4427.060000000056,
+        "costed_gross_before_commission_usd": 4447.060000000056,
+        "win_rate": 1.0,
+        "wins_usd": 4427.060000000056,
+        "losses_usd": 0.0,
+        "mean_bars_held": 18.0,
+        "median_bars_held": 18.0,
+        "profit_factor": null
+      },
+      {
+        "bars_held": 19,
+        "trades": 8,
+        "net_pnl_usd": -2259.1999999999825,
+        "costed_gross_before_commission_usd": -2219.1999999999825,
+        "win_rate": 0.375,
+        "wins_usd": 1480.659999999989,
+        "losses_usd": -3739.8599999999715,
+        "mean_bars_held": 19.0,
+        "median_bars_held": 19.0,
+        "profit_factor": 0.39591321600273816
+      },
+      {
+        "bars_held": 20,
+        "trades": 6,
+        "net_pnl_usd": -692.0999999999913,
+        "costed_gross_before_commission_usd": -662.0999999999913,
+        "win_rate": 0.3333333333333333,
+        "wins_usd": 1378.2999999999447,
+        "losses_usd": -2070.399999999936,
+        "mean_bars_held": 20.0,
+        "median_bars_held": 20.0,
+        "profit_factor": 0.6657167697063309
+      },
+      {
+        "bars_held": 21,
+        "trades": 5,
+        "net_pnl_usd": 2121.640000000043,
+        "costed_gross_before_commission_usd": 2146.640000000043,
+        "win_rate": 0.8,
+        "wins_usd": 2747.6800000000367,
+        "losses_usd": -626.0399999999936,
+        "mean_bars_held": 21.0,
+        "median_bars_held": 21.0,
+        "profit_factor": 4.388984729410365
+      },
+      {
+        "bars_held": 22,
+        "trades": 4,
+        "net_pnl_usd": -436.6599999999744,
+        "costed_gross_before_commission_usd": -416.6599999999744,
+        "win_rate": 0.25,
+        "wins_usd": 984.5200000000477,
+        "losses_usd": -1421.1800000000221,
+        "mean_bars_held": 22.0,
+        "median_bars_held": 22.0,
+        "profit_factor": 0.6927482795986661
+      },
+      {
+        "bars_held": 23,
+        "trades": 6,
+        "net_pnl_usd": 4660.6600000001345,
+        "costed_gross_before_commission_usd": 4690.6600000001345,
+        "win_rate": 1.0,
+        "wins_usd": 4660.6600000001345,
+        "losses_usd": 0.0,
+        "mean_bars_held": 23.0,
+        "median_bars_held": 23.0,
+        "profit_factor": null
+      },
+      {
+        "bars_held": 24,
+        "trades": 8,
+        "net_pnl_usd": 4347.340000000113,
+        "costed_gross_before_commission_usd": 4387.340000000113,
+        "win_rate": 0.875,
+        "wins_usd": 4480.320000000138,
+        "losses_usd": -132.98000000002503,
+        "mean_bars_held": 24.0,
+        "median_bars_held": 24.0,
+        "profit_factor": 33.69168295983828
+      },
+      {
+        "bars_held": 25,
+        "trades": 8,
+        "net_pnl_usd": 2340.9999999999854,
+        "costed_gross_before_commission_usd": 2380.9999999999854,
+        "win_rate": 0.875,
+        "wins_usd": 2468.139999999985,
+        "losses_usd": -127.13999999999942,
+        "mean_bars_held": 25.0,
+        "median_bars_held": 25.0,
+        "profit_factor": 19.41277332074875
+      },
+      {
+        "bars_held": 26,
+        "trades": 4,
+        "net_pnl_usd": -1760.3399999999237,
+        "costed_gross_before_commission_usd": -1740.3399999999237,
+        "win_rate": 0.25,
+        "wins_usd": 224.84000000004016,
+        "losses_usd": -1985.179999999964,
+        "mean_bars_held": 26.0,
+        "median_bars_held": 26.0,
+        "profit_factor": 0.11325925105030489
+      },
+      {
+        "bars_held": 27,
+        "trades": 4,
+        "net_pnl_usd": -182.7599999999802,
+        "costed_gross_before_commission_usd": -162.7599999999802,
+        "win_rate": 0.5,
+        "wins_usd": 1320.7600000000093,
+        "losses_usd": -1503.5199999999895,
+        "mean_bars_held": 27.0,
+        "median_bars_held": 27.0,
+        "profit_factor": 0.8784452484835709
+      },
+      {
+        "bars_held": 28,
+        "trades": 10,
+        "net_pnl_usd": 404.84000000004016,
+        "costed_gross_before_commission_usd": 454.84000000004016,
+        "win_rate": 0.4,
+        "wins_usd": 2643.5199999999895,
+        "losses_usd": -2238.6799999999494,
+        "mean_bars_held": 28.0,
+        "median_bars_held": 28.0,
+        "profit_factor": 1.1808387085246883
+      },
+      {
+        "bars_held": 29,
+        "trades": 8,
+        "net_pnl_usd": 3024.5000000000437,
+        "costed_gross_before_commission_usd": 3064.5000000000437,
+        "win_rate": 0.625,
+        "wins_usd": 3650.7800000000134,
+        "losses_usd": -626.2799999999697,
+        "mean_bars_held": 29.0,
+        "median_bars_held": 29.0,
+        "profit_factor": 5.8293095739927665
+      },
+      {
+        "bars_held": 30,
+        "trades": 26,
+        "net_pnl_usd": 4925.29999999977,
+        "costed_gross_before_commission_usd": 5055.29999999977,
+        "win_rate": 0.5769230769230769,
+        "wins_usd": 10610.339999999924,
+        "losses_usd": -5685.040000000154,
+        "mean_bars_held": 30.0,
+        "median_bars_held": 30.0,
+        "profit_factor": 1.8663615383532284
+      }
+    ],
+    "session_breakdown": [
+      {
+        "session": "RTH",
+        "trades": 61,
+        "net_pnl_usd": -1762.7399999998306,
+        "costed_gross_before_commission_usd": -1457.7399999998306,
+        "win_rate": 0.4426229508196721,
+        "wins_usd": 21309.18000000005,
+        "losses_usd": -23071.919999999882,
+        "mean_bars_held": 11.37704918032787,
+        "median_bars_held": 8.0,
+        "profit_factor": 0.9235980360542235
+      },
+      {
+        "session": "overnight",
+        "trades": 177,
+        "net_pnl_usd": -12404.219999999405,
+        "costed_gross_before_commission_usd": -11519.219999999405,
+        "win_rate": 0.4858757062146893,
+        "wins_usd": 37716.96000000033,
+        "losses_usd": -50121.17999999973,
+        "mean_bars_held": 17.180790960451976,
+        "median_bars_held": 17.0,
+        "profit_factor": 0.7525154036676815
+      }
+    ],
+    "side_by_exit": [
+      {
+        "direction": "long",
+        "exit_class": "MARKET",
+        "trades": 121,
+        "net_pnl_usd": 17176.3000000015,
+        "costed_gross_before_commission_usd": 17781.3000000015,
+        "win_rate": 0.5702479338842975,
+        "wins_usd": 31372.96000000082,
+        "losses_usd": -14196.65999999932,
+        "mean_bars_held": 17.115702479338843,
+        "median_bars_held": 17.0,
+        "profit_factor": 2.20988316970346
+      },
+      {
+        "direction": "long",
+        "exit_class": "STOP",
+        "trades": 16,
+        "net_pnl_usd": -19436.00000000006,
+        "costed_gross_before_commission_usd": -19356.00000000006,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -19436.00000000006,
+        "mean_bars_held": 8.625,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.0
+      },
+      {
+        "direction": "short",
+        "exit_class": "MARKET",
+        "trades": 73,
+        "net_pnl_usd": 16715.4999999993,
+        "costed_gross_before_commission_usd": 17080.4999999993,
+        "win_rate": 0.6027397260273972,
+        "wins_usd": 27653.179999999556,
+        "losses_usd": -10937.680000000255,
+        "mean_bars_held": 17.945205479452056,
+        "median_bars_held": 18.0,
+        "profit_factor": 2.5282491350998484
+      },
+      {
+        "direction": "short",
+        "exit_class": "STOP",
+        "trades": 28,
+        "net_pnl_usd": -28622.75999999998,
+        "costed_gross_before_commission_usd": -28482.75999999998,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -28622.75999999998,
+        "mean_bars_held": 7.714285714285714,
+        "median_bars_held": 5.5,
+        "profit_factor": 0.0
+      }
+    ],
+    "month_by_side": [
+      {
+        "entry_month": 1,
+        "direction": "long",
+        "trades": 24,
+        "net_pnl_usd": -2344.159999999756,
+        "costed_gross_before_commission_usd": -2224.159999999756,
+        "win_rate": 0.4583333333333333,
+        "wins_usd": 3902.7600000001257,
+        "losses_usd": -6246.919999999882,
+        "mean_bars_held": 14.291666666666666,
+        "median_bars_held": 12.0,
+        "profit_factor": 0.6247494765420719
+      },
+      {
+        "entry_month": 1,
+        "direction": "short",
+        "trades": 12,
+        "net_pnl_usd": 680.8999999998196,
+        "costed_gross_before_commission_usd": 740.8999999998196,
+        "win_rate": 0.5,
+        "wins_usd": 4266.079999999856,
+        "losses_usd": -3585.1800000000367,
+        "mean_bars_held": 16.083333333333332,
+        "median_bars_held": 13.5,
+        "profit_factor": 1.189920729224143
+      },
+      {
+        "entry_month": 2,
+        "direction": "long",
+        "trades": 13,
+        "net_pnl_usd": -493.25999999993655,
+        "costed_gross_before_commission_usd": -428.25999999993655,
+        "win_rate": 0.5384615384615384,
+        "wins_usd": 1418.1000000000495,
+        "losses_usd": -1911.359999999986,
+        "mean_bars_held": 15.384615384615385,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.741932446007063
+      },
+      {
+        "entry_month": 2,
+        "direction": "short",
+        "trades": 22,
+        "net_pnl_usd": -1866.440000000075,
+        "costed_gross_before_commission_usd": -1756.440000000075,
+        "win_rate": 0.36363636363636365,
+        "wins_usd": 6671.780000000072,
+        "losses_usd": -8538.220000000147,
+        "mean_bars_held": 13.727272727272727,
+        "median_bars_held": 11.5,
+        "profit_factor": 0.7814017441574423
+      },
+      {
+        "entry_month": 3,
+        "direction": "long",
+        "trades": 14,
+        "net_pnl_usd": -2329.679999999935,
+        "costed_gross_before_commission_usd": -2259.679999999935,
+        "win_rate": 0.5,
+        "wins_usd": 2325.080000000089,
+        "losses_usd": -4654.760000000024,
+        "mean_bars_held": 15.142857142857142,
+        "median_bars_held": 15.0,
+        "profit_factor": 0.4995058821507612
+      },
+      {
+        "entry_month": 3,
+        "direction": "short",
+        "trades": 24,
+        "net_pnl_usd": -4460.080000000162,
+        "costed_gross_before_commission_usd": -4340.080000000162,
+        "win_rate": 0.5416666666666666,
+        "wins_usd": 3702.6599999998143,
+        "losses_usd": -8162.739999999976,
+        "mean_bars_held": 15.375,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.4536050394842694
+      },
+      {
+        "entry_month": 4,
+        "direction": "long",
+        "trades": 30,
+        "net_pnl_usd": 3752.9600000005303,
+        "costed_gross_before_commission_usd": 3902.9600000005303,
+        "win_rate": 0.5666666666666667,
+        "wins_usd": 11748.180000000284,
+        "losses_usd": -7995.219999999754,
+        "mean_bars_held": 17.7,
+        "median_bars_held": 20.0,
+        "profit_factor": 1.469400466778981
+      },
+      {
+        "entry_month": 4,
+        "direction": "short",
+        "trades": 8,
+        "net_pnl_usd": -2253.960000000079,
+        "costed_gross_before_commission_usd": -2213.960000000079,
+        "win_rate": 0.375,
+        "wins_usd": 1607.8199999999924,
+        "losses_usd": -3861.7800000000716,
+        "mean_bars_held": 21.125,
+        "median_bars_held": 24.5,
+        "profit_factor": 0.41634168699407076
+      },
+      {
+        "entry_month": 5,
+        "direction": "long",
+        "trades": 32,
+        "net_pnl_usd": 3539.4200000002456,
+        "costed_gross_before_commission_usd": 3699.4200000002456,
+        "win_rate": 0.5625,
+        "wins_usd": 8996.340000000127,
+        "losses_usd": -5456.919999999882,
+        "mean_bars_held": 18.15625,
+        "median_bars_held": 17.0,
+        "profit_factor": 1.6486113045454802
+      },
+      {
+        "entry_month": 5,
+        "direction": "short",
+        "trades": 10,
+        "net_pnl_usd": 526.4199999999983,
+        "costed_gross_before_commission_usd": 576.4199999999983,
+        "win_rate": 0.5,
+        "wins_usd": 4350.279999999984,
+        "losses_usd": -3823.859999999986,
+        "mean_bars_held": 13.3,
+        "median_bars_held": 9.5,
+        "profit_factor": 1.1376671740074167
+      },
+      {
+        "entry_month": 6,
+        "direction": "long",
+        "trades": 18,
+        "net_pnl_usd": -3335.1399999998102,
+        "costed_gross_before_commission_usd": -3245.1399999998102,
+        "win_rate": 0.3888888888888889,
+        "wins_usd": 2403.04000000011,
+        "losses_usd": -5738.17999999992,
+        "mean_bars_held": 14.5,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.4187808678013139
+      },
+      {
+        "entry_month": 6,
+        "direction": "short",
+        "trades": 14,
+        "net_pnl_usd": -5860.319999999992,
+        "costed_gross_before_commission_usd": -5790.319999999992,
+        "win_rate": 0.2857142857142857,
+        "wins_usd": 3282.039999999979,
+        "losses_usd": -9142.359999999971,
+        "mean_bars_held": 14.5,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.35899264522508295
+      },
+      {
+        "entry_month": 7,
+        "direction": "long",
+        "trades": 6,
+        "net_pnl_usd": -1049.8399999998946,
+        "costed_gross_before_commission_usd": -1019.8399999998946,
+        "win_rate": 0.3333333333333333,
+        "wins_usd": 579.4600000000355,
+        "losses_usd": -1629.2999999999302,
+        "mean_bars_held": 13.5,
+        "median_bars_held": 15.5,
+        "profit_factor": 0.3556496655005587
+      },
+      {
+        "entry_month": 7,
+        "direction": "short",
+        "trades": 11,
+        "net_pnl_usd": 1326.219999999812,
+        "costed_gross_before_commission_usd": 1381.219999999812,
+        "win_rate": 0.45454545454545453,
+        "wins_usd": 3772.5199999998586,
+        "losses_usd": -2446.3000000000466,
+        "mean_bars_held": 14.272727272727273,
+        "median_bars_held": 13.0,
+        "profit_factor": 1.5421330172095764
+      }
+    ],
+    "month_by_exit": [
+      {
+        "entry_month": 1,
+        "exit_class": "MARKET",
+        "trades": 29,
+        "net_pnl_usd": 5408.400000000111,
+        "costed_gross_before_commission_usd": 5553.400000000111,
+        "win_rate": 0.5862068965517241,
+        "wins_usd": 8168.839999999982,
+        "losses_usd": -2760.4399999998714,
+        "mean_bars_held": 16.20689655172414,
+        "median_bars_held": 15.0,
+        "profit_factor": 2.959252872730566
+      },
+      {
+        "entry_month": 1,
+        "exit_class": "STOP",
+        "trades": 7,
+        "net_pnl_usd": -7071.660000000047,
+        "costed_gross_before_commission_usd": -7036.660000000047,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -7071.660000000047,
+        "mean_bars_held": 9.428571428571429,
+        "median_bars_held": 8.0,
+        "profit_factor": 0.0
+      },
+      {
+        "entry_month": 2,
+        "exit_class": "MARKET",
+        "trades": 29,
+        "net_pnl_usd": 3700.2999999999884,
+        "costed_gross_before_commission_usd": 3845.2999999999884,
+        "win_rate": 0.5172413793103449,
+        "wins_usd": 8089.880000000121,
+        "losses_usd": -4389.580000000133,
+        "mean_bars_held": 16.517241379310345,
+        "median_bars_held": 17.0,
+        "profit_factor": 1.8429735874502517
+      },
+      {
+        "entry_month": 2,
+        "exit_class": "STOP",
+        "trades": 6,
+        "net_pnl_usd": -6060.0,
+        "costed_gross_before_commission_usd": -6030.0,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -6060.0,
+        "mean_bars_held": 3.8333333333333335,
+        "median_bars_held": 1.5,
+        "profit_factor": 0.0
+      },
+      {
+        "entry_month": 3,
+        "exit_class": "MARKET",
+        "trades": 28,
+        "net_pnl_usd": 3311.519999999946,
+        "costed_gross_before_commission_usd": 3451.519999999946,
+        "win_rate": 0.7142857142857143,
+        "wins_usd": 6027.739999999903,
+        "losses_usd": -2716.2199999999575,
+        "mean_bars_held": 17.75,
+        "median_bars_held": 16.5,
+        "profit_factor": 2.2191648688250574
+      },
+      {
+        "entry_month": 3,
+        "exit_class": "STOP",
+        "trades": 10,
+        "net_pnl_usd": -10101.280000000042,
+        "costed_gross_before_commission_usd": -10051.280000000042,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -10101.280000000042,
+        "mean_bars_held": 8.4,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.0
+      },
+      {
+        "entry_month": 4,
+        "exit_class": "MARKET",
+        "trades": 34,
+        "net_pnl_usd": 8812.06000000042,
+        "costed_gross_before_commission_usd": 8982.06000000042,
+        "win_rate": 0.5882352941176471,
+        "wins_usd": 13356.000000000276,
+        "losses_usd": -4543.939999999857,
+        "mean_bars_held": 19.61764705882353,
+        "median_bars_held": 22.5,
+        "profit_factor": 2.939299374551754
+      },
+      {
+        "entry_month": 4,
+        "exit_class": "STOP",
+        "trades": 4,
+        "net_pnl_usd": -7313.059999999969,
+        "costed_gross_before_commission_usd": -7293.059999999969,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -7313.059999999969,
+        "mean_bars_held": 8.25,
+        "median_bars_held": 6.5,
+        "profit_factor": 0.0
+      },
+      {
+        "entry_month": 5,
+        "exit_class": "MARKET",
+        "trades": 39,
+        "net_pnl_usd": 7098.32000000024,
+        "costed_gross_before_commission_usd": 7293.32000000024,
+        "win_rate": 0.5897435897435898,
+        "wins_usd": 13346.620000000112,
+        "losses_usd": -6248.299999999872,
+        "mean_bars_held": 17.71794871794872,
+        "median_bars_held": 17.0,
+        "profit_factor": 2.13604020293526
+      },
+      {
+        "entry_month": 5,
+        "exit_class": "STOP",
+        "trades": 3,
+        "net_pnl_usd": -3032.479999999996,
+        "costed_gross_before_commission_usd": -3017.479999999996,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -3032.479999999996,
+        "mean_bars_held": 7.666666666666667,
+        "median_bars_held": 8.0,
+        "profit_factor": 0.0
+      },
+      {
+        "entry_month": 6,
+        "exit_class": "MARKET",
+        "trades": 21,
+        "net_pnl_usd": 2254.8200000001816,
+        "costed_gross_before_commission_usd": 2359.8200000001816,
+        "win_rate": 0.5238095238095238,
+        "wins_usd": 5685.080000000089,
+        "losses_usd": -3430.2599999999074,
+        "mean_bars_held": 17.0,
+        "median_bars_held": 17.0,
+        "profit_factor": 1.657332097275496
+      },
+      {
+        "entry_month": 6,
+        "exit_class": "STOP",
+        "trades": 11,
+        "net_pnl_usd": -11450.279999999984,
+        "costed_gross_before_commission_usd": -11395.279999999984,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -11450.279999999984,
+        "mean_bars_held": 9.727272727272727,
+        "median_bars_held": 4.0,
+        "profit_factor": 0.0
+      },
+      {
+        "entry_month": 7,
+        "exit_class": "MARKET",
+        "trades": 14,
+        "net_pnl_usd": 3306.3799999999173,
+        "costed_gross_before_commission_usd": 3376.3799999999173,
+        "win_rate": 0.5,
+        "wins_usd": 4351.979999999894,
+        "losses_usd": -1045.5999999999767,
+        "mean_bars_held": 15.714285714285714,
+        "median_bars_held": 15.5,
+        "profit_factor": 4.162184391736793
+      },
+      {
+        "entry_month": 7,
+        "exit_class": "STOP",
+        "trades": 3,
+        "net_pnl_usd": -3030.0,
+        "costed_gross_before_commission_usd": -3015.0,
+        "win_rate": 0.0,
+        "wins_usd": 0.0,
+        "losses_usd": -3030.0,
+        "mean_bars_held": 6.0,
+        "median_bars_held": 7.0,
+        "profit_factor": 0.0
+      }
+    ],
+    "worst_10_trades": [
+      {
+        "entry_time": "2026-04-07 17:32 CDT",
+        "direction": "long",
+        "exit_reason": "signal",
+        "bars_held": 1,
+        "pnl": -4283.059999999969
+      },
+      {
+        "entry_time": "2026-06-29 09:15 CDT",
+        "direction": "short",
+        "exit_reason": "signal",
+        "bars_held": 1,
+        "pnl": -1350.2799999999843
+      },
+      {
+        "entry_time": "2026-05-15 01:00 CDT",
+        "direction": "short",
+        "exit_reason": "signal",
+        "bars_held": 8,
+        "pnl": -1012.4799999999959
+      },
+      {
+        "entry_time": "2026-01-28 18:00 CST",
+        "direction": "long",
+        "exit_reason": "signal",
+        "bars_held": 2,
+        "pnl": -1011.6600000000471
+      },
+      {
+        "entry_time": "2026-03-23 06:18 CDT",
+        "direction": "long",
+        "exit_reason": "signal",
+        "bars_held": 1,
+        "pnl": -1011.2800000000425
+      },
+      {
+        "entry_time": "2026-01-07 09:32 CST",
+        "direction": "long",
+        "exit_reason": "signal",
+        "bars_held": 7,
+        "pnl": -1010.0
+      },
+      {
+        "entry_time": "2026-01-09 08:01 CST",
+        "direction": "long",
+        "exit_reason": "signal",
+        "bars_held": 11,
+        "pnl": -1010.0
+      },
+      {
+        "entry_time": "2026-01-13 07:31 CST",
+        "direction": "long",
+        "exit_reason": "signal",
+        "bars_held": 8,
+        "pnl": -1010.0
+      },
+      {
+        "entry_time": "2026-01-13 14:33 CST",
+        "direction": "short",
+        "exit_reason": "signal",
+        "bars_held": 14,
+        "pnl": -1010.0
+      },
+      {
+        "entry_time": "2026-01-14 06:01 CST",
+        "direction": "short",
+        "exit_reason": "signal",
+        "bars_held": 19,
+        "pnl": -1010.0
+      }
+    ]
+  },
+  "matched_prior_seasons": {
+    "matched_2018_2025_jan_jul14": [
+      {
+        "year": 2018,
+        "trades": 227,
+        "net_pnl_usd": 3826.0400000002664,
+        "costed_gross_before_commission_usd": 4961.040000000266,
+        "win_rate": 0.5022026431718062,
+        "wins_usd": 18702.78000000013,
+        "losses_usd": -14876.739999999863,
+        "mean_bars_held": 19.259911894273127,
+        "median_bars_held": 21.0,
+        "profit_factor": 1.2571826892182227
+      },
+      {
+        "year": 2019,
+        "trades": 225,
+        "net_pnl_usd": 7450.680000000193,
+        "costed_gross_before_commission_usd": 8575.680000000193,
+        "win_rate": 0.48444444444444446,
+        "wins_usd": 21696.10000000017,
+        "losses_usd": -14245.419999999976,
+        "mean_bars_held": 17.608888888888888,
+        "median_bars_held": 18.0,
+        "profit_factor": 1.5230228382174906
+      },
+      {
+        "year": 2020,
+        "trades": 240,
+        "net_pnl_usd": -2205.8199999995304,
+        "costed_gross_before_commission_usd": -1005.8199999995304,
+        "win_rate": 0.4708333333333333,
+        "wins_usd": 34294.00000000039,
+        "losses_usd": -36499.81999999993,
+        "mean_bars_held": 17.691666666666666,
+        "median_bars_held": 19.0,
+        "profit_factor": 0.939566277313161
+      },
+      {
+        "year": 2021,
+        "trades": 234,
+        "net_pnl_usd": 21757.22000000056,
+        "costed_gross_before_commission_usd": 22927.22000000056,
+        "win_rate": 0.5512820512820513,
+        "wins_usd": 46909.16000000034,
+        "losses_usd": -25151.939999999777,
+        "mean_bars_held": 19.58974358974359,
+        "median_bars_held": 21.0,
+        "profit_factor": 1.8650314846489278
+      },
+      {
+        "year": 2022,
+        "trades": 237,
+        "net_pnl_usd": 32758.89999999985,
+        "costed_gross_before_commission_usd": 33943.89999999985,
+        "win_rate": 0.5780590717299579,
+        "wins_usd": 78837.5599999998,
+        "losses_usd": -46078.659999999945,
+        "mean_bars_held": 16.738396624472575,
+        "median_bars_held": 17.0,
+        "profit_factor": 1.710934302342991
+      },
+      {
+        "year": 2023,
+        "trades": 231,
+        "net_pnl_usd": 5943.040000000328,
+        "costed_gross_before_commission_usd": 7098.040000000328,
+        "win_rate": 0.47186147186147187,
+        "wins_usd": 36878.14000000031,
+        "losses_usd": -30935.099999999984,
+        "mean_bars_held": 17.515151515151516,
+        "median_bars_held": 17.0,
+        "profit_factor": 1.1921131659506623
+      },
+      {
+        "year": 2024,
+        "trades": 230,
+        "net_pnl_usd": 12675.160000000142,
+        "costed_gross_before_commission_usd": 13825.160000000142,
+        "win_rate": 0.5478260869565217,
+        "wins_usd": 45751.68000000016,
+        "losses_usd": -33076.52000000002,
+        "mean_bars_held": 18.94782608695652,
+        "median_bars_held": 20.0,
+        "profit_factor": 1.3832071814084472
+      },
+      {
+        "year": 2025,
+        "trades": 215,
+        "net_pnl_usd": 26594.59999999992,
+        "costed_gross_before_commission_usd": 27669.59999999992,
+        "win_rate": 0.5627906976744186,
+        "wins_usd": 77759.09999999982,
+        "losses_usd": -51164.4999999999,
+        "mean_bars_held": 18.088372093023256,
+        "median_bars_held": 20.0,
+        "profit_factor": 1.5197861798708083
+      }
+    ],
+    "matched_2018_2025_n": 1839,
+    "matched_2018_2025_net_pnl_usd": 108799.82000000172,
+    "matched_2018_2025_mean_per_trade_usd": 59.16249048395961
+  },
+  "features": {
+    "entry_context_source_field": "volatility_proxy",
+    "entry_context_join_rows": 238,
+    "entry_context_nulls_after_join": 0,
+    "entry_context_interpretation": "prior 50-bar channel range proxy, not standalone volatility",
+    "entry_to_channel_distance_points": {
+      "median": 0.2540000000008149,
+      "median_atr20": 0.004007711662686362,
+      "q10": 0.1529999999984284,
+      "q90": 0.35599999999976717
+    },
+    "next_observed_open_move_points": {
+      "mean": -0.478554621848681,
+      "median": -0.011999999998806743,
+      "median_atr20": -0.00037439512244160527,
+      "positive_fraction": 0.5
+    },
+    "ledger_excursions_points": {
+      "median_mfe": 13.099000000001979,
+      "median_mae": -12.048999999999069,
+      "nominal_50pt_stop_excursions": 2,
+      "ohlc_stop_touched_inclusive_entry_exit": 51,
+      "ohlc_stop_touch_rate": 0.21428571428571427,
+      "touch_window_includes_entry_and_exit_minute_ohlc": true,
+      "touch_minute_ordering_resolved": false,
+      "recorded_stop_exit_trades": 44,
+      "interpretation": "MFE/MAE are post-entry path outcomes. MAE threshold flags potential 50-point excursions; one-minute OHLC cannot establish intraminute ordering or exact stop execution."
+    },
+    "trailing_252_atr_regime": [
+      {
+        "atr_past252_regime": "high",
+        "trades": 67,
+        "net_pnl_usd": -5712.339999999749,
+        "costed_gross_before_commission_usd": -5377.339999999749,
+        "win_rate": 0.4925373134328358,
+        "wins_usd": 17738.160000000134,
+        "losses_usd": -23450.499999999884,
+        "mean_bars_held": 15.597014925373134,
+        "median_bars_held": 14.0,
+        "profit_factor": 0.7564086053602364
+      },
+      {
+        "atr_past252_regime": "low",
+        "trades": 77,
+        "net_pnl_usd": 1935.6600000003527,
+        "costed_gross_before_commission_usd": 2320.6600000003527,
+        "win_rate": 0.5194805194805194,
+        "wins_usd": 21568.02000000018,
+        "losses_usd": -19632.359999999826,
+        "mean_bars_held": 15.03896103896104,
+        "median_bars_held": 14.0,
+        "profit_factor": 1.0985953802803317
+      },
+      {
+        "atr_past252_regime": "mid",
+        "trades": 94,
+        "net_pnl_usd": -10390.279999999839,
+        "costed_gross_before_commission_usd": -9920.279999999839,
+        "win_rate": 0.425531914893617,
+        "wins_usd": 19719.960000000065,
+        "losses_usd": -30110.239999999903,
+        "mean_bars_held": 16.29787234042553,
+        "median_bars_held": 15.5,
+        "profit_factor": 0.6549253675825941
+      }
+    ],
+    "reference_2018_2025_tercile_cutpoints": {
+      "atr20_bps": [
+        17.521346316532465,
+        27.946790917425858
+      ],
+      "efficiency_20": [
+        0.19742651696732805,
+        0.37409203364670907
+      ]
+    },
+    "fixed_50_point_stop_analysis": {
+      "stop_distance_points": 50.0,
+      "contract_multiplier_usd_per_point": 20.0,
+      "nominal_stop_risk_usd_per_contract": 1000.0,
+      "reference_2018_full_year_median_entry_price": 6966.5,
+      "reference_2018_2025_median_entry_price": 12901.5,
+      "current_2026_median_entry_price": 25828.5445,
+      "reference_2018_full_year_stop_bps_of_median_price": 71.77205196296562,
+      "reference_2018_2025_stop_bps_of_median_price": 38.7551835057939,
+      "current_stop_bps_of_median_price": 19.358427262519573,
+      "reference_median_pre_entry_atr20_points": 27.889036371564266,
+      "current_median_pre_entry_atr20_points": 66.67017964272677,
+      "reference_tercile_cutpoints_for_50_over_atr20": [
+        1.3602038412779627,
+        2.339346551392323
+      ],
+      "stop_probability_by_tercile": [
+        {
+          "period": "reference_2018_2025",
+          "stop_ratio_tercile": "high_50pt_atr_ratio",
+          "trades": 613,
+          "stop_probability": 0.009787928221859706,
+          "net_pnl_usd": 18236.90000000117,
+          "median_stop_50pt_over_atr20": 3.450689340656959
+        },
+        {
+          "period": "reference_2018_2025",
+          "stop_ratio_tercile": "low_50pt_atr_ratio",
+          "trades": 614,
+          "stop_probability": 0.08306188925081433,
+          "net_pnl_usd": 64980.939999999646,
+          "median_stop_50pt_over_atr20": 1.0025277131681078
+        },
+        {
+          "period": "reference_2018_2025",
+          "stop_ratio_tercile": "mid_50pt_atr_ratio",
+          "trades": 612,
+          "stop_probability": 0.05392156862745098,
+          "net_pnl_usd": 25581.980000000913,
+          "median_stop_50pt_over_atr20": 1.7934102149102422
+        },
+        {
+          "period": "2026",
+          "stop_ratio_tercile": "low_50pt_atr_ratio",
+          "trades": 224,
+          "stop_probability": 0.17857142857142858,
+          "net_pnl_usd": -16301.01999999919,
+          "median_stop_50pt_over_atr20": 0.7395291249204741
+        },
+        {
+          "period": "2026",
+          "stop_ratio_tercile": "mid_50pt_atr_ratio",
+          "trades": 14,
+          "stop_probability": 0.2857142857142857,
+          "net_pnl_usd": 2134.059999999954,
+          "median_stop_50pt_over_atr20": 1.5505701655110908
+        }
+      ],
+      "matched_season_stop_frequency_by_month": [
+        {
+          "entry_month": 1,
+          "reference_trades": 287,
+          "reference_stop_trades": 6,
+          "reference_stop_share_pct": 0.020905923344947737
+        },
+        {
+          "entry_month": 2,
+          "reference_trades": 266,
+          "reference_stop_trades": 11,
+          "reference_stop_share_pct": 0.041353383458646614
+        },
+        {
+          "entry_month": 3,
+          "reference_trades": 295,
+          "reference_stop_trades": 24,
+          "reference_stop_share_pct": 0.08135593220338982
+        },
+        {
+          "entry_month": 4,
+          "reference_trades": 282,
+          "reference_stop_trades": 14,
+          "reference_stop_share_pct": 0.04964539007092199
+        },
+        {
+          "entry_month": 5,
+          "reference_trades": 293,
+          "reference_stop_trades": 18,
+          "reference_stop_share_pct": 0.06143344709897611
+        },
+        {
+          "entry_month": 6,
+          "reference_trades": 282,
+          "reference_stop_trades": 12,
+          "reference_stop_share_pct": 0.0425531914893617
+        },
+        {
+          "entry_month": 7,
+          "reference_trades": 134,
+          "reference_stop_trades": 5,
+          "reference_stop_share_pct": 0.03731343283582089
+        }
+      ],
+      "threshold_selection": "No stop level or threshold was selected or changed; fixed 50-point distance is descriptive only."
+    },
+    "distribution_tests": {
+      "atr20_bps": {
+        "reference_n": 1839,
+        "current_n": 238,
+        "ks_statistic": 0.14608094461275536,
+        "ks_pvalue": 0.0002167502873462424,
+        "psi_ml4t_diagnostic": 0.37866167397649986
+      },
+      "efficiency_20": {
+        "reference_n": 1839,
+        "current_n": 238,
+        "ks_statistic": 0.057859359078052064,
+        "ks_pvalue": 0.46179382581144446,
+        "psi_ml4t_diagnostic": 0.07941988561195694
+      },
+      "prior_range_atr20": {
+        "reference_n": 1839,
+        "current_n": 238,
+        "ks_statistic": 0.06981781293267719,
+        "ks_pvalue": 0.24313189835717414,
+        "psi_ml4t_diagnostic": 0.07198379232181724
+      },
+      "channel_width_50_bps": {
+        "reference_n": 1839,
+        "current_n": 238,
+        "ks_statistic": 0.09620226557180785,
+        "ks_pvalue": 0.03759024491292695,
+        "psi_ml4t_diagnostic": 0.16867453452601613
+      }
+    },
+    "regime_breakdown": [
+      {
+        "feature": "atr20_bps",
+        "source_period": "2026",
+        "regime": "high",
+        "trades": 79,
+        "net_pnl_usd": -10191.53999999995,
+        "costed_gross_before_commission_usd": -9796.53999999995,
+        "win_rate": 0.46835443037974683,
+        "wins_usd": 19233.840000000127,
+        "losses_usd": -29425.380000000077,
+        "mean_bars_held": 16.759493670886076,
+        "median_bars_held": 17.0,
+        "profit_factor": 0.6536479732802117
+      },
+      {
+        "feature": "atr20_bps",
+        "source_period": "2026",
+        "regime": "low",
+        "trades": 47,
+        "net_pnl_usd": 4908.00000000032,
+        "costed_gross_before_commission_usd": 5143.00000000032,
+        "win_rate": 0.44680851063829785,
+        "wins_usd": 16799.88000000012,
+        "losses_usd": -11891.879999999801,
+        "mean_bars_held": 16.70212765957447,
+        "median_bars_held": 17.0,
+        "profit_factor": 1.4127185945368101
+      },
+      {
+        "feature": "atr20_bps",
+        "source_period": "2026",
+        "regime": "mid",
+        "trades": 112,
+        "net_pnl_usd": -8883.419999999605,
+        "costed_gross_before_commission_usd": -8323.419999999605,
+        "win_rate": 0.49107142857142855,
+        "wins_usd": 22992.42000000013,
+        "losses_usd": -31875.839999999735,
+        "mean_bars_held": 14.517857142857142,
+        "median_bars_held": 13.0,
+        "profit_factor": 0.7213118148415955
+      },
+      {
+        "feature": "atr20_bps",
+        "source_period": "reference_2018_2025",
+        "regime": "high",
+        "trades": 613,
+        "net_pnl_usd": 38239.079999999994,
+        "costed_gross_before_commission_usd": 41304.079999999994,
+        "win_rate": 0.5154975530179445,
+        "wins_usd": 145062.53999999992,
+        "losses_usd": -106823.45999999993,
+        "mean_bars_held": 17.557911908646002,
+        "median_bars_held": 19.0,
+        "profit_factor": 1.3579651885456623
+      },
+      {
+        "feature": "atr20_bps",
+        "source_period": "reference_2018_2025",
+        "regime": "low",
+        "trades": 614,
+        "net_pnl_usd": 28892.66000000125,
+        "costed_gross_before_commission_usd": 31962.66000000125,
+        "win_rate": 0.5228013029315961,
+        "wins_usd": 91587.38000000079,
+        "losses_usd": -62694.71999999954,
+        "mean_bars_held": 18.322475570032573,
+        "median_bars_held": 19.0,
+        "profit_factor": 1.4608467826317983
+      },
+      {
+        "feature": "atr20_bps",
+        "source_period": "reference_2018_2025",
+        "regime": "mid",
+        "trades": 612,
+        "net_pnl_usd": 41668.08000000048,
+        "costed_gross_before_commission_usd": 44728.08000000048,
+        "win_rate": 0.5245098039215687,
+        "wins_usd": 124178.60000000038,
+        "losses_usd": -82510.5199999999,
+        "mean_bars_held": 18.645424836601308,
+        "median_bars_held": 20.0,
+        "profit_factor": 1.5050032407988767
+      },
+      {
+        "feature": "efficiency_20",
+        "source_period": "2026",
+        "regime": "high",
+        "trades": 81,
+        "net_pnl_usd": -7416.679999999396,
+        "costed_gross_before_commission_usd": -7011.679999999396,
+        "win_rate": 0.4567901234567901,
+        "wins_usd": 15147.700000000186,
+        "losses_usd": -22564.379999999583,
+        "mean_bars_held": 17.22222222222222,
+        "median_bars_held": 18.0,
+        "profit_factor": 0.6713102686623992
+      },
+      {
+        "feature": "efficiency_20",
+        "source_period": "2026",
+        "regime": "low",
+        "trades": 79,
+        "net_pnl_usd": -2132.8199999999924,
+        "costed_gross_before_commission_usd": -1737.8199999999924,
+        "win_rate": 0.5189873417721519,
+        "wins_usd": 25035.620000000126,
+        "losses_usd": -27168.44000000012,
+        "mean_bars_held": 12.886075949367088,
+        "median_bars_held": 11.0,
+        "profit_factor": 0.9214964127494997
+      },
+      {
+        "feature": "efficiency_20",
+        "source_period": "2026",
+        "regime": "mid",
+        "trades": 78,
+        "net_pnl_usd": -4617.459999999846,
+        "costed_gross_before_commission_usd": -4227.459999999846,
+        "win_rate": 0.44871794871794873,
+        "wins_usd": 18842.820000000065,
+        "losses_usd": -23460.27999999991,
+        "mean_bars_held": 16.94871794871795,
+        "median_bars_held": 17.0,
+        "profit_factor": 0.8031796721948816
+      },
+      {
+        "feature": "efficiency_20",
+        "source_period": "reference_2018_2025",
+        "regime": "high",
+        "trades": 613,
+        "net_pnl_usd": 33452.96000000064,
+        "costed_gross_before_commission_usd": 36517.96000000064,
+        "win_rate": 0.5252854812398042,
+        "wins_usd": 114161.62000000033,
+        "losses_usd": -80708.65999999968,
+        "mean_bars_held": 19.66231647634584,
+        "median_bars_held": 21.0,
+        "profit_factor": 1.414490340937401
+      },
+      {
+        "feature": "efficiency_20",
+        "source_period": "reference_2018_2025",
+        "regime": "low",
+        "trades": 614,
+        "net_pnl_usd": 43939.480000000316,
+        "costed_gross_before_commission_usd": 47009.480000000316,
+        "win_rate": 0.5195439739413681,
+        "wins_usd": 137018.92000000013,
+        "losses_usd": -93079.43999999981,
+        "mean_bars_held": 15.899022801302932,
+        "median_bars_held": 15.0,
+        "profit_factor": 1.4720642926085545
+      },
+      {
+        "feature": "efficiency_20",
+        "source_period": "reference_2018_2025",
+        "regime": "mid",
+        "trades": 612,
+        "net_pnl_usd": 31407.380000000776,
+        "costed_gross_before_commission_usd": 34467.380000000776,
+        "win_rate": 0.5179738562091504,
+        "wins_usd": 109647.98000000067,
+        "losses_usd": -78240.59999999989,
+        "mean_bars_held": 18.968954248366014,
+        "median_bars_held": 20.0,
+        "profit_factor": 1.4014204901291762
+      }
+    ],
+    "engine": "ml4t.engineer.compute_features ATR(20) plus causal Polars features"
+  },
+  "event_month_pnl": {
+    "1": {
+      "entry_month": 1,
+      "trades": 36,
+      "net_pnl_usd": -1663.2599999999366,
+      "costed_gross_before_commission_usd": -1483.2599999999366,
+      "win_rate": 0.4722222222222222,
+      "wins_usd": 8168.839999999982,
+      "losses_usd": -9832.099999999919,
+      "mean_bars_held": 14.88888888888889,
+      "median_bars_held": 13.0,
+      "profit_factor": 0.830833697785829
+    },
+    "2": {
+      "entry_month": 2,
+      "trades": 35,
+      "net_pnl_usd": -2359.7000000000116,
+      "costed_gross_before_commission_usd": -2184.7000000000116,
+      "win_rate": 0.42857142857142855,
+      "wins_usd": 8089.880000000121,
+      "losses_usd": -10449.580000000133,
+      "mean_bars_held": 14.342857142857143,
+      "median_bars_held": 14.0,
+      "profit_factor": 0.7741823116335794
+    },
+    "3": {
+      "entry_month": 3,
+      "trades": 38,
+      "net_pnl_usd": -6789.760000000097,
+      "costed_gross_before_commission_usd": -6599.760000000097,
+      "win_rate": 0.5263157894736842,
+      "wins_usd": 6027.739999999903,
+      "losses_usd": -12817.5,
+      "mean_bars_held": 15.289473684210526,
+      "median_bars_held": 14.5,
+      "profit_factor": 0.47027423444508704
+    },
+    "4": {
+      "entry_month": 4,
+      "trades": 38,
+      "net_pnl_usd": 1499.000000000451,
+      "costed_gross_before_commission_usd": 1689.000000000451,
+      "win_rate": 0.5263157894736842,
+      "wins_usd": 13356.000000000276,
+      "losses_usd": -11856.999999999825,
+      "mean_bars_held": 18.42105263157895,
+      "median_bars_held": 21.0,
+      "profit_factor": 1.1264232099182316
+    },
+    "5": {
+      "entry_month": 5,
+      "trades": 42,
+      "net_pnl_usd": 4065.840000000244,
+      "costed_gross_before_commission_usd": 4275.840000000244,
+      "win_rate": 0.5476190476190477,
+      "wins_usd": 13346.620000000112,
+      "losses_usd": -9280.779999999868,
+      "mean_bars_held": 17.0,
+      "median_bars_held": 16.5,
+      "profit_factor": 1.438092487915919
+    },
+    "6": {
+      "entry_month": 6,
+      "trades": 32,
+      "net_pnl_usd": -9195.459999999803,
+      "costed_gross_before_commission_usd": -9035.459999999803,
+      "win_rate": 0.34375,
+      "wins_usd": 5685.080000000089,
+      "losses_usd": -14880.539999999892,
+      "mean_bars_held": 14.5,
+      "median_bars_held": 14.0,
+      "profit_factor": 0.3820479633131681
+    },
+    "7": {
+      "entry_month": 7,
+      "trades": 17,
+      "net_pnl_usd": 276.37999999991735,
+      "costed_gross_before_commission_usd": 361.37999999991735,
+      "win_rate": 0.4117647058823529,
+      "wins_usd": 4351.979999999894,
+      "losses_usd": -4075.5999999999767,
+      "mean_bars_held": 14.0,
+      "median_bars_held": 15.0,
+      "profit_factor": 1.0678133280989104
+    }
+  },
+  "underlying_proxy_monthly_context": [
+    {
+      "month": 1,
+      "source_days": 26,
+      "first_close": 25438.736,
+      "last_close": 25531.893,
+      "mean_realized_vol_20d_pct": 11.033456229811616,
+      "mean_trend_20d_pct": 0.6540833139922468,
+      "monthly_return_pct": 0.36620137101150974
+    },
+    {
+      "month": 2,
+      "source_days": 24,
+      "first_close": 25136.761000000002,
+      "last_close": 24934.632,
+      "mean_realized_vol_20d_pct": 20.64484702663585,
+      "mean_trend_20d_pct": -2.16847795728088,
+      "monthly_return_pct": -0.8041171255119162
+    },
+    {
+      "month": 3,
+      "source_days": 26,
+      "first_close": 24637.258,
+      "last_close": 23832.357,
+      "mean_realized_vol_20d_pct": 20.39283141323392,
+      "mean_trend_20d_pct": -2.1700282073093686,
+      "monthly_return_pct": -3.2670072294571195
+    },
+    {
+      "month": 4,
+      "source_days": 25,
+      "first_close": 23628.892,
+      "last_close": 27500.011000000002,
+      "mean_realized_vol_20d_pct": 22.071600468662524,
+      "mean_trend_20d_pct": 7.308210867541988,
+      "monthly_return_pct": 16.382989942990143
+    },
+    {
+      "month": 5,
+      "source_days": 26,
+      "first_close": 27696.449,
+      "last_close": 30512.147,
+      "mean_realized_vol_20d_pct": 13.56671404326687,
+      "mean_trend_20d_pct": 9.00543159500305,
+      "monthly_return_pct": 10.166277994698891
+    },
+    {
+      "month": 6,
+      "source_days": 25,
+      "first_close": 30389.794,
+      "last_close": 30168.775,
+      "mean_realized_vol_20d_pct": 23.301496444828285,
+      "mean_trend_20d_pct": 0.6843583186871908,
+      "monthly_return_pct": -0.7272803494489
+    },
+    {
+      "month": 7,
+      "source_days": 12,
+      "first_close": 29850.331000000002,
+      "last_close": 29688.242000000002,
+      "mean_realized_vol_20d_pct": 17.550468476801402,
+      "mean_trend_20d_pct": -0.5928543494428794,
+      "monthly_return_pct": -0.5430057040238467
+    }
+  ],
+  "external_context": [
+    {
+      "period": "2026-01",
+      "source": "Cboe Index Insights: January 2026",
+      "url": "https://www.cboe.com/insights/posts/index-insights-january-2026/",
+      "role": "dated market context only; no causal claim"
+    },
+    {
+      "period": "2026-02",
+      "source": "Nasdaq Global Indexes: February 2026 Scorecard",
+      "url": "https://www.nasdaq.com/articles/global-indexes/index-monthly-scorecard-february-2026",
+      "role": "official search result return value only; page retrieval blocked"
+    },
+    {
+      "period": "2026-04",
+      "source": "Nasdaq Global Indexes: April 2026 Scorecard",
+      "url": "https://www.nasdaq.com/articles/global-indexes/monthly-scorecard-april-2026",
+      "role": "official search result return value only; page retrieval blocked"
+    },
+    {
+      "period": "2026-05",
+      "source": "Nasdaq Global Indexes: May 2026 Scorecard",
+      "url": "https://www.nasdaq.com/articles/global-indexes/monthly-scorecard-may-2026",
+      "role": "official search result return value only; page retrieval blocked"
+    },
+    {
+      "period": "2026-06",
+      "source": "Cboe Index Insights: June 2026",
+      "url": "https://www.cboe.com/insights/posts/index-insights-june-2026/",
+      "role": "dated market context only; no causal claim"
+    }
+  ],
+  "source": {
+    "canonical_source_root": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+    "source_manifest": "run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json",
+    "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "partitions_scanned": 115,
+    "partitions_hash_verified": 115,
+    "all_scanned_partition_hashes_match": true,
+    "source_start_inclusive_utc": "2017-01-01T00:00:00Z",
+    "source_end_inclusive_utc": "2026-07-14T23:59:59Z",
+    "minute_rows_loaded": 2930829,
+    "complete_30m_bars": 94770,
+    "daily_proxy_observations": 2609,
+    "library_versions": {
+      "polars": "1.44.2",
+      "ml4t-engineer": "0.1.4",
+      "ml4t-diagnostic": "0.1.6.post2"
+    },
+    "bars": "30 unique source minutes; Chicago 17:00 anchored; incomplete bars excluded",
+    "input_type": "Dukascopy USATECH.IDX/USD BID-only index/CFD proxy; not CME NQ"
+  },
+  "confidence_tiers": {
+    "verified": [
+      "trade counts, PnL, fees, months, sides, exits, and source-window identities from frozen files"
+    ],
+    "inference": [
+      "intraday breakout horizon may interact with measured price path and 30m regime slices"
+    ],
+    "hypothesis": [
+      "external macro narrative may coincide with monthly trade results; no causal attribution is identified"
+    ]
+  },
+  "limitations": [
+    "BID-only CFD/index proxy, not CME NQ",
+    "one-minute OHLC does not resolve intraminute event order",
+    "native engine's OCO is non-atomic",
+    "annual runs reset account state",
+    "yearly costed and zero-cost trade paths are not asserted to match row by row",
+    "conditional slices are observational and are not causal treatment effects",
+    "trade-level MFE/MAE are outcomes and are not used as causal features",
+    "no day-cluster confidence intervals were computed",
+    "historical trial ledger is incomplete for DSR"
+  ]
+}

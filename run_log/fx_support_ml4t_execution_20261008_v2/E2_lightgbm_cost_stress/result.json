@@ -1,0 +1,213 @@
+{
+  "session_id": "fx_support_ml4t_execution_20261008_v2",
+  "trial_id": "E2_lightgbm_cost_stress",
+  "status": "completed",
+  "approval_status": "NOT_APPROVED",
+  "classification": "EXPLORATORY",
+  "signals": 112,
+  "orders": 336,
+  "signal_rejections": {
+    "next_open_outside_levels": 2,
+    "risk_or_leverage_capacity": 1
+  },
+  "actual_entries": 108,
+  "completed_trades": 108,
+  "partial_fills": 0,
+  "unclosed_positions": 0,
+  "net_usd": -11795.036332803333,
+  "mean_net_R": -0.2692312121223186,
+  "win_rate": 0.37962962962962965,
+  "average_win_R": 1.1544855520705744,
+  "average_loss_R": -1.1404608737925965,
+  "daily_equity_sharpe": -0.8891291069737993,
+  "continuous_max_drawdown": -0.13291268432279002,
+  "daily_max_drawdown": -0.130719467708108,
+  "worst_prague_daily_return": -0.011460031710046238,
+  "worst_prague_day": [
+    {
+      "session_date": "2022-07-22 00:00:00",
+      "session_start": "2022-07-21 22:00:00+00:00",
+      "session_end": "2022-07-22 21:00:00+00:00",
+      "open_equity": 99366.03126748445,
+      "close_equity": 98222.01459482696,
+      "high_equity": 99401.63126748442,
+      "low_equity": 98222.01459482696,
+      "num_bars": 277,
+      "pnl": -1144.0166726574826,
+      "return_pct": -0.011460031710046238,
+      "intra_session_dd": -0.011867176198378218,
+      "cumulative_return": -0.017779854051730326
+    }
+  ],
+  "prague_5_percent_day_breaches": 0,
+  "total_10_percent_loss_breached": true,
+  "close_reasons": {
+    "stop": 67,
+    "target": 41
+  },
+  "max_entry_risk_fraction": 0.004999346355619829,
+  "max_concurrent_stop_risk_fraction": 0.007046177669820258,
+  "max_entry_gross_leverage": 2.999660254275325,
+  "per_pair": [
+    {
+      "symbol": "AUDUSD",
+      "trades": 41,
+      "net_usd": -8043.928287576878,
+      "mean_net_R": -0.451453455727368
+    },
+    {
+      "symbol": "EURUSD",
+      "trades": 28,
+      "net_usd": -5451.111406952794,
+      "mean_net_R": -0.6526142325242024
+    },
+    {
+      "symbol": "GBPUSD",
+      "trades": 39,
+      "net_usd": 1700.0033617263373,
+      "mean_net_R": 0.19758510990485514
+    }
+  ],
+  "per_exit_year": [
+    {
+      "year": 2017,
+      "trades": 9,
+      "net_usd": -647.373170063546,
+      "mean_net_R": -0.18544609337627416
+    },
+    {
+      "year": 2018,
+      "trades": 7,
+      "net_usd": -1418.1668974050556,
+      "mean_net_R": -0.6859260143146143
+    },
+    {
+      "year": 2019,
+      "trades": 8,
+      "net_usd": 3256.11511196411,
+      "mean_net_R": 1.1778785703077594
+    },
+    {
+      "year": 2020,
+      "trades": 9,
+      "net_usd": -1840.6039930639217,
+      "mean_net_R": -0.4227287393038238
+    },
+    {
+      "year": 2021,
+      "trades": 11,
+      "net_usd": 116.10962461748545,
+      "mean_net_R": -0.1767825754682499
+    },
+    {
+      "year": 2022,
+      "trades": 14,
+      "net_usd": -3920.2156657183455,
+      "mean_net_R": -0.5957196456546878
+    },
+    {
+      "year": 2023,
+      "trades": 23,
+      "net_usd": -4279.371134059635,
+      "mean_net_R": -0.32869013637392736
+    },
+    {
+      "year": 2024,
+      "trades": 27,
+      "net_usd": -3061.5302090744262,
+      "mean_net_R": -0.3844587915345403
+    }
+  ],
+  "reconciliation": "PASS: closed native trade PnL equals final equity less initial cash; fees and executed-price PnL checked",
+  "native_metrics": {
+    "initial_cash": 100000.0,
+    "final_value": 88204.9636671968,
+    "total_return": -0.11795036332803199,
+    "total_return_pct": -11.7950363328032,
+    "max_drawdown": 0.13291268432278996,
+    "max_drawdown_pct": 13.291268432278997,
+    "num_trades": 108,
+    "winning_trades": 41,
+    "losing_trades": 67,
+    "win_rate": 0.37962962962962965,
+    "total_commission": 1234.7492778032251,
+    "total_slippage": 4938.997055000001,
+    "sharpe": -0.04558509247869819,
+    "sortino": -0.005236557557837588,
+    "calmar": -0.11715634893477868,
+    "cagr": -0.01557156482237887,
+    "volatility": 0.0011448655469062327,
+    "profit_factor": 0.5781842216308968,
+    "expectancy": -0.0005854838671680316,
+    "avg_trade": -0.0005854838671680319,
+    "avg_win": 0.001941369874442386,
+    "avg_loss": -0.00213176750009381,
+    "largest_win": 0.0070403287757145995,
+    "largest_loss": -0.011577824138000186,
+    "payoff_ratio": 0.9106855575746204,
+    "total_gross_pnl": -10560.287054999902,
+    "total_costs": 6173.746332803226,
+    "avg_cost_drag": 0.00024992681066117987,
+    "gross_profit_factor": 0.611158021984034,
+    "skipped_bars": 0,
+    "num_orders": 336,
+    "num_rejected_orders": 7,
+    "num_fills": 216,
+    "num_rebalance_events": 207,
+    "unique_symbols_traded": 3,
+    "total_filled_notional": 49389971.11212898,
+    "avg_turnover": 0.0008638224129090421,
+    "max_turnover": 6.007318530290516,
+    "avg_open_positions": 0.008979009435144451,
+    "max_open_positions": 2,
+    "lifecycle_version": "1",
+    "lifecycle_callback_counts": {
+      "run_start": 1,
+      "causal_initialization": 1,
+      "pre_open": 0,
+      "opening_auction": 0,
+      "fill_reconciliation": 0,
+      "intrabar": 0,
+      "close": 0,
+      "market_event": 598507,
+      "run_end": 1
+    },
+    "lifecycle_invocations": [],
+    "execution_policy": {
+      "policy_id": "ml4t-backtest-default-v1",
+      "market_fill_phase": "opening_auction",
+      "opening_auction": "client",
+      "close_auction": "client",
+      "limit": "client",
+      "stop": "client",
+      "stop_limit": "disabled",
+      "trailing": "client",
+      "contingent": "client",
+      "fee_bps": 0.25,
+      "slippage_bps": 1.0,
+      "spread_bps": 0.0,
+      "impact_bps": 0.0,
+      "latency_ms": 0.0,
+      "liquidity_fraction": 1.0,
+      "allow_partial_fills": false,
+      "bar_path": "conservative",
+      "supported_sessions": [
+        "regular"
+      ],
+      "lifecycle_version": "1"
+    },
+    "target_intent_count": 0,
+    "child_order_intent_count": 0,
+    "intent_reconciliation_count": 0,
+    "target_rule_reconciliation_count": 0,
+    "target_intents": [],
+    "child_order_intents": [],
+    "intent_reconciliations": [],
+    "target_rule_reconciliations": []
+  },
+  "limitations": [
+    "Unverified overnight swaps in E0/E1/E2.",
+    "Price proxy lacks exact historical FTMO spread, depth, lot commissions and rollover.",
+    "Prague session statistics use observed 5m close equity; exact midnight equity across data gaps is unavailable."
+  ]
+}

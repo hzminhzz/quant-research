@@ -1,0 +1,40 @@
+# DRAFT ONLY: not initialized. Phase-2 blocking data and cost dependencies remain.
+session_id: crypto_structural_s1_phase12_20261011
+thesis: >-
+  Announced material token unlocks precede short-horizon underperformance versus matched non-unlock assets after beta hedge and all friction.
+mechanism: >-
+  Recipients may sell released supply; investors are not assumed to sell immediately.
+falsifier: >-
+  Reject if preregistered unlock events do not beat matched event controls after costs,
+  or event announcement histories are not point-in-time reproducible.
+instruments:
+  - {symbol: WLDUSDT, kind: perpetual, venue: Binance USD-M Futures}
+  - {symbol: ARBUSDT, kind: perpetual, venue: Binance USD-M Futures}
+  - {symbol: TIAUSDT, kind: perpetual, venue: Binance USD-M Futures}
+  - {symbol: BTCUSDT, kind: perpetual, venue: Binance USD-M Futures}
+data:
+  - {id: unlock_prices_wld, symbol: WLDUSDT, role: prices, path: data/processed/wldusdt_1h.parquet}
+  - {id: unlock_prices_arb, symbol: ARBUSDT, role: prices, path: data/processed/arbusdt_1h.parquet}
+  - {id: unlock_prices_tia, symbol: TIAUSDT, role: prices, path: data/processed/tiausdt_1h.parquet}
+  - {id: unlock_prices_btc, symbol: BTCUSDT, role: prices, path: data/processed/btcusdt_1h.parquet}
+baseline: No trade, matched non-unlock short events and time-matched BTC beta neutral control.
+trials:
+  - {id: pit-calendar-audit, kind: preregistered, description: Audit dated unlock announcements and float revisions before signals.}
+  - {id: event-study, kind: preregistered, description: Enter seven days before events at next tradeable price and evaluate matched net returns.}
+market: crypto
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  plan: >-
+    Exploratory development only; prior studies may have seen parts of this history.
+    Holdout is prospective, never open outcomes while gates are unresolved.
+    Entry after completed signal, costs and signed funding mandatory; no live trades.
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Provisional Binance USD-M VIP0 taker fee and 1.5bp slippage per leg.
+    Not a verified broker cost; add spread, impact, funding, borrow where relevant,
+    contract specifications and retail CFD costs before strategy trials.

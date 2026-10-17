@@ -1,0 +1,15 @@
+{
+  "session_id": "crypto_tsmom_flow_increment_20261008_v2",
+  "status": "SUPERSEDED_BEFORE_TRIAL",
+  "reason": "The v2 frozen input used processed funding files with event timestamps and rates, but omitted the settlement mark prices. Binance documents funding amount as position nominal value times funding rate, with nominal value equal to mark price times contract size. The source store contains the settlement mark prices. A new frozen specification must preserve those source values before any strategy or diagnostic result is observed.",
+  "review_evidence": {
+    "official_binance_funding_rules": "https://www.binance.com/en/support/faq/detail/360033525031",
+    "source_manifest": "run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json",
+    "v2_frozen_sha256": "501eddf9eb640441576f508988c92e8841be95aad5d8d68dca80113e1a92e585"
+  },
+  "v2_cli_check": "PASS for required columns and file identities; the check does not verify exact settlement mark coverage or funding-to-price timing.",
+  "outcomes_accessed": false,
+  "trials_run": 0,
+  "holdout_values_accessed": false,
+  "replacement_session_id": "crypto_tsmom_flow_increment_20261008_v3"
+}

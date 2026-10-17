@@ -1,0 +1,96 @@
+# Research session specification: Advanced Statistical Arbitrage on BTC/ETH
+# Incorporates State-Space Kalman Filtering, Ornstein-Uhlenbeck Optimal Barriers, and ML Regime Gating.
+session_id: btc_eth_statarb_kalman_regime
+market: crypto
+
+thesis: >-
+  Dynamic state-space Kalman Filter cointegration with Ornstein-Uhlenbeck optimal stopping barriers
+  and machine-learning volatility/trend regime gating captures robust mean-reverting alpha on
+  Binance USD-M BTCUSDT and ETHUSDT perpetuals after realistic execution fees, slippage, and funding.
+
+mechanism: >-
+  1. State-Space Adaptation: The log price relationship ln(ETH) = alpha_t + beta_t * ln(BTC)
+     undergoes continuous structural evolution. A recursive Kalman Filter tracks beta_t and innovation
+     variance Q_t without the trailing lag or window bias of rolling OLS.
+  2. Ornstein-Uhlenbeck Dynamics: Spread innovations exhibit mean-reversion with measurable half-life.
+     Widening the entry barrier to compensate for transaction costs ensures positive net expectancy.
+  3. Regime Gating: Statistical arbitrage breaks down during high-volatility structural decoupling
+     and directional trends. Conditioning entry on low/normal realized volatility and non-trending
+     market regimes filters out toxic trending flow.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Mean daily net return post-costs (commissions, slippage, funding) is non-positive.
+  2. Annualized net Sharpe ratio fails to exceed 1.0 on development data.
+  3. Maximum drawdown exceeds 20.0%.
+  4. The strategy fails to achieve positive net return across all calendar development quarters.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1m
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1m.parquet
+  - id: eth_prices_1m
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1m.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+
+evaluation:
+  cadence: 1m
+  development_start: "2024-01-01T00:00:00Z"
+  development_end: "2025-06-01T00:00:00Z"
+  holdout_start: "2025-06-01T00:00:00Z"
+  holdout_end: "2026-01-01T00:00:00Z"
+  plan: >-
+    Evaluate Kalman state-space filter and regime gate on the 17-month development dataset.
+    Validate with walk-forward purging/embargo. The holdout period remains strictly unread until final confirmation.
+
+baseline: >-
+  Zero-trade baseline (0% return), static buy-and-hold 50/50 portfolio, and naive fixed-z-score rolling OLS pair trade.
+
+costs:
+  commission_bps: 4.0
+  slippage_bps: 2.0
+  funding_included: true
+  assumptions: >-
+    Taker baseline: 4 bps commission per leg + 2 bps slippage per side (12 bps per entry/exit).
+    Maker optimized: 1.5 bps maker fee + 0 bps slippage (3 bps per entry/exit).
+    Actual signed 8-hour perpetual funding cash flows applied at exact settlement marks.
+
+trials:
+  - id: trial_1_kalman_ou_baseline
+    kind: preregistered
+    description: >-
+      Recursive state-space Kalman Filter tracking alpha_t and beta_t dynamically, with
+      standardized innovation z-score entry at |z| >= 2.5 and mean-reversion exit at |z| <= 0.5.
+  - id: trial_2_ml_regime_gated
+    kind: preregistered
+    description: >-
+      Machine learning volatility & trend regime gating: Entry is suppressed when 24h realized volatility
+      or 24h absolute trend exceeds the 80th percentile, isolating calm mean-reverting regimes.
+  - id: trial_3_maker_execution_optimized
+    kind: preregistered
+    description: >-
+      Execution optimization: Testing passive/maker order fills (1.5 bps fee, 0 bps slippage)
+      against taker baseline to measure the liquidity-provision edge.
+  - id: trial_4_parameter_sensitivity
+    kind: diagnostic
+    description: >-
+      Sensitivity surface mapping across Kalman observation covariance V, entry z-threshold (2.0 to 3.0),
+      and regime volatility percentile gates (70th to 90th).

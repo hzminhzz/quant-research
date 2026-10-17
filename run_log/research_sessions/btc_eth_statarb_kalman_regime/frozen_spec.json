@@ -1,0 +1,511 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_generation_verified": false,
+  "classification": "EXPLORATORY",
+  "created_at": "2026-10-06T05:05:49.300682+00:00",
+  "frozen_sha256": "83c0eea4f4ff014a97b6887763c01da93264a26488883f87444c886cdbef9a1e",
+  "identity": {
+    "config": null,
+    "data": [
+      {
+        "exists": true,
+        "path": "data/processed/btc_1m.parquet",
+        "sha256": "77112abf99bdbacc2f70bacd3680514c6d007db71fec374da398b61920a41409",
+        "size_bytes": 13541338
+      },
+      {
+        "exists": true,
+        "path": "data/processed/eth_1m.parquet",
+        "sha256": "5a9cff16193024327a52fca480f95ebd275c1fe2dcd33bd76d296d8a3bde3d2f",
+        "size_bytes": 13810453
+      },
+      {
+        "exists": true,
+        "path": "data/processed/btc_funding.parquet",
+        "sha256": "a0a98ae9e1c9b97b7f8c0ce0e1c11e65bdfb4aee16062d30a707c2761a2e8681",
+        "size_bytes": 14255
+      },
+      {
+        "exists": true,
+        "path": "data/processed/eth_funding.parquet",
+        "sha256": "aceb3e9b660d671114958e1dfcf09a80fa6e6a3bf69fbbeece38ccdcbdc942b5",
+        "size_bytes": 14378
+      }
+    ],
+    "evidence": [],
+    "git": {
+      "available": true,
+      "dirty": true,
+      "dirty_diff_sha256": "106494b602d92ca59c2ed2d2aee1d7bb20edca0e95d51ec87152f06cee30ffb1",
+      "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+      "status_porcelain": " M AGENTS.md\n?? SESSION_TEMPLATE.md\n?? config/btc_structure_reversal_20261006.yaml\n?? config/btc_structure_reversal_attribution_20261006.yaml\n?? config/research_sessions/btc_eth_pair_trading_scalp.yaml\n?? config/research_sessions/btc_eth_statarb_kalman_regime.yaml\n?? run_log/btc_eth_pair_trading_scalp/lookback_horizon_sensitivity/result.json\n?? run_log/btc_eth_pair_trading_scalp/monk_continuous_beta_hedged/result.json\n?? run_log/btc_eth_pair_trading_scalp/monk_continuous_equal_dollar/result.json\n?? run_log/btc_eth_pair_trading_scalp/official_ml4t_pipeline/metrics.json\n?? run_log/btc_eth_pair_trading_scalp/scale_in_vs_static_ablation/result.json\n?? run_log/btc_structure_reversal_20261006/result.json\n?? run_log/btc_structure_reversal_attribution_20261006/result.json\n?? run_log/near_market_structure_20261005/daily_equity_10bps.csv\n?? run_log/near_market_structure_20261005/frozen_spec.json\n?? run_log/near_market_structure_20261005/pivots.json\n?? run_log/near_market_structure_20261005/result.json\n?? run_log/near_market_structure_exit_sweep_20261006/frozen_spec.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_config.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_cost_stress.csv\n?? run_log/near_market_structure_exit_sweep_20261006/selected_cost_stress.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_yearly_metrics.csv\n?? run_log/near_market_structure_exit_sweep_20261006/selected_yearly_metrics.json\n?? run_log/near_market_structure_exit_sweep_20261006/summary.json\n?? run_log/near_market_structure_exit_sweep_20261006/test_daily_equity.csv\n?? run_log/near_market_structure_exit_sweep_20261006/test_result.json\n?? run_log/near_market_structure_exit_sweep_20261006/test_trades.csv\n?? run_log/near_market_structure_exit_sweep_20261006/train_surface.csv\n?? run_log/near_market_structure_exit_sweep_20261006/train_surface.json\n?? run_log/near_market_structure_exit_sweep_20261006/trial_accounting.json\n?? run_log/near_market_structure_exit_sweep_20261006/validation_top5.csv\n?? run_log/near_market_structure_exit_sweep_20261006/validation_top5.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/frozen_spec.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/lookback_horizon_sensitivity.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/monk_continuous_beta_hedged.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/monk_continuous_equal_dollar.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/scale_in_vs_static_ablation.json\n?? scripts/run_btc_structure_reversal.py\n?? scripts/run_btc_structure_reversal_attribution.py\n?? scripts/run_monk_pair_trading.py\n?? scripts/run_monk_pair_trading_beta.py\n?? scripts/run_monk_sensitivity.py\n?? scripts/run_monk_with_time_barrier.py\n?? scripts/run_near_market_structure.py\n?? scripts/run_near_market_structure_exit_sweep.py\n?? scripts/run_official_ml4t_pipeline.py\n?? src/btc_structure_reversal.py\n?? src/btc_structure_reversal_attribution.py\n?? src/market_structure.py\n?? tests/test_btc_structure_reversal.py\n?? tests/test_btc_structure_reversal_attribution.py\n?? tests/test_market_structure.py\n?? tests/test_near_market_structure_exit_sweep.py\n"
+    },
+    "input_spec": {
+      "path": "config/research_sessions/btc_eth_statarb_kalman_regime.yaml",
+      "sha256": "cdcf8c64f12245523f1a9a0cd21be74180352bae9eeab27c2fa3438660f6fa65"
+    },
+    "runner": [
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "93ac6a14c98ba4904e27ee23ed08a240994dde0d7675f1542b902192512279b8",
+        "size_bytes": 34565
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      }
+    ],
+    "source": [
+      {
+        "exists": true,
+        "path": "src/__init__.py",
+        "sha256": "207c7f0dac7ca4ee0d52115d00ce992604166a4f196f31b4d626b2de1efcf5ee",
+        "size_bytes": 2593
+      },
+      {
+        "exists": true,
+        "path": "src/backtest.py",
+        "sha256": "cacab1983743a4d1ad1045f7d482ffd381889d6164c1beddafb7348d27684b13",
+        "size_bytes": 5833
+      },
+      {
+        "exists": true,
+        "path": "src/btc_structure_reversal.py",
+        "sha256": "747f1259bc991e42c7cb648f04eff8a5171e60157cfb4c16379dbf64ae2add91",
+        "size_bytes": 15387
+      },
+      {
+        "exists": true,
+        "path": "src/btc_structure_reversal_attribution.py",
+        "sha256": "5420d9c4f13aaca7b49cde6e7446e3cf1e0282193c64fb27abbdf7a54ac8f139",
+        "size_bytes": 5298
+      },
+      {
+        "exists": true,
+        "path": "src/catalog.py",
+        "sha256": "8163cae53cd25bbc64b29659145b113c454e5829fc131b678c9a29d0cfe1fc27",
+        "size_bytes": 11542
+      },
+      {
+        "exists": true,
+        "path": "src/diagnostics.py",
+        "sha256": "aebb402bb4696a5ecd6f2b6c78ad9f926451a71027b8cec8aa17ddb77af4d56b",
+        "size_bytes": 6399
+      },
+      {
+        "exists": true,
+        "path": "src/eow_rebuild.py",
+        "sha256": "9edc111e44dcdded8f681bf9489c69aa97f805ccbca969fcecc5d2ce620bb186",
+        "size_bytes": 66561
+      },
+      {
+        "exists": true,
+        "path": "src/experiment.py",
+        "sha256": "0ec6e61466e861ecfc039e7fab416472d83d74cbaecc926dd8aaa2780d367d1d",
+        "size_bytes": 5496
+      },
+      {
+        "exists": true,
+        "path": "src/factory.py",
+        "sha256": "2c20d53f2ecea255a8801320fd913e4069de47cd7c8fae2ca74409be7748bc02",
+        "size_bytes": 11340
+      },
+      {
+        "exists": true,
+        "path": "src/features.py",
+        "sha256": "12b314ac5aa0c85a1dff654ebcb0eb088aaf7411d98292588534c7e0a426424c",
+        "size_bytes": 11777
+      },
+      {
+        "exists": true,
+        "path": "src/ftmo_simulator.py",
+        "sha256": "636d2889d963cd4067d8acda296b77923c229ca39e62e11861c278210b2c592c",
+        "size_bytes": 18183
+      },
+      {
+        "exists": true,
+        "path": "src/labeling.py",
+        "sha256": "a7789b9dce32fad45ef45e65f02b55e4b5ff970c82fb6dd47c785da55a612f3f",
+        "size_bytes": 29294
+      },
+      {
+        "exists": true,
+        "path": "src/market_structure.py",
+        "sha256": "49b2bd5694bffa3d02fe1ff1c2b3eec1a5b47ca7094da42f0dfad176ea4bd5c5",
+        "size_bytes": 5952
+      },
+      {
+        "exists": true,
+        "path": "src/market_time.py",
+        "sha256": "146af457c128fceee95ff351a59d24fad34ffac7f9e2f913cbaf16a11cacb39a",
+        "size_bytes": 6324
+      },
+      {
+        "exists": true,
+        "path": "src/models.py",
+        "sha256": "891057c7707e96d951da81a969a7e85c29c467f1de5dc4a6e844f98c747c6ea5",
+        "size_bytes": 16624
+      },
+      {
+        "exists": true,
+        "path": "src/orb_ml_research.py",
+        "sha256": "e91128fc73d21dc2c599b51f42fe86323516999d79b2c1244a324578182defde",
+        "size_bytes": 42949
+      },
+      {
+        "exists": true,
+        "path": "src/orb_raw_optimization.py",
+        "sha256": "9212b114d9936e6ea62ae64bf56209a63e3a7bbe460ec8f1c5c1c9ae56c992d6",
+        "size_bytes": 54291
+      },
+      {
+        "exists": true,
+        "path": "src/patterns.py",
+        "sha256": "51432b7c9767cf9493a5b41b673c94e4ad094e5ee408e2a74101cc2cc71be073",
+        "size_bytes": 2364
+      },
+      {
+        "exists": true,
+        "path": "src/pipeline.py",
+        "sha256": "fe650b668628cbd5232be5d6f45f3d25cfd62b361d08856d5dc05c26a90ba87e",
+        "size_bytes": 20597
+      },
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "93ac6a14c98ba4904e27ee23ed08a240994dde0d7675f1542b902192512279b8",
+        "size_bytes": 34565
+      },
+      {
+        "exists": true,
+        "path": "src/session_calendar.py",
+        "sha256": "165a24422ecd6c481b23ff55cb1a62bb95c819e4c10769221f1c10e376bceb47",
+        "size_bytes": 5377
+      },
+      {
+        "exists": true,
+        "path": "src/synthesis.py",
+        "sha256": "4bc7d779c5e0c8c84722e3aa2b501dc782437e513da8003222861390010af617",
+        "size_bytes": 5825
+      },
+      {
+        "exists": true,
+        "path": "src/validated_orb_pipeline.py",
+        "sha256": "6731a7cad5dc66250c77cc03a759a53524a37249ef20521c9a4ed6285fe8c4df",
+        "size_bytes": 61012
+      },
+      {
+        "exists": true,
+        "path": "src/validation.py",
+        "sha256": "793ed95f123a8af630881eb5399346d6fc593418f6aec356dc6ebb847357f62c",
+        "size_bytes": 9016
+      },
+      {
+        "exists": true,
+        "path": "src/validation_status.py",
+        "sha256": "b44e882edcc9e1e2e71464da6f2ce5d593daba93389ad3feb118fe5b07795027",
+        "size_bytes": 1398
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_ftmo_baseline_vs_optimized.py",
+        "sha256": "ab937fe6ee14e0a3e0deb189e2751e5508f386b0f03392df4bbf24e45a873cb1",
+        "size_bytes": 2740
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_expanded_assets.py",
+        "sha256": "1e8ba5f7b9c96af762a50c999329061373e7c7cbfc3ba4f25471d94b5aafb476",
+        "size_bytes": 5670
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_historical_2017_2026.py",
+        "sha256": "f3b2e0b12efb6cb0f39822add4479552eba1e77f5ac7a98e69621b456f5156cc",
+        "size_bytes": 3766
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_intraday_data.py",
+        "sha256": "0a1479fb8451642132ee2c1d3209c0d3a26af5b86d2838ede1dc496878fea8e2",
+        "size_bytes": 3535
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_nas100_hk33_2017_2022.py",
+        "sha256": "09cab62c1d542e1beaca79e556aaa07386a4cfd0f44e51e4d5eff7e493603688",
+        "size_bytes": 4425
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_long_short.py",
+        "sha256": "a1120fbefac9f82325bf4697948c03ef252a8bab2a11c75864a192cce5747c5f",
+        "size_bytes": 1232
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_sessions_2017_2026.py",
+        "sha256": "3d1d64bfd2776face574d81a2554a1bd6a5cae3289a72ada6d4883145f631fdb",
+        "size_bytes": 2767
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_eth_relative_value.py",
+        "sha256": "9d8efc563a89f44b2becc7ec99f8203aed05c298a0965f560c788e456d180bfe",
+        "size_bytes": 23582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_structure_reversal.py",
+        "sha256": "c9f3b2a0e8b5cbf376afef6ae6670f97512f39a062aaa94831902b2d32a012a5",
+        "size_bytes": 7867
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_structure_reversal_attribution.py",
+        "sha256": "dd4e62339fdc54fc8259df0857a3decb4a61de6b393b2d5e571b9eccca23a523",
+        "size_bytes": 7921
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_eow_rebuild.py",
+        "sha256": "32f9124ab0f79ed548f2d652b00dbc71517643222d4c94a1e472021b5c6d6096",
+        "size_bytes": 2511
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_challenge_simulation.py",
+        "sha256": "6dfd97b3a400d0b90243f31ddc611acc1ab32bec6ff8a9a146b9023293302d87",
+        "size_bytes": 6862
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_full_10y_backtest.py",
+        "sha256": "9804dab1a6e6304fd72e9d682af37d5388256ba7c7fb6f4e757358438d406c36",
+        "size_bytes": 8202
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_pair_trading.py",
+        "sha256": "f118f9ff05a528766ee1b062b2e1378cb01e863f72dd368827b22625418674ba",
+        "size_bytes": 12038
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_pair_trading_beta.py",
+        "sha256": "773894f691f138d22ab7d3ce1cb8d8abb4c17d256c53455e6c4c41a3f4371d4a",
+        "size_bytes": 11681
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_sensitivity.py",
+        "sha256": "1b3453243c9400ed2a3e31ad0929896a230e6c2a550bb934767e5c67c3c5705e",
+        "size_bytes": 7168
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_with_time_barrier.py",
+        "sha256": "54f2db4c9c839cc0542137384d48b8c824d16706cc2311cf29ea7a37b35e3f7c",
+        "size_bytes": 10652
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_near_market_structure.py",
+        "sha256": "41d0bfd0cc68afc566303d506c545b24e7cfaa3814a813d645a3db35caeb6e94",
+        "size_bytes": 10196
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_near_market_structure_exit_sweep.py",
+        "sha256": "bba785bf0502f2ae2f06f0e7f0655cb24909fdbee68fbff702dc9de64e79bd0b",
+        "size_bytes": 17735
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_official_ml4t_pipeline.py",
+        "sha256": "62f9cebe23ce645d42b7a4f75750cdd874fa44af269b9264ccc7703e43575161",
+        "size_bytes": 11035
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_2017_2026.py",
+        "sha256": "8230647e61f8783eed523aa25a0a0da3593908669d5abbd03e9d8dd715784004",
+        "size_bytes": 17416
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_dual_session.py",
+        "sha256": "e054b5e425746f284fe8c89985ff4b72ab7c49f9cc2fac8872586ed01a36e3a0",
+        "size_bytes": 8912
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_filtered_matrix.py",
+        "sha256": "ca12580991a270f49325b713f010b6ddf1647b6478200d77638c6c79c7a11889",
+        "size_bytes": 15977
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_final_benchmark.py",
+        "sha256": "b63eaee7ddaf4516822750e688179b5091616992b353962dbf2c7d935a76f281",
+        "size_bytes": 7199
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_ml_research.py",
+        "sha256": "45a2d41bdacb7d9d96287387c5e1cb631777a236480ddc2b9c922f00473fa5f3",
+        "size_bytes": 1481
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset.py",
+        "sha256": "0f7b1e2abf55150ad60d096bd36ffa3e73a160b5ffc5ceaf3b130098d04fe011",
+        "size_bytes": 13414
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset_evaluation.py",
+        "sha256": "785f5ad3367d717853a17b66228941a4acca62fea7c85c054c918c50ae47023f",
+        "size_bytes": 19745
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_parallel_matrix.py",
+        "sha256": "cd458dc8742c673f59f4dab3b6b9310ea670d0383937b662ea715bf9c2360875",
+        "size_bytes": 12228
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_raw_optimization.py",
+        "sha256": "6c06c2cba46c8de74be761e57abd6a38fd61c861b8aae9eb407ca9701f98d948",
+        "size_bytes": 1566
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pipeline.py",
+        "sha256": "2c2e49f6c5616e8859b6ee7135eaf0f36e2844dec9b92e64a043c128c4e8581c",
+        "size_bytes": 3260
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_validated_orb.py",
+        "sha256": "ce6eca7d5420c967fec64449c9c2e164e14f54e519dfcb7b243f990fd4864fba",
+        "size_bytes": 2970
+      },
+      {
+        "exists": true,
+        "path": "scripts/simulate_ftmo_portfolio.py",
+        "sha256": "98a900a7ef44de2939681c762ca9dd7517cd88ab5b9538c5d132f47076c14e25",
+        "size_bytes": 7669
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_portfolio.py",
+        "sha256": "ccd2f8fe2fafdecd94f9b7636079881a4d3efcb4e44af58ea1f721e5c0653b09",
+        "size_bytes": 10315
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_variants.py",
+        "sha256": "5fb0ca97dc09f2632c064f3b7b4632a5ebfca79e67a0dc70f6dc17ef7135f2bb",
+        "size_bytes": 7489
+      }
+    ],
+    "source_sha256": "f4672ce4de8b80a2fa7a034675394972e5792c82f36d683d614137ee1f68624f"
+  },
+  "schema_version": 1,
+  "session_id": "btc_eth_statarb_kalman_regime",
+  "spec": {
+    "baseline": "Zero-trade baseline (0% return), static buy-and-hold 50/50 portfolio, and naive fixed-z-score rolling OLS pair trade.",
+    "costs": {
+      "assumptions": "Taker baseline: 4 bps commission per leg + 2 bps slippage per side (12 bps per entry/exit). Maker optimized: 1.5 bps maker fee + 0 bps slippage (3 bps per entry/exit). Actual signed 8-hour perpetual funding cash flows applied at exact settlement marks.",
+      "commission_bps": 4.0,
+      "funding_included": true,
+      "slippage_bps": 2.0
+    },
+    "data": [
+      {
+        "id": "btc_prices_1m",
+        "path": "data/processed/btc_1m.parquet",
+        "role": "prices",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "id": "eth_prices_1m",
+        "path": "data/processed/eth_1m.parquet",
+        "role": "prices",
+        "symbol": "ETHUSDT"
+      },
+      {
+        "id": "btc_funding",
+        "path": "data/processed/btc_funding.parquet",
+        "role": "funding",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "id": "eth_funding",
+        "path": "data/processed/eth_funding.parquet",
+        "role": "funding",
+        "symbol": "ETHUSDT"
+      }
+    ],
+    "evaluation": {
+      "cadence": "1m",
+      "development_end": "2025-06-01T00:00:00Z",
+      "development_start": "2024-01-01T00:00:00Z",
+      "holdout_end": "2026-01-01T00:00:00Z",
+      "holdout_start": "2025-06-01T00:00:00Z",
+      "plan": "Evaluate Kalman state-space filter and regime gate on the 17-month development dataset. Validate with walk-forward purging/embargo. The holdout period remains strictly unread until final confirmation."
+    },
+    "falsifier": "Reject the thesis if: 1. Mean daily net return post-costs (commissions, slippage, funding) is non-positive. 2. Annualized net Sharpe ratio fails to exceed 1.0 on development data. 3. Maximum drawdown exceeds 20.0%. 4. The strategy fails to achieve positive net return across all calendar development quarters.",
+    "instruments": [
+      {
+        "kind": "perpetual",
+        "symbol": "BTCUSDT",
+        "venue": "Binance USD-M Futures"
+      },
+      {
+        "kind": "perpetual",
+        "symbol": "ETHUSDT",
+        "venue": "Binance USD-M Futures"
+      }
+    ],
+    "market": "crypto",
+    "mechanism": "1. State-Space Adaptation: The log price relationship ln(ETH) = alpha_t + beta_t * ln(BTC)\n   undergoes continuous structural evolution. A recursive Kalman Filter tracks beta_t and innovation\n   variance Q_t without the trailing lag or window bias of rolling OLS.\n2. Ornstein-Uhlenbeck Dynamics: Spread innovations exhibit mean-reversion with measurable half-life.\n   Widening the entry barrier to compensate for transaction costs ensures positive net expectancy.\n3. Regime Gating: Statistical arbitrage breaks down during high-volatility structural decoupling\n   and directional trends. Conditioning entry on low/normal realized volatility and non-trending\n   market regimes filters out toxic trending flow.",
+    "session_id": "btc_eth_statarb_kalman_regime",
+    "thesis": "Dynamic state-space Kalman Filter cointegration with Ornstein-Uhlenbeck optimal stopping barriers and machine-learning volatility/trend regime gating captures robust mean-reverting alpha on Binance USD-M BTCUSDT and ETHUSDT perpetuals after realistic execution fees, slippage, and funding.",
+    "trials": [
+      {
+        "description": "Recursive state-space Kalman Filter tracking alpha_t and beta_t dynamically, with standardized innovation z-score entry at |z| >= 2.5 and mean-reversion exit at |z| <= 0.5.",
+        "id": "trial_1_kalman_ou_baseline",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Machine learning volatility & trend regime gating: Entry is suppressed when 24h realized volatility or 24h absolute trend exceeds the 80th percentile, isolating calm mean-reverting regimes.",
+        "id": "trial_2_ml_regime_gated",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Execution optimization: Testing passive/maker order fills (1.5 bps fee, 0 bps slippage) against taker baseline to measure the liquidity-provision edge.",
+        "id": "trial_3_maker_execution_optimized",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Sensitivity surface mapping across Kalman observation covariance V, entry z-threshold (2.0 to 3.0), and regime volatility percentile gates (70th to 90th).",
+        "id": "trial_4_parameter_sensitivity",
+        "kind": "diagnostic"
+      }
+    ]
+  },
+  "spec_sha256": "2543a66b3239661667b7b39224fe3aa366088b7ab6329bc2d9e7ce2d8cdc7b6c",
+  "status": "FROZEN"
+}

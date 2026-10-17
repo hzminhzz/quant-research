@@ -1,0 +1,23 @@
+{
+  "research_trials_failed": 0,
+  "implementation_attempts_corrected": [
+    {
+      "issue": "Synthetic source-gap fixture expected two gaps, including the terminal row.",
+      "resolution": "Count only gaps between observed rows; the two-row fixture contains one missing minute."
+    },
+    {
+      "issue": "Synthetic non-gap stop fixture opened above its buy-stop trigger.",
+      "resolution": "Use an open below trigger and a high above trigger to isolate trigger-price fill behavior."
+    },
+    {
+      "issue": "Saved-ledger reconciliation joined a Polars LazyFrame to an eager frame.",
+      "resolution": "Collect only the bounded source OHLC columns before the join."
+    },
+    {
+      "issue": "Scheduled-boundary source-open audit dropped the right join key.",
+      "resolution": "Build an explicit source timestamp membership flag and use a forward as-of join for the next observed print."
+    }
+  ],
+  "economic_trials_added": 0,
+  "failed_runs_preserved": true
+}

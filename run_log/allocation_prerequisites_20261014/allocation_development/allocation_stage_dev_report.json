@@ -1,0 +1,116 @@
+{
+  "classification": "EXPLORATORY DEVELOPMENT ONLY; NOT APPROVED",
+  "source_months": 64,
+  "model_trial": "LinearFeaturePortfolioModel v0 fixed ridge_alpha=1e-4 gross=net=1 cap=40%",
+  "train_scope": "completed labels strictly before each monthly prediction",
+  "development_evaluation": "2022-01 through 2024-12",
+  "eval_months": 36,
+  "locked_2025_2026_opened": false,
+  "cost_base_one_way_bps": 10.0,
+  "feature_names": [
+    "lag_1m_return",
+    "lag_3m_return",
+    "vol21_daily_obs",
+    "vol63_daily_obs",
+    "dd63_daily_obs"
+  ],
+  "strategy_ids": [
+    "b0_nq_cfd",
+    "c3_us500_us100_cfd",
+    "donchian_btc_binance_perp",
+    "rsi_es_cfd"
+  ],
+  "sample_first_model_train_labels": 24,
+  "sample_last_model_train_labels": 59,
+  "outcomes": {
+    "cash": {
+      "1": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:             0.00%\n  Annual Return:            0.00%\n  Annual Volatility:        0.00%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:               nan\n  Sortino Ratio:              nan\n  Calmar Ratio:               nan\n  Omega Ratio:                nan\n  Tail Ratio:                 nan\n\nRisk Metrics\n------------------------------\n  Max Drawdown:             0.00%\n  VaR (95%):                0.00%\n  CVaR (95%):               0.00%\n\nDistribution\n------------------------------\n  Skewness:                   nan\n  Kurtosis:                   nan\n  Stability (R\u00b2):             nan\n\nWin/Loss\n------------------------------\n  Win Rate:                 0.00%\n  Profit Factor:              inf\n  Avg Win:                  0.00%\n  Avg Loss:                 0.00%\n==================================================",
+        "compound_return": 0.0,
+        "average_one_way_monthly_turnover": 0.0,
+        "total_cost_fraction_of_monthly_nav": 0.0
+      },
+      "2": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:             0.00%\n  Annual Return:            0.00%\n  Annual Volatility:        0.00%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:               nan\n  Sortino Ratio:              nan\n  Calmar Ratio:               nan\n  Omega Ratio:                nan\n  Tail Ratio:                 nan\n\nRisk Metrics\n------------------------------\n  Max Drawdown:             0.00%\n  VaR (95%):                0.00%\n  CVaR (95%):               0.00%\n\nDistribution\n------------------------------\n  Skewness:                   nan\n  Kurtosis:                   nan\n  Stability (R\u00b2):             nan\n\nWin/Loss\n------------------------------\n  Win Rate:                 0.00%\n  Profit Factor:              inf\n  Avg Win:                  0.00%\n  Avg Loss:                 0.00%\n==================================================",
+        "compound_return": 0.0,
+        "average_one_way_monthly_turnover": 0.0,
+        "total_cost_fraction_of_monthly_nav": 0.0
+      },
+      "3": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:             0.00%\n  Annual Return:            0.00%\n  Annual Volatility:        0.00%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:               nan\n  Sortino Ratio:              nan\n  Calmar Ratio:               nan\n  Omega Ratio:                nan\n  Tail Ratio:                 nan\n\nRisk Metrics\n------------------------------\n  Max Drawdown:             0.00%\n  VaR (95%):                0.00%\n  CVaR (95%):               0.00%\n\nDistribution\n------------------------------\n  Skewness:                   nan\n  Kurtosis:                   nan\n  Stability (R\u00b2):             nan\n\nWin/Loss\n------------------------------\n  Win Rate:                 0.00%\n  Profit Factor:              inf\n  Avg Win:                  0.00%\n  Avg Loss:                 0.00%\n==================================================",
+        "compound_return": 0.0,
+        "average_one_way_monthly_turnover": 0.0,
+        "total_cost_fraction_of_monthly_nav": 0.0
+      }
+    },
+    "equal_weight": {
+      "1": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:            24.95%\n  Annual Return:            7.71%\n  Annual Volatility:        8.00%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             0.969\n  Sortino Ratio:            3.028\n  Calmar Ratio:             1.514\n  Omega Ratio:              2.435\n  Tail Ratio:               3.283\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -5.09%\n  VaR (95%):               -1.64%\n  CVaR (95%):              -1.82%\n\nDistribution\n------------------------------\n  Skewness:                 1.659\n  Kurtosis:                 2.393\n  Stability (R\u00b2):           0.764\n\nWin/Loss\n------------------------------\n  Win Rate:                50.00%\n  Profit Factor:             2.44\n  Avg Win:                  2.19%\n  Avg Loss:                -0.90%\n==================================================",
+        "compound_return": 0.24950413088109236,
+        "average_one_way_monthly_turnover": 0.03918921224960992,
+        "total_cost_fraction_of_monthly_nav": 0.0014108116409859571
+      },
+      "2": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:            24.77%\n  Annual Return:            7.66%\n  Annual Volatility:        8.00%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             0.963\n  Sortino Ratio:            3.007\n  Calmar Ratio:             1.502\n  Omega Ratio:              2.425\n  Tail Ratio:               3.281\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -5.10%\n  VaR (95%):               -1.64%\n  CVaR (95%):              -1.82%\n\nDistribution\n------------------------------\n  Skewness:                 1.665\n  Kurtosis:                 2.412\n  Stability (R\u00b2):           0.764\n\nWin/Loss\n------------------------------\n  Win Rate:                50.00%\n  Profit Factor:             2.42\n  Avg Win:                  2.18%\n  Avg Loss:                -0.90%\n==================================================",
+        "compound_return": 0.24774066664373517,
+        "average_one_way_monthly_turnover": 0.03918921224960992,
+        "total_cost_fraction_of_monthly_nav": 0.0028216232819719142
+      },
+      "3": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:            24.60%\n  Annual Return:            7.61%\n  Annual Volatility:        7.99%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             0.958\n  Sortino Ratio:            2.986\n  Calmar Ratio:             1.491\n  Omega Ratio:              2.414\n  Tail Ratio:               3.278\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -5.10%\n  VaR (95%):               -1.64%\n  CVaR (95%):              -1.82%\n\nDistribution\n------------------------------\n  Skewness:                 1.671\n  Kurtosis:                 2.430\n  Stability (R\u00b2):           0.763\n\nWin/Loss\n------------------------------\n  Win Rate:                50.00%\n  Profit Factor:             2.41\n  Avg Win:                  2.18%\n  Avg Loss:                -0.90%\n==================================================",
+        "compound_return": 0.24597842850836127,
+        "average_one_way_monthly_turnover": 0.03918921224960992,
+        "total_cost_fraction_of_monthly_nav": 0.004232434922957871
+      }
+    },
+    "inverse_vol": {
+      "1": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:             8.94%\n  Annual Return:            2.90%\n  Annual Volatility:        1.61%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             1.787\n  Sortino Ratio:            4.679\n  Calmar Ratio:             2.838\n  Omega Ratio:              4.503\n  Tail Ratio:               3.791\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -1.02%\n  VaR (95%):               -0.31%\n  CVaR (95%):              -0.67%\n\nDistribution\n------------------------------\n  Skewness:                 0.517\n  Kurtosis:                 0.401\n  Stability (R\u00b2):           0.943\n\nWin/Loss\n------------------------------\n  Win Rate:                69.44%\n  Profit Factor:             4.50\n  Avg Win:                  0.44%\n  Avg Loss:                -0.22%\n==================================================",
+        "compound_return": 0.08942642836807568,
+        "average_one_way_monthly_turnover": 0.057260958024382407,
+        "total_cost_fraction_of_monthly_nav": 0.0020613944888777666
+      },
+      "2": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:             8.72%\n  Annual Return:            2.83%\n  Annual Volatility:        1.60%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             1.748\n  Sortino Ratio:            4.565\n  Calmar Ratio:             2.767\n  Omega Ratio:              4.416\n  Tail Ratio:               3.789\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -1.02%\n  VaR (95%):               -0.31%\n  CVaR (95%):              -0.67%\n\nDistribution\n------------------------------\n  Skewness:                 0.527\n  Kurtosis:                 0.388\n  Stability (R\u00b2):           0.942\n\nWin/Loss\n------------------------------\n  Win Rate:                69.44%\n  Profit Factor:             4.42\n  Avg Win:                  0.43%\n  Avg Loss:                -0.22%\n==================================================",
+        "compound_return": 0.08718103840691804,
+        "average_one_way_monthly_turnover": 0.057260958024382407,
+        "total_cost_fraction_of_monthly_nav": 0.004122788977755533
+      },
+      "3": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:             8.49%\n  Annual Return:            2.75%\n  Annual Volatility:        1.60%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             1.707\n  Sortino Ratio:            4.445\n  Calmar Ratio:             2.695\n  Omega Ratio:              4.254\n  Tail Ratio:               3.788\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -1.02%\n  VaR (95%):               -0.31%\n  CVaR (95%):              -0.67%\n\nDistribution\n------------------------------\n  Skewness:                 0.534\n  Kurtosis:                 0.361\n  Stability (R\u00b2):           0.941\n\nWin/Loss\n------------------------------\n  Win Rate:                66.67%\n  Profit Factor:             4.25\n  Avg Win:                  0.45%\n  Avg Loss:                -0.21%\n==================================================",
+        "compound_return": 0.08493896601991247,
+        "average_one_way_monthly_turnover": 0.057260958024382407,
+        "total_cost_fraction_of_monthly_nav": 0.006184183466633299
+      }
+    },
+    "ml4t_linear": {
+      "1": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:            25.10%\n  Annual Return:            7.75%\n  Annual Volatility:        8.31%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             0.941\n  Sortino Ratio:            2.864\n  Calmar Ratio:             1.411\n  Omega Ratio:              2.347\n  Tail Ratio:               3.052\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -5.49%\n  VaR (95%):               -1.80%\n  CVaR (95%):              -1.87%\n\nDistribution\n------------------------------\n  Skewness:                 1.643\n  Kurtosis:                 2.437\n  Stability (R\u00b2):           0.760\n\nWin/Loss\n------------------------------\n  Win Rate:                50.00%\n  Profit Factor:             2.35\n  Avg Win:                  2.27%\n  Avg Loss:                -0.97%\n==================================================",
+        "compound_return": 0.2510321162841087,
+        "average_one_way_monthly_turnover": 0.048146101694474606,
+        "total_cost_fraction_of_monthly_nav": 0.0017332596610010861
+      },
+      "2": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:            24.89%\n  Annual Return:            7.69%\n  Annual Volatility:        8.30%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             0.934\n  Sortino Ratio:            2.838\n  Calmar Ratio:             1.397\n  Omega Ratio:              2.334\n  Tail Ratio:               3.050\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -5.50%\n  VaR (95%):               -1.80%\n  CVaR (95%):              -1.87%\n\nDistribution\n------------------------------\n  Skewness:                 1.649\n  Kurtosis:                 2.456\n  Stability (R\u00b2):           0.759\n\nWin/Loss\n------------------------------\n  Win Rate:                50.00%\n  Profit Factor:             2.33\n  Avg Win:                  2.26%\n  Avg Loss:                -0.97%\n==================================================",
+        "compound_return": 0.24886369830339072,
+        "average_one_way_monthly_turnover": 0.048146101694474606,
+        "total_cost_fraction_of_monthly_nav": 0.0034665193220021723
+      },
+      "3": {
+        "metrics": "==================================================\nPortfolio Performance Summary\n==================================================\n\nReturns\n------------------------------\n  Total Return:            24.67%\n  Annual Return:            7.63%\n  Annual Volatility:        8.30%\n\nRisk-Adjusted Returns\n------------------------------\n  Sharpe Ratio:             0.927\n  Sortino Ratio:            2.813\n  Calmar Ratio:             1.384\n  Omega Ratio:              2.321\n  Tail Ratio:               3.047\n\nRisk Metrics\n------------------------------\n  Max Drawdown:            -5.51%\n  VaR (95%):               -1.80%\n  CVaR (95%):              -1.87%\n\nDistribution\n------------------------------\n  Skewness:                 1.655\n  Kurtosis:                 2.475\n  Stability (R\u00b2):           0.758\n\nWin/Loss\n------------------------------\n  Win Rate:                50.00%\n  Profit Factor:             2.32\n  Avg Win:                  2.25%\n  Avg Loss:                -0.97%\n==================================================",
+        "compound_return": 0.246697749642943,
+        "average_one_way_monthly_turnover": 0.048146101694474606,
+        "total_cost_fraction_of_monthly_nav": 0.005199778983003257
+      }
+    }
+  },
+  "input_identity_sha256": "9e2cd514b4e7e509811096f4bfee90e49f0fea8bdb392509367c58f13e18c26f",
+  "trial_count": 1,
+  "limitations": [
+    "Monthly capital-transfer accounting, not fills of broker CFD/perp positions.",
+    "Weights assumed to become effective at monthly observed equity marks; delayed executable allocation not modeled.",
+    "USDT to USD treated as unit parity; native leverage/sizing paths unchanged.",
+    "C3 and B0 bid-CFD financing/spread and B0 stop/OCO differences remain unqualified.",
+    "2025\u20132026 already observed for strategy selection, locked as allocator retrospective check."
+  ]
+}

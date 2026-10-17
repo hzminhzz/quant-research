@@ -1,0 +1,52 @@
+session_id: btc-structure-reversal-attribution-20261006
+status: EXPLORATORY
+approval_status: NOT_APPROVED
+parent_session: btc-structure-reversal-20261006
+parent_trial_count: 1
+new_trial_count: 3
+total_trial_count: 4
+
+scope: >-
+  Attribution only. Keep the parent structural-break signal, stop, target,
+  time exit, sizing, execution timing, funding, and costs unchanged.
+
+evaluation:
+  development_2024: "2024-01-01T00:00:00Z/2025-01-01T00:00:00Z"
+  retrospective_2025: "2025-01-01T00:00:00Z/2026-01-01T00:00:00Z"
+  note: >-
+    2025 parent performance has already been observed, so 2025 is not a
+    pristine holdout for these follow-up trials. Results are exploratory.
+
+trials:
+  - id: R1_EMA
+    hypothesis: Reversals persist more often once short-term trend slope has turned positive.
+    filter: ema20_t > ema20_t_minus_3
+  - id: R2_AVWAP
+    hypothesis: Reversals persist more often after price recaptures value since the latest confirmed swing low.
+    filter: close_t > anchored_vwap_from_latest_confirmed_swing_low
+    vwap_price: Binance quote_volume / base_volume
+  - id: R3_REGIME
+    hypothesis: Reversals persist more often when a previously meaningful trend is losing strength.
+    filter: adx14_t >= 20 AND adx14_t < adx14_t_minus_3
+
+feature_timing:
+  ema: causal_through_completed_signal_bar
+  anchored_vwap: >-
+    Anchor starts at the pivot-low bar, but the anchor is usable only after
+    that pivot has been confirmed two bars later.
+  adx: causal_wilder_through_completed_signal_bar
+  execution: next_hour_open
+
+promotion_rule:
+  trade_retention_min_each_period: 0.40
+  require_mean_trade_r_above_parent_both_periods: true
+  require_profit_factor_above_parent_both_periods: true
+  require_2025_net_return_positive: true
+  require_2024_max_drawdown_no_worse_than_parent: true
+
+prohibited:
+  - parameter_search
+  - threshold_optimization
+  - combining_filters_in_this_stage
+  - machine_learning
+  - reinterpret_2025_as_unseen_holdout

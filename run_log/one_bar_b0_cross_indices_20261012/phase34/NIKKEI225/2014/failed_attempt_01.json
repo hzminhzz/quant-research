@@ -1,0 +1,7 @@
+{
+  "instrument": "NIKKEI225",
+  "year": 2014,
+  "status": "failed",
+  "exit_code": 1,
+  "error_tail": "Traceback (most recent call last):\n  File \"/home/quant/dev/quant/quant-research/scripts/run_one_bar_cross_indices_native_20261012.py\", line 287, in <module>\n    main()\n    ~~~~^^\n  File \"/home/quant/dev/quant/quant-research/scripts/run_one_bar_cross_indices_native_20261012.py\", line 282, in main\n    result = run_year(a.symbol, a.year)\n  File \"/home/quant/dev/quant/quant-research/scripts/run_one_bar_cross_indices_native_20261012.py\", line 142, in run_year\n    feed, quality = build_feed(symbol, year)\n                    ~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/quant/dev/quant/quant-research/scripts/run_one_bar_cross_indices_native_20261012.py\", line 123, in build_feed\n    raise ValueError(f\"{symbol}-{year}: only {warm_count} causal warmup bars\")\nValueError: NIKKEI225-2014: only 46 causal warmup bars\n"
+}

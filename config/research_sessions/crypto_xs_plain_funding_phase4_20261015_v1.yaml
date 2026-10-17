@@ -1,0 +1,188 @@
+# Phase 4 execution session for the plain cross-sectional funding factor.
+# Phase 3 signal evidence is inherited from the frozen MVP session and is not re-optimized.
+session_id: crypto_xs_plain_funding_phase4_20261015_v1
+market: crypto
+
+thesis: >-
+  The Phase-3-qualified cross-sectional Binance USD-M funding factor can be
+  converted into a profitable 5-long/5-short dollar-neutral portfolio after
+  realistic execution costs and funding transfers.
+
+mechanism: >-
+  The signal ranks contracts by actual trailing-24h realized funding. Low
+  funding contracts are bought and high funding contracts are sold. Returns
+  can come from both subsequent cross-sectional price reversion and the
+  perpetual funding transfer.
+
+falsifier: >-
+  REJECT Phase 4 if the native funding-aware base-cost portfolio has nonpositive
+  net total return, daily-equity Sharpe below 0.50, max drawdown worse than
+  -35%, nonpositive realized funding cashflow, or if the 2x execution-cost arm
+  is not net profitable. INCONCLUSIVE if the official Binance mark-price proxy
+  cannot be constructed for every held-position funding event or if native
+  accounting cannot be independently reconciled. No signal, universe, cadence,
+  sizing, or cost parameter may be changed after portfolio outcomes are seen.
+
+instruments:
+  - symbol: BINANCE_UM_USDT_PERP_PANEL
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: >-
+      Dynamic point-in-time panel inherited unchanged from
+      crypto_xs_plain_funding_mvp_20261015_v1.
+
+data:
+  - id: prices_2020
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2020.parquet
+  - id: prices_2021
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2021.parquet
+  - id: prices_2022
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2022.parquet
+  - id: prices_2023
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2023.parquet
+  - id: funding_2020
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2020.parquet
+  - id: funding_2021
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2021.parquet
+  - id: funding_2022
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2022.parquet
+  - id: funding_2023
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2023.parquet
+  - id: funding_mark_proxy
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_phase4_20261015_v1/required_funding_mark_1m.parquet
+
+evaluation:
+  phase3_source_session: crypto_xs_plain_funding_mvp_20261015_v1
+  phase3_gate: >-
+    Frozen Stage 1 passed with mean 48h rank IC 0.038819, HAC t-stat 5.036,
+    positive first and second chronological halves, 654 eligible cycles and
+    minimum breadth 23. These values are inherited evidence, not reselected
+    Phase 4 parameters.
+  development_start: "2020-06-01T00:00:00Z"
+  development_end: "2024-01-01T00:00:00Z"
+  holdout_start: "2024-01-01T00:00:00Z"
+  holdout_policy: >-
+    Phase 4 remains bounded to the already-observed 2020-2023 development
+    period. 2024-2025 validation and 2026 final-test data remain unopened.
+  signal: >-
+    Unchanged from Phase 3: prediction=-sum(actual funding_rate events in the
+    trailing 24h). No momentum, exhaustion, ML, stop, or price filter.
+  universe: >-
+    Unchanged from Phase 3: 720 contiguous completed hourly bars, at least one
+    actual funding event in trailing 24h, rank by trailing-720h sum(close*base
+    volume), target top 40, use all eligible when breadth is 20-39, stay flat
+    below 20.
+  portfolio: >-
+    Every 48h, long the five lowest-funding names at +10% each and short the
+    five highest-funding names at -10% each. Gross target 1.0 and dollar net
+    target 0.0. Fractional target-weight rebalancing in native ml4t.backtest.
+    Signal decision at 00:00 UTC; fills at the next 01:00 open. Pre-PnL
+    execution-data qualification verified all 19,494 required opening,
+    closing, decision and fill symbol/timestamp keys exist, so the engine keeps
+    its strict current-price behavior and no USE_LAST fallback is enabled.
+  funding_mark_contract: >-
+    Canonical funding timestamps from 2020-2023 are within 47 milliseconds of
+    their minute boundary. Historical /fapi/v1/fundingRate markPrice is null
+    for part of this period. Phase 4 therefore uses official Binance public
+    monthly USD-M markPriceKlines at 1-minute cadence, with exact missing
+    archive minutes repaired only from Binance /fapi/v1/markPriceKlines REST.
+    For each funding event, truncate the funding timestamp to its UTC minute
+    and use that mark-price kline's OPEN as the primary settlement-mark proxy.
+    If and only if both official archive and official REST have no event-minute
+    mark but the immediately preceding official 1-minute mark exists, use that
+    prior-minute CLOSE as a flagged fallback. Pre-PnL qualification found this
+    case only for LITUSDT at 2023-02-24 00:00:00.015 UTC: Binance's mark
+    archive and REST lack the 00:00 minute while the official 23:59 close is
+    present. Never substitute ordinary trade OHLCV. Require every held funding
+    event to resolve by event-minute OPEN or this one-minute-prior CLOSE rule,
+    and record source quality per event.
+  funding_timing: >-
+    Funding events exactly at the engine hour boundary use the position carried
+    from the prior bar; millisecond-offset events inside that hour use the
+    position after that hour's native opening fills. Cashflow is
+    -quantity*mark_proxy*funding_rate and mutates the native broker cash ledger.
+  decomposition: >-
+    Run the identical portfolio at base costs with funding disabled to separate
+    price alpha from funding transfer. This arm is descriptive and does not
+    select parameters.
+  mark_sensitivity: >-
+    Independently calculate the funding cashflow using the prior completed
+    mark-price minute CLOSE for every event. The total funding contribution
+    must retain the same sign as the primary proxy; otherwise Phase 4 is
+    INCONCLUSIVE for funding accounting. For the explicitly flagged LITUSDT
+    fallback event, primary and sensitivity necessarily use the same prior
+    close; this does not alter the other event comparisons.
+  reporting: >-
+    Report fills, turnover, rejected orders, native-equity reconciliation,
+    funding cashflow, price-only decomposition, base and 2x cost net return,
+    daily Sharpe, Calmar, max drawdown and yearly returns.
+
+baseline: >-
+  No-trade cash is the null portfolio. The native no-funding arm isolates price
+  alpha under the identical signal, positions and base execution costs.
+
+costs:
+  commission_bps: 5.0
+  slippage_bps: 4.0
+  funding_included: true
+  assumptions: >-
+    Base cost is 5 bps commission plus 4 bps one-way slippage: 18 bps
+    round-trip for a fully turned leg. Stress doubles both to 36 bps round trip.
+    This is the frozen small-account Phase 4 cost model. No separate impact
+    charge is added because target notional is USD100k research capital split
+    over the point-in-time liquid universe; capacity is not claimed.
+
+trials:
+  - id: native_funding_base_cost
+    kind: preregistered
+    description: >-
+      Native 5-long/5-short funding-aware portfolio at base 18bps round-trip
+      execution friction using official event-minute mark-price-open funding
+      proxy.
+  - id: native_funding_double_cost
+    kind: preregistered
+    description: >-
+      Identical native portfolio at doubled execution friction, 36bps
+      round-trip.
+  - id: native_no_funding_decomposition
+    kind: preregistered
+    description: >-
+      Identical native portfolio at base costs with funding disabled.
+  - id: funding_mark_sensitivity
+    kind: preregistered
+    description: >-
+      Recalculate held-position funding contribution with prior completed
+      mark-price minute close; require the same total funding sign as primary.
+evidence:
+  - docs/audit/crypto_xs_plain_funding_mvp_20261015_v1.md
+  - data/processed/crypto_xs_plain_funding_phase4_20261015_v1/mark_requirements.json
+  - data/processed/crypto_xs_plain_funding_phase4_20261015_v1/mark_materialization_audit.json
+  - data/processed/crypto_xs_plain_funding_phase4_20261015_v1/mark_source_manifest.json
+  - data/processed/crypto_xs_plain_funding_phase4_20261015_v1/required_funding_events_with_marks.parquet

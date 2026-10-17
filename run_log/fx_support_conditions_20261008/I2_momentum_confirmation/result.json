@@ -1,0 +1,155 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "baseline_scope": "same dates as trial, all support holds",
+  "by_era": {
+    "2010-2013": {
+      "hits": 8,
+      "n": 18,
+      "rate_pct": 44.44444444444444,
+      "wilson_ci95_pct": [
+        24.55951812700563,
+        66.28358435795722
+      ]
+    },
+    "2014-2017": {
+      "hits": 11,
+      "n": 23,
+      "rate_pct": 47.82608695652174,
+      "wilson_ci95_pct": [
+        29.237157416646653,
+        67.03726266357259
+      ]
+    },
+    "2018-2021": {
+      "hits": 7,
+      "n": 16,
+      "rate_pct": 43.75,
+      "wilson_ci95_pct": [
+        23.098652405492352,
+        66.82144360118811
+      ]
+    },
+    "2022-2024": {
+      "hits": 7,
+      "n": 19,
+      "rate_pct": 36.8421052631579,
+      "wilson_ci95_pct": [
+        19.149512745135073,
+        58.96046683519693
+      ]
+    }
+  },
+  "by_pair": {
+    "AUDUSD": {
+      "hits": 9,
+      "n": 29,
+      "rate_pct": 31.03448275862069,
+      "wilson_ci95_pct": [
+        17.275616744483212,
+        49.23013423309317
+      ]
+    },
+    "EURUSD": {
+      "hits": 11,
+      "n": 21,
+      "rate_pct": 52.38095238095238,
+      "wilson_ci95_pct": [
+        32.36953458284443,
+        71.65599389846584
+      ]
+    },
+    "GBPUSD": {
+      "hits": 13,
+      "n": 26,
+      "rate_pct": 50.0,
+      "wilson_ci95_pct": [
+        32.06059352575904,
+        67.93940647424095
+      ]
+    }
+  },
+  "classification": "EXPLORATORY",
+  "event_ledger": "run_log/fx_support_conditions_20261008/I2_momentum_confirmation/scored_events.parquet",
+  "excluded": {
+    "hits": 284,
+    "n": 1319,
+    "rate_pct": 21.531463229719485,
+    "wilson_ci95_pct": [
+      19.39756651371646,
+      23.830702074908483
+    ]
+  },
+  "holdout_opened": false,
+  "holdout_scored": false,
+  "horizon": "240 completed 30m bars",
+  "limitations": [
+    "Event/factor diagnostic, not a backtest or executable net PnL.",
+    "Outcome uses first 30m closing breach of support, not broker intrabar stop fills.",
+    "Not all high-break outcomes offer favorable risk:reward.",
+    "For fixed rule arms, all results are exploratory development-sample diagnostics.",
+    "For ML, only chronological out-of-fold 2017-2024 events are scored.",
+    "Overlapping labels reduce effective sample size; monthly clustering is approximate.",
+    "Prior D0 results have been observed on this same development history.",
+    "No model or filter may be selected for deployment without new backtest and final holdout."
+  ],
+  "model": null,
+  "parent_label": "target_before_support_invalidation_240",
+  "preregistered_checks": {
+    "at_least_2_of_3_pair_rates_exceed_same_period_baseline": true,
+    "minimum_100_selected": false,
+    "minimum_20_per_pair": true,
+    "monthly_cluster_95_lower_above_baseline": true,
+    "selected_240bar_target_first_at_least_35pct": true,
+    "selected_lift_above_same_period_baseline_8pp": true
+  },
+  "sample_base": {
+    "hits": 317,
+    "n": 1395,
+    "rate_pct": 22.724014336917563,
+    "wilson_ci95_pct": [
+      20.6016604086947,
+      24.996177344729634
+    ]
+  },
+  "schema_version": "support-followup-diagnostics-v1",
+  "score_source": "data/features/fx_support_conditions_20261008.parquet",
+  "selected": {
+    "hits": 33,
+    "n": 76,
+    "rate_pct": 43.421052631578945,
+    "wilson_ci95_pct": [
+      32.86093181921704,
+      54.61424693164002
+    ]
+  },
+  "selected_ci95_monthly_cluster": {
+    "ci95_pct": [
+      32.706546051427075,
+      54.13555921173078
+    ],
+    "n_cluster_months": 67,
+    "se_pct": 5.466584989873393
+  },
+  "selected_lift_vs_same_window_baseline_pp": 20.697038294661382,
+  "selected_new_high_anytime_within_240": {
+    "hits": 60,
+    "n": 76,
+    "rate_pct": 78.94736842105263,
+    "wilson_ci95_pct": [
+      68.50436020610324,
+      86.60485329012563
+    ]
+  },
+  "selected_vs_excluded_cluster_lift": {
+    "ci95_pp": [
+      10.779072060206552,
+      33.000106743512326
+    ],
+    "cluster_se_pp": 5.668631296761677,
+    "selected_vs_not_selected_lift_pp": 21.88958940185944
+  },
+  "selection_disposition": "INCONCLUSIVE",
+  "session_id": "fx_support_conditions_20261008",
+  "status": "completed",
+  "trial_id": "I2_momentum_confirmation"
+}

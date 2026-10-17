@@ -1,0 +1,555 @@
+{
+  "status": "EXPLORATORY_POST_OBSERVATION_COST_STRESS",
+  "scope": "native ML4T per-strategy stress, analytical portfolio overlay",
+  "scenario_weights": "frozen from original base-cost 2020-2022 training",
+  "portfolios": {
+    "2x": {
+      "equal_five": {
+        "daily_rebalanced": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 1.0586448377646107,
+            "annual_return": 0.10839866832999201,
+            "annual_volatility": 0.10900623323709836,
+            "sharpe_ratio": 0.9985316830576951,
+            "sortino_ratio": 1.618650664693456,
+            "calmar_ratio": 0.8906687603393665,
+            "max_drawdown": -0.12170480559876096,
+            "var_95": -0.008835040677726485,
+            "cvar_95": -0.014902045619821676,
+            "profit_factor": 1.2357767373426862,
+            "win_rate": 0.5096153846153846
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.6135084432572899,
+            "annual_return": 0.16645746167050413,
+            "annual_volatility": 0.11982965202045558,
+            "sharpe_ratio": 1.3448615944014946,
+            "sortino_ratio": 2.2017251577556274,
+            "calmar_ratio": 1.5860342734611717,
+            "max_drawdown": -0.10495199533566651,
+            "var_95": -0.0096167170024485,
+            "cvar_95": -0.01651721603477631,
+            "profit_factor": 1.3378244279289715,
+            "win_rate": 0.5236270753512133
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.20961773698123776,
+            "annual_return": 0.06316189710277342,
+            "annual_volatility": 0.10495385159908519,
+            "sharpe_ratio": 0.6357761518913572,
+            "sortino_ratio": 1.0164356930968215,
+            "calmar_ratio": 0.5480948713488293,
+            "max_drawdown": -0.11523898581159081,
+            "var_95": -0.008837088313155227,
+            "cvar_95": -0.014313886215615934,
+            "profit_factor": 1.1424337598552838,
+            "win_rate": 0.4955300127713921
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.05478037020584492,
+            "annual_return": 0.06879697700422205,
+            "annual_volatility": 0.07524550606725969,
+            "sharpe_ratio": 0.9216605394047498,
+            "sortino_ratio": 1.5113238585833837,
+            "calmar_ratio": 1.5943601911233516,
+            "max_drawdown": -0.043150209963376714,
+            "var_95": -0.006367667366576703,
+            "cvar_95": -0.008860260165679545,
+            "profit_factor": 1.18467109128784,
+            "win_rate": 0.5099009900990099
+          }
+        },
+        "static_capital": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 1.1086055518898688,
+            "annual_return": 0.11219344744108839,
+            "annual_volatility": 0.18259794693873388,
+            "sharpe_ratio": 0.6731363255462729,
+            "sortino_ratio": 1.0498779642083171,
+            "calmar_ratio": 0.3351287883096193,
+            "max_drawdown": -0.33477711063555343,
+            "var_95": -0.015454668443391691,
+            "cvar_95": -0.026586695270815013,
+            "profit_factor": 1.1679132871972016,
+            "win_rate": 0.5062217194570136
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.6523265808436436,
+            "annual_return": 0.17541649357384093,
+            "annual_volatility": 0.20277955608057655,
+            "sharpe_ratio": 0.897938789302968,
+            "sortino_ratio": 1.4045780629926974,
+            "calmar_ratio": 0.5697952520549837,
+            "max_drawdown": -0.30785881935870135,
+            "var_95": -0.017036740213869094,
+            "cvar_95": -0.030102264671856345,
+            "profit_factor": 1.2439243770914061,
+            "win_rate": 0.5159642401021711
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.22953517111139532,
+            "annual_return": 0.06876481250855049,
+            "annual_volatility": 0.175755705931788,
+            "sharpe_ratio": 0.46561225092933445,
+            "sortino_ratio": 0.7233257854207921,
+            "calmar_ratio": 0.3144726586547652,
+            "max_drawdown": -0.21866706251255366,
+            "var_95": -0.015927501172795518,
+            "cvar_95": -0.02523747886352649,
+            "profit_factor": 1.1083036512896345,
+            "win_rate": 0.4955300127713921
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.03790714090791458,
+            "annual_return": 0.04750988187477634,
+            "annual_volatility": 0.11337755099515398,
+            "sharpe_ratio": 0.46559685334014733,
+            "sortino_ratio": 0.7315163001558644,
+            "calmar_ratio": 0.7326057877751814,
+            "max_drawdown": -0.06485054127002877,
+            "var_95": -0.011165791982507242,
+            "cvar_95": -0.014426332763323805,
+            "profit_factor": 1.0903198954267233,
+            "win_rate": 0.5099009900990099
+          }
+        }
+      },
+      "market_group_equal_risk_train2020_2022": {
+        "daily_rebalanced": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 0.6100960131949689,
+            "annual_return": 0.07024546866756887,
+            "annual_volatility": 0.06293550241518815,
+            "sharpe_ratio": 1.1102697873705347,
+            "sortino_ratio": 1.7302820437537538,
+            "calmar_ratio": 1.0605072712908383,
+            "max_drawdown": -0.06623761153666284,
+            "var_95": -0.005057801454912623,
+            "cvar_95": -0.008702561052791878,
+            "profit_factor": 1.2667790849687983,
+            "win_rate": 0.505656108597285
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.34899394213682755,
+            "annual_return": 0.10113939037221553,
+            "annual_volatility": 0.0719738431416895,
+            "sharpe_ratio": 1.3748385871629978,
+            "sortino_ratio": 2.1038281820942633,
+            "calmar_ratio": 1.5269178345332453,
+            "max_drawdown": -0.06623761153666284,
+            "var_95": -0.0056930966215538,
+            "cvar_95": -0.009875868675720873,
+            "profit_factor": 1.3449190033956364,
+            "win_rate": 0.5095785440613027
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.13227625840041957,
+            "annual_return": 0.040792109713657876,
+            "annual_volatility": 0.05548709071488373,
+            "sharpe_ratio": 0.7482770500393499,
+            "sortino_ratio": 1.1787389728646056,
+            "calmar_ratio": 0.7541553537217224,
+            "max_drawdown": -0.054089796634540444,
+            "var_95": -0.0047816312423696414,
+            "cvar_95": -0.00782319244852982,
+            "profit_factor": 1.166309473665983,
+            "win_rate": 0.49680715197956576
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.0541183513562804,
+            "annual_return": 0.06796018222334821,
+            "annual_volatility": 0.051599335819402,
+            "sharpe_ratio": 1.300001726428245,
+            "sortino_ratio": 2.2491272025714433,
+            "calmar_ratio": 2.3946109426260476,
+            "max_drawdown": -0.02838046925018214,
+            "var_95": -0.003524496571811663,
+            "cvar_95": -0.0060550823100302435,
+            "profit_factor": 1.3153486569410318,
+            "win_rate": 0.5247524752475248
+          }
+        },
+        "static_capital": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 0.6561376429424328,
+            "annual_return": 0.0745550671681483,
+            "annual_volatility": 0.11129949974456915,
+            "sharpe_ratio": 0.7016204041597965,
+            "sortino_ratio": 1.073132041645021,
+            "calmar_ratio": 0.4262176497491407,
+            "max_drawdown": -0.17492252423621885,
+            "var_95": -0.009044691425968664,
+            "cvar_95": -0.016314718020283545,
+            "profit_factor": 1.1700111184954052,
+            "win_rate": 0.5039592760180995
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.3756542448144695,
+            "annual_return": 0.10809680677493994,
+            "annual_volatility": 0.12473834394943535,
+            "sharpe_ratio": 0.8852020147732887,
+            "sortino_ratio": 1.3413958320914965,
+            "calmar_ratio": 0.6633170946953099,
+            "max_drawdown": -0.16296399963066452,
+            "var_95": -0.010174049306341568,
+            "cvar_95": -0.01885391387525623,
+            "profit_factor": 1.2300374407039596,
+            "win_rate": 0.5108556832694764
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.1536332611450575,
+            "annual_return": 0.047070282231130856,
+            "annual_volatility": 0.10537276690927654,
+            "sharpe_ratio": 0.48896753554948125,
+            "sortino_ratio": 0.7550829189289552,
+            "calmar_ratio": 0.3629122119009129,
+            "max_drawdown": -0.12970156607455968,
+            "var_95": -0.00917470207104979,
+            "cvar_95": -0.0150327858087729,
+            "profit_factor": 1.1109519739781033,
+            "win_rate": 0.4955300127713921
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.043564668447889865,
+            "annual_return": 0.05463788630156663,
+            "annual_volatility": 0.07167113263792739,
+            "sharpe_ratio": 0.777903123603123,
+            "sortino_ratio": 1.2365993750708935,
+            "calmar_ratio": 1.2761169299457158,
+            "max_drawdown": -0.042815736567252384,
+            "var_95": -0.006205229475755791,
+            "cvar_95": -0.009007986792075455,
+            "profit_factor": 1.1550593318804852,
+            "win_rate": 0.5099009900990099
+          }
+        }
+      }
+    },
+    "3x": {
+      "equal_five": {
+        "daily_rebalanced": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 0.9431942918138465,
+            "annual_return": 0.09931803648278725,
+            "annual_volatility": 0.10910535600406877,
+            "sharpe_ratio": 0.9222987270553455,
+            "sortino_ratio": 1.4883634231686855,
+            "calmar_ratio": 0.7183171423928209,
+            "max_drawdown": -0.13826488415958466,
+            "var_95": -0.00888668483312874,
+            "cvar_95": -0.014962573053409828,
+            "profit_factor": 1.2158837089150067,
+            "win_rate": 0.505656108597285
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.5747154516500708,
+            "annual_return": 0.15735699002868775,
+            "annual_volatility": 0.11989735534597547,
+            "sharpe_ratio": 1.278807785127935,
+            "sortino_ratio": 2.085875502519292,
+            "calmar_ratio": 1.371815350490992,
+            "max_drawdown": -0.1147071214594351,
+            "var_95": -0.00961734728579627,
+            "cvar_95": -0.01657268738276086,
+            "profit_factor": 1.3186260618889105,
+            "win_rate": 0.5172413793103449
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.1789774933521635,
+            "annual_return": 0.05441911165518998,
+            "annual_volatility": 0.10509870945268698,
+            "sharpe_ratio": 0.5564613344043455,
+            "sortino_ratio": 0.8852715864426174,
+            "calmar_ratio": 0.45458566824412916,
+            "max_drawdown": -0.11971145475260545,
+            "var_95": -0.008903992514133279,
+            "cvar_95": -0.014382973705386886,
+            "profit_factor": 1.123612939244359,
+            "win_rate": 0.4929757343550447
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.04666721912808014,
+            "annual_return": 0.05855090305702437,
+            "annual_volatility": 0.07529477253865541,
+            "sharpe_ratio": 0.793143458605222,
+            "sortino_ratio": 1.288844531143884,
+            "calmar_ratio": 1.3310779151220744,
+            "max_drawdown": -0.043987585093134544,
+            "var_95": -0.006374167337624614,
+            "cvar_95": -0.008919058815059461,
+            "profit_factor": 1.1569455737439567,
+            "win_rate": 0.5099009900990099
+          }
+        },
+        "static_capital": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 0.9883561804874821,
+            "annual_return": 0.10292390814606867,
+            "annual_volatility": 0.1828592145716611,
+            "sharpe_ratio": 0.6266533091282247,
+            "sortino_ratio": 0.974612941059286,
+            "calmar_ratio": 0.2944204273067542,
+            "max_drawdown": -0.3495814101201378,
+            "var_95": -0.015464047903883204,
+            "cvar_95": -0.02668041602577133,
+            "profit_factor": 1.1554229736097499,
+            "win_rate": 0.502262443438914
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.6142546640510711,
+            "annual_return": 0.16663105606416928,
+            "annual_volatility": 0.20300318515177496,
+            "sharpe_ratio": 0.8602009519222532,
+            "sortino_ratio": 1.3423167556523832,
+            "calmar_ratio": 0.5242267799335684,
+            "max_drawdown": -0.31786063292166283,
+            "var_95": -0.0170422068647745,
+            "cvar_95": -0.03018752181589428,
+            "profit_factor": 1.2324406350138772,
+            "win_rate": 0.508301404853129
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.19642582607179015,
+            "annual_return": 0.05941639003823629,
+            "annual_volatility": 0.17611644509744367,
+            "sharpe_ratio": 0.4151258149970015,
+            "sortino_ratio": 0.6429137458855204,
+            "calmar_ratio": 0.26655432673672425,
+            "max_drawdown": -0.22290536704332647,
+            "var_95": -0.01594173863269843,
+            "cvar_95": -0.025349557261586907,
+            "profit_factor": 1.0960047574685718,
+            "win_rate": 0.4942528735632184
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.029523713868423673,
+            "annual_return": 0.03696515969040526,
+            "annual_volatility": 0.11333069012024968,
+            "sharpe_ratio": 0.37645917446431365,
+            "sortino_ratio": 0.5879815303424035,
+            "calmar_ratio": 0.5595072623958712,
+            "max_drawdown": -0.06606734563572313,
+            "var_95": -0.011144416885396293,
+            "cvar_95": -0.014474429202968457,
+            "profit_factor": 1.0724306628956748,
+            "win_rate": 0.5099009900990099
+          }
+        }
+      },
+      "market_group_equal_risk_train2020_2022": {
+        "daily_rebalanced": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 0.5208939214334323,
+            "annual_return": 0.061586229822570004,
+            "annual_volatility": 0.06299764831985862,
+            "sharpe_ratio": 0.9802525500949524,
+            "sortino_ratio": 1.515395141825715,
+            "calmar_ratio": 0.9241559318351358,
+            "max_drawdown": -0.06664051779689993,
+            "var_95": -0.005156778128044764,
+            "cvar_95": -0.008769121140849451,
+            "profit_factor": 1.2318399544722685,
+            "win_rate": 0.4994343891402715
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.3145747092843243,
+            "annual_return": 0.09201786408722823,
+            "annual_volatility": 0.07202473830588736,
+            "sharpe_ratio": 1.2583875251079766,
+            "sortino_ratio": 1.9129647570771464,
+            "calmar_ratio": 1.380809560448956,
+            "max_drawdown": -0.06664051779689993,
+            "var_95": -0.005714039510935005,
+            "cvar_95": -0.009932984301175262,
+            "profit_factor": 1.3109511666761613,
+            "win_rate": 0.5006385696040868
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.10558537827250025,
+            "annual_return": 0.03283203864512996,
+            "annual_volatility": 0.05559840873294908,
+            "sharpe_ratio": 0.6087838886119924,
+            "sortino_ratio": 0.949998161779865,
+            "calmar_ratio": 0.5765998561754513,
+            "max_drawdown": -0.056940768010076685,
+            "var_95": -0.004877531434714637,
+            "cvar_95": -0.007900401595004058,
+            "profit_factor": 1.133254716678447,
+            "win_rate": 0.49169859514687103
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.046456945965348995,
+            "annual_return": 0.05828561033003821,
+            "annual_volatility": 0.05152872588187198,
+            "sharpe_ratio": 1.1250686828454792,
+            "sortino_ratio": 1.9189988776258697,
+            "calmar_ratio": 1.9980522785174568,
+            "max_drawdown": -0.029171213864977442,
+            "var_95": -0.0036347374416757098,
+            "cvar_95": -0.006115440171768349,
+            "profit_factor": 1.2672593435882142,
+            "win_rate": 0.5247524752475248
+          }
+        },
+        "static_capital": {
+          "full_common": {
+            "days": 1768,
+            "total_return": 0.563966783995729,
+            "annual_return": 0.06582036393243285,
+            "annual_volatility": 0.1115044619070911,
+            "sharpe_ratio": 0.6273209006436492,
+            "sortino_ratio": 0.9555654227613326,
+            "calmar_ratio": 0.33910218308447143,
+            "max_drawdown": -0.19410185842429917,
+            "var_95": -0.009154298990219073,
+            "cvar_95": -0.016394122866852094,
+            "profit_factor": 1.1506512825165043,
+            "win_rate": 0.49660633484162897
+          },
+          "screening_2020_2022": {
+            "days": 783,
+            "total_return": 0.3418318142149792,
+            "annual_return": 0.09925445433731706,
+            "annual_volatility": 0.12489685495537428,
+            "sharpe_ratio": 0.8200692150475268,
+            "sortino_ratio": 1.2382674126572142,
+            "calmar_ratio": 0.5645552388801036,
+            "max_drawdown": -0.1758099960850705,
+            "var_95": -0.010188861549417047,
+            "cvar_95": -0.018929497194732536,
+            "profit_factor": 1.2112713981599845,
+            "win_rate": 0.5006385696040868
+          },
+          "reviewed_2023_2025": {
+            "days": 783,
+            "total_return": 0.12540326328368767,
+            "annual_return": 0.038754634144907874,
+            "annual_volatility": 0.10568384695581806,
+            "sharpe_ratio": 0.41238016619737866,
+            "sortino_ratio": 0.6340863340796068,
+            "calmar_ratio": 0.2895870367337785,
+            "max_drawdown": -0.13382724096360557,
+            "var_95": -0.009197957461288308,
+            "cvar_95": -0.015118185006681953,
+            "profit_factor": 1.0927854780155155,
+            "win_rate": 0.4891443167305236
+          },
+          "reviewed_2026_ytd": {
+            "days": 202,
+            "total_return": 0.035669699780734865,
+            "annual_return": 0.04469354585340324,
+            "annual_volatility": 0.0716141923182358,
+            "sharpe_ratio": 0.6461523963008452,
+            "sortino_ratio": 1.0176079615941374,
+            "calmar_ratio": 1.0211782902113542,
+            "max_drawdown": -0.04376664318250731,
+            "var_95": -0.00631588391939481,
+            "cvar_95": -0.009056346663001268,
+            "profit_factor": 1.127130790045125,
+            "win_rate": 0.5099009900990099
+          }
+        }
+      }
+    }
+  },
+  "source_native_trials": [
+    {
+      "case": "pivot-breakout-btc",
+      "cost_multiple": 2,
+      "native_net_return_pct": 281.4291515897122,
+      "native_fills": 96,
+      "native_rejections": 0
+    },
+    {
+      "case": "donchian-btc",
+      "cost_multiple": 2,
+      "native_net_return_pct": 190.93845658142845,
+      "native_fills": 2507,
+      "native_rejections": 0
+    },
+    {
+      "case": "three-red-spy",
+      "cost_multiple": 2,
+      "native_net_return_pct": -8.003935991857524,
+      "native_fills": 374,
+      "native_rejections": 0
+    },
+    {
+      "case": "slope-hook",
+      "cost_multiple": 2,
+      "native_net_return_pct": 2.0626853549655655,
+      "native_fills": 374,
+      "native_rejections": 0
+    },
+    {
+      "case": "rsi-30-50",
+      "cost_multiple": 2,
+      "native_net_return_pct": 86.69150191784396,
+      "native_fills": 202,
+      "native_rejections": 0
+    },
+    {
+      "case": "pivot-breakout-btc",
+      "cost_multiple": 3,
+      "native_net_return_pct": 257.9524553435248,
+      "native_fills": 96,
+      "native_rejections": 0
+    },
+    {
+      "case": "donchian-btc",
+      "cost_multiple": 3,
+      "native_net_return_pct": 174.6608311088603,
+      "native_fills": 2506,
+      "native_rejections": 0
+    },
+    {
+      "case": "three-red-spy",
+      "cost_multiple": 3,
+      "native_net_return_pct": -20.203774266324704,
+      "native_fills": 374,
+      "native_rejections": 0
+    },
+    {
+      "case": "slope-hook",
+      "cost_multiple": 3,
+      "native_net_return_pct": -11.473370909887027,
+      "native_fills": 374,
+      "native_rejections": 0
+    },
+    {
+      "case": "rsi-30-50",
+      "cost_multiple": 3,
+      "native_net_return_pct": 72.91769418856688,
+      "native_fills": 202,
+      "native_rejections": 0
+    }
+  ]
+}

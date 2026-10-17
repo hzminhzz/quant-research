@@ -1,0 +1,105 @@
+{
+  "schema": "tsmom_prospective_holdout_freeze/v1",
+  "freeze_timestamp_utc": "2026-10-07T11:25:03Z",
+  "session_id": "tsmom_40_60_80_prospective_20261008",
+  "classification": "PROSPECTIVE_EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "candidate": {
+    "signal": "equal average of sign(ROC40), sign(ROC60), sign(ROC80)",
+    "sizing": "20% annualized realized-volatility target with backward-looking 20-session volatility, capped at 1x gross",
+    "execution": "NEXT_BAR OPEN",
+    "regime_gating": false,
+    "parameter_changes_allowed": false
+  },
+  "frozen_hashes": {
+    "strategy_source": {
+      "path": "scripts/run_tsmom_40_60_80_lse_2020_2026.py",
+      "sha256": "76cca6fe3ecb45a6702941fa985359e1d338682a0765ce68576ae543cd5781a9"
+    },
+    "research_config": {
+      "path": "config/research_sessions/tsmom_40_60_80_lse_2020_2026.yaml",
+      "sha256": "6784c4bd12607620da442214d61555747c7d9f468bb2b2b0b3ff33fac8187f75"
+    },
+    "temporal_validation": {
+      "path": "run_log/tsmom_40_60_80_lse_2020_2026/temporal_validation.json",
+      "sha256": "80d3c608ca68a905c16bccf47b866a44185c176613a3226e32a58219fab776bf"
+    },
+    "temporal_validation_plan": {
+      "path": "run_log/tsmom_40_60_80_lse_2020_2026/temporal_validation_plan.json",
+      "sha256": "bbf92ac698f3bada9e9ce2ac4ac57c05797bba72cffd96fec79a19f1365d68eb"
+    }
+  },
+  "holdout": {
+    "start_inclusive": "2026-10-08",
+    "first_checkpoint_end_exclusive": "2027-01-06",
+    "first_checkpoint_calendar_days": 90,
+    "second_checkpoint_end_exclusive": "2027-04-06",
+    "second_checkpoint_calendar_days": 180,
+    "no_interim_performance_peeking": true
+  },
+  "primary_markets": [
+    {
+      "symbol": "BTCUSDT",
+      "provider": "binance",
+      "dataset": "crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "provider": "binance",
+      "dataset": "crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+    },
+    {
+      "symbol": "HYPEUSDT",
+      "provider": "binance",
+      "dataset": "crypto_futures_ohlcv_1h_BINANCE_UM_PERP"
+    },
+    {
+      "symbol": "NIKKEI225_LSE",
+      "provider": "london_strategic_edge",
+      "dataset": "index_minute_NIKKEI225",
+      "source_symbol": "JP225/USD"
+    }
+  ],
+  "excluded_from_primary": [
+    "DAX_LSE"
+  ],
+  "costs": {
+    "crypto_per_side": {
+      "commission_bps": 4.5,
+      "slippage_bps": 1.5,
+      "funding_included": false
+    },
+    "nikkei_proxy_per_side": {
+      "commission_bps": 2,
+      "slippage_bps": 1
+    },
+    "stress_multiplier": 2
+  },
+  "first_checkpoint_decision_rule": {
+    "supportive_if": [
+      "equal-weight four-market portfolio net return > 0",
+      "equal-weight four-market portfolio Sharpe > 0",
+      "equal-weight four-market portfolio remains net positive at 2x fixed execution costs",
+      "at least 2 of 4 primary markets have positive net return",
+      "portfolio maximum drawdown < 15%"
+    ],
+    "otherwise": "INCONCLUSIVE",
+    "deployment_approval": false
+  },
+  "data_gates": {
+    "crypto": "Every UTC day in the checkpoint must have 24 hourly bars for BTCUSDT, ETHUSDT, and HYPEUSDT.",
+    "nikkei": "Fresh/canonical LSE JP225/USD must cover at least 98% of expected XTKS sessions with no daily absolute return above 20%.",
+    "provider_identity": "Provider and source-symbol mapping must remain unchanged from the frozen design.",
+    "fail_closed": true
+  },
+  "selection_bias": {
+    "dsr": "BLOCKED",
+    "pbo": "BLOCKED",
+    "reason": "Complete historical TSMOM trial ledger is not reconstructable."
+  },
+  "notes": [
+    "October 1-7, 2026 are excluded because they existed before this freeze.",
+    "The 90-day checkpoint is evidence collection, not deployment approval.",
+    "No strategy change is permitted after the 90-day checkpoint without starting a new exploratory candidate and a new future holdout."
+  ]
+}

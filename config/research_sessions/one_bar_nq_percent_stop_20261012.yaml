@@ -1,0 +1,80 @@
+session_id: one_bar_nq_percent_stop_20261012
+market: indices
+thesis: >-
+  A fixed 0.34250680732279554% protective stop changes B0 risk and net PnL
+  relative to its fixed 50-point stop, with all entry and scheduled-exit rules held fixed.
+mechanism: >-
+  The original 50-point stop represents a different fraction of the index as price
+  changes. A fixed fraction keeps the price distance proportional to the actual
+  filled index level. This is a descriptive counterfactual, not a claim of edge.
+falsifier: >-
+  Reject the implementation if the stop is not calculated from the actual filled
+  entry, violates one-contract or tick rules, or native yearly PnL does not reconcile
+  to recorded fills.
+instruments:
+  - symbol: NQ_PROXY
+    kind: index_cfd_proxy
+    venue: Dukascopy
+    source_symbol: USATECH.IDX/USD
+    quote_currency: USD
+    multiplier_assumption_usd_per_point: 20
+    tick_points: 0.25
+    identity_limit: >-
+      This BID-only index CFD proxy is not a dated CME E-mini Nasdaq-100 futures
+      contract. The NQ multiplier is an illustrative research assumption.
+data:
+  - id: source_manifest
+    role: source_identity
+    path: run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json
+    start_inclusive_utc: "2013-01-01"
+    end_inclusive_utc: "2026-07-14"
+    protected_after: "2026-07-14"
+  - id: b0_2021_stop_anchor
+    role: historical_parameter_anchor
+    path: run_log/one_bar_practical_1m_20261012/by_year/2021/native_full_tick_cost/evaluation_trades.csv
+    closed_trades: 444
+    median_entry_price: 14598.25
+evaluation:
+  development_start: "2013-01-01T00:00:00Z"
+  development_end: "2026-07-15T00:00:00Z"
+  holdout_start: null
+  plan: >-
+    Compare all 14 calendar years with the same Dukascopy source, one contract,
+    and B0 execution rules. The parameter anchor uses 2021, so 2013-2021 is
+    ex-post counterfactual evidence. 2022-2026 is chronological after the anchor
+    but has already been observed and is not unseen out-of-sample evidence.
+baseline: >-
+  Original practical B0 with its fixed 50-point protective stop, unchanged. Compare
+  both zero cost and $2.50 commission plus 0.25 point adverse slippage per fill.
+costs:
+  zero_cost: 0
+  commission_usd_per_fill: 2.50
+  adverse_slippage_points_per_fill: 0.25
+  separate_spread_or_impact: false
+  assumptions: >-
+    Match the existing B0 scenarios. Do not add a spread or impact assumption.
+trials:
+  - id: percent_zero_cost
+    kind: preregistered
+    description: Frozen fixed-percent stop with zero commission and slippage.
+  - id: percent_costed
+    kind: preregistered
+    description: Frozen fixed-percent stop with B0 per-fill commission and slippage.
+  - id: original_b0_review
+    kind: historical_review
+    description: Compare against existing B0 evidence; this review is not preregistration.
+    artifact: run_log/one_bar_practical_1m_20261012/final_report.json
+parameters:
+  stop_fraction: 0.0034250680732279552
+  derivation: 50 / 14598.25
+  contracts: 1
+  sizing_model: none
+  volatility_input: none
+  tick_rounding: long floor; short ceiling; 0.25 point tick
+  parameter_search: none
+limitations:
+  - The 1-minute OHLC data does not reveal event order inside a minute.
+  - The native engine does not provide atomic OCO cancellation.
+  - Missing boundary prints can delay a scheduled market exit to the next source event.
+  - No unseen holdout exists in this already observed historical sample.
+  - No live order, CME contract mapping, or readiness decision is included.

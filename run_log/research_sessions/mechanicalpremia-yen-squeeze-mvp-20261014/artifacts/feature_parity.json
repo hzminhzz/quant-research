@@ -1,0 +1,110 @@
+{
+  "session_id": "mechanicalpremia-yen-squeeze-mvp-20261014",
+  "trial_id": "FEATURE-PARITY",
+  "status": "completed",
+  "classification": "EXPLORATORY",
+  "frozen_spec_sha256": "6a600d273b1e257d8dbad967a3f2ac4aeb5e3591166ded6bbb413ec77294a718",
+  "holdout_accessed": false,
+  "method": {
+    "ml4t_engineer": "0.1.4",
+    "compute_features_signature": "(data, features, *, group_col=None, timestamp_col=None, assume_sorted=False)",
+    "atr_registration": "atr, period=14, ta_lib_compatible=true",
+    "donchian_registration": "donchian_channels, period parameter; output upper/lower/mid",
+    "upper_median": "Polars rolling_quantile(0.5, interpolation='higher', window_size=100); order statistic 50 of 100",
+    "selected_skills": [
+      {
+        "name": "ml4t-compute-features",
+        "path": ".agents/skills/ml4t-compute-features/SKILL.md",
+        "invariant": "Use registered group-aware features; preserve causal ordering."
+      },
+      {
+        "name": "ml4t-lookahead-bias",
+        "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+        "invariant": "Only use completed H1 features at or after H1 end."
+      },
+      {
+        "name": "ml4t-polars-patterns",
+        "path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+        "invariant": "Sort timestamps; do not fill missing market intervals."
+      },
+      {
+        "name": "ml4t-validate-data",
+        "path": ".agents/skills/ml4t-validate-data/SKILL.md",
+        "invariant": "Require unique UTC timestamps and valid finite OHLC."
+      },
+      {
+        "name": "ml4t-feature-validation",
+        "path": ".agents/skills/ml4t-feature-validation/SKILL.md",
+        "invariant": "Check warmup, window separation, and future-append stability."
+      }
+    ]
+  },
+  "pairs": {
+    "USDJPY": {
+      "input_path": "data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/USDJPY_2023_2024_1m.parquet",
+      "input_sha256": "00e8b7ebceab3cec1a2f92d04e20b5061d8994dd84cd86aa51eb46c8f71bfd89",
+      "naive_timestamps_localized_as_utc": false,
+      "data_quality": {
+        "rows": 748068,
+        "unique_timestamps": 748068,
+        "first_timestamp": "2023-01-01 18:21:00+00:00",
+        "last_timestamp": "2024-12-31 22:00:00+00:00",
+        "high_below_low": 0,
+        "close_outside_range": 0,
+        "non_finite_ohlc_rows": 0,
+        "candidate_hours": 12741,
+        "complete_hours": 12323,
+        "excluded_incomplete_hours": 418
+      },
+      "native_features": [
+        "atr(period=14)",
+        "donchian_channels(period=20)",
+        "donchian_channels(period=500)"
+      ],
+      "feature_rows": 12323,
+      "atr14_non_null": 12323,
+      "atr100_upper_median_non_null": 12224,
+      "channel_20_vs_500_differing_rows": 11824,
+      "minute_rows_with_features": 747911,
+      "causal_availability_violations": 0,
+      "first_feature_available_at": "2023-01-02 02:00:00+00:00",
+      "last_feature_available_at": "2024-12-31 21:00:00+00:00"
+    },
+    "GBPJPY": {
+      "input_path": "data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/GBPJPY_2023_2024_1m.parquet",
+      "input_sha256": "7bf8319bddfa9715bb86eb9513221dea135eebf8156ff11e247fecb03d2d800d",
+      "naive_timestamps_localized_as_utc": false,
+      "data_quality": {
+        "rows": 744864,
+        "unique_timestamps": 744864,
+        "first_timestamp": "2023-01-01 23:44:00+00:00",
+        "last_timestamp": "2024-12-31 21:59:00+00:00",
+        "high_below_low": 0,
+        "close_outside_range": 0,
+        "non_finite_ohlc_rows": 0,
+        "candidate_hours": 12473,
+        "complete_hours": 11750,
+        "excluded_incomplete_hours": 723
+      },
+      "native_features": [
+        "atr(period=14)",
+        "donchian_channels(period=20)",
+        "donchian_channels(period=500)"
+      ],
+      "feature_rows": 11750,
+      "atr14_non_null": 11750,
+      "atr100_upper_median_non_null": 11651,
+      "channel_20_vs_500_differing_rows": 11251,
+      "minute_rows_with_features": 744449,
+      "causal_availability_violations": 0,
+      "first_feature_available_at": "2023-01-02 09:00:00+00:00",
+      "last_feature_available_at": "2024-12-31 21:00:00+00:00"
+    }
+  },
+  "limitations": [
+    "GBPJPY timestamps are naive in source and were localized to UTC as an unverified assumption.",
+    "Feature parity demonstrates the registered implementation and causal availability, not venue bar parity.",
+    "ATR median uses the specified upper order statistic, not an interpolated median.",
+    "The data remains two-pair only; CADJPY is missing."
+  ]
+}

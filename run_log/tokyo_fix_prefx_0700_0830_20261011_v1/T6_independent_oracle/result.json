@@ -1,0 +1,140 @@
+{
+  "status": "PASS",
+  "source": "immutable seven annual LSE USDJPY source snapshot files",
+  "source_identity_verified": true,
+  "protected_holdout_read": false,
+  "strategy_reexecution": false,
+  "method": "Independent original-source open oracle; native timestamp, next-bar, cost and account reconciliation",
+  "native_runs": 11,
+  "trades_verified": 5800,
+  "fills_verified": 11600,
+  "features_timestamp_verified": 1240,
+  "scenarios": [
+    {
+      "run": "gotobi_c0",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": 462.2147169798902,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 0.0
+    },
+    {
+      "run": "gotobi_c0.8",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": 219.41700232939388,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 0.8
+    },
+    {
+      "run": "gotobi_c1",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": 158.71523022337806,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 1.0
+    },
+    {
+      "run": "gotobi_c1.4",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": 37.3088737230904,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 1.4
+    },
+    {
+      "run": "gotobi_c2",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": -144.80769207818926,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 2.0
+    },
+    {
+      "run": "gotobi_c3",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": -448.3540527015992,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 3.0
+    },
+    {
+      "run": "gotobi_delay1",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": 70.83790593618811,
+      "entry_jst": "07:01",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 1.0
+    },
+    {
+      "run": "gotobi_delay2",
+      "pass": true,
+      "trades": 402,
+      "fills": 804,
+      "sample_n": 402,
+      "net_usd": 57.16852326043177,
+      "entry_jst": "07:02",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 1.0
+    },
+    {
+      "run": "ordinary_c1",
+      "pass": true,
+      "trades": 963,
+      "fills": 1926,
+      "sample_n": 963,
+      "net_usd": -1151.4694059734663,
+      "entry_jst": "07:00",
+      "exit_jst": "08:30",
+      "roundtrip_cost_pips": 1.0
+    },
+    {
+      "run": "placebo_gotobi_c1",
+      "pass": true,
+      "trades": 467,
+      "fills": 934,
+      "sample_n": 467,
+      "net_usd": -949.4117203221826,
+      "entry_jst": "10:00",
+      "exit_jst": "11:30",
+      "roundtrip_cost_pips": 1.0
+    },
+    {
+      "run": "placebo_ordinary_c1",
+      "pass": true,
+      "trades": 1154,
+      "fills": 2308,
+      "sample_n": 1154,
+      "net_usd": -1588.3026157705942,
+      "entry_jst": "10:00",
+      "exit_jst": "11:30",
+      "roundtrip_cost_pips": 1.0
+    }
+  ],
+  "limitations": [
+    "Broker bid/ask not observed; slippage hypothetical",
+    "Fixed initial USD notional may exceed 1x remaining current equity after losses",
+    "No independent holdout"
+  ]
+}

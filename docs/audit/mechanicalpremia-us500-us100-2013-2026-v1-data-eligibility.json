@@ -1,0 +1,30 @@
+{
+  "session": "mechanicalpremia-us500-us100-2013-2026-v1",
+  "status": "ACCEPTANCE_FILES_PRESENT_SOURCE_ELIGIBILITY_PARTIAL",
+  "source": "/home/quant/dev/quant/ml4t-data/.data/store",
+  "reference_audit": "docs/audit/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1-data-eligibility.json",
+  "provider": "Dukascopy",
+  "price_type": "bid",
+  "assets": {
+    "US500": {
+      "store": "index_minute_ES",
+      "files_through_cutoff": 4137,
+      "acceptance_missing": 0,
+      "short_days_under_1000_1m": 1348
+    },
+    "US100": {
+      "store": "index_minute_NQ",
+      "files_through_cutoff": 4137,
+      "acceptance_missing": 0,
+      "short_days_under_1000_1m": 1348
+    }
+  },
+  "period": "2013-01-01 through 2026-10-11 inclusive; per-year warmup preceding July1",
+  "cutoff_exclusive": "2026-10-12T00:00:00Z",
+  "remaining_risks": [
+    "bid-only, no actual ask/spread",
+    "zero-volume or short days",
+    "broker trading clock/timezone not certified",
+    "lot size/CFD multiplier/financing not certified"
+  ]
+}

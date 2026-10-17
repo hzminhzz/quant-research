@@ -1,0 +1,260 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "baseline_scope": "same dates as trial, all support holds",
+  "by_era": {
+    "2010-2013": null,
+    "2014-2017": {
+      "hits": 6,
+      "n": 9,
+      "rate_pct": 66.66666666666667,
+      "wilson_ci95_pct": [
+        35.420213558039606,
+        87.9416181613089
+      ]
+    },
+    "2018-2021": {
+      "hits": 20,
+      "n": 37,
+      "rate_pct": 54.054054054054056,
+      "wilson_ci95_pct": [
+        38.38404689217949,
+        68.96143019562697
+      ]
+    },
+    "2022-2024": {
+      "hits": 29,
+      "n": 66,
+      "rate_pct": 43.93939393939394,
+      "wilson_ci95_pct": [
+        32.62812091954944,
+        55.91736462000863
+      ]
+    }
+  },
+  "by_pair": {
+    "AUDUSD": {
+      "hits": 19,
+      "n": 42,
+      "rate_pct": 45.23809523809524,
+      "wilson_ci95_pct": [
+        31.223393233454473,
+        60.050880965266515
+      ]
+    },
+    "EURUSD": {
+      "hits": 14,
+      "n": 30,
+      "rate_pct": 46.666666666666664,
+      "wilson_ci95_pct": [
+        30.232388907699754,
+        63.8577003801267
+      ]
+    },
+    "GBPUSD": {
+      "hits": 22,
+      "n": 40,
+      "rate_pct": 55.0,
+      "wilson_ci95_pct": [
+        39.82909179893205,
+        69.29469218909509
+      ]
+    }
+  },
+  "classification": "EXPLORATORY",
+  "cleaned_panel_events": 1394,
+  "event_ledger": "run_log/fx_support_conditions_20261008_ml_v2/I4_purged_lightgbm_v2/scored_events.parquet",
+  "excluded": {
+    "hits": 132,
+    "n": 618,
+    "rate_pct": 21.359223300970875,
+    "wilson_ci95_pct": [
+      18.310044556831773,
+      24.7622619002913
+    ]
+  },
+  "excluded_rows": [
+    {
+      "event_timestamp": "2010-01-05 18:30:00+00:00",
+      "reason": "Non-finite ATR100 warm-up ratio and EMA50 slope",
+      "symbol": "AUDUSD"
+    }
+  ],
+  "holdout_opened": false,
+  "holdout_scored": false,
+  "horizon": "240 completed 30m bars",
+  "limitations": [
+    "Event/factor diagnostic, not a backtest or executable net PnL.",
+    "Outcome uses first 30m closing breach of support, not broker intrabar stop fills.",
+    "Not all high-break outcomes offer favorable risk:reward.",
+    "For fixed rule arms, all results are exploratory development-sample diagnostics.",
+    "For ML, only chronological out-of-fold 2017-2024 events are scored.",
+    "Overlapping labels reduce effective sample size; monthly clustering is approximate.",
+    "Prior D0 results have been observed on this same development history.",
+    "No model or filter may be selected for deployment without new backtest and final holdout."
+  ],
+  "model": {
+    "cutoff": 0.3,
+    "features": [
+      "candle_strength",
+      "roc3_atr",
+      "roc12_atr",
+      "roc24_atr",
+      "ema50_slope16_atr",
+      "ema_gap_atr",
+      "atr_ratio",
+      "support_gap_atr",
+      "distance_high_atr",
+      "reference_height_atr",
+      "bars_elapsed_calendar",
+      "utc_hour_sin",
+      "utc_hour_cos",
+      "pair_AUDUSD",
+      "pair_EURUSD",
+      "pair_GBPUSD"
+    ],
+    "folds": [
+      {
+        "average_precision": 0.40097576814517827,
+        "brier_score": 0.15784602113207719,
+        "constant_train_base_brier": 0.16851144189594378,
+        "first_val_event": "2017-01-02 10:00:00+00:00",
+        "fold": "2017-2018",
+        "last_train_label_end": "2016-12-29 19:00:00+00:00",
+        "n_selected": 17,
+        "n_test": 187,
+        "n_train": 662,
+        "purge_rule": "actual 240-bar label end strictly before validation start - 2 calendar days",
+        "roc_auc": 0.6566326530612244,
+        "selected_positive_rate": 0.5294117647058824,
+        "test_positive_rate": 0.21390374331550802,
+        "train_positive_rate": 0.19486404833836857
+      },
+      {
+        "average_precision": 0.45990847050878186,
+        "brier_score": 0.17609401887086865,
+        "constant_train_base_brier": 0.1916463652971865,
+        "first_val_event": "2019-01-02 08:30:00+00:00",
+        "fold": "2019-2020",
+        "last_train_label_end": "2018-12-28 01:30:00+00:00",
+        "n_selected": 17,
+        "n_test": 194,
+        "n_train": 849,
+        "purge_rule": "actual 240-bar label end strictly before validation start - 2 calendar days",
+        "roc_auc": 0.6752990851513019,
+        "selected_positive_rate": 0.5882352941176471,
+        "test_positive_rate": 0.25257731958762886,
+        "train_positive_rate": 0.19905771495877503
+      },
+      {
+        "average_precision": 0.3350833304149178,
+        "brier_score": 0.1738958345115554,
+        "constant_train_base_brier": 0.17746419094173743,
+        "first_val_event": "2021-01-06 12:30:00+00:00",
+        "fold": "2021-2022",
+        "last_train_label_end": "2020-12-28 03:00:00+00:00",
+        "n_selected": 26,
+        "n_test": 161,
+        "n_train": 1042,
+        "purge_rule": "actual 240-bar label end strictly before validation start - 2 calendar days",
+        "roc_auc": 0.5754141238012205,
+        "selected_positive_rate": 0.38461538461538464,
+        "test_positive_rate": 0.22981366459627328,
+        "train_positive_rate": 0.20825335892514396
+      },
+      {
+        "average_precision": 0.4280297894602908,
+        "brier_score": 0.21759995356971112,
+        "constant_train_base_brier": 0.2320718478754285,
+        "first_val_event": "2023-01-12 12:30:00+00:00",
+        "fold": "2023-2024",
+        "last_train_label_end": "2022-12-29 14:00:00+00:00",
+        "n_selected": 52,
+        "n_test": 188,
+        "n_train": 1204,
+        "purge_rule": "actual 240-bar label end strictly before validation start - 2 calendar days",
+        "roc_auc": 0.6166257906286304,
+        "selected_positive_rate": 0.5,
+        "test_positive_rate": 0.324468085106383,
+        "train_positive_rate": 0.21096345514950166
+      }
+    ],
+    "params": {
+      "learning_rate": 0.03,
+      "max_depth": 2,
+      "min_child_samples": 30,
+      "n_estimators": 100,
+      "n_jobs": 1,
+      "num_leaves": 7,
+      "random_state": 42,
+      "reg_lambda": 10.0,
+      "verbosity": -1
+    },
+    "pooled_average_precision": 0.39232997618510335,
+    "pooled_brier_score": 0.18162392635631924,
+    "type": "LightGBM fixed configuration, four expanding chronological OOF folds"
+  },
+  "parent_label": "target_before_support_invalidation_240",
+  "preregistered_checks": {
+    "all_4_ml_fold_brier_better_than_constant": true,
+    "at_least_2_of_3_pair_rates_exceed_same_period_baseline": true,
+    "at_least_3_of_4_ml_folds_improve_base_rate": true,
+    "minimum_100_selected": true,
+    "minimum_20_per_pair": true,
+    "monthly_cluster_95_lower_above_baseline": true,
+    "selected_240bar_target_first_at_least_35pct": true,
+    "selected_lift_above_same_period_baseline_8pp": true
+  },
+  "raw_panel_events": 1395,
+  "recovery_kind": "non-finite warmup exclusion only",
+  "sample_base": {
+    "hits": 187,
+    "n": 730,
+    "rate_pct": 25.616438356164384,
+    "wilson_ci95_pct": [
+      22.583263536332996,
+      28.904895694667264
+    ]
+  },
+  "schema_version": "support-followup-diagnostics-v1",
+  "score_source": "data/features/fx_support_conditions_20261008.parquet",
+  "selected": {
+    "hits": 55,
+    "n": 112,
+    "rate_pct": 49.107142857142854,
+    "wilson_ci95_pct": [
+      40.03302623442809,
+      58.24047617104859
+    ]
+  },
+  "selected_ci95_monthly_cluster": {
+    "ci95_pct": [
+      39.97164389595626,
+      58.24264181832945
+    ],
+    "n_cluster_months": 64,
+    "se_pct": 4.660968857748262
+  },
+  "selected_lift_vs_same_window_baseline_pp": 23.49070450097847,
+  "selected_new_high_anytime_within_240": {
+    "hits": 93,
+    "n": 112,
+    "rate_pct": 83.03571428571429,
+    "wilson_ci95_pct": [
+      75.01831328022577,
+      88.86209771713689
+    ]
+  },
+  "selected_vs_excluded_cluster_lift": {
+    "ci95_pp": [
+      17.753877989549093,
+      37.74196112279493
+    ],
+    "cluster_se_pp": 5.099000799297407,
+    "selected_vs_not_selected_lift_pp": 27.74791955617201
+  },
+  "selection_disposition": "PASS",
+  "session_id": "fx_support_conditions_20261008_ml_v2",
+  "source_trial": "fx_support_conditions_20261008/I4_purged_lightgbm",
+  "status": "completed",
+  "trial_id": "I4_purged_lightgbm_v2"
+}

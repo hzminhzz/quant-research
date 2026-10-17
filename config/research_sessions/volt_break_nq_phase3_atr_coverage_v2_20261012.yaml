@@ -1,0 +1,38 @@
+# VOLT BREAK P3 coverage sensitivity. Exploratory additional trial registered
+# after initial P3 data-quality inspection. NOT new independent OOS.
+session_id: volt_break_nq_phase3_atr_coverage_v2_20261012
+base_session: volt_break_nq_phase3_2019_2025_20261012
+classification: EXPLORATORY
+approval_status: NOT_APPROVED
+input_source: /home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ
+input_years: "2018-2025 inclusive; 2018 ATR warmup"
+observed_initial_v1: "63 first-hit observations from 156 ATR-qualified full days"
+change_reason: >-
+  Source audit found 2019-2025 daily session count mode 1335 one-minute bars
+  and frequent 1215-1275 or ~1079 records due provider overnight gaps or
+  early closures. The v1 requirement n>=1300 in all 15 previous sessions
+  rejects most otherwise fully complete 00:00-14:30 CT candidate days.
+  This is a pre-existing data coverage issue, not evidence about the strategy.
+change: >-
+  A second explicit data-quality sensitivity uses n>=1000 reported minute
+  updates for daily Globex session TR (17:00 previous to 16:14 current).
+  Prior 15 daily TRs must still be observable; no interpolation or price
+  fabrication. This may include truncated-session high/low and must be
+  reported as source-incomplete proxy ATR, not the exact creator's ATR.
+unchanged:
+  - 2019-2025 full 870-minute midnight-to-14:30 primary days
+  - no 2026 observation
+  - prior-15-session SMA daily TR, 0.30 barrier
+  - 00:00 CT anchored provider-volume proxy VWAP
+  - first qualifying 30m bar close 10:00-14:00 CT, next open timing
+  - same-clock/year no-signal controls
+  - predeclared 30m, 60m, 14:30 horizons, Holm correction
+  - no cost, position, TP/SL, or strategy backtest in Phase 3
+falsifier: >-
+  Compare all raw and matched markouts against v1 without selecting the
+  more favorable result. If sign changes or attribution depends heavily
+  on the ATR completeness filter, mark outcome INCONCLUSIVE/PROXY-SENSITIVE.
+trial:
+  id: P3_ATR_COVERAGE_1000
+  kind: exploratory_sensitivity
+  status: REGISTERED_BEFORE_V2_RESULTS

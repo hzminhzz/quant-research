@@ -1,0 +1,265 @@
+{
+  "cadjpy_materialized_snapshot": {
+    "manifest": "data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/source_manifest.json",
+    "manifest_sha256": "22e6493a947f2ba124856d61f3cb1e0c00b25eb48287f9b784018f6047ecc9aa",
+    "snapshot_sha256": "dd68ea5fba40a3a229e665aa86db8f17d0e79f8fd032f4c29704abeabe9af590",
+    "source_manifest": {
+      "caveats": [
+        "No observed historical bid/ask",
+        "No upstream per-day categorical coverage acceptance",
+        "UTC interpretation from source process, not native Arrow timezone"
+      ],
+      "development_end_exclusive": "2025-01-01T00:00:00Z",
+      "first": "2023-01-01 23:11:00+00:00",
+      "inputs": [
+        {
+          "first": "2023-01-01 23:11:00+00:00",
+          "last": "2023-12-29 21:59:00+00:00",
+          "path": "/home/quant/dev/quant/ml4t-data/.data/staging/dukascopy-cadjpy-20261013/cadjpy_2023.arrow",
+          "rows": 371788,
+          "schema": {
+            "close": "Float64",
+            "high": "Float64",
+            "low": "Float64",
+            "open": "Float64",
+            "symbol": "String",
+            "timestamp": "Datetime(time_unit='ms', time_zone=None)",
+            "volume": "Float64"
+          },
+          "sha256": "ab2b0592c48c79a5a263850525fae658026cb4ead400d7ab874d9e2c13942f4c"
+        },
+        {
+          "first": "2024-01-01 22:04:00+00:00",
+          "last": "2024-12-31 21:59:00+00:00",
+          "path": "/home/quant/dev/quant/ml4t-data/.data/staging/dukascopy-cadjpy-20261013/cadjpy_2024.arrow",
+          "rows": 373276,
+          "schema": {
+            "close": "Float64",
+            "high": "Float64",
+            "low": "Float64",
+            "open": "Float64",
+            "symbol": "String",
+            "timestamp": "Datetime(time_unit='ms', time_zone=None)",
+            "volume": "Float64"
+          },
+          "sha256": "270a82b8c4538d411f42c5f5944ca7d94267243513cea8e50d8a5ac0e0e7b80a"
+        }
+      ],
+      "last": "2024-12-31 21:59:00+00:00",
+      "rows": 745064,
+      "snapshot": "data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/CADJPY_2023_2024_1m.parquet",
+      "snapshot_sha256": "dd68ea5fba40a3a229e665aa86db8f17d0e79f8fd032f4c29704abeabe9af590",
+      "source": "Dukascopy-node bid m1 Arrow staging, UTC offset zero presumed",
+      "source_eligibility": "STAGING_NOT_CANONICAL",
+      "symbol": "CADJPY"
+    }
+  },
+  "cadjpy_staging_inputs": [
+    {
+      "path": "/home/quant/dev/quant/ml4t-data/.data/staging/dukascopy-cadjpy-20261013/cadjpy_2023.arrow",
+      "rows_from_manifest": 371788,
+      "sha256": "ab2b0592c48c79a5a263850525fae658026cb4ead400d7ab874d9e2c13942f4c",
+      "size_bytes": 21564666,
+      "year": 2023
+    },
+    {
+      "path": "/home/quant/dev/quant/ml4t-data/.data/staging/dukascopy-cadjpy-20261013/cadjpy_2024.arrow",
+      "rows_from_manifest": 373276,
+      "sha256": "270a82b8c4538d411f42c5f5944ca7d94267243513cea8e50d8a5ac0e0e7b80a",
+      "size_bytes": 21650970,
+      "year": 2024
+    }
+  ],
+  "combined_panel": {
+    "rows": 2237996,
+    "rows_at_or_after_2025": 0,
+    "symbols": [
+      "CADJPY",
+      "GBPJPY",
+      "USDJPY"
+    ]
+  },
+  "limitations": [
+    "CADJPY UTC offset zero follows the staged download manifest and installed Dukascopy epoch-ms converter; staging itself has no per-job provenance id.",
+    "GBPJPY naive timestamps remain localized to UTC under the previously disclosed lineage assumption.",
+    "Observed timestamp gaps are retained; missing-session completeness and bid/ask are unavailable."
+  ],
+  "ml4t_data_contract": {
+    "library_version": "0.1.0b14",
+    "validator": "ml4t.data.core.schemas.MultiAssetSchema.validate(strict=True)"
+  },
+  "pairs": {
+    "CADJPY": {
+      "atr14_finite_rows": 11613,
+      "feature_availability_violations": 0,
+      "feature_rows": 11627,
+      "h1_aggregation": {
+        "candidate_hours": 12473,
+        "close_outside_range": 0,
+        "complete_hours": 11627,
+        "excluded_incomplete_hours": 846,
+        "first_timestamp": "2023-01-01 23:11:00+00:00",
+        "high_below_low": 0,
+        "last_timestamp": "2024-12-31 21:59:00+00:00",
+        "non_finite_ohlc_rows": 0,
+        "rows": 745064,
+        "unaligned_minute_timestamps": 0,
+        "unique_timestamps": 745064
+      },
+      "median_finite_rows": 11514,
+      "minute_quality": {
+        "close_outside_range_rows": 0,
+        "duplicate_timestamp_rows": 0,
+        "first_timestamp": "2023-01-01 23:11:00+00:00",
+        "high_below_low_rows": 0,
+        "last_timestamp": "2024-12-31 21:59:00+00:00",
+        "longest_observed_gap_seconds": 259500.0,
+        "ml4t_multi_asset_schema": "PASS",
+        "null_nonfinite_ohlcv_rows": 0,
+        "open_outside_range_rows": 0,
+        "rows": 745064,
+        "rows_at_or_after_2025": 0,
+        "symbol_mismatch_rows": 0,
+        "unaligned_minute_rows": 0,
+        "utc_aware": true
+      },
+      "native_ml4t_engineer_features": [
+        "atr14",
+        "atr100_upper_median_upper_order_stat_50",
+        "donchian20",
+        "donchian500"
+      ],
+      "path": "data/processed/mechanicalpremia_yen_squeeze_proxy_20261014/CADJPY_2023_2024_1m.parquet",
+      "sha256": "dd68ea5fba40a3a229e665aa86db8f17d0e79f8fd032f4c29704abeabe9af590",
+      "signal_ready_rows": 11514,
+      "timezone_localization_assumption": false
+    },
+    "GBPJPY": {
+      "atr14_finite_rows": 11736,
+      "feature_availability_violations": 0,
+      "feature_rows": 11750,
+      "h1_aggregation": {
+        "candidate_hours": 12473,
+        "close_outside_range": 0,
+        "complete_hours": 11750,
+        "excluded_incomplete_hours": 723,
+        "first_timestamp": "2023-01-01 23:44:00+00:00",
+        "high_below_low": 0,
+        "last_timestamp": "2024-12-31 21:59:00+00:00",
+        "non_finite_ohlc_rows": 0,
+        "rows": 744864,
+        "unaligned_minute_timestamps": 0,
+        "unique_timestamps": 744864
+      },
+      "median_finite_rows": 11637,
+      "minute_quality": {
+        "close_outside_range_rows": 0,
+        "duplicate_timestamp_rows": 0,
+        "first_timestamp": "2023-01-01 23:44:00+00:00",
+        "high_below_low_rows": 0,
+        "last_timestamp": "2024-12-31 21:59:00+00:00",
+        "longest_observed_gap_seconds": 259500.0,
+        "ml4t_multi_asset_schema": "PASS",
+        "null_nonfinite_ohlcv_rows": 0,
+        "open_outside_range_rows": 0,
+        "rows": 744864,
+        "rows_at_or_after_2025": 0,
+        "symbol_mismatch_rows": 0,
+        "unaligned_minute_rows": 0,
+        "utc_aware": true
+      },
+      "native_ml4t_engineer_features": [
+        "atr14",
+        "atr100_upper_median_upper_order_stat_50",
+        "donchian20",
+        "donchian500"
+      ],
+      "path": "data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/GBPJPY_2023_2024_1m.parquet",
+      "sha256": "7bf8319bddfa9715bb86eb9513221dea135eebf8156ff11e247fecb03d2d800d",
+      "signal_ready_rows": 11637,
+      "timezone_localization_assumption": true
+    },
+    "USDJPY": {
+      "atr14_finite_rows": 12309,
+      "feature_availability_violations": 0,
+      "feature_rows": 12323,
+      "h1_aggregation": {
+        "candidate_hours": 12741,
+        "close_outside_range": 0,
+        "complete_hours": 12323,
+        "excluded_incomplete_hours": 418,
+        "first_timestamp": "2023-01-01 18:21:00+00:00",
+        "high_below_low": 0,
+        "last_timestamp": "2024-12-31 22:00:00+00:00",
+        "non_finite_ohlc_rows": 0,
+        "rows": 748068,
+        "unaligned_minute_timestamps": 0,
+        "unique_timestamps": 748068
+      },
+      "median_finite_rows": 12210,
+      "minute_quality": {
+        "close_outside_range_rows": 0,
+        "duplicate_timestamp_rows": 0,
+        "first_timestamp": "2023-01-01 18:21:00+00:00",
+        "high_below_low_rows": 0,
+        "last_timestamp": "2024-12-31 22:00:00+00:00",
+        "longest_observed_gap_seconds": 176460.0,
+        "ml4t_multi_asset_schema": "PASS",
+        "null_nonfinite_ohlcv_rows": 0,
+        "open_outside_range_rows": 0,
+        "rows": 748068,
+        "rows_at_or_after_2025": 0,
+        "symbol_mismatch_rows": 0,
+        "unaligned_minute_rows": 0,
+        "utc_aware": true
+      },
+      "native_ml4t_engineer_features": [
+        "atr14",
+        "atr100_upper_median_upper_order_stat_50",
+        "donchian20",
+        "donchian500"
+      ],
+      "path": "data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/USDJPY_2023_2024_1m.parquet",
+      "sha256": "00e8b7ebceab3cec1a2f92d04e20b5061d8994dd84cd86aa51eb46c8f71bfd89",
+      "signal_ready_rows": 12210,
+      "timezone_localization_assumption": false
+    }
+  },
+  "performance_observed": false,
+  "protected_2025_plus_price_data_read": false,
+  "session_intended": "mechanicalpremia-yen-squeeze-proxy-20261014-v3",
+  "skills": [
+    {
+      "invariant": "Assert provider row schema, range, and provenance.",
+      "name": "ml4t-fetch-data",
+      "revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/data/fetch-data"
+    },
+    {
+      "invariant": "Verify UTC, uniqueness, gaps, finite OHLCV and price bounds.",
+      "name": "ml4t-validate-data",
+      "revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/data/validate-data"
+    },
+    {
+      "invariant": "Enforce symbol/timestamp/lowercase OHLCV columns.",
+      "name": "ml4t-canonical-schema",
+      "revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/infrastructure/canonical-schema"
+    },
+    {
+      "invariant": "Compute rolling features per symbol, in timestamp order.",
+      "name": "ml4t-compute-features",
+      "revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/features/compute-features"
+    },
+    {
+      "invariant": "Only completed H1 values available at or after H1 close.",
+      "name": "ml4t-lookahead-bias",
+      "revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/concepts/lookahead-bias"
+    }
+  ],
+  "status": "completed",
+  "trial": "DATA-AND-FEATURE-PARITY"
+}

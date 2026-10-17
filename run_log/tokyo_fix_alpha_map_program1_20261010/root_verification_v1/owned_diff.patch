@@ -1,0 +1,1090 @@
+diff --git a/scripts/run_tokyo_alpha_map_program1_v1.py b/scripts/run_tokyo_alpha_map_program1_v1.py
+new file mode 100644
+index 0000000..be32949
+--- /dev/null
++++ b/scripts/run_tokyo_alpha_map_program1_v1.py
+@@ -0,0 +1,337 @@
++"""Frozen Tokyo calendar event study. Event markouts are not simulated fills.
++
++Calendar estimators use statsmodels because cross-sectional IC does not apply.
++Polars expressions implement fixed markouts and the strictly past-only gate.
++"""
++from __future__ import annotations
++import argparse
++import hashlib
++import importlib.metadata
++import inspect
++import json
++import subprocess
++import sys
++from datetime import date, timedelta
++from pathlib import Path
++from types import SimpleNamespace
++import numpy as np
++import polars as pl
++import statsmodels.api as sm
++from statsmodels.stats.multitest import multipletests
++import yaml
++from ml4t.engineer import compute_features, labeling
++from ml4t.diagnostic import analyze_signal, Evaluator
++from ml4t.backtest import Engine, Strategy
++from ml4t.backtest.analytics.metrics import max_drawdown
++from ml4t.backtest.analytics.trades import TradeAnalyzer
++
++ROOT = Path(__file__).resolve().parents[1]
++SID = "tokyo_alpha_map_program1_v1"
++OUT = ROOT / "run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1"
++DEST = ROOT / "data/processed" / SID
++STORE = Path("/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_USDJPY")
++CAL = ROOT / "run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/calendar_dates.csv"
++SPEC = ROOT / f"config/research_sessions/{SID}.yaml"
++# Minute-open endpoints, fixed signs. Do not select a minute from plotted curves.
++WINDOWS = {
++    "A_0300_0500": (180,300,1), "A_0500_0700": (300,420,1),
++    "A_0700_0830": (420,510,1), "A_0830_0954": (510,594,1),
++    "A_0956_1010": (596,610,1), "A_1010_1030": (610,630,1),
++    "A_1030_1200": (630,720,1),
++    "L_0300_0954": (180,594,1), "L_0500_0954": (300,594,1),
++    "L_0700_0954": (420,594,1), "L_0830_0954": (510,594,1),
++    "B_0956_1010": (596,610,-1), "B_0956_1030": (596,630,-1),
++    "B_0956_1100": (596,660,-1),
++    "D_main_0930_0954": (570,594,1), "D_placebo_1130_1154": (690,714,1),
++    "D_main_short_0956_1000": (596,600,-1), "D_placebo_short_1156_1200": (716,720,-1),
++}
++GROUPS = ["gotobi", "ordinary", "rolled_gotobi", "month_end"]
++
++def sha(path):
++    h=hashlib.sha256()
++    with Path(path).open("rb") as f:
++        for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
++    return h.hexdigest()
++
++def write(path,payload):
++    path=Path(path)
++    if path.exists():raise RuntimeError(f"Immutable artifact already exists: {path}")
++    path.parent.mkdir(parents=True,exist_ok=True)
++    path.write_text(json.dumps(payload,indent=2,allow_nan=False,default=str)+"\n")
++
++def calendar():
++    f=pl.read_csv(CAL,try_parse_dates=True,schema_overrides={"nominal_dates":pl.String,"nominal_days":pl.String}).filter(pl.col("tokyo_bank_business_day"))
++    f=f.rename({"date":"session","month_end_bank_business_day":"month_end", "quarter_end_bank_business_day":"quarter_end", "ordinary_bank_business_day":"ordinary", "negative_control_dom_2_7_12_17_22_27":"negative_control"}).with_columns(pl.col("session").dt.year().alias("year"))
++    business=set(f["session"].to_list());negative=set()
++    for year in range(2020,2027):
++        for month in range(1,13):
++            if (year,month)>(2026,8):continue
++            for dom in [2,7,12,17,22,27]:
++                d=date(year,month,dom)
++                while d not in business and d>=date(2020,1,1):d-=timedelta(days=1)
++                if d in business:negative.add(d)
++    actual=set(f.filter(pl.col("gotobi"))["session"].to_list())
++    return f.with_columns(pl.col("session").is_in(sorted(negative-actual)).alias("negative_control"))
++
++def source_paths():
++    # Parse partition identities before any Parquet read/hash. No September files.
++    paths=[]
++    for y in range(2020,2027):
++        for p in (STORE/f"year={y}").glob("month=*/day=*/data.parquet"):
++            d=date(y,int(p.parents[1].name.split("=")[1]),int(p.parent.name.split("=")[1]))
++            if date(2020,1,1)<=d<date(2026,9,1):paths.append(p)
++    return sorted(paths)
++
++def prepare():
++    if (DEST/"source_manifest.json").exists():raise RuntimeError("Snapshot already exists")
++    cal=calendar()
++    days=cal["session"].to_list()
++    manifests=[];coverage=[];snapshots=[];gate_parts=[]
++    paths=source_paths()
++    assert paths and all("month=9" not in str(p) for p in paths if "year=2026" in str(p))
++    for y in range(2020,2027):
++        selected=[p for p in paths if f"year={y}/" in str(p)]
++        manifest=[{"path":str(p),"sha256":sha(p),"size_bytes":p.stat().st_size} for p in selected]
++        f=(pl.scan_parquet(selected,hive_partitioning=False)
++           .filter(pl.col("timestamp")<pl.datetime(2026,8,31,15,time_zone="UTC"))
++           .with_columns(pl.col("timestamp").dt.convert_time_zone("Asia/Tokyo").alias("jst"))
++           .with_columns(pl.col("jst").dt.date().alias("session"),
++              (pl.col("jst").dt.hour().cast(pl.Int32)*60+pl.col("jst").dt.minute()).alias("minute_jst"))
++           .filter(pl.col("session").is_in(days)&pl.col("minute_jst").is_between(180,720))
++           .select("timestamp","symbol","open","high","low","close","volume","session","minute_jst").sort("timestamp").collect())
++        assert f["symbol"].unique().to_list()==["USDJPY"]
++        bad=f.filter(pl.any_horizontal([~pl.col(c).is_finite()|pl.col(c).is_null()|(pl.col(c)<=0) for c in ["open","high","low","close"]])|(pl.col("high")<pl.col("low"))|~pl.col("open").is_between(pl.col("low"),pl.col("high"))|~pl.col("close").is_between(pl.col("low"),pl.col("high")))
++        assert bad.height==0 and f["timestamp"].is_duplicated().sum()==0
++        assert f.filter(pl.col("timestamp").dt.second()!=0).height==0
++        # Retain all available rows in immutable bounded snapshot. Exclusion
++        # evidence and original narrow-cohort gate need the incomplete full days.
++        target=DEST/f"USDJPY_03_12_JST_{y}.parquet"
++        f.drop("session","minute_jst").write_parquet(target,compression="zstd")
++        assert f.height<1_000_000 and target.stat().st_size<100_000_000
++        snapshots.append({"path":str(target.relative_to(ROOT)),"rows":f.height,"sha256":sha(target),"size_bytes":target.stat().st_size})
++        manifests.extend(manifest)
++        coverage.extend(f.group_by("session").agg(pl.len().alias("rows"),pl.col("minute_jst").n_unique().alias("distinct_minutes")).to_dicts())
++        gate_parts.append(f.filter(pl.col("minute_jst").is_between(480,630)))
++    counts=pl.DataFrame(coverage)
++    registry=cal.join(counts,on="session",how="left").with_columns(pl.col("rows").fill_null(0),pl.col("distinct_minutes").fill_null(0)).with_columns(((pl.col("rows")==541)&(pl.col("distinct_minutes")==541)).alias("complete_full"))
++    registry.write_parquet(OUT/"calendar_event_registry.parquet")
++    registry.write_csv(OUT/"calendar_event_registry.csv")
++    write(OUT/"gap_audit.json",{"expected":registry.height,"complete":registry.filter(pl.col("complete_full")).height,"excluded":registry.filter(~pl.col("complete_full")).to_dicts(),"no_forward_fill":True,"window_minutes":541,"calendar_sha256":sha(CAL),"selection_limitation":"Full-window complete-case exclusion may depend on provider outages; cohort comparison provided, no missing-price imputation."})
++    write(DEST/"source_manifest.json",{"source":str(STORE),"source_files":manifests,"selected_source_partition_count":len(manifests),"snapshots":snapshots,"holdout_partition_read":False,"jst_end_exclusive":"2026-09-01","UTC_cutoff":"2026-08-31T15:00:00Z","timestamp_semantics":"minute BAR OPEN; inherited local source contract; executable bid/ask unavailable","provider_versions":{p:importlib.metadata.version(p) for p in ["ml4t-data","ml4t-engineer","ml4t-diagnostic","ml4t-backtest","polars","statsmodels"]}})
++    write(OUT/"api_identity.json",{"compute_features":str(inspect.signature(compute_features)),"Engine":str(inspect.signature(Engine)),"TradeAnalyzer":str(inspect.signature(TradeAnalyzer)),"imports_verified":["labeling","analyze_signal","Evaluator","Strategy"],"event_method":"statsmodels OLS calendar associations; no cross-sectional IC or feature catalog equivalent"})
++    print(json.dumps({"snapshots":snapshots,"complete":registry.filter(pl.col("complete_full")).height}))
++
++def freeze():
++    manifest=json.loads((DEST/"source_manifest.json").read_text())
++    prior=yaml.safe_load((ROOT/"config/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1.yaml").read_text())
++    tests=[]
++    for w in WINDOWS:
++        tests.extend([f"{w}:mean:{g}" for g in GROUPS]);tests.append(f"{w}:increment")
++    for w in [x for x in WINDOWS if x.startswith("B_")]:
++        tests.extend([f"{w}:gated_mean",f"{w}:gated_increment",f"{w}:original_gate_mean",f"{w}:original_gate_increment"])
++    terms=["nominal_5","nominal_10","nominal_15","nominal_20","nominal_25","nominal_30","rolled_gotobi","month_end","quarter_end","weekday_4"]
++    for w in ["L_0830_0954","B_0956_1030"]:tests.extend([f"C:{w}:{t}" for t in terms])
++    for w in ["L_0830_0954","B_0956_1030"]:tests.append(f"D:negative:{w}")
++    tests.extend(["D:matched_pre_difference","D:matched_post_difference"])
++    prior.update({"session_id":SID,"thesis":"A-D retrospective Tokyo settlement-calendar associations in full 03-12 JST sessions; USD buying pressure before 09:55 may reverse afterward.","falsifier":"No positive global-Holm-significant Gotobi increment; nonpositive base cost lower bound; insufficient n/year support; unstable signs or placebo concern. Onset remains unresolved unless fixed interval increment passes Holm and HAC lag robustness.","data":[{"id":f"year_{i}","symbol":"USDJPY","role":"prices","path":x["path"]} for i,x in enumerate(manifest["snapshots"])],"evaluation":{"development_start":"2020-01-01T00:00:00Z","development_end":"2026-08-31T15:00:00Z","holdout_start":"2026-08-31T15:00:00Z","holdout_end":"2026-10-10T00:00:00Z","status":"Entire2020-Aug2026 already inspected: EXPLORATORY only; holdout JST>=September1 never read.","windows":{k:list(v) for k,v in WINDOWS.items()},"hac":{"maxlags":5,"kernel":"bartlett","use_correction":True,"use_t":True,"robustness_lags":[1,10]},"controls":["weekday","year"],"dag":"Calendar and weekday/year -> demand and returns; latent importer flow -> returns. No return, extension or volume controls. Calendar associations do not identify dealer flows.","calendar":"Official Cabinet Office holiday dates + BOJ bank closure rule; previous-bank-business-day rollback is an assumption. No nominal30 in February; month-end separate. Nominal collisions excluded only from C regression.","gates":"B3 original extension open0955-open0800 >1.5 sampleSD preceding20 complete0800-1030 bank dates; report original as sensitivity AND strict541-minute gate. Identically gated ordinary controls. Gate is potentially mediator-selected.","global_holm_test_ids":tests,"minimum":{"strategy_n":100,"controls_n":200,"years_with15events":5,"positive_net_years":5,"calendar_category_n":30,"calendar_category_years":4},"selection":"At most two: one pre and one post. Positive increment Holm p<.05 and CI lower>0, positive 1pip mean CI lower>0, positive1.4pip point mean; 2024-25 pooled net>=0; every leaveyearout increment and net positive; alternative HAC lag signs; placebo concern unresolved means NONE. Full-cohort coverage<80percent flags missingness generalization unresolved and rejects strategy selection. Tie earliest entry or earliest exit. Native Engine only after gates.","placebos":"Pre0930-0954 vs1130-1154; post0956-1000 vs1156-1200 matched4min diagnostic; main14/34/64min post horizons unavailable at11:55. Negative nominal2/7/12/17/22/27 rollback, exclude actualGotobi.","initial_equity_usd":10000,"position_base_usd":10000,"no_compounding":True},"baseline":"Same window ordinary Tokyo bank business days, weekday/year adjusted; gated ordinary for B3.","evidence":[str((DEST/"source_manifest.json").relative_to(ROOT)),str(CAL.relative_to(ROOT)),str((OUT/"calendar_event_registry.parquet").relative_to(ROOT))],"trials":[{"id":t,"kind":"diagnostic" if t=="T0_data_gate" else "preregistered","description":desc} for t,desc in [("T0_data_gate","Calendar, source hashes, gap audit and CLI check"),("T1_A_map","Fixed A intervals and accumulations; descriptive minute curves"),("T2_B_reversal","Three fixed horizons all groups and original/strict gates"),("T3_C_calendar","Two small calendar regressions; nominal collisions excluded"),("T4_D_refutation","Negative-calendar and matched-placebo contrasts; yearly and lag robustness"),("T5_candidate_screen","Apply frozen gates; conditional native Engine max2; NONE valid")]]})
++    prior["instruments"][0]["session"]="Tokyo bank calendar on official public holidays + BOJ closure rule"
++    if SPEC.exists():raise RuntimeError("Frozen YAML already exists")
++    SPEC.write_text(yaml.safe_dump(prior,sort_keys=False))
++    subprocess.run([sys.executable,str(ROOT/"scripts/research_session.py"),"init","--spec",str(SPEC.relative_to(ROOT)),"--root",str(ROOT)],check=True)
++    write(OUT/"planned_tests.json",{"tests":tests,"count":len(tests),"known_legacy_count":"Incomplete; Holm applies only to this program; DSR/PBO not reproducible","cost_scenarios":[.8,1.,1.4],"pointwise_curves":"descriptive541minute x4groups; no per-minute inferential selection"})
++
++def fit_hac(y,x=None,lag=5):
++    y=np.asarray(y,dtype=float)
++    if x is None:x=np.ones((len(y),1))
++    x=np.asarray(x,dtype=float)
++    if len(y)<=x.shape[1]+1 or np.linalg.matrix_rank(x)!=x.shape[1]:return None
++    return sm.OLS(y,x).fit(cov_type="HAC",cov_kwds={"maxlags":min(lag,len(y)-1),"kernel":"bartlett","use_correction":True},use_t=True)
++
++def coefficient(fit,index=0):
++    if fit is None:return {"status":"INCONCLUSIVE","p":1.,"estimate":None,"ci95":None}
++    return {"status":"ESTIMATED","estimate":float(fit.params[index]),"ci95":fit.conf_int()[index].tolist(),"p":float(fit.pvalues[index]),"df_resid":float(fit.df_resid)}
++
++def controls(f, treatment):
++    cols=[np.ones(f.height),np.asarray(treatment,dtype=float)]
++    cols.extend((f["weekday"].to_numpy()==v).astype(float) for v in sorted(f["weekday"].unique())[1:])
++    cols.extend((f["year"].to_numpy()==v).astype(float) for v in sorted(f["year"].unique())[1:])
++    return np.column_stack(cols)
++
++def increment(f,col,treatment="gotobi",lag=5):
++    x=controls(f,f[treatment].cast(pl.Float64).to_numpy())
++    out=coefficient(fit_hac(f[col].to_numpy(),x,lag),1)
++    out.update(n=f.height,n_treatment=f.filter(pl.col(treatment)).height,n_control=f.filter(~pl.col(treatment)).height)
++    return out
++
++def summary(f,col):
++    a=f[col].to_numpy()
++    out=coefficient(fit_hac(a));out.update(n=len(a),median=float(np.median(a)) if len(a) else None,sd=float(np.std(a,ddof=1)) if len(a)>1 else None)
++    scenarios={}
++    for c in [0.,.8,1.,1.4]:
++        net=a-c
++        metric=TradeAnalyzer([SimpleNamespace(pnl=float(v),pnl_percent=0.,status="event_markout") for v in net])
++        # An additive markout curve in pip units, not a capital-account backtest.
++        anchor=1_000_000.;values=np.r_[anchor,anchor+np.cumsum(net)]
++        dd,peak,_=max_drawdown(values)
++        pf=metric.profit_factor
++        scenarios[str(c)]={"mean_net_pips":float(np.mean(net)) if len(net) else None,"ci95_net_pips":[v-c for v in out["ci95"]] if out["ci95"] else None,"win_rate":metric.win_rate,"profit_factor":float(pf) if np.isfinite(pf) else None,"max_additive_markout_drawdown_pips":float(dd*values[peak]),"metrics_source":"ml4t.backtest.analytics.TradeAnalyzer,max_drawdown; event endpoints only, not fills or MTM"}
++    out["cost_scenarios"]=scenarios
++    out["years"]=[{"year":int(x["year"][0]),"n":x.height,"mean_pips":float(x[col].mean()),"net1_pips":float(x[col].mean()-1)} for x in f.partition_by("year",maintain_order=True)]
++    return out
++
++
++def run():
++    config=yaml.safe_load(SPEC.read_text())
++    frozen=json.loads((ROOT/f"run_log/research_sessions/{SID}/frozen_spec.json").read_text())
++    assert frozen
++    assert config == frozen["spec"], "Working declaration differs from frozen specification"
++    config=frozen["spec"]
++    assert {k:list(v) for k,v in WINDOWS.items()}==config["evaluation"]["windows"]
++    assert sha(CAL)==json.loads((OUT/"gap_audit.json").read_text())["calendar_sha256"]
++    if (OUT/"results.json").exists():raise RuntimeError("Results already exist")
++    manifest=json.loads((DEST/"source_manifest.json").read_text())
++    for x in manifest["snapshots"]:assert sha(ROOT/x["path"])==x["sha256"]
++    reg=pl.read_parquet(OUT/"calendar_event_registry.parquet")
++    f=(pl.scan_parquet([ROOT/x["path"] for x in manifest["snapshots"]])
++       .with_columns(pl.col("timestamp").dt.convert_time_zone("Asia/Tokyo").alias("jst"))
++       .with_columns(pl.col("jst").dt.date().alias("session"),(pl.col("jst").dt.hour().cast(pl.Int32)*60+pl.col("jst").dt.minute()).alias("minute_jst")).collect())
++    points=sorted({m for a,b,_ in WINDOWS.values() for m in [a,b]}|{480,595})
++    all_ev=f.group_by("session").agg([pl.col("open").filter(pl.col("minute_jst")==m).first().alias(f"p{m}") for m in points]+[pl.col("minute_jst").filter(pl.col("minute_jst").is_between(480,630)).n_unique().alias("narrow_minutes")]).sort("session")
++    all_ev=all_ev.join(reg,on="session").sort("session").with_columns(((pl.col("p595")-pl.col("p480"))*100).alias("extension_pips"))
++    original=all_ev.filter(pl.col("narrow_minutes")==151).with_columns(pl.col("extension_pips").rolling_std(20,min_samples=20).shift(1).alias("original_prior20_sd"))
++    original=original.with_columns((pl.col("extension_pips")>1.5*pl.col("original_prior20_sd")).fill_null(False).alias("original_gate"))
++    original.select("session","extension_pips","original_prior20_sd","original_gate").write_parquet(OUT/"original_gate_history.parquet")
++    ev=all_ev.filter(pl.col("complete_full")).join(original.select("session","original_prior20_sd","original_gate"),on="session",how="left").sort("session")
++    ev=ev.with_columns(pl.col("extension_pips").rolling_std(20,min_samples=20).shift(1).alias("prior20_sd"),*[((pl.col(f"p{b}")-pl.col(f"p{a}"))*100*sign).alias(w) for w,(a,b,sign) in WINDOWS.items()]).with_columns((pl.col("extension_pips")>1.5*pl.col("prior20_sd")).fill_null(False).alias("strict_gate"))
++    assert ev["session"].max()<date(2026,9,1) and ev["session"].is_duplicated().sum()==0
++    ev.write_parquet(OUT/"event_panel.parquet")
++    results={"classification":"EXPLORATORY","approval":"NOT_APPROVED","n":ev.height,"windows":{},"tests":{},"calendar":{},"refutation":{},"candidates":[]}
++    tests=results["tests"]
++    def register(id_,payload):
++        assert id_ in config["evaluation"]["global_holm_test_ids"] and id_ not in tests
++        tests[id_]=payload
++    for w in WINDOWS:
++        r={"groups":{}}
++        for g in GROUPS:
++            r["groups"][g]=summary(ev.filter(pl.col(g)),w)
++            register(f"{w}:mean:{g}",{k:v for k,v in r["groups"][g].items() if k in ["status","p","estimate","ci95","n","df_resid"]})
++        r["increment"]=increment(ev,w);register(f"{w}:increment",dict(r["increment"]))
++        r["increment_lag_robustness"]={str(l):increment(ev,w,lag=l) for l in [1,10]}
++        r["yearly_increment"]=[{"year":y,"n":ev.filter(pl.col("year")==y).height,"adjusted_increment_pips":increment(ev.filter(pl.col("year")==y),w)["estimate"]} for y in range(2020,2027)]
++        r["unadjusted_difference_pips"]=r["groups"]["gotobi"]["estimate"]-r["groups"]["ordinary"]["estimate"]
++        if w.startswith("B_"):
++            for name,gate in [("gated","strict_gate"),("original_gate","original_gate")]:
++                e=ev.filter(pl.col(gate));g=e.filter(pl.col("gotobi"))
++                r[name]={"summary":summary(g,w),"increment":increment(e,w)}
++                register(f"{w}:{name}_mean",{k:v for k,v in r[name]["summary"].items() if k in ["status","p","estimate","ci95","n","df_resid"]})
++                register(f"{w}:{name}_increment",dict(r[name]["increment"]))
++        results["windows"][w]=r
++    coverage=reg.group_by("year","weekday","gotobi").agg(pl.len().alias("expected"),pl.col("complete_full").sum().alias("complete")).sort("year","weekday","gotobi")
++    coverage.write_csv(OUT/"coverage_by_calendar.csv")
++    # Mutually exclusive nominal classes; collisions retained once in A/B.
++    c=ev.filter(~pl.col("nominal_days").fill_null("").str.contains(";"))
++    for w in ["L_0830_0954","B_0956_1030"]:
++        weekdays=sorted(c["weekday"].unique().to_list())[1:]
++        names=["constant"]+[f"nominal_{d}" for d in [5,10,15,20,25,30]]+["rolled_gotobi","month_end","quarter_end"]+[f"weekday_{d}" for d in weekdays]+[f"year_{y}" for y in range(2021,2027)]
++        cols=[np.ones(c.height)]+[(c["nominal_days"].fill_null("").to_numpy()==str(d)).astype(float) for d in [5,10,15,20,25,30]]+[c[t].cast(pl.Float64).to_numpy() for t in ["rolled_gotobi","month_end","quarter_end"]]+[(c["weekday"].to_numpy()==d).astype(float) for d in weekdays]+[(c["year"].to_numpy()==y).astype(float) for y in range(2021,2027)]
++        x=np.column_stack(cols);fit=fit_hac(c[w].to_numpy(),x)
++        cr={"n":c.height,"excluded_collisions":ev.height-c.height,"rank":int(np.linalg.matrix_rank(x)),"columns":len(names),"coefficients":{}}
++        for term in ["nominal_5","nominal_10","nominal_15","nominal_20","nominal_25","nominal_30","rolled_gotobi","month_end","quarter_end","weekday_4"]:
++            t=coefficient(fit,names.index(term))
++            subgroup=c.filter(pl.col("nominal_days")==term.split("_")[1]) if term.startswith("nominal_") else c.filter(pl.col("weekday")==4) if term=="weekday_4" else c.filter(pl.col(term))
++            t.update(n=subgroup.height,years=subgroup["year"].n_unique(),descriptive=summary(subgroup,w))
++            if t["n"]<30 or t["years"]<4:t["interpretation"]="SMALL_SUBSET_INCONCLUSIVE";t["status"]="INCONCLUSIVE";t["p"]=1.
++            cr["coefficients"][term]=t;register(f"C:{w}:{term}",{k:v for k,v in t.items() if k!="descriptive"})
++        results["calendar"][w]=cr
++    n=ev.filter(~pl.col("gotobi"))
++    for w in ["L_0830_0954","B_0956_1030"]:
++        r=increment(n,w,"negative_control");r["summary"]=summary(n.filter(pl.col("negative_control")),w)
++        results["refutation"][f"negative:{w}"]=r;register(f"D:negative:{w}",{k:v for k,v in r.items() if k!="summary"})
++    for kind,main,placebo in [("pre","D_main_0930_0954","D_placebo_1130_1154"),("post","D_main_short_0956_1000","D_placebo_short_1156_1200")]:
++        p=ev.with_columns((pl.col(main)-pl.col(placebo)).alias("paired"));r=increment(p,"paired")
++        results["refutation"][f"matched_{kind}"]=r;register(f"D:matched_{kind}_difference",r)
++    ids=config["evaluation"]["global_holm_test_ids"]
++    assert set(ids)==set(tests)
++    adjusted=multipletests([tests[t]["p"] for t in ids],alpha=.05,method="holm")[1]
++    for id_,p in zip(ids,adjusted):tests[id_]["holm_p"]=float(p)
++    # Selection records each fixed candidate. Never choose largest historical mean.
++    screen=[]
++    for w in [k for k in WINDOWS if k.startswith(("L_","B_"))]:
++        r=results["windows"][w];g=ev.filter(pl.col("gotobi"));s=r["groups"]["gotobi"];inc=r["increment"]
++        year_rows=s["years"]
++        loyo=[{"omitted":y,"increment":increment(ev.filter(pl.col("year")!=y),w)["estimate"],"net1":float(g.filter(pl.col("year")!=y)[w].mean()-1)} for y in range(2020,2027)]
++        fail=[]
++        if ev.height/reg.height<.8:fail.append("missingness_generalization_unresolved")
++        if g.height<100 or inc["n_control"]<200:fail.append("sample")
++        if sum(x["n"]>=15 for x in year_rows)<5:fail.append("year_sample")
++        if tests[f"{w}:increment"]["holm_p"]>=.05 or inc["ci95"] is None or inc["ci95"][0]<=0:fail.append("increment_uncertain")
++        if s["ci95"] is None or s["ci95"][0]-1<=0:fail.append("base_net_uncertain")
++        if s["estimate"]<=1.4:fail.append("stress_cost")
++        if sum(x["net1_pips"]>0 for x in year_rows)<5:fail.append("year_signs")
++        if g.filter(pl.col("year").is_in([2024,2025]))[w].mean()<1:fail.append("2024_25_net")
++        if any(x["increment"] is None or x["increment"]<=0 or x["net1"]<=0 for x in loyo):fail.append("leave_year_out")
++        if any(v["estimate"] is None or v["estimate"]<=0 for v in r["increment_lag_robustness"].values()):fail.append("hac_lag_sign")
++        # A calendar premium cannot be called settlement-specific until direct
++        # matched placebo comparison has positive lower bound and Holm support.
++        placebo_test=tests["D:matched_pre_difference" if w.startswith("L_") else "D:matched_post_difference"]
++        if placebo_test["holm_p"]>=.05 or placebo_test["ci95"] is None or placebo_test["ci95"][0]<=0:fail.append("placebo_specificity_unresolved")
++        screen.append({"window":w,"failures":fail,"leave_year_out":loyo,"qualifies":not fail})
++    # Original/strict gated B3 screened too, with identical controls and full gates.
++    for w in [k for k in WINDOWS if k.startswith("B_")]:
++        for gate in ["original_gate","strict_gate"]:
++            e=ev.filter(pl.col(gate));g=e.filter(pl.col("gotobi"));s=summary(g,w);inc=increment(e,w)
++            name="original_gate" if gate=="original_gate" else "gated"
++            fail=[]
++            if g.height<100 or inc["n_control"]<200:fail.append("sample")
++            if sum(x["n"]>=15 for x in s["years"])<5:fail.append("year_sample")
++            if tests[f"{w}:{name}_increment"]["holm_p"]>=.05 or inc["ci95"] is None or inc["ci95"][0]<=0:fail.append("increment_uncertain")
++            if s["ci95"] is None or s["ci95"][0]-1<=0:fail.append("base_net_uncertain")
++            if s["estimate"] is None or s["estimate"]<=1.4:fail.append("stress_cost")
++            if sum(x["net1_pips"]>0 for x in s["years"])<5:fail.append("year_signs")
++            deterior=g.filter(pl.col("year").is_in([2024,2025]))
++            if deterior.is_empty() or deterior[w].mean()<1:fail.append("2024_25_net")
++            # Screen cannot identify total-calendar effect for a mediator gate.
++            fail.append("conditional_calendar_specificity_unresolved")
++            screen.append({"window":f"{w}:{gate}","failures":fail,"qualifies":not fail})
++    results["candidate_screen"]=screen
++    passing=[x for x in screen if x["qualifies"]]
++    if passing:
++        raise RuntimeError("Qualifying candidates require native Engine stage; do not claim NONE")
++    results["native_backtest"]={"status":"NOT_RUN_NO_QUALIFYING_CANDIDATES","count":0,"reason":"All fixed candidates failed frozen statistical/economic gates; no execution optimizer."}
++    results["onset_intervals"]=[w for w in WINDOWS if w in ["A_0300_0500","A_0500_0700","A_0700_0830","A_0830_0954"] and results["windows"][w]["groups"]["gotobi"]["estimate"]>0 and tests[f"{w}:increment"]["holm_p"]<.05 and all(v["estimate"]>0 for v in results["windows"][w]["increment_lag_robustness"].values())]
++    # Pointwise HAC bands across dates. No minute test belongs to selection.
++    curves=[];minute_rows=f.join(ev.select("session","gotobi","ordinary","rolled_gotobi","month_end"),on="session",how="inner")
++    anchor=minute_rows.filter(pl.col("minute_jst")==595).select("session",pl.col("open").alias("fix_open"))
++    minute_rows=minute_rows.join(anchor,on="session").with_columns(((pl.col("open")-pl.col("fix_open"))*100).alias("centered_pips"))
++    for group in GROUPS:
++        data=minute_rows.filter(pl.col(group)).sort("session","minute_jst")
++        for minute in range(180,721):
++            v=data.filter(pl.col("minute_jst")==minute)["centered_pips"].to_numpy()
++            stat=coefficient(fit_hac(v));curves.append({"group":group,"minute_jst":minute,"n":len(v),"mean":stat["estimate"],"lower":stat["ci95"][0],"upper":stat["ci95"][1]})
++    curve=pl.DataFrame(curves);curve.write_parquet(OUT/"minute_curves.parquet")
++    import matplotlib
++    matplotlib.use("Agg")
++    import matplotlib.pyplot as plt
++    fig,axes=plt.subplots(2,2,figsize=(14,8),sharex=True)
++    for ax,group in zip(axes.flat,GROUPS):
++        z=curve.filter(pl.col("group")==group);x=z["minute_jst"].to_numpy()/60
++        ax.plot(x,z["mean"].to_numpy());ax.fill_between(x,z["lower"].to_numpy(),z["upper"].to_numpy(),alpha=.2);ax.axvline(595/60,color="red",ls="--",label="09:55 fix");ax.axhline(0,color="gray",lw=.5);ax.set_title(group);ax.set_ylabel("pips vs 09:55 open");ax.set_xlabel("JST hour");ax.legend()
++    fig.suptitle("USDJPY Tokyo bank dates 2020-Aug2026; 95% pointwise HAC bands; exploratory")
++    fig.tight_layout();fig.savefig(OUT/"minute_alpha_map.png",dpi=150);plt.close(fig)
++    table=[]
++    for window,row in results["windows"].items():
++        for group,stat in row["groups"].items():
++            table.append({"window":window,"group":group,"n":stat["n"],"gross_mean_pips":stat["estimate"],"median_pips":stat["median"],"sd_pips":stat["sd"],"gross_ci_low":stat["ci95"][0] if stat["ci95"] else None,"gross_ci_high":stat["ci95"][1] if stat["ci95"] else None,"net1_mean_pips":stat["cost_scenarios"]["1.0"]["mean_net_pips"],"net1_win_rate":stat["cost_scenarios"]["1.0"]["win_rate"],"net1_profit_factor":stat["cost_scenarios"]["1.0"]["profit_factor"],"adjusted_gotobi_increment":row["increment"]["estimate"],"increment_holm_p":tests[f"{window}:increment"]["holm_p"]})
++    pl.DataFrame(table).write_csv(OUT/"window_table.csv")
++    write(OUT/"results.json",results)
++    ledger=[{"id":t,"status":"completed" if tests[t]["status"]=="ESTIMATED" else "inconclusive","p":tests[t]["p"],"holm_p":tests[t]["holm_p"],"result_file":"results.json"} for t in ids]
++    ledger.extend([{"id":f"cost_{c}","status":"completed","meaning":"Deterministic translation, not independent significance test"} for c in [.8,1,1.4]])
++    ledger.extend([{"id":"native_backtests","status":"not_qualified","count":0},{"id":"11:55_post14_34_64min","status":"unavailable","reason":"Endpoints outside frozen12:00 boundary"}])
++    write(OUT/"trial_ledger.json",{"declared_holm_count":len(ids),"trials":ledger,"prior_trials":"Incomplete known history; DSR/PBO not asserted","timing":"Frozen init before outcomes; existing entire history already observed"})
++    for tid in ["T0_data_gate","T1_A_map","T2_B_reversal","T3_C_calendar","T4_D_refutation","T5_candidate_screen"]:
++        artifact=OUT/("gap_audit.json" if tid=="T0_data_gate" else "results.json")
++        subprocess.run([sys.executable,str(ROOT/"scripts/research_session.py"),"record","--session",SID,"--trial",tid,"--status","completed","--artifact",str(artifact.relative_to(ROOT)),"--root",str(ROOT)],check=True,stdout=subprocess.DEVNULL)
++    print(json.dumps({"n":ev.height,"gotobi":ev.filter(pl.col("gotobi")).height,"holm_tests":len(tests),"candidates":0,"onset_intervals":results["onset_intervals"]}))
++
++if __name__=="__main__":
++    p=argparse.ArgumentParser();p.add_argument("stage",choices=["prepare","freeze","run"]);a=p.parse_args();globals()[a.stage]()
+diff --git a/scripts/verify_tokyo_alpha_map_program1_v1.py b/scripts/verify_tokyo_alpha_map_program1_v1.py
+new file mode 100644
+index 0000000..88ee846
+--- /dev/null
++++ b/scripts/verify_tokyo_alpha_map_program1_v1.py
+@@ -0,0 +1,161 @@
++"""Independent data, calendar, and holdout oracle for Tokyo Program 1.
++
++This verifier reads the task snapshots only. It does not simulate a strategy.
++"""
++from __future__ import annotations
++
++import argparse
++import csv
++import hashlib
++import json
++from datetime import date, timedelta
++from pathlib import Path
++
++import polars as pl
++import numpy as np
++import statsmodels.api as sm
++from statsmodels.stats.multitest import multipletests
++import yaml
++
++ROOT = Path(__file__).resolve().parents[1]
++AUDIT = ROOT / 'run_log/tokyo_fix_alpha_map_program1_20261010'
++
++
++def sha256(path: Path) -> str:
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def verify_calendar(directory: Path) -> dict:
++    source = json.loads((directory / 'holidays.json').read_text())
++    public = set(map(date.fromisoformat, source['public_holidays']))
++
++    def business(d: date) -> bool:
++        return d.weekday() < 5 and d not in public and (d.month, d.day) not in {(1, 1), (1, 2), (1, 3), (12, 31)}
++
++    events = json.loads((directory / 'nominal_gotobi_events.json').read_text())
++    for event in events:
++        nominal = date.fromisoformat(event['nominal_date'])
++        expected = nominal
++        while not business(expected):
++            expected -= timedelta(days=1)
++        assert event['event_date'] == str(expected), event
++        assert nominal.day in (5, 10, 15, 20, 25, 30)
++        assert event['roll_days'] == (nominal - expected).days
++    assert events[0]['event_date'] == '2019-12-30'
++    with (directory / 'calendar_dates.csv').open() as file:
++        days = list(csv.DictReader(file))
++    expected_gotobi = {e['event_date'] for e in events}
++    for row in days:
++        d = date.fromisoformat(row['date'])
++        assert (row['tokyo_bank_business_day'] == 'True') == business(d)
++        assert (row['gotobi'] == 'True') == (str(d) in expected_gotobi)
++    return {'days': len(days), 'business_days': sum(business(date.fromisoformat(d['date'])) for d in days), 'nominal_events': len(events), 'roll_oracle': 'PASS'}
++
++
++def verify_snapshots(paths: list[Path]) -> dict:
++    assert paths, 'No immutable snapshots found'
++    records = []
++    total = 0
++    dates = set()
++    complete_dates = set()
++    for path in paths:
++        frame = pl.read_parquet(path)
++        assert frame.height < 1_000_000 and path.stat().st_size < 100_000_000
++        assert isinstance(frame.schema['timestamp'], pl.Datetime)
++        assert frame.schema['timestamp'].time_zone == 'UTC'
++        assert frame['symbol'].unique().to_list() == ['USDJPY']
++        assert frame['timestamp'].is_sorted()
++        assert frame['timestamp'].n_unique() == frame.height
++        frame = frame.with_columns(pl.col('timestamp').dt.convert_time_zone('Asia/Tokyo').alias('_jst')).with_columns(
++            pl.col('_jst').dt.date().alias('_date'),
++            (pl.col('_jst').dt.hour().cast(pl.Int32) * 60 + pl.col('_jst').dt.minute().cast(pl.Int32)).alias('_minute'))
++        assert frame['_date'].min() >= date(2020, 1, 1)
++        assert frame['_date'].max() <= date(2026, 8, 31)
++        assert frame['_minute'].min() == 180 and frame['_minute'].max() == 720
++        assert frame['_jst'].dt.second().sum() == 0
++        assert frame['_jst'].dt.microsecond().sum() == 0
++        prices = frame.select('open', 'high', 'low', 'close')
++        assert prices.null_count().sum_horizontal().sum() == 0
++        assert prices.select(pl.all().is_finite().all()).row(0) == (True, True, True, True)
++        assert prices.select(pl.all().gt(0).all()).row(0) == (True, True, True, True)
++        assert frame.filter((pl.col('low') > pl.min_horizontal('open', 'close')) | (pl.col('high') < pl.max_horizontal('open', 'close')) | (pl.col('low') > pl.col('high'))).is_empty()
++        counts = frame.group_by('_date').agg(pl.len().alias('_n'), pl.col('_minute').n_unique().alias('_unique'))
++        assert counts.filter((pl.col('_n') > 541) | (pl.col('_unique') != pl.col('_n'))).is_empty()
++        complete_dates.update(counts.filter(pl.col('_n') == 541)['_date'].to_list())
++        new = set(frame['_date'].to_list())
++        assert not dates.intersection(new), 'Snapshot overlap'
++        dates.update(new)
++        total += frame.height
++        records.append({'path': str(path.relative_to(ROOT)), 'rows': frame.height, 'sha256': sha256(path), 'days': counts.height})
++    event = pl.read_parquet(AUDIT / 'execution_v1/event_panel.parquet')
++    assert set(event['session'].to_list()) == complete_dates
++    registry = pl.read_parquet(AUDIT / 'execution_v1/calendar_event_registry.parquet')
++    assert set(registry.filter(pl.col('complete_full'))['session'].to_list()) == complete_dates
++    return {'rows': total, 'available_days': len(dates), 'complete_days': len(complete_dates), 'holdout_in_snapshots': False, 'snapshots': records, 'exact541_no_forward_fill_oracle': 'PASS'}
++
++
++def verify_events(paths: list[Path]) -> dict:
++    """Reconstruct endpoint markouts and gates as an independent numerical oracle."""
++    folder = AUDIT / 'execution_v1'
++    ev = pl.read_parquet(folder / 'event_panel.parquet').sort('session')
++    spec = yaml.safe_load((ROOT / 'config/research_sessions/tokyo_alpha_map_program1_v1.yaml').read_text())
++    windows = spec['evaluation']['windows']
++    data = pl.concat([pl.read_parquet(p) for p in paths]).with_columns(pl.col('timestamp').dt.convert_time_zone('Asia/Tokyo').alias('_jst')).with_columns(
++        pl.col('_jst').dt.date().alias('_date'),
++        (pl.col('_jst').dt.hour().cast(pl.Int32) * 60 + pl.col('_jst').dt.minute().cast(pl.Int32)).alias('_minute'))
++    endpoints = sorted({m for a, b, _ in windows.values() for m in (a, b)} | {480, 595})
++    grid = data.filter(pl.col('_minute').is_in(endpoints)).pivot(on='_minute', index='_date', values='open').sort('_date')
++    grid = grid.filter(pl.col('_date').is_in(ev['session'].to_list()))
++    assert grid['_date'].to_list() == ev['session'].to_list()
++    for minute in endpoints:
++        np.testing.assert_allclose(grid[str(minute)].to_numpy(), ev[f'p{minute}'].to_numpy(), rtol=0, atol=0)
++    for name, (entry, exit_, sign) in windows.items():
++        expected = sign * (grid[str(exit_)].to_numpy() - grid[str(entry)].to_numpy()) / 0.01
++        np.testing.assert_allclose(expected, ev[name].to_numpy(), rtol=1e-12, atol=1e-10)
++    extension = (grid['595'].to_numpy() - grid['480'].to_numpy()) / 0.01
++    expected_sd = np.array([np.std(extension[i-20:i], ddof=1) if i >= 20 else np.nan for i in range(len(extension))])
++    np.testing.assert_allclose(expected_sd, ev['prior20_sd'].to_numpy(), rtol=1e-10, atol=1e-8, equal_nan=True)
++    np.testing.assert_array_equal(extension > 1.5 * expected_sd, ev['strict_gate'].to_numpy())
++    history = pl.read_parquet(folder / 'original_gate_history.parquet').sort('session')
++    ext = history['extension_pips'].to_numpy()
++    expected_original = np.array([np.std(ext[i-20:i], ddof=1) if i >= 20 else np.nan for i in range(len(ext))])
++    np.testing.assert_allclose(expected_original, history['original_prior20_sd'].to_numpy(), rtol=1e-10, atol=1e-8, equal_nan=True)
++    np.testing.assert_array_equal(ext > 1.5 * expected_original, history['original_gate'].to_numpy())
++    result = json.loads((folder / 'results.json').read_text())
++    # Independent dummy construction checks ordinary/Gotobi regressions.
++    design = np.column_stack([np.ones(ev.height), ev['gotobi'].cast(pl.Float64).to_numpy()] +
++        [(ev[c].to_numpy() == value).astype(float) for c in ('weekday', 'year') for value in sorted(ev[c].unique().to_list())[1:]])
++    for name in windows:
++        fit = sm.OLS(ev[name].to_numpy(), design).fit(cov_type='HAC', cov_kwds={'maxlags': 5, 'kernel': 'bartlett', 'use_correction': True}, use_t=True)
++        reported = result['windows'][name]['increment']
++        np.testing.assert_allclose(fit.params[1], reported['estimate'], rtol=1e-10, atol=1e-10)
++        np.testing.assert_allclose(fit.conf_int()[1], reported['ci95'], rtol=1e-10, atol=1e-10)
++    ids = spec['evaluation']['global_holm_test_ids']
++    assert set(result['tests']) == set(ids) and len(ids) == len(set(ids))
++    corrected = multipletests([result['tests'][key]['p'] for key in ids], method='holm')[1]
++    np.testing.assert_allclose(corrected, [result['tests'][key]['holm_p'] for key in ids], rtol=0, atol=0)
++    curves = pl.read_parquet(folder / 'minute_curves.parquet')
++    assert curves.height == 541 * 4
++    fix = curves.filter(pl.col('minute_jst') == 595)
++    assert fix['mean'].abs().sum() == fix['lower'].abs().sum() == fix['upper'].abs().sum() == 0
++    return {'event_days': ev.height, 'markout_windows': len(windows), 'strict_and_original_gate_oracles': 'PASS', 'calendar_hac_regressions': 'PASS', 'global_holm_tests': len(ids), 'curves_anchored_at_fix': 'PASS', 'native_fill_oracle': 'NOT_APPLICABLE' if not result['candidates'] else 'REQUIRES_SEPARATE_FILL_AUDIT'}
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser()
++    parser.add_argument('--snapshots', default='data/processed/tokyo_alpha_map_program1_v1')
++    parser.add_argument('--output', default='run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/independent_verification.json')
++    args = parser.parse_args()
++    snapshots = sorted((ROOT / args.snapshots).glob('*.parquet'))
++    result = {'calendar': verify_calendar(AUDIT / 'calendar_audit_v1'), 'data': verify_snapshots(snapshots), 'events': verify_events(snapshots)}
++    protected = json.loads((AUDIT / 'root_verification_v1/protected_hashes.json').read_text())
++    changed = [name for name, digest in protected.items() if sha256(ROOT / name) != digest]
++    assert not changed, f'Protected work changed: {changed}'
++    result['protected_files'] = {'count': len(protected), 'unchanged': True}
++    result['status'] = 'PASS'
++    (ROOT / args.output).write_text(json.dumps(result, indent=2) + '\n')
++    print(json.dumps(result, indent=2))
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/tests/test_tokyo_alpha_map_program1_v1.py b/tests/test_tokyo_alpha_map_program1_v1.py
+new file mode 100644
+index 0000000..879eea1
+--- /dev/null
++++ b/tests/test_tokyo_alpha_map_program1_v1.py
+@@ -0,0 +1,58 @@
++"""Independent tests for Tokyo calendar boundaries and inference failure modes."""
++from datetime import date
++from pathlib import Path
++
++import numpy as np
++import polars as pl
++import pytest
++
++from scripts.run_tokyo_alpha_map_program1_v1 import coefficient, controls, fit_hac, source_paths
++from scripts.verify_tokyo_alpha_map_program1_v1 import verify_calendar
++
++ROOT = Path(__file__).resolve().parents[1]
++
++
++def test_calendar_roll_boundary_and_official_exception_dates():
++    folder = ROOT / 'run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1'
++    if not folder.exists():
++        pytest.skip('Mission calendar evidence absent')
++    result = verify_calendar(folder)
++    assert result['business_days'] == 1627
++    assert result['nominal_events'] == 473
++
++
++def test_singular_design_is_inconclusive():
++    y = np.arange(40, dtype=float)
++    x = np.ones((40, 2))
++    result = coefficient(fit_hac(y, x))
++    assert result['status'] == 'INCONCLUSIVE'
++    assert result['p'] == 1
++    assert result['estimate'] is None
++
++
++def test_hac_translation_preserves_uncertainty_and_cost_units():
++    rng = np.random.default_rng(42)
++    y = rng.normal(3, 10, size=300)
++    gross = coefficient(fit_hac(y))
++    net = coefficient(fit_hac(y - 1.4))
++    assert net['estimate'] == pytest.approx(gross['estimate'] - 1.4)
++    np.testing.assert_allclose(net['ci95'], np.array(gross['ci95']) - 1.4)
++
++
++def test_calendar_controls_use_reference_categories_without_collinearity():
++    frame = pl.DataFrame({'weekday': [0, 1, 2, 3, 4] * 20, 'year': [2020] * 50 + [2021] * 50})
++    treatment = np.array(([1, 0, 0, 1, 0] + [0, 1, 1, 0, 1]) * 10)
++    x = controls(frame, treatment)
++    assert x.shape == (100, 7)
++    assert np.linalg.matrix_rank(x) == x.shape[1]
++
++
++def test_source_partition_selector_excludes_holdout_before_read():
++    paths = source_paths()
++    if not paths:
++        pytest.skip('Canonical local provider store absent')
++    for path in paths:
++        year = int(path.parents[2].name.split('=')[1])
++        month = int(path.parents[1].name.split('=')[1])
++        day = int(path.parent.name.split('=')[1])
++        assert date(2020, 1, 1) <= date(year, month, day) < date(2026, 9, 1)
+diff --git a/config/research_sessions/tokyo_alpha_map_program1_v1.yaml b/config/research_sessions/tokyo_alpha_map_program1_v1.yaml
+new file mode 100644
+index 0000000..48855e1
+--- /dev/null
++++ b/config/research_sessions/tokyo_alpha_map_program1_v1.yaml
+@@ -0,0 +1,332 @@
++session_id: tokyo_alpha_map_program1_v1
++market: fx
++thesis: A-D retrospective Tokyo settlement-calendar associations in full 03-12 JST
++  sessions; USD buying pressure before 09:55 may reverse afterward.
++mechanism: Calendar-linked demand by Japanese importers/banks before the 09:55 daily
++  fixing could cause temporary USDJPY dollar-buying price pressure, which may dissipate
++  afterward. Historical results are not prospective proof.
++falsifier: No positive global-Holm-significant Gotobi increment; nonpositive base
++  cost lower bound; insufficient n/year support; unstable signs or placebo concern.
++  Onset remains unresolved unless fixed interval increment passes Holm and HAC lag
++  robustness.
++instruments:
++- symbol: USDJPY
++  kind: cfd
++  venue: UNSPECIFIED_RETAIL_FX_BROKER
++  identity: 'Research USDJPY LSE OHLC proxy: USD base, JPY quote. No executable broker
++    quotes, commission, margin contract or swap specification available.'
++  session: Tokyo bank calendar on official public holidays + BOJ closure rule
++  timezone: Asia/Tokyo
++data:
++- id: year_0
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet
++- id: year_1
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet
++- id: year_2
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet
++- id: year_3
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet
++- id: year_4
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet
++- id: year_5
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet
++- id: year_6
++  symbol: USDJPY
++  role: prices
++  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet
++evaluation:
++  development_start: '2020-01-01T00:00:00Z'
++  development_end: '2026-08-31T15:00:00Z'
++  holdout_start: '2026-08-31T15:00:00Z'
++  holdout_end: '2026-10-10T00:00:00Z'
++  status: 'Entire2020-Aug2026 already inspected: EXPLORATORY only; holdout JST>=September1
++    never read.'
++  windows:
++    A_0300_0500:
++    - 180
++    - 300
++    - 1
++    A_0500_0700:
++    - 300
++    - 420
++    - 1
++    A_0700_0830:
++    - 420
++    - 510
++    - 1
++    A_0830_0954:
++    - 510
++    - 594
++    - 1
++    A_0956_1010:
++    - 596
++    - 610
++    - 1
++    A_1010_1030:
++    - 610
++    - 630
++    - 1
++    A_1030_1200:
++    - 630
++    - 720
++    - 1
++    L_0300_0954:
++    - 180
++    - 594
++    - 1
++    L_0500_0954:
++    - 300
++    - 594
++    - 1
++    L_0700_0954:
++    - 420
++    - 594
++    - 1
++    L_0830_0954:
++    - 510
++    - 594
++    - 1
++    B_0956_1010:
++    - 596
++    - 610
++    - -1
++    B_0956_1030:
++    - 596
++    - 630
++    - -1
++    B_0956_1100:
++    - 596
++    - 660
++    - -1
++    D_main_0930_0954:
++    - 570
++    - 594
++    - 1
++    D_placebo_1130_1154:
++    - 690
++    - 714
++    - 1
++    D_main_short_0956_1000:
++    - 596
++    - 600
++    - -1
++    D_placebo_short_1156_1200:
++    - 716
++    - 720
++    - -1
++  hac:
++    maxlags: 5
++    kernel: bartlett
++    use_correction: true
++    use_t: true
++    robustness_lags:
++    - 1
++    - 10
++  controls:
++  - weekday
++  - year
++  dag: Calendar and weekday/year -> demand and returns; latent importer flow -> returns.
++    No return, extension or volume controls. Calendar associations do not identify
++    dealer flows.
++  calendar: Official Cabinet Office holiday dates + BOJ bank closure rule; previous-bank-business-day
++    rollback is an assumption. No nominal30 in February; month-end separate. Nominal
++    collisions excluded only from C regression.
++  gates: B3 original extension open0955-open0800 >1.5 sampleSD preceding20 complete0800-1030
++    bank dates; report original as sensitivity AND strict541-minute gate. Identically
++    gated ordinary controls. Gate is potentially mediator-selected.
++  global_holm_test_ids:
++  - A_0300_0500:mean:gotobi
++  - A_0300_0500:mean:ordinary
++  - A_0300_0500:mean:rolled_gotobi
++  - A_0300_0500:mean:month_end
++  - A_0300_0500:increment
++  - A_0500_0700:mean:gotobi
++  - A_0500_0700:mean:ordinary
++  - A_0500_0700:mean:rolled_gotobi
++  - A_0500_0700:mean:month_end
++  - A_0500_0700:increment
++  - A_0700_0830:mean:gotobi
++  - A_0700_0830:mean:ordinary
++  - A_0700_0830:mean:rolled_gotobi
++  - A_0700_0830:mean:month_end
++  - A_0700_0830:increment
++  - A_0830_0954:mean:gotobi
++  - A_0830_0954:mean:ordinary
++  - A_0830_0954:mean:rolled_gotobi
++  - A_0830_0954:mean:month_end
++  - A_0830_0954:increment
++  - A_0956_1010:mean:gotobi
++  - A_0956_1010:mean:ordinary
++  - A_0956_1010:mean:rolled_gotobi
++  - A_0956_1010:mean:month_end
++  - A_0956_1010:increment
++  - A_1010_1030:mean:gotobi
++  - A_1010_1030:mean:ordinary
++  - A_1010_1030:mean:rolled_gotobi
++  - A_1010_1030:mean:month_end
++  - A_1010_1030:increment
++  - A_1030_1200:mean:gotobi
++  - A_1030_1200:mean:ordinary
++  - A_1030_1200:mean:rolled_gotobi
++  - A_1030_1200:mean:month_end
++  - A_1030_1200:increment
++  - L_0300_0954:mean:gotobi
++  - L_0300_0954:mean:ordinary
++  - L_0300_0954:mean:rolled_gotobi
++  - L_0300_0954:mean:month_end
++  - L_0300_0954:increment
++  - L_0500_0954:mean:gotobi
++  - L_0500_0954:mean:ordinary
++  - L_0500_0954:mean:rolled_gotobi
++  - L_0500_0954:mean:month_end
++  - L_0500_0954:increment
++  - L_0700_0954:mean:gotobi
++  - L_0700_0954:mean:ordinary
++  - L_0700_0954:mean:rolled_gotobi
++  - L_0700_0954:mean:month_end
++  - L_0700_0954:increment
++  - L_0830_0954:mean:gotobi
++  - L_0830_0954:mean:ordinary
++  - L_0830_0954:mean:rolled_gotobi
++  - L_0830_0954:mean:month_end
++  - L_0830_0954:increment
++  - B_0956_1010:mean:gotobi
++  - B_0956_1010:mean:ordinary
++  - B_0956_1010:mean:rolled_gotobi
++  - B_0956_1010:mean:month_end
++  - B_0956_1010:increment
++  - B_0956_1030:mean:gotobi
++  - B_0956_1030:mean:ordinary
++  - B_0956_1030:mean:rolled_gotobi
++  - B_0956_1030:mean:month_end
++  - B_0956_1030:increment
++  - B_0956_1100:mean:gotobi
++  - B_0956_1100:mean:ordinary
++  - B_0956_1100:mean:rolled_gotobi
++  - B_0956_1100:mean:month_end
++  - B_0956_1100:increment
++  - D_main_0930_0954:mean:gotobi
++  - D_main_0930_0954:mean:ordinary
++  - D_main_0930_0954:mean:rolled_gotobi
++  - D_main_0930_0954:mean:month_end
++  - D_main_0930_0954:increment
++  - D_placebo_1130_1154:mean:gotobi
++  - D_placebo_1130_1154:mean:ordinary
++  - D_placebo_1130_1154:mean:rolled_gotobi
++  - D_placebo_1130_1154:mean:month_end
++  - D_placebo_1130_1154:increment
++  - D_main_short_0956_1000:mean:gotobi
++  - D_main_short_0956_1000:mean:ordinary
++  - D_main_short_0956_1000:mean:rolled_gotobi
++  - D_main_short_0956_1000:mean:month_end
++  - D_main_short_0956_1000:increment
++  - D_placebo_short_1156_1200:mean:gotobi
++  - D_placebo_short_1156_1200:mean:ordinary
++  - D_placebo_short_1156_1200:mean:rolled_gotobi
++  - D_placebo_short_1156_1200:mean:month_end
++  - D_placebo_short_1156_1200:increment
++  - B_0956_1010:gated_mean
++  - B_0956_1010:gated_increment
++  - B_0956_1010:original_gate_mean
++  - B_0956_1010:original_gate_increment
++  - B_0956_1030:gated_mean
++  - B_0956_1030:gated_increment
++  - B_0956_1030:original_gate_mean
++  - B_0956_1030:original_gate_increment
++  - B_0956_1100:gated_mean
++  - B_0956_1100:gated_increment
++  - B_0956_1100:original_gate_mean
++  - B_0956_1100:original_gate_increment
++  - C:L_0830_0954:nominal_5
++  - C:L_0830_0954:nominal_10
++  - C:L_0830_0954:nominal_15
++  - C:L_0830_0954:nominal_20
++  - C:L_0830_0954:nominal_25
++  - C:L_0830_0954:nominal_30
++  - C:L_0830_0954:rolled_gotobi
++  - C:L_0830_0954:month_end
++  - C:L_0830_0954:quarter_end
++  - C:L_0830_0954:weekday_4
++  - C:B_0956_1030:nominal_5
++  - C:B_0956_1030:nominal_10
++  - C:B_0956_1030:nominal_15
++  - C:B_0956_1030:nominal_20
++  - C:B_0956_1030:nominal_25
++  - C:B_0956_1030:nominal_30
++  - C:B_0956_1030:rolled_gotobi
++  - C:B_0956_1030:month_end
++  - C:B_0956_1030:quarter_end
++  - C:B_0956_1030:weekday_4
++  - D:negative:L_0830_0954
++  - D:negative:B_0956_1030
++  - D:matched_pre_difference
++  - D:matched_post_difference
++  minimum:
++    strategy_n: 100
++    controls_n: 200
++    years_with15events: 5
++    positive_net_years: 5
++    calendar_category_n: 30
++    calendar_category_years: 4
++  selection: 'At most two: one pre and one post. Positive increment Holm p<.05 and
++    CI lower>0, positive 1pip mean CI lower>0, positive1.4pip point mean; 2024-25
++    pooled net>=0; every leaveyearout increment and net positive; alternative HAC
++    lag signs; placebo concern unresolved means NONE. Full-cohort coverage<80percent
++    flags missingness generalization unresolved and rejects strategy selection. Tie
++    earliest entry or earliest exit. Native Engine only after gates.'
++  placebos: Pre0930-0954 vs1130-1154; post0956-1000 vs1156-1200 matched4min diagnostic;
++    main14/34/64min post horizons unavailable at11:55. Negative nominal2/7/12/17/22/27
++    rollback, exclude actualGotobi.
++  initial_equity_usd: 10000
++  position_base_usd: 10000
++  no_compounding: true
++baseline: Same window ordinary Tokyo bank business days, weekday/year adjusted; gated
++  ordinary for B3.
++costs:
++  commission_bps: 0.0
++  slippage_bps: 0.0
++  hypothetical_half_spread_plus_slippage_jpy_per_side: 0.005
++  hypothetical_roundtrip_pips: 1.0
++  sensitivity_roundtrip_pips:
++  - 0.8
++  - 1.0
++  - 1.4
++  financing: Not modeled; positions intraday only; spread and commissions unverified
++  assumptions: Fixed price-slip applies to EACH entry/exit side inside native Engine,
++    regardless of size or actual historical spread. Treat as illustrative; no executable
++    quotes, capacity or retail eligibility inferred.
++trials:
++- id: T0_data_gate
++  kind: diagnostic
++  description: Calendar, source hashes, gap audit and CLI check
++- id: T1_A_map
++  kind: preregistered
++  description: Fixed A intervals and accumulations; descriptive minute curves
++- id: T2_B_reversal
++  kind: preregistered
++  description: Three fixed horizons all groups and original/strict gates
++- id: T3_C_calendar
++  kind: preregistered
++  description: Two small calendar regressions; nominal collisions excluded
++- id: T4_D_refutation
++  kind: preregistered
++  description: Negative-calendar and matched-placebo contrasts; yearly and lag robustness
++- id: T5_candidate_screen
++  kind: preregistered
++  description: Apply frozen gates; conditional native Engine max2; NONE valid
++evidence:
++- data/processed/tokyo_alpha_map_program1_v1/source_manifest.json
++- run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/calendar_dates.csv
++- run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/calendar_event_registry.parquet
+diff --git a/docs/audit/tokyo_alpha_map_program1_v1_20261010.md b/docs/audit/tokyo_alpha_map_program1_v1_20261010.md
+new file mode 100644
+index 0000000..ec38705
+--- /dev/null
++++ b/docs/audit/tokyo_alpha_map_program1_v1_20261010.md
+@@ -0,0 +1,172 @@
++# Tokyo Fix / Gotobi Alpha Map — Program 1, v1
++
++**Decision: NONE. Research is EXPLORATORY / NOT_APPROVED.**
++
++The program completed phases A–D. No candidate passed the frozen gates. The conditional native backtest stage did not run. This is a research disposition. It is not approval to trade.
++
++## Scope and frozen method
++
++The mechanism is temporary USD demand from settlement activity before the 09:55 JST fixing. Reversal after the fixing is a separate hypothesis. Calendar labels do not observe importer demand or dealer flows. Ordinary Tokyo bank days provide the same-window baseline. The falsifier requires a positive controlled Gotobi increment, a positive net confidence lower bound at 1 pip, year stability, placebo specificity, and sufficient coverage.
++
++The instrument is the canonical LSE USDJPY minute OHLC proxy. USD is the base currency. JPY is the quote currency. One pip is JPY 0.01 per USD. No specific retail broker contract, executable bid/ask, margin terms, historical spread, or capacity is verified. Costs of 0.8, 1.0, and 1.4 pips per round trip are hypothetical all-in costs.
++
++The full 2020–August 2026 history was already inspected in prior studies. All estimates here are exploratory. No holdout outcome at or after 2026-09-01 JST was read. Source partition paths were filtered before hashing or reading. The timestamp boundary is 2026-08-31 15:00 UTC.
++
++The YAML was frozen through the research-session CLI before outcome estimation. Its SHA256 is `877487a4ffed5c93a1d72c78183472b77857e152efef97a748335516d4dd7746`. The program uses 126 declared tests in one Holm family. This family includes some identical endpoint contrasts. The correction is conservative and does not imply 126 independent tests. The unknown legacy trial count prevents a reproducible DSR or PBO claim.
++
++Event estimates use date-sorted statsmodels OLS with Bartlett HAC, maximum lag 5, finite-sample correction, and t intervals. Controlled increments adjust for weekday and year. Lag 1 and lag 10 checks are also recorded. Calendar regressions use nominal date classes, rolled dates, month-end, quarter-end, weekday, and year. No contemporaneous return, volume, or realized volatility enters the calendar adjustment set.
++
++## Data and calendar gate
++
++The official [BOJ closure rules](https://www.boj.or.jp/en/about/outline/holi.htm) and [Cabinet Office holiday calendar](https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html) define the bank calendar. Holiday dates include the 2020–2021 Olympic changes. Weekend or holiday Gotobi dates roll backward to the previous bank business day as a research assumption. This rule is not observed settlement flow. Month-end remains a separate category. February has no nominal 30th.
++
++There are 473 nominal events and 470 distinct in-range Gotobi dates. Two roll collisions remain one event date. One nominal event rolls outside the start boundary. The boundary oracle verifies 2020-01-05 rolls to 2019-12-30. The calendar has 1,627 bank business days, 80 month-ends, and 26 quarter-ends. Historical announcement vintages are not archived. The extracted Japanese holiday names have encoding damage; ASCII dates remain intact.
++
++Seven immutable annual snapshots contain 815,496 available minute rows. Each snapshot is below the CLI limits of 100 MB and 1,000,000 rows. The panel retains 999 dates with all 541 minute opens from 03:00 through 12:00 JST. It contains 306 Gotobi dates and 693 ordinary dates. The actual complete-session panel runs from 2020-01-10 to 2026-04-24. No date after April 24, 2026 meets the full-window rule, although the source snapshots retain available rows through August. The remaining 628 bank days are excluded. Prices are never forward filled.
++
++Coverage is 61.4 percent. It is not random across weekdays or years. Monday has only 3 complete dates out of 303 expected. The weekly FX opening is a plausible explanation for early-Monday absence, but the source does not certify the reason for every missing minute. Additional gaps affect other weekdays. A timestamp-only audit finds that all 85 bank days after April 24 through August 31 lack 06:01, 06:02, and 06:03 JST. This explains why none meets the full-window requirement; the exact vendor outage or market closure cause remains unknown. The results identify associations in the retained cohort only. They do not establish effects across all Tokyo bank days. The frozen 80 percent coverage gate rejects strategy generalization.
++
++| Year | Expected bank dates | Complete dates | Complete Gotobi dates |
++| --- | ---: | ---: | ---: |
++| 2020 | 243 | 53 | 15 |
++| 2021 | 245 | 177 | 56 |
++| 2022 | 244 | 176 | 57 |
++| 2023 | 246 | 186 | 56 |
++| 2024 | 245 | 180 | 55 |
++| 2025 | 243 | 173 | 51 |
++| 2026 | 161 | 54 | 16 |
++
++The source selection covers January–August 2026. The retained 2026 complete-session row covers 2026-01-06 through 2026-04-24 only. The new Gotobi count does not match the prior 492 trades because the prior study added month-end to Gotobi and required only 08:00–10:30 completeness. The new calendar separates month-end and requires the full 03:00–12:00 window.
++
++## A — When does pressure begin?
++
++**The program cannot establish an onset time.** No fixed pre-fix interval has a controlled positive increment that survives Holm. The 07:00–08:30 raw controlled estimate is positive, but the adjustment removes its statistical support. The minute chart has pointwise 95 percent HAC bands centered at the 09:55 open. The chart is descriptive. It does not provide simultaneous bands or a minute optimizer.
++
++| JST interval, long markout | Gotobi mean pips | Ordinary mean pips | Controlled increment pips | 95% HAC interval for increment | Holm p |
++| --- | ---: | ---: | ---: | --- | ---: |
++| 0300–0500 | +1.325 | +0.947 | +1.660 | [-0.776, +4.097] | 1.000 |
++| 0500–0700 | -0.541 | -0.848 | +0.011 | [-2.881, +2.904] | 1.000 |
++| 0700–0830 | -0.303 | -2.183 | +2.363 | [+0.374, +4.351] | 1.000 |
++| 0830–0954 | +2.206 | +1.857 | -0.565 | [-3.518, +2.388] | 1.000 |
++| 0956–1010 | -2.036 | -0.103 | -1.977 | [-3.402, -0.551] | 0.783 |
++| 1010–1030 | +0.049 | -0.047 | -0.262 | [-1.608, +1.084] | 1.000 |
++| 1030–1200 | +0.723 | +1.190 | -0.578 | [-3.050, +1.895] | 1.000 |
++
++The 08:30–09:54 Gotobi mean is +2.206 pips. Its mean after 1 pip is +1.206, with a 95 percent interval of [-0.889, +3.301]. The adjusted Gotobi premium is -0.565 pips, with interval [-3.518, +2.388]. The prior positive unadjusted Gotobi premium is not verified in this stricter cohort.
++
++| Pre-fix entry; exit 09:54 | Gross pips | Net at 0.8 pip | Net at 1.0 pip | Net at 1.4 pip |
++| --- | ---: | ---: | ---: | ---: |
++| 0300–0954 | +2.687 | +1.887 | +1.687 | +1.287 |
++| 0500–0954 | +1.362 | +0.562 | +0.362 | -0.038 |
++| 0700–0954 | +1.903 | +1.103 | +0.903 | +0.503 |
++| 0830–0954 | +2.206 | +1.406 | +1.206 | +0.806 |
++
++## B — Does unconditional post-fix reversal improve?
++
++Ungated Gotobi post-fix shorts have positive point means and outperform the original extension gate in this cohort. The ordinary-day short has negative net expectancy at the base cost at each horizon. No controlled Gotobi reversal premium survives Holm. No Gotobi net lower confidence bound is positive at 1 pip. Do not choose the largest point mean as a winning horizon.
++
++| Exit from 09:56 short | Group | n | Gross pips | Net at 1 pip | 95% gross HAC interval |
++| --- | --- | ---: | ---: | ---: | --- |
++| 1010 | B0 ordinary | 693 | +0.103 | -0.897 | [-0.586, +0.792] |
++| 1010 | B1 Gotobi | 306 | +2.036 | +1.036 | [+0.959, +3.114] |
++| 1010 | B2 month-end | 54 | +2.000 | +1.000 | [-1.291, +5.291] |
++| 1010 | B3 original gate | 21 | -1.724 | -2.724 | [-5.722, +2.274] |
++| 1010 | Strict full-window gate | 24 | -1.529 | -2.529 | [-4.586, +1.528] |
++| 1030 | B0 ordinary | 693 | +0.149 | -0.851 | [-0.824, +1.123] |
++| 1030 | B1 Gotobi | 306 | +1.987 | +0.987 | [+0.323, +3.651] |
++| 1030 | B2 month-end | 54 | +2.374 | +1.374 | [-0.577, +5.325] |
++| 1030 | B3 original gate | 21 | -2.843 | -3.843 | [-6.940, +1.254] |
++| 1030 | Strict full-window gate | 24 | -1.079 | -2.079 | [-5.437, +3.279] |
++| 1100 | B0 ordinary | 693 | +0.919 | -0.081 | [-0.264, +2.101] |
++| 1100 | B1 Gotobi | 306 | +1.775 | +0.775 | [-0.180, +3.730] |
++| 1100 | B2 month-end | 54 | +3.780 | +2.780 | [+0.057, +7.502] |
++| 1100 | B3 original gate | 21 | -3.657 | -4.657 | [-9.818, +2.504] |
++| 1100 | Strict full-window gate | 24 | -2.925 | -3.925 | [-8.946, +3.096] |
++
++The original gate compares the 08:00–09:55 open extension with 1.5 times the sample standard deviation from the preceding 20 complete 08:00–10:30 bank sessions. The strict gate uses preceding full-window sessions. Both exclude the current date. Original-gate history is stored separately. Its 21 retained Gotobi events differ from the prior 45 because of the new event definition and full-day cohort. Strict-gate n is 24. Both samples are below the frozen strategy minimum of 100. Month-end summaries overlap Gotobi and ordinary groups: 30 of 54 month-end dates are Gotobi, and 24 are ordinary. These group counts must not be added as independent samples. Identically gated ordinary controls are used. Conditioning on an extension can select a mediator; this cannot identify total settlement effects.
++
++| Gotobi short exit | Net at 0.8 pip | Net at 1.0 pip | Net at 1.4 pip | Base net win rate | Base net profit factor | Endpoint drawdown, pips |
++| --- | ---: | ---: | ---: | ---: | ---: | ---: |
++| 1010 | +1.236 | +1.036 | +0.636 | 50.7% | 1.354 | -90.6 |
++| 1030 | +1.187 | +0.987 | +0.587 | 53.6% | 1.231 | -212.1 |
++| 1100 | +0.975 | +0.775 | +0.375 | 52.3% | 1.145 | -239.7 |
++
++Profit factor, win rate, and additive endpoint drawdown use native ML4T analytics on event markouts. These are not executed fills, a USD capital account, or intratrade marked-to-market drawdown. No Sharpe is reported because no qualifying native capital-account backtest ran.
++
++## C — Which settlement days differ?
++
++Two regressions estimate 08:30–09:54 long and 09:56–10:30 short markouts. Each has full design rank 20/20 after excluding one retained collision date. Nominal classes are mutually exclusive. Rolled, month-end, and quarter-end labels enter the same model. The Monday reference has only three complete observations, which weakens weekday interpretation. All calendar coefficients have Holm p=1.000. There is no verified ranking of nominal settlement dates.
++
++| Calendar class | n | Pre-fix coefficient pips | 95% HAC interval | Post-fix short coefficient pips | 95% HAC interval |
++| --- | ---: | ---: | --- | ---: | --- |
++| nominal_5 | 46 | -6.964 | [-13.330, -0.598] | +0.166 | [-4.434, +4.765] |
++| nominal_10 | 54 | -4.438 | [-9.684, +0.808] | +0.623 | [-2.745, +3.992] |
++| nominal_15 | 53 | +1.608 | [-4.440, +7.657] | +3.892 | [+0.014, +7.770] |
++| nominal_20 | 54 | +1.706 | [-3.430, +6.841] | +4.789 | [+0.393, +9.185] |
++| nominal_25 | 51 | -0.217 | [-5.485, +5.051] | +2.576 | [-0.996, +6.149] |
++| nominal_30 | 47 | -1.286 | [-10.134, +7.562] | +0.148 | [-4.580, +4.877] |
++| rolled_gotobi | 107 | +2.152 | [-3.204, +7.509] | +0.098 | [-3.350, +3.546] |
++| month_end | 53 | -0.787 | [-8.890, +7.315] | +2.996 | [-1.514, +7.506] |
++| quarter_end | 17 | +11.282 | [-4.156, +26.719] | -1.350 | [-8.719, +6.018] |
++| weekday_4 | 252 | -1.937 | [-8.718, +4.843] | -0.957 | [-8.468, +6.554] |
++
++Quarter-end has only 17 retained events. It fails the category minimum of 30 and is inconclusive. Nominal classes have 46–54 events. Their raw signs vary. For example, the nominal fifth pre-fix coefficient is negative, while the fifteenth and twentieth post-fix coefficients are positive before multiple-testing correction. These patterns are exploratory associations.
++
++## D — Refutation, years, and costs
++
++Matched pre-fix and 11:55-placebo windows are 09:30–09:54 versus 11:30–11:54. The controlled difference is -0.927 pips, interval [-2.985, +1.132], Holm p=1.000. Matched four-minute post-fix shorts are 09:56–10:00 versus 11:56–12:00. The controlled difference is +0.739, interval [-0.263, +1.742], Holm p=1.000. The 14-, 34-, and 64-minute post-11:55 endpoints lie outside 12:00 and are unavailable. The four-minute placebo cannot validate the main longer horizons.
++
++Negative-control nominal dates 2/7/12/17/22/27 roll backward under the same bank-day assumption. Actual Gotobi collisions are excluded. The controlled negative-calendar coefficients are +1.581 pips pre-fix and +1.106 pips post-fix. Their intervals include zero and Holm p=1.000. Absence of significance is not proof of fixing specificity.
++
++The gross Gotobi 09:56–10:10 mean survives the program-wide Holm correction (p=0.0296). That is a mean against zero. Its premium against ordinary-day controls does not survive correction (p=0.7829), and its base net interval includes zero. These are different claims.
++
++| Year | Gotobi n | 08:30–09:54 net pips | 09:56–10:10 short net pips | 09:56–10:30 short net pips | 09:56–11:00 short net pips |
++| --- | ---: | ---: | ---: | ---: | ---: |
++| 2020 | 15 | +1.707 | -0.820 | +0.740 | +0.327 |
++| 2021 | 56 | +2.412 | +0.262 | +0.041 | -0.152 |
++| 2022 | 57 | +1.802 | +0.433 | +3.707 | +2.119 |
++| 2023 | 56 | -0.048 | +1.236 | +0.530 | -0.412 |
++| 2024 | 55 | +3.236 | +1.613 | +0.705 | +1.609 |
++| 2025 | 51 | -2.367 | +2.725 | +1.200 | +1.727 |
++| 2026 | 16 | +3.188 | -0.431 | -3.269 | -2.100 |
++
++The pre-fix mean declines from +3.236 net pips in 2024 to -2.367 in 2025. Ungated post-fix shorts do not show the same 2024–2025 deterioration in this cohort. The longer post-fix horizons become negative in the retained January–April 2026 dates. Sparse 2020 coverage and absent complete May–August 2026 dates prevent a firm regime conclusion. Leave-one-year-out and HAC-lag outputs are retained in results.json. These checks do not create unseen OOS evidence.
++
++## Hypothesis ranking and disposition
++
++1. **B: ungated post-fix reversal.** Most useful next research question. Gross mean evidence exists in the retained Gotobi cohort. Controlled premium, net lower bounds, placebo specificity, and coverage gates do not pass.
++2. **A: pre-fix pressure.** Positive cumulative point means exist. Timing and incremental Gotobi premium remain unresolved after controls and Holm.
++3. **C: settlement subdivisions.** No corrected category evidence. Quarter-end is too small.
++4. **B3: extension-gated short.** Negative net estimates at every fixed horizon, small samples, and mediator-selection risk.
++
++**Defensible candidates: NONE.** All seven ungated candidates and six gated candidates fail recorded gates. There are zero native Engine simulations. The proposed conditional execution contract remains USD 10,000 initial equity, fixed USD 10,000 notional, previous-available-bar decisions, NEXT_BAR OPEN fills, no compounding, and explicit JPY-to-USD translation. No such fills or USD performance are claimed here.
++
++## Observed, inferred, and unknown
++
++- **Observed:** snapshot identities, full-window coverage, official calendar dates, event markouts, HAC estimates, Holm adjustments, year signs, and candidate failures.
++- **Inferred:** calendar-linked settlement demand could explain the pattern; weekly opening could explain some early-Monday absence. The program does not observe those flows or validate every gap cause.
++- **Unknown:** historical executable spreads, broker contract and financing terms, raw tick-to-bar parity, historical calendar announcement vintages, and the effect on excluded days. The September 2026 onward holdout remains untouched.
++
++The next decisive question is whether a fixed post-fix reversal premium remains positive in a new, coverage-appropriate cohort with verified executable quotes. A new specification must define weekday availability and complete interval coverage before results are read. It must retain the existing holdout boundary. This mission does not authorize opening that holdout.
++
++## Evidence and verification
++
++- [Frozen config](../../config/research_sessions/tokyo_alpha_map_program1_v1.yaml).
++- [Source and snapshot identities](../../data/processed/tokyo_alpha_map_program1_v1/source_manifest.json).
++- [Calendar audit](../../run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/audit.md).
++- [Gap audit](../../run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/gap_audit.json).
++- [Independent missing-minute audit](../../run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/missing_minute_details.json).
++- [Window table](../../run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/window_table.csv).
++- [Results, regressions, costs and screen](../../run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/results.json).
++- [Trial ledger](../../run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/trial_ledger.json).
++- [Independent verifier](../../run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/independent_verification.json).
++- [Statistical review](../../run_log/tokyo_fix_alpha_map_program1_20261010/stat_review_v1/post_outcome_review.md).
++- [Interval availability counts](../../run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/interval_availability.csv).
++
++![Minute cumulative map with pointwise HAC bands](../../run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/minute_alpha_map.png)
++
++The independent verifier passed: 999 exact full-window dates, 18 fixed markouts, both past-only gates, calendar regressions, all 126 Holm adjustments, curve anchors, and 18 protected-file hashes. The CLI input checks pass with no issues. Five mission tests pass with six existing third-party SHAP warnings. Python compilation and git diff --check pass.
++
++One preparation attempt failed on calendar CSV type inference before source read. The error log is retained, and string schema overrides resolved the failure before freeze. A calendar boundary defect was also corrected before freeze. No older frozen study was edited. GitHub state and existing host tmux jobs could not be inspected because sandbox access failed. No commit, push, or live trading occurred.
++
++The suite without `tests/test_notebook_dag.py` passes: 268 passed, 1 skipped, and 9 third-party warnings in 92.10 seconds. The full suite recorded five failure markers and then stalled without a terminal summary. It was interrupted with exit code 130. Exact failure locations and tracebacks were not available in that log. The standalone Marimo check also stalled with no output and was interrupted. The notebooks were not edited. These checks did not pass; no zero-warning notebook claim is made. See [verification status](../../run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/verification_status.json) and the retained logs. All pre-existing tracked working-tree changes are preserved byte-for-byte.

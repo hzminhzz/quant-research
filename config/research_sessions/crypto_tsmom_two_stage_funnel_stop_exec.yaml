@@ -1,0 +1,179 @@
+# Research session specification: Two-Stage Funnel TSMOM with Stop Market Order Execution
+# Session ID: crypto_tsmom_two_stage_funnel_stop_exec
+session_id: crypto_tsmom_two_stage_funnel_stop_exec
+market: crypto
+
+thesis: >-
+  Two-Stage Funnel Time-Series Momentum (30-day volume liquidity screen + Close > EMA200 structural trend health gate
+  + Risk-adjusted momentum ranking) executed via resting Stop Market breakout orders (OrderType.STOP) and volatility-targeted
+  risk parity sizing achieves institutional risk-adjusted performance (Sharpe > 1.00, Max DD < 20%) across development (2021-2024)
+  and out-of-sample holdout (2025-2026) after realistic execution friction and 8-hour perpetual funding cash flows.
+
+mechanism: >-
+  1. False Breakout Elimination: Gating universe by Close > EMA200 prevents buying crashing tokens during high-volume panics.
+  2. Momentum Confirmation: Stop Market orders ensure capital enters only when buying momentum actively touches and breaks above
+     resistance levels, confirming directional continuation before execution.
+  3. Dynamic Volatility Budgeting: Inverse volatility sizing (1 / sigma_i) contracts exposure during high-risk regimes.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Annualized continuous daily Sharpe ratio fails to exceed 1.00 on development data.
+  2. Maximum portfolio drawdown exceeds 20.0%.
+  3. Out-of-sample holdout (2025-2026) fails to preserve capital relative to crypto market benchmark.
+  4. Deflated Sharpe Ratio (DSR) fails to exceed 0.90 across cumulative evaluated trials.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: SOLUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: XRPUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: DOGEUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ADAUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: AVAXUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: NEARUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: BANDUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: BALUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1h.parquet
+  - id: eth_prices_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1h.parquet
+  - id: sol_prices_1h
+    symbol: SOLUSDT
+    role: prices
+    path: data/processed/sol_1h.parquet
+  - id: xrp_prices_1h
+    symbol: XRPUSDT
+    role: prices
+    path: data/processed/xrp_1h.parquet
+  - id: doge_prices_1h
+    symbol: DOGEUSDT
+    role: prices
+    path: data/processed/doge_1h.parquet
+  - id: ada_prices_1h
+    symbol: ADAUSDT
+    role: prices
+    path: data/processed/ada_1h.parquet
+  - id: avax_prices_1h
+    symbol: AVAXUSDT
+    role: prices
+    path: data/processed/avax_1h.parquet
+  - id: near_prices_1h
+    symbol: NEARUSDT
+    role: prices
+    path: data/processed/near_1h.parquet
+  - id: band_prices_1h
+    symbol: BANDUSDT
+    role: prices
+    path: data/processed/band_1h.parquet
+  - id: bal_prices_1h
+    symbol: BALUSDT
+    role: prices
+    path: data/processed/bal_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+  - id: sol_funding
+    symbol: SOLUSDT
+    role: funding
+    path: data/processed/sol_funding.parquet
+  - id: xrp_funding
+    symbol: XRPUSDT
+    role: funding
+    path: data/processed/xrp_funding.parquet
+  - id: doge_funding
+    symbol: DOGEUSDT
+    role: funding
+    path: data/processed/doge_funding.parquet
+  - id: ada_funding
+    symbol: ADAUSDT
+    role: funding
+    path: data/processed/ada_funding.parquet
+  - id: avax_funding
+    symbol: AVAXUSDT
+    role: funding
+    path: data/processed/avax_funding.parquet
+  - id: near_funding
+    symbol: NEARUSDT
+    role: funding
+    path: data/processed/near_funding.parquet
+  - id: band_funding
+    symbol: BANDUSDT
+    role: funding
+    path: data/processed/band_funding.parquet
+  - id: bal_funding
+    symbol: BALUSDT
+    role: funding
+    path: data/processed/bal_funding.parquet
+
+evaluation:
+  cadence: 1h
+  development_start: "2021-01-01T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-07-31T23:59:59Z"
+  plan: >-
+    Evaluate Two-Stage Funnel TSMOM with Stop Market order execution on 4-year development data.
+    Perform comparative side-by-side audit against passive maker execution.
+    Holdout period (2025-01-01 to 2026-07-31) tested in Phase 3 under strict audit protocols.
+
+baseline: >-
+  10-asset equal-weight Buy-and-Hold benchmark and raw dynamic TSMOM baseline.
+
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Binance USD-M Futures VIP 0 taker fee of 4.5 bps with BNB discount plus 1.5 bps slippage per side (12.0 bps roundtrip)
+    for Stop Market orders that cross the spread upon breakout trigger.
+    Signed 8-hour perpetual funding rate cash flows applied at settlement marks.
+
+trials:
+  - id: trial_1_two_stage_funnel_stop_market
+    kind: preregistered
+    description: >-
+      Two-Stage Funnel TSMOM with Stop Market breakout order execution (OrderType.STOP at Close * 1.002)
+      under taker friction (4.5 bps fee, 1.5 bps slippage).
+  - id: trial_2_two_stage_funnel_passive_maker
+    kind: preregistered
+    description: >-
+      Two-Stage Funnel TSMOM under passive maker execution (1.8 bps maker fee, 0.0 bps slippage).
+  - id: trial_3_stop_market_sensitivity_sweep
+    kind: preregistered
+    description: >-
+      Sensitivity analysis varying Stop Market breakout trigger offset (0.1% to 0.5% above previous close).
+  - id: trial_4_holdout_and_dsr_audit
+    kind: diagnostic
+    description: >-
+      19-month out-of-sample holdout simulation and Deflated Sharpe Ratio (DSR) multiple-testing accounting.

@@ -1,0 +1,363 @@
+{
+  "assumed_gross_carry_bps_per_day": 5.0,
+  "bar_count_per_market": 230400,
+  "calibration_beta": 0.2976247240451285,
+  "calibration_correlation": 0.5461653027745388,
+  "data_limitations": {
+    "carry_bps_per_day": 0.0,
+    "emergency_taker_fee_bps": 2.25,
+    "emergency_taker_slippage_bps": 2.0,
+    "fill_model": "Resting next-bar limit orders only; require one tick penetration AND positive underlying 1m traded volume",
+    "funding_model": "Conservative per-minute gross carry sensitivity; actual historical Lighter funding unavailable via installed CCXT",
+    "maker_fee_bps": 0.0,
+    "note": "Never self-trade or cross own orders for artificial volume.",
+    "output": "Estimated maker-eligible touch fills only. 1m OHLCV cannot prove order queue or true maker fills.",
+    "short_no_initial_fill": "If price falls monotonically before first QQQ ask fills, QQQ earns zero maker volume."
+  },
+  "end": "2026-08-01T00:00:00+00:00",
+  "max_participation": 1.0,
+  "phase": "development",
+  "results": [
+    {
+      "broker_end_positions": {},
+      "completed_cycle_maker_notional_usdc": 19101.953,
+      "completed_volume_per_drawdown_usdc": 379.497,
+      "emergency_taker_cost_usdc": 0.10798,
+      "emergency_taker_notional_usdc": 254.0765,
+      "ending_equity_usdc": 953.3792,
+      "entry_fills": 134,
+      "estimated_maker_notional_usdc": 19301.9145,
+      "exit_fills": 82,
+      "first_halt_bar": 139074,
+      "group_results": {
+        "qqq": {
+          "accrued_open_cycle_carry_usdc": 6.0117,
+          "completed_cycle_pnl_usdc": 5.6752,
+          "completed_cycle_volume_usdc": 6888.6788,
+          "completed_cycles": 42,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 581.11,
+            "SPY": 653.23
+          },
+          "median_holding_min": 6.5,
+          "open_cycle_cashflow_usdc": -54.115,
+          "open_cycle_volume_usdc": 199.9615,
+          "open_inventory": {},
+          "p95_holding_min": 4310.6
+        },
+        "spy": {
+          "accrued_open_cycle_carry_usdc": 0.0,
+          "completed_cycle_pnl_usdc": 7.9385,
+          "completed_cycle_volume_usdc": 12213.2742,
+          "completed_cycles": 40,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 663.22,
+            "SPY": 714.21
+          },
+          "median_holding_min": 48.0,
+          "open_cycle_cashflow_usdc": 0.0,
+          "open_cycle_volume_usdc": 0.0,
+          "open_inventory": {},
+          "p95_holding_min": 1137.2
+        }
+      },
+      "halted": true,
+      "hedge_fills": 0,
+      "kill_reason": "drawdown_or_gross_limit",
+      "limit_quotes_cancelled": 333,
+      "limit_quotes_submitted": 549,
+      "max_beta_residual_usdc": 254.1005,
+      "max_drawdown_usdc": 50.335,
+      "max_gross_usdc": 629.1261,
+      "max_hedge_shortfall_usdc": 0.0,
+      "ml4t_engine_sharpe": -0.01804260267963217,
+      "net_pnl_ex_points_usdc": -46.6208,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 216,
+      "total_assumed_carry_usdc": 17.76919,
+      "unattributed_fills": 0,
+      "variant": "A",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    },
+    {
+      "broker_end_positions": {},
+      "completed_cycle_maker_notional_usdc": 8407.8797,
+      "completed_volume_per_drawdown_usdc": 411.348,
+      "emergency_taker_cost_usdc": 0.0,
+      "emergency_taker_notional_usdc": 0.0,
+      "ending_equity_usdc": 1006.0329,
+      "entry_fills": 42,
+      "estimated_maker_notional_usdc": 8407.8797,
+      "exit_fills": 27,
+      "first_halt_bar": null,
+      "group_results": {
+        "linked": {
+          "accrued_open_cycle_carry_usdc": 0.0,
+          "completed_cycle_pnl_usdc": 6.0329,
+          "completed_cycle_volume_usdc": 8407.8797,
+          "completed_cycles": 27,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 662.85,
+            "SPY": 714.18
+          },
+          "median_holding_min": 175,
+          "open_cycle_cashflow_usdc": 0.0,
+          "open_cycle_volume_usdc": 0.0,
+          "open_inventory": {},
+          "p95_holding_min": 1106.9
+        }
+      },
+      "halted": false,
+      "hedge_fills": 0,
+      "kill_reason": null,
+      "limit_quotes_cancelled": 140,
+      "limit_quotes_submitted": 210,
+      "max_beta_residual_usdc": 119.5766,
+      "max_drawdown_usdc": 20.4398,
+      "max_gross_usdc": 401.7699,
+      "max_hedge_shortfall_usdc": 0.0,
+      "ml4t_engine_sharpe": 0.01702299505427778,
+      "net_pnl_ex_points_usdc": 6.0329,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 69,
+      "total_assumed_carry_usdc": 5.07477,
+      "unattributed_fills": 0,
+      "variant": "A0",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    },
+    {
+      "broker_end_positions": {},
+      "completed_cycle_maker_notional_usdc": 7745.0628,
+      "completed_volume_per_drawdown_usdc": 222.403,
+      "emergency_taker_cost_usdc": 0.0,
+      "emergency_taker_notional_usdc": 0.0,
+      "ending_equity_usdc": 1003.2725,
+      "entry_fills": 34,
+      "estimated_maker_notional_usdc": 7745.0628,
+      "exit_fills": 30,
+      "first_halt_bar": null,
+      "group_results": {
+        "linked": {
+          "accrued_open_cycle_carry_usdc": 0.0,
+          "completed_cycle_pnl_usdc": 3.2725,
+          "completed_cycle_volume_usdc": 7745.0628,
+          "completed_cycles": 16,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 657.99,
+            "SPY": 711.38
+          },
+          "median_holding_min": 397.5,
+          "open_cycle_cashflow_usdc": 0.0,
+          "open_cycle_volume_usdc": 0.0,
+          "open_inventory": {},
+          "p95_holding_min": 21848.0
+        }
+      },
+      "halted": false,
+      "hedge_fills": 29,
+      "kill_reason": null,
+      "limit_quotes_cancelled": 159,
+      "limit_quotes_submitted": 253,
+      "max_beta_residual_usdc": 89.5831,
+      "max_drawdown_usdc": 34.8245,
+      "max_gross_usdc": 477.8775,
+      "max_hedge_shortfall_usdc": 29.7284,
+      "ml4t_engine_sharpe": 0.012235884598542912,
+      "net_pnl_ex_points_usdc": 3.2725,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 93,
+      "total_assumed_carry_usdc": 11.70624,
+      "unattributed_fills": 0,
+      "variant": "A1",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    },
+    {
+      "broker_end_positions": {
+        "QQQ": -0.1196,
+        "SPY": 0.5283
+      },
+      "completed_cycle_maker_notional_usdc": 10392.2479,
+      "completed_volume_per_drawdown_usdc": 317.921,
+      "emergency_taker_cost_usdc": 0.0,
+      "emergency_taker_notional_usdc": 0.0,
+      "ending_equity_usdc": 989.3042,
+      "entry_fills": 47,
+      "estimated_maker_notional_usdc": 10880.9708,
+      "exit_fills": 56,
+      "first_halt_bar": null,
+      "group_results": {
+        "linked": {
+          "accrued_open_cycle_carry_usdc": 14.0621,
+          "completed_cycle_pnl_usdc": 3.3482,
+          "completed_cycle_volume_usdc": 10392.2479,
+          "completed_cycles": 30,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 744.98,
+            "SPY": 759.69
+          },
+          "median_holding_min": 134.5,
+          "open_cycle_cashflow_usdc": -310.9058,
+          "open_cycle_volume_usdc": 488.723,
+          "open_inventory": {
+            "QQQ": -0.1196,
+            "SPY": 0.5283
+          },
+          "p95_holding_min": 7575.2
+        }
+      },
+      "halted": false,
+      "hedge_fills": 43,
+      "kill_reason": null,
+      "limit_quotes_cancelled": 263,
+      "limit_quotes_submitted": 409,
+      "max_beta_residual_usdc": 129.1784,
+      "max_drawdown_usdc": 32.6882,
+      "max_gross_usdc": 539.1679,
+      "max_hedge_shortfall_usdc": 22.5084,
+      "ml4t_engine_sharpe": 0.015380900983668398,
+      "net_pnl_ex_points_usdc": -10.6958,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 146,
+      "total_assumed_carry_usdc": 33.11284,
+      "unattributed_fills": 0,
+      "variant": "A2",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    },
+    {
+      "broker_end_positions": {
+        "QQQ": -0.1813,
+        "SPY": 0.5825
+      },
+      "completed_cycle_maker_notional_usdc": 1558.2804,
+      "completed_volume_per_drawdown_usdc": 49.115,
+      "emergency_taker_cost_usdc": 0.0,
+      "emergency_taker_notional_usdc": 0.0,
+      "ending_equity_usdc": 976.4108,
+      "entry_fills": 10,
+      "estimated_maker_notional_usdc": 2086.9351,
+      "exit_fills": 4,
+      "first_halt_bar": null,
+      "group_results": {
+        "linked": {
+          "accrued_open_cycle_carry_usdc": 41.9525,
+          "completed_cycle_pnl_usdc": 0.6452,
+          "completed_cycle_volume_usdc": 1558.2804,
+          "completed_cycles": 2,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 609.35,
+            "SPY": 689.1
+          },
+          "median_holding_min": 687.0,
+          "open_cycle_cashflow_usdc": -291.2212,
+          "open_cycle_volume_usdc": 528.6547,
+          "open_inventory": {
+            "QQQ": -0.1813,
+            "SPY": 0.5825
+          },
+          "p95_holding_min": 1093.8
+        }
+      },
+      "halted": false,
+      "hedge_fills": 11,
+      "kill_reason": null,
+      "limit_quotes_cancelled": 42,
+      "limit_quotes_submitted": 67,
+      "max_beta_residual_usdc": 89.5831,
+      "max_drawdown_usdc": 31.727,
+      "max_gross_usdc": 578.1841,
+      "max_hedge_shortfall_usdc": 29.8496,
+      "ml4t_engine_sharpe": 0.011980022905140669,
+      "net_pnl_ex_points_usdc": -23.5892,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 25,
+      "total_assumed_carry_usdc": 42.10145,
+      "unattributed_fills": 0,
+      "variant": "A3",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    },
+    {
+      "broker_end_positions": {},
+      "completed_cycle_maker_notional_usdc": 1622.675,
+      "completed_volume_per_drawdown_usdc": 53.914,
+      "emergency_taker_cost_usdc": 0.2678,
+      "emergency_taker_notional_usdc": 630.1149,
+      "ending_equity_usdc": 984.7519,
+      "entry_fills": 10,
+      "estimated_maker_notional_usdc": 2223.4388,
+      "exit_fills": 4,
+      "first_halt_bar": 84225,
+      "group_results": {
+        "linked": {
+          "accrued_open_cycle_carry_usdc": 15.6073,
+          "completed_cycle_pnl_usdc": 0.5644,
+          "completed_cycle_volume_usdc": 1622.675,
+          "completed_cycles": 2,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 609.35,
+            "SPY": 689.1
+          },
+          "median_holding_min": 687.0,
+          "open_cycle_cashflow_usdc": 0.0626,
+          "open_cycle_volume_usdc": 600.7638,
+          "open_inventory": {},
+          "p95_holding_min": 1093.8
+        }
+      },
+      "halted": true,
+      "hedge_fills": 16,
+      "kill_reason": "drawdown_or_gross_limit",
+      "limit_quotes_cancelled": 50,
+      "limit_quotes_submitted": 80,
+      "max_beta_residual_usdc": 123.3883,
+      "max_drawdown_usdc": 30.0972,
+      "max_gross_usdc": 630.0519,
+      "max_hedge_shortfall_usdc": 79.8318,
+      "ml4t_engine_sharpe": 0.0013189470286568328,
+      "net_pnl_ex_points_usdc": -15.2481,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 30,
+      "total_assumed_carry_usdc": 15.7547,
+      "unattributed_fills": 0,
+      "variant": "A4",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    }
+  ],
+  "session_id": "lighter_anchored_volume_ab_20261009",
+  "start": "2026-02-22T00:00:00+00:00",
+  "status": "EXPLORATORY_NOT_APPROVED"
+}

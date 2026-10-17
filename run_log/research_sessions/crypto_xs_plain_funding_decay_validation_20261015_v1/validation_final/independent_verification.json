@@ -1,0 +1,106 @@
+{
+  "verified_decision": "REJECT",
+  "verified_decay_classification": "STRUCTURAL_DECAY",
+  "verified_mechanism_diagnosis": "FUNDING_CARRY_ALIVE__PRICE_ALPHA_DECAYED__SINGLE_NAME_SHORT_SQUEEZE_FATAL",
+  "ic": {
+    "mean_ic": 0.012862469535564707,
+    "hac_t_stat": 1.2003582052835904,
+    "cycles": 364,
+    "annual": [
+      {
+        "year": 2024,
+        "cycles": 183,
+        "mean_ic": 0.022305576480031182
+      },
+      {
+        "year": 2025,
+        "cycles": 181,
+        "mean_ic": 0.003315018867954955
+      }
+    ],
+    "ic_ratio": 0.5361219232156471,
+    "max_label_exit": "2025-12-30 01:00:00+00:00"
+  },
+  "opportunity": {
+    "mean_spread": 0.004378899840659333,
+    "ratio": 1.6038694702402667,
+    "annual": [
+      {
+        "year": 2024,
+        "spread": 0.001416808098360657
+      },
+      {
+        "year": 2025,
+        "spread": 0.007373721878453024
+      }
+    ]
+  },
+  "base": {
+    "first_nonpositive": {
+      "timestamp": "2025-09-08 19:00:00",
+      "equity": -1985.6939782041154,
+      "cash": 42436.099607559074,
+      "gross_exposure": 86369.43991833893,
+      "net_exposure": -44421.79358576319,
+      "open_positions": 10
+    },
+    "min_equity": -57995.395418685795,
+    "final_equity": -13959.951817648702,
+    "final_open_positions": 10,
+    "max_timestamp": "2025-12-31 23:00:00"
+  },
+  "double_cost": {
+    "first_nonpositive": {
+      "timestamp": "2025-09-08 19:00:00",
+      "equity": -1501.6336574781417,
+      "cash": 31667.815534771547,
+      "gross_exposure": 64491.46956669842,
+      "net_exposure": -33169.44919224969,
+      "open_positions": 10
+    },
+    "min_equity": -43323.69432273107,
+    "final_equity": -10442.730019414497,
+    "final_open_positions": 10,
+    "max_timestamp": "2025-12-31 23:00:00"
+  },
+  "no_funding": {
+    "first_nonpositive": {
+      "timestamp": "2025-09-08 19:00:00",
+      "equity": -1260.6369450979073,
+      "cash": 22292.951335232487,
+      "gross_exposure": 45795.31945083971,
+      "net_exposure": -23553.588280330394,
+      "open_positions": 10
+    },
+    "min_equity": -9529.29696014669,
+    "final_equity": 4950.953362360198,
+    "final_open_positions": 0,
+    "max_timestamp": "2025-12-31 23:00:00"
+  },
+  "funding_before_insolvency_usdt": 32675.481186877336,
+  "funding_after_insolvency_usdt": -43436.30364993389,
+  "pre_insolvency_annualized_funding_yield": 0.3674739472440843,
+  "pre_insolvency_funding_yield_ratio_to_reference": 0.8023841327944049,
+  "unit_notional_realized_carry_ratio": 1.4239924976576137,
+  "funding_persistence_ratio": 1.006974236737103,
+  "first_side_mismatch": "2025-09-09 02:00:00+00:00",
+  "checks": {
+    "terminal_reject": true,
+    "terminal_structural_decay": true,
+    "ic_matches": true,
+    "spread_matches": true,
+    "base_insolvent": true,
+    "double_insolvent": true,
+    "nofund_insolvent": true,
+    "same_base_nofund_failure_timestamp": true,
+    "funding_positive_before_insolvency": true,
+    "funding_negative_after_insolvency": true,
+    "side_mismatch_after_insolvency": true,
+    "carry_ratio_above_one": true,
+    "persistence_not_decayed": true,
+    "price_only_loss_matches": true,
+    "2026_sealed_labels": true,
+    "2026_sealed_base": true,
+    "2026_sealed_double": true
+  }
+}

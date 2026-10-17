@@ -1,0 +1,83 @@
+{
+  "accounting": {
+    "blocker": "RuntimeError: Binance request failed; see binance_provenance.json: <urlopen error [Errno -3] Temporary failure in name resolution>",
+    "cashflow_formula_usdt": "-signed_position_btc * funding_mark_price_usdt * funding_rate",
+    "exact_cash_settlement_available": false,
+    "positive_cashflow_means_credit": true
+  },
+  "binance_retrieval": {
+    "blocking_error": "RuntimeError: Binance request failed; see binance_provenance.json: <urlopen error [Errno -3] Temporary failure in name resolution>",
+    "documentation_observation": "GET /fapi/v1/fundingRate; startTime/endTime inclusive; limit max 1000; ascending; response markPrice is the mark associated with funding fee charge.",
+    "official_documentation": "https://developers.binance.com/docs/derivatives/usds-margined-futures/market-data/rest-api/Get-Funding-Rate-History",
+    "page_count": 1,
+    "pages": [
+      {
+        "error": "<urlopen error [Errno -3] Temporary failure in name resolution>",
+        "http_status": null,
+        "raw_response_path": "run_log/allocation_prerequisites_20261014/btc/binance_raw/page_0000_error.bin",
+        "request_started_utc": "2026-10-14T10:53:13.541665+00:00",
+        "request_url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1567296000000&endTime=1735689599999&limit=1000",
+        "response_bytes": 0,
+        "response_received_utc": "2026-10-14T10:53:13.545771+00:00",
+        "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "retrieval_started_utc": "2026-10-14T10:53:13.541665+00:00",
+    "retrieval_updated_utc": "2026-10-14T10:53:13.545860+00:00",
+    "row_count": 0,
+    "scope": {
+      "credentials_used": false,
+      "end_time_ms_inclusive": 1735689599999,
+      "end_time_utc": "2024-12-31T23:59:59.999Z",
+      "future_data_requested": false,
+      "limit_per_request": 1000,
+      "start_time_ms_inclusive": 1567296000000,
+      "start_time_utc": "2019-09-01T00:00:00.000Z",
+      "symbol": "BTCUSDT",
+      "user_agent": "OpenAI File Downloader, XaiImageApiFetch/1.0"
+    },
+    "source": "https://fapi.binance.com/fapi/v1/fundingRate",
+    "status": "BLOCKED"
+  },
+  "diagnostics": {
+    "checks_passed_before_diagnostics": [
+      "fill timestamps sorted and unique",
+      "fill sides limited to buy/sell",
+      "fill quantities finite and positive",
+      "funding timestamps timezone-aware, sorted, and unique",
+      "funding schedule slots collision-free",
+      "positions use strict-before comparison at original event precision"
+    ],
+    "fill_order_validation": "PASS",
+    "funding_timestamp_validation": "PASS",
+    "position_match_precision": "original timezone-aware source timestamp; no flooring"
+  },
+  "fills": {
+    "development_rows": 1857,
+    "fill_timestamps_sorted_unique": true,
+    "first_fill_utc": "2019-11-09T00:00:00+00:00",
+    "last_development_fill_utc": "2024-12-31T00:00:00+00:00",
+    "position_rule": "sum signed fills with fill timestamp strictly before original timezone-aware UTC funding timestamp",
+    "same_timestamp_fill_collisions": 0,
+    "same_timestamp_fills_excluded": true
+  },
+  "funding": {
+    "first_event_utc": "2019-09-10T08:00:00+00:00",
+    "interval_hours": 8,
+    "last_event_utc": "2024-12-31T16:00:00+00:00",
+    "missing_expected_events_during_active_period": 0,
+    "null_interval_metadata_rows": 1,
+    "null_mark_price_rows": 5819,
+    "rows": 5819,
+    "unexpected_event_boundaries": 0
+  },
+  "missing_events": [],
+  "scope": {
+    "development_end_exclusive_utc": "2025-01-01T00:00:00+00:00",
+    "future_rows_read": false,
+    "instrument": "Binance BTCUSDT USDT-margined perpetual",
+    "strategy_active_ledger_start_utc": "2019-11-09T00:00:00+00:00"
+  },
+  "status": "BLOCKED",
+  "unexpected_events": []
+}

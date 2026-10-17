@@ -1,0 +1,122 @@
+{
+  "specification": {
+    "session_id": "one_bar_b0_cross_indices_20261012",
+    "status": "EXPLORATORY_PHASE1_PHASE2_COMPLETE_WITH_GATES",
+    "approval_status": "NOT_APPROVED_FOR_LIVE",
+    "research_question": "Does the frozen NQ B0 one-bar breakout continuation replicate in ES, DAX, Nikkei 225, and Hang Seng without individual parameter fitting?",
+    "mechanism": "Breakouts of recent 30-minute extremes may cause short-lived continuation because market participants execute directional flow over multiple minutes. The effect may differ by exchange trading hours and index microstructure.",
+    "falsifier": "The transfer is not supported if native causal replay fails to beat costs and simple controls, or if session/fill/data artifacts explain the profits.",
+    "baseline": {
+      "immutable_package": "promote/one_bar_nq_30m",
+      "reference_artifact": "run_log/one_bar_practical_1m_20261012/final_report.json",
+      "frozen_control_closed_trades": 5462,
+      "frozen_control_costed_net_usd": 166107.92,
+      "reference_price_source": "Dukascopy USATECH.IDX/USD BID-only index/CFD proxy; not CME NQ",
+      "approval_status": "NOT_APPROVED"
+    },
+    "core_B0_rules": {
+      "decision_bars": "30m; prior 50 FULLY COMPLETED bars",
+      "signal": "buy STOP above previous 50-bar high; sell STOP below previous 50-bar low",
+      "entry_orders": "first fill cancels opposing order (intended OCO)",
+      "session_anchor": "17:00 America/Chicago; preserve original literal alignment",
+      "trade_limit": "maximum two filled entries per Chicago session",
+      "maximum_entries_per_chicago_session": 2,
+      "directions": [
+        "long",
+        "short"
+      ],
+      "exit": "native market order at immediate next 30m bar opening, or earlier protective STOP",
+      "protective_stop_index_points": 50,
+      "original_NQ_contract": "one illustrative NQ equivalent, USD20/index point, tick 0.25",
+      "original_NQ_nominal_stop": "USD1000 excluding market gaps",
+      "added_filters": [],
+      "volatility_scaling": "none",
+      "price_percent_scaling": "none"
+    },
+    "registered_instruments": [
+      {
+        "id": "NQ",
+        "role": "frozen_control",
+        "source": "index_minute_NQ",
+        "source_class": "index_CFD_proxy",
+        "backtest_status": "existing_evidence_only"
+      },
+      {
+        "id": "ES",
+        "role": "cross_index_candidate",
+        "source": "index_minute_ES",
+        "source_class": "index_CFD_proxy_unverified",
+        "backtest_status": "not_started"
+      },
+      {
+        "id": "DAX",
+        "role": "cross_index_candidate",
+        "source": "index_minute_DAX",
+        "source_class": "vendor_index_proxy_unverified",
+        "backtest_status": "not_started"
+      },
+      {
+        "id": "NIKKEI225",
+        "role": "cross_index_candidate",
+        "source": "index_minute_NIKKEI225",
+        "source_class": "vendor_index_proxy_unverified",
+        "backtest_status": "not_started"
+      },
+      {
+        "id": "HSI",
+        "role": "cross_index_candidate",
+        "source": null,
+        "lower_resolution_alternative": "data/processed/HK33_5m_2017_2026.parquet",
+        "backtest_status": "blocked_missing_one_minute"
+      }
+    ],
+    "comparison": {
+      "common_start_inclusive_utc": "2013-01-01",
+      "common_end_inclusive_utc": "2026-07-14",
+      "development_cutoff": "2025-12-31",
+      "already_observed_2026_stress": "2026-01-01 through 2026-07-14",
+      "unseen_holdout_claimed": false,
+      "multiple_testing": "record all instrument and session adaptation trials; no optimization by instrument",
+      "metrics_future": [
+        "trade_count",
+        "win_rate",
+        "net_expectancy_R",
+        "profit_factor",
+        "daily_sharpe",
+        "calmar",
+        "max_drawdown",
+        "cost_sensitivity",
+        "paired_block_bootstrap"
+      ]
+    },
+    "stop_and_contract_mapping_gate": {
+      "original_USD1000_equivalence": "only on one illustrative NQ at USD20/index point",
+      "literal_transfer_diagnostic": "50 raw index points and one synthetic price unit; price points and R only, not executable USD returns",
+      "cannot_use_USD_execution_until": "verified product venue, contract multiplier, point_currency, historical FX, tick, spread/commissions, margin, and trading calendar",
+      "alternative_local_session": "requires separately registered trial; never silently change frozen Chicago alignment",
+      "no_ATR_or_percentage_stop_adjustment": true
+    },
+    "data_notes": {
+      "preferred": "canonical existing local 1-minute Parquet, no downloads",
+      "ES_mixed_schema": "extra partition columns year/month vary; read canonical timestamp, symbol, OHLCV columns only",
+      "HSI_available_other_frequency": "HK33/HKD 5-minute historical file is not interchangeable with native 1-minute execution",
+      "lse_ES_NQ_futures": "separate 2025-2026 stores; do not merge into CFD controls without contract/roll audit",
+      "source_after_2026_07_14": "do not inspect price outcomes before future review",
+      "missing_next_bar_open": "do not forward-fill; report delayed exits/inconclusive fills",
+      "native_OCO_atomicity": "not supported; enumerate ambiguous touches"
+    },
+    "phases": {
+      "phase1": "REGISTERED",
+      "phase2": "COMPLETED_WITH_OPEN_DATA_GATES",
+      "phase3": "NOT_STARTED",
+      "phase4_native_ml4t": "NOT_STARTED"
+    },
+    "next_gate": "Finish data validation; verify tradeable products and stop/cost currency mappings before native cross-index backtests."
+  },
+  "yaml_sha256": "7090542b624dcd8c8014f8e5e50c1e93facd05a13b59b345a5b75c365f83f85d",
+  "initialization_result": "PHASE1_AND_PHASE2_COMPLETE_NO_BACKTESTS",
+  "source_manifest_sha256": "342b55941a9bdac59d808f4b6285a8ccb00590d21bfd75a72cfa74f8a66a8bf7",
+  "phase2_quality_sha256": "8746a7ed3b9418bb945cee67fcf7db75fbd87ccd3ac317e45decd7f8276f0036",
+  "original_promotion_remains_immutable": true,
+  "preexisting_coding_agent_blocker": "Codex workspace credits exhausted; direct DevSpace implementation used"
+}

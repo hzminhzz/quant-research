@@ -1,0 +1,55 @@
+{
+  "manifest_version": 1,
+  "purpose": "Pre-outcome identity and validation for Binance USD-M funding settlements used by the corrected TSMOM study.",
+  "canonical_store": "/home/quant/dev/quant/ml4t-data/.data/store",
+  "source_window": {
+    "start_inclusive_utc": "2021-01-01T00:00:00Z",
+    "end_exclusive_utc": "2026-08-01T00:00:00Z",
+    "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+    "included_partitions": "2021-2025 all months and 2026 months 1-7 only; no August 2026 or later data.",
+    "source_fields": ["timestamp", "symbol", "funding_interval_hours", "funding_rate", "mark_price"]
+  },
+  "source_closure_sha256": "868efba6bb988345a1bcd6e3947bd7f9def449c6f75ccc2cdacc38e168f74063",
+  "source_closure_method": "sha256sum each selected monthly data.parquet in shell pathname-expansion order, including path names in each line, then sha256sum the resulting stream.",
+  "audit": {
+    "BTCUSDT": {
+      "events": 6114,
+      "funding_interval_hours_field_counts": {"8": 6114},
+      "observed_timestamp_gap_hours_counts_rounded": {"8": 6113},
+      "max_deviation_from_8h_utc_grid_ms": 47,
+      "timestamps_unique_and_sorted": true,
+      "funding_rate_finite": true,
+      "mark_price_finite_and_positive": true,
+      "null_interval_rows": 0
+    },
+    "ETHUSDT": {
+      "events": 6114,
+      "funding_interval_hours_field_counts": {"8": 6114},
+      "observed_timestamp_gap_hours_counts_rounded": {"8": 6113},
+      "max_deviation_from_8h_utc_grid_ms": 47,
+      "timestamps_unique_and_sorted": true,
+      "funding_rate_finite": true,
+      "mark_price_finite_and_positive": true,
+      "null_interval_rows": 0
+    },
+    "SOLUSDT": {
+      "events": 6189,
+      "funding_interval_hours_field_counts": {"2": 99, "4": 2, "8": 6088},
+      "observed_timestamp_gap_hours_counts_rounded": {"2": 98, "4": 3, "8": 6087},
+      "max_deviation_from_2h_utc_grid_ms": 47,
+      "timestamps_unique_and_sorted": true,
+      "funding_rate_finite": true,
+      "mark_price_finite_and_positive": true,
+      "null_interval_rows": 0
+    }
+  },
+  "processed_outputs": [
+    "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_funding.parquet",
+    "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_funding.parquet",
+    "data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_funding.parquet"
+  ],
+  "processing": "Preserved the timestamp, symbol, funding interval, funding rate, and mark price from the canonical partitions without interpolation or value changes. Sorted by timestamp.",
+  "funding_formula": "For signed base quantity q (positive long, negative short), funding cash flow = -q * mark_price * funding_rate. Positive funding rates debit longs and credit shorts; negative rates reverse that direction. No separate funding fee is applied.",
+  "official_reference": "https://www.binance.com/en/support/faq/detail/360033525031",
+  "timing_limitation": "Binance states that actual funding fee transaction time can deviate by up to 15 seconds. The study uses hourly fills and cannot resolve that intra-minute ordering. The frozen study defines a deterministic bar-boundary convention and reports this limitation."
+}

@@ -1,0 +1,899 @@
+{
+  "mission": "prop_mvp_20261011",
+  "status": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "head_at_freeze": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "cutoff_utc_exclusive": "2026-08-01T00:00:00Z",
+  "protected_window": "2026-08-01 onward; excluded by timestamp predicate before collection",
+  "decisions": {
+    "A": "REJECT current 24h sign rule for further validation",
+    "B": "BLOCKED liquidation mechanism; reject OHLCV proxy as a liquidation claim",
+    "C": "REJECT OR proxy under assumed costs; broker/venue parity BLOCKED"
+  },
+  "seven_phase_status": {
+    "A": [
+      "complete: specification and prior-exposure boundary frozen",
+      "complete: local prices/funding inventoried",
+      "complete: causal event study",
+      "complete: native Engine gross/cost/stress/control runs",
+      "complete: retrospective chronological regimes and HAC diagnostics",
+      "complete: costs, delay, placebo and outlier diagnostics",
+      "complete: tests, reconciliation and rejection"
+    ],
+    "B": [
+      "complete: mechanism and proxy separated",
+      "complete: price data qualified; liquidation records absent",
+      "complete: descriptive event study and high-volatility control",
+      "complete: native Engine proxy runs",
+      "complete: retrospective only; no untouched OOS",
+      "complete: cost, delay and outlier diagnostics",
+      "complete: source audit; mechanism BLOCKED"
+    ],
+    "C": [
+      "complete: specification and venue boundary frozen",
+      "complete: XNYS calendar and data cadence audited",
+      "complete: opening-range signal counts and placebo",
+      "complete: native Engine runs",
+      "complete: retrospective calendar-year and HAC diagnostics",
+      "complete: cost, delay, placebo and outlier diagnostics",
+      "complete: tests, cash/equity reconciliation, no overnight baseline/placebo trades"
+    ]
+  },
+  "spec_schema_note": "The frozen YAML files are evidence-specs, not validated research_session.py v1 session objects.",
+  "studies": {
+    "a_momentum": {
+      "BTCUSDT:baseline": {
+        "instrument": "BTCUSDT",
+        "trial": "baseline",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4916,
+        "win_rate": 0.23270951993490643,
+        "mean_trade_return": -0.00036653359811834277,
+        "profit_factor": 0.8039286812192783,
+        "total_return": -0.9635868612038526,
+        "daily_sharpe": -1.9265575380651505,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9712129578299546,
+        "gross_pnl": -7770.9298921048485,
+        "commission": 16326.08990558019,
+        "slippage": 5442.029926288805,
+        "total_costs": 21767.84882638005,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          1.5
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "BTCUSDT:buy_and_hold": {
+        "instrument": "BTCUSDT",
+        "trial": "buy_and_hold",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 0,
+        "win_rate": 0.0,
+        "mean_trade_return": 0.0,
+        "profit_factor": 0.0,
+        "total_return": 0.5829310536186025,
+        "daily_sharpe": 0.40713662833597886,
+        "daily_observations": 2038,
+        "max_drawdown": 0.5431954265051575,
+        "gross_pnl": 0,
+        "commission": 5.62584375,
+        "slippage": 1.875,
+        "total_costs": 0,
+        "cost_assumptions_bps_each_fill": [
+          null,
+          null
+        ],
+        "limitations": [],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "BTCUSDT:cash": {
+        "instrument": "BTCUSDT",
+        "trial": "cash",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 0,
+        "win_rate": 0.0,
+        "mean_trade_return": 0.0,
+        "profit_factor": 0.0,
+        "total_return": 0.0,
+        "daily_sharpe": null,
+        "daily_observations": 2038,
+        "max_drawdown": 0.0,
+        "gross_pnl": 0,
+        "commission": 0,
+        "slippage": 0,
+        "total_costs": 0,
+        "cost_assumptions_bps_each_fill": [
+          null,
+          null
+        ],
+        "limitations": [],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "BTCUSDT:cost_2x": {
+        "instrument": "BTCUSDT",
+        "trial": "cost_2x",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4916,
+        "win_rate": 0.19385679414157853,
+        "mean_trade_return": -0.0006666326171003553,
+        "profit_factor": 0.7130154900066424,
+        "total_return": -0.9981059348634209,
+        "daily_sharpe": -3.602729816779752,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9984657580992671,
+        "gross_pnl": -6660.958848952705,
+        "commission": 18292.068450636314,
+        "slippage": 6097.35610160321,
+        "total_costs": 24389.39634541484,
+        "cost_assumptions_bps_each_fill": [
+          9.0,
+          3.0
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "BTCUSDT:extra_bar_delay": {
+        "instrument": "BTCUSDT",
+        "trial": "extra_bar_delay",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4916,
+        "win_rate": 0.29068348250610254,
+        "mean_trade_return": -0.0007794575332038156,
+        "profit_factor": 0.7458867977380121,
+        "total_return": -0.9869142572465821,
+        "daily_sharpe": -2.5189861934148836,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9897139732951739,
+        "gross_pnl": -13396.336098655975,
+        "commission": 11278.894484533595,
+        "slippage": 3759.631281673689,
+        "total_costs": 15038.428295456217,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          1.5
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "BTCUSDT:gross": {
+        "instrument": "BTCUSDT",
+        "trial": "gross",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4916,
+        "win_rate": 0.30634662327095197,
+        "mean_trade_return": -6.643458901367333e-05,
+        "profit_factor": 0.9680317872857068,
+        "total_return": -0.3024438067699162,
+        "daily_sharpe": -0.09667148843586855,
+        "daily_observations": 2038,
+        "max_drawdown": 0.5636575208242464,
+        "gross_pnl": -7703.077539874134,
+        "commission": 0.0,
+        "slippage": 0.0,
+        "total_costs": 0.0,
+        "cost_assumptions_bps_each_fill": [
+          0.0,
+          0.0
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "BTCUSDT:matched_time_placebo_24h": {
+        "instrument": "BTCUSDT",
+        "trial": "matched_time_placebo_24h",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4915,
+        "win_rate": 0.40630722278738557,
+        "mean_trade_return": 2.2535308531440427e-05,
+        "profit_factor": 0.8157378150227319,
+        "total_return": -0.9090833649753376,
+        "daily_sharpe": -1.3100770108739317,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9233278847785884,
+        "gross_pnl": -7549.828884397622,
+        "commission": 15158.667697958326,
+        "slippage": 5052.889150674821,
+        "total_costs": 20210.868959498912,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          1.5
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/BTCUSDT"
+      },
+      "ETHUSDT:baseline": {
+        "instrument": "ETHUSDT",
+        "trial": "baseline",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4719,
+        "win_rate": 0.2398813307904217,
+        "mean_trade_return": -0.0003810846136969338,
+        "profit_factor": 0.89040942915595,
+        "total_return": -0.9657457415498736,
+        "daily_sharpe": -1.3848433927890547,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9783159160895881,
+        "gross_pnl": -191.39723948660819,
+        "commission": 23958.318890848837,
+        "slippage": 7986.106481899869,
+        "total_costs": 31944.170181862704,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          1.5
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      },
+      "ETHUSDT:buy_and_hold": {
+        "instrument": "ETHUSDT",
+        "trial": "buy_and_hold",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 0,
+        "win_rate": 0.0,
+        "mean_trade_return": 0.0,
+        "profit_factor": 0.0,
+        "total_return": 0.7668317345588245,
+        "daily_sharpe": 0.46750728422076454,
+        "daily_observations": 2038,
+        "max_drawdown": 0.7068847105338301,
+        "gross_pnl": 0,
+        "commission": 5.625920333770079,
+        "slippage": 1.8750255240947453,
+        "total_costs": 0,
+        "cost_assumptions_bps_each_fill": [
+          null,
+          null
+        ],
+        "limitations": [],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      },
+      "ETHUSDT:cash": {
+        "instrument": "ETHUSDT",
+        "trial": "cash",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 0,
+        "win_rate": 0.0,
+        "mean_trade_return": 0.0,
+        "profit_factor": 0.0,
+        "total_return": 0.0,
+        "daily_sharpe": null,
+        "daily_observations": 2038,
+        "max_drawdown": 0.0,
+        "gross_pnl": 0,
+        "commission": 0,
+        "slippage": 0,
+        "total_costs": 0,
+        "cost_assumptions_bps_each_fill": [
+          null,
+          null
+        ],
+        "limitations": [],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      },
+      "ETHUSDT:cost_2x": {
+        "instrument": "ETHUSDT",
+        "trial": "cost_2x",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4719,
+        "win_rate": 0.202373384191566,
+        "mean_trade_return": -0.0006812387286668086,
+        "profit_factor": 0.833560174232241,
+        "total_return": -0.9979951911557384,
+        "daily_sharpe": -2.613624174632276,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9985075457941357,
+        "gross_pnl": 1827.8918944945997,
+        "commission": 26778.123560884644,
+        "slippage": 8926.04215705687,
+        "total_costs": 35704.13583224803,
+        "cost_assumptions_bps_each_fill": [
+          9.0,
+          3.0
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      },
+      "ETHUSDT:extra_bar_delay": {
+        "instrument": "ETHUSDT",
+        "trial": "extra_bar_delay",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4719,
+        "win_rate": 0.3206187751642297,
+        "mean_trade_return": -0.0007268570304013576,
+        "profit_factor": 0.8196840371839027,
+        "total_return": -0.9848720049646055,
+        "daily_sharpe": -1.7783721370903054,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9886119429738295,
+        "gross_pnl": -11966.499712919056,
+        "commission": 12658.035800390951,
+        "slippage": 4219.345096711566,
+        "total_costs": 16877.268211250583,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          1.5
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      },
+      "ETHUSDT:gross": {
+        "instrument": "ETHUSDT",
+        "trial": "gross",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4719,
+        "win_rate": 0.29624920534011445,
+        "mean_trade_return": -8.093052745976964e-05,
+        "profit_factor": 0.9755912307661254,
+        "total_return": -0.4167226008218077,
+        "daily_sharpe": -0.07425829557470179,
+        "daily_observations": 2038,
+        "max_drawdown": 0.7589043649981742,
+        "gross_pnl": -10522.492691755999,
+        "commission": 0.0,
+        "slippage": 0.0,
+        "total_costs": 0.0,
+        "cost_assumptions_bps_each_fill": [
+          0.0,
+          0.0
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      },
+      "ETHUSDT:matched_time_placebo_24h": {
+        "instrument": "ETHUSDT",
+        "trial": "matched_time_placebo_24h",
+        "sample_start": "2021-01-01 00:00:00+00:00",
+        "sample_end": "2026-07-31 23:00:00+00:00",
+        "trades": 4714,
+        "win_rate": 0.4321170980059398,
+        "mean_trade_return": 0.00011726372685058862,
+        "profit_factor": 0.8693070071130338,
+        "total_return": -0.8967295679537266,
+        "daily_sharpe": -0.8452706863185475,
+        "daily_observations": 2038,
+        "max_drawdown": 0.9341741265994175,
+        "gross_pnl": -7330.937400232858,
+        "commission": 15083.138285287601,
+        "slippage": 5027.712680828465,
+        "total_costs": 20110.074688228397,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          1.5
+        ],
+        "limitations": [
+          "not applied; local funding files exist but native Engine has no funding cash-flow API"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/a_momentum/ETHUSDT"
+      }
+    },
+    "b_price_only_proxy": {
+      "BTCUSDT:baseline": {
+        "instrument": "BTCUSDT",
+        "trial": "baseline",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 2536,
+        "win_rate": 0.13485804416403785,
+        "mean_trade_return": -0.0009075672113984532,
+        "profit_factor": 0.1748121211534001,
+        "total_return": -0.8994554126451952,
+        "daily_sharpe": -17.341493160205374,
+        "daily_observations": 517,
+        "max_drawdown": 0.8998541500702035,
+        "gross_pnl": -11046.302481698736,
+        "commission": 11440.08283443117,
+        "slippage": 12711.20356559324,
+        "total_costs": 24151.286400024408,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          5.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT"
+      },
+      "BTCUSDT:cost_2x": {
+        "instrument": "BTCUSDT",
+        "trial": "cost_2x",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 2536,
+        "win_rate": 0.0417981072555205,
+        "mean_trade_return": -0.0019061608466662396,
+        "profit_factor": 0.06613180727447393,
+        "total_return": -0.9909933522473717,
+        "daily_sharpe": -21.168741584307156,
+        "daily_observations": 517,
+        "max_drawdown": 0.9909933522473718,
+        "gross_pnl": -12363.246793414566,
+        "commission": 12411.587012769702,
+        "slippage": 13790.653663817651,
+        "total_costs": 26202.240676587353,
+        "cost_assumptions_bps_each_fill": [
+          9.0,
+          10.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT"
+      },
+      "BTCUSDT:extra_bar_delay": {
+        "instrument": "BTCUSDT",
+        "trial": "extra_bar_delay",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 2536,
+        "win_rate": 0.12815457413249212,
+        "mean_trade_return": -0.00097921988177689,
+        "profit_factor": 0.13609607572004467,
+        "total_return": -0.9081332295649298,
+        "daily_sharpe": -18.620914643886714,
+        "daily_observations": 517,
+        "max_drawdown": 0.9081417739389804,
+        "gross_pnl": -11826.44528653923,
+        "commission": 10876.88545258402,
+        "slippage": 12085.428345394677,
+        "total_costs": 22962.3137979787,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          5.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT"
+      },
+      "BTCUSDT:gross": {
+        "instrument": "BTCUSDT",
+        "trial": "gross",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 2536,
+        "win_rate": 0.5449526813880127,
+        "mean_trade_return": 9.202501750459914e-05,
+        "profit_factor": 1.1115867693852268,
+        "total_return": 0.1198461380814193,
+        "daily_sharpe": 1.2595033365796906,
+        "daily_observations": 517,
+        "max_drawdown": 0.08136453372973,
+        "gross_pnl": 2996.153452035463,
+        "commission": 0.0,
+        "slippage": 0.0,
+        "total_costs": 0.0,
+        "cost_assumptions_bps_each_fill": [
+          0.0,
+          0.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT"
+      },
+      "ETHUSDT:baseline": {
+        "instrument": "ETHUSDT",
+        "trial": "baseline",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 1555,
+        "win_rate": 0.23858520900321542,
+        "mean_trade_return": -0.0006395999889630368,
+        "profit_factor": 0.3836802517536671,
+        "total_return": -0.7010360635133335,
+        "daily_sharpe": -8.202295414174415,
+        "daily_observations": 517,
+        "max_drawdown": 0.7052809982315041,
+        "gross_pnl": -6943.75323321848,
+        "commission": 10582.14835461491,
+        "slippage": 11757.943819786435,
+        "total_costs": 22340.092174401347,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          5.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT"
+      },
+      "ETHUSDT:cost_2x": {
+        "instrument": "ETHUSDT",
+        "trial": "cost_2x",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 1555,
+        "win_rate": 0.12604501607717042,
+        "mean_trade_return": -0.0016384614576704607,
+        "profit_factor": 0.16136940929856763,
+        "total_return": -0.9319005743117019,
+        "daily_sharpe": -15.419867158699875,
+        "daily_observations": 517,
+        "max_drawdown": 0.9319005743117019,
+        "gross_pnl": -10595.765322184165,
+        "commission": 12701.749035608367,
+        "slippage": 14113.058001301977,
+        "total_costs": 26814.807036910344,
+        "cost_assumptions_bps_each_fill": [
+          9.0,
+          10.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT"
+      },
+      "ETHUSDT:extra_bar_delay": {
+        "instrument": "ETHUSDT",
+        "trial": "extra_bar_delay",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 1555,
+        "win_rate": 0.24244372990353696,
+        "mean_trade_return": -0.0009732426970163717,
+        "profit_factor": 0.2647853540806549,
+        "total_return": -0.7685872209384783,
+        "daily_sharpe": -11.998668460285426,
+        "daily_observations": 517,
+        "max_drawdown": 0.7685915509420782,
+        "gross_pnl": -9900.309075542742,
+        "commission": 9314.3714479192,
+        "slippage": 10349.301721047274,
+        "total_costs": 19663.673168966474,
+        "cost_assumptions_bps_each_fill": [
+          4.5,
+          5.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT"
+      },
+      "ETHUSDT:gross": {
+        "instrument": "ETHUSDT",
+        "trial": "gross",
+        "sample_start": "2024-01-01 00:14:00+00:00",
+        "sample_end": "2025-05-31 23:59:00+00:00",
+        "trades": 1555,
+        "win_rate": 0.5485530546623795,
+        "mean_trade_return": 0.0003602603412130853,
+        "profit_factor": 1.2526665262974632,
+        "total_return": 0.3106404524798694,
+        "daily_sharpe": 2.0448979551793367,
+        "daily_observations": 517,
+        "max_drawdown": 0.06919062776230993,
+        "gross_pnl": 7766.01131199677,
+        "commission": 0.0,
+        "slippage": 0.0,
+        "total_costs": 0.0,
+        "cost_assumptions_bps_each_fill": [
+          0.0,
+          0.0
+        ],
+        "limitations": [
+          "OHLCV-only extreme price dislocation proxy; not liquidation evidence"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT"
+      }
+    },
+    "c_opening_range_proxy": {
+      "NAS100:baseline": {
+        "instrument": "NAS100",
+        "trial": "baseline",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:55:00+00:00",
+        "trades": 2376,
+        "win_rate": 0.45202020202020204,
+        "mean_trade_return": -0.00037592521636642894,
+        "profit_factor": 0.7683708836953901,
+        "total_return": -0.6134604696687076,
+        "daily_sharpe": -1.2451373781747723,
+        "daily_observations": 2411,
+        "max_drawdown": 0.6182144303319801,
+        "gross_pnl": -8158.138724616665,
+        "commission": 7178.373017101087,
+        "slippage": 10767.559760499522,
+        "total_costs": 17945.93277760061,
+        "cost_assumptions_bps_each_fill": [
+          2.0,
+          3.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100"
+      },
+      "NAS100:cost_2x": {
+        "instrument": "NAS100",
+        "trial": "cost_2x",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:55:00+00:00",
+        "trades": 2376,
+        "win_rate": 0.3956228956228956,
+        "mean_trade_return": -0.0009760820095426832,
+        "profit_factor": 0.5422096474139408,
+        "total_return": -0.8822841810585637,
+        "daily_sharpe": -2.852182336702424,
+        "daily_observations": 2411,
+        "max_drawdown": 0.8834071600690597,
+        "gross_pnl": -12882.532532894715,
+        "commission": 9174.57199356942,
+        "slippage": 13761.858306911407,
+        "total_costs": 22936.430300480824,
+        "cost_assumptions_bps_each_fill": [
+          4.0,
+          6.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100"
+      },
+      "NAS100:extra_bar_delay": {
+        "instrument": "NAS100",
+        "trial": "extra_bar_delay",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:55:00+00:00",
+        "trades": 2366,
+        "win_rate": 0.26331360946745563,
+        "mean_trade_return": -0.00013277146784034308,
+        "profit_factor": 0.7440820016141519,
+        "total_return": -0.47277041433607514,
+        "daily_sharpe": -1.4486291523465695,
+        "daily_observations": 2411,
+        "max_drawdown": 0.47375825151874934,
+        "gross_pnl": -3269.5267879275816,
+        "commission": 8549.733570474335,
+        "slippage": 12824.601215668199,
+        "total_costs": 21374.334786142535,
+        "cost_assumptions_bps_each_fill": [
+          2.0,
+          3.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100"
+      },
+      "NAS100:gross": {
+        "instrument": "NAS100",
+        "trial": "gross",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:55:00+00:00",
+        "trades": 2376,
+        "win_rate": 0.5202020202020202,
+        "mean_trade_return": 0.0002242419395109941,
+        "profit_factor": 1.066030396603123,
+        "total_return": 0.268512467272352,
+        "daily_sharpe": 0.3625363187268148,
+        "daily_observations": 2411,
+        "max_drawdown": 0.17943261361471538,
+        "gross_pnl": 6712.81168180881,
+        "commission": 0.0,
+        "slippage": 0.0,
+        "total_costs": 0.0,
+        "cost_assumptions_bps_each_fill": [
+          0.0,
+          0.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100"
+      },
+      "NAS100:matched_time_placebo": {
+        "instrument": "NAS100",
+        "trial": "matched_time_placebo",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:55:00+00:00",
+        "trades": 2375,
+        "win_rate": 0.43242105263157893,
+        "mean_trade_return": -0.0006519140285118235,
+        "profit_factor": 0.6990826015343822,
+        "total_return": -0.721152351770165,
+        "daily_sharpe": -1.719779180796253,
+        "daily_observations": 2411,
+        "max_drawdown": 0.7269031298287637,
+        "gross_pnl": -11632.649257123492,
+        "commission": 6396.159537130616,
+        "slippage": 9594.23912223901,
+        "total_costs": 15990.398659369626,
+        "cost_assumptions_bps_each_fill": [
+          2.0,
+          3.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100"
+      },
+      "SPX500:baseline": {
+        "instrument": "SPX500",
+        "trial": "baseline",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:45:00+00:00",
+        "trades": 2366,
+        "win_rate": 0.4319526627218935,
+        "mean_trade_return": -0.0005395428783725193,
+        "profit_factor": 0.6342404101036144,
+        "total_return": -0.6759351972487639,
+        "daily_sharpe": -2.0708465129218543,
+        "daily_observations": 2411,
+        "max_drawdown": 0.676655071260574,
+        "gross_pnl": -10144.515195620219,
+        "commission": 6753.8647355990215,
+        "slippage": 10130.797102163902,
+        "total_costs": 16884.661837762924,
+        "cost_assumptions_bps_each_fill": [
+          2.0,
+          3.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract",
+          "15m fallback; cannot satisfy requested next-5m execution"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500"
+      },
+      "SPX500:cost_2x": {
+        "instrument": "SPX500",
+        "trial": "cost_2x",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:45:00+00:00",
+        "trades": 2366,
+        "win_rate": 0.3415046491969569,
+        "mean_trade_return": -0.0011395731226257557,
+        "profit_factor": 0.3849405710639316,
+        "total_return": -0.9008139092715719,
+        "daily_sharpe": -4.276430981211058,
+        "daily_observations": 2411,
+        "max_drawdown": 0.9009100830393449,
+        "gross_pnl": -13713.96594351127,
+        "commission": 8806.381788277964,
+        "slippage": 13209.572500835306,
+        "total_costs": 22015.95428911327,
+        "cost_assumptions_bps_each_fill": [
+          4.0,
+          6.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract",
+          "15m fallback; cannot satisfy requested next-5m execution"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500"
+      },
+      "SPX500:extra_bar_delay": {
+        "instrument": "SPX500",
+        "trial": "extra_bar_delay",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:45:00+00:00",
+        "trades": 2316,
+        "win_rate": 0.3234024179620035,
+        "mean_trade_return": -0.0003527747136234726,
+        "profit_factor": 0.6073719069505049,
+        "total_return": -0.5843976261125581,
+        "daily_sharpe": -2.5405663509273535,
+        "daily_observations": 2411,
+        "max_drawdown": 0.5850425908446039,
+        "gross_pnl": -7030.292139677204,
+        "commission": 7579.64851313678,
+        "slippage": 11369.47316023146,
+        "total_costs": 18949.12167336824,
+        "cost_assumptions_bps_each_fill": [
+          2.0,
+          3.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract",
+          "15m fallback; cannot satisfy requested next-5m execution"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500"
+      },
+      "SPX500:gross": {
+        "instrument": "SPX500",
+        "trial": "gross",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:45:00+00:00",
+        "trades": 2366,
+        "win_rate": 0.5245139475908707,
+        "mean_trade_return": 6.051627750809586e-05,
+        "profit_factor": 1.0223767217014768,
+        "total_return": 0.05817082244841543,
+        "daily_sharpe": 0.13725038932494074,
+        "daily_observations": 2411,
+        "max_drawdown": 0.17314987679574,
+        "gross_pnl": 1454.2705612103214,
+        "commission": 0.0,
+        "slippage": 0.0,
+        "total_costs": 0.0,
+        "cost_assumptions_bps_each_fill": [
+          0.0,
+          0.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract",
+          "15m fallback; cannot satisfy requested next-5m execution"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500"
+      },
+      "SPX500:matched_time_placebo": {
+        "instrument": "SPX500",
+        "trial": "matched_time_placebo",
+        "sample_start": "2017-01-03 14:30:00+00:00",
+        "sample_end": "2026-07-31 20:45:00+00:00",
+        "trades": 2364,
+        "win_rate": 0.4039763113367174,
+        "mean_trade_return": -0.0007053378501638433,
+        "profit_factor": 0.5945499323252843,
+        "total_return": -0.7331960390222753,
+        "daily_sharpe": -2.4911135105770734,
+        "daily_observations": 2411,
+        "max_drawdown": 0.7371085009824735,
+        "gross_pnl": -11863.045933418698,
+        "commission": 6466.85504213817,
+        "slippage": 9700.282368558534,
+        "total_costs": 16167.137410696703,
+        "cost_assumptions_bps_each_fill": [
+          2.0,
+          3.0
+        ],
+        "limitations": [
+          "retrospective vendor index/CFD proxy; not mapped to Vest/Propr contract",
+          "15m fallback; cannot satisfy requested next-5m execution"
+        ],
+        "artifact_dir": "run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500"
+      }
+    }
+  },
+  "robustness": "robustness_metrics.json",
+  "event_study": "b_price_only_proxy/event_study.parquet",
+  "event_study_summary": "b_event_study_summary.json",
+  "source_audit": "liquidation_source_audit.json",
+  "artifact_hashes": "artifact_hashes.json",
+  "frozen_manifest": "frozen_manifest.json",
+  "data_hashes": "data_hashes.json",
+  "trial_amendments": "trial_amendments.json",
+  "implementation_corrections": "implementation_corrections.json",
+  "tests": {
+    "command": "uv run python -m pytest tests/test_prop_mvp_20261011.py -q",
+    "result": "3 passed"
+  },
+  "limitations": [
+    "A net results exclude funding despite local funding records because native Engine has no funding cash-flow API.",
+    "C index aliases are not mapped to Vest/Propr instruments or broker fees; SPX500 data is 15m fallback.",
+    "DSR/PBO are unreproducible because legacy trial history is incomplete.",
+    "All studied windows are retrospective; no untouched OOS claim."
+  ]
+}

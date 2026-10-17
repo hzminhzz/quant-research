@@ -1,0 +1,135 @@
+groups:
+  - name: ml4t-live-safety
+    interval: 15s
+    rules:
+      - alert: ML4TExporterDown
+        expr: up{job="ml4t-native"} == 0 or absent(up{job="ml4t-native"})
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "ML4T metrics unavailable"
+          action: "Check native engine process and local /metrics; do not restart trading automatically"
+      - alert: ML4TSnapshotUnavailable
+        expr: ml4t_live_snapshot_ok == 0 or ml4t_live_state_known == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "Native status snapshot cannot be trusted"
+          action: "Inspect native runtime errors and preserve risk journal; no order actions from monitoring"
+      - alert: ML4TFeedSilent
+        expr: ml4t_live_engine_health{health="feed_silent"} == 1 or (ml4t_live_engine_state{state="running"} == 1 and ml4t_live_bar_seen == 1 and ml4t_live_last_bar_age_seconds > ml4t_live_feed_silence_threshold_seconds)
+        for: 30s
+        labels: {severity: critical}
+        annotations:
+          summary: "Native feed silence exceeded reviewed threshold"
+          action: "Check feed continuity, exchange connectivity and bounded native recovery; do not bypass risk"
+      - alert: ML4TBrokerDisconnected
+        expr: ml4t_live_engine_health{health="broker_disconnected"} == 1 or (ml4t_live_engine_state{state="running"} == 1 and ml4t_live_broker_connection_known == 1 and ml4t_live_broker_connected == 0)
+        for: 30s
+        labels: {severity: critical}
+        annotations:
+          summary: "Native broker disconnected"
+          action: "Verify Demo identity, read-only broker snapshots and persisted reconciliation before operator restart"
+      - alert: ML4TRecoveryExhausted
+        expr: ml4t_live_recovery_exhausted == 1
+        for: 0s
+        labels: {severity: critical}
+        annotations:
+          summary: "Native bounded recovery exhausted"
+          action: "Inspect runtime operational events and cleanup failures; engine stays stopped; never auto-flatten"
+      - alert: ML4TReconciliationBlocked
+        expr: ml4t_live_reconciliation_known == 1 and ml4t_live_reconciliation_clean == 0
+        for: 0s
+        labels: {severity: critical}
+        annotations:
+          summary: "Broker/native state reconciliation mismatch"
+          action: "Stop opening risk, preserve state/journals and compare authenticated read-only provider positions/orders"
+      - alert: ML4TReconciliationUnknown
+        expr: ml4t_live_engine_state{state="running"} == 1 and ml4t_live_reconciliation_known == 0
+        for: 30s
+        labels: {severity: critical}
+        annotations:
+          summary: "Active engine has no verified reconciliation result"
+          action: "Inspect SafeBroker readiness; do not treat missing evidence as PASS"
+      - alert: ML4TPersistenceOrJournalFailed
+        expr: ml4t_live_state_error == 1 or ml4t_live_journal_error == 1 or (ml4t_live_engine_state{state="running"} == 1 and ml4t_live_audit_evidence_available == 0)
+        for: 0s
+        labels: {severity: critical}
+        annotations:
+          summary: "Native persistence or audit evidence unavailable"
+          action: "Preserve forensic files; halt new risk through native controls; investigate disk/access/journal"
+      - alert: ML4TIdentityUnverified
+        expr: ml4t_live_engine_state{state="running"} == 1 and ml4t_live_identity_verified == 0
+        for: 0s
+        labels: {severity: critical}
+        annotations:
+          summary: "Engine running without verified native broker identity"
+          action: "Inspect authenticated Demo preflight; no Mainnet or Testnet substitution"
+      - alert: ML4TContinuityViolations
+        expr: increase(ml4t_live_continuity_violation_count[5m]) > 0
+        for: 0s
+        labels: {severity: warning}
+        annotations:
+          summary: "ML4T feed continuity violation detected"
+          action: "Inspect native feed safety halt and gap evidence before resuming"
+  - name: ml4t-vps
+    interval: 30s
+    rules:
+      - alert: ML4TNodeExporterDown
+        expr: up{job="ml4t-vps-node"} == 0 or absent(up{job="ml4t-vps-node"})
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: "VPS host metrics unavailable"
+          action: "Check node_exporter service, private listen port and Prometheus scrape"
+      - alert: ML4TVPSMemoryStress
+        expr: node_memory_MemAvailable_bytes{job="ml4t-vps-node"} / node_memory_MemTotal_bytes{job="ml4t-vps-node"} < 0.10
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "VPS memory available below 10 percent"
+          action: "Inspect native processes and memory pressure without forced trading restart"
+      - alert: ML4TVPSDiskStress
+        expr: (node_filesystem_avail_bytes{job="ml4t-vps-node",fstype=~"ext4|xfs|btrfs"} / node_filesystem_size_bytes{job="ml4t-vps-node",fstype=~"ext4|xfs|btrfs"}) < 0.10
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "VPS disk free below 10 percent"
+          action: "Check risk state/audit filesystem; preserve journals, avoid deleting evidence"
+      - alert: ML4TVPSCPUStress
+        expr: (1 - avg(rate(node_cpu_seconds_total{job="ml4t-vps-node",mode="idle"}[5m]))) > 0.90
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "VPS average CPU busy above 90 percent"
+          action: "Inspect host load and native feed responsiveness"
+  # Explicitly authorized on 2026-10-17 for the existing private Telegram
+  # operator route. No account balances, credentials or position details.
+  - name: ats7-local-paper
+    interval: 15s
+    rules:
+      - alert: ATS7ServiceUnavailable
+        expr: up{job="ats7-local-paper"} == 0 or absent(up{job="ats7-local-paper"})
+        for: 1m
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 synthetic local paper service unavailable", action: "Preserve state and inspect the systemd unit; restart must remain halted"}
+      - alert: ATS7UnknownOrHalted
+        expr: ats7_unknown_orders > 0 or ats7_release_halted == 1
+        for: 0s
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 new risk is blocked", action: "Inspect release journal and native position snapshot before separate resume"}
+      - alert: ATS7AccountOrReconciliationStale
+        expr: time() - ats7_account_observed_epoch > 15 or time() - ats7_reconciliation_observed_epoch > 15 or ats7_reconciliation_clean == 0
+        for: 15s
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 account evidence is stale or conflicting", action: "Keep halt latched; verify native source evidence"}
+      - alert: ATS7FeedOrPersistenceFailure
+        expr: ats7_native_engine_health{health="feed_silent"} == 1 or ats7_native_state_error == 1 or ats7_native_journal_error == 1 or ats7_native_native_error_count > 0
+        for: 15s
+        labels: {severity: critical}
+        annotations: {summary: "ATS7 native runtime failed a safety check", action: "Preserve journals and compare original feed and account records"}
+      - alert: ATS7ObservationReviewDue
+        expr: time() - ats7_observation_started_epoch >= ats7_observation_minimum_seconds
+        for: 1m
+        labels: {severity: info}
+        annotations: {summary: "ATS7 minimum synthetic observation time elapsed", action: "Review coverage and incidents; elapsed time is not strategy or live approval"}

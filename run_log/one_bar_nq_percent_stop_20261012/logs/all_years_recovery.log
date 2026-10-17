@@ -1,0 +1,23 @@
+YEAR=2013 SKIP durable completed summary
+YEAR=2014 SKIP durable completed summary
+YEAR=2015 SKIP durable completed summary
+YEAR=2016 SKIP durable completed summary
+YEAR=2017 SKIP durable completed summary
+YEAR=2018 SKIP durable completed summary
+YEAR=2019 SKIP durable completed summary
+YEAR=2020 SKIP durable completed summary
+YEAR=2021 SKIP durable completed summary
+YEAR=2022 SKIP durable completed summary
+YEAR=2023 SKIP durable completed summary
+YEAR=2024 SKIP durable completed summary
+YEAR=2025 SKIP durable completed summary
+YEAR=2026 SKIP durable completed summary
+/home/quant/dev/quant/quant-research/scripts/run_one_bar_nq_percent_stop_20261012.py:250: DeprecationWarning: `is_in` with a collection of the same datatype is ambiguous and deprecated.
+Please use `implode` to return to previous behavior.
+
+See https://github.com/pola-rs/polars/issues/22149 for more information.
+  stop_exits = frame.filter(pl.col("exit_time").is_in(exits["timestamp"]))
+{
+  "status": "COMPLETED_EXPLORATORY",
+  "output": "/home/quant/dev/quant/quant-research/run_log/one_bar_nq_percent_stop_20261012/final_report.json"
+}

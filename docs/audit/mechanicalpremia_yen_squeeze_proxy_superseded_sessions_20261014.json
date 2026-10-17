@@ -1,0 +1,47 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_note": "FAILED records mean the predeclared attempt was not run because the frozen session was superseded; they do not mean a strategy return result failed.",
+  "authoritative_successor": "mechanicalpremia-yen-squeeze-proxy-20261014-v3",
+  "classification": "EXPLORATORY",
+  "disposition": "Both prior registrations were superseded before any strategy performance. Their immutable frozen specs and identities are preserved; no results were inspected or used.",
+  "performance_observed": false,
+  "protected_2025_plus_price_data_read": false,
+  "sessions": {
+    "mechanicalpremia-yen-squeeze-proxy-20261014": {
+      "frozen_created_at": "2026-10-13T18:04:10.839647+00:00",
+      "performance_trials_attempted": false,
+      "reason": "Frozen with the explicitly permitted two-pair fallback when the 2024 CADJPY stage file was not yet present. The existing staged cadjpy_2024.arrow mtime is 2026-10-13T18:04:52.335572+02:00, about 42 seconds after freeze. No downloader was started or touched.",
+      "trial_dispositions": {
+        "ACCOUNTING-AND-GAP-AUDIT": "failed before performance; superseded",
+        "DATA-CADJPY-PROVENANCE": "completed; time-of-freeze stage evidence retained",
+        "ENGINE-STOP-ORDER-AND-CASH-GATES": "failed before performance; superseded by three-pair availability",
+        "FEATURE-AND-CLOCK-PARITY": "failed before performance; superseded by three-pair availability",
+        "PORTFOLIO-20-2PIP": "failed before performance; superseded",
+        "PORTFOLIO-20-4PIP": "failed before performance; superseded",
+        "PORTFOLIO-20-6PIP": "failed before performance; superseded",
+        "PORTFOLIO-500-2PIP": "failed before performance; superseded",
+        "PORTFOLIO-500-4PIP": "failed before performance; superseded",
+        "PORTFOLIO-500-6PIP": "failed before performance; superseded",
+        "SINGLE-PAIR-ATTRIBUTION": "failed before performance; superseded"
+      }
+    },
+    "mechanicalpremia-yen-squeeze-proxy-20261014-v2": {
+      "frozen_created_at": "2026-10-13T18:12:48.600109+00:00",
+      "performance_trials_attempted": false,
+      "reason": "The spec included CADJPY as an instrument/input but retained two-pair trial descriptions and referenced a materialization manifest path that did not exist. It was superseded before performance by corrected v3.",
+      "trial_dispositions": {
+        "ACCOUNTING-AND-GAP-AUDIT": "failed before performance; superseded",
+        "DATA-CADJPY-PROVENANCE": "failed before performance; replaced by corrected v3 provenance audit",
+        "ENGINE-STOP-ORDER-AND-CASH-GATES": "failed before performance; superseded",
+        "FEATURE-AND-CLOCK-PARITY": "failed before performance; superseded",
+        "PORTFOLIO-20-2PIP": "failed before performance; superseded",
+        "PORTFOLIO-20-4PIP": "failed before performance; superseded",
+        "PORTFOLIO-20-6PIP": "failed before performance; superseded",
+        "PORTFOLIO-500-2PIP": "failed before performance; superseded",
+        "PORTFOLIO-500-4PIP": "failed before performance; superseded",
+        "PORTFOLIO-500-6PIP": "failed before performance; superseded",
+        "SINGLE-PAIR-ATTRIBUTION": "failed before performance; superseded"
+      }
+    }
+  }
+}

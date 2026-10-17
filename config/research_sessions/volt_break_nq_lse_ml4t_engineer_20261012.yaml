@@ -1,0 +1,59 @@
+session_id: volt_break_nq_lse_ml4t_engineer_20261012
+classification: EXPLORATORY
+phase: corrected_features_and_native_backtest
+parent: config/research_sessions/volt_break_nq_phase4_20261012.yaml
+hypothesis: Original VOLT BREAK fixed noise barrier and midnight VWAP might predict enough directional movement to overcome +40/-75 points and costs.
+source:
+  provider: LSE
+  store: /home/quant/dev/quant/ml4t-data/.data/store/lse_futures_minute_NQ
+  instrument: NQ.F
+  contract: Provider-defined NQ futures series; dated contract and roll unspecified
+  allowed: 2025 only, September-December, no 2026 reads
+  minute_timestamp: UTC bar start, convert to America/Chicago
+  reference_manifest: /home/quant/dev/quant/ml4t-data/.data/store/.metadata/lse_futures_minute_NQ.json
+  volume: Provider-reported futures-series volume, not independently authenticated exchange prints
+feature_engine:
+  package: ml4t-engineer installed version, TA-Lib-compatible
+  daily_session: Local 00:00 CT through 15:59 CT (16:00 CT endpoint excluded)
+  require_daily_complete: 960 observed 1m bars (no forward fill)
+  daily_atr: "ml4t.engineer.compute_features daily OHLCV ATR period 14, Wilder"
+  volatility_smoothing: "ml4t.engineer.features.trend.sma(ATR14, period=15)"
+  lag: "Today's 00:00 noise barrier uses the previous completed session's SMA15(ATR14)"
+  session_open: 00:00 CT 1m source open
+  barrier: midnight_open + 0.30 * prior_day_sma15_atr14
+  minute_typprice: ml4t.engineer.compute_features typprice
+  vwap: >-
+    Session-anchored cumulative typical_price * reported volume / cumulative
+    volume, reset at 00:00 CT. No native vwap in engineer 120-feature catalog;
+    use pandas grouped weighted cumulative sums for ONLY this necessary
+    arithmetic, never custom Polars indicator implementations.
+  thirty_minute_close: last observed 1m close of completed 30m block
+  decision: 09:59,10:29,...,13:59 CT for 10:00...14:00 next opening fill
+execution:
+  engine: ml4t-backtest 0.1.7, existing tested native Broker lifecycle adapter
+  one_nq_equivalent: USD20/point
+  stop: 75 points
+  target: 40 points
+  entry_limit_per_day: 3
+  reentry: at next qualifying 30m completed bar while flat
+  hard_exit: 14:30 CT source OPEN
+  ambiguous_bar: stop-first conservative
+trials:
+  - id: features_ml4t_engineer_parity
+    status: preregistered
+  - id: corrected_zero_cost
+    status: preregistered
+  - id: corrected_illustrative
+    status: preregistered
+  - id: corrected_double_cost
+    status: preregistered
+costs:
+  zero: USD0 + 0 point per fill
+  illustrative: USD2.50 + 0.25 adverse points per fill
+  double: USD5 + 0.50 adverse points per fill
+risks:
+  - The original ATR_Daily period is unspecified; ATR14 is standard documented assumption.
+  - LSE NQ.F roll continuity not verified; may be continuous synthetic series.
+  - Only a few months of 2025 available; expected small sample.
+  - 2026 sealed. No use of subsequent 2026 LSE files even if present.
+  - Do not characterize a backtest as a successful exact reproduction without validated creator indicator values.

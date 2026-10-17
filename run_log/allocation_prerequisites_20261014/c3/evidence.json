@@ -1,0 +1,44 @@
+{
+  "status": "VERIFIED",
+  "classification": "EXPLORATORY_PREREQUISITE",
+  "objective": "Verify continuous native C3 account equity with carried positions through 2024-12-31.",
+  "development_start_inclusive": "2013-01-01T00:00:00+00:00",
+  "development_end_exclusive": "2025-01-01T00:00:00+00:00",
+  "reserved_2025_2026_accessed": false,
+  "engine": "ml4t.backtest.Engine via frozen C3 run_native",
+  "replay_command": "PYTHONPATH=. .venv/bin/python -m scripts.allocation_c3_continuous_20261014",
+  "artifact_audit_command": "PYTHONPATH=. .venv/bin/python -m scripts.allocation_c3_continuous_20261014 --from-artifacts",
+  "test_command": "PYTHONPATH=. .venv/bin/python -m pytest -c /dev/null -q tests/test_allocation_c3_continuous_20261014.py",
+  "test_result": "13 passed",
+  "artifact_replay_guard": "Timestamp-only scan of all event-time columns in all four Parquet artifacts runs before full reads. Required event interval is [2013-01-01, 2025-01-01). Missing/null/non-datetime/out-of-range timestamps fail closed.",
+  "invalid_event_values": "Unrecognized fill side and trade direction fail closed.",
+  "native_artifacts": [
+    "fills.parquet",
+    "trades.parquet",
+    "continuous_equity.parquet",
+    "year_end_equity.parquet",
+    "report.json"
+  ],
+  "account_reconciliation": {
+    "initial_cash": 100000.0,
+    "ending_cash_reconstructed_from_fills": 91620.19190610043,
+    "ending_marked_positions": 55678.13822167838,
+    "ending_native_engine_equity": 147298.3301277788,
+    "delta": 0.0
+  },
+  "annual_boundaries_with_carried_positions": [
+    "2014-01-01",
+    "2016-01-01",
+    "2017-01-01",
+    "2018-01-01"
+  ],
+  "limitations": [
+    "Synthetic CFD price units; multiplier and lot mapping are unverified.",
+    "Overnight financing is not modeled.",
+    "Observed ASK spread and broker execution parity are unverified.",
+    "The frozen H1 one-minute stop-attachment gap remains.",
+    "The final 2024 D1 position is marked open; later behavior is not evaluated."
+  ],
+  "pyproject_note": "A temporary conflict-marker parse error appeared during the work. This task did not edit pyproject.toml; it parsed at final verification.",
+  "uv_note": "uv run could not acquire its global cache lock because the global cache path is read-only; the repository .venv was used."
+}

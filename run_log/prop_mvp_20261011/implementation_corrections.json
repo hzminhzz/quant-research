@@ -1,0 +1,14 @@
+{
+  "correction": "C exit decision moved to the last reliable bar before the absent 16:00 ET bar.",
+  "5m": "Decide at 15:50 ET; NEXT_BAR fill at the 15:55 ET open.",
+  "15m_fallback": "Decide at 15:30 ET; NEXT_BAR fill at the 15:45 ET open.",
+  "reason": "The first C implementation submitted at 15:55/15:45, but no next 16:00 bar existed. Native Engine deferred those exits into a later session. Those outputs are archived and excluded from final metrics.",
+  "archived_attempt": "run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/",
+  "verification": "The native-engine fixture asserts entry fills exactly one 5m bar after the signal and exits at the same-session final reliable bar.",
+  "follow_up": "Exclude each session unless both the 15:50/15:30 decision timestamp and 15:55/15:45 next-bar fill timestamp exist. This removes one NAS100 overnight exit caused by a missing fill bar.",
+  "archived_follow_up_attempt": "run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/",
+  "signal_alignment_fix": "Retain all price rows in the DataFeed. Preserve null signals on bars without entries so NEXT_BAR always means the next market bar, not the next signal row.",
+  "archived_sparse_signal_attempt": "run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/",
+  "placebo_early_close_correction": "Gate shifted C matched-time placebo signals to sessions with both the configured close decision bar and its next-bar fill bar. Previous placebo outputs are excluded because the shifted signal could enter a session without an exit bar.",
+  "archived_placebo_attempt": "Previous placebo metrics and trade ledgers were overwritten by the corrected rerun; correction is documented here. The earlier outputs had no separate archive."
+}

@@ -1,0 +1,15 @@
+{
+  "session": "vwap_pullback_adx_nq_20261012_proxy_v2",
+  "source_sha256": "a0670b34b2175ca0df4a7ab98fa79bb02650cf4cce64ed67261ad29f706ebaad",
+  "source": "data/processed/vwap_adx_nqf_2026h1_1m.parquet",
+  "model": "LSE NQ.F provider-defined continuous futures proxy",
+  "contract_level": false,
+  "CME_verified_volume": false,
+  "CME_execution_verified": false,
+  "development_interval": "2026-01-01 through 2026-06-30, Chicago cash sessions",
+  "qualifying_sessions": 122,
+  "tick_points": 0.25,
+  "multiplier_usd_per_point_assumed": 20,
+  "costs": "Illustrative not verified: $2.50/side and adverse 0.25 point/side",
+  "assumptions": "Native ml4t-backtest NEXT_BAR; stop first submission ahead of limit; no atomic OCO; audit required"
+}

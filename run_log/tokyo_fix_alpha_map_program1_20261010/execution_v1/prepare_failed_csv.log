@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_alpha_map_program1_v1.py", line 313, in <module>
+    p=argparse.ArgumentParser();p.add_argument("stage",choices=["prepare","freeze","run"]);a=p.parse_args();globals()[a.stage]()
+                                                                                                            ~~~~~~~~~~~~~~~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_alpha_map_program1_v1.py", line 77, in prepare
+    cal=calendar()
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_alpha_map_program1_v1.py", line 63, in calendar
+    f=pl.read_csv(CAL,try_parse_dates=True).filter(pl.col("tokyo_bank_business_day"))
+      ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  [Previous line repeated 1 more time]
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/io/csv/functions.py", line 592, in read_csv
+    df = _read_csv_impl(
+        data,
+    ...<27 lines>...
+        glob=glob,
+    )
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/io/csv/functions.py", line 743, in _read_csv_impl
+    pydf = PyDataFrame.read_csv(
+        source,
+    ...<28 lines>...
+        schema=schema,
+    )
+polars.exceptions.ComputeError: could not parse `2021-04-30;2021-05-05` as dtype `date` at column 'nominal_dates' (column number 9)
+
+The current offset in the file is 2255 bytes.
+
+You might want to try:
+- increasing `infer_schema_length` (e.g. `infer_schema_length=10000`),
+- increasing `infer_schema_files` (e.g. `infer_schema_files=50`),
+- specifying correct dtype with the `schema_overrides` argument
+- setting `ignore_errors` to `True`,
+- adding `2021-04-30;2021-05-05` to the `null_values` list.
+
+Original error: ```could not parse '2021-04-30;2021-05-05' with pattern 'DateYMD'```

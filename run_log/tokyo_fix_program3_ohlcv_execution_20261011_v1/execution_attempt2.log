@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 332, in <module>
+    else:run()
+         ~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 321, in run
+    if not (OUT/'T1_proxy/result.json').exists():proxy(raw,reg,gates,spec)
+                                                 ~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 230, in proxy
+    f=compute_features(grid,[{'name':'multi_horizon_returns','params':{'horizons':[1,12,24,84],'log_returns':True}}],group_col='session',timestamp_col='timestamp',assume_sorted=True)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/engineer/api.py", line 173, in compute_features
+    validate_ohlcv_schema(data, require_asset_id=False, allow_flexible_time=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/engineer/core/schemas.py", line 128, in validate_ohlcv_schema
+    raise DataSchemaError(
+    ...<2 lines>...
+    )
+ml4t.engineer.core.exceptions.DataSchemaError: Missing required OHLCV columns: ['volume']. Available columns: ['close', 'gotobi', 'high', 'low', 'minute', 'open', 'ordinary', 'session', 'timestamp', 'weekday', 'year']

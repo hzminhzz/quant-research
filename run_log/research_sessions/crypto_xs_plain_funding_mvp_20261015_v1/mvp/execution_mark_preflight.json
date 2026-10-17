@@ -1,0 +1,23 @@
+{
+  "provider_file": "/home/quant/dev/quant/ml4t-data/scripts/fetch_binance_perp_funding.py",
+  "provider_sha256": "28be6214f3c5a5a7acc5a7f0d3f6ce16aaf7d32a2740e2fcd6364900258af42d",
+  "endpoint": "https://fapi.binance.com/fapi/v1/fundingRate",
+  "required_events": 39971,
+  "queries": [
+    {
+      "symbol": "DASHUSDT",
+      "date": "2020-06-01",
+      "rows": 3,
+      "path": "run_log/research_sessions/crypto_xs_plain_funding_mvp_20261015_v1/mvp/execution_mark_api/DASHUSDT_2020-06-01.parquet",
+      "sha256": "b85a39ecb26221e809295c0199a8f7e6a7966c40f7b4fc87f7944123c0e290ac"
+    }
+  ],
+  "status": "BLOCKED",
+  "blocker": {
+    "reason": "exact_settlement_mark_price_unavailable",
+    "symbol": "DASHUSDT",
+    "timestamp": "2020-06-01T08:00:00.001000+00:00",
+    "funding_rate": 0.0001,
+    "official_mark_price": null
+  }
+}

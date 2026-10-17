@@ -1,0 +1,514 @@
+{
+  "beta_calibration": 0.6290750694535854,
+  "end": "2026-08-01T00:00:00+00:00",
+  "parameters": {
+    "capital": {
+      "global_drawdown_usdc": 100.0,
+      "leverage": 10.0,
+      "margin_reserve": 0.0,
+      "max_gross_usdc": 6000.0,
+      "max_marked_gross_usdc": 6000.0,
+      "max_per_leg_usdc": 2000.0,
+      "note": "$600 isolated research margin at 10x; $6000 is a hard maximum gross notional, NOT available cash. Independent A 20x$100 per side reserves $4000 of $6000 capacity; A4 uses $2000 primary ladder plus dynamic hedge with remaining headroom. No valid exchange liquidation simulation; stop-loss triggers sooner.",
+      "peak_to_trough_stop_usdc": 50.0,
+      "starting_cash_usdc": 600.0
+    },
+    "caveat": "No valid queue-model maker-fill guarantee, points or real funding history; later holdout previously seen in other strategies but not Hyperliquid 20-level A/B.",
+    "evaluation": {
+      "beta": "14-day trailing 1h SP500 versus XYZ100 log returns, one-hour lag",
+      "calibration_end_utc": "2026-05-01T00:00:00+00:00",
+      "development_end_utc": "2026-08-01T00:00:00+00:00",
+      "development_start_utc": "2026-05-01T00:00:00+00:00",
+      "later_end_utc": "2026-10-09T00:00:00+00:00",
+      "later_is_fresh": true,
+      "later_start_utc": "2026-08-01T00:00:00+00:00"
+    },
+    "execution": {
+      "carry_bps_per_day": 0.0,
+      "commission_bps": 0.0,
+      "emergency_taker_cost_bps": 4.25,
+      "fill_ambiguous_high_low_convention": "Native engine sees both extremes without chronology. Report as unresolved.",
+      "fill_model": "ml4t-backtest native NEXT_BAR LIMIT, 1 tick penetration and shared per-asset per-minute volume budget",
+      "volume_participation": 0.1,
+      "zero_volume_no_fill": true
+    },
+    "falsifier": "Volume advantage disappears after fill-participation constraints, inventory stop, or carrying costs; incomplete inventory persists in either market.",
+    "order": {
+      "beta_smoothing": 0.1,
+      "beta_update_minutes": 60,
+      "clip_usdc": 100.0,
+      "first_level_bps": 2.0,
+      "hedge_activation_clip_usdc": 100.0,
+      "hedge_beta_max": 1.5,
+      "hedge_beta_min": 0.1,
+      "hedge_quote_offset_bps": 1.0,
+      "limit_penetration_ticks": 1,
+      "maker_exit_offset_bps": 1.0,
+      "maximum_exit_delay_minutes": 10080,
+      "minimum_price_tick": 0.1,
+      "n_levels": 20,
+      "net_breakeven_reserve_usdc": 0.05,
+      "quantity_rounding": 1e-06,
+      "step_bps": 25.0
+    },
+    "primary_metric": "Completed candidate maker volume per USD maximum drawdown",
+    "secondary_metrics": [
+      "total_candidate_maker_volume",
+      "completed_volume",
+      "full_and_partial_fills",
+      "peak_open_and_reserved_notional",
+      "max_drawdown",
+      "unfinished_inventory",
+      "funding_cost_sensitivity",
+      "stop_loss_trigger",
+      "completed_cycles",
+      "holding_time"
+    ],
+    "sensitivity": [
+      "5 bps/day gross holding cost on pre-specified baseline A and A4, after base development run",
+      "No OOS-tuned grid spacing or clipping changes"
+    ],
+    "session_id": "hyperliquid_xyz_20level_anchored_volume_ab_20261009",
+    "source": {
+      "first_utc": "2026-04-14T00:00:00+00:00",
+      "last_utc": "2026-10-08T23:59:00+00:00",
+      "provider": "CryptoHFTData-derived Hyperliquid HIP3 1m OHLCV",
+      "root": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_HYPERLIQUID_XYZ_PERP",
+      "source_contracts": [
+        "XYZ:SP500",
+        "XYZ:XYZ100"
+      ],
+      "symbols": [
+        "SP500",
+        "XYZ100"
+      ]
+    },
+    "status": "EXPLORATORY_NOT_APPROVED",
+    "thesis": "Compare full fixed-anchor 20x$100 entry ladders for independent SP500-long/XYZ100-short cycles against a dynamic beta-hedged SP500-long linked cycle.",
+    "trials": [
+      {
+        "arm": "independent",
+        "id": "A_full20",
+        "partial_fills": false,
+        "subbasket": false
+      },
+      {
+        "arm": "dynamic_hedge",
+        "id": "A4_full20",
+        "partial_fills": false,
+        "subbasket": false
+      },
+      {
+        "arm": "independent",
+        "id": "A_partial20",
+        "partial_fills": true,
+        "subbasket": false
+      },
+      {
+        "arm": "independent",
+        "id": "A_subbasket20",
+        "partial_fills": true,
+        "subbasket": true
+      },
+      {
+        "arm": "dynamic_hedge",
+        "id": "A4_partial20",
+        "partial_fills": true,
+        "subbasket": false
+      }
+    ]
+  },
+  "phase": "development",
+  "results": [
+    {
+      "assumed_carry_paid": 0.0,
+      "candidate_maker_volume": 4100.758,
+      "completed_volume": 3000.949,
+      "cycles": {
+        "spy": {
+          "completed_net": 1.5942,
+          "completed_volume": 2201.504,
+          "cycles": 9,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 78,
+          "holding_minutes_p95": 2783.0,
+          "latest_anchor": {
+            "SP500": 7265.6,
+            "XYZ100": 28054.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": 0.0,
+          "open_inventory_value": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        },
+        "xyz": {
+          "completed_net": 0.4834,
+          "completed_volume": 799.444,
+          "cycles": 3,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 47,
+          "holding_minutes_p95": 416.9,
+          "latest_anchor": {
+            "SP500": 7215.5,
+            "XYZ100": 27409.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": -49.1963,
+          "open_inventory_value": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        }
+      },
+      "elapsed_seconds": 8.75,
+      "end_equity_ex_points": 552.393,
+      "entry_fill_events": 26,
+      "exit_fill_events": 12,
+      "fill_model_limitations": "Candle high/low does not establish price order, maker queue or fill eligibility; 10% combined base-volume budget is a research assumption",
+      "gap_restarts": 2,
+      "hedge_fill_events": 0,
+      "largest_unhedged_target_deficit": 0.0,
+      "leverage_assumed": 10.0,
+      "maker_fill_events": 38,
+      "max_drawdown_usdc": 50.8666,
+      "maximum_beta_residual": 1149.05,
+      "maximum_open_gross": 1149.05,
+      "maximum_reserved_entry_notional": 3999.71,
+      "maximum_reserved_plus_open_gross": 4015.89,
+      "maximum_resting_entry_orders": 40,
+      "net_pnl_ex_points": -47.607,
+      "partial_fill_events": 0,
+      "rejected_orders": 162,
+      "risk_halt": true,
+      "risk_halt_bar": 10923,
+      "risk_halt_reason": "risk_loss_or_gross",
+      "shared_bar_budget_max_overshoot": 0.0,
+      "starting_margin_usdc": 600.0,
+      "taker_emergency_cost": 0.4883,
+      "taker_emergency_notional": 1149.0061,
+      "uncertain_asset_fill_blocks": 0,
+      "variant": "A_full20",
+      "volume_per_drawdown": 58.996
+    },
+    {
+      "assumed_carry_paid": 0.0,
+      "candidate_maker_volume": 17342.328,
+      "completed_volume": 16033.421,
+      "cycles": {
+        "pair": {
+          "completed_net": 6.2472,
+          "completed_volume": 16033.421,
+          "cycles": 47,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 14,
+          "holding_minutes_p95": 2638.4,
+          "latest_anchor": {
+            "SP500": 7547.1,
+            "XYZ100": 29738.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": -11.9749,
+          "open_inventory_value": {
+            "SP500": 697.02,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.09347,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        }
+      },
+      "elapsed_seconds": 38.37,
+      "end_equity_ex_points": 594.2722,
+      "entry_fill_events": 74,
+      "exit_fill_events": 56,
+      "fill_model_limitations": "Candle high/low does not establish price order, maker queue or fill eligibility; 10% combined base-volume budget is a research assumption",
+      "gap_restarts": 2,
+      "hedge_fill_events": 16,
+      "largest_unhedged_target_deficit": 237.09,
+      "leverage_assumed": 10.0,
+      "maker_fill_events": 146,
+      "max_drawdown_usdc": 27.4014,
+      "maximum_beta_residual": 363.02,
+      "maximum_open_gross": 1019.02,
+      "maximum_reserved_entry_notional": 1999.95,
+      "maximum_reserved_plus_open_gross": 2318.35,
+      "maximum_resting_entry_orders": 20,
+      "net_pnl_ex_points": -5.7278,
+      "partial_fill_events": 0,
+      "rejected_orders": 0,
+      "risk_halt": false,
+      "risk_halt_bar": null,
+      "risk_halt_reason": null,
+      "shared_bar_budget_max_overshoot": 0.0,
+      "starting_margin_usdc": 600.0,
+      "taker_emergency_cost": 0.0,
+      "taker_emergency_notional": 0.0,
+      "uncertain_asset_fill_blocks": 0,
+      "variant": "A4_full20",
+      "volume_per_drawdown": 585.131
+    },
+    {
+      "assumed_carry_paid": 0.0,
+      "candidate_maker_volume": 4156.538,
+      "completed_volume": 3000.949,
+      "cycles": {
+        "spy": {
+          "completed_net": 1.5942,
+          "completed_volume": 2201.504,
+          "cycles": 9,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 78,
+          "holding_minutes_p95": 2783.0,
+          "latest_anchor": {
+            "SP500": 7265.6,
+            "XYZ100": 28054.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": 0.0,
+          "open_inventory_value": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        },
+        "xyz": {
+          "completed_net": 0.4834,
+          "completed_volume": 799.444,
+          "cycles": 3,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 47,
+          "holding_minutes_p95": 416.9,
+          "latest_anchor": {
+            "SP500": 7215.5,
+            "XYZ100": 27409.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": -49.0066,
+          "open_inventory_value": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        }
+      },
+      "elapsed_seconds": 9.01,
+      "end_equity_ex_points": 552.559,
+      "entry_fill_events": 27,
+      "exit_fill_events": 12,
+      "fill_model_limitations": "Candle high/low does not establish price order, maker queue or fill eligibility; 10% combined base-volume budget is a research assumption",
+      "gap_restarts": 2,
+      "hedge_fill_events": 0,
+      "largest_unhedged_target_deficit": 0.0,
+      "leverage_assumed": 10.0,
+      "maker_fill_events": 39,
+      "max_drawdown_usdc": 50.7006,
+      "maximum_beta_residual": 1204.64,
+      "maximum_open_gross": 1204.64,
+      "maximum_reserved_entry_notional": 3999.71,
+      "maximum_reserved_plus_open_gross": 4015.89,
+      "maximum_resting_entry_orders": 40,
+      "net_pnl_ex_points": -47.441,
+      "partial_fill_events": 1,
+      "rejected_orders": 161,
+      "risk_halt": true,
+      "risk_halt_bar": 10913,
+      "risk_halt_reason": "risk_loss_or_gross",
+      "shared_bar_budget_max_overshoot": 0.0,
+      "starting_margin_usdc": 600.0,
+      "taker_emergency_cost": 0.512,
+      "taker_emergency_notional": 1204.5959,
+      "uncertain_asset_fill_blocks": 0,
+      "variant": "A_partial20",
+      "volume_per_drawdown": 59.19
+    },
+    {
+      "assumed_carry_paid": 0.0,
+      "candidate_maker_volume": 18667.081,
+      "completed_volume": 17109.286,
+      "cycles": {
+        "spy": {
+          "completed_net": 1.6523,
+          "completed_volume": 5601.49,
+          "cycles": 28,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 15.5,
+          "holding_minutes_p95": 842.2,
+          "latest_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": 1.6523,
+          "open_inventory_value": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        },
+        "xyz": {
+          "completed_net": 3.2711,
+          "completed_volume": 11507.796,
+          "cycles": 59,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 14,
+          "holding_minutes_p95": 593.4,
+          "latest_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": -49.3244,
+          "open_inventory_value": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.0,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 17
+        }
+      },
+      "elapsed_seconds": 7.95,
+      "end_equity_ex_points": 551.8302,
+      "entry_fill_events": 104,
+      "exit_fill_events": 92,
+      "fill_model_limitations": "Candle high/low does not establish price order, maker queue or fill eligibility; 10% combined base-volume budget is a research assumption",
+      "gap_restarts": 2,
+      "hedge_fill_events": 0,
+      "largest_unhedged_target_deficit": 0.0,
+      "leverage_assumed": 10.0,
+      "maker_fill_events": 196,
+      "max_drawdown_usdc": 50.8964,
+      "maximum_beta_residual": 1182.43,
+      "maximum_open_gross": 1182.43,
+      "maximum_reserved_entry_notional": 3999.71,
+      "maximum_reserved_plus_open_gross": 4002.98,
+      "maximum_resting_entry_orders": 40,
+      "net_pnl_ex_points": -48.1698,
+      "partial_fill_events": 8,
+      "rejected_orders": 110,
+      "risk_halt": true,
+      "risk_halt_bar": 11103,
+      "risk_halt_reason": "risk_loss_or_gross",
+      "shared_bar_budget_max_overshoot": 0.0,
+      "starting_margin_usdc": 600.0,
+      "taker_emergency_cost": 0.4976,
+      "taker_emergency_notional": 1170.8804,
+      "uncertain_asset_fill_blocks": 0,
+      "variant": "A_subbasket20",
+      "volume_per_drawdown": 336.159
+    },
+    {
+      "assumed_carry_paid": 0.0,
+      "candidate_maker_volume": 17342.328,
+      "completed_volume": 16033.421,
+      "cycles": {
+        "pair": {
+          "completed_net": 6.2472,
+          "completed_volume": 16033.421,
+          "cycles": 47,
+          "first_anchor": {
+            "SP500": 7219.6,
+            "XYZ100": 27451.0
+          },
+          "holding_minutes_median": 14,
+          "holding_minutes_p95": 2638.4,
+          "latest_anchor": {
+            "SP500": 7547.1,
+            "XYZ100": 29738.0
+          },
+          "negative_completed_cycles": 0,
+          "open_cycle_mark_pnl": -11.9749,
+          "open_inventory_value": {
+            "SP500": 697.02,
+            "XYZ100": 0.0
+          },
+          "open_signed_qty": {
+            "SP500": 0.09347,
+            "XYZ100": 0.0
+          },
+          "open_subbaskets": 0
+        }
+      },
+      "elapsed_seconds": 38.4,
+      "end_equity_ex_points": 594.2722,
+      "entry_fill_events": 74,
+      "exit_fill_events": 56,
+      "fill_model_limitations": "Candle high/low does not establish price order, maker queue or fill eligibility; 10% combined base-volume budget is a research assumption",
+      "gap_restarts": 2,
+      "hedge_fill_events": 16,
+      "largest_unhedged_target_deficit": 237.09,
+      "leverage_assumed": 10.0,
+      "maker_fill_events": 146,
+      "max_drawdown_usdc": 27.4014,
+      "maximum_beta_residual": 363.02,
+      "maximum_open_gross": 1019.02,
+      "maximum_reserved_entry_notional": 1999.95,
+      "maximum_reserved_plus_open_gross": 2318.35,
+      "maximum_resting_entry_orders": 20,
+      "net_pnl_ex_points": -5.7278,
+      "partial_fill_events": 0,
+      "rejected_orders": 0,
+      "risk_halt": false,
+      "risk_halt_bar": null,
+      "risk_halt_reason": null,
+      "shared_bar_budget_max_overshoot": 0.0,
+      "starting_margin_usdc": 600.0,
+      "taker_emergency_cost": 0.0,
+      "taker_emergency_notional": 0.0,
+      "uncertain_asset_fill_blocks": 0,
+      "variant": "A4_partial20",
+      "volume_per_drawdown": 585.131
+    }
+  ],
+  "session": "hyperliquid_xyz_20level_anchored_volume_ab_20261009",
+  "start": "2026-05-01T00:00:00+00:00"
+}

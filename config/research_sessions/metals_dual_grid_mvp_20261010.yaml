@@ -1,0 +1,91 @@
+session_id: metals_dual_grid_mvp_20261010
+classification: EXPLORATORY
+approval_status: NOT_APPROVED
+live_trading: false
+thesis: "Independent fixed-anchor long-XAU/short-XAG grids may generate more completed maker volume per drawdown than a beta-adjusted short-XAG grid."
+falsifier: "Beta adjustment does not improve completed maker volume per drawdown, or either arm breaches its $200 peak-to-trough risk stop, leaves material unfinished inventory, or depends on unsupported fill assumptions."
+mechanism: "Fixed long-gold and short-silver inventory cycles replenish after breakeven exits. Trial B changes only short-silver entry spacing using a lagged 30-day rolling OLS beta."
+source:
+  provider: Lighter CCXT OHLCV
+  root: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP
+  source_symbols: [XAU, XAG]
+  ccxt_symbols: [XAU/USDC:USDC, XAG/USDC:USDC]
+  first_available_utc: "2026-01-22T16:00:00Z"
+  last_available_utc: "2026-10-09T07:38:00Z"
+  source_timeframe: 1m
+  research_timeframe: 2m
+  aggregation: "UTC-aligned 2-minute OHLCV: first open, max high, min low, last close, summed volume; discard an incomplete final bucket."
+evaluation:
+  start_utc: "2026-01-22T16:00:00Z"
+  end_exclusive_utc: "2026-10-09T07:40:00Z"
+  beta_lookback: 30d
+  beta_warmup_raw_bars: 43200
+  beta_estimation_bars_2m: 21600
+  beta_availability: "At decision bar t, use only 2-minute close returns through t-1; submit orders for next-bar execution."
+  common_trading_start: "After the full 30-day beta warm-up; A and B use the same evaluation bars."
+  caveat: "The full historical window was previously inspected in other Lighter grid studies. This is exploratory screening, not an untouched holdout."
+capital:
+  initial_margin_usdc: 600
+  leverage: 10
+  max_gross_notional_usdc: 6000
+  max_drawdown_usdc: 200
+  quantity_per_level_usdc: 100
+strategy:
+  anchors: "Separate fixed initial anchors per leg; no portfolio rebase, no day reset."
+  spacing_bps: 25
+  levels_per_leg: 20
+  long_leg:
+    symbol: XAU
+    direction: buy_below_anchor
+    exit: sell_each_lot_at_entry_price
+    rearm: at_original_entry_price_after_exit
+  short_leg:
+    symbol: XAG
+    direction: sell_above_anchor
+    exit: cover_each_lot_at_entry_price
+    rearm: at_original_entry_price_after_exit
+  beta_adjustment:
+    variant_A: fixed_25_bps_short_spacing
+    variant_B: "XAG short entry spacing = 25 bps * absolute lagged 30-day OLS beta of XAG log returns on XAU log returns; clamp beta to [0.1, 3.0]. Long XAU spacing is unchanged."
+    estimation: "Rolling covariance(XAU, XAG) / rolling variance(XAU), calculated from prior 2-minute returns only."
+    unfilled_level_updates: "B reprices only an unfilled XAG entry when the lagged beta moves its tick-rounded price by at least one tick; after the first fill, each level rearms at its original fill price."
+    warmup_behavior: "No trading by either arm until beta is available."
+order:
+  price_tick_by_asset:
+    XAU: 0.01
+    XAG: 0.0001
+  quantity_rounding_by_asset:
+    XAU: 0.0001
+    XAG: 0.01
+execution:
+  engine: ml4t.backtest.Engine
+  order_type: resting_limit
+  timing: NEXT_BAR
+  fill_rule: "Native engine limit touch on next 2-minute bar; no queue-position model."
+  require_positive_traded_volume: true
+  max_bar_volume_participation: 1.0
+  partial_fills: false
+  maker_fee_bps: 0.0
+  emergency_taker_fee_bps: 2.25
+  emergency_slippage_bps: 2.0
+  funding: "Unavailable for these saved OHLCV partitions; excluded and disclosed."
+  terminal_inventory: "Mark to market and report as unfinished; do not force-close at the sample boundary."
+trial:
+  id: metals_dual_grid_ab
+  arms:
+    - A_fixed_spacing
+    - B_beta_adjusted_silver_spacing
+  primary_metric: completed_maker_volume_usdc_per_max_drawdown_usdc
+  secondary_metrics:
+    - completed_maker_volume_usdc
+    - maker_fill_events
+    - completed_grid_cycles
+    - net_mark_to_market_pnl_usdc
+    - max_drawdown_usdc
+    - ending_inventory_by_leg_usdc
+    - unfinished_inventory_usdc
+    - emergency_taker_notional_usdc
+    - emergency_exit_cost_usdc
+    - maker_volume_fraction_completed
+  selection_rule: "Compare the two preregistered arms on the full available sample; no parameter tuning or production selection."
+  deviations: []

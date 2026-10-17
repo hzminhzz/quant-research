@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py", line 283, in <module>
+    if __name__=="__main__":main()
+                            ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py", line 161, in main
+    save("T2_flow/result.json",{"profiles":profiles,"mechanism":"HYPOTHESIS: settlement USD demand and subsequent inventory unwind; calendar does not observe actual flows","causal_dag":"weekday/year -> calendar proxy and returns; global news -> all pair returns; settlement -> USD/JPY flow -> returns. Adjust weekday/year only. Concurrent cross returns are descriptive, not causal controls."})
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py", line 29, in save
+    if path.read_text()!=encoded:raise RuntimeError(f"Immutable evidence differs: {path}")
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Immutable evidence differs: /home/quant/dev/quant/quant-research/run_log/tokyo_fix_program2_cross_currency_20261011_v1/T2_flow/result.json

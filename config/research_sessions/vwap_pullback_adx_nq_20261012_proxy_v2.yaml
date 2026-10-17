@@ -1,0 +1,110 @@
+# Version 2 registration: data-source correction. Preserve Phase 1 immutable v1.
+session_id: vwap_pullback_adx_nq_20261012_proxy_v2
+market: futures
+thesis: >-
+  Same frozen Strategy 2 economic thesis as vwap_pullback_adx_nq_20261012.
+  After a confirmed NQ opening-range upside breakout, a VWAP pullback/reclaim
+  with Wilder ADX14 >20 and first flat/falling ADX may forecast a higher
+  intraday forward return than the ungated OR plus VWAP reclaim.
+mechanism: >-
+  The cash-opening price-discovery rally may resume after countertrend
+  profit taking near session VWAP. ADX declining is a conditional gating
+  hypothesis, not proof of downward momentum exhaustion. This session
+  uses the LSE NQ.F vendor-defined continuous futures proxy because its
+  1-minute bars carry the cash OR and 15:55 CT timestamps. It is not
+  contract-resolved CME futures and the volume identity is unconfirmed.
+falsifier: >-
+  Reject the price-signal thesis if the full ADX-gated events do not
+  improve forward gross returns over no-ADX OR-VWAP reclaim controls in
+  development with credible uncertainty, or if the effect is too small
+  to cover plausible execution friction. Do not interpret Phase 3 gross
+  event returns as executable net PnL. Phase 4 cannot qualify CME futures
+  execution until contract-level rolls/volume and real costs are verified.
+instruments:
+  - symbol: NQ.F
+    kind: futures
+    venue: London Strategic Edge (provider-defined continuous futures proxy)
+    identity: >-
+      LSE continuous Nasdaq-100 futures-labelled NQ.F, not individual
+      CME NQ contract identities. Contract rolls, true exchange trade
+      volume and bid/ask execution are unverified; no CME-level claims.
+      The USD 20/point NQ multiplier is an illustrative unit for future
+      Phase 4 only, not an asserted LSE instrument contract multiplier.
+    session: >-
+      Cash OR 08:30-09:00 America/Chicago; signal close after 09:00,
+      hypothetical future entry next 1m open and no later than 15:55 CT;
+      early closes and XNYS holidays excluded from the Phase 3 sample.
+    timezone: America/Chicago
+data:
+  - id: nqf_dev_1m
+    symbol: NQ.F
+    role: prices
+    path: data/processed/vwap_adx_nqf_2026h1_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  retrospective_validation_start: "2026-07-01T00:00:00Z"
+  retrospective_validation_end: "2026-10-12T00:00:00Z"
+  plan: >-
+    Derive 2026 H1 one-minute dataset with Dec-2025 warmup from exact
+    LSE NQ.F source SHA256 documented in Phase 2 manifest. Only
+    Jan-Jun 2026 qualifies for Phase 3; do not read Jul-Oct results,
+    future November holdout sealed. Phase 3 use validated sessions
+    and indicators available only at each bar close. One independent
+    first OR-break/first VWAP-reclaim/first ADX-gated opportunity per
+    valid session for conservative clustered event diagnostics; this
+    is a first-setup event study, not the full uncapped state-machine
+    trade simulator. Report 1,5,10,30 minute next-open to future-close
+    *gross* returns and compare matched versus unmatched opportunities.
+    Do not optimize thresholds, targets, stops, or time windows here.
+  registered_logic:
+    OR: "08:30 to 08:59 CT exactly 30 complete 1-minute bars; high/low from completed OR."
+    breakout: "Fresh high crossing and close > OR high on a subsequent 1-minute completed bar."
+    vwap: "08:30 CT cumulative typical-price x source volume / source volume; source-reported volume is a proxy, not verified CME traded contracts."
+    reclaim: "Low <= completed-bar VWAP and close > VWAP; touch and reclaim may be the same candle. Touch must occur later than breakout bar."
+    adx: "ml4t.engineer ADX(14), first completed bar ADX>20 and ADX_t <= ADX_t-1; delayed ADX trigger allowed only while close stays above VWAP and no re-touch is required."
+    timing: "Each decision at close of minute t; event return measured from t+1 exact minute open; no future bars used to trigger the event."
+    risk: "No trade/backtest in Phase 3; no TP or SL fills are simulated. Same-bar hit ordering reserved for native Phase 4."
+  primary_comparisons: >-
+    B1 OR breakout first per day; B2 first OR+VWAP reclaim; B3 first
+    completed state-machine ADX gate per day. All B2 events and B3 events
+    compared, plus paired B2-B3 days to isolate timing shifts. Clustered
+    CI by session and report attrition and gate wait. Do not equate
+    selection on eventual B3 with a causal ADX effect.
+baseline: >-
+  B0 no trade, B1 OR breakout without VWAP, B2 OR+VWAP reclaim without
+  ADX, B3 full ADX-gated reclaim. Report descriptive forward gross
+  event paths and paired B2/B3 sessions; no trading PnL.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Zero schema placeholders, NOT zero-cost assumption. Phase 3 is
+    pre-cost event diagnostics only. Phase 4 barred from claims about
+    executable net strategy PnL without verified per-side NQ fees,
+    spread, stop slippage, true contract identities and roll execution.
+trials:
+  - id: T0_source_and_rules_gate
+    kind: diagnostic
+    description: >-
+      Check sourced LSE NQ.F continuous-proxy metadata, SHA256, timestamp
+      grid and America/Chicago DST, XNYS full cash sessions, OR minutes,
+      gaps, null/invalid OHLC, source volume, and true CME limitations.
+  - id: T1_event_study
+    kind: preregistered
+    description: >-
+      On Jan-Jun 2026 only, compute ml4t.engineer ADX14 and causal
+      cash-session VWAP; first breakout, reclaim, gated events;
+      1/5/10/30m forward gross returns, funnel attrition,
+      wait times and session-clustered 95pct confidence intervals;
+      compare B1/B2/B3 and matched B2/B3 session returns.
+  - id: T2_native_backtest
+    kind: preregistered
+    description: >-
+      Reserved for Phase 4, native ml4t.backtest and independently
+      checked contract/cost mapping, stops and exits; not run in Phase 3.
+evidence:
+  - config/research_sessions/vwap_pullback_adx_nq_20261012.yaml
+  - docs/audit/vwap_pullback_adx_nq_data_discovery_20261012.md
+  - run_log/vwap_pullback_adx_nq_20261012_proxy_v2/phase2_source_manifest.json

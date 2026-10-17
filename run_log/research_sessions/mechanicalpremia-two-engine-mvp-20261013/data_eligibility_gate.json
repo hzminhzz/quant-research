@@ -1,0 +1,36 @@
+{
+  "trial": "DATA-ELIGIBILITY",
+  "status": "FAILED_QUALIFICATION",
+  "observed_at": "2026-10-13",
+  "frozen_data": [
+    "data/processed/es_1m.parquet",
+    "data/processed/nq_1m.parquet"
+  ],
+  "development_only_count": {
+    "ES": 324590,
+    "NQ": 326599
+  },
+  "development_date_start": "2024-01-01",
+  "development_cutoff_exclusive": "2025-01-01",
+  "qualifying_years": 1,
+  "failure_codes": [
+    "INSTRUMENT_SYMBOL_MISMATCH: frozen ES_PROXY vs internal ES; NQ_PROXY vs internal NQ",
+    "SOURCE_MANIFEST_MISMATCH: referenced _manifest.json covers 7 LSE datasets not these 2 proxies",
+    "CFD_CONTRACT_TERMS_UNVERIFIED",
+    "VENUE_QUOTE_AND_SPREAD_UNVERIFIED",
+    "CALENDAR_SESSION_MAPPING_ASSUMED"
+  ],
+  "holdout_exposure": {
+    "type": "ADMINISTRATIVE_FULL_FILE_METADATA_INSPECTION",
+    "trigger": "scripts/research_session.py check on frozen full-year files",
+    "observed": "File-level timestamps and row counts include 2025 observations",
+    "price_return_features_or_trades_after_cutoff": "NOT RUN",
+    "strict_policy": "BREACHED at metadata-inspection level; cannot certify pristine holdout",
+    "next_action": "Quarantine this future data from any final-test claim; use a genuinely unseen independent future window for eventual promotion"
+  },
+  "decision": "DATA_ELIGIBILITY_NOT_CERTIFIED",
+  "artifacts": [
+    "scripts/mechanicalpremia_native_20261013.py",
+    "run_log/research_sessions/mechanicalpremia-two-engine-mvp-20261013/native_research_v2"
+  ]
+}

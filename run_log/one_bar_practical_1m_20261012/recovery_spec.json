@@ -1,0 +1,46 @@
+{
+  "trial_id": "RESHARD-ANNUAL-20261012",
+  "frozen_at_utc": "2026-10-11T17:41:19Z",
+  "classification": "EXPLORATORY retrospective; not deployment approval",
+  "source": "Dukascopy USATECH.IDX/USD BID 1-minute CFD proxy; not CME NQ",
+  "source_manifest": "run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json",
+  "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+  "period": {
+    "start": "2013-01-01",
+    "end": "2026-07-14",
+    "calendar": "America/Chicago 17:00 session date",
+    "protected_after": "2026-07-14"
+  },
+  "strategy": {
+    "rules_changed": false,
+    "lookback": "highest high / lowest low from 50 fully completed session-anchored 30-minute bars",
+    "entry": "native buy STOP and sell STOP; OCO behavior as modeled by installed ML4T Broker; max 2 filled entries per Chicago session date",
+    "protective_stop": "50 index points, illustrative $1,000 at $20 per point",
+    "exit": "native market order at next 30-minute boundary opening source minute; next observed source minute if boundary minute is absent",
+    "execution": "all observed source 1-minute OHLC rows retained, including partial 30-minute bins",
+    "ambiguity": "retain native fills as modeled; report separate worst-case bound for same-minute OCO/protective-stop ambiguity"
+  },
+  "partitioning": {
+    "engine": "ml4t.backtest Engine / Strategy / DataFeed only",
+    "unit": "one Chicago session year per child process",
+    "warmup": "14 calendar days and at least 80 complete prior 30-minute bars where source permits",
+    "state": "replay native strategy during warmup; continue active positions after evaluation end for up to 7 days; no new entries after evaluation end",
+    "account": "each yearly child starts at $1,000,000; full-period account path is not represented as continuous",
+    "source_end_execution_exception": "2026 data stops at 2026-07-14; unresolved open trades at that cutoff remain reported, with no later data used"
+  },
+  "trials": [
+    {"id": "A", "name": "native_zero_cost", "commission_per_fill_usd": 0, "adverse_slippage_points_per_fill": 0},
+    {"id": "B", "name": "native_full_tick_cost", "commission_per_fill_usd": 2.5, "adverse_slippage_points_per_fill": 0.25},
+    {"id": "D", "name": "conservative_ambiguous_bound", "source_trial": "B", "method": "replace each unique ambiguous event by -$1,000 nominal plus round-trip commission and slippage; diagnostic, not native replay"}
+  ],
+  "selection": "No parameter or rule selection. Report all requested annual results and failures.",
+  "selected_skills": [
+    {"name": "ml4t-run-backtest", "local_path": "/home/quant/.agents/skills/ml4t-run-backtest/SKILL.md", "invariant": "native Strategy, Engine and DataFeed; future-bar fills and explicit costs"},
+    {"name": "ml4t-polars-patterns", "local_path": "/home/quant/.agents/skills/ml4t-polars-patterns/SKILL.md", "invariant": "sorted Polars transforms and lazy parquet filtering"},
+    {"name": "ml4t-calendar-ops", "local_path": "/home/quant/.agents/skills/ml4t-calendar-ops/SKILL.md", "invariant": "Chicago session-day grouping with DST-aware timestamps"},
+    {"name": "ml4t-lookahead-bias", "local_path": "/home/quant/.agents/skills/ml4t-lookahead-bias/SKILL.md", "invariant": "release stop levels only after the complete 30-minute bar is known"},
+    {"name": "ml4t-validate-data", "local_path": "/home/quant/.agents/skills/ml4t-validate-data/SKILL.md", "invariant": "source hashes, timestamp uniqueness, nulls and OHLC integrity"},
+    {"name": "ml4t-cost-model", "local_path": "/home/quant/.agents/skills/ml4t-cost-model/SKILL.md", "invariant": "native per-fill commission and adverse slippage"}
+  ],
+  "api_evidence": "The active repository .venv contains ml4t.backtest; Engine(DataFeed, Strategy, BacktestConfig).run() and DataFeed(prices_df, signals_df) signatures were inspected locally. TinyFish tools are not available in this session."
+}

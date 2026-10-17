@@ -1,0 +1,65 @@
+{
+  "session": "crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1",
+  "audit_type": "independent_terminal_review",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "terminal_decision": "INCONCLUSIVE",
+  "decision_basis": [
+    "The frozen experiment required a full point-in-time Top-40 matched universe, but 65 of 654 decision dates have fewer than 40 eligible matched contracts and the minimum cross-section is 23.",
+    "The repository v1 research-session file audit is BLOCKED for this panel representation because it assumes globally unique/sorted timestamps and single-symbol file identity; prices_2023 also exceeds its 1,000,000-row audit bound.",
+    "Observed candidate signal evidence is adverse but cannot formally reject the exact frozen Top-40 thesis after the data contract failed."
+  ],
+  "observed_evidence": {
+    "development_start": "2020-06-01T00:00:00Z",
+    "development_end_exclusive": "2024-01-01T00:00:00Z",
+    "protected_2024_plus_accessed": false,
+    "decision_dates": 654,
+    "dates_below_40": 65,
+    "cross_section_min": 23,
+    "cross_section_median": 40,
+    "cross_section_max": 40,
+    "eligible_basket_cycles": 488,
+    "candidate": {
+      "mean_rank_ic": 0.01564281743309597,
+      "hac_se": 0.010688880073109702,
+      "hac_t_stat": 1.4634664554286672,
+      "p_value": 0.14382243878310474,
+      "ic_ir": 0.05718769646583172,
+      "n_periods": 652
+    },
+    "naive_funding_baseline": {
+      "mean_rank_ic": 0.03152322552965052,
+      "hac_se": 0.00772152016592534,
+      "hac_t_stat": 4.082515470044467,
+      "p_value": 0.00005007646677589716,
+      "ic_ir": 0.1631482961826352,
+      "n_periods": 654
+    },
+    "independent_numeric_recalculation": {
+      "candidate_n": 652,
+      "candidate_mean_rank_ic": 0.015642817433095965,
+      "candidate_hac_t_stat": 1.463466455428667,
+      "candidate_hac_se": 0.010688880073109704,
+      "matches_ml4t_diagnostic": true
+    },
+    "clock_audit": {
+      "all_entry_labels_equal_decision_plus_1h": true,
+      "all_exit_labels_equal_entry_plus_48h": true,
+      "latest_decision_timestamp": "2023-12-29T00:00:00Z"
+    }
+  },
+  "source_corrections": {
+    "canonical_ohlcv_start": "2020-01-01T00:00:00Z",
+    "canonical_ohlcv_symbols": 864,
+    "canonical_ohlcv_rows": 15690939,
+    "funding_dataset_directories": 528,
+    "gemini_660_plus_funding_claim_verified": false,
+    "non_8h_funding_events_2022": 565,
+    "non_8h_funding_events_2023": 13511,
+    "feature_correction_before_freeze": "cum_funding_24h is the sum of all actual funding settlements observed in the trailing 24h, not the last three settlements."
+  },
+  "portfolio_stage_executed": false,
+  "portfolio_stage_reason": "Fail-closed: exact frozen data/universe contract was not satisfied. No post-hoc start-date change and no native portfolio backtest were run.",
+  "post_freeze_implementation_change": "Only terminal-status precedence and append-only overwrite protection were corrected after observing the result. Signal, universe, label, thresholds and measured statistics were not changed.",
+  "next_action": "A new preregistered trial would need a prospectively chosen eligible start/data contract and a panel-compatible audit representation. This run must not be reclassified as that new trial."
+}

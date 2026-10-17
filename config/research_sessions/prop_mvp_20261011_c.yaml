@@ -1,0 +1,53 @@
+session_id: prop_mvp_20261011_c
+status: EXPLORATORY
+approval_status: NOT_APPROVED
+market: equity_index_reference
+thesis: >-
+  A completed 09:30-09:45 America/New_York opening range break predicts cash
+  session direction through 16:00 ET on SPX500 and NAS100 reference series.
+mechanism: >-
+  Scheduled opening liquidity demand may persist after price discovery; the
+  impulse may instead reverse. Vendor index/CFD aliases do not prove tradeability.
+falsifier: >-
+  Reject further validation if retrospective net results fail under doubled
+  costs or delayed fills. Broker and venue parity remain blocked without exact
+  instrument mapping and documented fees.
+instruments:
+  - symbol: SPX500
+    kind: vendor index/CFD alias
+    venue: source unverified; not asserted as Vest or Propr contract
+    timezone: America/New_York
+  - symbol: NAS100
+    kind: vendor index/CFD alias
+    venue: source unverified; not asserted as Vest or Propr contract
+    timezone: America/New_York
+data:
+  - id: spx_15m
+    role: prices
+    path: data/processed/SPX500_USD_15m_2017_2026.parquet
+  - id: nas_5m
+    role: prices
+    path: data/processed/NAS100_5m_2017_2026.parquet
+evaluation:
+  development: 2017-01-03 through 2026-07-31 only; retrospective historical evidence
+  protected_holdout: 2026-08-01 onward; do not read prices or outcomes
+  range: first complete 09:30-09:45 ET window
+  entry: first 5-minute close beyond range after 09:45 ET; NEXT_BAR fill
+  exit: decision at 15:50 ET for 15:55 ET next-bar fill on 5m data; decision at 15:30 ET for 15:45 ET next-bar fill on 15m fallback
+  calendar: America/New_York DST and XNYS sessions
+  last_verified_data_timestamp: 2026-07-31T20:55:00Z for NAS100; 2026-07-31T20:45:00Z for SPX500
+  source: Local vendor index aliases; exact provider, executable venue, multiplier, and fee schedule are unverified.
+costs:
+  commission_bps_each_fill: 2.0 assumed proxy
+  slippage_bps_each_fill: 3.0 assumed proxy
+  broker_specific: unknown
+trials:
+  - id: opening_range_baseline
+    kind: preregistered
+    description: One 15-minute opening range break per session and instrument.
+  - id: cost_2x
+    kind: diagnostic
+    description: Double proxy costs.
+  - id: extra_bar_delay
+    kind: diagnostic
+    description: Delay entry decision by an additional bar.

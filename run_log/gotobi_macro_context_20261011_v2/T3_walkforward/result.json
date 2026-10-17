@@ -1,0 +1,138 @@
+{
+  "folds": [
+    {
+      "year": 2023,
+      "train_n": 185,
+      "test_n": 62,
+      "train_through": "2022-12-30",
+      "test_from": "2023-01-05",
+      "train_mean_pips": 4.829729729730023,
+      "model_fit": [
+        {
+          "name": "ridge_calendar_only",
+          "features": [
+            "month_end",
+            "rolled"
+          ],
+          "test_rmse": 31.01734069284648,
+          "n_traded": 62,
+          "coef_scaled": [
+            -1.1801203883437175,
+            -0.6044526466611979
+          ],
+          "intercept": 4.829729729730023
+        },
+        {
+          "name": "ridge_with_yield",
+          "features": [
+            "month_end",
+            "rolled",
+            "spread_10y"
+          ],
+          "test_rmse": 32.10790796357356,
+          "n_traded": 62,
+          "coef_scaled": [
+            -1.1686139157993884,
+            -0.5754690081457028,
+            1.899899583286048
+          ],
+          "intercept": 4.829729729730023
+        }
+      ],
+      "train_mean_test_rmse": 30.992505897101058
+    },
+    {
+      "year": 2024,
+      "train_n": 247,
+      "test_n": 62,
+      "train_through": "2023-12-29",
+      "test_from": "2024-01-05",
+      "train_mean_pips": 3.214574898785873,
+      "model_fit": [
+        {
+          "name": "ridge_calendar_only",
+          "features": [
+            "month_end",
+            "rolled"
+          ],
+          "test_rmse": 41.227758139060604,
+          "n_traded": 44,
+          "coef_scaled": [
+            -0.24552189317745796,
+            -2.795831883482854
+          ],
+          "intercept": 3.214574898785873
+        },
+        {
+          "name": "ridge_with_yield",
+          "features": [
+            "month_end",
+            "rolled",
+            "spread_10y"
+          ],
+          "test_rmse": 41.050268760865386,
+          "n_traded": 44,
+          "coef_scaled": [
+            -0.24547963659113523,
+            -2.8288114523440835,
+            -1.0770867764515168
+          ],
+          "intercept": 3.214574898785873
+        }
+      ],
+      "train_mean_test_rmse": 41.4376880058991
+    },
+    {
+      "year": 2025,
+      "train_n": 309,
+      "test_n": 61,
+      "train_through": "2024-12-25",
+      "test_from": "2025-01-10",
+      "train_mean_pips": 1.7805825242723627,
+      "model_fit": [
+        {
+          "name": "ridge_calendar_only",
+          "features": [
+            "month_end",
+            "rolled"
+          ],
+          "test_rmse": 33.76187625955127,
+          "n_traded": 42,
+          "coef_scaled": [
+            -1.2605324750275206,
+            -3.3543452686556474
+          ],
+          "intercept": 1.7805825242723625
+        },
+        {
+          "name": "ridge_with_yield",
+          "features": [
+            "month_end",
+            "rolled",
+            "spread_10y"
+          ],
+          "test_rmse": 33.635332933544184,
+          "n_traded": 41,
+          "coef_scaled": [
+            -1.2677887872276195,
+            -3.422154839441498,
+            -2.0052147873746233
+          ],
+          "intercept": 1.780582524272363
+        }
+      ],
+      "train_mean_test_rmse": 33.632060886693175
+    }
+  ],
+  "n_predicted": 185,
+  "models": [
+    "ridge_calendar_only",
+    "ridge_with_yield"
+  ],
+  "alpha": 10.0,
+  "binary_decision": "predict net pips > 0",
+  "threshold_tuning": false,
+  "model_select_from_test": false,
+  "yield_vintages_verified": false,
+  "policy_event_archive_used_as_model_feature": false
+}

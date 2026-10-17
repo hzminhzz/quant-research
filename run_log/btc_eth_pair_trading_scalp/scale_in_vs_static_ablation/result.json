@@ -1,0 +1,43 @@
+{
+  "trial_id": "scale_in_vs_static_ablation",
+  "evidence_type": "descriptive_diagnostic",
+  "parameters": {
+    "max_hold_hours": 24,
+    "divergence_threshold": 0.02,
+    "lookback_window": 60
+  },
+  "comparison": {
+    "scale_in_enabled": {
+      "final_equity": 4463.281723817596,
+      "total_net_return": -0.9553671827618241,
+      "mean_daily_net_return": -0.04309763331877572,
+      "annualized_sharpe": -0.9851720306471506,
+      "max_drawdown": 1.0088876650650085,
+      "trades_completed": 230,
+      "profitable_trades": 203,
+      "time_exit_trades": 27,
+      "win_rate": 0.8826086956521739,
+      "avg_hold_hours": 3.328550724637681,
+      "total_fees_paid": 5867.748992886507,
+      "total_funding_paid": -37.800438930728504
+    },
+    "static_single_entry": {
+      "final_equity": 96106.97432306621,
+      "total_net_return": -0.03893025676933787,
+      "mean_daily_net_return": -7.649758661029591e-05,
+      "annualized_sharpe": -1.5383211985004788,
+      "max_drawdown": 0.047208851665347704,
+      "trades_completed": 193,
+      "profitable_trades": 181,
+      "time_exit_trades": 12,
+      "win_rate": 0.9378238341968912,
+      "avg_hold_hours": 2.704231433506045,
+      "total_fees_paid": 4636.0277241581425,
+      "total_funding_paid": -25.637435306053423
+    }
+  },
+  "findings": {
+    "scale_in_impact": "Scale-in increased trading fees and worsened max drawdown on forced 24h exits.",
+    "time_barrier_impact": "Enforcing a 24h limit prevents capital from becoming permanently trapped across months."
+  }
+}

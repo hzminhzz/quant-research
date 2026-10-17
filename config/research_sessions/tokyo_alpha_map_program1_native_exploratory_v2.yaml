@@ -1,0 +1,93 @@
+session_id: tokyo_alpha_map_program1_native_exploratory_v2
+market: fx
+thesis: >-
+  Exploratory event-driven continuation of frozen Tokyo Alpha Map Program 1:
+  evaluate calendar-defined Gotobi USDJPY short from 09:56 to 10:10 JST,
+  original pre-fix long from 08:30 to 09:54, and same-window ordinary-session
+  short benchmark, without asserting a significant Gotobi-specific premium.
+mechanism: >-
+  Predictable settlement-related demand around 09:55 JST may reverse
+  after fixing; observed price effects may also reflect broad daily seasonality.
+falsifier: >-
+  Economic approval is withheld unless Gotobi-specific adjusted premium,
+  after-cost expectancy and robust calendar coverage pass the prior frozen gates.
+  This additional version runs exploratory native Engine execution despite
+  prior statistical nonqualification; old Program1 decisions remain unchanged.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: >-
+      Canonical LSE USDJPY one-minute OHLC price proxy, quote JPY per USD,
+      not executable retail bid/ask or a verified brokerage contract.
+    timezone: Asia/Tokyo
+    session: Tokyo FX fix
+data:
+  - id: year_2020
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet
+  - id: year_2021
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet
+  - id: year_2022
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet
+  - id: year_2023
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet
+  - id: year_2024
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet
+  - id: year_2025
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet
+  - id: year_2026
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2026-08-31T15:00:00Z"
+  holdout_start: "2026-08-31T15:00:00Z"
+  holdout_end: "2026-10-10T00:00:00Z"
+  prior_session: tokyo_alpha_map_program1_v1
+  full_window_prior_gate: "999/1627 complete 03:00-12:00 JST, rejected"
+  this_window: "08:29-10:10 JST contiguous 102 minute opens, no fill interpolation"
+  accounting: >-
+    $10000 initial USD equity, fixed $10000 base notional USDJPY,
+    no compounding, native Engine uses JPY proxy ledger, realized USD profits
+    converted from native filled quote-JPY cash flows at executed exit FX rate.
+baseline: >-
+  Unconditional short on ordinary Tokyo bank business dates with identical
+  09:56-10:10 entry/exit timestamps.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  base_roundtrip_pips: 1.0
+  assumed_cost_sensitivity_pips: [0.8, 1.0, 1.4]
+  caveat: "Illustrative all-in 0.5 pip per fill; no executable bid/ask."
+trials:
+  - id: T0_interval_data_gate
+    kind: diagnostic
+    description: Complete window 08:29-10:10 JST and missingness by year/weekday
+  - id: T1_gotobi_short
+    kind: preregistered
+    description: Native Engine short 09:56-10:10 on all eligible Gotobi dates
+  - id: T2_ordinary_short
+    kind: preregistered
+    description: Native Engine short 09:56-10:10 on ordinary Tokyo bank days
+  - id: T3_gotobi_long_reference
+    kind: preregistered
+    description: Native Engine buy 08:30 exit 09:54 Gotobi reference
+  - id: T4_independent_oracle
+    kind: diagnostic
+    description: Reconcile every native fill against source one-minute opens and USD FX translation
+  - id: T5_comparison
+    kind: diagnostic
+    description: Weekday/year-adjusted short Gotobi increment HAC, annual performance and trial decision

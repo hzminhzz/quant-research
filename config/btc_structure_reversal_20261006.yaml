@@ -1,0 +1,98 @@
+session_id: btc-structure-reversal-20261006
+status: EXPLORATORY
+approval_status: NOT_APPROVED
+trial_count: 1
+
+research_question: >-
+  Conditional on an established bearish swing structure, does a causal close
+  above the most recent confirmed lower high identify a tradable BTCUSDT
+  1-hour upside reversal?
+
+hypothesis: >-
+  A downtrend with descending confirmed swing highs and swing lows shows
+  persistent supply. A close that crosses above the latest confirmed lower
+  high by a volatility-scaled buffer can mark a failure of that bearish
+  structure and produce positive long expectancy.
+
+falsifier: >-
+  The baseline does not justify another feature-filter trial if 2025 OOS net
+  expectancy is non-positive, or if results are too sparse or unstable to
+  distinguish a structural effect from noise.
+
+instrument:
+  symbol: BTCUSDT
+  venue: Binance USD-M Futures
+  kind: linear_perpetual
+  bar_frequency: 1h
+  timezone: UTC
+
+data:
+  price_source: ml4t-data canonical Binance USD-M 1h OHLCV store
+  price_path: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1h_BINANCE_UM_PERP/symbol=BTCUSDT
+  funding_source: ml4t-data canonical Binance USD-M funding store
+  funding_path: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_funding_BTCUSDT_PERP
+  start: "2024-01-01T00:00:00Z"
+  end_exclusive: "2026-01-01T00:00:00Z"
+  download_allowed: false
+
+evaluation:
+  development:
+    start: "2024-01-01T00:00:00Z"
+    end_exclusive: "2025-01-01T00:00:00Z"
+  oos:
+    start: "2025-01-01T00:00:00Z"
+    end_exclusive: "2026-01-01T00:00:00Z"
+  signal_time: completed hourly close
+  execution_time: next hourly open
+  same_bar_entry: prohibited
+  force_flat_at_period_end: true
+
+signal:
+  swing:
+    type: fractal
+    left_bars: 2
+    right_bars: 2
+    confirmation_delay_bars: 2
+    pivot_high: high_i > both_prior_highs AND high_i >= both_next_highs
+    pivot_low: low_i < both_prior_lows AND low_i <= both_next_lows
+  bearish_structure:
+    rule: latest_two_confirmed_highs_descend AND latest_two_confirmed_lows_descend
+  atr:
+    period: 14
+    method: Wilder
+    causal: true
+  entry:
+    rule: first_cross_above_latest_confirmed_swing_high_plus_buffer
+    buffer_atr: 0.10
+    crossing: previous_close <= previous_threshold AND current_close > current_threshold
+  position_limit: 1
+  side: long_only
+
+exit:
+  initial_stop: most_recent_confirmed_swing_low_at_signal_time
+  target_r_multiple: 2.0
+  max_holding_bars: 120
+  time_exit: open_of_bar_120_hours_after_entry
+  trailing_stop: false
+  same_bar_stop_target_tie: stop_first
+  reject_if_stop_not_below_fill: true
+
+sizing:
+  gross_notional: 1.0
+  leverage: 1.0
+
+costs:
+  execution_bps_per_side: 5.0
+  funding: actual_signed_BTCUSDT_funding_while_long
+  positive_funding_means_long_pays: true
+  impact_model: none
+  capacity_claim_allowed: false
+  note: exploratory cost proxy inherited from the existing BTC perpetual research convention
+
+prohibited_in_baseline:
+  - EMA filter
+  - VWAP filter
+  - regime filter
+  - machine_learning
+  - parameter_search
+  - alternative_variants

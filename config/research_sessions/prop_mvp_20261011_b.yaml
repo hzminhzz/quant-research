@@ -1,0 +1,50 @@
+session_id: prop_mvp_20261011_b
+status: EXPLORATORY
+approval_status: NOT_APPROVED
+market: crypto_perpetuals
+thesis: >-
+  Forced liquidations create temporary price dislocations in BTCUSDT and ETHUSDT
+  that reverse after the forced flow ends.
+mechanism: >-
+  Forced market orders can temporarily move prices away from short-horizon fair
+  value. This mechanism requires timestamped venue liquidation or force-order
+  observations; OHLCV alone cannot identify forced flow.
+falsifier: >-
+  The liquidation mechanism remains BLOCKED unless a timestamped, venue-matched
+  historical liquidation source and valid coverage are verified. The separately
+  declared OHLCV dislocation proxy is not liquidation evidence.
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M reference; mapping unknown
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M reference; mapping unknown
+data:
+  - id: btc_1m
+    role: prices
+    path: data/processed/btc_1m.parquet
+  - id: eth_1m
+    role: prices
+    path: data/processed/eth_1m.parquet
+evaluation:
+  development: 2024-01-01 through 2025-05-31 UTC, retrospective; no 2026 1m coverage
+  protected_holdout: 2026-08-01 onward; do not read prices or outcomes
+  proxy: previous completed bar return <= -3 prior-bar ATR; long next bar; 12-bar time exit
+  fill: NEXT_BAR market fills; fixed 1x notional; no overlapping positions per symbol
+  last_verified_data_timestamp: 2025-05-31T23:59:00Z
+  data_identity: Local processed BTC/ETH 1m OHLCV; provider provenance unverified.
+costs:
+  commission_bps_each_fill: 4.5 exploratory Binance reference
+  slippage_bps_each_fill: 5.0 assumed taker proxy
+  funding: omitted and disclosed
+trials:
+  - id: liquidation_mechanism_audit
+    kind: diagnostic
+    description: Identify real historical timestamped liquidation/force-order source and venue coverage.
+  - id: price_only_proxy
+    kind: preregistered
+    description: One frozen OHLCV dislocation rule, explicitly not a liquidation strategy.
+  - id: matched_high_vol_control
+    kind: diagnostic
+    description: Compare the same post-signal holding horizon in ordinary high-volatility bars.

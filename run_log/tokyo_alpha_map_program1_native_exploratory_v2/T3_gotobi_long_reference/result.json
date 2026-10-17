@@ -1,0 +1,100 @@
+{
+  "arm": "H1_long",
+  "status": "NATIVE_ENGINE_PASS_RESEARCH_EXPLORATORY",
+  "starting_balance_usd": 10000.0,
+  "fixed_base_notional_usd": 10000.0,
+  "trades": 458,
+  "actual_fills": 916,
+  "first_date": "2020-01-10",
+  "last_date": "2026-08-28",
+  "gross_mean_pips": 2.33657205240237,
+  "net_mean_pips": 1.3365720524023699,
+  "net_pnl_usd": 456.9384411500197,
+  "end_equity_usd": 10456.93844115002,
+  "cumulative_return_pct": 4.569384411500197,
+  "win_rate": 0.537117903930131,
+  "profit_factor": 1.213444624073419,
+  "daily_closed_sharpe_with_bank_day_flats": 0.603146260345606,
+  "max_closed_trade_drawdown_usd": -211.9234709149132,
+  "max_closed_trade_drawdown_pct_initial": -2.119234709149132,
+  "simulated_cost": "1 pip round trip, 0.5 pip each fill; not broker-calibrated",
+  "sensitivity_mean_net_pips": {
+    "0.8": 1.5365720524023698,
+    "1.0": 1.3365720524023699,
+    "1.4": 0.93657205240237
+  },
+  "native_quote_initial_jpy": 1095140.0,
+  "native_quote_total_pnl_jpy": 61215.00000003632,
+  "native_quote_recon_error_jpy": 7.785274647176266e-09,
+  "years": [
+    {
+      "year": 2020,
+      "trades": 64,
+      "net_usd": 115.6049371146133,
+      "net_pips_mean": 1.8968750000001533,
+      "net_pips_total": 121.40000000000981,
+      "win_rate": 0.515625,
+      "profit_factor": 1.5267154465067942
+    },
+    {
+      "year": 2021,
+      "trades": 70,
+      "net_usd": 102.6587116075642,
+      "net_pips_mean": 1.5942857142859574,
+      "net_pips_total": 111.60000000001702,
+      "win_rate": 0.5857142857142857,
+      "profit_factor": 1.6240918615319717
+    },
+    {
+      "year": 2022,
+      "trades": 71,
+      "net_usd": 42.70945161815447,
+      "net_pips_mean": 1.1042253521131649,
+      "net_pips_total": 78.40000000003471,
+      "win_rate": 0.5070422535211268,
+      "profit_factor": 1.0974037730522974
+    },
+    {
+      "year": 2023,
+      "trades": 70,
+      "net_usd": 74.39219552527962,
+      "net_pips_mean": 1.4142857142867828,
+      "net_pips_total": 99.0000000000748,
+      "win_rate": 0.5428571428571428,
+      "profit_factor": 1.230494785703219
+    },
+    {
+      "year": 2024,
+      "trades": 70,
+      "net_usd": 86.06730119036611,
+      "net_pips_mean": 2.127142857143513,
+      "net_pips_total": 148.9000000000459,
+      "win_rate": 0.5714285714285714,
+      "profit_factor": 1.2158532567279146
+    },
+    {
+      "year": 2025,
+      "trades": 68,
+      "net_usd": -14.444796544193668,
+      "net_pips_mean": -0.35588235294036796,
+      "net_pips_total": -24.19999999994502,
+      "win_rate": 0.5,
+      "profit_factor": 0.9660180258189816
+    },
+    {
+      "year": 2026,
+      "trades": 45,
+      "net_usd": 49.9506406382356,
+      "net_pips_mean": 1.7122222222232923,
+      "net_pips_total": 77.05000000004816,
+      "win_rate": 0.5333333333333333,
+      "profit_factor": 1.2907908827437935
+    }
+  ],
+  "limitations": [
+    "All studied history was previously inspected, not unseen holdout",
+    "No executable bid/ask, commissions or financing, synthetic broker ledger",
+    "Drawdown based on closed trades only; not intratrade MTM",
+    "No evidence that Gotobi-specific effect survives multiple-testing correction"
+  ]
+}

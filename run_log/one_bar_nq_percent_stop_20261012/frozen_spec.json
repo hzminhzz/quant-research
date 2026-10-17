@@ -1,0 +1,146 @@
+{
+  "session_id": "one_bar_nq_percent_stop_20261012",
+  "status": "EXPLORATORY",
+  "classification": "historical counterfactual; no unseen out-of-sample period; no approval",
+  "parameter_freeze": {
+    "fraction": 0.0034250680732279552,
+    "anchor_year": 2021,
+    "anchor_median_entry_price": 14598.25,
+    "anchor_closed_costed_trades": 444,
+    "anchor_source": "run_log/one_bar_practical_1m_20261012/by_year/2021/native_full_tick_cost/evaluation_trades.csv",
+    "calculation": "50 index points / 14598.25 = 0.0034250680732279554",
+    "stop_points": "actual filled entry price * fraction",
+    "rounding": "long floor to 0.25 tick; short ceiling to 0.25 tick; stop never changes after fill",
+    "selection_limit": "2021 anchor was selected before this trial; 2013-2021 remain ex-post calibration/counterfactual data, not out-of-sample"
+  },
+  "hypothesis": "A fixed 0.34250680732279554% protective stop changes one-bar B0 risk and net PnL relative to B0's fixed 50-point stop.",
+  "falsifier": "The stop is not anchored to actual fill, violates one-contract/tick rules, or native stop executions and annual PnL do not reconcile to fills.",
+  "baseline": "Original practical B0 one-bar 30-minute breakout; unchanged; 50 index-point protective stop.",
+  "instrument": {
+    "source": "Dukascopy USATECH.IDX/USD BID one-minute CFD index proxy",
+    "identity_limit": "Not dated CME NQ futures; NQ-equivalent multiplier is an illustrative assumption.",
+    "multiplier_usd_per_point": 20.0,
+    "tick_points": 0.25,
+    "contracts": 1
+  },
+  "rules": {
+    "entries": "Previous 50 complete Chicago 17:00 America/Chicago anchored 30-minute highs/lows; native OCO-intended STOP orders; max two filled entries per Chicago session day; long and short.",
+    "exit": "Next 30-minute boundary market exit, or earlier protective STOP.",
+    "unchanged": [
+      "bar construction",
+      "lookback",
+      "entry levels",
+      "OCO intent",
+      "entry cap",
+      "contract count",
+      "multiplier",
+      "tick",
+      "scheduled exit",
+      "source data"
+    ],
+    "prohibited": [
+      "ATR",
+      "volatility sizing",
+      "MNQ",
+      "size model",
+      "entry/exit filters",
+      "parameter search"
+    ]
+  },
+  "data": {
+    "start_inclusive_utc": "2013-01-01",
+    "end_inclusive_utc": "2026-07-14",
+    "protected_after": "2026-07-14",
+    "source_manifest": "run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json",
+    "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "source_partitions": 163,
+    "verified_bytes": 74010288,
+    "configuration_sha256": "8b9cdd0537bd65327f4d06d1ef1049ed93f7dc667e1db9edd64a1752e880f947",
+    "baseline_code_sha256": "95324362fcd293d1e40b77fbc4276dc6cb68aede87e3d437ae7b34d89b48ddaa",
+    "yearly_runner_code_sha256": "145bd15960772b03f39b2d1e639097e5aaa5f4a46463cb459c1105ec9ad79a46",
+    "percent_strategy_code_sha256": "80b2d3cf8e6e41eac82a2fbd3645e45ad523bc6a60f4c9cde97ab60c369bf7df",
+    "comparison_runner_code_sha256": "659b5fcef10b39254cda8738b9e220b7328564183c48bff9630e36db5abb9cfd"
+  },
+  "costs": {
+    "percent_zero_cost": {
+      "commission_usd_per_fill": 0.0,
+      "adverse_slippage_points_per_fill": 0.0
+    },
+    "percent_costed": {
+      "commission_usd_per_fill": 2.5,
+      "adverse_slippage_points_per_fill": 0.25
+    },
+    "spread": "No separate spread assumption, to match B0 cost cases."
+  },
+  "planned_trials": [
+    {
+      "id": "PZ",
+      "name": "percent_zero_cost",
+      "status": "planned"
+    },
+    {
+      "id": "PC",
+      "name": "percent_costed",
+      "status": "planned"
+    }
+  ],
+  "method_skills": [
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "invariant": "Use native Engine, Strategy, DataFeed, future-event execution, and per-fill costs."
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "invariant": "Use actual filled entry only after fill; no future prices in stop calculation; release complete 30-minute levels causally."
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "path": ".agents/skills/ml4t-calendar-ops/SKILL.md",
+      "invariant": "Keep Chicago session-day grouping and timezone-aware boundaries across DST."
+    },
+    {
+      "name": "ml4t-validate-data",
+      "path": ".agents/skills/ml4t-validate-data/SKILL.md",
+      "invariant": "Verify source hashes, row identity, timestamps, OHLC, nulls, and annual coverage."
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "invariant": "Charge the frozen commission and adverse slippage on every fill; no extra cost assumptions."
+    },
+    {
+      "name": "ml4t-transaction-costs",
+      "path": ".agents/skills/ml4t-transaction-costs/SKILL.md",
+      "invariant": "Disclose cost assumptions and execution limits."
+    },
+    {
+      "name": "ml4t-risk-metrics",
+      "path": ".agents/skills/ml4t-risk-metrics/SKILL.md",
+      "invariant": "Report Sharpe with drawdown and Calmar on common daily dates."
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "invariant": "Use existing sorted Polars source and artifact processing."
+    }
+  ],
+  "method_conflicts": [
+    "Generic cost skill examples recommend spread and impact; the mission fixes B0's zero-cost and commission plus 0.25-point slippage cases, so no extra spread or impact is introduced."
+  ],
+  "installed_ml4t_api": {
+    "package": "ml4t.backtest",
+    "engine": "Engine(feed, strategy, config, contract_specs=...).run()",
+    "execution": "ExecutionMode.NEXT_BAR; StopFillMode.STOP_PRICE",
+    "gap_rule": "Native fill engine checks the opening price first and fills a stop at the gap-through open when it crosses the stop; otherwise at the stop price.",
+    "official_docs_retrieval": "TinyFish official docs fetch returned invalid_url; official-domain search returned no results. Local installed source/signatures were inspected."
+  },
+  "limitations": [
+    "1-minute OHLC does not reveal event order within a minute.",
+    "Native Engine has no atomic OCO; same-minute opposing STOP fills remain ambiguous.",
+    "Annual market exits may execute on the next source event where the exact boundary minute is absent.",
+    "All tested history was already observed; 2022-2026 is chronological after the parameter anchor but is not unseen OOS.",
+    "No CME futures mapping, live order, or trading-readiness inference."
+  ]
+}

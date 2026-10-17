@@ -1,0 +1,32 @@
+{
+  "trial_id": "trial_3_conviction_threshold_filtered",
+  "description": "Dead-Band Filtered Vol-Targeted TSMOM",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 16971.00360127382
+  },
+  "performance": {
+    "total_return": 0.697100360127382,
+    "annualized_sharpe": 0.12885651082044525,
+    "max_drawdown": 0.22438881269984393,
+    "win_rate": 0.2597997138769671,
+    "profit_factor": 1.1482128567556384
+  },
+  "execution": {
+    "trades": 3495,
+    "total_commission": 4906.622207933039,
+    "total_slippage": 1635.5411758317287,
+    "total_costs": 6538.456378351806,
+    "gross_pnl": 11735.41702088288,
+    "fee_drag_pct": 55.71558613312835
+  },
+  "falsifier_checks": {
+    "min_sharpe_0_80": false,
+    "max_drawdown_25_pct": true,
+    "fee_drag_under_35_pct": false
+  }
+}

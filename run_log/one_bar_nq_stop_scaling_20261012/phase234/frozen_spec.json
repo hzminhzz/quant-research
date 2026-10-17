@@ -1,0 +1,123 @@
+{
+  "status": "frozen_before_results",
+  "classification": "EXPLORATORY retrospective; NOT_APPROVED_FOR_LIVE",
+  "trial": "B2 only; 1.5 x ATR20; integer MNQ sizing to $1,000 nominal stop risk",
+  "hypothesis": "Volatility-scaled protective stops may reduce premature stop-outs without changing 50-bar breakouts or next-30m-open exits.",
+  "falsifier": "Native cost-aware result is non-positive per nominal R or intended stop/entry/accounting invariants fail; no optimization follows.",
+  "period_utc_date_inclusive": [
+    "2013-01-01",
+    "2026-07-14"
+  ],
+  "protected_after": "2026-07-14",
+  "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+  "bar_and_feature": {
+    "bar": "30m, 17:00 America/Chicago session anchored, only exactly 30 distinct source minutes qualify",
+    "atr": "ml4t.engineer.compute_features ATR period=20; standard True Range; TA-Lib-compatible Wilder smoothing verified against library output",
+    "decision_availability": "Feature computed from completed bar and released on its final one-minute row; order is NEXT_BAR and therefore first eligible on following source row.",
+    "stop": "ceil(1.5 * ATR20 / 0.25) * 0.25 points, protective trigger from actual filled entry price; native stop fill mode retained from baseline and gap behavior audited."
+  },
+  "unchanged_entry_exit": {
+    "lookback": 50,
+    "entries": "buy STOP at previous 50 complete highs; sell STOP at previous 50 complete lows; intended OCO",
+    "exit": "market order submitted on prior available minute for immediately next 30m boundary opening print; missing opening print may delay to next source event",
+    "daily_cap": "2 filled entry contracts/orders per Chicago session day",
+    "filters": "none"
+  },
+  "sizing": {
+    "budget_usd": 1000,
+    "formula": "floor(1000 / (2 USD/point * stop_distance_points))",
+    "skip_when_qty_below": 1,
+    "integer_contracts": true,
+    "gap_losses_can_exceed_budget": true
+  },
+  "contract_proxy": {
+    "symbol": "MNQ proxy",
+    "multiplier_usd_per_point": 2,
+    "tick_points": 0.25,
+    "initial_margin_per_contract_usd": 2500,
+    "maintenance_margin_per_contract_usd": 2000,
+    "margin_source": "Illustrative only; broker and dated-contract requirements unknown."
+  },
+  "cost_trials": [
+    {
+      "id": "B2_zero_cost",
+      "commission_per_contract_per_fill_usd": 0,
+      "slippage_points_per_fill": 0
+    },
+    {
+      "id": "B2_costed",
+      "commission_per_contract_per_fill_usd": 1.25,
+      "slippage_points_per_fill": 0.25,
+      "cost_source": "Illustrative, NOT broker-verified; spread/ASK is absent from source."
+    }
+  ],
+  "methodology_skills": [
+    {
+      "name": "ml4t-fetch-data",
+      "path": ".agents/skills/ml4t-fetch-data/SKILL.md",
+      "invariant": "verify partition identity and expected date range"
+    },
+    {
+      "name": "ml4t-validate-data",
+      "path": ".agents/skills/ml4t-validate-data/SKILL.md",
+      "invariant": "schema, finite OHLC, duplicates and gaps counted"
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "path": ".agents/skills/ml4t-calendar-ops/SKILL.md",
+      "invariant": "Chicago IANA DST and session-year attribution"
+    },
+    {
+      "name": "ml4t-compute-features",
+      "path": ".agents/skills/ml4t-compute-features/SKILL.md",
+      "invariant": "sorted causal ATR using complete bars"
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "invariant": "only completed data before entry; native NEXT_BAR"
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "invariant": "Polars sorted rolling and as-of operations"
+    },
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "invariant": "native Engine/Strategy/DataFeed; no hand-rolled fills"
+    },
+    {
+      "name": "ml4t-position-sizing",
+      "path": ".agents/skills/ml4t-position-sizing/SKILL.md",
+      "invariant": "integer risk-budget sizing and available margin"
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "invariant": "per-contract, per-fill commission and slippage"
+    },
+    {
+      "name": "ml4t-transaction-costs",
+      "path": ".agents/skills/ml4t-transaction-costs/SKILL.md",
+      "invariant": "show cost drag and missing spread caveat"
+    },
+    {
+      "name": "ml4t-risk-metrics",
+      "path": ".agents/skills/ml4t-risk-metrics/SKILL.md",
+      "invariant": "drawdown and loss tails alongside PnL"
+    },
+    {
+      "name": "ml4t-sensitivity-analysis",
+      "path": ".agents/skills/ml4t-sensitivity-analysis/SKILL.md",
+      "invariant": "no unregistered parameter sweep"
+    }
+  ],
+  "trial_count": 2,
+  "notes": [
+    "No new holdout is claimed.",
+    "2026 is already observed stress evidence.",
+    "Native opposing STOP orders are non-atomic; same-minute event ambiguity is reported.",
+    "Annual Engine cash resets are disclosed; annual summary is by Chicago entry-session year."
+  ]
+}

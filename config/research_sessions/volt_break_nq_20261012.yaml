@@ -1,0 +1,99 @@
+session_id: volt_break_nq_20261012
+market: futures
+thesis: >-
+  VOLT BREAK: Nasdaq-100 futures long-only momentum after a fixed 00:00
+  America/Chicago session-open volatility barrier and anchored session VWAP.
+  A completed 30-minute bar closing above both levels predicts positive
+  net-of-cost continuation into the 14:30 CT hard exit, despite fixed
+  $800 target / $1500 stop asymmetry.
+mechanism: >-
+  Large directional buying after morning price discovery may sustain momentum
+  above a prior-session-volatility-adjusted threshold and the current-session
+  volume-weighted average price. False breakouts, mean reversion, poor reward
+  versus risk, and trading friction may erase the advantage. No macro/news filter.
+falsifier: >-
+  Do not adopt if exact causal native backtest has nonpositive after-cost
+  expectancy against no trade, or if calendar-matched control and chronological
+  development results do not support a stable increment. Record win rate,
+  daily-equity Sharpe, Calmar, drawdown, payoff, trade count, and cost stress.
+  The claimed 67 percent win rate and $112 mean net win/trade are unverified
+  external claims, never acceptance evidence. Do not inspect protected holdout.
+instruments:
+  - symbol: NQ
+    kind: futures
+    venue: CME Globex
+    identity: >-
+      E-mini Nasdaq-100 Index futures; USD 20 per index point, 0.25 index
+      point minimum tick ($5). Actual dated contract and roll pairs required
+      for executable fills. MNQ comparator is USD 2 per point and $0.50/tick.
+    session: >-
+      00:00-14:30 America/Chicago research day; validate against actual
+      CME Globex exchange sessions, holidays, early closes and DST.
+    timezone: America/Chicago
+data:
+  - id: nq_minute_candidate
+    symbol: NQ
+    role: prices
+    path: data/processed/nq_1m.parquet
+evaluation:
+  development_start: "2024-01-01T00:00:00Z"
+  development_end: "2026-01-01T00:00:00Z"
+  holdout_start: "2026-09-01T00:00:00Z"
+  holdout_end: "2026-11-01T00:00:00Z"
+  plan: >-
+    Phase 1 registration only: no outcome test. Development interval is a
+    candidate and is subject to coverage gate. Prior 2026 observations in
+    related NQ research are already observed, not unseen OOS. Protected
+    September-October 2026 remains sealed. Phase 2 must verify dated contract
+    identity, volume, 00:00 CT bar availability, official CME calendar and
+    roll continuity. Bar grid anchored at 00:00 CT: close timestamps 10:00,
+    10:30 ... 14:00 are candidate entry decisions; next bar opens at same
+    timestamp in continuous market. Never submit entry at 14:30 hard exit.
+    True-range daily session convention must be frozen before feature
+    generation: preceding 15 completed trading sessions only; candidate daily
+    TR=max(H-L,abs(H-prevClose),abs(L-prevClose)) with no second smoothing,
+    pending verification of source phrase SMA15(ATR_Daily). If ATR_Daily
+    implies Wilder smoothing, register that as separate trial rather than
+    silently replace the primary definition. VWAP=sum(1m typical-price *
+    valid traded volume)/sum(valid volume) from 00:00 CT through decision,
+    not reconstructed from 30m close. Missing true exchange volume blocks
+    execution qualification.
+baseline: No trade and an explicitly registered same-window simple long comparator; compare gross and net expectations without optimized parameter selection.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Zero numeric fields are schema-only placeholders, NOT free execution.
+    Before Phase 4 replace with verified NQ/MNQ per-contract exchange,
+    clearing, broker and execution costs, spread, slippage, roll; report
+    stress cases. Use instrument tick/point multiplier in account ledger.
+trials:
+  - id: T0_data_and_rule_gate
+    kind: diagnostic
+    description: >-
+      Check canonical 1m source, dated contracts/rolls, volume, calendar,
+      30m grid, daily ATR semantics, TP/SL touch ordering and exact cutoff.
+  - id: T1_original_signal_diagnostics
+    kind: preregistered
+    description: >-
+      Static 00:00 CT noise up P_open+0.30*SMA15 prior daily ATR and VWAP;
+      long only; no macro filter; compare same-clock no-trade/control periods.
+  - id: T2_original_native_backtest
+    kind: preregistered
+    description: >-
+      Native ML4T Strategy/Engine: 30m close confirmation, next bar open
+      long, max three entries/day after confirmed flat; 1 NQ, $800 limit TP
+      (40 index points), $1500 stop-market SL (75 points); all exits at
+      14:30 CT, no overnight carry. Re-entry only after next qualifying
+      completed bar close. Prevent same-timestamp opposing fills.
+  - id: T3_chronological_validation
+    kind: preregistered
+    description: Chronological development folds, event-overlap purge, final sealed holdout.
+  - id: T4_refutation_and_cost_stress
+    kind: preregistered
+    description: >-
+      Higher costs, missed fills, ambiguous TP/SL ordering, holiday/DST
+      controls and predeclared 30m-bar timing; do not optimize levels.
+  - id: T5_independent_audit
+    kind: diagnostic
+    description: Independent signal-time, VWAP, ATR, roll, native fill, cash and trial-ledger audit.

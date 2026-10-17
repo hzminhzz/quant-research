@@ -1,0 +1,42 @@
+{
+  "manifest_version": 1,
+  "purpose": "Pre-outcome identity for the 1-minute source used to build TSMOM development bars and flow inputs.",
+  "source_audit": "run_log/fixed23_flow_repair_20261007.json",
+  "canonical_store": "/home/quant/dev/quant/ml4t-data/.data/store",
+  "datasets": [
+    "crypto_futures_minute_BTCUSDT_PERP",
+    "crypto_futures_minute_ETHUSDT_PERP",
+    "crypto_futures_minute_SOLUSDT_PERP"
+  ],
+  "source_window": {
+    "start_inclusive_utc": "2021-01-01T00:00:00Z",
+    "end_exclusive_utc": "2026-08-01T00:00:00Z",
+    "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+    "rows_per_symbol": 2934720,
+    "rows_per_symbol_expected": 2934720,
+    "schema_fields_used": ["timestamp", "open", "high", "low", "close", "volume", "quote_volume", "trade_count", "taker_buy_base_volume", "taker_buy_quote_volume"],
+    "partition_layout": "crypto_futures_minute_<SYMBOL>_PERP/year=YYYY/month=M/data.parquet; months 1 through 12 are unpadded.",
+    "included_partitions": "All 2021-2025 monthly partitions and 2026 months 1-7 for the three declared symbols. No 2026-08 or later partition is included."
+  },
+  "source_closure_sha256": "7219e2a3c1e5929861d27baa7db8713b53fb9d5873166c519fe9709d0c02d05a",
+  "source_closure_method": "sha256sum each included data.parquet in shell pathname-expansion order, including path names in each line, then sha256sum the resulting stream.",
+  "source_quality": {
+    "minute_gaps": 0,
+    "duplicate_timestamps": 0,
+    "null_quote_volume_rows": 0,
+    "null_taker_buy_quote_volume_rows": 0,
+    "negative_side_volume_rows": 0,
+    "taker_buy_quote_exceeds_total_rows": 0,
+    "zero_quote_and_zero_taker_rows": {"BTCUSDT": 367, "ETHUSDT": 272, "SOLUSDT": 276}
+  },
+  "derived_hourly_outputs": {
+    "method": "UTC 1-hour dynamic groups of exactly 60 consecutive minute bars.",
+    "rows_per_symbol": 48912,
+    "incomplete_bars": 0,
+    "paths": [
+      "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+      "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+      "data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_1h.parquet"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "recorded_before_supplemental_trials": true,
+  "reason": "Complete the mission's registered 1x/2x cost, extra-bar delay, matched-time placebo, and robustness audit requirements.",
+  "additions": {
+    "A": [
+      {"id": "matched_time_placebo_24h", "rule": "Use the prior day's 24-hour sign, a fixed 24-hour additional lag; no selection."}
+    ],
+    "B": [
+      {"id": "gross", "rule": "Same frozen OHLCV proxy with zero execution costs for gross/net decomposition."},
+      {"id": "cost_2x", "rule": "Double commission and slippage."},
+      {"id": "extra_bar_delay", "rule": "Shift entry trigger one additional minute; keep 12-bar exit."}
+    ],
+    "C": [
+      {"id": "gross", "rule": "Same opening range rule with zero execution costs."},
+      {"id": "matched_time_placebo", "rule": "Use the previous available session's signal at the same local clock time."}
+    ]
+  },
+  "robustness": {
+    "outliers": "Descriptive 1st/99th percentile trimmed mean of engine trade net_return; retain raw rows and report removed fraction.",
+    "regimes": "Descriptive calendar-year returns and trade counts from full native run; continuous account path, not independently reset cohorts."
+  },
+  "limitations": "Supplemental results are retrospective diagnostics and cannot create an untouched OOS sample."
+}

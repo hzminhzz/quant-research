@@ -1,0 +1,84 @@
+{
+  "session_id": "crypto_tsmom_flow_increment_20261008_v4",
+  "phase": "Phase 1: Thesis Freezing and Data Gate",
+  "status": "PASS",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "frozen_spec_sha256": "acf31212f55a0850605d2488efd4344a0c06fd247e29df9a9edbb30eb2718c7e",
+  "scope": {
+    "start_inclusive_utc": "2021-01-01T00:00:00Z",
+    "development_end_exclusive_utc": "2026-08-01T00:00:00Z",
+    "holdout_start_utc": "2026-08-01T00:00:00Z",
+    "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"]
+  },
+  "outcome_access": {
+    "v4_trials_run": 0,
+    "v4_strategy_metrics_computed": false,
+    "holdout_values_read": false
+  },
+  "checks": {
+    "research_session_cli_check": "PASS",
+    "hourly_prices_and_flow": {
+      "source_manifest": "run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json",
+      "raw_minute_rows_per_symbol": 2934720,
+      "expected_raw_minute_rows_per_symbol": 2934720,
+      "raw_minute_gaps": 0,
+      "raw_duplicate_timestamps": 0,
+      "hourly_rows_per_symbol": 48912,
+      "hourly_timestamps_unique_and_contiguous": true,
+      "each_hour_contains_60_consecutive_minutes": true,
+      "first_and_last_source_minutes_match_hour_boundary": true,
+      "invalid_ohlc_rows": 0,
+      "invalid_flow_rows": 0,
+      "zero_quote_denominator_hours_per_symbol": 1,
+      "zero_quote_denominator_timestamp_utc": "2024-10-28T20:00:00Z",
+      "zero_denominator_policy": "Retain the price bar; exclude the timestamp from both baseline and augmented flow diagnostics; do not impute flow."
+    },
+    "funding_and_event_marks": {
+      "funding_source_manifest": "run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json",
+      "mark_source_manifest": "run_log/crypto_tsmom_mark_price_inputs_20261008_source_manifest.json",
+      "funding_events": {"BTCUSDT": 6114, "ETHUSDT": 6114, "SOLUSDT": 6189},
+      "funding_interval_hours": {
+        "BTCUSDT": {"8": 6114},
+        "ETHUSDT": {"8": 6114},
+        "SOLUSDT": {"2": 99, "4": 2, "8": 6088}
+      },
+      "funding_rates_finite": true,
+      "event_timestamps_unique_and_sorted": true,
+      "mark_price_source": "Binance USD-M markPriceKlines, 1h interval, candle open at the UTC hour containing each funding event.",
+      "hourly_mark_bars_per_symbol": 48912,
+      "matched_funding_events": {"BTCUSDT": 6114, "ETHUSDT": 6114, "SOLUSDT": 6189},
+      "missing_or_invalid_event_marks": 0,
+      "funding_to_price_hour_matches_missing": 0,
+      "event_to_mark_open_age_ms": {"minimum": 0, "maximum": 47},
+      "funding_mark_files": {
+        "BTCUSDT": {
+          "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet",
+          "sha256": "750fd743783bc0285cde779d9c1573e12bf31b3c2f5a53b97e782ebcb8585a1a",
+          "rows": 6114
+        },
+        "ETHUSDT": {
+          "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet",
+          "sha256": "ee1864a96892c708b4ed6cb784b13373b22015335d77412fab48fce226231c23",
+          "rows": 6114
+        },
+        "SOLUSDT": {
+          "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/solusdt_funding.parquet",
+          "sha256": "c2972b2be8ae998f2789d9da973e8d3144934f4605111fcb287b9209077a9137",
+          "rows": 6189
+        }
+      }
+    }
+  },
+  "source_discrepancy": {
+    "artifact": "run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json",
+    "finding": "The prior manifest claims canonical mark_price values are finite and positive. The direct source and processed-file audits found historical mark_price values null. v3 was superseded before any trial. v4 uses the prior funding files only for event timestamps, symbols, funding intervals, and rates; v4 mark_price values come from the separate documented markPriceKlines source."
+  },
+  "limitations": [
+    "The event-aligned hourly mark-candle open is not the exact transaction mark. Its observed timestamp is 0-47 ms before the recorded funding event; Binance states actual funding transaction timing can deviate by up to 15 seconds.",
+    "Hourly fills cannot resolve intra-minute funding-versus-order priority; the frozen pre-open position rule is a deterministic convention.",
+    "The CLI identity audit alone does not certify calendar completeness, funding alignment, or point-in-time correctness. The coverage checks above establish those declared inputs only.",
+    "All data through 2026-07-31 is development or previously accessed evidence. The prospective holdout begins 2026-08-01 and remains unopened."
+  ],
+  "blocking_issues": []
+}

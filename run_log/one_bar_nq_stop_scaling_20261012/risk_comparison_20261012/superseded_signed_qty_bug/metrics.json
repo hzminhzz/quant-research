@@ -1,0 +1,1236 @@
+{
+  "status": "historical_review_only; NOT_APPROVED_FOR_LIVE",
+  "seed": 20261012,
+  "replicates": 5000,
+  "source_cutoff_inclusive_utc": "2026-07-14",
+  "pnl_attribution": "closed-trade net P&L assigned to UTC entry date; zeros on all other calendar days; B2 reporting-period membership uses frozen Chicago session_day",
+  "annualization": "365.25 calendar days; rf=0; sample standard deviation",
+  "periods": {
+    "full_historical": {
+      "date_start": "2013-01-01",
+      "date_end": "2026-07-14",
+      "B0": {
+        "ledger": "B0",
+        "trades": 5462,
+        "net_pnl_usd": 166107.92000000464,
+        "win_rate": 0.47821310875137313,
+        "ties": 0,
+        "profit_factor": 1.267195210751804,
+        "average_win_usd": 301.60047473200717,
+        "average_loss_usd": -218.13070877192916,
+        "expectancy_usd_per_trade": 30.411556206518608,
+        "worst_trade_usd": -9116.860000000015,
+        "max_consecutive_losses": 13,
+        "by_direction": {
+          "long": {
+            "trades": 3292,
+            "net_pnl_usd": 75179.94000001306
+          },
+          "short": {
+            "trades": 2170,
+            "net_pnl_usd": 90927.97999999157
+          }
+        },
+        "fees_usd": 27310.0,
+        "slippage_usd": 54620.0,
+        "cost_drag_usd_per_trade": 15.0,
+        "risk_unit_expectancy_r": 0.030411556206518604,
+        "risk_unit_win_rate": 0.47821310875137313,
+        "risk_unit_worst_trade_r": -9.116860000000015,
+        "risk_budget_utilization_median": 1.0,
+        "risk_budget_utilization_mean": 1.0,
+        "quantity_median_mnq": 1.0,
+        "quantity_median_nq_equivalent": 0.1,
+        "share_trades_over_10_mnq": 0.0,
+        "nominal_risk_over_1000_count": 0
+      },
+      "B2": {
+        "ledger": "B2",
+        "trades": 5459,
+        "net_pnl_usd": -142674.92999998963,
+        "win_rate": 0.42883311961897785,
+        "ties": 1,
+        "profit_factor": 0.8630901478203847,
+        "average_win_usd": 384.2091576249481,
+        "average_loss_usd": -334.33062816810815,
+        "expectancy_usd_per_trade": -26.135726323500574,
+        "worst_trade_usd": -14768.530000000028,
+        "max_consecutive_losses": 20,
+        "by_direction": {
+          "long": {
+            "trades": 3290,
+            "net_pnl_usd": -126511.80199997862
+          },
+          "short": {
+            "trades": 2169,
+            "net_pnl_usd": -16163.128000011027
+          }
+        },
+        "fees_usd": 321815.0,
+        "slippage_usd": 128726.0,
+        "cost_drag_usd_per_trade": 82.53178237772485,
+        "risk_unit_expectancy_r": -0.02553126125764538,
+        "risk_unit_win_rate": 0.42883311961897785,
+        "risk_unit_worst_trade_r": -14.80554385964915,
+        "risk_budget_utilization_median": 0.9775,
+        "risk_budget_utilization_mean": 0.9619271983879836,
+        "quantity_median_mnq": 8.0,
+        "quantity_median_nq_equivalent": 0.8,
+        "share_trades_over_10_mnq": 0.4259021798864261,
+        "nominal_risk_over_1000_count": 137,
+        "stored_r_multiple_max_abs_error": 0.0
+      },
+      "B0_daily": {
+        "calendar_days": 4943,
+        "net_pnl_usd": 166107.92000000464,
+        "daily_sharpe_usd": 1.2810991243366474,
+        "daily_sortino_usd": 1.3890748237357313,
+        "daily_sharpe_r_units": 1.2810991243366479,
+        "max_drawdown_usd": -21212.139999999083,
+        "max_drawdown_pct": -0.02120978274474483,
+        "drawdown_peak_index": 153,
+        "drawdown_trough_index": 1884,
+        "cagr_1m_initial_capital": 0.011419876674949814,
+        "calmar_1m_initial_capital": 0.5384249717399546,
+        "annualized_net_usd_over_max_drawdown_usd": 0.578636025958053
+      },
+      "B2_daily": {
+        "calendar_days": 4943,
+        "net_pnl_usd": -142674.92999998963,
+        "daily_sharpe_usd": -0.8831182691439465,
+        "daily_sortino_usd": -0.9227447917966425,
+        "daily_sharpe_r_units": -0.8369391010131325,
+        "max_drawdown_usd": -263421.15199999535,
+        "max_drawdown_pct": -0.26342115199999533,
+        "drawdown_peak_index": 0,
+        "drawdown_trough_index": 1935,
+        "cagr_1m_initial_capital": -0.011310404002403907,
+        "calmar_1m_initial_capital": -0.04293658241386822,
+        "annualized_net_usd_over_max_drawdown_usd": -0.040021801866699847
+      },
+      "counterfactual_B2_scaled_to_1_NQ_equivalent": {
+        "ledger": "B2_linear_10_MNQ",
+        "trades": 5459,
+        "net_pnl_usd": -40997.319999977684,
+        "win_rate": 0.46858398974171095,
+        "ties": 1,
+        "profit_factor": 0.9444554998773897,
+        "average_win_usd": 272.51810789679865,
+        "average_loss_usd": -254.51677241378923,
+        "expectancy_usd_per_trade": -7.510042132254568,
+        "worst_trade_usd": -9136.859999999999,
+        "max_consecutive_losses": 15,
+        "by_direction": {
+          "long": {
+            "trades": 3290,
+            "net_pnl_usd": -1217.4799999862407
+          },
+          "short": {
+            "trades": 2169,
+            "net_pnl_usd": -39779.83999999145
+          }
+        },
+        "fees_usd": 321815.0,
+        "slippage_usd": 128726.0,
+        "cost_drag_usd_per_trade": 82.53178237772485,
+        "risk_unit_expectancy_r": -0.02553126125764538,
+        "risk_unit_win_rate": 0.42883311961897785,
+        "risk_unit_worst_trade_r": -14.805543859649152,
+        "risk_budget_utilization_median": 0.225,
+        "risk_budget_utilization_mean": 0.09131493680161212,
+        "quantity_median_mnq": 8.0,
+        "quantity_median_nq_equivalent": 0.8,
+        "share_trades_over_10_mnq": 0.4259021798864261,
+        "nominal_risk_over_1000_count": 835,
+        "stored_r_multiple_max_abs_error": 1.7763568394002505e-15
+      }
+    },
+    "post_mnq_launch": {
+      "date_start": "2019-05-06",
+      "date_end": "2026-07-14",
+      "B0": {
+        "ledger": "B0",
+        "trades": 3084,
+        "net_pnl_usd": 169969.0200000034,
+        "win_rate": 0.5165369649805448,
+        "ties": 0,
+        "profit_factor": 1.3413744892307722,
+        "average_win_usd": 419.24990583804293,
+        "average_loss_usd": -333.93432595573375,
+        "expectancy_usd_per_trade": 55.11317120622678,
+        "worst_trade_usd": -9116.860000000015,
+        "max_consecutive_losses": 9,
+        "by_direction": {
+          "long": {
+            "trades": 1817,
+            "net_pnl_usd": 78377.68000001016
+          },
+          "short": {
+            "trades": 1267,
+            "net_pnl_usd": 91591.33999999324
+          }
+        },
+        "fees_usd": 15420.0,
+        "slippage_usd": 30840.0,
+        "cost_drag_usd_per_trade": 15.0,
+        "risk_unit_expectancy_r": 0.05511317120622679,
+        "risk_unit_win_rate": 0.5165369649805448,
+        "risk_unit_worst_trade_r": -9.116860000000015,
+        "risk_budget_utilization_median": 1.0,
+        "risk_budget_utilization_mean": 1.0,
+        "quantity_median_mnq": 1.0,
+        "quantity_median_nq_equivalent": 0.1,
+        "share_trades_over_10_mnq": 0.0,
+        "nominal_risk_over_1000_count": 0
+      },
+      "B2": {
+        "ledger": "B2",
+        "trades": 3077,
+        "net_pnl_usd": 104615.10600000506,
+        "win_rate": 0.49333766655833605,
+        "ties": 1,
+        "profit_factor": 1.209442415704524,
+        "average_win_usd": 397.96344795784137,
+        "average_loss_usd": -320.59910654685376,
+        "expectancy_usd_per_trade": 33.999059473514805,
+        "worst_trade_usd": -8223.173999999999,
+        "max_consecutive_losses": 12,
+        "by_direction": {
+          "long": {
+            "trades": 1813,
+            "net_pnl_usd": 44603.28800001148
+          },
+          "short": {
+            "trades": 1264,
+            "net_pnl_usd": 60011.81799999358
+          }
+        },
+        "fees_usd": 87542.5,
+        "slippage_usd": 35017.0,
+        "cost_drag_usd_per_trade": 39.83084172895678,
+        "risk_unit_expectancy_r": 0.035658252752827004,
+        "risk_unit_win_rate": 0.49333766655833605,
+        "risk_unit_worst_trade_r": -8.49940465116279,
+        "risk_budget_utilization_median": 0.9555,
+        "risk_budget_utilization_mean": 0.9435127130321744,
+        "quantity_median_mnq": 6.0,
+        "quantity_median_nq_equivalent": 0.6,
+        "share_trades_over_10_mnq": 0.28306792330191743,
+        "nominal_risk_over_1000_count": 4,
+        "stored_r_multiple_max_abs_error": 0.0
+      },
+      "B0_daily": {
+        "calendar_days": 2627,
+        "net_pnl_usd": 169969.0200000034,
+        "daily_sharpe_usd": 1.8689109715608818,
+        "daily_sortino_usd": 2.1891726345913796,
+        "daily_sharpe_r_units": 1.8689109715608814,
+        "max_drawdown_usd": -17184.40000000014,
+        "max_drawdown_pct": -0.01467323690868471,
+        "drawdown_peak_index": 2148,
+        "drawdown_trough_index": 2171,
+        "cagr_1m_initial_capital": 0.022065558284480202,
+        "calmar_1m_initial_capital": 1.5037962258634403,
+        "annualized_net_usd_over_max_drawdown_usd": 1.375199003647476
+      },
+      "B2_daily": {
+        "calendar_days": 2627,
+        "net_pnl_usd": 104615.10600000506,
+        "daily_sharpe_usd": 1.1734254674534719,
+        "daily_sortino_usd": 1.3689774653471334,
+        "daily_sharpe_r_units": 1.175998317540564,
+        "max_drawdown_usd": -16270.821999998298,
+        "max_drawdown_pct": -0.016119853957972705,
+        "drawdown_peak_index": 67,
+        "drawdown_trough_index": 459,
+        "cagr_1m_initial_capital": 0.013929879536007661,
+        "calmar_1m_initial_capital": 0.8641442765130074,
+        "annualized_net_usd_over_max_drawdown_usd": 0.8939537638688928
+      },
+      "counterfactual_B2_scaled_to_1_NQ_equivalent": {
+        "ledger": "B2_linear_10_MNQ",
+        "trades": 3077,
+        "net_pnl_usd": -28472.77999998168,
+        "win_rate": 0.4972375690607735,
+        "ties": 1,
+        "profit_factor": 0.952959638585577,
+        "average_win_usd": 377.00082352941786,
+        "average_loss_usd": -391.5161966364754,
+        "expectancy_usd_per_trade": -9.253422164439936,
+        "worst_trade_usd": -9136.859999999999,
+        "max_consecutive_losses": 12,
+        "by_direction": {
+          "long": {
+            "trades": 1813,
+            "net_pnl_usd": 31269.580000011178
+          },
+          "short": {
+            "trades": 1264,
+            "net_pnl_usd": -59742.359999992856
+          }
+        },
+        "fees_usd": 87542.5,
+        "slippage_usd": 35017.0,
+        "cost_drag_usd_per_trade": 39.83084172895678,
+        "risk_unit_expectancy_r": 0.035658252752827,
+        "risk_unit_win_rate": 0.49333766655833605,
+        "risk_unit_worst_trade_r": -8.49940465116279,
+        "risk_budget_utilization_median": 0.555,
+        "risk_budget_utilization_mean": 0.12398206694832646,
+        "quantity_median_mnq": 6.0,
+        "quantity_median_nq_equivalent": 0.6,
+        "share_trades_over_10_mnq": 0.28306792330191743,
+        "nominal_risk_over_1000_count": 816,
+        "stored_r_multiple_max_abs_error": 4.440892098500626e-16
+      }
+    },
+    "2020_2025": {
+      "date_start": "2020-01-01",
+      "date_end": "2025-12-31",
+      "B0": {
+        "ledger": "B0",
+        "trades": 2586,
+        "net_pnl_usd": 178830.2200000023,
+        "win_rate": 0.5235885537509667,
+        "ties": 0,
+        "profit_factor": 1.4413065045236455,
+        "average_win_usd": 431.3584047267368,
+        "average_loss_usd": -328.91969155844106,
+        "expectancy_usd_per_trade": 69.15321732405349,
+        "worst_trade_usd": -9116.860000000015,
+        "max_consecutive_losses": 9,
+        "by_direction": {
+          "long": {
+            "trades": 1527,
+            "net_pnl_usd": 73762.22000000816
+          },
+          "short": {
+            "trades": 1059,
+            "net_pnl_usd": 105067.99999999412
+          }
+        },
+        "fees_usd": 12930.0,
+        "slippage_usd": 25860.0,
+        "cost_drag_usd_per_trade": 15.0,
+        "risk_unit_expectancy_r": 0.06915321732405347,
+        "risk_unit_win_rate": 0.5235885537509667,
+        "risk_unit_worst_trade_r": -9.116860000000015,
+        "risk_budget_utilization_median": 1.0,
+        "risk_budget_utilization_mean": 1.0,
+        "quantity_median_mnq": 1.0,
+        "quantity_median_nq_equivalent": 0.1,
+        "share_trades_over_10_mnq": 0.0,
+        "nominal_risk_over_1000_count": 0
+      },
+      "B2": {
+        "ledger": "B2",
+        "trades": 2582,
+        "net_pnl_usd": 112699.36800000313,
+        "win_rate": 0.5027110766847405,
+        "ties": 1,
+        "profit_factor": 1.2811287910598534,
+        "average_win_usd": 395.6710308166426,
+        "average_loss_usd": -312.45645362431713,
+        "expectancy_usd_per_trade": 43.64808985282848,
+        "worst_trade_usd": -8223.173999999999,
+        "max_consecutive_losses": 12,
+        "by_direction": {
+          "long": {
+            "trades": 1525,
+            "net_pnl_usd": 37257.6960000089
+          },
+          "short": {
+            "trades": 1057,
+            "net_pnl_usd": 75441.67199999423
+          }
+        },
+        "fees_usd": 67222.5,
+        "slippage_usd": 26889.0,
+        "cost_drag_usd_per_trade": 36.4490704879938,
+        "risk_unit_expectancy_r": 0.04639338959769378,
+        "risk_unit_win_rate": 0.5027110766847405,
+        "risk_unit_worst_trade_r": -8.49940465116279,
+        "risk_budget_utilization_median": 0.954,
+        "risk_budget_utilization_mean": 0.9441527420604184,
+        "quantity_median_mnq": 6.0,
+        "quantity_median_nq_equivalent": 0.6,
+        "share_trades_over_10_mnq": 0.278853601859024,
+        "nominal_risk_over_1000_count": 3,
+        "stored_r_multiple_max_abs_error": 0.0
+      },
+      "B0_daily": {
+        "calendar_days": 2192,
+        "net_pnl_usd": 178830.2200000023,
+        "daily_sharpe_usd": 2.2905247064665706,
+        "daily_sortino_usd": 2.696420363713007,
+        "daily_sharpe_r_units": 2.29052470646657,
+        "max_drawdown_usd": -17184.40000000014,
+        "max_drawdown_pct": -0.014740015475969882,
+        "drawdown_peak_index": 1908,
+        "drawdown_trough_index": 1931,
+        "cagr_1m_initial_capital": 0.027793406062330828,
+        "calmar_1m_initial_capital": 1.8855750937060698,
+        "annualized_net_usd_over_max_drawdown_usd": 1.7340284253472125
+      },
+      "B2_daily": {
+        "calendar_days": 2192,
+        "net_pnl_usd": 112699.36800000313,
+        "daily_sharpe_usd": 1.52271958268027,
+        "daily_sortino_usd": 1.7677944908308352,
+        "daily_sharpe_r_units": 1.5430019408159308,
+        "max_drawdown_usd": -15018.463999999687,
+        "max_drawdown_pct": -0.013794019841377875,
+        "drawdown_peak_index": 1617,
+        "drawdown_trough_index": 1737,
+        "cagr_1m_initial_capital": 0.01795335268396947,
+        "calmar_1m_initial_capital": 1.3015315977808628,
+        "annualized_net_usd_over_max_drawdown_usd": 1.2503904197235454
+      },
+      "counterfactual_B2_scaled_to_1_NQ_equivalent": {
+        "ledger": "B2_linear_10_MNQ",
+        "trades": 2582,
+        "net_pnl_usd": -48435.27999998531,
+        "win_rate": 0.4953524399690163,
+        "ties": 1,
+        "profit_factor": 0.9062842640434915,
+        "average_win_usd": 366.2209538702171,
+        "average_loss_usd": -396.95228878647686,
+        "expectancy_usd_per_trade": -18.758822618119794,
+        "worst_trade_usd": -9136.859999999999,
+        "max_consecutive_losses": 12,
+        "by_direction": {
+          "long": {
+            "trades": 1525,
+            "net_pnl_usd": 37752.040000008536
+          },
+          "short": {
+            "trades": 1057,
+            "net_pnl_usd": -86187.31999999384
+          }
+        },
+        "fees_usd": 67222.5,
+        "slippage_usd": 26889.0,
+        "cost_drag_usd_per_trade": 36.4490704879938,
+        "risk_unit_expectancy_r": 0.04639338959769378,
+        "risk_unit_win_rate": 0.5027110766847405,
+        "risk_unit_worst_trade_r": -8.49940465116279,
+        "risk_budget_utilization_median": 0.62,
+        "risk_budget_utilization_mean": 0.12672319132455476,
+        "quantity_median_mnq": 6.0,
+        "quantity_median_nq_equivalent": 0.6,
+        "share_trades_over_10_mnq": 0.278853601859024,
+        "nominal_risk_over_1000_count": 686,
+        "stored_r_multiple_max_abs_error": 4.440892098500626e-16
+      }
+    },
+    "2026_stress": {
+      "date_start": "2026-01-01",
+      "date_end": "2026-07-14",
+      "B0": {
+        "ledger": "B0",
+        "trades": 238,
+        "net_pnl_usd": -14166.959999999235,
+        "win_rate": 0.47478991596638653,
+        "ties": 0,
+        "profit_factor": 0.806444050053908,
+        "average_win_usd": 522.3552212389413,
+        "average_loss_usd": -585.5447999999969,
+        "expectancy_usd_per_trade": -59.52504201680351,
+        "worst_trade_usd": -4283.059999999969,
+        "max_consecutive_losses": 5,
+        "by_direction": {
+          "long": {
+            "trades": 137,
+            "net_pnl_usd": -2259.6999999985565
+          },
+          "short": {
+            "trades": 101,
+            "net_pnl_usd": -11907.260000000679
+          }
+        },
+        "fees_usd": 1190.0,
+        "slippage_usd": 2380.0,
+        "cost_drag_usd_per_trade": 15.0,
+        "risk_unit_expectancy_r": -0.05952504201680351,
+        "risk_unit_win_rate": 0.47478991596638653,
+        "risk_unit_worst_trade_r": -4.283059999999969,
+        "risk_budget_utilization_median": 1.0,
+        "risk_budget_utilization_mean": 1.0,
+        "quantity_median_mnq": 1.0,
+        "quantity_median_nq_equivalent": 0.1,
+        "share_trades_over_10_mnq": 0.0,
+        "nominal_risk_over_1000_count": 0
+      },
+      "B2": {
+        "ledger": "B2",
+        "trades": 237,
+        "net_pnl_usd": -9704.293999999121,
+        "win_rate": 0.4767932489451477,
+        "ties": 0,
+        "profit_factor": 0.7654125838315362,
+        "average_win_usd": 280.2053274336308,
+        "average_loss_usd": -333.6088387096726,
+        "expectancy_usd_per_trade": -40.9463881856503,
+        "worst_trade_usd": -1290.9180000000051,
+        "max_consecutive_losses": 5,
+        "by_direction": {
+          "long": {
+            "trades": 137,
+            "net_pnl_usd": -3826.7939999987284
+          },
+          "short": {
+            "trades": 100,
+            "net_pnl_usd": -5877.500000000393
+          }
+        },
+        "fees_usd": 2980.0,
+        "slippage_usd": 1192.0,
+        "cost_drag_usd_per_trade": 17.60337552742616,
+        "risk_unit_expectancy_r": -0.04883562712621594,
+        "risk_unit_win_rate": 0.4767932489451477,
+        "risk_unit_worst_trade_r": -1.366050793650799,
+        "risk_budget_utilization_median": 0.91,
+        "risk_budget_utilization_mean": 0.8992672573839664,
+        "quantity_median_mnq": 3.0,
+        "quantity_median_nq_equivalent": 0.3,
+        "share_trades_over_10_mnq": 0.012658227848101266,
+        "nominal_risk_over_1000_count": 0,
+        "stored_r_multiple_max_abs_error": 0.0
+      },
+      "B0_daily": {
+        "calendar_days": 195,
+        "net_pnl_usd": -14166.959999999235,
+        "daily_sharpe_usd": -1.8246327094850305,
+        "daily_sortino_usd": -2.4784120398710185,
+        "daily_sharpe_r_units": -1.8246327094850305,
+        "max_drawdown_usd": -16607.979999999166,
+        "max_drawdown_pct": -0.01658153609786102,
+        "drawdown_peak_index": 7,
+        "drawdown_trough_index": 187,
+        "cagr_1m_initial_capital": -0.026371598443196143,
+        "calmar_1m_initial_capital": -1.5904195056209551,
+        "annualized_net_usd_over_max_drawdown_usd": -1.597774434106601
+      },
+      "B2_daily": {
+        "calendar_days": 195,
+        "net_pnl_usd": -9704.293999999121,
+        "daily_sharpe_usd": -1.8728851361751628,
+        "daily_sortino_usd": -2.2587709941927248,
+        "daily_sharpe_r_units": -2.0787414440765106,
+        "max_drawdown_usd": -11396.133999999147,
+        "max_drawdown_pct": -0.01137901147799368,
+        "drawdown_peak_index": 7,
+        "drawdown_trough_index": 187,
+        "cagr_1m_initial_capital": -0.018099854733265808,
+        "calmar_1m_initial_capital": -1.5906350712686976,
+        "annualized_net_usd_over_max_drawdown_usd": -1.5950048627151594
+      },
+      "counterfactual_B2_scaled_to_1_NQ_equivalent": {
+        "ledger": "B2_linear_10_MNQ",
+        "trades": 237,
+        "net_pnl_usd": 10777.880000003017,
+        "win_rate": 0.510548523206751,
+        "ties": 0,
+        "profit_factor": 1.152643460674586,
+        "average_win_usd": 672.612231404969,
+        "average_loss_usd": -608.6913793103295,
+        "expectancy_usd_per_trade": 45.47628691984395,
+        "worst_trade_usd": -4303.060000000017,
+        "max_consecutive_losses": 5,
+        "by_direction": {
+          "long": {
+            "trades": 137,
+            "net_pnl_usd": -10309.699999997802
+          },
+          "short": {
+            "trades": 100,
+            "net_pnl_usd": 21087.580000000824
+          }
+        },
+        "fees_usd": 2980.0,
+        "slippage_usd": 1192.0,
+        "cost_drag_usd_per_trade": 17.60337552742616,
+        "risk_unit_expectancy_r": -0.048835627126215954,
+        "risk_unit_win_rate": 0.4767932489451477,
+        "risk_unit_worst_trade_r": -1.366050793650799,
+        "risk_budget_utilization_median": 1.275,
+        "risk_budget_utilization_mean": 0.18194810126582298,
+        "quantity_median_mnq": 3.0,
+        "quantity_median_nq_equivalent": 0.3,
+        "share_trades_over_10_mnq": 0.012658227848101266,
+        "nominal_risk_over_1000_count": 129,
+        "stored_r_multiple_max_abs_error": 2.220446049250313e-16
+      }
+    },
+    "pre_mnq_counterfactual": {
+      "date_start": "2013-01-01",
+      "date_end": "2019-05-05",
+      "B0": {
+        "ledger": "B0",
+        "trades": 2378,
+        "net_pnl_usd": -3861.099999998778,
+        "win_rate": 0.42851135407905805,
+        "ties": 0,
+        "profit_factor": 0.9688058567527164,
+        "average_win_usd": 117.67943081452438,
+        "average_loss_usd": -91.07905813097803,
+        "expectancy_usd_per_trade": -1.6236753574427156,
+        "worst_trade_usd": -4199.580000000005,
+        "max_consecutive_losses": 13,
+        "by_direction": {
+          "long": {
+            "trades": 1475,
+            "net_pnl_usd": -3197.739999997111
+          },
+          "short": {
+            "trades": 903,
+            "net_pnl_usd": -663.3600000016668
+          }
+        },
+        "fees_usd": 11890.0,
+        "slippage_usd": 23780.0,
+        "cost_drag_usd_per_trade": 15.0,
+        "risk_unit_expectancy_r": -0.0016236753574427147,
+        "risk_unit_win_rate": 0.42851135407905805,
+        "risk_unit_worst_trade_r": -4.199580000000005,
+        "risk_budget_utilization_median": 1.0,
+        "risk_budget_utilization_mean": 1.0,
+        "quantity_median_mnq": 1.0,
+        "quantity_median_nq_equivalent": 0.1,
+        "share_trades_over_10_mnq": 0.0,
+        "nominal_risk_over_1000_count": 0
+      },
+      "B2": {
+        "ledger": "B2",
+        "trades": 2382,
+        "net_pnl_usd": -247290.0359999947,
+        "win_rate": 0.34550797649034426,
+        "ties": 0,
+        "profit_factor": 0.5442625746026023,
+        "average_win_usd": 358.8397618469018,
+        "average_loss_usd": -348.053341885821,
+        "expectancy_usd_per_trade": -103.8161360201489,
+        "worst_trade_usd": -14768.530000000028,
+        "max_consecutive_losses": 20,
+        "by_direction": {
+          "long": {
+            "trades": 1477,
+            "net_pnl_usd": -171115.0899999901
+          },
+          "short": {
+            "trades": 905,
+            "net_pnl_usd": -76174.94600000461
+          }
+        },
+        "fees_usd": 234272.5,
+        "slippage_usd": 93709.0,
+        "cost_drag_usd_per_trade": 137.6916456759026,
+        "risk_unit_expectancy_r": -0.10457413892776442,
+        "risk_unit_win_rate": 0.34550797649034426,
+        "risk_unit_worst_trade_r": -14.80554385964915,
+        "risk_budget_utilization_median": 0.989,
+        "risk_budget_utilization_mean": 0.985714507976491,
+        "quantity_median_mnq": 27.0,
+        "quantity_median_nq_equivalent": 2.7,
+        "share_trades_over_10_mnq": 0.6104114189756508,
+        "nominal_risk_over_1000_count": 133,
+        "stored_r_multiple_max_abs_error": 0.0
+      },
+      "B0_daily": {
+        "calendar_days": 2316,
+        "net_pnl_usd": -3861.099999998778,
+        "daily_sharpe_usd": -0.1643120123240134,
+        "daily_sortino_usd": -0.14961519053164102,
+        "daily_sharpe_r_units": -0.16431201232401327,
+        "max_drawdown_usd": -21212.139999999083,
+        "max_drawdown_pct": -0.02120978274474483,
+        "drawdown_peak_index": 153,
+        "drawdown_trough_index": 1884,
+        "cagr_1m_initial_capital": -0.0006099159955275102,
+        "calmar_1m_initial_capital": -0.028756352805104978,
+        "annualized_net_usd_over_max_drawdown_usd": -0.02870636710766138
+      },
+      "B2_daily": {
+        "calendar_days": 2316,
+        "net_pnl_usd": -246743.77599999472,
+        "daily_sharpe_usd": -3.4702720485966507,
+        "daily_sortino_usd": -3.2128203238512953,
+        "daily_sharpe_r_units": -3.4643985550530267,
+        "max_drawdown_usd": -263421.15199999535,
+        "max_drawdown_pct": -0.26342115199999533,
+        "drawdown_peak_index": 0,
+        "drawdown_trough_index": 1935,
+        "cagr_1m_initial_capital": -0.043702598489486766,
+        "calmar_1m_initial_capital": -0.16590390770703006,
+        "annualized_net_usd_over_max_drawdown_usd": -0.14772269816216094
+      },
+      "counterfactual_B2_scaled_to_1_NQ_equivalent": {
+        "ledger": "B2_linear_10_MNQ",
+        "trades": 2382,
+        "net_pnl_usd": -12524.539999996008,
+        "win_rate": 0.43157010915197314,
+        "ties": 0,
+        "profit_factor": 0.9056990722405802,
+        "average_win_usd": 117.0136770428031,
+        "average_loss_usd": -98.09054652880177,
+        "expectancy_usd_per_trade": -5.257993282953824,
+        "worst_trade_usd": -4219.580000000008,
+        "max_consecutive_losses": 15,
+        "by_direction": {
+          "long": {
+            "trades": 1477,
+            "net_pnl_usd": -32487.059999997422
+          },
+          "short": {
+            "trades": 905,
+            "net_pnl_usd": 19962.520000001416
+          }
+        },
+        "fees_usd": 234272.5,
+        "slippage_usd": 93709.0,
+        "cost_drag_usd_per_trade": 137.6916456759026,
+        "risk_unit_expectancy_r": -0.10457413892776442,
+        "risk_unit_win_rate": 0.34550797649034426,
+        "risk_unit_worst_trade_r": -14.805543859649152,
+        "risk_budget_utilization_median": 0.175,
+        "risk_budget_utilization_mean": 0.04911646515533167,
+        "quantity_median_mnq": 27.0,
+        "quantity_median_nq_equivalent": 2.7,
+        "share_trades_over_10_mnq": 0.6104114189756508,
+        "nominal_risk_over_1000_count": 19,
+        "stored_r_multiple_max_abs_error": 1.7763568394002505e-15
+      }
+    }
+  },
+  "monte_carlo": {
+    "post_mnq_launch": {
+      "usd_block_5": {
+        "block_days": 5,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            113253.76900000508,
+            169767.05000000383,
+            225613.81700000263
+          ],
+          "B2": [
+            49513.188200005105,
+            103746.9080000036,
+            159407.12950000653
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 1.0,
+          "B2": 0.9988
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            13570.34999999998,
+            22860.749000000218
+          ],
+          "B2": [
+            16801.028999999726,
+            28998.163399999736
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5000.0": {
+            "B0": 1.0,
+            "B2": 1.0
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            1.256312382952021,
+            1.8748569798945918,
+            2.4905720524482473
+          ],
+          "B2": [
+            0.5581437839140286,
+            1.1694456825947348,
+            1.783883703606624
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.0257407418247095,
+          -0.696406531580989,
+          -0.3788769200380804
+        ],
+        "prob_B2_sharpe_gt_B0": 0.0
+      },
+      "risk_unit_block_5": {
+        "block_days": 5,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            115.4323380000044,
+            169.50014000000243,
+            225.43586400000382
+          ],
+          "B2": [
+            54.24538849922816,
+            110.01243724936687,
+            166.7355571272553
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 1.0,
+          "B2": 0.9992
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            13.520670000000067,
+            22.812273000000033
+          ],
+          "B2": [
+            17.260150961810265,
+            30.160215316829316
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5.0": {
+            "B0": 1.0,
+            "B2": 1.0
+          },
+          "10.0": {
+            "B0": 0.8708,
+            "B2": 0.9788
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            1.2559832669357538,
+            1.8673843496928733,
+            2.4839532617068274
+          ],
+          "B2": [
+            0.5780947648597898,
+            1.183381958217006,
+            1.7774185805764064
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.0136361904912654,
+          -0.6870561553204476,
+          -0.37401689591936477
+        ],
+        "prob_B2_sharpe_gt_B0": 0.0002
+      },
+      "usd_block_20": {
+        "block_days": 20,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            108813.498000003,
+            169707.7600000028,
+            229525.52200000433
+          ],
+          "B2": [
+            50491.113300001605,
+            103928.6370000057,
+            158237.50210000642
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 1.0,
+          "B2": 0.9992
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            15223.730000000134,
+            25844.796999999977
+          ],
+          "B2": [
+            16531.472999999907,
+            28032.948799999147
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5000.0": {
+            "B0": 1.0,
+            "B2": 1.0
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            1.1918961262405843,
+            1.8770146436711914,
+            2.5386944566063216
+          ],
+          "B2": [
+            0.5743549316775672,
+            1.166694605633893,
+            1.7803898598494186
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.0385557017443359,
+          -0.6937966487205315,
+          -0.3674903273969676
+        ],
+        "prob_B2_sharpe_gt_B0": 0.0004
+      },
+      "risk_unit_block_20": {
+        "block_days": 20,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            110.00993200000266,
+            170.0456600000037,
+            230.0851460000031
+          ],
+          "B2": [
+            52.877875825332694,
+            109.69148902652623,
+            166.53197513412437
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 1.0,
+          "B2": 0.999
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            15.318999999999711,
+            26.695795000000313
+          ],
+          "B2": [
+            17.65386742385174,
+            30.43791331366004
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5.0": {
+            "B0": 1.0,
+            "B2": 1.0
+          },
+          "10.0": {
+            "B0": 0.9094,
+            "B2": 0.9828
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            1.199447900566886,
+            1.8766883410551791,
+            2.5429553888636467
+          ],
+          "B2": [
+            0.5693363772538927,
+            1.1773553108271966,
+            1.778240231101892
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.0208088610881942,
+          -0.6962883986276254,
+          -0.3931527106785931
+        ],
+        "prob_B2_sharpe_gt_B0": 0.0
+      }
+    },
+    "2026_stress": {
+      "usd_block_5": {
+        "block_days": 5,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            -30346.786999998643,
+            -14329.999999999563,
+            1468.2680000009962
+          ],
+          "B2": [
+            -19911.677199999525,
+            -9808.986999999375,
+            801.0380000005516
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 0.0708,
+          "B2": 0.0628
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            18791.80999999975,
+            32786.443999999596
+          ],
+          "B2": [
+            12572.732999999287,
+            21370.37709999954
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5000.0": {
+            "B0": 0.9974,
+            "B2": 0.9764
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            -4.083858170365992,
+            -1.8483463188768405,
+            0.17962371161921623
+          ],
+          "B2": [
+            -4.184949695754972,
+            -1.8891201968553957,
+            0.1427242104254804
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.1898126427829048,
+          -0.07785233869922237,
+          1.0424364101808294
+        ],
+        "prob_B2_sharpe_gt_B0": 0.4486
+      },
+      "risk_unit_block_5": {
+        "block_days": 5,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            -30.081124999999574,
+            -14.190819999999185,
+            2.3549140000005244
+          ],
+          "B2": [
+            -22.49451446642972,
+            -11.667570844009163,
+            -0.2879805743424001
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 0.0784,
+          "B2": 0.045
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            18.796589999999643,
+            32.803356999999025
+          ],
+          "B2": [
+            14.378073886368277,
+            23.954860804200386
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5.0": {
+            "B0": 0.9982,
+            "B2": 0.9886
+          },
+          "10.0": {
+            "B0": 0.9078,
+            "B2": 0.8028
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            -4.040613963994751,
+            -1.8433728924061663,
+            0.30156424898578826
+          ],
+          "B2": [
+            -4.339168838047812,
+            -2.1291598845170756,
+            -0.04487832783525456
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.383979596793428,
+          -0.3086994348890847,
+          0.8316682454783972
+        ],
+        "prob_B2_sharpe_gt_B0": 0.3198
+      },
+      "usd_block_20": {
+        "block_days": 20,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            -28458.36499999936,
+            -14544.389999999403,
+            617.269000001958
+          ],
+          "B2": [
+            -19092.749199999365,
+            -9822.518999999418,
+            -17.013299998652
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 0.059,
+          "B2": 0.0498
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            18462.65999999985,
+            30594.199999999782
+          ],
+          "B2": [
+            12118.687999999223,
+            20252.221799999625
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5000.0": {
+            "B0": 0.9982,
+            "B2": 0.9696
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            -3.718966893068447,
+            -1.8733986397480722,
+            0.0801355009310285
+          ],
+          "B2": [
+            -4.01705457238274,
+            -1.902893598925976,
+            -0.0032203396679838913
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.115950438041508,
+          -0.0901516106710204,
+          0.887123020458452
+        ],
+        "prob_B2_sharpe_gt_B0": 0.4384
+      },
+      "risk_unit_block_20": {
+        "block_days": 20,
+        "replicates": 5000,
+        "terminal_net_5_50_95": {
+          "B0": [
+            -28.110119999999426,
+            -14.334329999999357,
+            0.9974590000014221
+          ],
+          "B2": [
+            -21.641933983468277,
+            -11.620304625603211,
+            -0.9956106150850298
+          ]
+        },
+        "prob_terminal_positive": {
+          "B0": 0.0618,
+          "B2": 0.038
+        },
+        "max_drawdown_50_95": {
+          "B0": [
+            18.30526999999951,
+            30.011144999999907
+          ],
+          "B2": [
+            14.066750281111215,
+            22.91575306344049
+          ]
+        },
+        "prob_max_drawdown_exceeds_thresholds": {
+          "5.0": {
+            "B0": 0.9988,
+            "B2": 0.9838
+          },
+          "10.0": {
+            "B0": 0.9066,
+            "B2": 0.788
+          }
+        },
+        "annualized_sharpe_5_50_95": {
+          "B0": [
+            -3.6587198183713543,
+            -1.8517436634990287,
+            0.11900293508677745
+          ],
+          "B2": [
+            -4.157668886168187,
+            -2.0869643674601543,
+            -0.1620231494810259
+          ]
+        },
+        "paired_sharpe_delta_B2_minus_B0_5_50_95": [
+          -1.3100687700365807,
+          -0.29537490436312075,
+          0.6910200988932595
+        ],
+        "prob_B2_sharpe_gt_B0": 0.316
+      }
+    }
+  },
+  "source_files": {
+    "B0": [
+      "run_log/one_bar_practical_1m_20261012/by_year/2013/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2014/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2015/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2016/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2017/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2018/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2019/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2020/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2021/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2022/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2023/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2024/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2025/native_full_tick_cost/evaluation_trades.csv",
+      "run_log/one_bar_practical_1m_20261012/by_year/2026/native_full_tick_cost/evaluation_trades.csv"
+    ],
+    "B2_costed": [
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2013/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2014/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2015/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2016/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2017/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2018/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2019/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2020/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2021/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2022/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2023/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2024/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2025/B2_costed/evaluation_trades.csv",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2026/B2_costed/evaluation_trades.csv"
+    ]
+  },
+  "source_sha256": {
+    "B0": {
+      "run_log/one_bar_practical_1m_20261012/by_year/2013/native_full_tick_cost/evaluation_trades.csv": "84793fdd831a060eaff699e4f92314252265c9cc4d849cc9bf841afdce3d448d",
+      "run_log/one_bar_practical_1m_20261012/by_year/2014/native_full_tick_cost/evaluation_trades.csv": "33a8df7893dd59dc7cbc269c4d374ed04805e28edd10f20eadb652ec1d7611b8",
+      "run_log/one_bar_practical_1m_20261012/by_year/2015/native_full_tick_cost/evaluation_trades.csv": "378a59a43c8a8456415ebfe24c414f51c927832109a141cfce35eda21d4cd705",
+      "run_log/one_bar_practical_1m_20261012/by_year/2016/native_full_tick_cost/evaluation_trades.csv": "81ddf71a1406772b5c51efbb5ed829e033c2fc5fe5da2b11d6821650ba9a8c6b",
+      "run_log/one_bar_practical_1m_20261012/by_year/2017/native_full_tick_cost/evaluation_trades.csv": "875c6daa5dd5dd7993a8e8121c15229bc4b4590bb4e4dcbec09f872c9bc89d22",
+      "run_log/one_bar_practical_1m_20261012/by_year/2018/native_full_tick_cost/evaluation_trades.csv": "838f9811b835592a51bf75a6f623827cb326cdd20e069272f90b06b9b1c13cad",
+      "run_log/one_bar_practical_1m_20261012/by_year/2019/native_full_tick_cost/evaluation_trades.csv": "7e371e3deb2609fcf0c2b45ac7ee2a32fb77b202ade47d129a48a95b43e8f4e1",
+      "run_log/one_bar_practical_1m_20261012/by_year/2020/native_full_tick_cost/evaluation_trades.csv": "95fe1835ef1266ccd342705c6787f4334419936a259dc4d3aea3e17d8f25a83c",
+      "run_log/one_bar_practical_1m_20261012/by_year/2021/native_full_tick_cost/evaluation_trades.csv": "55fc13b82ad2b58ceb8eb28b090351305269036f4e1c29e114ecbe0fadfe82a4",
+      "run_log/one_bar_practical_1m_20261012/by_year/2022/native_full_tick_cost/evaluation_trades.csv": "5b8dadd258f6bb16674d9bd7dd28bbf1f53ed13c708371fab3e5fbd30290c151",
+      "run_log/one_bar_practical_1m_20261012/by_year/2023/native_full_tick_cost/evaluation_trades.csv": "592e5f4633b89b1086390d888382da8783eac7446cf2bbd413fcd8eefc4728b3",
+      "run_log/one_bar_practical_1m_20261012/by_year/2024/native_full_tick_cost/evaluation_trades.csv": "9db110a33f57d393cbaf71e70cbf5d9304ace48dbc1928a8b08b30ab887ac3c5",
+      "run_log/one_bar_practical_1m_20261012/by_year/2025/native_full_tick_cost/evaluation_trades.csv": "99f78914839ed9389415f7d2bda71dd4fe2af4ded812b227250c691cbab26e39",
+      "run_log/one_bar_practical_1m_20261012/by_year/2026/native_full_tick_cost/evaluation_trades.csv": "a1db2b15f59bfb5ec7f0eb6cd3339f52b88d408865b0f717dadc8397f04a3959"
+    },
+    "B2_costed": {
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2013/B2_costed/evaluation_trades.csv": "18163b4388900428c9674d04e6a0d29df883b925f0c2e0d801c1147190d9340f",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2014/B2_costed/evaluation_trades.csv": "3959840cc0604ece9305c050300fdf25e5c33e58a77b8f3683dedc047c3134a0",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2015/B2_costed/evaluation_trades.csv": "b9b0e0b25168e69bb84cbb216e1de9ce395bd60c2dcb9eb1467797e2bbef9492",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2016/B2_costed/evaluation_trades.csv": "c9d42be6cce55e2e630967743dd3b264349edc9bde25b02b4430c07a434de1fb",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2017/B2_costed/evaluation_trades.csv": "7df019d6b35ec0d17d7b2d31e678b16dee77f3b2be09e18307afaa0ea508aa93",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2018/B2_costed/evaluation_trades.csv": "d3caad825960e5d69adb5e76695d891153f99ddd8d9adf43e878eb3d249c2862",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2019/B2_costed/evaluation_trades.csv": "8c7a96e4ad5996c58b94639de3507d10ad395b3eaf2e98d65cfb5b1f0a91d8c8",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2020/B2_costed/evaluation_trades.csv": "6dda1310dc4ae84a187ed5d450764a02b859fce454dfef7df0b359fe2eacac48",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2021/B2_costed/evaluation_trades.csv": "b7ccb33f81a81180d300adc3faa549e54b622779160cfa12eb3b967ea4275703",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2022/B2_costed/evaluation_trades.csv": "ad4c557237de5c1f9e9cd6edb56eb1b5ca16012d35de099f60f0bede755cfef1",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2023/B2_costed/evaluation_trades.csv": "69b30ae710177db34f7b137ef51ba3da386048fe2097113c5c3cbc93f869cbcf",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2024/B2_costed/evaluation_trades.csv": "124f6cf118ff0549da25f7bb7436742b9b61f534d7b2fd997fb339c542875240",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2025/B2_costed/evaluation_trades.csv": "67a399102205c0b86cfef90ac52db8f5ca0e960420a014b2b3ef1de8602cc479",
+      "run_log/one_bar_nq_stop_scaling_20261012/phase234/by_year/2026/B2_costed/evaluation_trades.csv": "653e48faf2c590a6766a113ff54f766ff5512978cc899ea7176ad54add820349"
+    }
+  },
+  "limitations": [
+    "BID-only CFD proxy; not dated CME futures",
+    "pre-2019-05-06 MNQ is counterfactual",
+    "annual B2 shards have documented GTC boundary leakage and duplicated entry fill",
+    "trade-entry-day closed P&L is not native mark-to-market",
+    "linear 1-NQ-equivalent B2 scaling is algebraic and ignores margin/impact",
+    "moving-block bootstrap resamples this historical path and does not forecast future regimes",
+    "2026 is observed stress evidence, not holdout"
+  ]
+}

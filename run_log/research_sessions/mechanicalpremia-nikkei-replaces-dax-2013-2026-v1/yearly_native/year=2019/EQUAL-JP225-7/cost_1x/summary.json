@@ -1,0 +1,113 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2019,
+  "trial": "EQUAL-JP225-7",
+  "cost_multiplier": 1.0,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 342965,
+      "first": "2019-01-01 23:00:00+00:00",
+      "last": "2019-12-31 23:59:00+00:00",
+      "h1_signals": 232,
+      "d1_signals": 8,
+      "d1_exits": 19
+    },
+    {
+      "symbol": "US100",
+      "rows": 342965,
+      "first": "2019-01-01 23:00:00+00:00",
+      "last": "2019-12-31 23:59:00+00:00",
+      "h1_signals": 232,
+      "d1_signals": 5,
+      "d1_exits": 23
+    },
+    {
+      "symbol": "JP225",
+      "rows": 331861,
+      "first": "2019-01-01 23:00:00+00:00",
+      "last": "2019-12-31 21:14:00+00:00",
+      "h1_signals": 196,
+      "d1_signals": 3,
+      "d1_exits": 21
+    },
+    {
+      "symbol": "EU50",
+      "rows": 158173,
+      "first": "2019-01-02 07:00:00+00:00",
+      "last": "2019-12-30 20:59:00+00:00",
+      "h1_signals": 17,
+      "d1_signals": 3,
+      "d1_exits": 21
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 100512.02126087232,
+    "num_trades": 187,
+    "num_orders": 375,
+    "num_fills": 375,
+    "num_rejected_orders": 0,
+    "win_rate": 0.37433155080213903,
+    "total_commission": 950.8901610854227,
+    "total_slippage": 1901.7799858091264,
+    "total_costs": 2849.143058690113,
+    "max_drawdown_pct": 3.9562314906238414
+  },
+  "daily": {
+    "total_return": 0.005120212608723085,
+    "annual_return": 0.004133524418759027,
+    "annual_volatility": 0.02990396981164689,
+    "sharpe_ratio": 0.15281898117228926,
+    "sortino_ratio": 0.2509152434993691,
+    "calmar_ratio": 0.11683179258488463,
+    "omega_ratio": 1.037404544820148,
+    "tail_ratio": 1.1828811682199742,
+    "max_drawdown": -0.035380133500526385,
+    "skewness": 1.4963732140302246,
+    "kurtosis": 9.239684955951175,
+    "var_95": -0.002517885453488637,
+    "cvar_95": -0.004021601517268337,
+    "stability": 0.24156100597775979,
+    "win_rate": 0.27884615384615385,
+    "profit_factor": 1.037404544820148,
+    "avg_win": 0.0018037017155124178,
+    "avg_loss": -0.0013877438991048469,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 187,
+  "open_trades": 1,
+  "closed_net_pnl": 497.9909000201052,
+  "native_end_equity": 100512.02126087232,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "JP225_D": {
+      "quantity": 0.5016414016188092,
+      "entry_price": 23440.107084,
+      "current_price": 23470.42,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2019/EQUAL-JP225-7/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2019/EQUAL-JP225-7/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2019/EQUAL-JP225-7/cost_1x/daily_equity.parquet"
+  }
+}

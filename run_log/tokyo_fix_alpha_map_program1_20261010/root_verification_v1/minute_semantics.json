@@ -1,0 +1,12 @@
+{
+  "provider_client_source": "/home/quant/dev/quant/ml4t-data/.venv/lib/python3.12/site-packages/lse/client.py",
+  "sha256": "66c5a42216bec31d81ae1eb19c893e0aba4f1d150e50bfd4a91dcfb8072b68ab",
+  "semantics_excerpt": "        for r in rows:\n            # The vault labels the bar-open time `ts`; this API has always said\n            # `timestamp`, so keep that contract.\n            if \"ts\" in r:\n                r[\"timestamp\"] = r.pop(\"ts\")\n            r.setdefault(\"volume\", 0.0)  # fx candles carry no consolidated volume\n",
+  "provider_version": [
+    "Name: lse-data",
+    "Version: 0.14.0"
+  ],
+  "normalization_source": "/home/quant/dev/quant/ml4t-data/lse_provider.py",
+  "normalization_sha256": "26088f80f0564cca01f593f1dd33f45048e27a39c1904c888eb0079ccd40bfa0",
+  "meaning": "Local LSE client contract explicitly labels vault ts as bar-open time. Provider normalizes UTC. Raw tick reconstruction not available."
+}

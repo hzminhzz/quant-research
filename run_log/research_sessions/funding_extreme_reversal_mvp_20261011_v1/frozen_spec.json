@@ -1,0 +1,1294 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_generation_verified": false,
+  "classification": "EXPLORATORY",
+  "created_at": "2026-10-11T14:46:49.445976+00:00",
+  "frozen_sha256": "a396a0bf5438768bec663274f632f042493a40c925b26b82c1119d488aafe38e",
+  "identity": {
+    "config": null,
+    "data": [
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+        "sha256": "67528cbf7f936e41f34f08fa033b05cfb2800a9f21ee39e6048051dd577db8b7",
+        "size_bytes": 2409504
+      },
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+        "sha256": "f0c4959e7ed53afeb12cfe93e3776aa3047cb39be2759187d6cd3df866dacab1",
+        "size_bytes": 2413546
+      },
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet",
+        "sha256": "750fd743783bc0285cde779d9c1573e12bf31b3c2f5a53b97e782ebcb8585a1a",
+        "size_bytes": 109849
+      },
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet",
+        "sha256": "ee1864a96892c708b4ed6cb784b13373b22015335d77412fab48fce226231c23",
+        "size_bytes": 110798
+      }
+    ],
+    "evidence": [],
+    "git": {
+      "available": true,
+      "dirty": true,
+      "dirty_diff_sha256": "4eb4da656508ae7cd67bf712b9ee8e9be44b61ceee18f5f498384c946ec3f375",
+      "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+      "status_porcelain": " M AGENTS.md\n M README.md\n M pyproject.toml\n M tests/test_catalog.py\n M tests/test_factory.py\n M tests/test_pipeline.py\n M tests/test_research_session_cli.py\n M uv.lock\n?? .github/workflows/ci.yml\n?? SESSION_TEMPLATE.md\n?? config/btc_structure_reversal_20261006.yaml\n?? config/btc_structure_reversal_attribution_20261006.yaml\n?? config/research_sessions/btc_eth_maker_kalman_20261006.yaml\n?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006.yaml\n?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v2.yaml\n?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3.yaml\n?? config/research_sessions/btc_eth_pair_trading_scalp.yaml\n?? config/research_sessions/btc_eth_statarb_kalman_regime.yaml\n?? config/research_sessions/continuous_long_grid_short_hedge_20261009.yaml\n?? config/research_sessions/cross_asset_tsmom_replication_20261007.yaml\n?? config/research_sessions/crypto_structural_s1_phase12_20261011.yaml\n?? config/research_sessions/crypto_structural_s2_phase12_20261011.yaml\n?? config/research_sessions/crypto_structural_s3_phase12_20261011.yaml\n?? config/research_sessions/crypto_structural_s4_phase12_20261011.yaml\n?? config/research_sessions/crypto_structural_s5_phase12_20261011.yaml\n?? config/research_sessions/crypto_tsmom_flow_increment_20261008.yaml\n?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v2.yaml\n?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v3.yaml\n?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v4.yaml\n?? config/research_sessions/crypto_tsmom_maker_regime.yaml\n?? config/research_sessions/crypto_tsmom_top10_universe.yaml\n?? config/research_sessions/crypto_tsmom_trend_persistence.yaml\n?? config/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec.yaml\n?? config/research_sessions/crypto_tsmom_vol_targeted.yaml\n?? config/research_sessions/ftmo_fx_intraday_reversion_202610.yaml\n?? config/research_sessions/ftmo_fx_intraday_reversion_202610_v2.yaml\n?? config/research_sessions/funding_extreme_reversal_mvp_20261011_v1.yaml\n?? config/research_sessions/fx_support_conditions_20261008.yaml\n?? config/research_sessions/fx_support_conditions_20261008_ml_v2.yaml\n?? config/research_sessions/fx_support_ml4t_execution_20261008.yaml\n?? config/research_sessions/fx_support_ml4t_execution_20261008_v2.yaml\n?? config/research_sessions/fx_support_reclaim_newhigh_20261008.yaml\n?? config/research_sessions/gotobi_exact_paper_bridge_20261011_v1.yaml\n?? config/research_sessions/gotobi_lse_bidask_execution_pilot_20261011_v1.yaml\n?? config/research_sessions/gotobi_macro_context_20261011_v1.yaml\n?? config/research_sessions/gotobi_macro_context_20261011_v2.yaml\n?? config/research_sessions/gotobi_paper_replication_20261011_v1.yaml\n?? config/research_sessions/hyperliquid_xyz_20level_anchored_volume_ab_20261009.yaml\n?? config/research_sessions/intraday_volatility_breakout.yaml\n?? config/research_sessions/intraday_volatility_breakout_regime.yaml\n?? config/research_sessions/lighter_anchored_volume_ab_20261009.yaml\n?? config/research_sessions/lighter_spy_qqq_pair_grid_20261009.yaml\n?? config/research_sessions/metals_dual_grid_mvp_20261010.yaml\n?? config/research_sessions/prop_mvp_20261011_a.yaml\n?? config/research_sessions/prop_mvp_20261011_b.yaml\n?? config/research_sessions/prop_mvp_20261011_c.yaml\n?? config/research_sessions/structural_alpha_eow_6040_20261011.yaml\n?? config/research_sessions/tokyo_alpha_map_program1_closure_v3.yaml\n?? config/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2.yaml\n?? config/research_sessions/tokyo_alpha_map_program1_v1.yaml\n?? config/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1.yaml\n?? config/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1.yaml\n?? config/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1.yaml\n?? config/research_sessions/tsmom_40_60_80_lse_2020_2026.yaml\n?? config/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1.yaml\n?? config/research_sessions/usdjpy_tokyo_fix_gotobi_20261010.yaml\n?? config/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1.yaml\n?? config/strategies/crypto_tsmom_maker_regime_v1.yaml\n?? data/hftbacktest/btcusdt_20260101.npz\n?? data/hftbacktest/btcusdt_20260102.npz\n?? data/hftbacktest/btcusdt_20260103.npz\n?? data/hftbacktest/btcusdt_20260104.npz\n?? data/hftbacktest/btcusdt_20260105.npz\n?? data/hftbacktest/btcusdt_20260106.npz\n?? data/hftbacktest/btcusdt_20260107.npz\n?? data/hftbacktest/btcusdt_20260201.npz\n?? data/hftbacktest/btcusdt_20260202.npz\n?? data/hftbacktest/btcusdt_20260203.npz\n?? data/hftbacktest/btcusdt_20260204.npz\n?? data/hftbacktest/btcusdt_20260205.npz\n?? data/hftbacktest/btcusdt_20260206.npz\n?? data/hftbacktest/btcusdt_20260207.npz\n?? data/hftbacktest/ethusdt_20260101.npz\n?? data/hftbacktest/ethusdt_20260102.npz\n?? data/hftbacktest/ethusdt_20260103.npz\n?? data/hftbacktest/ethusdt_20260104.npz\n?? data/hftbacktest/ethusdt_20260105.npz\n?? data/hftbacktest/ethusdt_20260106.npz\n?? data/hftbacktest/ethusdt_20260107.npz\n?? data/hftbacktest/ethusdt_20260201.npz\n?? data/hftbacktest/ethusdt_20260202.npz\n?? data/hftbacktest/ethusdt_20260203.npz\n?? data/hftbacktest/ethusdt_20260204.npz\n?? data/hftbacktest/ethusdt_20260205.npz\n?? data/hftbacktest/ethusdt_20260206.npz\n?? data/hftbacktest/ethusdt_20260207.npz\n?? docs/arcus_rwa_hedged_maker_phase1_20261011.md\n?? docs/arcus_rwa_hedged_maker_phase2_20261011.md\n?? docs/audit/crypto_five_structural_phase12_20261011.md\n?? docs/audit/february_2026_exit_benchmark_tearsheet.png\n?? docs/audit/gotobi_exact_paper_bridge_20261011_v1.md\n?? docs/audit/gotobi_lse_bidask_execution_pilot_20261011_v1.md\n?? docs/audit/gotobi_macro_context_20261011_v2.md\n?? docs/audit/gotobi_paper_replication_20261011_v1.md\n?? docs/audit/hftbacktest_official_1week_tearsheet.png\n?? docs/audit/hyperliquid_xyz_20level_anchored_volume_ab_20261009.md\n?? docs/audit/intraday_breakout_prop_firm_evaluation.md\n?? docs/audit/january_2026_full_month_tearsheet.png\n?? docs/audit/lighter_anchored_volume_ab_20261009.md\n?? docs/audit/lighter_spy_qqq_grid_20261009.md\n?? docs/audit/metals_dual_grid_mvp_20261010.md\n?? docs/audit/multiyear_edge_decay.json\n?? docs/audit/multiyear_edge_decay_tearsheet.png\n?? docs/audit/one_bar_50breakout_20261011_plan.md\n?? docs/audit/option1_watchdog_1week_tearsheet.png\n?? docs/audit/perp_dex_tools_metals_dual_grid_review_20261010.md\n?? docs/audit/prop_mvp_20261011.md\n?? docs/audit/prop_mvp_20261011_independent_review.md\n?? docs/audit/tearsheet_metrics.json\n?? docs/audit/tokyo_alpha_map_program1_closure_v3_20261011.md\n?? docs/audit/tokyo_alpha_map_program1_native_exploratory_v2.md\n?? docs/audit/tokyo_alpha_map_program1_v1_20261010.md\n?? docs/audit/tokyo_fix_prefx_0700_0830_20261011_v1.md\n?? docs/audit/tokyo_fix_program2_cross_currency_20261011_v1.md\n?? docs/audit/tokyo_fix_program3_ohlcv_execution_20261011_v1.md\n?? docs/audit/truthful_adaptive_peg_1week_tearsheet.png\n?? docs/audit/usdjpy_gotobi_2020_2026_usd10000_v1.md\n?? docs/audit/usdjpy_tokyo_fix_phase234_20261010.md\n?? docs/audit/volume_farming_summary.json\n?? docs/audit/volume_farming_tearsheet.png\n?? docs/audit/winning_alpha_tearsheet.png\n?? docs/lessons/01_breakout_execution_and_regime_testing.md\n?? run_log/advanced_validation/phase_4_sensitivity_results.json\n?? run_log/advanced_validation/phase_5_stress_results.json\n?? run_log/advanced_validation/phase_6_and_7_production_contract.json\n?? run_log/advanced_validation/top10_sensitivity_and_stress.json\n?? run_log/arcus_btc_eth_live10_audit_report.json\n?? run_log/arcus_btc_eth_live50_audit_report.json\n?? run_log/arcus_btc_eth_policy2_dryrun_2h_report.json\n?? run_log/arcus_btc_eth_ws_fill_gate_report.json\n?? run_log/arcus_btc_eth_z12_live50_report.json\n?? run_log/arcus_mm_lighter_rwa_report.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_baseline_z0.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_collapsing_boundary.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_ekstrom_z05.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_ekstrom_z08.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_guilbaud_pham_urgency.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_policy_benchmark_summary.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_audit.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_audit_summary.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_audit_summary_v3.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger.csv\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger_v3.csv\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger_v3.json\n?? run_log/btc_eth_pair_trading_scalp/hftbacktest_day1_result.json\n?? run_log/btc_eth_pair_trading_scalp/hftbacktest_official_1week_results.json\n?? run_log/btc_eth_pair_trading_scalp/january_2026_full_month_tick_results.json\n?? run_log/btc_eth_pair_trading_scalp/lookback_horizon_sensitivity/result.json\n?? run_log/btc_eth_pair_trading_scalp/monk_continuous_beta_hedged/result.json\n?? run_log/btc_eth_pair_trading_scalp/monk_continuous_equal_dollar/result.json\n?? run_log/btc_eth_pair_trading_scalp/official_ml4t_pipeline/metrics.json\n?? run_log/btc_eth_pair_trading_scalp/option1_watchdog_1week_results.json\n?? run_log/btc_eth_pair_trading_scalp/profitable_volume_farming/results.json\n?? run_log/btc_eth_pair_trading_scalp/scale_in_vs_static_ablation/result.json\n?? run_log/btc_eth_pair_trading_scalp/tick_l2_backtest_result.json\n?? run_log/btc_eth_pair_trading_scalp/truthful_5day_tick_results.json\n?? run_log/btc_eth_pair_trading_scalp/truthful_adaptive_peg_1week_results.json\n?? run_log/btc_eth_statarb_kalman_regime/final_verification/report.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_1_kalman_ou_baseline/result.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_2_ml_regime_gated/result.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_3_maker_execution_optimized/result.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_4_parameter_sensitivity/result.json\n?? run_log/btc_structure_reversal_20261006/result.json\n?? run_log/btc_structure_reversal_attribution_20261006/result.json\n?? run_log/continuous_long_grid_short_hedge_20261009/hyperliquid_hip3_continuous_partial_carry0bps.json\n?? run_log/continuous_long_grid_short_hedge_20261009/hyperliquid_hip3_hedge_first_continuous_partial_carry0bps.json\n?? run_log/continuous_long_grid_short_hedge_20261009/hyperliquid_hip3_hedge_first_continuous_partial_carry0bps_5m_lotaware.json\n?? run_log/continuous_long_grid_short_hedge_20261009/hyperliquid_hip3_hedge_first_continuous_partial_carry5bps.json\n?? run_log/continuous_long_grid_short_hedge_20261009/lighter_spy_qqq_continuous_partial_carry0bps.json\n?? run_log/continuous_long_grid_short_hedge_20261009/lighter_spy_qqq_hedge_first_continuous_partial_carry0bps_5m.json\n?? run_log/cross_asset_tsmom_replication_20261007/phase2_3_summary.json\n?? run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json\n?? run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json\n?? run_log/crypto_tsmom_maker_regime/trial_1_maker_execution_baseline/result.json\n?? run_log/crypto_tsmom_maker_regime/trial_2_continuous_regime_scaled/result.json\n?? run_log/crypto_tsmom_maker_regime/trial_3_choppiness_filtered_maker/result.json\n?? run_log/crypto_tsmom_maker_regime/trial_4_regime_sliced_dsr_audit/result.json\n?? run_log/crypto_tsmom_mark_price_inputs_20261008_source_manifest.json\n?? run_log/crypto_tsmom_top10_universe/trial_1_top10_equal_weight_tsmom/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_2_top10_vol_targeted_risk_parity/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_3_top10_cross_sectional_top_quintile/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_4_top10_regime_gated_maker/result.json\n?? run_log/crypto_tsmom_trend_persistence/baseline_buy_and_hold/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_1_rate_of_change_momentum/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_2_donchian_breakout/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_3_ma_crossover/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_4_composite_tsmom_diagnostic/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/crisis_stress_testing_results.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/holdout_execution_comparison.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_1_two_stage_funnel_stop_market/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_2_two_stage_funnel_passive_maker/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_3_stop_market_sensitivity_sweep/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_4_holdout_and_dsr_audit/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_1_vol_targeted_tsmom/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_2_symmetric_long_short_vol_targeted/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_3_conviction_threshold_filtered/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_4_dsr_sensitivity_audit/result.json\n?? run_log/dynamic_universe/dynamic_rolling_backtest_summary.json\n?? run_log/dynamic_universe/monthly_top10_universe.json\n?? run_log/fixed23_flow_repair_20261007.json\n?? run_log/forward_expectancy/forward_success_probability.json\n?? run_log/ftmo_fx_intraday_reversion_202610_v2/D0_raw_event_diagnostic/result.json\n?? run_log/fx_support_conditions_20261008/I1_unfiltered/result.json\n?? run_log/fx_support_conditions_20261008/I2_momentum_confirmation/result.json\n?? run_log/fx_support_conditions_20261008/I3_trend_volatility/result.json\n?? run_log/fx_support_conditions_20261008/I4_purged_lightgbm/failure.json\n?? run_log/fx_support_conditions_20261008_ml_v2/I4_purged_lightgbm_v2/result.json\n?? run_log/fx_support_ml4t_execution_20261008/codex_objective.md\n?? run_log/fx_support_ml4t_execution_20261008/feature_integrity_v1.json\n?? run_log/fx_support_ml4t_execution_20261008/report_v1.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E0_unfiltered_oof_cohort/failure.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E0_unfiltered_oof_cohort/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E0_unfiltered_oof_cohort_attempt2/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E0_unfiltered_oof_cohort_attempt2/result.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E1_lightgbm_oof_capped_risk/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E1_lightgbm_oof_capped_risk/result.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E2_identical_order_replay_blocker.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E2_lightgbm_cost_stress/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E2_lightgbm_cost_stress/result.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/E2_replay_diagnostic.log\n?? run_log/fx_support_ml4t_execution_20261008_v2/E3_lightgbm_flat_before_daily_reset/failure.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_causal_ordering_gate.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_causal_ordering_pytest.log\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_engine_execution_gate.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_pytest.log\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_reporting_smoke/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_reporting_smoke_attempt2/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_reporting_smoke_attempt3/orders.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/P0_reporting_smoke_attempt3/result.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/attempt_ledger.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/codex_objective.md\n?? run_log/fx_support_ml4t_execution_20261008_v2/completion_evidence_manifest.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/completion_report.md\n?? run_log/fx_support_ml4t_execution_20261008_v2/delivery_git_status.txt\n?? run_log/fx_support_ml4t_execution_20261008_v2/delivery_session_report.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/execution.log\n?? run_log/fx_support_ml4t_execution_20261008_v2/execution_attempt2.log\n?? run_log/fx_support_ml4t_execution_20261008_v2/feature_integrity_link.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/final_session_report.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/final_summary.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/independent_audit.log\n?? run_log/fx_support_ml4t_execution_20261008_v2/independent_execution_audit.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/initial_session_report.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/methodology_evidence.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/run_metadata.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/session_report.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/summary.json\n?? run_log/fx_support_ml4t_execution_20261008_v2/verification_pytest.log\n?? run_log/fx_support_reclaim_newhigh_20261008/D0_support_hold_new_high/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T0_source_gate/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T1_author_exact/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T2_bridge/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T3_ordinary_control/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T4_native_market/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T5_independent_audit/result.json\n?? run_log/gotobi_exact_paper_bridge_20261011_v1/T6_report/result.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/engineering_smoke/runs/gotobi_latency0_extra0/result.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/engineering_smoke/runs/gotobi_latency1_extra0p25/result.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/engineering_smoke/runs/gotobi_latency5_extra0p5/result.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/engineering_smoke/runs/ordinary_latency1_extra0p25/result.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/engineering_smoke/smoke_result.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/full/export_readiness.json\n?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/full/raw_quote_source_manifest.json\n?? run_log/gotobi_macro_context_20261011_v2/T0_source_audit/result.json\n?? run_log/gotobi_macro_context_20261011_v2/T1_feature_panel/result.json\n?? run_log/gotobi_macro_context_20261011_v2/T2_hypothesis_diagnostics/result.json\n?? run_log/gotobi_macro_context_20261011_v2/T3_walkforward/result.json\n?? run_log/gotobi_macro_context_20261011_v2/T4_native_engine/result.json\n?? run_log/gotobi_macro_context_20261011_v2/T5_cost_robustness/result.json\n?? run_log/gotobi_macro_context_20261011_v2/T6_independent_audit/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/always_long_1p0/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/always_long_1p5/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/always_long_2p0/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/ridge_calendar_only_1p0/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/ridge_calendar_only_1p5/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/ridge_calendar_only_2p0/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/ridge_with_yield_1p0/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/ridge_with_yield_1p5/result.json\n?? run_log/gotobi_macro_context_20261011_v2/runs/ridge_with_yield_2p0/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T0_data_gate/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T1_main_native/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T2_ordinary_native/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T3_cost_and_boundary/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T4_refutation/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T5_independent_audit/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/T6_final_report/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/freeze_check.json\n?? run_log/gotobi_paper_replication_20261011_v1/freeze_init.json\n?? run_log/gotobi_paper_replication_20261011_v1/methodology.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/gotobi_0p0pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/gotobi_1p5pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/gotobi_1pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/gotobi_2p0pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/gotobi_exit595_1pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/gotobi_exit596_1pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/runs/ordinary_1pip/result.json\n?? run_log/gotobi_paper_replication_20261011_v1/source_manifest.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/development_A_full20_A4_full20_carry0_clip50.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/development_A_full20_A4_full20_carry5.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/development_all_carry0.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/development_all_carry0_participation0.01.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/later_A_full20_A4_full20_carry0_clip50.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/later_A_full20_A4_full20_carry5.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/later_all_carry0.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/later_all_carry0_participation0.01.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/smoke_A4_full20_A_partial20_A_subbasket20_A4_partial20_carry0.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/smoke_A_full20_A4_full20_carry0.json\n?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/smoke_A_full20_carry0.json\n?? run_log/intraday_volatility_breakout/trial_1_peter_baseline/result.json\n?? run_log/intraday_volatility_breakout/trial_2_low_vol_regime_filter/result.json\n?? run_log/intraday_volatility_breakout/trial_3_multiplier_sensitivity/result.json\n?? run_log/intraday_volatility_breakout_regime/trial_1_regime_gated_040/result.json\n?? run_log/intraday_volatility_breakout_regime/trial_2_regime_gated_050/result.json\n?? run_log/intraday_volatility_breakout_regime/trial_3_adaptive_tier_matrix/result.json\n?? run_log/iterations/iteration_a_fast_ema_sweep.json\n?? run_log/iterations/iteration_b_dual_momentum.json\n?? run_log/iterations/iteration_c_symmetric_long_short.json\n?? run_log/iterations/iteration_d_composite_synthesis.json\n?? run_log/lighter_anchored_volume_ab_20261009/development_A4_participation0.25_carry0.json\n?? run_log/lighter_anchored_volume_ab_20261009/development_A_A3_A4_participation1_carry5.json\n?? run_log/lighter_anchored_volume_ab_20261009/development_all_participation0.25_carry0.json\n?? run_log/lighter_anchored_volume_ab_20261009/development_all_participation1_carry0.json\n?? run_log/lighter_anchored_volume_ab_20261009/development_all_participation1_carry5.json\n?? run_log/lighter_anchored_volume_ab_20261009/oos_A_A3_A4_participation1_carry5.json\n?? run_log/lighter_anchored_volume_ab_20261009/oos_all_participation0.25_carry0.json\n?? run_log/lighter_anchored_volume_ab_20261009/oos_all_participation1_carry0.json\n?? run_log/lighter_anchored_volume_ab_20261009/oos_all_participation1_carry5.json\n?? run_log/lighter_anchored_volume_ab_20261009/smoke_all_participation1_carry0.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/development_all.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/development_all_cost0bps.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/development_all_cost8bps.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/smoke_all.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/test_all.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/test_all_cost0bps.json\n?? run_log/lighter_spy_qqq_pair_grid_20261009/test_all_cost8bps.json\n?? run_log/near_market_structure_20261005/daily_equity_10bps.csv\n?? run_log/near_market_structure_20261005/frozen_spec.json\n?? run_log/near_market_structure_20261005/pivots.json\n?? run_log/near_market_structure_20261005/result.json\n?? run_log/near_market_structure_exit_sweep_20261006/frozen_spec.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_config.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_cost_stress.csv\n?? run_log/near_market_structure_exit_sweep_20261006/selected_cost_stress.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_yearly_metrics.csv\n?? run_log/near_market_structure_exit_sweep_20261006/selected_yearly_metrics.json\n?? run_log/near_market_structure_exit_sweep_20261006/summary.json\n?? run_log/near_market_structure_exit_sweep_20261006/test_daily_equity.csv\n?? run_log/near_market_structure_exit_sweep_20261006/test_result.json\n?? run_log/near_market_structure_exit_sweep_20261006/test_trades.csv\n?? run_log/near_market_structure_exit_sweep_20261006/train_surface.csv\n?? run_log/near_market_structure_exit_sweep_20261006/train_surface.json\n?? run_log/near_market_structure_exit_sweep_20261006/trial_accounting.json\n?? run_log/near_market_structure_exit_sweep_20261006/validation_top5.csv\n?? run_log/near_market_structure_exit_sweep_20261006/validation_top5.json\n?? run_log/one_bar_50breakout_20261011_mission.md\n?? run_log/paper_trading/smoke_verification.json\n?? run_log/peter_6asset_7year_backtest_result.json\n?? run_log/peter_7asset_with_btc_backtest_result.json\n?? run_log/prop_firm_evaluation/btc_eth_1m_prop_firm_results.json\n?? run_log/prop_firm_evaluation/circuit_breaker_2025_2026_result.json\n?? run_log/prop_firm_evaluation/dual_timeframe_prop_firm_results.json\n?? run_log/prop_firm_evaluation/monthly_cohort_audit_retail_costs.json\n?? run_log/prop_firm_evaluation/prop_firm_evaluation_results.json\n?? run_log/prop_firm_evaluation/static_challenge_funding_cycles.json\n?? run_log/prop_firm_evaluation/verified_dual_timeframe_audit.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/baseline_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/buy_and_hold_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/buy_and_hold_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/cash_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/cash_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/gross_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/matched_time_placebo_24h_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/BTCUSDT/matched_time_placebo_24h_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/baseline_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/buy_and_hold_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/buy_and_hold_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/cash_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/cash_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/gross_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/matched_time_placebo_24h_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/ETHUSDT/matched_time_placebo_24h_reconciliation.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/BTCUSDT/baseline_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/BTCUSDT/buy_and_hold_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/BTCUSDT/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/BTCUSDT/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/BTCUSDT/gross_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/ETHUSDT/baseline_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/ETHUSDT/buy_and_hold_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/ETHUSDT/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/ETHUSDT/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/a_momentum/failed_rebalance_bug/ETHUSDT/gross_metrics.json\n?? run_log/prop_mvp_20261011/a_results.json\n?? run_log/prop_mvp_20261011/artifact_hashes.json\n?? run_log/prop_mvp_20261011/b_event_study_summary.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/baseline_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/gross_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/BTCUSDT/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/baseline_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/gross_metrics.json\n?? run_log/prop_mvp_20261011/b_price_only_proxy/ETHUSDT/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/b_results.json\n?? run_log/prop_mvp_20261011/c_NAS100_results.json\n?? run_log/prop_mvp_20261011/c_NAS100_results_failed_missing_fill_bar.json\n?? run_log/prop_mvp_20261011/c_NAS100_results_failed_sparse_signals.json\n?? run_log/prop_mvp_20261011/c_SPX500_results.json\n?? run_log/prop_mvp_20261011/c_SPX500_results_failed_missing_fill_bar.json\n?? run_log/prop_mvp_20261011/c_SPX500_results_failed_sparse_signals.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/baseline_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/gross_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/matched_time_placebo_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/NAS100/matched_time_placebo_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/baseline_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/gross_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/matched_time_placebo_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy/SPX500/matched_time_placebo_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/baseline_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/gross_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/matched_time_placebo_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/NAS100/matched_time_placebo_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/baseline_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/gross_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/matched_time_placebo_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_missing_fill_bar/SPX500/matched_time_placebo_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/baseline_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/gross_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/matched_time_placebo_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/NAS100/matched_time_placebo_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/baseline_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/baseline_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/cost_2x_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/cost_2x_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/extra_bar_delay_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/extra_bar_delay_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/gross_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/gross_reconciliation.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/matched_time_placebo_metrics.json\n?? run_log/prop_mvp_20261011/c_opening_range_proxy_failed_overnight_exit/SPX500/matched_time_placebo_reconciliation.json\n?? run_log/prop_mvp_20261011/c_partial_results.json\n?? run_log/prop_mvp_20261011/c_results_failed_overnight_exit.json\n?? run_log/prop_mvp_20261011/data_hashes.json\n?? run_log/prop_mvp_20261011/frozen_manifest.json\n?? run_log/prop_mvp_20261011/implementation_corrections.json\n?? run_log/prop_mvp_20261011/liquidation_source_audit.json\n?? run_log/prop_mvp_20261011/preflight_data_quality.json\n?? run_log/prop_mvp_20261011/robustness_metrics.json\n?? run_log/prop_mvp_20261011/summary.json\n?? run_log/prop_mvp_20261011/trial_amendments.json\n?? run_log/prop_mvp_20261011_mission.md\n?? run_log/research_sessions/btc_eth_maker_kalman_20261006/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v2/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3/trials/continuous_three_day_execution_accounting.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3/trials/historical_one_week_accounting_review.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/frozen_spec.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/lookback_horizon_sensitivity.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/monk_continuous_beta_hedged.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/monk_continuous_equal_dollar.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/scale_in_vs_static_ablation.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/frozen_spec.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_1_kalman_ou_baseline.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_2_ml_regime_gated.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_3_maker_execution_optimized.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_4_parameter_sensitivity.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008/data_gate_report.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/related_trial_history_review.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/superseded_before_trial.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v3/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v3/superseded_before_trial.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v4/data_gate_report.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v4/diagnostics/trial_4_flow_incremental_diagnostic.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v4/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v4/phase2_feature_report.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v4/trials/trial_4_flow_incremental_diagnostic.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_1_maker_execution_baseline.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_2_continuous_regime_scaled.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_3_choppiness_filtered_maker.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_4_regime_sliced_dsr_audit.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_1_top10_equal_weight_tsmom.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_2_top10_vol_targeted_risk_parity.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_3_top10_cross_sectional_top_quintile.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_4_top10_regime_gated_maker.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_1_rate_of_change_momentum.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_2_donchian_breakout.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_3_ma_crossover.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_4_composite_tsmom_diagnostic.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_1_two_stage_funnel_stop_market.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_2_two_stage_funnel_passive_maker.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_3_stop_market_sensitivity_sweep.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_4_holdout_and_dsr_audit.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_1_vol_targeted_tsmom.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_2_symmetric_long_short_vol_targeted.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_3_conviction_threshold_filtered.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_4_dsr_sensitivity_audit.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/diagnostics/D0_raw_event_diagnostic.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/diagnostics/D0_raw_event_diagnostic.started.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/frozen_spec.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/trials/D0_raw_event_diagnostic.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610_v2/frozen_spec.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610_v2/trials/D0_raw_event_diagnostic.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610_v2/trials/H0_builtin_diagnostic_failure.json\n?? run_log/research_sessions/fx_support_conditions_20261008/frozen_spec.json\n?? run_log/research_sessions/fx_support_conditions_20261008/trials/I1_unfiltered.json\n?? run_log/research_sessions/fx_support_conditions_20261008/trials/I2_momentum_confirmation.json\n?? run_log/research_sessions/fx_support_conditions_20261008/trials/I3_trend_volatility.json\n?? run_log/research_sessions/fx_support_conditions_20261008/trials/I4_purged_lightgbm.json\n?? run_log/research_sessions/fx_support_conditions_20261008_ml_v2/frozen_spec.json\n?? run_log/research_sessions/fx_support_conditions_20261008_ml_v2/trials/H0_ml_failure.json\n?? run_log/research_sessions/fx_support_conditions_20261008_ml_v2/trials/H0_momentum_prior.json\n?? run_log/research_sessions/fx_support_conditions_20261008_ml_v2/trials/H0_regime_prior.json\n?? run_log/research_sessions/fx_support_conditions_20261008_ml_v2/trials/H0_unfiltered_prior.json\n?? run_log/research_sessions/fx_support_conditions_20261008_ml_v2/trials/I4_purged_lightgbm_v2.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008/diagnostics/P0_engine_execution_gate.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008/frozen_spec.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008/trials/P0_engine_execution_gate.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/frozen_spec.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/E0_unfiltered_oof_cohort.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/E1_lightgbm_oof_capped_risk.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/E2_lightgbm_cost_stress.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/E3_lightgbm_flat_before_daily_reset.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/H0_initial_timing_gate_failure.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/H0_oof_predictive_parent.json\n?? run_log/research_sessions/fx_support_ml4t_execution_20261008_v2/trials/P0_engine_execution_gate.json\n?? run_log/research_sessions/fx_support_reclaim_newhigh_20261008/frozen_spec.json\n?? run_log/research_sessions/fx_support_reclaim_newhigh_20261008/trials/D0_support_hold_new_high.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/frozen_spec.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T0_source_gate.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T1_author_exact.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T2_bridge.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T3_ordinary_control.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T4_native_market.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T5_independent_audit.json\n?? run_log/research_sessions/gotobi_exact_paper_bridge_20261011_v1/trials/T6_report.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v1/frozen_spec.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/frozen_spec.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T0_source_audit.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T1_feature_panel.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T2_hypothesis_diagnostics.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T3_walkforward.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T4_native_engine.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T5_cost_robustness.json\n?? run_log/research_sessions/gotobi_macro_context_20261011_v2/trials/T6_independent_audit.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/frozen_spec.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T0_data_gate.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T1_main_native.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T2_ordinary_native.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T3_cost_and_boundary.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T4_refutation.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T5_independent_audit.json\n?? run_log/research_sessions/gotobi_paper_replication_20261011_v1/trials/T6_final_report.json\n?? run_log/research_sessions/intraday_volatility_breakout/frozen_spec.json\n?? run_log/research_sessions/intraday_volatility_breakout/trials/trial_1_peter_baseline.json\n?? run_log/research_sessions/intraday_volatility_breakout/trials/trial_2_low_vol_regime_filter.json\n?? run_log/research_sessions/intraday_volatility_breakout/trials/trial_3_multiplier_sensitivity.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/frozen_spec.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/trials/trial_1_regime_gated_040.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/trials/trial_2_regime_gated_050.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/trials/trial_3_adaptive_tier_matrix.json\n?? run_log/research_sessions/metals_dual_grid_mvp_20261010/frozen_spec.json\n?? run_log/research_sessions/metals_dual_grid_mvp_20261010/phase2_manifest.json\n?? run_log/research_sessions/metals_dual_grid_mvp_20261010/phase3_diagnostic.json\n?? run_log/research_sessions/metals_dual_grid_mvp_20261010/phase4_ab_result.json\n?? run_log/research_sessions/metals_dual_grid_mvp_20261010/phase4_no_drawdown_spec.json\n?? run_log/research_sessions/structural_alpha_eow_6040_20261011/diagnostics/T0_contract_data_gate.json\n?? run_log/research_sessions/structural_alpha_eow_6040_20261011/diagnostics/T0_contract_data_gate.started.json\n?? run_log/research_sessions/structural_alpha_eow_6040_20261011/frozen_spec.json\n?? run_log/research_sessions/structural_alpha_eow_6040_20261011/trials/T0_contract_data_gate.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/frozen_spec.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/trials/T1_window_coverage.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/trials/T2_alpha_windows.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/trials/T3_postfix.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/trials/T4_calendar.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/trials/T5_refutation.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_closure_v3/trials/T6_reconciliation.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/frozen_spec.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/trials/T0_interval_data_gate.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/trials/T1_gotobi_short.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/trials/T2_ordinary_short.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/trials/T3_gotobi_long_reference.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/trials/T4_independent_oracle.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2/trials/T5_comparison.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/frozen_spec.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/trials/T0_data_gate.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/trials/T1_A_map.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/trials/T2_B_reversal.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/trials/T3_C_calendar.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/trials/T4_D_refutation.json\n?? run_log/research_sessions/tokyo_alpha_map_program1_v1/trials/T5_candidate_screen.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/frozen_spec.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T0_data_gate.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T1_native_gotobi.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T2_native_ordinary.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T3_cost_sensitivity.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T4_regimes.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T5_refutation.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T6_independent_oracle.json\n?? run_log/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1/trials/T7_final_audit.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/frozen_spec.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T1_quality.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T2_flow.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T3_decomposition.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T4_leadlag.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T5_candidates.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T6_native_disposition.json\n?? run_log/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1/trials/T7_verification.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/frozen_spec.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/T0_quality.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/T1_proxy.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/T2_comparison.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/T3_oracle.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/T4_final_audit.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0_t1_b0.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0_t1_b0p5.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0_t3_b0.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0_t3_b0p5.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0p5_t1_b0.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0p5_t1_b0p5.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0p5_t3_b0.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o0p5_t3_b0p5.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o1_t1_b0.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o1_t1_b0p5.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o1_t3_b0.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/limit_o1_t3_b0p5.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/market_gotobi.json\n?? run_log/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1/trials/market_ordinary.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/frozen_spec.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/trials/T0_data_calendar_gate.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/trials/T1_prefx_event_diagnostics.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/trials/T2_postfix_event_diagnostics.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/trials/T3_H1_engine_costed.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/trials/T4_H2_engine_costed.json\n?? run_log/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1/trials/T5_native_fill_oracle.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_20261010/frozen_spec.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_20261010/trials/H1_prefx_event_diagnostic.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_20261010/trials/H2_postfix_event_diagnostic.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/frozen_spec.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/trials/P2_engineer_features.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/trials/P3_event_diagnostics.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/trials/P4_H1_costed.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/trials/P4_H1_zero_cost.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/trials/P4_H2_costed.json\n?? run_log/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/trials/P4_H2_zero_cost.json\n?? run_log/stage5_handoffs/crypto_tsmom_maker_regime_v1.json\n?? run_log/stage5_handoffs/crypto_tsmom_top10_universe_v1.json\n?? run_log/stage5_handoffs/crypto_tsmom_two_stage_funnel_stop_exec_v1.json\n?? run_log/structural_alpha_eow_6040_session_report.json\n?? run_log/structural_alpha_mission_20261011.md\n?? run_log/structural_alpha_mission_report_20261011.md\n?? run_log/structural_alpha_status_20261011.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T1_window_coverage/result.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T2_alpha_windows/coverage_corrected_cumulative_map.png\n?? run_log/tokyo_alpha_map_program1_closure_v3/T2_alpha_windows/coverage_corrected_curves.csv\n?? run_log/tokyo_alpha_map_program1_closure_v3/T2_alpha_windows/result.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T3_postfix/result.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T4_calendar/nominal_exact_token_erratum.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T4_calendar/result.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T5_refutation/result.json\n?? run_log/tokyo_alpha_map_program1_closure_v3/T6_reconciliation/result.json\n?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/T0_interval_data_gate/result.json\n?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/T1_gotobi_short/result.json\n?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/T2_ordinary_short/result.json\n?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/T3_gotobi_long_reference/result.json\n?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/T4_independent_oracle/result.json\n?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/T5_comparison/result.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/audit.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/boj_tinyfish_response.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/build_calendar.py\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/calendar_dates.csv\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/cao_tinyfish_response.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/csv_fetch_tinyfish_response.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/holidays.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/nominal_gotobi_events.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/verification.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/codex_final_message.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/api_identity.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/calendar_event_registry.csv\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/check_before_run.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/check_final.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/coverage_by_calendar.csv\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/coverage_prefreeze.csv\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/execution_attempts.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/freeze.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/gap_audit.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/interval_availability.csv\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/method_and_skills.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/minute_alpha_map.png\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/planned_tests.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/prepare.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/prepare_failed_csv.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/results.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/run.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/session_report.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/targeted_tests.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/trial_ledger.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/window_table.csv\n?? run_log/tokyo_fix_alpha_map_program1_20261010/mission.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/program1_native_continuation_mission_v2.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/check_final.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/diff_check.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/final_artifact_manifest.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/independent_verification.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/initial_status.txt\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/marimo_check.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/minute_semantics.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/missing_minute_details.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/owned_diff.patch\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/preflight.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/protected_hashes.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/pytest_full.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/pytest_mission.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/pytest_without_notebook_checks.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/report_link_check.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/skill_provenance.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/tracked_diff_preservation.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/verification_status.json\n?? run_log/tokyo_fix_alpha_map_program1_20261010/root_verification_v1/verifier.log\n?? run_log/tokyo_fix_alpha_map_program1_20261010/stat_review_v1/post_outcome_review.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/stat_review_v1/recommendations.md\n?? run_log/tokyo_fix_alpha_map_program1_20261010/stat_review_v1/script_review_pre_outcomes.md\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_mission.md\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T0_data_gate/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T1_native_gotobi/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T2_native_ordinary/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T3_cost_sensitivity/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T4_regimes/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T5_refutation/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T6_independent_oracle/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/T7_final_audit/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/annual_pnl.png\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/cost_sensitivity.png\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/execution_complete.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/freeze_check.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/freeze_init.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/methodology.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/preservation_before.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/regime_cutoffs_frozen.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/regime_stability.png\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_c0.8/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_c0/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_c1.4/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_c1/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_c2/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_c3/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_delay1/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/gotobi_delay2/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/ordinary_c1/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/placebo_gotobi_c1/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/runs/placebo_ordinary_c1/result.json\n?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/source_manifest.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_mission.md\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T1_quality/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T2_flow/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T3_decomposition/factor_components.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T3_decomposition/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T4_leadlag/own_only_baseline.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T4_leadlag/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T5_candidates/exposure_oracle.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T5_candidates/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T6_native_disposition/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/T7_verification/result.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/analysis_complete.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/calendar_manifest.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2020.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2020_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2021.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2021_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2022.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2022_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2023.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2023_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2024.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2024_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2025.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2025_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2026.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_AUDUSD_2026_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2020.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2020_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2021.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2021_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2022.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2022_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2023.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2023_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2024.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2024_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2025.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2025_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2026.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURJPY_2026_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2020.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2020_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2021.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2021_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2022.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2022_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2023.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2023_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2024.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2024_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2025.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2025_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2026.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_EURUSD_2026_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2020.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2020_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2021.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2021_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2022.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2022_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2023.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2023_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2024.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2024_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2025.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2025_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2026.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPJPY_2026_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2020.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2020_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2021.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2021_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2022.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2022_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2023.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2023_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2024.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2024_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2025.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2025_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2026.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_GBPUSD_2026_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2020.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2020_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2021.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2021_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2022.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2022_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2023.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2023_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2024.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2024_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2025.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2025_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2026.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/coverage_USDJPY_2026_sorted.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/execution_attempt1.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/execution_attempt2.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/execution_attempt3.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/execution_deviations.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/focused_pytest_final.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/full_pytest.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/full_pytest_adapter.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/intraday_profiles.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/intraday_profiles.png\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/leadlag_scalar.csv\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/marimo_adapter_check.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/marimo_check.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/marimo_check_attempt2.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/marimo_diagnosis.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/marimo_native_rules.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/methodology.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/preservation_before.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/provenance_audit.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/session_check_before.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/session_check_final.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/session_init.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/source_manifest.json\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/supplement.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/verification.log\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/verification_adapter/sitecustomize.py\n?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/verification_attempt2.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_codex_final.md\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_mission.md\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T0_quality/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T1_proxy/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T2_comparison/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T2_comparison_corrected/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T3_oracle/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T4_final_audit/post_finalization_integrity.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/T4_final_audit/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/all_cost_fill_metrics.csv\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/analysis_complete.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/analysis_corrected.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_accounting.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt1.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt2.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt3.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt4.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/execution_attempt5_corrected.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/fill_cost_sensitivity.png\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/fill_cost_sensitivity_corrected.png\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/final_git_status.txt\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/final_identity_check.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/final_session_report.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/finalization.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/focused_pytest.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/freeze_check.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/freeze_init.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/full_pytest.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/full_pytest_attempt2.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/independent_proxy_detail.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/methodology.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/native_semantics_probe.py\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/native_semantics_review.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/preservation_before.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/price_proxy_map.png\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/program3_final_tests.log\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t1_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t1_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t3_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0_t3_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t1_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t1_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t3_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o0p5_t3_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t1_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t1_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t3_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/limit_o1_t3_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/market_gotobi/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs/market_ordinary/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t1_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t1_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t3_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0_t3_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t1_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t1_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t3_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o0p5_t3_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t1_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t1_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t3_b0/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/limit_o1_t3_b0p5/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/market_gotobi/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected/market_ordinary/result.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/secondary_diagnostics.json\n?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/source_manifest.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/prospective_holdout_freeze.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/prospective_runner_manifest.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/summary.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/temporal_validation.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/temporal_validation_plan.json\n?? run_log/usdjpy_gotobi_2020_2026_usd10000_v1/T1_prefx_event_diagnostics/result.json\n?? run_log/usdjpy_gotobi_2020_2026_usd10000_v1/T2_postfix_event_diagnostics/result.json\n?? run_log/usdjpy_gotobi_2020_2026_usd10000_v1/T3_H1_engine_costed/result.json\n?? run_log/usdjpy_gotobi_2020_2026_usd10000_v1/T4_H2_engine_costed/result.json\n?? run_log/usdjpy_gotobi_2020_2026_usd10000_v1/T5_native_fill_oracle/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_20261010/H1_prefx_event_diagnostic/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_20261010/H2_postfix_event_diagnostic/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/P4_H1_costed/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/P4_H1_zero_cost/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/P4_H2_costed/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/P4_H2_zero_cost/result.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/data_gate.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/independent_fill_oracle.json\n?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/phase3/result.json\n?? scripts/analyze_static_challenge_windows.py\n?? scripts/audit_fx_support_ml4t_execution_v2.py\n?? scripts/build_crypto_tsmom_flow_increment_phase2.py\n?? scripts/build_dynamic_feature_panel.py\n?? scripts/build_dynamic_monthly_universe.py\n?? scripts/build_fx_support_conditions_panel.py\n?? scripts/build_two_stage_funnel_features.py\n?? scripts/chart_tokyo_fix_prefx_0700_0830_20261011_v1.py\n?? scripts/compare_3_vs_10_in_2026.py\n?? scripts/compare_vs_bnh_and_oos.py\n?? scripts/compute_forward_success_probability.py\n?? scripts/compute_top10_features.py\n?? scripts/compute_tsmom_features.py\n?? scripts/correct_tokyo_alpha_map_calendar_v3.py\n?? scripts/diagnose_gotobi_2020_2026_usd10k_v1.py\n?? scripts/evaluate_prop_firm_pass_cycles.py\n?? scripts/finalize_prop_mvp_20261011.py\n?? scripts/finalize_tokyo_fix_prefx_0700_0830_20261011_v1.py\n?? scripts/finalize_tokyo_fix_program3_ohlcv_execution_20261011_v1.py\n?? scripts/generate_february_tearsheet.py\n?? scripts/generate_tearsheet.py\n?? scripts/materialize_ftmo_fx_reversion_data.py\n?? scripts/materialize_gotobi_2020_2026_usd10k_v1.py\n?? scripts/materialize_gotobi_macro_context_20261011_v1.py\n?? scripts/materialize_tokyo_fix_gotobi_20261010.py\n?? scripts/materialize_tokyo_fix_program2_cross_currency_20261011_v1.py\n?? scripts/prepare_hftbacktest_data.py\n?? scripts/prepare_top10_data.py\n?? scripts/prepare_tsmom_data.py\n?? scripts/register_strategy_freeze.py\n?? scripts/register_two_stage_handoff.py\n?? scripts/render_tokyo_alpha_map_program1_closure_v3.py\n?? scripts/run_1m_btc_eth_prop_firm_backtest.py\n?? scripts/run_1month_truthful_tick_backtest.py\n?? scripts/run_1week_watchdog_option1_tick_backtest.py\n?? scripts/run_5day_truthful_tick_backtest.py\n?? scripts/run_6asset_multiyear_backtest.py\n?? scripts/run_6asset_phases_4_to_7.py\n?? scripts/run_7asset_with_btc_backtest.py\n?? scripts/run_advanced_exit_hftbacktest.py\n?? scripts/run_advanced_phases_4_to_7.py\n?? scripts/run_biweekly_cohort_audit.py\n?? scripts/run_breakout_trials.py\n?? scripts/run_btc_structure_reversal.py\n?? scripts/run_btc_structure_reversal_attribution.py\n?? scripts/run_continuous_long_grid_short_hedge_20261009.py\n?? scripts/run_cross_asset_tsmom_phase2_3.py\n?? scripts/run_crypto_tsmom_flow_diagnostics.py\n?? scripts/run_dual_timeframe_prop_firm_backtest.py\n?? scripts/run_dynamic_monthly_backtest.py\n?? scripts/run_ekstrom_pure_maker.py\n?? scripts/run_factor_diagnostics.py\n?? scripts/run_ftmo_fx_reversion_d0.py\n?? scripts/run_funding_extreme_reversal_mvp_20261011_v1.py\n?? scripts/run_fx_support_conditions_ml_v2.py\n?? scripts/run_fx_support_conditions_trial.py\n?? scripts/run_fx_support_ml4t_execution_v2.py\n?? scripts/run_fx_support_newhigh_d0.py\n?? scripts/run_gold_only_2018_2026.py\n?? scripts/run_gotobi_2020_2026_usd10k_engine_v1.py\n?? scripts/run_gotobi_exact_paper_bridge_20261011_v1.py\n?? scripts/run_gotobi_lse_bidask_execution_pilot_20261011_v1.py\n?? scripts/run_gotobi_lse_bidask_smoke_20261011.py\n?? scripts/run_gotobi_macro_context_20261011_v1.py\n?? scripts/run_gotobi_macro_context_20261011_v2.py\n?? scripts/run_gotobi_paper_replication_20261011_v1.py\n?? scripts/run_hftbacktest_btc_eth_pair.py\n?? scripts/run_hyperliquid_xyz_full_ladder_ab_20261009.py\n?? scripts/run_independent_first_passage_trials.py\n?? scripts/run_iter_a_fast_ema_sweep.py\n?? scripts/run_iter_b_dual_momentum.py\n?? scripts/run_iter_c_symmetric_long_short.py\n?? scripts/run_iter_d_synthesis_and_holdout.py\n?? scripts/run_lighter_anchored_volume_ab_20261009.py\n?? scripts/run_lighter_spy_qqq_grid_comparison.py\n?? scripts/run_maker_regime_backtests.py\n?? scripts/run_metals_dual_grid_mvp_20261010.py\n?? scripts/run_monk_pair_trading.py\n?? scripts/run_monk_pair_trading_beta.py\n?? scripts/run_monk_sensitivity.py\n?? scripts/run_monk_with_time_barrier.py\n?? scripts/run_monthly_cohort_audit.py\n?? scripts/run_multiyear_kalman_backtest.py\n?? scripts/run_near_market_structure.py\n?? scripts/run_near_market_structure_exit_sweep.py\n?? scripts/run_official_ml4t_pipeline.py\n?? scripts/run_paper_trading_daemon.py\n?? scripts/run_prop_firm_circuit_breaker_backtest.py\n?? scripts/run_prop_mvp_20261011.py\n?? scripts/run_pure_maker_experiment.py\n?? scripts/run_regime_trials.py\n?? scripts/run_stop_market_funnel_backtest.py\n?? scripts/run_stop_market_holdout.py\n?? scripts/run_stop_market_stress_and_audit.py\n?? scripts/run_tick_microstructure_backtest.py\n?? scripts/run_tokyo_alpha_map_native_exploratory_v2.py\n?? scripts/run_tokyo_alpha_map_program1_closure_v3.py\n?? scripts/run_tokyo_alpha_map_program1_v1.py\n?? scripts/run_tokyo_fix_gotobi_diagnostics_20261010.py\n?? scripts/run_tokyo_fix_phase23_20261010_v1.py\n?? scripts/run_tokyo_fix_phase4_engine_20261010_v1.py\n?? scripts/run_tokyo_fix_prefx_0700_0830_20261011_v1.py\n?? scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py\n?? scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py\n?? scripts/run_top10_advanced_validation.py\n?? scripts/run_top10_backtests.py\n?? scripts/run_top10_diagnostics.py\n?? scripts/run_top10_holdout_and_stage5.py\n?? scripts/run_trial_1_kalman.py\n?? scripts/run_trial_2_regime.py\n?? scripts/run_trial_3_maker.py\n?? scripts/run_trial_4_sensitivity.py\n?? scripts/run_truthful_adaptive_peg_backtest.py\n?? scripts/run_tsmom_40_60_80_lse_2020_2026.py\n?? scripts/run_tsmom_backtests.py\n?? scripts/run_tsmom_prospective_holdout.py\n?? scripts/run_tsmom_temporal_validation.py\n?? scripts/run_two_stage_funnel_diagnostics.py\n?? scripts/run_verified_dual_timeframe_audit.py\n?? scripts/run_vol_targeted_backtests.py\n?? scripts/run_volume_farming_engine.py\n?? scripts/supplement_tokyo_fix_program2_cross_currency_20261011_v1.py\n?? scripts/supplement_tokyo_fix_program3_ohlcv_execution_20261011_v1.py\n?? scripts/sweep_prop_firm_circuit_breaker.py\n?? scripts/test_profitable_volume_farming.py\n?? scripts/test_prop_firm_viability.py\n?? scripts/verify_fx_support_ml4t_features_20261008.py\n?? scripts/verify_fx_support_ml4t_stress_replay_v2.py\n?? scripts/verify_gotobi_2020_2026_usd10k_v1.py\n?? scripts/verify_tokyo_alpha_map_native_exploratory_v2.py\n?? scripts/verify_tokyo_alpha_map_program1_v1.py\n?? scripts/verify_tokyo_fix_phase4_engine_20261010_v1.py\n?? scripts/verify_tokyo_fix_prefx_0700_0830_20261011_v1.py\n?? scripts/verify_tokyo_fix_program2_cross_currency_20261011_v1.py\n?? scripts/verify_tokyo_fix_program3_ohlcv_execution_20261011_v1.py\n?? scripts/verify_winning_strategy.py\n?? src/btc_structure_reversal.py\n?? src/btc_structure_reversal_attribution.py\n?? src/features_breakout.py\n?? src/hftbacktest_accounting.py\n?? src/market_structure.py\n?? src/prop_firm_evaluator.py\n?? src/strategies/crypto_tsmom_maker_regime.py\n?? src/strategies/two_stage_funnel_tsmom.py\n?? tests/conftest.py\n?? tests/e2e/__init__.py\n?? tests/e2e/_market.py\n?? tests/e2e/test_accounting_identity.py\n?? tests/e2e/test_cost_stress.py\n?? tests/e2e/test_lookahead_canary.py\n?? tests/e2e/test_null_harness_bias.py\n?? tests/e2e/test_synthetic_alpha_recovery.py\n?? tests/lookahead_guard.py\n?? tests/test_btc_structure_reversal.py\n?? tests/test_btc_structure_reversal_attribution.py\n?? tests/test_continuous_long_grid_short_hedge_20261009.py\n?? tests/test_crypto_tsmom_flow_diagnostics.py\n?? tests/test_crypto_tsmom_maker_regime.py\n?? tests/test_funding_extreme_reversal_mvp_20261011_v1.py\n?? tests/test_fx_support_conditions.py\n?? tests/test_fx_support_conditions_ml_v2.py\n?? tests/test_fx_support_ml4t_boundary_v2.py\n?? tests/test_fx_support_ml4t_execution_20261008.py\n?? tests/test_fx_support_ml4t_execution_v2.py\n?? tests/test_fx_support_newhigh_d0.py\n?? tests/test_gotobi_exact_paper_bridge_20261011_v1.py\n?? tests/test_gotobi_lse_bidask_execution_20261011.py\n?? tests/test_gotobi_macro_context_20261011_v2.py\n?? tests/test_hftbacktest_accounting.py\n?? tests/test_hyperliquid_xyz_full_ladder_ab_20261009.py\n?? tests/test_lighter_anchored_volume_ab_20261009.py\n?? tests/test_lighter_spy_qqq_grid_comparison.py\n?? tests/test_market_structure.py\n?? tests/test_metals_dual_grid_mvp_20261010.py\n?? tests/test_near_market_structure_exit_sweep.py\n?? tests/test_notebook_dag.py\n?? tests/test_prop_firm_evaluator.py\n?? tests/test_prop_mvp_20261011.py\n?? tests/test_tokyo_alpha_map_program1_closure_v3.py\n?? tests/test_tokyo_alpha_map_program1_v1.py\n?? tests/test_tokyo_fix_prefx_0700_0830_20261011_v1.py\n?? tests/test_tokyo_fix_program2_cross_currency_20261011_v1.py\n?? tests/test_tokyo_fix_program3_ohlcv_execution_20261011_v1.py\n?? tests/test_two_stage_funnel_validation.py\n"
+    },
+    "input_spec": {
+      "path": "config/research_sessions/funding_extreme_reversal_mvp_20261011_v1.yaml",
+      "sha256": "b1045b38dae7ff7adfd6bd5972c5136c2b88cbdac5afe72571499bd63de9297b"
+    },
+    "runner": [
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "93ac6a14c98ba4904e27ee23ed08a240994dde0d7675f1542b902192512279b8",
+        "size_bytes": 34565
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      }
+    ],
+    "source": [
+      {
+        "exists": true,
+        "path": "src/__init__.py",
+        "sha256": "207c7f0dac7ca4ee0d52115d00ce992604166a4f196f31b4d626b2de1efcf5ee",
+        "size_bytes": 2593
+      },
+      {
+        "exists": true,
+        "path": "src/backtest.py",
+        "sha256": "cacab1983743a4d1ad1045f7d482ffd381889d6164c1beddafb7348d27684b13",
+        "size_bytes": 5833
+      },
+      {
+        "exists": true,
+        "path": "src/btc_structure_reversal.py",
+        "sha256": "747f1259bc991e42c7cb648f04eff8a5171e60157cfb4c16379dbf64ae2add91",
+        "size_bytes": 15387
+      },
+      {
+        "exists": true,
+        "path": "src/btc_structure_reversal_attribution.py",
+        "sha256": "5420d9c4f13aaca7b49cde6e7446e3cf1e0282193c64fb27abbdf7a54ac8f139",
+        "size_bytes": 5298
+      },
+      {
+        "exists": true,
+        "path": "src/catalog.py",
+        "sha256": "8163cae53cd25bbc64b29659145b113c454e5829fc131b678c9a29d0cfe1fc27",
+        "size_bytes": 11542
+      },
+      {
+        "exists": true,
+        "path": "src/diagnostics.py",
+        "sha256": "aebb402bb4696a5ecd6f2b6c78ad9f926451a71027b8cec8aa17ddb77af4d56b",
+        "size_bytes": 6399
+      },
+      {
+        "exists": true,
+        "path": "src/eow_rebuild.py",
+        "sha256": "9edc111e44dcdded8f681bf9489c69aa97f805ccbca969fcecc5d2ce620bb186",
+        "size_bytes": 66561
+      },
+      {
+        "exists": true,
+        "path": "src/experiment.py",
+        "sha256": "0ec6e61466e861ecfc039e7fab416472d83d74cbaecc926dd8aaa2780d367d1d",
+        "size_bytes": 5496
+      },
+      {
+        "exists": true,
+        "path": "src/factory.py",
+        "sha256": "2c20d53f2ecea255a8801320fd913e4069de47cd7c8fae2ca74409be7748bc02",
+        "size_bytes": 11340
+      },
+      {
+        "exists": true,
+        "path": "src/features.py",
+        "sha256": "12b314ac5aa0c85a1dff654ebcb0eb088aaf7411d98292588534c7e0a426424c",
+        "size_bytes": 11777
+      },
+      {
+        "exists": true,
+        "path": "src/features_breakout.py",
+        "sha256": "15c29b2cbf6527062a59526fc4f649d82895d934d0d7f286207a2fef26f89858",
+        "size_bytes": 5898
+      },
+      {
+        "exists": true,
+        "path": "src/ftmo_simulator.py",
+        "sha256": "636d2889d963cd4067d8acda296b77923c229ca39e62e11861c278210b2c592c",
+        "size_bytes": 18183
+      },
+      {
+        "exists": true,
+        "path": "src/hftbacktest_accounting.py",
+        "sha256": "2de4e787035bd44064dab4e46561fa132ae6969795afdc949c8e8f282f247ae5",
+        "size_bytes": 5716
+      },
+      {
+        "exists": true,
+        "path": "src/labeling.py",
+        "sha256": "a7789b9dce32fad45ef45e65f02b55e4b5ff970c82fb6dd47c785da55a612f3f",
+        "size_bytes": 29294
+      },
+      {
+        "exists": true,
+        "path": "src/market_structure.py",
+        "sha256": "49b2bd5694bffa3d02fe1ff1c2b3eec1a5b47ca7094da42f0dfad176ea4bd5c5",
+        "size_bytes": 5952
+      },
+      {
+        "exists": true,
+        "path": "src/market_time.py",
+        "sha256": "146af457c128fceee95ff351a59d24fad34ffac7f9e2f913cbaf16a11cacb39a",
+        "size_bytes": 6324
+      },
+      {
+        "exists": true,
+        "path": "src/models.py",
+        "sha256": "891057c7707e96d951da81a969a7e85c29c467f1de5dc4a6e844f98c747c6ea5",
+        "size_bytes": 16624
+      },
+      {
+        "exists": true,
+        "path": "src/orb_ml_research.py",
+        "sha256": "e91128fc73d21dc2c599b51f42fe86323516999d79b2c1244a324578182defde",
+        "size_bytes": 42949
+      },
+      {
+        "exists": true,
+        "path": "src/orb_raw_optimization.py",
+        "sha256": "9212b114d9936e6ea62ae64bf56209a63e3a7bbe460ec8f1c5c1c9ae56c992d6",
+        "size_bytes": 54291
+      },
+      {
+        "exists": true,
+        "path": "src/patterns.py",
+        "sha256": "51432b7c9767cf9493a5b41b673c94e4ad094e5ee408e2a74101cc2cc71be073",
+        "size_bytes": 2364
+      },
+      {
+        "exists": true,
+        "path": "src/pipeline.py",
+        "sha256": "fe650b668628cbd5232be5d6f45f3d25cfd62b361d08856d5dc05c26a90ba87e",
+        "size_bytes": 20597
+      },
+      {
+        "exists": true,
+        "path": "src/prop_firm_evaluator.py",
+        "sha256": "e120ba8a1a0c0a38214d530fbfbce25e9e042517d5621b4afd60388afbecae26",
+        "size_bytes": 15760
+      },
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "93ac6a14c98ba4904e27ee23ed08a240994dde0d7675f1542b902192512279b8",
+        "size_bytes": 34565
+      },
+      {
+        "exists": true,
+        "path": "src/session_calendar.py",
+        "sha256": "165a24422ecd6c481b23ff55cb1a62bb95c819e4c10769221f1c10e376bceb47",
+        "size_bytes": 5377
+      },
+      {
+        "exists": true,
+        "path": "src/strategies/crypto_tsmom_maker_regime.py",
+        "sha256": "b6c2467fce59d91a9b559ef645cdc8ca4bb24c4ab8e2c76422cd6c8bb883629d",
+        "size_bytes": 3340
+      },
+      {
+        "exists": true,
+        "path": "src/strategies/two_stage_funnel_tsmom.py",
+        "sha256": "4981e4919c4d9830a4771c03f09ac10aae2665faf4f2ff28367c2791f103d796",
+        "size_bytes": 3079
+      },
+      {
+        "exists": true,
+        "path": "src/synthesis.py",
+        "sha256": "4bc7d779c5e0c8c84722e3aa2b501dc782437e513da8003222861390010af617",
+        "size_bytes": 5825
+      },
+      {
+        "exists": true,
+        "path": "src/validated_orb_pipeline.py",
+        "sha256": "6731a7cad5dc66250c77cc03a759a53524a37249ef20521c9a4ed6285fe8c4df",
+        "size_bytes": 61012
+      },
+      {
+        "exists": true,
+        "path": "src/validation.py",
+        "sha256": "793ed95f123a8af630881eb5399346d6fc593418f6aec356dc6ebb847357f62c",
+        "size_bytes": 9016
+      },
+      {
+        "exists": true,
+        "path": "src/validation_status.py",
+        "sha256": "b44e882edcc9e1e2e71464da6f2ce5d593daba93389ad3feb118fe5b07795027",
+        "size_bytes": 1398
+      },
+      {
+        "exists": true,
+        "path": "scripts/analyze_static_challenge_windows.py",
+        "sha256": "ae5d7d75eff02e5cb0e39afc835b9f2f91bd85a5c9f6734682184cb6d2c41f76",
+        "size_bytes": 7627
+      },
+      {
+        "exists": true,
+        "path": "scripts/audit_fx_support_ml4t_execution_v2.py",
+        "sha256": "3569b8611d47272489e379430efe3fa8db77a0050a08fffed8776013d2cc6c9f",
+        "size_bytes": 5270
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_crypto_tsmom_flow_increment_phase2.py",
+        "sha256": "fba704b84b715ccfb6ac24ddca65060c2227f52a897827b230d8e2656d1620fd",
+        "size_bytes": 16065
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_dynamic_feature_panel.py",
+        "sha256": "b0755435c7218268d905e4bd65e43d9a215b3f6f7bc7237e87e7f6d555e1161f",
+        "size_bytes": 3378
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_dynamic_monthly_universe.py",
+        "sha256": "aba753fdfa6363d8d27f581dd33312c7549958d167093c3ccfcf731e734215c4",
+        "size_bytes": 4399
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_fx_support_conditions_panel.py",
+        "sha256": "fa07a15e34d387a1f8525e77e5d6d5a032b4b2c9222a6a6dab69aaf79d671921",
+        "size_bytes": 7481
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_two_stage_funnel_features.py",
+        "sha256": "81cb45c075c08aeca12835bef95cfe70e7f25132d69b40718f89b25c397e2e61",
+        "size_bytes": 4924
+      },
+      {
+        "exists": true,
+        "path": "scripts/chart_tokyo_fix_prefx_0700_0830_20261011_v1.py",
+        "sha256": "5eac297ec29638866b42f94559e6c0b559349460d48c7889cfca3f6d7a2d5ec3",
+        "size_bytes": 3000
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_3_vs_10_in_2026.py",
+        "sha256": "5d09b830c554318d6a5cfb0482ba396ed536550c57bd57cdd25819598cb5e30a",
+        "size_bytes": 5300
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_ftmo_baseline_vs_optimized.py",
+        "sha256": "ab937fe6ee14e0a3e0deb189e2751e5508f386b0f03392df4bbf24e45a873cb1",
+        "size_bytes": 2740
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_vs_bnh_and_oos.py",
+        "sha256": "9e5ac194ea4034575518337ff4b640d939b531eef000f9e5997f9f9c56024ae7",
+        "size_bytes": 5357
+      },
+      {
+        "exists": true,
+        "path": "scripts/compute_forward_success_probability.py",
+        "sha256": "d64742c6fd4ce6f6f7cb61ca1292343c3974e80fb78902dce3d175b2df255721",
+        "size_bytes": 11127
+      },
+      {
+        "exists": true,
+        "path": "scripts/compute_top10_features.py",
+        "sha256": "b955e3f4bc7e618b27b651df4351ce62fd317710add07f861a9b8fe0d6eeaeb5",
+        "size_bytes": 3844
+      },
+      {
+        "exists": true,
+        "path": "scripts/compute_tsmom_features.py",
+        "sha256": "4e46fd8096347a76668bff069f9d381444880112741833774128e30f7d639a29",
+        "size_bytes": 5131
+      },
+      {
+        "exists": true,
+        "path": "scripts/correct_tokyo_alpha_map_calendar_v3.py",
+        "sha256": "772234056b9b8336e41d9c01f38b8168d82a3b290237968b4a6b403e54dab743",
+        "size_bytes": 4265
+      },
+      {
+        "exists": true,
+        "path": "scripts/diagnose_gotobi_2020_2026_usd10k_v1.py",
+        "sha256": "7ac40b39f781fa2e22036484d3399899a981866462c028cb8c0660af68aabed5",
+        "size_bytes": 6304
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_expanded_assets.py",
+        "sha256": "1e8ba5f7b9c96af762a50c999329061373e7c7cbfc3ba4f25471d94b5aafb476",
+        "size_bytes": 5670
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_historical_2017_2026.py",
+        "sha256": "f3b2e0b12efb6cb0f39822add4479552eba1e77f5ac7a98e69621b456f5156cc",
+        "size_bytes": 3766
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_intraday_data.py",
+        "sha256": "0a1479fb8451642132ee2c1d3209c0d3a26af5b86d2838ede1dc496878fea8e2",
+        "size_bytes": 3535
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_nas100_hk33_2017_2022.py",
+        "sha256": "09cab62c1d542e1beaca79e556aaa07386a4cfd0f44e51e4d5eff7e493603688",
+        "size_bytes": 4425
+      },
+      {
+        "exists": true,
+        "path": "scripts/evaluate_prop_firm_pass_cycles.py",
+        "sha256": "0e984e0e87d6393a8b4996f9199ef9aaffb19af34e7bd50abd11cdce9a0dcc94",
+        "size_bytes": 8349
+      },
+      {
+        "exists": true,
+        "path": "scripts/finalize_prop_mvp_20261011.py",
+        "sha256": "9bbf5a719628b17afb377e5a794a8e95816e3d7a44aae34c3e586e98971ab0f7",
+        "size_bytes": 13270
+      },
+      {
+        "exists": true,
+        "path": "scripts/finalize_tokyo_fix_prefx_0700_0830_20261011_v1.py",
+        "sha256": "7b5069ce6b6269eb0bc9c0a2d900b7c457adbcc3e65aafc97cae290d7fdf34d2",
+        "size_bytes": 6071
+      },
+      {
+        "exists": true,
+        "path": "scripts/finalize_tokyo_fix_program3_ohlcv_execution_20261011_v1.py",
+        "sha256": "332df993ac33810b0d67065cb6e85df4437a1f31337e16e0fc3a19f376456a4f",
+        "size_bytes": 7081
+      },
+      {
+        "exists": true,
+        "path": "scripts/generate_february_tearsheet.py",
+        "sha256": "c464dd2180397a19e0ea9412ffac32d11b5183630cf356f9af4e0f9ae8552850",
+        "size_bytes": 3910
+      },
+      {
+        "exists": true,
+        "path": "scripts/generate_tearsheet.py",
+        "sha256": "0c1e949ce6eefcc489e3909289e7d6b76ef93f9fb31d077e3378d245caee7cf9",
+        "size_bytes": 15180
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_long_short.py",
+        "sha256": "a1120fbefac9f82325bf4697948c03ef252a8bab2a11c75864a192cce5747c5f",
+        "size_bytes": 1232
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_sessions_2017_2026.py",
+        "sha256": "3d1d64bfd2776face574d81a2554a1bd6a5cae3289a72ada6d4883145f631fdb",
+        "size_bytes": 2767
+      },
+      {
+        "exists": true,
+        "path": "scripts/materialize_ftmo_fx_reversion_data.py",
+        "sha256": "0913230decea5cf5f44bcd5c9c2fa4e68fd16261ac14bd6b81b400ffc72674a9",
+        "size_bytes": 5852
+      },
+      {
+        "exists": true,
+        "path": "scripts/materialize_gotobi_2020_2026_usd10k_v1.py",
+        "sha256": "705f616db874ff9a3b1885150adad84d7319cb728a4e72020d3bb84d4d87f90f",
+        "size_bytes": 6241
+      },
+      {
+        "exists": true,
+        "path": "scripts/materialize_gotobi_macro_context_20261011_v1.py",
+        "sha256": "fd6593f72f6a3bf62c66e448db687761872d6e5bdfeaec05238deb76c7b1d8f8",
+        "size_bytes": 4688
+      },
+      {
+        "exists": true,
+        "path": "scripts/materialize_tokyo_fix_gotobi_20261010.py",
+        "sha256": "c7ea49aeb26612860c4442ebe452082f0e7ac24c3ba9e37aa50329ec2a14954f",
+        "size_bytes": 3151
+      },
+      {
+        "exists": true,
+        "path": "scripts/materialize_tokyo_fix_program2_cross_currency_20261011_v1.py",
+        "sha256": "b6112882a65d595e80219727d7ea3c64e9c4bfb8846bfc01f8a8cf1a1f479c6c",
+        "size_bytes": 4328
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_hftbacktest_data.py",
+        "sha256": "7901303e6a1c517bbcb4b6fe4e6a0714b4e24cadd5881bffb2d7db195335afa3",
+        "size_bytes": 4176
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_top10_data.py",
+        "sha256": "b4d6aac236b953d08aa2a91bb7440a5f06728c77028cb3deeb7397162c56ea06",
+        "size_bytes": 2365
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_tsmom_data.py",
+        "sha256": "5b2f40abaa825a1cacc64b8a598a2b15959fd71ebd7f0ab3a61243b5aa0b5627",
+        "size_bytes": 2400
+      },
+      {
+        "exists": true,
+        "path": "scripts/register_strategy_freeze.py",
+        "sha256": "cc1a551edd0cdecd294b5d9ae4303ad3520d489c75c370a8d2929e7c44d3798b",
+        "size_bytes": 2268
+      },
+      {
+        "exists": true,
+        "path": "scripts/register_two_stage_handoff.py",
+        "sha256": "593638a8ce52cf6a0a9c43da42540bb232bf8f62a2ab9fe69b588e2811001697",
+        "size_bytes": 3146
+      },
+      {
+        "exists": true,
+        "path": "scripts/render_tokyo_alpha_map_program1_closure_v3.py",
+        "sha256": "43d8d67c0ecd95e7827e0d3a58e7579e9c52ebdf6d4c77c342a294a362fb7d81",
+        "size_bytes": 3755
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_1m_btc_eth_prop_firm_backtest.py",
+        "sha256": "a1992a1385d5111c3ad806bfc2b938df46d139c80de84ef6fe9dee66eaea5a15",
+        "size_bytes": 7565
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_1month_truthful_tick_backtest.py",
+        "sha256": "a3117c6442576ead7c7525b3fe584ff862f8fec308b26a1b0eea90b374af36cb",
+        "size_bytes": 16696
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_1week_watchdog_option1_tick_backtest.py",
+        "sha256": "f114595e800e48d362ad1ee132080f15ca3e99f8a0c56cb1ad7b566d230f6a46",
+        "size_bytes": 23268
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_5day_truthful_tick_backtest.py",
+        "sha256": "3e0dc6b962a9def17d401460b6d15f09a445923692bda96d3f35e84257d99062",
+        "size_bytes": 14349
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_6asset_multiyear_backtest.py",
+        "sha256": "1eacd35d9a0de6eabf6cd664d56f9def87def1311d1804402ba015bc4085aa6b",
+        "size_bytes": 12650
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_6asset_phases_4_to_7.py",
+        "sha256": "acf8782c0f7b7b7a53b13312f9f992212407d9f8a0d2a0784d7be91fa553329b",
+        "size_bytes": 13354
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_7asset_with_btc_backtest.py",
+        "sha256": "8c3b1c48a1d52d26c72909e7b8b063bad67fd8f75a94d0f9abea0656f769d033",
+        "size_bytes": 12792
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_advanced_exit_hftbacktest.py",
+        "sha256": "c0f2436bbc75290f1d75d48e3535223dfc556254ea222fc69e62e0b66b07f92a",
+        "size_bytes": 30269
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_advanced_phases_4_to_7.py",
+        "sha256": "df2e3e6d0ff860cc13e01f2e2c59d2b7878984630ea79313e8b2befe9a6d385a",
+        "size_bytes": 11373
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_biweekly_cohort_audit.py",
+        "sha256": "4c711bf14a2d4858703ed55426094123281b7b9f114733096891cad787f56e61",
+        "size_bytes": 4778
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_breakout_trials.py",
+        "sha256": "a6d4d1a2f8c33c51fdbcd45196ab46d85037c49bf7eaaffa19aeae94e9c98e2f",
+        "size_bytes": 8036
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_eth_relative_value.py",
+        "sha256": "9d8efc563a89f44b2becc7ec99f8203aed05c298a0965f560c788e456d180bfe",
+        "size_bytes": 23582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_structure_reversal.py",
+        "sha256": "c9f3b2a0e8b5cbf376afef6ae6670f97512f39a062aaa94831902b2d32a012a5",
+        "size_bytes": 7867
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_structure_reversal_attribution.py",
+        "sha256": "dd4e62339fdc54fc8259df0857a3decb4a61de6b393b2d5e571b9eccca23a523",
+        "size_bytes": 7921
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_continuous_long_grid_short_hedge_20261009.py",
+        "sha256": "82c125df0f2952bb579e101e8f38d45fbf9e431b3c859f1e8e3c4af39797ffe6",
+        "size_bytes": 18585
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_cross_asset_tsmom_phase2_3.py",
+        "sha256": "3a5930d3c1dcad0a2c334736760748b921bd4bd904f32592155b51b904ac821d",
+        "size_bytes": 18363
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_crypto_tsmom_flow_diagnostics.py",
+        "sha256": "2e51506dac71ae24e7c46f917e71ac7ebaf9396e29a892c3c1ca55c0d7e25c74",
+        "size_bytes": 20904
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_dual_timeframe_prop_firm_backtest.py",
+        "sha256": "ef362a354256f77168824be5bc37ad0da0514a231b3e1a7b92e0fd7b621bd26a",
+        "size_bytes": 8064
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_dynamic_monthly_backtest.py",
+        "sha256": "8c09b03b5b63ae52df2a08f0131b17340c83a37d5b8cb803ca2018330379f8e1",
+        "size_bytes": 6739
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ekstrom_pure_maker.py",
+        "sha256": "7379f074ed7e9b56910afb74f219eaf194cad7945add46cbc4edf5c946f4cfca",
+        "size_bytes": 15820
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_eow_rebuild.py",
+        "sha256": "32f9124ab0f79ed548f2d652b00dbc71517643222d4c94a1e472021b5c6d6096",
+        "size_bytes": 2511
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_factor_diagnostics.py",
+        "sha256": "ef10ab7f3b793d54830830bb23ef4930401939ed6a4f43f70d433fa5f9d41201",
+        "size_bytes": 3756
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_challenge_simulation.py",
+        "sha256": "6dfd97b3a400d0b90243f31ddc611acc1ab32bec6ff8a9a146b9023293302d87",
+        "size_bytes": 6862
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_fx_reversion_d0.py",
+        "sha256": "72e9bae414653be9d9186476c471349ca65a6e3c254fc9493ab992f6f4dcf7a3",
+        "size_bytes": 12976
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_full_10y_backtest.py",
+        "sha256": "9804dab1a6e6304fd72e9d682af37d5388256ba7c7fb6f4e757358438d406c36",
+        "size_bytes": 8202
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_funding_extreme_reversal_mvp_20261011_v1.py",
+        "sha256": "ec034d7ae556c8467858ec02b3f7eb8cbedfe48bf00adff6bdf80e255678bd80",
+        "size_bytes": 17675
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_fx_support_conditions_ml_v2.py",
+        "sha256": "c9f7cfb125d7bad61ee9561bfd503eac721d12e7a955901dd8597e5665d53423",
+        "size_bytes": 3810
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_fx_support_conditions_trial.py",
+        "sha256": "a5e5c3414a92f84011020de97cdab62f3f1394e6f1080b3c5a016f490234302b",
+        "size_bytes": 15356
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_fx_support_ml4t_execution_v2.py",
+        "sha256": "37ae736371757d3d4990d8cba5f9e1e83385df9c444e522db72869b993cc2537",
+        "size_bytes": 28656
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_fx_support_newhigh_d0.py",
+        "sha256": "7430b152e99bb3c0cc23bf6e55124714980868e2b13346a1dd85f8f1decc51bc",
+        "size_bytes": 15924
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gold_only_2018_2026.py",
+        "sha256": "e2900d81f35cb2865d51bf9a06b4cb245ea1899cc15612cc1699a758845b3707",
+        "size_bytes": 8729
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_2020_2026_usd10k_engine_v1.py",
+        "sha256": "e60ca289c95e90d2e08cfcaa62921ed0714916a9128d2f3e3089bfd0960d03fa",
+        "size_bytes": 10908
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_exact_paper_bridge_20261011_v1.py",
+        "sha256": "24cedaacf87de859b81f1e2fa36c365125092d97257a08f6e675fcd216b56fd6",
+        "size_bytes": 29027
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_lse_bidask_execution_pilot_20261011_v1.py",
+        "sha256": "6d193d30d45da98fe2b7ab662693d1d2368d6418240c1f77fac4327f5c8ecccc",
+        "size_bytes": 10076
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_lse_bidask_smoke_20261011.py",
+        "sha256": "4fa411c22ce6947b79b518cf9a4d717c81882d50cddb66f0f9d2d53c34197758",
+        "size_bytes": 15283
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_macro_context_20261011_v1.py",
+        "sha256": "265a8431c39d4b22b4a46f5866fe442d5807ff07bbae42bbec4649b2e79c2080",
+        "size_bytes": 28894
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_macro_context_20261011_v2.py",
+        "sha256": "58175cc516510fd81fd6bfb7109cf2f7baaaeb12d0b803ab21d5c144be953268",
+        "size_bytes": 28783
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gotobi_paper_replication_20261011_v1.py",
+        "sha256": "56a27795c73a794d7534fc834cfa067e3ec5771df4b163cc5b1d0f9c9a27e03d",
+        "size_bytes": 24196
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_hftbacktest_btc_eth_pair.py",
+        "sha256": "3b1d28a8fa73eaadd4c66f6be3ef25e1d9d2d77f8f9d39d850dad88781069fe8",
+        "size_bytes": 39536
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_hyperliquid_xyz_full_ladder_ab_20261009.py",
+        "sha256": "d897764e2213ea77b41c6436485a8044a8ad224bab242a48f405b43275e6c7f7",
+        "size_bytes": 39508
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_independent_first_passage_trials.py",
+        "sha256": "8c8b9fe12be888413803da43aefcfefe588d5495be5c592449d3199b02f2412e",
+        "size_bytes": 12285
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_a_fast_ema_sweep.py",
+        "sha256": "219f62d39a4878f33539b6d25cff0883073305f9a4dbc34c2ceeb25a473b9b45",
+        "size_bytes": 3908
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_b_dual_momentum.py",
+        "sha256": "7b0ea61d37d9574c4bbb554f5d2b034a22ff7392b1fff1f369d0a769c6c89e4e",
+        "size_bytes": 6715
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_c_symmetric_long_short.py",
+        "sha256": "c791587494e7259ff4ab1310c25c03cbb1129a91309aab58c3540f6aba5e773f",
+        "size_bytes": 7123
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_d_synthesis_and_holdout.py",
+        "sha256": "7a23566517044dcc520fc0cb4bcdf92e232606baafe323dff7b75673673b821e",
+        "size_bytes": 10294
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_lighter_anchored_volume_ab_20261009.py",
+        "sha256": "fa7054aac8962348ce0bf62fa3856551e2fdb43bc5c5ce64d3139e14d18bb8ff",
+        "size_bytes": 32440
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_lighter_spy_qqq_grid_comparison.py",
+        "sha256": "b4e9921e62402836877ceb17fdcad46124b0691cb9b07a6936796668a9babbcf",
+        "size_bytes": 22212
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_maker_regime_backtests.py",
+        "sha256": "f2d67005c32ba30d46309d1dcba7bc97c30a71c2b925fc4fb5254ed51b555860",
+        "size_bytes": 10608
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_metals_dual_grid_mvp_20261010.py",
+        "sha256": "e3ae23aa8b9b7d19666592c1d305d5bdccb94a4116f2ad3fb244f295b6b88599",
+        "size_bytes": 30762
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_pair_trading.py",
+        "sha256": "f118f9ff05a528766ee1b062b2e1378cb01e863f72dd368827b22625418674ba",
+        "size_bytes": 12038
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_pair_trading_beta.py",
+        "sha256": "773894f691f138d22ab7d3ce1cb8d8abb4c17d256c53455e6c4c41a3f4371d4a",
+        "size_bytes": 11681
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_sensitivity.py",
+        "sha256": "1b3453243c9400ed2a3e31ad0929896a230e6c2a550bb934767e5c67c3c5705e",
+        "size_bytes": 7168
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_with_time_barrier.py",
+        "sha256": "54f2db4c9c839cc0542137384d48b8c824d16706cc2311cf29ea7a37b35e3f7c",
+        "size_bytes": 10652
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monthly_cohort_audit.py",
+        "sha256": "3adfbf648b376860b9857f3372872c96d71d2c3364264f37a891e34fecff6be8",
+        "size_bytes": 6610
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_multiyear_kalman_backtest.py",
+        "sha256": "3d0648eb69570e3d1378ef20718562753bb70ea1e5d5c8e09a91f61d4a1d4212",
+        "size_bytes": 13582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_near_market_structure.py",
+        "sha256": "41d0bfd0cc68afc566303d506c545b24e7cfaa3814a813d645a3db35caeb6e94",
+        "size_bytes": 10196
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_near_market_structure_exit_sweep.py",
+        "sha256": "bba785bf0502f2ae2f06f0e7f0655cb24909fdbee68fbff702dc9de64e79bd0b",
+        "size_bytes": 17735
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_official_ml4t_pipeline.py",
+        "sha256": "62f9cebe23ce645d42b7a4f75750cdd874fa44af269b9264ccc7703e43575161",
+        "size_bytes": 11035
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_2017_2026.py",
+        "sha256": "8230647e61f8783eed523aa25a0a0da3593908669d5abbd03e9d8dd715784004",
+        "size_bytes": 17416
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_dual_session.py",
+        "sha256": "e054b5e425746f284fe8c89985ff4b72ab7c49f9cc2fac8872586ed01a36e3a0",
+        "size_bytes": 8912
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_filtered_matrix.py",
+        "sha256": "ca12580991a270f49325b713f010b6ddf1647b6478200d77638c6c79c7a11889",
+        "size_bytes": 15977
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_final_benchmark.py",
+        "sha256": "b63eaee7ddaf4516822750e688179b5091616992b353962dbf2c7d935a76f281",
+        "size_bytes": 7199
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_ml_research.py",
+        "sha256": "45a2d41bdacb7d9d96287387c5e1cb631777a236480ddc2b9c922f00473fa5f3",
+        "size_bytes": 1481
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset.py",
+        "sha256": "0f7b1e2abf55150ad60d096bd36ffa3e73a160b5ffc5ceaf3b130098d04fe011",
+        "size_bytes": 13414
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset_evaluation.py",
+        "sha256": "785f5ad3367d717853a17b66228941a4acca62fea7c85c054c918c50ae47023f",
+        "size_bytes": 19745
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_parallel_matrix.py",
+        "sha256": "cd458dc8742c673f59f4dab3b6b9310ea670d0383937b662ea715bf9c2360875",
+        "size_bytes": 12228
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_raw_optimization.py",
+        "sha256": "6c06c2cba46c8de74be761e57abd6a38fd61c861b8aae9eb407ca9701f98d948",
+        "size_bytes": 1566
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_paper_trading_daemon.py",
+        "sha256": "24b49d27bd6d67ac74ddef894cb8103a9836d445baef383c680ef4d6a0c8e491",
+        "size_bytes": 3911
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pipeline.py",
+        "sha256": "2c2e49f6c5616e8859b6ee7135eaf0f36e2844dec9b92e64a043c128c4e8581c",
+        "size_bytes": 3260
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_prop_firm_circuit_breaker_backtest.py",
+        "sha256": "5515beae63ecf0fb94cd2e8fea67af616980ebb8ce6e297c300dfae2b921d21d",
+        "size_bytes": 10118
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_prop_mvp_20261011.py",
+        "sha256": "3717610ca5abd45219dca83b99c86c1d19f8c33020d0e983e5514fdef4a40f1e",
+        "size_bytes": 18895
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pure_maker_experiment.py",
+        "sha256": "b76b419efedb98009e3ebed6ee85514252a3b1979ce1e35da3c09d0244b3d9ab",
+        "size_bytes": 18092
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_regime_trials.py",
+        "sha256": "c85fb2b209c5f5968eeb806f1578df0b840187e602962d0a4acb01fad566a64a",
+        "size_bytes": 8533
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_stop_market_funnel_backtest.py",
+        "sha256": "aec5904a00a29abba3dda344a02e15968e1078fa7772474dab4a9de7ed4bed1c",
+        "size_bytes": 8693
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_stop_market_holdout.py",
+        "sha256": "e14593b4d8ff2d6a963e01bb7d990db0ca3f6a2d1ee5d608cc373f175ccafa49",
+        "size_bytes": 7765
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_stop_market_stress_and_audit.py",
+        "sha256": "489d21fbab8ca85ad5c825b04254e79d76f4720d4b94615212f0e678588b9957",
+        "size_bytes": 5509
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tick_microstructure_backtest.py",
+        "sha256": "45f4f1dd8b1a59a493477f9b97f7167b014031958c65620fce2a55063c456c49",
+        "size_bytes": 12698
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_alpha_map_native_exploratory_v2.py",
+        "sha256": "e93ba6aaf334be19d92fe30d86fef6d0571c38ef5327d821da060f39775307be",
+        "size_bytes": 17382
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_alpha_map_program1_closure_v3.py",
+        "sha256": "4e6407891d80c9784e0e7b2f8143b5a109981509ca2326a4a4f5d5cbe11cdcda",
+        "size_bytes": 15114
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_alpha_map_program1_v1.py",
+        "sha256": "a5d78e59ca579841a21e7ac09bee8c1d6028100db4311eed40fce7772c6aa3fc",
+        "size_bytes": 30512
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_fix_gotobi_diagnostics_20261010.py",
+        "sha256": "c8d4e5d27e1793d2ca499b41977220f84fee29e3b6b23ad85f8252ce1b1299a0",
+        "size_bytes": 6159
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_fix_phase23_20261010_v1.py",
+        "sha256": "f9759aa899b3ccec6a8ee6a25c0c1746625879692d220782af24be81f8c860ec",
+        "size_bytes": 7487
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_fix_phase4_engine_20261010_v1.py",
+        "sha256": "15ae73dca09418ab73cdb82c85bb0b5b3bd6f3dea78ed617245a6fa3a6adafdc",
+        "size_bytes": 7001
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_fix_prefx_0700_0830_20261011_v1.py",
+        "sha256": "e5ec2134df34ae7928d4307e7e79ff63fdeed02fec1db03653dc3a1b74b0cb9e",
+        "size_bytes": 32177
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py",
+        "sha256": "fdf8980cab0027117344370eb2742b14aeeba22d212f801d2259d1fc1cbe830d",
+        "size_bytes": 25165
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py",
+        "sha256": "1fef99665ee4f33d77faa539322a41d92323d43c9e8211389c640f320e6bb92e",
+        "size_bytes": 36202
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_advanced_validation.py",
+        "sha256": "d50ab0132e636c0be71054a6d387a38e074ebc6d0702a30ff29134fb26399b2c",
+        "size_bytes": 7771
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_backtests.py",
+        "sha256": "2d3091220ca3e23b5efb6e7acb9187b165218b957692cd9ac8f4a947d15f2ee3",
+        "size_bytes": 8215
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_diagnostics.py",
+        "sha256": "e3a192d619e2277f65f839fd1f81c4cdae22c6ea6428add31c0e01a3d48b041a",
+        "size_bytes": 3507
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_holdout_and_stage5.py",
+        "sha256": "6c1562c0bf68cb518dc32b9d78a0123110922a22176afde56ccfa3b7301496d1",
+        "size_bytes": 8046
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_1_kalman.py",
+        "sha256": "db254362459fa36c2aec7fa5cb5486b3a711858590d4c0a71bc466bcd88a7a70",
+        "size_bytes": 7353
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_2_regime.py",
+        "sha256": "4b81840bcd7b99df864fd1ce6f6651db8aea4dd0a52af0136d62b614e5f66997",
+        "size_bytes": 8133
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_3_maker.py",
+        "sha256": "27b836857c98e649efc3a16919d57811904a675863c715a807f3dee3de31749c",
+        "size_bytes": 8706
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_4_sensitivity.py",
+        "sha256": "80bbc91189a16e2894a3a220e79bdbf400df134891761ee1b13dbab7efc1c57a",
+        "size_bytes": 8281
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_truthful_adaptive_peg_backtest.py",
+        "sha256": "e122104e870ec467acc1c46507fe9ef75b86351265c66ddd45e8835fd0fde091",
+        "size_bytes": 26802
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_40_60_80_lse_2020_2026.py",
+        "sha256": "76cca6fe3ecb45a6702941fa985359e1d338682a0765ce68576ae543cd5781a9",
+        "size_bytes": 23961
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_backtests.py",
+        "sha256": "e90d4f165177d0501e75fd631e256bc8699e1ec3847e02efc6b6ec384be841a6",
+        "size_bytes": 8644
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_prospective_holdout.py",
+        "sha256": "2161cb322388038edb68eb015d361824924d4febad0cd55ccd32c24079e28c15",
+        "size_bytes": 18262
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_temporal_validation.py",
+        "sha256": "f3c50edc366ca81ccb5d58493bbdc0859113753cbc612cc420830e547e0eac45",
+        "size_bytes": 13577
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_two_stage_funnel_diagnostics.py",
+        "sha256": "cb4f74385523e1feedd21b275ff339115d5ba4865027fa5ac6f1f6d4b6f7da6b",
+        "size_bytes": 5956
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_validated_orb.py",
+        "sha256": "ce6eca7d5420c967fec64449c9c2e164e14f54e519dfcb7b243f990fd4864fba",
+        "size_bytes": 2970
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_verified_dual_timeframe_audit.py",
+        "sha256": "6ca4d7f02b8bff8e66063de1f987e15dafc6304221b816b630b232fd06d752b1",
+        "size_bytes": 9932
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_vol_targeted_backtests.py",
+        "sha256": "5b218c2aa20493e38b6d24fb035c5886aa0cfa131b46ee09c8cdf1e31bdbd34a",
+        "size_bytes": 9389
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_volume_farming_engine.py",
+        "sha256": "b76603527b04db7e563635cae99b5db9c8c2969fb3d055745e110e98c7041225",
+        "size_bytes": 10866
+      },
+      {
+        "exists": true,
+        "path": "scripts/simulate_ftmo_portfolio.py",
+        "sha256": "98a900a7ef44de2939681c762ca9dd7517cd88ab5b9538c5d132f47076c14e25",
+        "size_bytes": 7669
+      },
+      {
+        "exists": true,
+        "path": "scripts/supplement_tokyo_fix_program2_cross_currency_20261011_v1.py",
+        "sha256": "57c791f2f9072ab5b06f5bb72e0676847920e9f74b00242c1d7ce4302ab65431",
+        "size_bytes": 5274
+      },
+      {
+        "exists": true,
+        "path": "scripts/supplement_tokyo_fix_program3_ohlcv_execution_20261011_v1.py",
+        "sha256": "4e26fdec54dbdc292b993853c81386393ee5b392fcfb73b0a4aaebb371f90d02",
+        "size_bytes": 14991
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_portfolio.py",
+        "sha256": "ccd2f8fe2fafdecd94f9b7636079881a4d3efcb4e44af58ea1f721e5c0653b09",
+        "size_bytes": 10315
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_variants.py",
+        "sha256": "5fb0ca97dc09f2632c064f3b7b4632a5ebfca79e67a0dc70f6dc17ef7135f2bb",
+        "size_bytes": 7489
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_prop_firm_circuit_breaker.py",
+        "sha256": "4da6942b079dd9ccf8dcfe66531cd49f0c64d845aad8688d62d94659108cb21c",
+        "size_bytes": 5586
+      },
+      {
+        "exists": true,
+        "path": "scripts/test_profitable_volume_farming.py",
+        "sha256": "1221c3439aa3d35081f1c30e860c485f8d24b993d1d28195341d1d46c5d3b780",
+        "size_bytes": 11386
+      },
+      {
+        "exists": true,
+        "path": "scripts/test_prop_firm_viability.py",
+        "sha256": "94306741672b1d314823630758001eb4cf94160776e17698057671ff89063014",
+        "size_bytes": 7089
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_fx_support_ml4t_features_20261008.py",
+        "sha256": "946b256a569c71decc1a0872d5c3cd6f153302ffdd4699f10e764341eb3085f8",
+        "size_bytes": 7685
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_fx_support_ml4t_stress_replay_v2.py",
+        "sha256": "5e47df3b6aad0e4eab8651b7f28794e136d8cb35bd96a0fdbb813dcdb84540c0",
+        "size_bytes": 3584
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_gotobi_2020_2026_usd10k_v1.py",
+        "sha256": "a61282c3f50629ed334e0f9491d05c0a32c887cc62cf1545243687fa61c678ce",
+        "size_bytes": 4061
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_tokyo_alpha_map_native_exploratory_v2.py",
+        "sha256": "77609dd657785f2ce16d1a8efbc44fe70bdd22c878967e79711bc8509a4d762e",
+        "size_bytes": 4600
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_tokyo_alpha_map_program1_v1.py",
+        "sha256": "cb8ec67833236c65966be153edafbd178b8d1ca9f38ff81d9cad25ede2d2c1f5",
+        "size_bytes": 9841
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_tokyo_fix_phase4_engine_20261010_v1.py",
+        "sha256": "e65ed973f5cf5b7483432392e76d9526414bbc6c43209ec489096ff8493cbdd0",
+        "size_bytes": 2580
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_tokyo_fix_prefx_0700_0830_20261011_v1.py",
+        "sha256": "84362339f66a3bebef98f9339fe2dee7639c37c1420a9ade2b6cf0f4bc39a4ab",
+        "size_bytes": 9124
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_tokyo_fix_program2_cross_currency_20261011_v1.py",
+        "sha256": "bc53b725318672daac80a922638d42daf0a39230725f8ec0a0a493e636882ea3",
+        "size_bytes": 4375
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_tokyo_fix_program3_ohlcv_execution_20261011_v1.py",
+        "sha256": "2a60173486ed05f9cea18dbc588b2854d6cde596e6e38721c4e3c48b3b0d87b7",
+        "size_bytes": 19502
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_winning_strategy.py",
+        "sha256": "8588ed5880d78ac8d866f51a94df436292c3e522e56dafc5dbfc719748c1d9bd",
+        "size_bytes": 8826
+      }
+    ],
+    "source_sha256": "bb6730d1a52a550efbc1c34c67457b1c0b5bc5852124485a41e5698c31676cd4"
+  },
+  "schema_version": 1,
+  "session_id": "funding_extreme_reversal_mvp_20261011_v1",
+  "spec": {
+    "baseline": "No-trade cash with 10000 USDT. Also report equal-weight 50/50 long-only BTCUSDT and ETHUSDT from the first development bar, with the same execution engine and configured costs.",
+    "costs": {
+      "assumptions": "Binance USD-M Futures VIP 0 taker commission without BNB discount. Apply 4.5 bps commission and 1.5 bps slippage on each fill using ml4t.backtest. No borrow cost is modeled. The constrained four-hour positions are flat before settlement; do not infer broader perp financing economics.",
+      "commission_bps": 4.5,
+      "funding_included": false,
+      "funding_policy": "Accepted positions cannot overlap a funding event. Funding cash flow is therefore zero by construction; record skipped settlement-crossing signals. The engine has no funding ledger, so any crossing position blocks the run.",
+      "slippage_bps": 1.5,
+      "spread_policy": "No bid/ask data is present. The configured 1.5 bps per-side percentage slippage is the declared execution-friction estimate; do not add a second spread charge."
+    },
+    "data": [
+      {
+        "id": "btcusdt_1h",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+        "role": "prices",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "id": "ethusdt_1h",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+        "role": "prices",
+        "symbol": "ETHUSDT"
+      },
+      {
+        "id": "btcusdt_funding",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet",
+        "role": "funding",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "id": "ethusdt_funding",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet",
+        "role": "funding",
+        "symbol": "ETHUSDT"
+      }
+    ],
+    "evaluation": {
+      "development_end": "2026-08-01T00:00:00Z",
+      "development_start": "2026-01-01T00:00:00Z",
+      "holdout_policy": "There is no confirmatory holdout in this MVP. Do not read or score any observations from 2026-08-01 onward. The 2026-01-01 through 2026-07-31 window is historical development evidence.",
+      "outcomes": "One preregistered rule only. Compare gross and net cost decomposition for that same rule. Report combined and per-symbol results, daily equity Sharpe and maximum drawdown, no-trade cash, and equal-weight long-only BTC/ETH.",
+      "signal": "At each funding event, compare absolute funding_rate with the rolling 90th percentile of the prior 90 actual funding events for that symbol. The threshold excludes the current event. Signal only when abs(rate) is greater than or equal to the threshold. Position direction is -sign(rate).",
+      "sizing": "Start with 10000 USDT. Target 0.4 times decision-time account equity per position, fractional quantities, no more than two simultaneous positions, and no leverage. Monitor marked gross exposure and fail the run if it exceeds 1.0 times equity.",
+      "timing": "Funding timestamps include milliseconds after the hour boundary. Decision availability is no earlier than the recorded event timestamp. Wait for the completed 1-hour candle containing the event; submit after that candle and enter at the next hour open. Exit at the open four hours after entry. For engine timestamp semantics, submit at the containing candle timestamp and use NEXT_BAR OPEN execution. Skip a signal if its entry-to-exit interval intersects any same-symbol funding settlement timestamp.",
+      "warmup_start": "2025-10-01T00:00:00Z"
+    },
+    "falsifier": "The single fixed rule is not supported if combined net return is not above the no-trade baseline, or if either symbol has no valid trades. Report adverse outcomes as exploratory evidence. Do not tune this rule or claim deployment readiness. All available data through 2026-07-31 is previously observed development evidence, not a prospective holdout.",
+    "instruments": [
+      {
+        "identity": "BTCUSDT linear USD-M perpetual, USDT quote and settlement, multiplier 1",
+        "kind": "perpetual",
+        "symbol": "BTCUSDT",
+        "venue": "Binance USD-M Futures"
+      },
+      {
+        "identity": "ETHUSDT linear USD-M perpetual, USDT quote and settlement, multiplier 1",
+        "kind": "perpetual",
+        "symbol": "ETHUSDT",
+        "venue": "Binance USD-M Futures"
+      }
+    ],
+    "market": "crypto",
+    "mechanism": "Extreme funding can mark one-sided leveraged positioning. Traders on the crowded side pay funding and may reduce exposure after settlement. The reversal can fail when directional demand dominates financing pressure.",
+    "session_id": "funding_extreme_reversal_mvp_20261011_v1",
+    "thesis": "At BTCUSDT and ETHUSDT Binance USD-M perpetual funding settlements, an absolute funding rate at or above the symbol's prior 90-event 90th percentile predicts a contrarian four-hour price return after the funding-hour bar closes. Positive funding signals short; negative funding signals long.",
+    "trials": [
+      {
+        "description": "One fixed event-level rule: prior-90-event absolute funding 90th percentile, contrarian direction, next-hour-open entry, four-hour hold, settlement-crossing skip, 0.4x equity notional, and declared costs.",
+        "id": "extreme_funding_contrarian_4h",
+        "kind": "preregistered"
+      }
+    ]
+  },
+  "spec_sha256": "1635aa0145c6761994243524819f6c073cee363b6f72b5679f824dfdf03676e2",
+  "status": "FROZEN"
+}

@@ -1,0 +1,119 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2022,
+  "trial": "EQUAL-JP225-7",
+  "cost_multiplier": 1.0,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 342997,
+      "first": "2022-01-02 23:00:00+00:00",
+      "last": "2022-12-30 21:14:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 1,
+      "d1_exits": 18
+    },
+    {
+      "symbol": "US100",
+      "rows": 342997,
+      "first": "2022-01-02 23:00:00+00:00",
+      "last": "2022-12-30 21:14:00+00:00",
+      "h1_signals": 131,
+      "d1_signals": 1,
+      "d1_exits": 12
+    },
+    {
+      "symbol": "JP225",
+      "rows": 342874,
+      "first": "2022-01-02 23:00:00+00:00",
+      "last": "2022-12-30 21:14:00+00:00",
+      "h1_signals": 233,
+      "d1_signals": 1,
+      "d1_exits": 17
+    },
+    {
+      "symbol": "EU50",
+      "rows": 205732,
+      "first": "2022-01-03 07:00:00+00:00",
+      "last": "2022-12-30 20:59:00+00:00",
+      "h1_signals": 60,
+      "d1_signals": 2,
+      "d1_exits": 14
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 99286.91119515465,
+    "num_trades": 145,
+    "num_orders": 292,
+    "num_fills": 292,
+    "num_rejected_orders": 0,
+    "win_rate": 0.3586206896551724,
+    "total_commission": 626.0291672913204,
+    "total_slippage": 1252.0577368568202,
+    "total_costs": 1873.0334936119953,
+    "max_drawdown_pct": 2.9210383176782337
+  },
+  "daily": {
+    "total_return": -0.007130888048453965,
+    "annual_return": -0.005800599746419666,
+    "annual_volatility": 0.027846038656732016,
+    "sharpe_ratio": -0.195078009708379,
+    "sortino_ratio": -0.3537038088410067,
+    "calmar_ratio": -0.21912046859063009,
+    "omega_ratio": 0.9460046414549701,
+    "tail_ratio": 0.9857803277977637,
+    "max_drawdown": -0.026472194878592495,
+    "skewness": 2.654184352028844,
+    "kurtosis": 15.529306383850773,
+    "var_95": -0.002432908363703168,
+    "cvar_95": -0.003455140808168507,
+    "stability": 0.04526893658821981,
+    "win_rate": 0.17096774193548386,
+    "profit_factor": 0.94600464145497,
+    "avg_win": 0.0022089905554547908,
+    "avg_loss": -0.0013307409240686861,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 145,
+  "open_trades": 2,
+  "closed_net_pnl": 27.399870567157393,
+  "native_end_equity": 99286.91119515465,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "JP225_D": {
+      "quantity": 0.3240259553070138,
+      "entry_price": 27680.8040538,
+      "current_price": 25812.369,
+      "multiplier": 1.0
+    },
+    "EU50_D": {
+      "quantity": 2.0470152622300377,
+      "entry_price": 3848.3585178,
+      "current_price": 3783.199,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2022/EQUAL-JP225-7/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2022/EQUAL-JP225-7/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2022/EQUAL-JP225-7/cost_1x/daily_equity.parquet"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "rolling_window": "50 complete 30m bars",
+  "decision_timing": "Strategy reads the completed bar extrema only from that bar's final 1m event (:29 or :59), then submits native STOP orders for the next 1m event at the next 30m boundary.",
+  "fills": "NEXT_BAR Engine fills pending STOP orders against the next 1m OHLC range; gap-through stop fills use the 1m open. Market exits submitted at the final 1m event fill at the next available 1m open.",
+  "protected_data": "Only 2025 warm-up and 2026 January-July source partitions were selected.",
+  "same_minute_exceptions": "The Engine cannot sequence an entry and protective stop crossed inside the same 1m OHLC candle. Metrics retain this count; no intrabar path is invented."
+}

@@ -1,0 +1,43 @@
+{
+  "command": "UV_CACHE_DIR=/tmp/uv-cache-onebar uv run --no-sync python -m pytest -q tests/test_one_bar_dukascopy_phase567_20261011.py",
+  "result": "6 passed",
+  "cases": [
+    {
+      "case": "DST fall-back repeated hour",
+      "test": "test_utc_half_hour_exit_boundary_survives_fall_back_repeated_hour",
+      "test_result": "passed",
+      "observation": "UTC 06:29 and 07:29 map to distinct next boundaries."
+    },
+    {
+      "case": "full-tick native fees",
+      "test": "test_causal_strategy_uses_native_stop_and_market_fills_with_full_tick_costs",
+      "test_result": "passed",
+      "observation": "Two native fills charge $5 total commission; slippage log is 0.5 points and net-vs-gross difference equals commission because fill prices include slippage."
+    },
+    {
+      "case": "both entry STOPs crossed in one minute",
+      "test": "test_native_engine_fills_both_entry_stops_before_strategy_cancels",
+      "test_result": "passed_as_observed_behavior",
+      "required_oco_invariant": "FAIL",
+      "observation": "Two opposing stop orders fill at one timestamp before strategy cancellation; native broker submit_order has no OCO parameter."
+    },
+    {
+      "case": "entry and protective stop touched in entry minute",
+      "test": "test_entry_and_protective_stop_in_same_minute_is_flagged",
+      "test_result": "passed",
+      "observation": "Strategy flags the OHLC ambiguity; 1m OHLC does not identify order."
+    },
+    {
+      "case": "missing scheduled exit open",
+      "test": "test_missing_exit_open_fills_at_first_observed_event_and_is_late",
+      "test_result": "passed",
+      "observation": "Market exit fills at first observed timestamp, 17:10 UTC, when 17:00 data is absent."
+    },
+    {
+      "case": "final feed minute before exit boundary",
+      "test": "test_final_missing_exit_event_leaves_no_fabricated_market_fill",
+      "test_result": "passed",
+      "observation": "No 17:00 fill is fabricated; Engine marks the position open at end of backtest."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "Focused causal timing remediation only; no historical strategy replay.",
+  "signal": "For each complete 30-minute bar b, rolling high/low across complete bars b-49 through b inclusive; unchanged 50-bar lookback and levels.",
+  "availability": "bar_start + 30 minutes (close boundary); strict causal release occurs on source timestamps >= available_at via backward as-of join.",
+  "execution_rows": "All valid 1-minute source rows remain in the feed, including incomplete bins and first observed rows after gaps.",
+  "verification": {
+    "command": "UV_CACHE_DIR=/tmp/uv-cache uv run --offline python -m pytest -q tests/test_one_bar_execution_remediation_20261012.py",
+    "result": "14 passed",
+    "log": "run_log/one_bar_execution_remediation_20261012/timing_pytest.log",
+    "cases": [
+      "50th completed bar level absent before its close and available at the boundary minute",
+      "incomplete next bar retains its real opening execution minute and released level",
+      "mutating future bars does not change the earlier signal/order level",
+      "session-gap first real minute receives the latest released level",
+      "repeated Chicago DST hour maps to distinct UTC boundaries"
+    ]
+  },
+  "status": "TIMING TRANSFORM VERIFIED; FULL RULE REPLAY BLOCKED",
+  "limitations": [
+    "Native atomic OCO remains unsupported.",
+    "BID 1-minute OHLC cannot order same-minute opposing triggers.",
+    "No exact native strategy replay or corrected historical performance result was produced."
+  ],
+  "frozen": [
+    "50-bar lookback",
+    "30-minute bar levels",
+    "OCO rules",
+    "stop rules",
+    "two entries per session day"
+  ]
+}

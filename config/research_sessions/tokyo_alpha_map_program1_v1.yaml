@@ -1,0 +1,332 @@
+session_id: tokyo_alpha_map_program1_v1
+market: fx
+thesis: A-D retrospective Tokyo settlement-calendar associations in full 03-12 JST
+  sessions; USD buying pressure before 09:55 may reverse afterward.
+mechanism: Calendar-linked demand by Japanese importers/banks before the 09:55 daily
+  fixing could cause temporary USDJPY dollar-buying price pressure, which may dissipate
+  afterward. Historical results are not prospective proof.
+falsifier: No positive global-Holm-significant Gotobi increment; nonpositive base
+  cost lower bound; insufficient n/year support; unstable signs or placebo concern.
+  Onset remains unresolved unless fixed interval increment passes Holm and HAC lag
+  robustness.
+instruments:
+- symbol: USDJPY
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: 'Research USDJPY LSE OHLC proxy: USD base, JPY quote. No executable broker
+    quotes, commission, margin contract or swap specification available.'
+  session: Tokyo bank calendar on official public holidays + BOJ closure rule
+  timezone: Asia/Tokyo
+data:
+- id: year_0
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet
+- id: year_1
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet
+- id: year_2
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet
+- id: year_3
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet
+- id: year_4
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet
+- id: year_5
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet
+- id: year_6
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet
+evaluation:
+  development_start: '2020-01-01T00:00:00Z'
+  development_end: '2026-08-31T15:00:00Z'
+  holdout_start: '2026-08-31T15:00:00Z'
+  holdout_end: '2026-10-10T00:00:00Z'
+  status: 'Entire2020-Aug2026 already inspected: EXPLORATORY only; holdout JST>=September1
+    never read.'
+  windows:
+    A_0300_0500:
+    - 180
+    - 300
+    - 1
+    A_0500_0700:
+    - 300
+    - 420
+    - 1
+    A_0700_0830:
+    - 420
+    - 510
+    - 1
+    A_0830_0954:
+    - 510
+    - 594
+    - 1
+    A_0956_1010:
+    - 596
+    - 610
+    - 1
+    A_1010_1030:
+    - 610
+    - 630
+    - 1
+    A_1030_1200:
+    - 630
+    - 720
+    - 1
+    L_0300_0954:
+    - 180
+    - 594
+    - 1
+    L_0500_0954:
+    - 300
+    - 594
+    - 1
+    L_0700_0954:
+    - 420
+    - 594
+    - 1
+    L_0830_0954:
+    - 510
+    - 594
+    - 1
+    B_0956_1010:
+    - 596
+    - 610
+    - -1
+    B_0956_1030:
+    - 596
+    - 630
+    - -1
+    B_0956_1100:
+    - 596
+    - 660
+    - -1
+    D_main_0930_0954:
+    - 570
+    - 594
+    - 1
+    D_placebo_1130_1154:
+    - 690
+    - 714
+    - 1
+    D_main_short_0956_1000:
+    - 596
+    - 600
+    - -1
+    D_placebo_short_1156_1200:
+    - 716
+    - 720
+    - -1
+  hac:
+    maxlags: 5
+    kernel: bartlett
+    use_correction: true
+    use_t: true
+    robustness_lags:
+    - 1
+    - 10
+  controls:
+  - weekday
+  - year
+  dag: Calendar and weekday/year -> demand and returns; latent importer flow -> returns.
+    No return, extension or volume controls. Calendar associations do not identify
+    dealer flows.
+  calendar: Official Cabinet Office holiday dates + BOJ bank closure rule; previous-bank-business-day
+    rollback is an assumption. No nominal30 in February; month-end separate. Nominal
+    collisions excluded only from C regression.
+  gates: B3 original extension open0955-open0800 >1.5 sampleSD preceding20 complete0800-1030
+    bank dates; report original as sensitivity AND strict541-minute gate. Identically
+    gated ordinary controls. Gate is potentially mediator-selected.
+  global_holm_test_ids:
+  - A_0300_0500:mean:gotobi
+  - A_0300_0500:mean:ordinary
+  - A_0300_0500:mean:rolled_gotobi
+  - A_0300_0500:mean:month_end
+  - A_0300_0500:increment
+  - A_0500_0700:mean:gotobi
+  - A_0500_0700:mean:ordinary
+  - A_0500_0700:mean:rolled_gotobi
+  - A_0500_0700:mean:month_end
+  - A_0500_0700:increment
+  - A_0700_0830:mean:gotobi
+  - A_0700_0830:mean:ordinary
+  - A_0700_0830:mean:rolled_gotobi
+  - A_0700_0830:mean:month_end
+  - A_0700_0830:increment
+  - A_0830_0954:mean:gotobi
+  - A_0830_0954:mean:ordinary
+  - A_0830_0954:mean:rolled_gotobi
+  - A_0830_0954:mean:month_end
+  - A_0830_0954:increment
+  - A_0956_1010:mean:gotobi
+  - A_0956_1010:mean:ordinary
+  - A_0956_1010:mean:rolled_gotobi
+  - A_0956_1010:mean:month_end
+  - A_0956_1010:increment
+  - A_1010_1030:mean:gotobi
+  - A_1010_1030:mean:ordinary
+  - A_1010_1030:mean:rolled_gotobi
+  - A_1010_1030:mean:month_end
+  - A_1010_1030:increment
+  - A_1030_1200:mean:gotobi
+  - A_1030_1200:mean:ordinary
+  - A_1030_1200:mean:rolled_gotobi
+  - A_1030_1200:mean:month_end
+  - A_1030_1200:increment
+  - L_0300_0954:mean:gotobi
+  - L_0300_0954:mean:ordinary
+  - L_0300_0954:mean:rolled_gotobi
+  - L_0300_0954:mean:month_end
+  - L_0300_0954:increment
+  - L_0500_0954:mean:gotobi
+  - L_0500_0954:mean:ordinary
+  - L_0500_0954:mean:rolled_gotobi
+  - L_0500_0954:mean:month_end
+  - L_0500_0954:increment
+  - L_0700_0954:mean:gotobi
+  - L_0700_0954:mean:ordinary
+  - L_0700_0954:mean:rolled_gotobi
+  - L_0700_0954:mean:month_end
+  - L_0700_0954:increment
+  - L_0830_0954:mean:gotobi
+  - L_0830_0954:mean:ordinary
+  - L_0830_0954:mean:rolled_gotobi
+  - L_0830_0954:mean:month_end
+  - L_0830_0954:increment
+  - B_0956_1010:mean:gotobi
+  - B_0956_1010:mean:ordinary
+  - B_0956_1010:mean:rolled_gotobi
+  - B_0956_1010:mean:month_end
+  - B_0956_1010:increment
+  - B_0956_1030:mean:gotobi
+  - B_0956_1030:mean:ordinary
+  - B_0956_1030:mean:rolled_gotobi
+  - B_0956_1030:mean:month_end
+  - B_0956_1030:increment
+  - B_0956_1100:mean:gotobi
+  - B_0956_1100:mean:ordinary
+  - B_0956_1100:mean:rolled_gotobi
+  - B_0956_1100:mean:month_end
+  - B_0956_1100:increment
+  - D_main_0930_0954:mean:gotobi
+  - D_main_0930_0954:mean:ordinary
+  - D_main_0930_0954:mean:rolled_gotobi
+  - D_main_0930_0954:mean:month_end
+  - D_main_0930_0954:increment
+  - D_placebo_1130_1154:mean:gotobi
+  - D_placebo_1130_1154:mean:ordinary
+  - D_placebo_1130_1154:mean:rolled_gotobi
+  - D_placebo_1130_1154:mean:month_end
+  - D_placebo_1130_1154:increment
+  - D_main_short_0956_1000:mean:gotobi
+  - D_main_short_0956_1000:mean:ordinary
+  - D_main_short_0956_1000:mean:rolled_gotobi
+  - D_main_short_0956_1000:mean:month_end
+  - D_main_short_0956_1000:increment
+  - D_placebo_short_1156_1200:mean:gotobi
+  - D_placebo_short_1156_1200:mean:ordinary
+  - D_placebo_short_1156_1200:mean:rolled_gotobi
+  - D_placebo_short_1156_1200:mean:month_end
+  - D_placebo_short_1156_1200:increment
+  - B_0956_1010:gated_mean
+  - B_0956_1010:gated_increment
+  - B_0956_1010:original_gate_mean
+  - B_0956_1010:original_gate_increment
+  - B_0956_1030:gated_mean
+  - B_0956_1030:gated_increment
+  - B_0956_1030:original_gate_mean
+  - B_0956_1030:original_gate_increment
+  - B_0956_1100:gated_mean
+  - B_0956_1100:gated_increment
+  - B_0956_1100:original_gate_mean
+  - B_0956_1100:original_gate_increment
+  - C:L_0830_0954:nominal_5
+  - C:L_0830_0954:nominal_10
+  - C:L_0830_0954:nominal_15
+  - C:L_0830_0954:nominal_20
+  - C:L_0830_0954:nominal_25
+  - C:L_0830_0954:nominal_30
+  - C:L_0830_0954:rolled_gotobi
+  - C:L_0830_0954:month_end
+  - C:L_0830_0954:quarter_end
+  - C:L_0830_0954:weekday_4
+  - C:B_0956_1030:nominal_5
+  - C:B_0956_1030:nominal_10
+  - C:B_0956_1030:nominal_15
+  - C:B_0956_1030:nominal_20
+  - C:B_0956_1030:nominal_25
+  - C:B_0956_1030:nominal_30
+  - C:B_0956_1030:rolled_gotobi
+  - C:B_0956_1030:month_end
+  - C:B_0956_1030:quarter_end
+  - C:B_0956_1030:weekday_4
+  - D:negative:L_0830_0954
+  - D:negative:B_0956_1030
+  - D:matched_pre_difference
+  - D:matched_post_difference
+  minimum:
+    strategy_n: 100
+    controls_n: 200
+    years_with15events: 5
+    positive_net_years: 5
+    calendar_category_n: 30
+    calendar_category_years: 4
+  selection: 'At most two: one pre and one post. Positive increment Holm p<.05 and
+    CI lower>0, positive 1pip mean CI lower>0, positive1.4pip point mean; 2024-25
+    pooled net>=0; every leaveyearout increment and net positive; alternative HAC
+    lag signs; placebo concern unresolved means NONE. Full-cohort coverage<80percent
+    flags missingness generalization unresolved and rejects strategy selection. Tie
+    earliest entry or earliest exit. Native Engine only after gates.'
+  placebos: Pre0930-0954 vs1130-1154; post0956-1000 vs1156-1200 matched4min diagnostic;
+    main14/34/64min post horizons unavailable at11:55. Negative nominal2/7/12/17/22/27
+    rollback, exclude actualGotobi.
+  initial_equity_usd: 10000
+  position_base_usd: 10000
+  no_compounding: true
+baseline: Same window ordinary Tokyo bank business days, weekday/year adjusted; gated
+  ordinary for B3.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  hypothetical_half_spread_plus_slippage_jpy_per_side: 0.005
+  hypothetical_roundtrip_pips: 1.0
+  sensitivity_roundtrip_pips:
+  - 0.8
+  - 1.0
+  - 1.4
+  financing: Not modeled; positions intraday only; spread and commissions unverified
+  assumptions: Fixed price-slip applies to EACH entry/exit side inside native Engine,
+    regardless of size or actual historical spread. Treat as illustrative; no executable
+    quotes, capacity or retail eligibility inferred.
+trials:
+- id: T0_data_gate
+  kind: diagnostic
+  description: Calendar, source hashes, gap audit and CLI check
+- id: T1_A_map
+  kind: preregistered
+  description: Fixed A intervals and accumulations; descriptive minute curves
+- id: T2_B_reversal
+  kind: preregistered
+  description: Three fixed horizons all groups and original/strict gates
+- id: T3_C_calendar
+  kind: preregistered
+  description: Two small calendar regressions; nominal collisions excluded
+- id: T4_D_refutation
+  kind: preregistered
+  description: Negative-calendar and matched-placebo contrasts; yearly and lag robustness
+- id: T5_candidate_screen
+  kind: preregistered
+  description: Apply frozen gates; conditional native Engine max2; NONE valid
+evidence:
+- data/processed/tokyo_alpha_map_program1_v1/source_manifest.json
+- run_log/tokyo_fix_alpha_map_program1_20261010/calendar_audit_v1/calendar_dates.csv
+- run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/calendar_event_registry.parquet

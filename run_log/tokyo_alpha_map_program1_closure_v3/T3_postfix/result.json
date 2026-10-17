@@ -1,0 +1,964 @@
+{
+  "results": {
+    "B_0956_1010": {
+      "cohort": 1625,
+      "gotobi": {
+        "n": 468,
+        "mean_pips": 1.7017094017094225,
+        "ci95_pips": [
+          0.843878702733548,
+          2.559540100685297
+        ],
+        "p_two_sided": 0.00011112291331743532,
+        "positive_fraction": 0.5811965811965812,
+        "median_pips": 1.2499999999995737,
+        "sd_pips": 9.23042388642461
+      },
+      "ordinary": {
+        "n": 1157,
+        "mean_pips": 0.47592912705274737,
+        "ci95_pips": [
+          -0.019522702743955678,
+          0.9713809568494505
+        ],
+        "p_two_sided": 0.05972006895894864,
+        "positive_fraction": 0.5151253241140882,
+        "median_pips": 0.2999999999985903,
+        "sd_pips": 8.985229234683828
+      },
+      "controlled_gotobi_premium": {
+        "n": 1625,
+        "gotobi_increment_pips": 1.4196466840646573,
+        "ci95_pips": [
+          0.397369962068995,
+          2.4419234060603197
+        ],
+        "p_unadjusted": 0.006521857667661802,
+        "controls": "weekday and year fixed effects",
+        "rank": 12
+      },
+      "gotobi_byyear": [
+        {
+          "year": 2020,
+          "n": 69,
+          "mean_gross_pips": 0.2333333333333353,
+          "mean_net_at_1pip": -0.7666666666666647
+        },
+        {
+          "year": 2021,
+          "n": 70,
+          "mean_gross_pips": 1.2028571428571004,
+          "mean_net_at_1pip": 0.20285714285710044
+        },
+        {
+          "year": 2022,
+          "n": 71,
+          "mean_gross_pips": 2.300000000000094,
+          "mean_net_at_1pip": 1.300000000000094
+        },
+        {
+          "year": 2023,
+          "n": 71,
+          "mean_gross_pips": 2.3366197183099677,
+          "mean_net_at_1pip": 1.3366197183099677
+        },
+        {
+          "year": 2024,
+          "n": 71,
+          "mean_gross_pips": 2.7098591549297066,
+          "mean_net_at_1pip": 1.7098591549297066
+        },
+        {
+          "year": 2025,
+          "n": 69,
+          "mean_gross_pips": 2.9173913043476687,
+          "mean_net_at_1pip": 1.9173913043476687
+        },
+        {
+          "year": 2026,
+          "n": 47,
+          "mean_gross_pips": -0.5702127659574483,
+          "mean_net_at_1pip": -1.5702127659574483
+        }
+      ],
+      "cost_sensitivity_gotobi_net_mean_pips": {
+        "0.8": 0.9017094017094225,
+        "1.0": 0.7017094017094225,
+        "1.4": 0.3017094017094226
+      },
+      "groups": {
+        "B0_ordinary": {
+          "sample": {
+            "n": 1157,
+            "mean_pips": 0.47592912705274737,
+            "ci95_pips": [
+              -0.019522702743955678,
+              0.9713809568494505
+            ],
+            "p_two_sided": 0.05972006895894864,
+            "positive_fraction": 0.5151253241140882,
+            "median_pips": 0.2999999999985903,
+            "sd_pips": 8.985229234683828
+          },
+          "costed_net_mean_pips": -0.5240708729472525,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 173,
+              "mean_gross_pips": 0.17514450867051043,
+              "mean_net_at_1pip": -0.8248554913294895
+            },
+            {
+              "year": 2021,
+              "n": 175,
+              "mean_gross_pips": 0.5479999999999531,
+              "mean_net_at_1pip": -0.4520000000000469
+            },
+            {
+              "year": 2022,
+              "n": 173,
+              "mean_gross_pips": 2.483236994219739,
+              "mean_net_at_1pip": 1.4832369942197392
+            },
+            {
+              "year": 2023,
+              "n": 175,
+              "mean_gross_pips": 0.5805714285715128,
+              "mean_net_at_1pip": -0.4194285714284872
+            },
+            {
+              "year": 2024,
+              "n": 174,
+              "mean_gross_pips": 0.03333333333329648,
+              "mean_net_at_1pip": -0.9666666666667035
+            },
+            {
+              "year": 2025,
+              "n": 173,
+              "mean_gross_pips": -0.3138728323698966,
+              "mean_net_at_1pip": -1.3138728323698965
+            },
+            {
+              "year": 2026,
+              "n": 114,
+              "mean_gross_pips": -0.5109649122806359,
+              "mean_net_at_1pip": -1.510964912280636
+            }
+          ]
+        },
+        "B1_gotobi": {
+          "sample": {
+            "n": 468,
+            "mean_pips": 1.7017094017094225,
+            "ci95_pips": [
+              0.843878702733548,
+              2.559540100685297
+            ],
+            "p_two_sided": 0.00011112291331743532,
+            "positive_fraction": 0.5811965811965812,
+            "median_pips": 1.2499999999995737,
+            "sd_pips": 9.23042388642461
+          },
+          "costed_net_mean_pips": 0.7017094017094225,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 69,
+              "mean_gross_pips": 0.2333333333333353,
+              "mean_net_at_1pip": -0.7666666666666647
+            },
+            {
+              "year": 2021,
+              "n": 70,
+              "mean_gross_pips": 1.2028571428571004,
+              "mean_net_at_1pip": 0.20285714285710044
+            },
+            {
+              "year": 2022,
+              "n": 71,
+              "mean_gross_pips": 2.300000000000094,
+              "mean_net_at_1pip": 1.300000000000094
+            },
+            {
+              "year": 2023,
+              "n": 71,
+              "mean_gross_pips": 2.3366197183099677,
+              "mean_net_at_1pip": 1.3366197183099677
+            },
+            {
+              "year": 2024,
+              "n": 71,
+              "mean_gross_pips": 2.7098591549297066,
+              "mean_net_at_1pip": 1.7098591549297066
+            },
+            {
+              "year": 2025,
+              "n": 69,
+              "mean_gross_pips": 2.9173913043476687,
+              "mean_net_at_1pip": 1.9173913043476687
+            },
+            {
+              "year": 2026,
+              "n": 47,
+              "mean_gross_pips": -0.5702127659574483,
+              "mean_net_at_1pip": -1.5702127659574483
+            }
+          ]
+        },
+        "B2_month_end": {
+          "sample": {
+            "n": 80,
+            "mean_pips": 1.773750000000067,
+            "ci95_pips": [
+              -0.524263720038409,
+              4.071763720038543
+            ],
+            "p_two_sided": 0.12844739541216524,
+            "positive_fraction": 0.575,
+            "median_pips": 1.1000000000002785,
+            "sd_pips": 9.377993952313064
+          },
+          "costed_net_mean_pips": 0.7737500000000672,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 12,
+              "mean_gross_pips": 0.5333333333331561,
+              "mean_net_at_1pip": -0.46666666666684387
+            },
+            {
+              "year": 2021,
+              "n": 12,
+              "mean_gross_pips": 2.1916666666664733,
+              "mean_net_at_1pip": 1.1916666666664733
+            },
+            {
+              "year": 2022,
+              "n": 12,
+              "mean_gross_pips": -0.7416666666664185,
+              "mean_net_at_1pip": -1.7416666666664185
+            },
+            {
+              "year": 2023,
+              "n": 12,
+              "mean_gross_pips": 2.516666666666604,
+              "mean_net_at_1pip": 1.516666666666604
+            },
+            {
+              "year": 2024,
+              "n": 12,
+              "mean_gross_pips": 2.3250000000004434,
+              "mean_net_at_1pip": 1.3250000000004434
+            },
+            {
+              "year": 2025,
+              "n": 12,
+              "mean_gross_pips": 7.775000000000176,
+              "mean_net_at_1pip": 6.775000000000176
+            },
+            {
+              "year": 2026,
+              "n": 8,
+              "mean_gross_pips": -4.16249999999998,
+              "mean_net_at_1pip": -5.16249999999998
+            }
+          ]
+        },
+        "B3_original_gate_gotobi": {
+          "sample": {
+            "n": 37,
+            "mean_pips": -0.6162162162161628,
+            "ci95_pips": [
+              -4.439749103471602,
+              3.2073166710392766
+            ],
+            "p_two_sided": 0.7456697504085875,
+            "positive_fraction": 0.43243243243243246,
+            "median_pips": -0.19999999999953388,
+            "sd_pips": 9.101175550245847
+          },
+          "costed_net_mean_pips": -1.6162162162161628,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 4,
+              "mean_gross_pips": -6.7499999999999005,
+              "mean_net_at_1pip": -7.7499999999999005
+            },
+            {
+              "year": 2021,
+              "n": 9,
+              "mean_gross_pips": -0.4000000000000152,
+              "mean_net_at_1pip": -1.4000000000000152
+            },
+            {
+              "year": 2022,
+              "n": 5,
+              "mean_gross_pips": 4.180000000000916,
+              "mean_net_at_1pip": 3.1800000000009163
+            },
+            {
+              "year": 2023,
+              "n": 10,
+              "mean_gross_pips": 3.979999999999393,
+              "mean_net_at_1pip": 2.979999999999393
+            },
+            {
+              "year": 2024,
+              "n": 4,
+              "mean_gross_pips": -4.199999999998738,
+              "mean_net_at_1pip": -5.199999999998738
+            },
+            {
+              "year": 2026,
+              "n": 5,
+              "mean_gross_pips": -7.220000000000368,
+              "mean_net_at_1pip": -8.220000000000368
+            }
+          ],
+          "selection_warning": "Gate conditions on pre-fix price extension; not a total calendar-effect estimate"
+        }
+      }
+    },
+    "B_0956_1030": {
+      "cohort": 1625,
+      "gotobi": {
+        "n": 468,
+        "mean_pips": 1.95619658119663,
+        "ci95_pips": [
+          0.6648345224424066,
+          3.2475586399508534
+        ],
+        "p_two_sided": 0.003064719302783874,
+        "positive_fraction": 0.5897435897435898,
+        "median_pips": 2.0999999999986585,
+        "sd_pips": 12.609359905939026
+      },
+      "ordinary": {
+        "n": 1157,
+        "mean_pips": 0.6233794295592409,
+        "ci95_pips": [
+          -0.13027290719229545,
+          1.3770317663107772
+        ],
+        "p_two_sided": 0.10488927206728103,
+        "positive_fraction": 0.5280898876404494,
+        "median_pips": 0.6000000000000227,
+        "sd_pips": 13.34358995204554
+      },
+      "controlled_gotobi_premium": {
+        "n": 1625,
+        "gotobi_increment_pips": 1.6489093072467274,
+        "ci95_pips": [
+          0.19886782396590408,
+          3.0989507905275504
+        ],
+        "p_unadjusted": 0.025855371788092708,
+        "controls": "weekday and year fixed effects",
+        "rank": 12
+      },
+      "gotobi_byyear": [
+        {
+          "year": 2020,
+          "n": 69,
+          "mean_gross_pips": 2.127536231884125,
+          "mean_net_at_1pip": 1.1275362318841249
+        },
+        {
+          "year": 2021,
+          "n": 70,
+          "mean_gross_pips": 0.9814285714284665,
+          "mean_net_at_1pip": -0.018571428571533488
+        },
+        {
+          "year": 2022,
+          "n": 71,
+          "mean_gross_pips": 4.901408450704371,
+          "mean_net_at_1pip": 3.9014084507043707
+        },
+        {
+          "year": 2023,
+          "n": 71,
+          "mean_gross_pips": 1.4126760563382486,
+          "mean_net_at_1pip": 0.41267605633824855
+        },
+        {
+          "year": 2024,
+          "n": 71,
+          "mean_gross_pips": 2.546478873239306,
+          "mean_net_at_1pip": 1.5464788732393062
+        },
+        {
+          "year": 2025,
+          "n": 69,
+          "mean_gross_pips": 2.549275362318944,
+          "mean_net_at_1pip": 1.549275362318944
+        },
+        {
+          "year": 2026,
+          "n": 47,
+          "mean_gross_pips": -2.234042553191453,
+          "mean_net_at_1pip": -3.234042553191453
+        }
+      ],
+      "cost_sensitivity_gotobi_net_mean_pips": {
+        "0.8": 1.15619658119663,
+        "1.0": 0.95619658119663,
+        "1.4": 0.5561965811966301
+      },
+      "groups": {
+        "B0_ordinary": {
+          "sample": {
+            "n": 1157,
+            "mean_pips": 0.6233794295592409,
+            "ci95_pips": [
+              -0.13027290719229545,
+              1.3770317663107772
+            ],
+            "p_two_sided": 0.10488927206728103,
+            "positive_fraction": 0.5280898876404494,
+            "median_pips": 0.6000000000000227,
+            "sd_pips": 13.34358995204554
+          },
+          "costed_net_mean_pips": -0.37662057044075903,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 173,
+              "mean_gross_pips": 1.7236994219653174,
+              "mean_net_at_1pip": 0.7236994219653174
+            },
+            {
+              "year": 2021,
+              "n": 175,
+              "mean_gross_pips": 0.8251428571428424,
+              "mean_net_at_1pip": -0.1748571428571576
+            },
+            {
+              "year": 2022,
+              "n": 173,
+              "mean_gross_pips": 2.778612716763097,
+              "mean_net_at_1pip": 1.7786127167630972
+            },
+            {
+              "year": 2023,
+              "n": 175,
+              "mean_gross_pips": -0.9022857142858162,
+              "mean_net_at_1pip": -1.9022857142858163
+            },
+            {
+              "year": 2024,
+              "n": 174,
+              "mean_gross_pips": -0.5873563218390428,
+              "mean_net_at_1pip": -1.5873563218390427
+            },
+            {
+              "year": 2025,
+              "n": 173,
+              "mean_gross_pips": 0.34104046242787905,
+              "mean_net_at_1pip": -0.6589595375721209
+            },
+            {
+              "year": 2026,
+              "n": 114,
+              "mean_gross_pips": -0.008333333333186138,
+              "mean_net_at_1pip": -1.008333333333186
+            }
+          ]
+        },
+        "B1_gotobi": {
+          "sample": {
+            "n": 468,
+            "mean_pips": 1.95619658119663,
+            "ci95_pips": [
+              0.6648345224424066,
+              3.2475586399508534
+            ],
+            "p_two_sided": 0.003064719302783874,
+            "positive_fraction": 0.5897435897435898,
+            "median_pips": 2.0999999999986585,
+            "sd_pips": 12.609359905939026
+          },
+          "costed_net_mean_pips": 0.95619658119663,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 69,
+              "mean_gross_pips": 2.127536231884125,
+              "mean_net_at_1pip": 1.1275362318841249
+            },
+            {
+              "year": 2021,
+              "n": 70,
+              "mean_gross_pips": 0.9814285714284665,
+              "mean_net_at_1pip": -0.018571428571533488
+            },
+            {
+              "year": 2022,
+              "n": 71,
+              "mean_gross_pips": 4.901408450704371,
+              "mean_net_at_1pip": 3.9014084507043707
+            },
+            {
+              "year": 2023,
+              "n": 71,
+              "mean_gross_pips": 1.4126760563382486,
+              "mean_net_at_1pip": 0.41267605633824855
+            },
+            {
+              "year": 2024,
+              "n": 71,
+              "mean_gross_pips": 2.546478873239306,
+              "mean_net_at_1pip": 1.5464788732393062
+            },
+            {
+              "year": 2025,
+              "n": 69,
+              "mean_gross_pips": 2.549275362318944,
+              "mean_net_at_1pip": 1.549275362318944
+            },
+            {
+              "year": 2026,
+              "n": 47,
+              "mean_gross_pips": -2.234042553191453,
+              "mean_net_at_1pip": -3.234042553191453
+            }
+          ]
+        },
+        "B2_month_end": {
+          "sample": {
+            "n": 80,
+            "mean_pips": 3.3812500000000334,
+            "ci95_pips": [
+              0.08438899627191265,
+              6.678111003728154
+            ],
+            "p_two_sided": 0.04454972521232335,
+            "positive_fraction": 0.6375,
+            "median_pips": 4.800000000000182,
+            "sd_pips": 13.089062916724778
+          },
+          "costed_net_mean_pips": 2.3812500000000334,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 12,
+              "mean_gross_pips": 0.4833333333332727,
+              "mean_net_at_1pip": -0.5166666666667272
+            },
+            {
+              "year": 2021,
+              "n": 12,
+              "mean_gross_pips": 3.0833333333332527,
+              "mean_net_at_1pip": 2.0833333333332527
+            },
+            {
+              "year": 2022,
+              "n": 12,
+              "mean_gross_pips": 2.875000000000464,
+              "mean_net_at_1pip": 1.875000000000464
+            },
+            {
+              "year": 2023,
+              "n": 12,
+              "mean_gross_pips": -1.3833333333333069,
+              "mean_net_at_1pip": -2.383333333333307
+            },
+            {
+              "year": 2024,
+              "n": 12,
+              "mean_gross_pips": 4.858333333333083,
+              "mean_net_at_1pip": 3.858333333333083
+            },
+            {
+              "year": 2025,
+              "n": 12,
+              "mean_gross_pips": 11.375000000000313,
+              "mean_net_at_1pip": 10.375000000000313
+            },
+            {
+              "year": 2026,
+              "n": 8,
+              "mean_gross_pips": 1.8749999999997158,
+              "mean_net_at_1pip": 0.8749999999997158
+            }
+          ]
+        },
+        "B3_original_gate_gotobi": {
+          "sample": {
+            "n": 37,
+            "mean_pips": -1.21351351351347,
+            "ci95_pips": [
+              -5.536740451910662,
+              3.109713424883722
+            ],
+            "p_two_sided": 0.572702386273292,
+            "positive_fraction": 0.4864864864864865,
+            "median_pips": -1.2000000000000455,
+            "sd_pips": 14.773383764996424
+          },
+          "costed_net_mean_pips": -2.21351351351347,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 4,
+              "mean_gross_pips": -4.649999999999466,
+              "mean_net_at_1pip": -5.649999999999466
+            },
+            {
+              "year": 2021,
+              "n": 9,
+              "mean_gross_pips": -1.23333333333338,
+              "mean_net_at_1pip": -2.23333333333338
+            },
+            {
+              "year": 2022,
+              "n": 5,
+              "mean_gross_pips": -3.0599999999995475,
+              "mean_net_at_1pip": -4.0599999999995475
+            },
+            {
+              "year": 2023,
+              "n": 10,
+              "mean_gross_pips": 4.809999999999661,
+              "mean_net_at_1pip": 3.809999999999661
+            },
+            {
+              "year": 2024,
+              "n": 4,
+              "mean_gross_pips": -6.550000000000011,
+              "mean_net_at_1pip": -7.550000000000011
+            },
+            {
+              "year": 2026,
+              "n": 5,
+              "mean_gross_pips": -4.359999999999786,
+              "mean_net_at_1pip": -5.359999999999786
+            }
+          ],
+          "selection_warning": "Gate conditions on pre-fix price extension; not a total calendar-effect estimate"
+        }
+      }
+    },
+    "B_0956_1100": {
+      "cohort": 1625,
+      "gotobi": {
+        "n": 468,
+        "mean_pips": 2.057905982906014,
+        "ci95_pips": [
+          0.494366035744197,
+          3.6214459300678303
+        ],
+        "p_two_sided": 0.010000627847757423,
+        "positive_fraction": 0.5598290598290598,
+        "median_pips": 1.999999999998181,
+        "sd_pips": 15.856229110397534
+      },
+      "ordinary": {
+        "n": 1157,
+        "mean_pips": 0.8883318928262788,
+        "ci95_pips": [
+          -0.17667556075685453,
+          1.953339346409412
+        ],
+        "p_two_sided": 0.10199958432130973,
+        "positive_fraction": 0.5280898876404494,
+        "median_pips": 1.0000000000005116,
+        "sd_pips": 18.37742692775315
+      },
+      "controlled_gotobi_premium": {
+        "n": 1625,
+        "gotobi_increment_pips": 1.6161314349694273,
+        "ci95_pips": [
+          -0.26165099137243275,
+          3.4939138613112872
+        ],
+        "p_unadjusted": 0.09157987279158354,
+        "controls": "weekday and year fixed effects",
+        "rank": 12
+      },
+      "gotobi_byyear": [
+        {
+          "year": 2020,
+          "n": 69,
+          "mean_gross_pips": 3.1362318840580556,
+          "mean_net_at_1pip": 2.1362318840580556
+        },
+        {
+          "year": 2021,
+          "n": 70,
+          "mean_gross_pips": 1.318571428571411,
+          "mean_net_at_1pip": 0.31857142857141096
+        },
+        {
+          "year": 2022,
+          "n": 71,
+          "mean_gross_pips": 4.077464788732689,
+          "mean_net_at_1pip": 3.077464788732689
+        },
+        {
+          "year": 2023,
+          "n": 71,
+          "mean_gross_pips": 0.5788732394367017,
+          "mean_net_at_1pip": -0.42112676056329834
+        },
+        {
+          "year": 2024,
+          "n": 71,
+          "mean_gross_pips": 4.312676056337884,
+          "mean_net_at_1pip": 3.3126760563378843
+        },
+        {
+          "year": 2025,
+          "n": 69,
+          "mean_gross_pips": 2.3971014492753158,
+          "mean_net_at_1pip": 1.3971014492753158
+        },
+        {
+          "year": 2026,
+          "n": 47,
+          "mean_gross_pips": -3.144680851063909,
+          "mean_net_at_1pip": -4.144680851063908
+        }
+      ],
+      "cost_sensitivity_gotobi_net_mean_pips": {
+        "0.8": 1.2579059829060133,
+        "1.0": 1.0579059829060133,
+        "1.4": 0.6579059829060134
+      },
+      "groups": {
+        "B0_ordinary": {
+          "sample": {
+            "n": 1157,
+            "mean_pips": 0.8883318928262788,
+            "ci95_pips": [
+              -0.17667556075685453,
+              1.953339346409412
+            ],
+            "p_two_sided": 0.10199958432130973,
+            "positive_fraction": 0.5280898876404494,
+            "median_pips": 1.0000000000005116,
+            "sd_pips": 18.37742692775315
+          },
+          "costed_net_mean_pips": -0.11166810717372111,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 173,
+              "mean_gross_pips": 2.234682080924847,
+              "mean_net_at_1pip": 1.234682080924847
+            },
+            {
+              "year": 2021,
+              "n": 175,
+              "mean_gross_pips": 0.9445714285713588,
+              "mean_net_at_1pip": -0.055428571428641216
+            },
+            {
+              "year": 2022,
+              "n": 173,
+              "mean_gross_pips": 2.338150289017416,
+              "mean_net_at_1pip": 1.338150289017416
+            },
+            {
+              "year": 2023,
+              "n": 175,
+              "mean_gross_pips": 0.2011428571427944,
+              "mean_net_at_1pip": -0.7988571428572055
+            },
+            {
+              "year": 2024,
+              "n": 174,
+              "mean_gross_pips": -0.01666666666664824,
+              "mean_net_at_1pip": -1.0166666666666482
+            },
+            {
+              "year": 2025,
+              "n": 173,
+              "mean_gross_pips": 0.40000000000013564,
+              "mean_net_at_1pip": -0.5999999999998644
+            },
+            {
+              "year": 2026,
+              "n": 114,
+              "mean_gross_pips": -0.2640350877193872,
+              "mean_net_at_1pip": -1.264035087719387
+            }
+          ]
+        },
+        "B1_gotobi": {
+          "sample": {
+            "n": 468,
+            "mean_pips": 2.057905982906014,
+            "ci95_pips": [
+              0.494366035744197,
+              3.6214459300678303
+            ],
+            "p_two_sided": 0.010000627847757423,
+            "positive_fraction": 0.5598290598290598,
+            "median_pips": 1.999999999998181,
+            "sd_pips": 15.856229110397534
+          },
+          "costed_net_mean_pips": 1.0579059829060133,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 69,
+              "mean_gross_pips": 3.1362318840580556,
+              "mean_net_at_1pip": 2.1362318840580556
+            },
+            {
+              "year": 2021,
+              "n": 70,
+              "mean_gross_pips": 1.318571428571411,
+              "mean_net_at_1pip": 0.31857142857141096
+            },
+            {
+              "year": 2022,
+              "n": 71,
+              "mean_gross_pips": 4.077464788732689,
+              "mean_net_at_1pip": 3.077464788732689
+            },
+            {
+              "year": 2023,
+              "n": 71,
+              "mean_gross_pips": 0.5788732394367017,
+              "mean_net_at_1pip": -0.42112676056329834
+            },
+            {
+              "year": 2024,
+              "n": 71,
+              "mean_gross_pips": 4.312676056337884,
+              "mean_net_at_1pip": 3.3126760563378843
+            },
+            {
+              "year": 2025,
+              "n": 69,
+              "mean_gross_pips": 2.3971014492753158,
+              "mean_net_at_1pip": 1.3971014492753158
+            },
+            {
+              "year": 2026,
+              "n": 47,
+              "mean_gross_pips": -3.144680851063909,
+              "mean_net_at_1pip": -4.144680851063908
+            }
+          ]
+        },
+        "B2_month_end": {
+          "sample": {
+            "n": 80,
+            "mean_pips": 4.107500000000002,
+            "ci95_pips": [
+              0.19342039835856362,
+              8.02157960164144
+            ],
+            "p_two_sided": 0.039944664816254395,
+            "positive_fraction": 0.625,
+            "median_pips": 3.650000000000375,
+            "sd_pips": 16.640067360805787
+          },
+          "costed_net_mean_pips": 3.1075000000000017,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 12,
+              "mean_gross_pips": 3.891666666666538,
+              "mean_net_at_1pip": 2.891666666666538
+            },
+            {
+              "year": 2021,
+              "n": 12,
+              "mean_gross_pips": 3.94166666666654,
+              "mean_net_at_1pip": 2.94166666666654
+            },
+            {
+              "year": 2022,
+              "n": 12,
+              "mean_gross_pips": 4.850000000000421,
+              "mean_net_at_1pip": 3.8500000000004206
+            },
+            {
+              "year": 2023,
+              "n": 12,
+              "mean_gross_pips": -1.6333333333333162,
+              "mean_net_at_1pip": -2.633333333333316
+            },
+            {
+              "year": 2024,
+              "n": 12,
+              "mean_gross_pips": 9.19166666666674,
+              "mean_net_at_1pip": 8.19166666666674
+            },
+            {
+              "year": 2025,
+              "n": 12,
+              "mean_gross_pips": 10.249999999999915,
+              "mean_net_at_1pip": 9.249999999999915
+            },
+            {
+              "year": 2026,
+              "n": 8,
+              "mean_gross_pips": -4.662500000000236,
+              "mean_net_at_1pip": -5.662500000000236
+            }
+          ]
+        },
+        "B3_original_gate_gotobi": {
+          "sample": {
+            "n": 37,
+            "mean_pips": -0.7837837837837239,
+            "ci95_pips": [
+              -5.595394577785383,
+              4.027827010217935
+            ],
+            "p_two_sided": 0.743039262353469,
+            "positive_fraction": 0.4594594594594595,
+            "median_pips": -1.2000000000000455,
+            "sd_pips": 18.25051770214728
+          },
+          "costed_net_mean_pips": -1.7837837837837238,
+          "byyear": [
+            {
+              "year": 2020,
+              "n": 4,
+              "mean_gross_pips": 3.6000000000001364,
+              "mean_net_at_1pip": 2.6000000000001364
+            },
+            {
+              "year": 2021,
+              "n": 9,
+              "mean_gross_pips": -0.7000000000000265,
+              "mean_net_at_1pip": -1.7000000000000264
+            },
+            {
+              "year": 2022,
+              "n": 5,
+              "mean_gross_pips": 1.0200000000003229,
+              "mean_net_at_1pip": 0.02000000000032287
+            },
+            {
+              "year": 2023,
+              "n": 10,
+              "mean_gross_pips": 2.7199999999999136,
+              "mean_net_at_1pip": 1.7199999999999136
+            },
+            {
+              "year": 2024,
+              "n": 4,
+              "mean_gross_pips": -9.649999999999181,
+              "mean_net_at_1pip": -10.649999999999181
+            },
+            {
+              "year": 2026,
+              "n": 5,
+              "mean_gross_pips": -6.160000000000423,
+              "mean_net_at_1pip": -7.160000000000423
+            }
+          ],
+          "selection_warning": "Gate conditions on pre-fix price extension; not a total calendar-effect estimate"
+        }
+      }
+    }
+  }
+}

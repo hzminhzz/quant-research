@@ -1,0 +1,101 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "audit": {
+    "approval_status": "NOT_APPROVED",
+    "classification": "EXPLORATORY",
+    "data_audits": [
+      {
+        "columns": [
+          "timestamp",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "symbol"
+        ],
+        "end": "2025-12-31 21:13:00+00:00",
+        "id": "es_continuous_candidate",
+        "identity": {
+          "exists": true,
+          "path": "data/processed/es_1m.parquet",
+          "sha256": "54e8f42e0198fa3625deb2aebbf0f58bbde634cd5e5bb24c94443703e7f94fd6",
+          "size_bytes": 11141023
+        },
+        "issues": [],
+        "missing_columns": [],
+        "rows": 651955,
+        "start": "2024-01-01 23:00:00+00:00"
+      },
+      {
+        "id": "zn_dated_contracts",
+        "identity": {
+          "exists": false,
+          "path": "data/processed/structural_alpha/ZN_dated_contracts.parquet",
+          "sha256": null,
+          "size_bytes": null
+        },
+        "issues": [
+          "missing_data"
+        ]
+      },
+      {
+        "id": "zb_dated_contracts",
+        "identity": {
+          "exists": false,
+          "path": "data/processed/structural_alpha/ZB_dated_contracts.parquet",
+          "sha256": null,
+          "size_bytes": null
+        },
+        "issues": [
+          "missing_data"
+        ]
+      },
+      {
+        "id": "ub_dated_contracts",
+        "identity": {
+          "exists": false,
+          "path": "data/processed/structural_alpha/UB_dated_contracts.parquet",
+          "sha256": null,
+          "size_bytes": null
+        },
+        "issues": [
+          "missing_data"
+        ]
+      }
+    ],
+    "issues": [],
+    "limitations": [
+      "Observed file bounds and timestamps do not prove calendar-complete coverage.",
+      "No vendor identity, missing-session or expected bar-frequency verification.",
+      "No funding-to-price alignment or point-in-time correctness certification.",
+      "PASS means input audit passed, never strategy approval."
+    ],
+    "metrics_computed": false,
+    "schema_version": 1,
+    "scope": "file_identity_and_declared_requirements",
+    "session_id": "structural_alpha_eow_6040_20261011",
+    "status": "BLOCKED"
+  },
+  "classification": "EXPLORATORY",
+  "development_end": "2025-01-01T00:00:00+00:00",
+  "development_start": "2010-01-01T00:00:00+00:00",
+  "evidence_type": "descriptive_diagnostic",
+  "holdout_scored": false,
+  "issues": [
+    "data_audit_blocked"
+  ],
+  "limitations": [
+    "Observed gaps only; no claim that all expected sessions or bars exist.",
+    "Gross price changes are descriptive, not cost-adjusted strategy returns.",
+    "No strategy, signal, baseline, profitability or holdout evaluation."
+  ],
+  "max_rows_per_dataset": 100000,
+  "metrics_computed": false,
+  "schema_version": 1,
+  "session_id": "structural_alpha_eow_6040_20261011",
+  "status": "failed",
+  "strategy_evidence": false,
+  "summaries": [],
+  "trial_id": "T0_contract_data_gate"
+}

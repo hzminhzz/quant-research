@@ -1,0 +1,242 @@
+# Phase 1 declaration. No strategy result has been observed for this session.
+# Source rules: user-supplied Strategy 2 on 2026-10-12.
+session_id: vwap_pullback_adx_nq_20261012
+market: futures
+thesis: >-
+  VWAP PULLBACK WITH ADX GATE. After a confirmed break above the first
+  30 minutes of the Nasdaq cash session, a return to and reclaim of
+  session VWAP may forecast intraday upward continuation. Require 14-period
+  ADX > 20 and non-increasing on the entry-decision bar. The effect must
+  yield positive expectancy after realistic futures execution costs and
+  add value relative to the same OR-break/VWAP-reclaim strategy without
+  the ADX filter. No short positions and no overnight carry.
+mechanism: >-
+  Hypothesis, not established fact: cash-open price discovery and delayed
+  institutional demand can continue after profit taking or countertrend
+  liquidity temporarily pushes price to VWAP. The VWAP reclaim may indicate
+  buyers still control the session. Sellers fading the morning breakout,
+  liquidity providers taking the other side, or forced short covering may
+  transfer returns to the long entry. The ADX gate is an empirical attempt
+  to avoid chasing a still-accelerating trend. ADX measures trend strength,
+  not direction or proof that downward momentum has decelerated. Failure
+  regimes may include range days, post-news reversals, false OR breaks,
+  weak liquidity, and higher transaction costs.
+falsifier: >-
+  Reject the economic thesis when an adequately sampled and correctly timed
+  chronological development study finds no positive incremental net
+  expectancy over the registered OR+VWAP baseline, or net expectancy of the
+  full rule is nonpositive under realistic primary costs and plausible
+  slippage. Use uncertainty intervals and session-clustered comparisons;
+  if evidence is too sparse or costs/data cannot be verified, report
+  INCONCLUSIVE or BLOCKED rather than claiming rejection or adoption.
+  The final prospective holdout stays sealed until strategy, all trial
+  choices, costs and evaluation criteria are frozen. Historical 2026 NQ
+  results from other strategies are already observed and are not new
+  independent out-of-sample evidence.
+instruments:
+  - symbol: NQ
+    kind: futures
+    venue: CME Globex
+    identity: >-
+      CME E-mini Nasdaq-100 quarterly dated futures. USD quote/settlement,
+      USD 20 per index point, 0.25-point tick = USD 5, integer contracts.
+      Require recorded source contract, expiry, roll schedule and raw
+      price-level mapping before trading PnL is treated as executable.
+    session: >-
+      Cash opening range 08:30:00-09:00:00 America/Chicago. Entries
+      09:00:00 CT onward, with last eligible entry strictly before
+      15:55:00 CT; scheduled flat 15:55:00 CT, five minutes before the
+      normal CME futures 16:00 CT maintenance halt, NOT the 15:00 CT
+      Nasdaq cash close. Exchange holidays/early halts supersede cutoff.
+    timezone: America/Chicago
+  - symbol: MNQ
+    kind: futures
+    venue: CME Globex
+    identity: >-
+      CME Micro E-mini Nasdaq-100 quarterly dated futures. USD quote/settlement,
+      USD 2 per index point, 0.25-point tick = USD 0.50, integer contracts.
+      Secondary execution/sizing replication, not independent alpha sample;
+      require dated MNQ prices and fee/spread evidence.
+    session: >-
+      Same America/Chicago cash OR and 15:55 CT futures-cutoff protocol as
+      NQ. Validate contract-specific trading calendar and liquidity.
+    timezone: America/Chicago
+data:
+  - id: nq_1m_candidate
+    symbol: NQ
+    role: prices
+    path: data/processed/nq_1m.parquet
+  - id: mnq_1m_candidate
+    symbol: MNQ
+    role: prices
+    path: data/processed/mnq_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  retrospective_validation_start: "2026-07-01T00:00:00Z"
+  retrospective_validation_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  plan: >-
+    MVP-first: execute Phase 2 data/provenance gate, Phase 3 event study,
+    Phase 4 native backtest on development only. If mechanism and net
+    expectancy are credible, evaluate July-October 2026 as retrospective
+    chronological validation with no optimization on that segment.
+    November 2026 onward is a prospective, not-yet-available final test.
+    Do not describe previously explored Nasdaq 2026 dates as pristine OOS.
+    Do not inspect prospective final results before Phase 5/7 freeze.
+  strategy_rules:
+    bar_resolution: 1m
+    clock: America/Chicago
+    timestamp_semantics: >-
+      Bars are indexed by opening time [open,open+1m). A decision using
+      minute t is made only when that bar completes at t+1m; earliest
+      entry fill is the open of the next 1m bar. Validate vendor labels.
+    opening_range: >-
+      Daily max(high), min(low) from the thirty complete bars opening
+      08:30 through 08:59 CT inclusive; finalized at 09:00 CT.
+      A valid Gate 1 is a subsequent fresh upward crossing with prior
+      close <= OR_high, current high > OR_high and current close > OR_high.
+    vwap_primary: >-
+      CASH-OPEN-ANCHORED VWAP, reset at 08:30 CT every valid cash day,
+      using completed NQ/MNQ futures bars: cumulative sum of
+      ((high+low+close)/3 * exchange_traded_volume) divided by cumulative
+      exchange_traded_volume. Do not substitute CFD tick volume.
+      The alternative MIDNIGHT-ANCHORED 00:00 CT VWAP is a separate
+      preregistered sensitivity, not silently mixed into the primary.
+    adx: >-
+      Wilder ADX(14) using completed 1m high/low/close on a continuous
+      chronological stream of valid futures bars, with Wilder smoothing,
+      correct warmup and no synthetic cross-roll gap. Use ADX[t] > 20
+      and ADX[t] <= ADX[t-1] with no future candle information.
+    state_machine: >-
+      IDLE -> ARMED after Gate 1. Require a later bar for Gate 2:
+      low <= contemporaneous completed-bar VWAP (wick is sufficient).
+      Gate 3 is a bar close > VWAP after Gate 2; the touch and reclaim
+      may occur on the same completed bar. If ADX > 20 and flat/falling
+      at that close, signal entry for next bar open. When ADX > 20 but
+      rising, WAIT_ADX for the first later completed bar with
+      ADX[t] <= ADX[t-1], ADX[t] > 20 and close[t] > VWAP[t].
+      If price fails to remain above VWAP while waiting, return to
+      TOUCHED and require a new reclaim; if ADX falls to <= 20,
+      also require a new valid reclaim. No intrabar lookahead.
+    reset_policy: >-
+      No entry before 09:00 CT. Only one open long at a time. Once an
+      entry occurs, consume its arming sequence. After the position
+      exits, require a fresh Gate 1 crossing for any reentry. There is
+      no numerical daily entry cap. Cancel pending setup and flat all
+      inventory by the hard exit cutoff; never carry overnight.
+    entry: >-
+      Long market at next minute open after Gate 4. If a bar is missing,
+      halted, stale or beyond entry cutoff, do not fill using a synthetic
+      price; retain an explicit missed/invalid signal record.
+    take_profit: >-
+      Fixed resting sell limit at max(high) across five COMPLETED 1m
+      bars immediately before entry-bar open, tick rounded to a valid
+      NQ/MNQ price. Re-evaluate no historical highs after entry.
+      The user's 'entry candle sets highest high' exception cannot
+      be implemented at entry without future knowledge. A delayed
+      amendment after that candle closes is a separately named
+      sensitivity and must not affect same-candle fills.
+    stop_loss: >-
+      Fixed protective sell stop-market at min(low) across twenty
+      COMPLETED 1m bars immediately before entry-bar open; allow
+      negative price-gap overshoot and model slippage. No trailing
+      stop and no re-anchoring.
+    order_priority: >-
+      Resting TP/SL are opposite-side reduce-only OCO exits.
+      If both prices are crossed in the same 1m bar and intrabar
+      sequence is unknown, use stop-first adverse ordering. If the
+      target is already marketable at the entry price, simulate an
+      immediately marketable limit using realistic bid/ask constraints
+      and report its frequency; never assume a favorable historical
+      limit fill. Verify next-open gap, stop crossing and partial fills.
+    hard_exit: >-
+      At 15:55 CT, cancel exits and submit market flatten using
+      executable 15:55 prices and cost/slippage; do not use 15:55
+      candle close as an executable 15:55 price. For shortened
+      exchange days, exit before the actual futures halt.
+  metrics:
+    - trade_count
+    - gate_transition_counts
+    - win_rate
+    - gross_and_net_expectancy_usd_per_contract
+    - avg_win_avg_loss_and_payoff_ratio
+    - daily_equity_sharpe
+    - calmar
+    - maximum_drawdown
+    - profit_factor
+    - cost_attribution
+    - R_multiple_distribution
+    - session_clustered_confidence_intervals
+    - monte_carlo_drawdown_and_uncertainty
+    - year_or_month_stability
+  selection_rule: >-
+    Primary decision is net expectancy per full sequence and its increment
+    versus the same OR+VWAP comparator, tested on matched opportunity days.
+    Report confidence/precision and sample size, win rate, daily-equity
+    Sharpe, Calmar, drawdown and risk-adjusted results together; no metric
+    is sufficient in isolation. Only advance to Phase 5 when the effect is
+    positive net of costs and incremental to its baseline, with enough
+    non-overlapping days to make uncertainty interpretable.
+baseline: >-
+  B0 no trade. B1 same-day OR-break long with identical next-bar entry,
+  fixed prior-five-high TP, prior-twenty-low SL, and 15:55 CT exit but no
+  VWAP/ADX gates. B2 same OR breakout followed by cash-VWAP touch and
+  reclaim with identical orders but no ADX filter. Primary incremental
+  comparison is full strategy versus B2 on matched opportunities.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Numeric zero values are SCHEMA PLACEHOLDERS, NEVER zero-cost trading
+    assumptions. Before Phase 4, freeze verified per-contract broker,
+    exchange and clearing commissions in USD per side; tick-denominated
+    spread, market/stop slippage, impact, partial fills and CME contract
+    rolls separately for NQ and MNQ. Use point multipliers above and
+    full trade accounting; stress an extra one and two ticks of adverse
+    slippage per fill. Any attempt to run a net-performance trial
+    with these unresolved zero cost fields is BLOCKED.
+trials:
+  - id: T0_source_and_rules_gate
+    kind: diagnostic
+    description: >-
+      Verify futures versus CFD source, contract identity/roll, exact 1m
+      timestamps, cash and Globex calendars, traded volume, Wilder ADX
+      warmup, session VWAP source and non-lookahead OCO/exit semantics.
+  - id: T1_event_study
+    kind: preregistered
+    description: >-
+      Compare forward post-event price paths and the rate of TP-before-SL
+      for matched OR breakout, VWAP reclaim and ADX-gated opportunities
+      over 1, 5, 10 and 30 minutes; cluster uncertainty by session.
+      Record Gate 1-4 funnel attrition and ADX wait lag.
+  - id: T2_native_backtest
+    kind: preregistered
+    description: >-
+      Implement exact four-step long-only state machine in ml4t.backtest
+      Strategy/Engine. Compare B0/B1/B2 and full rule after contract-specific
+      costs on identical sessions; evaluate TP, SL and 15:55 CT hard exit.
+  - id: T3_adx_increment
+    kind: preregistered
+    description: >-
+      Paired comparison full rule versus B2 without ADX; do not tune ADX
+      period 14 or threshold 20 during primary experiment.
+  - id: T4_chronological_validation
+    kind: preregistered
+    description: >-
+      If development passes, validate Jul-2026 to Oct-2026 retrospectively,
+      account for overlapping opportunities and preserve Nov-2026 onward
+      as not-yet-observed final test until freeze.
+  - id: T5_predeclared_sensitivities
+    kind: preregistered
+    description: >-
+      Separate trials: VWAP anchored at 00:00 CT rather than 08:30;
+      post-entry-candle TP amendment effective no earlier than next
+      completed candle; one/two-tick extra slippage per fill; stop-first
+      ambiguous-bar audit. Do not select winner by in-sample Sharpe alone.
+  - id: T6_independent_audit
+    kind: diagnostic
+    description: >-
+      Independent review of OR clock/DST, volume/ADX math, each state
+      transition, next-open fills, limit/stop prices, entry-candle ambiguity,
+      cost identity, replay checks, frozen period and all trial records.

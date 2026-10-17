@@ -1,0 +1,86 @@
+{
+  "inputs": {
+    "GBPJPY": {
+      "atr100_upper_median_finite": 11637,
+      "atr14_finite": 11736,
+      "candidate_hours": 12473,
+      "close_outside_range": 0,
+      "complete_hours": 11750,
+      "donchian20_usable": 11731,
+      "donchian500_usable": 11251,
+      "excluded_incomplete_hours": 723,
+      "first_timestamp": "2023-01-01 23:44:00+00:00",
+      "future_availability_violations": 0,
+      "high_below_low": 0,
+      "input_max_timestamp": "2024-12-31 21:59:00+00:00",
+      "input_sha256": "7bf8319bddfa9715bb86eb9513221dea135eebf8156ff11e247fecb03d2d800d",
+      "last_timestamp": "2024-12-31 21:59:00+00:00",
+      "non_finite_ohlc_rows": 0,
+      "rows": 744864,
+      "unaligned_minute_timestamps": 0,
+      "unique_timestamps": 744864
+    },
+    "USDJPY": {
+      "atr100_upper_median_finite": 12210,
+      "atr14_finite": 12309,
+      "candidate_hours": 12741,
+      "close_outside_range": 0,
+      "complete_hours": 12323,
+      "donchian20_usable": 12304,
+      "donchian500_usable": 11824,
+      "excluded_incomplete_hours": 418,
+      "first_timestamp": "2023-01-01 18:21:00+00:00",
+      "future_availability_violations": 0,
+      "high_below_low": 0,
+      "input_max_timestamp": "2024-12-31 22:00:00+00:00",
+      "input_sha256": "00e8b7ebceab3cec1a2f92d04e20b5061d8994dd84cd86aa51eb46c8f71bfd89",
+      "last_timestamp": "2024-12-31 22:00:00+00:00",
+      "non_finite_ohlc_rows": 0,
+      "rows": 748068,
+      "unaligned_minute_timestamps": 0,
+      "unique_timestamps": 748068
+    },
+    "combined": {
+      "max_timestamp": "2024-12-31 22:00:00+00:00",
+      "minute_join_future_violations": 0,
+      "minute_rows": 1492932,
+      "rows_at_or_after_2025": 0
+    }
+  },
+  "limitations": [
+    "GBPJPY source timezone localization remains an unverified assumption.",
+    "The two-pair snapshot has 2023-2024 development prices only."
+  ],
+  "method": {
+    "backtest_library": "ml4t-backtest 0.1.7",
+    "diagnostic_library": "ml4t-diagnostic 0.1.6.post2",
+    "feature_library": "ml4t-engineer 0.1.4",
+    "median": "rolling_quantile(0.5, interpolation=higher, window=100), sorted order statistic 50"
+  },
+  "session_id": "mechanicalpremia-yen-squeeze-proxy-20261014",
+  "skills": [
+    {
+      "invariant": "Registered features preserve per-symbol ordered history.",
+      "name": "ml4t-compute-features",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/features/compute-features"
+    },
+    {
+      "invariant": "Completed H1 features only available at or after their end timestamp.",
+      "name": "ml4t-lookahead-bias",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/concepts/lookahead-bias"
+    },
+    {
+      "invariant": "Unique UTC timestamps, valid finite OHLC, explicit gaps, protected data boundary.",
+      "name": "ml4t-validate-data",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/data/validate-data"
+    },
+    {
+      "invariant": "Native Engine applies adverse fixed slippage on each fill.",
+      "name": "ml4t-cost-model",
+      "upstream": "https://github.com/ml4t/skills/tree/8800d3fb4c57ffba3e96da78c6b46ee77076b024/backtest/cost-model"
+    }
+  ],
+  "skills_revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+  "status": "completed",
+  "trial_id": "FEATURE-AND-CLOCK-PARITY"
+}

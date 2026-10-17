@@ -1,0 +1,991 @@
+{
+  "status": "documented_deviation",
+  "late_scheduled_market_exits": 98,
+  "boundary_source_minute_exists": 19,
+  "boundary_source_minute_missing": 79,
+  "boundary_exists_but_prior_submission_minute_missing": 19,
+  "max_delay_minutes": 3100,
+  "native_engine_limit": "NEXT_BAR market orders require a prior source event to submit. The native Strategy cannot submit at the opening timestamp and fill at that same open.",
+  "events": [
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-02-19T21:00:00+00:00",
+      "expected_boundary": "2013-02-19T21:30:00+00:00",
+      "actual_exit": "2013-02-20T14:30:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1020
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-02-20T20:30:00+00:00",
+      "expected_boundary": "2013-02-20T21:00:00+00:00",
+      "actual_exit": "2013-02-20T21:12:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 12
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-04-03T19:36:00+00:00",
+      "expected_boundary": "2013-04-03T20:00:00+00:00",
+      "actual_exit": "2013-04-04T13:30:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1050
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-06-03T15:20:00+00:00",
+      "expected_boundary": "2013-06-03T15:30:00+00:00",
+      "actual_exit": "2013-06-03T15:33:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 3
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-08-21T21:05:00+00:00",
+      "expected_boundary": "2013-08-21T21:30:00+00:00",
+      "actual_exit": "2013-08-21T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 31
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-08-22T22:30:00+00:00",
+      "expected_boundary": "2013-08-22T23:00:00+00:00",
+      "actual_exit": "2013-08-22T23:01:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-08-26T03:42:00+00:00",
+      "expected_boundary": "2013-08-26T04:00:00+00:00",
+      "actual_exit": "2013-08-26T04:40:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 40
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-08-27T12:30:00+00:00",
+      "expected_boundary": "2013-08-27T13:00:00+00:00",
+      "actual_exit": "2013-08-27T13:07:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 7
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-09-18T19:00:00+00:00",
+      "expected_boundary": "2013-09-18T19:30:00+00:00",
+      "actual_exit": "2013-09-18T19:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-09-22T23:15:00+00:00",
+      "expected_boundary": "2013-09-22T23:30:00+00:00",
+      "actual_exit": "2013-09-22T23:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-09-30T13:36:00+00:00",
+      "expected_boundary": "2013-09-30T14:00:00+00:00",
+      "actual_exit": "2013-09-30T14:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-08T13:41:00+00:00",
+      "expected_boundary": "2013-10-08T14:00:00+00:00",
+      "actual_exit": "2013-10-08T14:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-08T14:33:00+00:00",
+      "expected_boundary": "2013-10-08T15:00:00+00:00",
+      "actual_exit": "2013-10-08T15:03:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 3
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-09T15:33:00+00:00",
+      "expected_boundary": "2013-10-09T16:00:00+00:00",
+      "actual_exit": "2013-10-09T16:02:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-09T16:30:00+00:00",
+      "expected_boundary": "2013-10-09T17:00:00+00:00",
+      "actual_exit": "2013-10-09T17:02:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 2
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-10T16:31:00+00:00",
+      "expected_boundary": "2013-10-10T17:00:00+00:00",
+      "actual_exit": "2013-10-10T17:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-15T07:27:00+00:00",
+      "expected_boundary": "2013-10-15T07:30:00+00:00",
+      "actual_exit": "2013-10-17T11:10:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 3100
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-10-17T22:01:00+00:00",
+      "expected_boundary": "2013-10-17T22:30:00+00:00",
+      "actual_exit": "2013-10-17T23:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 30
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-11-05T19:31:00+00:00",
+      "expected_boundary": "2013-11-05T20:00:00+00:00",
+      "actual_exit": "2013-11-05T20:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-11-20T19:40:00+00:00",
+      "expected_boundary": "2013-11-20T20:00:00+00:00",
+      "actual_exit": "2013-11-20T20:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-11-28T03:00:00+00:00",
+      "expected_boundary": "2013-11-28T03:30:00+00:00",
+      "actual_exit": "2013-11-28T03:31:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-12-13T19:06:00+00:00",
+      "expected_boundary": "2013-12-13T19:30:00+00:00",
+      "actual_exit": "2013-12-13T19:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2013,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2013-12-18T19:00:00+00:00",
+      "expected_boundary": "2013-12-18T19:30:00+00:00",
+      "actual_exit": "2013-12-18T19:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-01-13T19:30:00+00:00",
+      "expected_boundary": "2014-01-13T20:00:00+00:00",
+      "actual_exit": "2014-01-13T20:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-02-11T00:14:00+00:00",
+      "expected_boundary": "2014-02-11T00:30:00+00:00",
+      "actual_exit": "2014-02-11T00:31:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-03-26T19:47:00+00:00",
+      "expected_boundary": "2014-03-26T20:00:00+00:00",
+      "actual_exit": "2014-03-26T20:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-04-21T23:32:00+00:00",
+      "expected_boundary": "2014-04-22T00:00:00+00:00",
+      "actual_exit": "2014-04-22T00:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-05-06T20:09:00+00:00",
+      "expected_boundary": "2014-05-06T20:30:00+00:00",
+      "actual_exit": "2014-05-06T20:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-05-22T04:04:00+00:00",
+      "expected_boundary": "2014-05-22T04:30:00+00:00",
+      "actual_exit": "2014-05-22T04:31:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-05-29T20:08:00+00:00",
+      "expected_boundary": "2014-05-29T20:30:00+00:00",
+      "actual_exit": "2014-05-29T20:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-07-04T00:00:00+00:00",
+      "expected_boundary": "2014-07-04T00:30:00+00:00",
+      "actual_exit": "2014-07-04T06:15:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 345
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-08-22T01:03:00+00:00",
+      "expected_boundary": "2014-08-22T01:30:00+00:00",
+      "actual_exit": "2014-08-22T01:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-08-25T03:03:00+00:00",
+      "expected_boundary": "2014-08-25T03:30:00+00:00",
+      "actual_exit": "2014-08-25T03:33:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 3
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-09-02T02:06:00+00:00",
+      "expected_boundary": "2014-09-02T02:30:00+00:00",
+      "actual_exit": "2014-09-02T02:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-09-02T03:26:00+00:00",
+      "expected_boundary": "2014-09-02T03:30:00+00:00",
+      "actual_exit": "2014-09-02T03:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-09-11T20:59:00+00:00",
+      "expected_boundary": "2014-09-11T21:00:00+00:00",
+      "actual_exit": "2014-09-11T21:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-09-25T00:30:00+00:00",
+      "expected_boundary": "2014-09-25T01:00:00+00:00",
+      "actual_exit": "2014-09-25T01:03:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 3
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-09-25T04:12:00+00:00",
+      "expected_boundary": "2014-09-25T04:30:00+00:00",
+      "actual_exit": "2014-09-25T04:39:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 9
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-11-19T11:56:00+00:00",
+      "expected_boundary": "2014-11-19T12:00:00+00:00",
+      "actual_exit": "2014-11-19T12:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-11-19T12:31:00+00:00",
+      "expected_boundary": "2014-11-19T13:00:00+00:00",
+      "actual_exit": "2014-11-19T13:03:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 3
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-11-20T17:30:00+00:00",
+      "expected_boundary": "2014-11-20T18:00:00+00:00",
+      "actual_exit": "2014-11-20T18:01:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-11-20T23:30:00+00:00",
+      "expected_boundary": "2014-11-21T00:00:00+00:00",
+      "actual_exit": "2014-11-21T00:03:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 3
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-11-21T03:33:00+00:00",
+      "expected_boundary": "2014-11-21T04:00:00+00:00",
+      "actual_exit": "2014-11-21T04:08:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 8
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-11-27T01:00:00+00:00",
+      "expected_boundary": "2014-11-27T01:30:00+00:00",
+      "actual_exit": "2014-11-27T01:31:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2014,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2014-12-23T13:33:00+00:00",
+      "expected_boundary": "2014-12-23T14:00:00+00:00",
+      "actual_exit": "2014-12-23T14:02:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-02-13T06:30:00+00:00",
+      "expected_boundary": "2015-02-13T07:00:00+00:00",
+      "actual_exit": "2015-02-13T07:01:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-03-18T05:10:00+00:00",
+      "expected_boundary": "2015-03-18T05:30:00+00:00",
+      "actual_exit": "2015-03-18T06:20:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 50
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-03-30T02:42:00+00:00",
+      "expected_boundary": "2015-03-30T03:00:00+00:00",
+      "actual_exit": "2015-03-30T03:02:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 2
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-03-31T20:00:00+00:00",
+      "expected_boundary": "2015-03-31T20:30:00+00:00",
+      "actual_exit": "2015-03-31T20:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-03-31T22:30:00+00:00",
+      "expected_boundary": "2015-03-31T23:00:00+00:00",
+      "actual_exit": "2015-03-31T23:08:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 8
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-04-08T20:32:00+00:00",
+      "expected_boundary": "2015-04-08T21:00:00+00:00",
+      "actual_exit": "2015-04-08T21:07:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 7
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-04-08T22:31:00+00:00",
+      "expected_boundary": "2015-04-08T23:00:00+00:00",
+      "actual_exit": "2015-04-08T23:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 5
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-04-10T05:16:00+00:00",
+      "expected_boundary": "2015-04-10T05:30:00+00:00",
+      "actual_exit": "2015-04-10T05:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-04-12T22:32:00+00:00",
+      "expected_boundary": "2015-04-12T23:00:00+00:00",
+      "actual_exit": "2015-04-12T23:12:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 12
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-10-30T06:00:00+00:00",
+      "expected_boundary": "2015-10-30T06:30:00+00:00",
+      "actual_exit": "2015-10-30T06:31:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2015,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2015-11-02T07:00:00+00:00",
+      "expected_boundary": "2015-11-02T07:30:00+00:00",
+      "actual_exit": "2015-11-02T07:32:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2
+    },
+    {
+      "year": 2016,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2016-06-23T19:50:00+00:00",
+      "expected_boundary": "2016-06-23T20:00:00+00:00",
+      "actual_exit": "2016-06-24T06:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 600
+    },
+    {
+      "year": 2016,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2016-07-13T20:00:00+00:00",
+      "expected_boundary": "2016-07-13T20:30:00+00:00",
+      "actual_exit": "2016-07-14T06:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 571
+    },
+    {
+      "year": 2017,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2017-09-13T19:54:00+00:00",
+      "expected_boundary": "2017-09-13T20:00:00+00:00",
+      "actual_exit": "2017-09-14T06:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 605
+    },
+    {
+      "year": 2017,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2017-09-14T19:58:00+00:00",
+      "expected_boundary": "2017-09-14T20:00:00+00:00",
+      "actual_exit": "2017-09-15T06:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 605
+    },
+    {
+      "year": 2017,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2017-10-18T07:30:00+00:00",
+      "expected_boundary": "2017-10-18T08:00:00+00:00",
+      "actual_exit": "2017-10-18T08:02:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 2
+    },
+    {
+      "year": 2017,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2017-11-22T12:00:00+00:00",
+      "expected_boundary": "2017-11-22T12:30:00+00:00",
+      "actual_exit": "2017-11-22T12:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-01-11T20:51:00+00:00",
+      "expected_boundary": "2018-01-11T21:00:00+00:00",
+      "actual_exit": "2018-01-12T07:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 605
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-02-01T20:33:00+00:00",
+      "expected_boundary": "2018-02-01T21:00:00+00:00",
+      "actual_exit": "2018-02-02T07:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 605
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-03-26T19:30:00+00:00",
+      "expected_boundary": "2018-03-26T20:00:00+00:00",
+      "actual_exit": "2018-03-27T06:05:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 605
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-04-16T20:09:00+00:00",
+      "expected_boundary": "2018-04-16T20:30:00+00:00",
+      "actual_exit": "2018-04-16T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-04-25T20:05:00+00:00",
+      "expected_boundary": "2018-04-25T20:30:00+00:00",
+      "actual_exit": "2018-04-25T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-07-16T20:05:00+00:00",
+      "expected_boundary": "2018-07-16T20:30:00+00:00",
+      "actual_exit": "2018-07-16T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-09-03T16:49:00+00:00",
+      "expected_boundary": "2018-09-03T17:00:00+00:00",
+      "actual_exit": "2018-09-03T22:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 300
+    },
+    {
+      "year": 2018,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2018-11-30T21:01:00+00:00",
+      "expected_boundary": "2018-11-30T21:30:00+00:00",
+      "actual_exit": "2018-12-02T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2971
+    },
+    {
+      "year": 2019,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2019-03-14T20:01:00+00:00",
+      "expected_boundary": "2019-03-14T20:30:00+00:00",
+      "actual_exit": "2019-03-14T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2019,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2019-06-28T20:04:00+00:00",
+      "expected_boundary": "2019-06-28T20:30:00+00:00",
+      "actual_exit": "2019-06-30T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2971
+    },
+    {
+      "year": 2019,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2019-07-02T20:01:00+00:00",
+      "expected_boundary": "2019-07-02T20:30:00+00:00",
+      "actual_exit": "2019-07-02T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2019,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2019-07-15T23:52:00+00:00",
+      "expected_boundary": "2019-07-16T00:00:00+00:00",
+      "actual_exit": "2019-07-17T00:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1440
+    },
+    {
+      "year": 2019,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2019-09-30T20:09:00+00:00",
+      "expected_boundary": "2019-09-30T20:30:00+00:00",
+      "actual_exit": "2019-09-30T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-02-16T23:34:00+00:00",
+      "expected_boundary": "2020-02-17T00:00:00+00:00",
+      "actual_exit": "2020-02-18T00:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1440
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-03-20T08:03:00+00:00",
+      "expected_boundary": "2020-03-20T08:30:00+00:00",
+      "actual_exit": "2020-03-20T08:31:00+00:00",
+      "boundary_source_minute_exists": true,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 1
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-04-20T20:08:00+00:00",
+      "expected_boundary": "2020-04-20T20:30:00+00:00",
+      "actual_exit": "2020-04-20T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-06-15T23:33:00+00:00",
+      "expected_boundary": "2020-06-16T00:00:00+00:00",
+      "actual_exit": "2020-06-17T00:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1440
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-06-29T20:00:00+00:00",
+      "expected_boundary": "2020-06-29T20:30:00+00:00",
+      "actual_exit": "2020-06-29T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-08-04T20:03:00+00:00",
+      "expected_boundary": "2020-08-04T20:30:00+00:00",
+      "actual_exit": "2020-08-04T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-12-04T21:00:00+00:00",
+      "expected_boundary": "2020-12-04T21:30:00+00:00",
+      "actual_exit": "2020-12-06T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2971
+    },
+    {
+      "year": 2020,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2020-12-23T21:10:00+00:00",
+      "expected_boundary": "2020-12-23T21:30:00+00:00",
+      "actual_exit": "2020-12-23T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2021,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2021-01-05T21:04:00+00:00",
+      "expected_boundary": "2021-01-05T21:30:00+00:00",
+      "actual_exit": "2021-01-05T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2021,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2021-01-26T21:02:00+00:00",
+      "expected_boundary": "2021-01-26T21:30:00+00:00",
+      "actual_exit": "2021-01-26T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2021,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2021-06-07T20:01:00+00:00",
+      "expected_boundary": "2021-06-07T20:30:00+00:00",
+      "actual_exit": "2021-06-07T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2022,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2022-10-26T20:08:00+00:00",
+      "expected_boundary": "2022-10-26T20:30:00+00:00",
+      "actual_exit": "2022-10-26T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2023,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2023-01-24T21:01:00+00:00",
+      "expected_boundary": "2023-01-24T21:30:00+00:00",
+      "actual_exit": "2023-01-24T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2023,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2023-02-28T21:12:00+00:00",
+      "expected_boundary": "2023-02-28T21:30:00+00:00",
+      "actual_exit": "2023-02-28T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2023,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2023-08-16T23:34:00+00:00",
+      "expected_boundary": "2023-08-17T00:00:00+00:00",
+      "actual_exit": "2023-08-18T00:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1440
+    },
+    {
+      "year": 2023,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2023-09-20T20:00:00+00:00",
+      "expected_boundary": "2023-09-20T20:30:00+00:00",
+      "actual_exit": "2023-09-20T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2023,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2023-10-11T20:01:00+00:00",
+      "expected_boundary": "2023-10-11T20:30:00+00:00",
+      "actual_exit": "2023-10-11T22:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2024,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2024-02-01T21:05:00+00:00",
+      "expected_boundary": "2024-02-01T21:30:00+00:00",
+      "actual_exit": "2024-02-01T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2024,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2024-03-04T21:00:00+00:00",
+      "expected_boundary": "2024-03-04T21:30:00+00:00",
+      "actual_exit": "2024-03-04T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2024,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2024-05-29T23:30:00+00:00",
+      "expected_boundary": "2024-05-30T00:00:00+00:00",
+      "actual_exit": "2024-05-31T00:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1440
+    },
+    {
+      "year": 2025,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2025-01-21T21:02:00+00:00",
+      "expected_boundary": "2025-01-21T21:30:00+00:00",
+      "actual_exit": "2025-01-21T23:01:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 91
+    },
+    {
+      "year": 2025,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2025-03-25T23:34:00+00:00",
+      "expected_boundary": "2025-03-26T00:00:00+00:00",
+      "actual_exit": "2025-03-27T00:00:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": true,
+      "delay_minutes": 1440
+    },
+    {
+      "year": 2025,
+      "trial": "native_full_tick_cost",
+      "entry_time": "2025-09-26T20:14:00+00:00",
+      "expected_boundary": "2025-09-26T20:30:00+00:00",
+      "actual_exit": "2025-09-28T22:06:00+00:00",
+      "boundary_source_minute_exists": false,
+      "prior_submission_minute_exists": false,
+      "delay_minutes": 2976
+    }
+  ]
+}

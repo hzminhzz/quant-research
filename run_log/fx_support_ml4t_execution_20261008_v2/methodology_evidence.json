@@ -1,0 +1,47 @@
+{
+  "skills": [
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "reason": "Native event-driven execution",
+      "invariant_and_verification": "P0, causal ordering test, native artifacts and independent fill audit"
+    },
+    {
+      "name": "ml4t-compute-features",
+      "path": ".agents/skills/ml4t-compute-features/SKILL.md",
+      "reason": "Preserve independently verified registry feature parity",
+      "invariant_and_verification": "feature_integrity_link.json hashes prior PASS and inputs"
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "reason": "Completed-bar availability and causal opening risk",
+      "invariant_and_verification": "boundary test, strict signal allowlist and two-pair intrabar perturbation test"
+    },
+    {
+      "name": "ml4t-purging-embargo",
+      "path": ".agents/skills/ml4t-purging-embargo/SKILL.md",
+      "reason": "Preserve inherited purged OOF predictions without refitting",
+      "invariant_and_verification": "OOF SHA256, 730 identities and 112 selections"
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "reason": "Verify per-side fractional cost units",
+      "invariant_and_verification": "native fill commissions and independent executed-price fee checks"
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "reason": "Group-aware chronological market-data and artifact processing",
+      "invariant_and_verification": "explicit per-symbol reads, sorted native bars and UTC daily equity aggregation"
+    },
+    {
+      "name": "ml4t-transaction-costs",
+      "path": ".agents/skills/ml4t-transaction-costs/SKILL.md",
+      "reason": "Screen frozen signal economics under costs",
+      "invariant_and_verification": "E1 net results, policy-stress result and strict replay blocker"
+    }
+  ],
+  "interpretation": "Prior feature verification reused; no retraining or new feature selection. Native Engine accounts all economic runs."
+}

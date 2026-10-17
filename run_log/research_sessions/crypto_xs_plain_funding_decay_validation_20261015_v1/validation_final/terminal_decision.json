@@ -1,0 +1,660 @@
+{
+  "decision": "REJECT",
+  "decay_classification": "STRUCTURAL_DECAY",
+  "mechanism_diagnosis": "FUNDING_CARRY_ALIVE__PRICE_ALPHA_DECAYED__SINGLE_NAME_SHORT_SQUEEZE_FATAL",
+  "stage": "2024_2025_DECAY_VALIDATION_FINAL",
+  "classification": "VALIDATION",
+  "approval_status": "NOT_APPROVED",
+  "protected_2026_plus_accessed": false,
+  "reasons": [
+    "Corrected base-cost native portfolio becomes insolvent on 2025-09-08 19:00 UTC.",
+    "Corrected 2x-cost native portfolio also becomes insolvent on 2025-09-08 19:00 UTC.",
+    "No-funding arm also crosses negative equity on the same timestamp, confirming the fatal event is primarily price/tail risk rather than funding accounting."
+  ],
+  "ic": {
+    "mean_ic": 0.012862469535564707,
+    "hac_t_stat": 1.2003582052835904,
+    "hac_p_value": 0.23078300917531283,
+    "hac_se": 0.0107155259812848,
+    "ic_ir": 0.06166752405848596,
+    "positive_ic_share": 0.5192307692307693,
+    "cycles": 364,
+    "annual": [
+      {
+        "year": 2024,
+        "cycles": 183,
+        "mean_ic": 0.022305576480031182,
+        "ic_ir": 0.1129627972863004,
+        "positive_ic_share": 0.5245901639344263,
+        "hac_t_stat": 1.6757734538992455,
+        "hac_p_value": 0.09549965869745124
+      },
+      {
+        "year": 2025,
+        "cycles": 181,
+        "mean_ic": 0.003315018867954948,
+        "ic_ir": 0.015110695439328482,
+        "positive_ic_share": 0.5138121546961326,
+        "hac_t_stat": 0.19704770264477614,
+        "hac_p_value": 0.844012528381382
+      }
+    ],
+    "reference_2022_2023_mean_ic": 0.02399168729832182,
+    "ic_ratio_to_reference": 0.5361219232156471,
+    "latest_6m_rolling_ic": 0.013819890976227326,
+    "latest_12m_rolling_ic": 0.0030875595663302823
+  },
+  "opportunity": {
+    "cycles": 364,
+    "mean_top5_minus_bottom5_funding_24h": 0.004378899840659333,
+    "mean_cross_section_funding_std": 0.0022729504849914846,
+    "mean_cross_section_funding_iqr": 0.00025559016483515766,
+    "funding_spread_ratio_to_2022_2023": 1.6038694702402667,
+    "funding_std_ratio_to_2022_2023": 1.7302049129613493,
+    "funding_iqr_ratio_to_2022_2023": 0.7970351451757254,
+    "annual": [
+      {
+        "year": 2024,
+        "cycles": 183,
+        "mean_top5_minus_bottom5": 0.001416808098360657,
+        "mean_xs_std": 0.0005941344935864389,
+        "mean_xs_iqr": 0.00021729972677595456
+      },
+      {
+        "year": 2025,
+        "cycles": 181,
+        "mean_top5_minus_bottom5": 0.007373721878453024,
+        "mean_xs_std": 0.003970316929340232,
+        "mean_xs_iqr": 0.0002943037016574459
+      }
+    ]
+  },
+  "base_corrected": {
+    "first_nonpositive_equity": {
+      "timestamp": "2025-09-08 19:00:00",
+      "equity": -1985.6939782041154,
+      "cash": 42436.099607559074,
+      "gross_exposure": 86369.43991833893,
+      "net_exposure": -44421.79358576319,
+      "open_positions": 10
+    },
+    "min_equity": -57995.395418685795,
+    "final_equity": -13959.951817648702,
+    "final_cash": -929.7973641542628,
+    "final_open_positions": 10,
+    "funding_events": 35196,
+    "funding_cashflow_usdt": -10760.822463056562,
+    "terminal_insolvency": true,
+    "last_state_timestamp": "2025-12-31 23:00:00"
+  },
+  "double_cost_corrected": {
+    "arm": "corrected_native_double_cost_diagnostic",
+    "cost_multiplier": 2.0,
+    "final_value": -10442.730019414497,
+    "min_equity": -43323.69432273107,
+    "final_equity": -10442.730019414497,
+    "final_cash": -713.2028836423972,
+    "final_open_positions": 10,
+    "rejected_orders": 0,
+    "fills": 4487,
+    "funding_events": 35196,
+    "funding_cashflow_usdt": -5076.005901344279,
+    "first_nonpositive_equity": {
+      "timestamp": "2025-09-08 19:00:00",
+      "equity": -1501.6336574781417,
+      "cash": 31667.815534771547,
+      "gross_exposure": 64491.46956669842,
+      "net_exposure": -33169.44919224969,
+      "open_positions": 10
+    },
+    "last_state_ts": "2025-12-31 23:00:00",
+    "terminal_insolvency": true,
+    "protected_2026_plus_accessed": false
+  },
+  "no_funding": {
+    "arm": "validation_native_no_funding",
+    "cost_multiplier": 1.0,
+    "funding_applied": false,
+    "rebalance_cycles": 364,
+    "symbols_ever_selected": 219,
+    "fills": 5221,
+    "rejected_orders": 0,
+    "funding_events_with_position": 0,
+    "funding_cashflow_usdt": 0.0,
+    "avg_gross_exposure_usdt": 38163.783501652826,
+    "annualized_funding_yield_on_avg_gross": 0.0,
+    "annual_funding": [],
+    "final_equity_usdt": 4950.953362360198,
+    "net_pnl_usdt": -95049.0466376398,
+    "total_return": -0.950490466376398,
+    "cost_ledger": {
+      "commission_usdt": 7177.553178253828,
+      "slippage_usdt": 5742.0294018888135
+    },
+    "risk": {
+      "daily_sharpe": -0.8556084752162381,
+      "max_drawdown": -1.0635014260019306,
+      "cagr": -0.7777215328000996,
+      "calmar": -0.7312839586156679,
+      "daily_observations": 731,
+      "yearly_returns": {
+        "2024": -0.5558119374105885,
+        "2025": -0.8885392521920014
+      }
+    },
+    "native_metrics": {
+      "initial_cash": 100000.0,
+      "final_value": 4950.953362360198,
+      "total_return": -0.950490466376398,
+      "total_return_pct": -95.0490466376398,
+      "max_drawdown": 1.093630028521999,
+      "max_drawdown_pct": 109.36300285219991,
+      "num_trades": 2630.0,
+      "winning_trades": 1203.0,
+      "losing_trades": 1427.0,
+      "win_rate": 0.4574144486692015,
+      "total_commission": 7177.553178253828,
+      "total_slippage": 5742.0294018888135,
+      "sharpe": -0.12385537281393734,
+      "sortino": -0.1070401904692741,
+      "calmar": -0.7107365687692817,
+      "cagr": -0.7772828539747774,
+      "volatility": 2.5754340665796485,
+      "profit_factor": 0.7647311555552101,
+      "expectancy": -0.04130257575990162,
+      "avg_trade": -0.040305727557261486,
+      "avg_win": 0.10094766275684675,
+      "avg_loss": -0.1612234145375108,
+      "largest_win": 1.1378239401913652,
+      "largest_loss": -12.043422338666552,
+      "payoff_ratio": 0.626135248694661,
+      "total_gross_pnl": -87871.49345938608,
+      "total_costs": 12919.582580142642,
+      "avg_cost_drag": 0.0018391915525406255,
+      "gross_profit_factor": 0.7804308867275483,
+      "skipped_bars": 0.0,
+      "num_orders": 5221.0,
+      "num_rejected_orders": 0.0,
+      "num_fills": 5221.0,
+      "num_rebalance_events": 362.0,
+      "unique_symbols_traded": 219.0,
+      "total_filled_notional": 14355106.356507683,
+      "avg_turnover": 0.02148038648608138,
+      "max_turnover": 7.348229844544176,
+      "avg_open_positions": 9.958960328317373,
+      "max_open_positions": 10.0,
+      "lifecycle_version": "1",
+      "lifecycle_callback_counts": "{'run_start': 1, 'causal_initialization': 1, 'pre_open': 0, 'opening_auction': 0, 'fill_reconciliation': 0, 'intrabar': 0, 'close': 0, 'market_event': 17544, 'run_end': 1}",
+      "lifecycle_invocations": "[]",
+      "execution_policy": "{'policy_id': 'ml4t-backtest-default-v1', 'market_fill_phase': 'opening_auction', 'opening_auction': 'client', 'close_auction': 'client', 'limit': 'client', 'stop': 'client', 'stop_limit': 'disabled', 'trailing': 'client', 'contingent': 'client', 'fee_bps': 5.0, 'slippage_bps': 4.0, 'spread_bps': 0.0, 'impact_bps': 0.0, 'latency_ms': 0.0, 'liquidity_fraction': 1.0, 'allow_partial_fills': False, 'bar_path': 'conservative', 'supported_sessions': ['regular'], 'lifecycle_version': '1'}",
+      "target_intent_count": 0.0,
+      "child_order_intent_count": 0.0,
+      "intent_reconciliation_count": 0.0,
+      "target_rule_reconciliation_count": 0.0,
+      "target_intents": "[]",
+      "child_order_intents": "[]",
+      "intent_reconciliations": "[]",
+      "target_rule_reconciliations": "[]"
+    }
+  },
+  "carry_forensics": {
+    "reference_2022_2023": {
+      "label": "2022_2023_reference",
+      "years": [
+        2022,
+        2023
+      ],
+      "cycles": 364,
+      "legs": 3640,
+      "mean_funding_persistence_rank_ic": 0.8054999508502058,
+      "mean_exante_portfolio_carry_24h": 0.001365104804945054,
+      "mean_realized_portfolio_carry_48h": 0.0021169886428571427,
+      "positive_realized_carry_cycle_share": 0.9917582417582418,
+      "side": {
+        "LONG": {
+          "legs": 1820,
+          "mean_trailing_funding_24h": -0.0023426149175824204,
+          "mean_forward_funding_48h": -0.0037195916813186816,
+          "mean_signed_exante_carry_24h": 0.0023426149175824204,
+          "mean_signed_realized_carry_48h": 0.0037195916813186816,
+          "positive_realized_carry_share": 0.7917582417582417
+        },
+        "SHORT": {
+          "legs": 1820,
+          "mean_trailing_funding_24h": 0.00038759469230768763,
+          "mean_forward_funding_48h": 0.0005143856043956045,
+          "mean_signed_exante_carry_24h": 0.00038759469230768763,
+          "mean_signed_realized_carry_48h": 0.0005143856043956045,
+          "positive_realized_carry_share": 0.9126373626373626
+        }
+      },
+      "annual": [
+        {
+          "year": 2022,
+          "cycles": 182,
+          "mean_funding_persistence_rank_ic": 0.8116439747883183,
+          "mean_exante_portfolio_carry_24h": 0.001028880038461535,
+          "mean_realized_portfolio_carry_48h": 0.0015656798681318682,
+          "positive_realized_carry_cycle_share": 0.9945054945054945,
+          "long_mean_realized_carry_48h": 0.0028024340659340663,
+          "short_mean_realized_carry_48h": 0.0003289256703296704
+        },
+        {
+          "year": 2023,
+          "cycles": 182,
+          "mean_funding_persistence_rank_ic": 0.7993559269120935,
+          "mean_exante_portfolio_carry_24h": 0.0017013295714285732,
+          "mean_realized_portfolio_carry_48h": 0.0026682974175824175,
+          "positive_realized_carry_cycle_share": 0.989010989010989,
+          "long_mean_realized_carry_48h": 0.004636749296703297,
+          "short_mean_realized_carry_48h": 0.0006998455384615385
+        }
+      ]
+    },
+    "validation_2024_2025": {
+      "label": "2024_2025_validation",
+      "years": [
+        2024,
+        2025
+      ],
+      "cycles": 364,
+      "legs": 3640,
+      "mean_funding_persistence_rank_ic": 0.8111176981991599,
+      "mean_exante_portfolio_carry_24h": 0.0021894499203296666,
+      "mean_realized_portfolio_carry_48h": 0.0030145759450549456,
+      "positive_realized_carry_cycle_share": 0.9917582417582418,
+      "side": {
+        "LONG": {
+          "legs": 1820,
+          "mean_trailing_funding_24h": -0.0036815867912087974,
+          "mean_forward_funding_48h": -0.005137772384615385,
+          "mean_signed_exante_carry_24h": 0.0036815867912087974,
+          "mean_signed_realized_carry_48h": 0.005137772384615385,
+          "positive_realized_carry_share": 0.6664835164835164
+        },
+        "SHORT": {
+          "legs": 1820,
+          "mean_trailing_funding_24h": 0.0006973130494505368,
+          "mean_forward_funding_48h": 0.0008913795054945058,
+          "mean_signed_exante_carry_24h": 0.0006973130494505368,
+          "mean_signed_realized_carry_48h": 0.0008913795054945058,
+          "positive_realized_carry_share": 0.9401098901098901
+        }
+      },
+      "annual": [
+        {
+          "year": 2024,
+          "cycles": 183,
+          "mean_funding_persistence_rank_ic": 0.8011445349204408,
+          "mean_exante_portfolio_carry_24h": 0.0007084040491803287,
+          "mean_realized_portfolio_carry_48h": 0.0010345594207650272,
+          "positive_realized_carry_cycle_share": 1.0,
+          "long_mean_realized_carry_48h": 0.0007210801092896173,
+          "short_mean_realized_carry_48h": 0.0013480387322404375
+        },
+        {
+          "year": 2025,
+          "cycles": 181,
+          "mean_funding_persistence_rank_ic": 0.8212010621770917,
+          "mean_exante_portfolio_carry_24h": 0.0036868609392265114,
+          "mean_realized_portfolio_carry_48h": 0.005016471104972377,
+          "positive_realized_carry_cycle_share": 0.9834254143646409,
+          "long_mean_realized_carry_48h": 0.009603267889502762,
+          "short_mean_realized_carry_48h": 0.000429674320441989
+        }
+      ]
+    },
+    "ratios": {
+      "funding_persistence_ratio": 1.006974236737103,
+      "exante_carry_ratio": 1.603869470240267,
+      "realized_carry_ratio": 1.4239924976576142
+    },
+    "interpretation_guardrail": "Rate-space carry is a unit-notional mechanism diagnostic. Native cash PnL additionally depends on mark prices, changing equity and target-weight rescaling."
+  },
+  "native_path_audit": {
+    "ledger_events": 35196,
+    "assigned_events": 35196,
+    "unmatched_events": 0,
+    "total_funding_usdt": -10760.822463056562,
+    "assigned_funding_usdt": -10760.822463056573,
+    "side_match_share": 0.9859927264461871,
+    "positive_cashflow_share": 0.7405386975792704,
+    "mismatch_events": 493,
+    "mismatch_funding_usdt": -36142.37128271963,
+    "first_nonpositive_equity": {
+      "timestamp": "2025-09-08 19:00:00",
+      "equity": -1985.6939782041154,
+      "cash": 42436.099607559074,
+      "gross_exposure": 86369.43991833893,
+      "net_exposure": -44421.79358576319,
+      "open_positions": 10
+    },
+    "open_trade_records": 723,
+    "worst_funding_symbols": [
+      {
+        "symbol": "MYXUSDT",
+        "events": 1514,
+        "funding_usdt": -42671.68176641213,
+        "avg_abs_notional": 16471.365211545093,
+        "side_match_share": 0.7939233817701453,
+        "positive_cashflow_share": 0.76221928665786
+      },
+      {
+        "symbol": "ETHUSDT",
+        "events": 162,
+        "funding_usdt": -157.02063226666635,
+        "avg_abs_notional": 5608.235842701727,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.4074074074074074
+      },
+      {
+        "symbol": "BTCUSDT",
+        "events": 150,
+        "funding_usdt": -147.90639214852743,
+        "avg_abs_notional": 5937.075586695571,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.25333333333333335
+      },
+      {
+        "symbol": "COTIUSDT",
+        "events": 24,
+        "funding_usdt": -68.21040639623361,
+        "avg_abs_notional": 7063.690559333693,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.0
+      },
+      {
+        "symbol": "1000SHIBUSDT",
+        "events": 126,
+        "funding_usdt": -57.212827740533626,
+        "avg_abs_notional": 5327.39197495094,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.2777777777777778
+      },
+      {
+        "symbol": "IDUSDT",
+        "events": 96,
+        "funding_usdt": -55.452162080029844,
+        "avg_abs_notional": 7485.058702585364,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.19791666666666666
+      },
+      {
+        "symbol": "RESOLVUSDT",
+        "events": 24,
+        "funding_usdt": -50.17061264004631,
+        "avg_abs_notional": 3946.5517795000947,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.5416666666666666
+      },
+      {
+        "symbol": "DOTUSDT",
+        "events": 114,
+        "funding_usdt": -41.974595456076734,
+        "avg_abs_notional": 5269.2823691818985,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.3684210526315789
+      },
+      {
+        "symbol": "ADAUSDT",
+        "events": 96,
+        "funding_usdt": -32.72711908215454,
+        "avg_abs_notional": 5798.807997662356,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.4166666666666667
+      },
+      {
+        "symbol": "ICPUSDT",
+        "events": 24,
+        "funding_usdt": -22.83336193206122,
+        "avg_abs_notional": 9842.275200043636,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.0
+      },
+      {
+        "symbol": "ETCUSDT",
+        "events": 66,
+        "funding_usdt": -22.22600935590703,
+        "avg_abs_notional": 5188.106053410121,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.5454545454545454
+      },
+      {
+        "symbol": "SOLUSDT",
+        "events": 180,
+        "funding_usdt": -18.1470072058627,
+        "avg_abs_notional": 5941.907475567238,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.5722222222222222
+      },
+      {
+        "symbol": "XMRUSDT",
+        "events": 12,
+        "funding_usdt": -17.0237030753535,
+        "avg_abs_notional": 8973.770299393685,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.16666666666666666
+      },
+      {
+        "symbol": "ZRXUSDT",
+        "events": 30,
+        "funding_usdt": -16.986585475911582,
+        "avg_abs_notional": 5290.964164172642,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.23333333333333334
+      },
+      {
+        "symbol": "ATOMUSDT",
+        "events": 18,
+        "funding_usdt": -15.62163400498025,
+        "avg_abs_notional": 9287.286117071844,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.05555555555555555
+      }
+    ],
+    "best_funding_symbols": [
+      {
+        "symbol": "AUCTIONUSDT",
+        "events": 180,
+        "funding_usdt": 1591.9728719959191,
+        "avg_abs_notional": 5341.126752303632,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.9111111111111111
+      },
+      {
+        "symbol": "LAYERUSDT",
+        "events": 715,
+        "funding_usdt": 1463.1828460663787,
+        "avg_abs_notional": 4693.829168334526,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.5552447552447553
+      },
+      {
+        "symbol": "TIAUSDT",
+        "events": 1140,
+        "funding_usdt": 1384.0054984254043,
+        "avg_abs_notional": 5562.711642183572,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.7789473684210526
+      },
+      {
+        "symbol": "RAREUSDT",
+        "events": 168,
+        "funding_usdt": 1321.0183725231118,
+        "avg_abs_notional": 5394.334476480301,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.7321428571428571
+      },
+      {
+        "symbol": "WIFUSDT",
+        "events": 720,
+        "funding_usdt": 1200.2682118546663,
+        "avg_abs_notional": 5651.2883545811355,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.8402777777777778
+      },
+      {
+        "symbol": "ENAUSDT",
+        "events": 1404,
+        "funding_usdt": 1188.3692622290594,
+        "avg_abs_notional": 4736.6761434493765,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.6388888888888888
+      },
+      {
+        "symbol": "LPTUSDT",
+        "events": 924,
+        "funding_usdt": 1082.2530697502898,
+        "avg_abs_notional": 4530.112791022911,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.829004329004329
+      },
+      {
+        "symbol": "ORCAUSDT",
+        "events": 145,
+        "funding_usdt": 1073.0566791308634,
+        "avg_abs_notional": 5093.116722171428,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.9448275862068966
+      },
+      {
+        "symbol": "BIOUSDT",
+        "events": 276,
+        "funding_usdt": 1031.4743393300482,
+        "avg_abs_notional": 4052.34856022453,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.9710144927536232
+      },
+      {
+        "symbol": "ONDOUSDT",
+        "events": 984,
+        "funding_usdt": 996.0947325609762,
+        "avg_abs_notional": 5122.48705942797,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.8130081300813008
+      },
+      {
+        "symbol": "MOVEUSDT",
+        "events": 240,
+        "funding_usdt": 920.5261234026633,
+        "avg_abs_notional": 5315.806897384816,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.8333333333333334
+      },
+      {
+        "symbol": "USUALUSDT",
+        "events": 216,
+        "funding_usdt": 787.3645192698442,
+        "avg_abs_notional": 6011.893428968214,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.7175925925925926
+      },
+      {
+        "symbol": "WCTUSDT",
+        "events": 380,
+        "funding_usdt": 714.130523522541,
+        "avg_abs_notional": 4462.23975921701,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.5894736842105263
+      },
+      {
+        "symbol": "HYPERUSDT",
+        "events": 305,
+        "funding_usdt": 709.4052787311706,
+        "avg_abs_notional": 3672.5175842333488,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.5606557377049181
+      },
+      {
+        "symbol": "MASKUSDT",
+        "events": 348,
+        "funding_usdt": 703.8393077562355,
+        "avg_abs_notional": 4409.357145079081,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.6839080459770115
+      }
+    ],
+    "mismatch_symbols": [
+      {
+        "symbol": "MYXUSDT",
+        "mismatch_events": 312,
+        "mismatch_funding_usdt": -36116.71902673921,
+        "avg_abs_notional": 37581.88080926481
+      },
+      {
+        "symbol": "TRUMPUSDT",
+        "mismatch_events": 120,
+        "mismatch_funding_usdt": -31.751591222069322,
+        "avg_abs_notional": 3542.1296367765885
+      },
+      {
+        "symbol": "SOONUSDT",
+        "mismatch_events": 12,
+        "mismatch_funding_usdt": -1.6911060389417678,
+        "avg_abs_notional": 5041.703326142221
+      },
+      {
+        "symbol": "MUSDT",
+        "mismatch_events": 49,
+        "mismatch_funding_usdt": 7.790441280578247,
+        "avg_abs_notional": 5594.1614517964235
+      }
+    ],
+    "annual": [
+      {
+        "year": 2024,
+        "events": 16439,
+        "funding_usdt": 10754.119840131187,
+        "side_match_share": 1.0,
+        "positive_cashflow_share": 0.7248616095869579
+      },
+      {
+        "year": 2025,
+        "events": 18757,
+        "funding_usdt": -21514.942303187905,
+        "side_match_share": 0.9737164791811057,
+        "positive_cashflow_share": 0.7542784027296476
+      }
+    ]
+  },
+  "pre_insolvency_native_funding": {
+    "funding_cashflow_usdt": 32675.481186877336,
+    "average_gross_exposure_usdt": 52655.91508778937,
+    "elapsed_years": 1.688683550079854,
+    "annualized_funding_yield_on_average_gross": 0.3674739472440843,
+    "ratio_to_2022_2023_reference": 0.8023841327944049
+  },
+  "decay_ratios": {
+    "price_rank_ic_ratio_to_2022_2023": 0.5361219232156471,
+    "funding_opportunity_spread_ratio_to_2022_2023": 1.6038694702402667,
+    "funding_persistence_ratio_to_2022_2023": 1.006974236737103,
+    "unit_notional_realized_carry_ratio_to_2022_2023": 1.4239924976576142,
+    "pre_insolvency_native_funding_yield_ratio_to_2022_2023": 0.8023841327944049
+  },
+  "causal_path": {
+    "first_nonpositive_equity_timestamp": "2025-09-08 19:00:00+00:00",
+    "first_side_mismatch_timestamp": "2025-09-09 02:00:00+00:00",
+    "side_mismatches_begin_after_insolvency": true,
+    "funding_before_insolvency_usdt": 32675.481186877336,
+    "funding_after_insolvency_usdt": -43436.30364993389,
+    "myx_funding_after_insolvency_usdt": -44861.337359965764,
+    "myx_total_funding_usdt": -42671.681766412126,
+    "myx_side_match_share": 0.7939233817701453
+  },
+  "invalid_attempt": {
+    "path": "run_log/research_sessions/crypto_xs_plain_funding_decay_validation_20261015_v1/validation",
+    "reason": "Imported legacy funding-event helper filtered 2024-2025 events using the old 2020-2023 development window, so funding-aware portfolio results from that attempt are invalid. IC, funding-opportunity diagnostics, and the no-funding arm remain valid."
+  },
+  "execution_fix_amendment": "run_log/research_sessions/crypto_xs_plain_funding_decay_validation_20261015_v1/execution_fix1_amendment.json",
+  "interpretation": {
+    "funding_compression_hypothesis_supported": false,
+    "price_predictive_decay_supported": true,
+    "portfolio_survivability_supported": false,
+    "notes": [
+      "2025 mean 48h rank IC is approximately zero while funding spreads are larger than the mature 2022-2023 reference.",
+      "Rate-space forward funding carry remains strongly positive and persistent.",
+      "The unchanged equal-notional portfolio is bankrupted by a MYXUSDT short squeeze before the signal can flip the position.",
+      "Post-insolvency stale-side funding losses are a consequence of negative account value preventing native target-weight rebalancing."
+    ]
+  }
+}

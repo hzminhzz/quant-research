@@ -1,0 +1,90 @@
+# New source-specific exploratory cross-source replication. Freeze before evaluating results.
+session_id: vwap_pullback_adx_nas100_20261012_cross_source
+market: indices
+thesis: >-
+  Cross-check the three frozen OR/VWAP/ADX NQ.F strategy signal designs
+  B1, B2, B3 over July-September 2026 using the separate London Strategic
+  Edge NAS100 index proxy because the primary NQ.F feed has too many
+  missing 1-minute bars for three-month validation. This is not an
+  executable NQ or CME futures OOS test.
+mechanism: >-
+  Same economic hypothesis and state machine as the registered NQ
+  strategy, now on an independently labeled NAS100 cash index price
+  feed, which may have different price basis, volume, sessions and
+  spread. Use original 5/20 completed one-minute stop/target and
+  15:55 CT flat; convert price-point PnL using hypothetical
+  NQ-equivalent multiplier solely for comparability. Volume-weighted
+  VWAP is a vendor-index-volume proxy; not CME traded-volume VWAP.
+falsifier: >-
+  Negative net returns, poor chronological monthly performance or
+  weak paired B3-vs-B2 results refute a broad price-pattern transfer
+  hypothesis. Any positive results remain inconclusive for CME
+  tradability, futures-specific VWAP or passive fill probability.
+  Reject claims of true NQ out-of-sample verification on the NAS100
+  index feed regardless of returns.
+instruments:
+  - symbol: NAS100
+    kind: cash_index
+    venue: London Strategic Edge index price data
+    identity: >-
+      NAS100 cash-index quotation feed, not dated CME NQ and not a
+      directly tradable futures contract; 20 USD/point and 0.25-point
+      tick are hypothetical NQ-equivalent translation rules.
+    session: >-
+      Full XNYS cash sessions 08:30-15:55 America/Chicago with
+      30 exact cash OR bars and continuous minute grid. No holiday
+      or short day interpolation.
+    timezone: America/Chicago
+data:
+  - id: nas100_price_proxy_1m
+    symbol: NAS100
+    role: prices
+    path: data/processed/vwap_adx_nas100_2026h2_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  retrospective_validation_start: "2026-07-01T00:00:00Z"
+  retrospective_validation_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  plan: >-
+    Freeze source choice BEFORE examining July-Sep trading outcomes.
+    Complete monthly blocks July1-Sep30 CT only (Oct1-2 separate
+    unscored). No NQ.F-NAS100 splicing, no source-picking by
+    profitability, no parameter changes, same B1/B2/B3 and B0
+    frozen from NQ Phase 4, same native ml4t.Engine and legal
+    limit adapter, same $2.50 per side illustrative fee and
+    0.25/0.50 adverse points on market/stop; limit zero
+    slippage; matched monthly comparisons and native audits.
+    Report this as independent cross-source price-pattern
+    robustness, NOT main Phase5 NQ validation pass.
+baseline: >-
+  B0 cash, B1 OR-only, B2 VWAP reclaim, B3 ADX gated.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Schema placeholders only; NQ-equivalent fictional fills
+    on index prices: $2.50/side plus 0.25 or 0.50 adverse
+    points for aggressive market/stop, no adverse slippage
+    on passive LIMIT. Not actual index or futures tradability.
+trials:
+  - id: T0_index_source_validation
+    kind: diagnostic
+    description: >-
+      Verify LSE NAS100 source hash, full 2026 July-Sep session
+      minute coverage, June warmup, volume, OHLC, timezone.
+  - id: T1_cross_source_native_replay
+    kind: preregistered
+    description: >-
+      Native Engine B1/B2/B3 on index-proxy 1m price data,
+      gross/base/stress and same stop-first OCO rules. Compare
+      full-month folds and do not claim CME OOS.
+  - id: T2_independent_replay_audit
+    kind: preregistered
+    description: >-
+      Verify fills, levels, next-bar timing, limit floor,
+      account reconciliation, month boundary and no live
+      qualification.
+evidence:
+  - config/research_sessions/vwap_pullback_adx_nq_20261012_proxy_v4_phase56.yaml
+  - run_log/vwap_pullback_adx_nq_20261012_proxy_v4_phase56/phase5_primary_blocker.json

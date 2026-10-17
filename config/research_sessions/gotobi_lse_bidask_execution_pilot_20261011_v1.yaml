@@ -1,0 +1,102 @@
+session_id: gotobi_lse_bidask_execution_pilot_20261011_v1
+market: fx
+thesis: >-
+  The early Tokyo Gotobi calendar price effect survives actual LSE
+  historical bid/ask spreads under plausible bounded execution latency,
+  and is stronger than the same clock-long on ordinary Japanese bank days.
+mechanism: >-
+  HYPOTHESIS: corporate settlement and dealer hedging may create directional
+  demand before 09:55 JST. Source ticks measure dealer/reference bid/ask
+  quotes, not actual settlement trades or broker executed fills.
+falsifier: >-
+  Quote-aware historical execution is INCONCLUSIVE if source quote timestamps
+  are missing or freshness fails, or fewer than 20 eligible Gotobi dates exist.
+  Reject economic qualification if 1s quote-aware execution with an extra
+  0.25 pip adverse cost PER LEG has negative aggregate USD expectancy, or
+  2024-2025 pooled net is negative, or actual Getobi absolute mean HAC95
+  lower bound is not positive, or the weekday/year-adjusted calendar premium
+  fails two-comparison Holm5 percent. This is pilot-only and cannot approve
+  live trading. Do not treat preinspected history as fresh OOS.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_BROKER
+    identity: >-
+      LSE historical USD/JPY bid/ask reference quote at second resolution
+      (many quotes share second). USD10000 base units, JPY quote,
+      1pip=JPY0.01; not verified executable broker feed.
+    timezone: Asia/Tokyo
+    session: Japanese BOJ bank calendar frozen from prior Program1
+data:
+  - {id: usdjpy_2020, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet}
+  - {id: usdjpy_2021, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet}
+  - {id: usdjpy_2022, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet}
+  - {id: usdjpy_2023, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet}
+  - {id: usdjpy_2024, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet}
+  - {id: usdjpy_2025, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet}
+  - {id: usdjpy_2026, role: prices, symbol: USDJPY, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet}
+  # The canonical files only establish the registered instrument identity;
+  # the true primary source is the 14 LSE raw quote files fingerprinted by
+  # the session raw_quote_source_manifest.json before any native execution.
+evaluation:
+  selection: >-
+    Purely exploratory fixed selection: all quote-eligible Japanese bank dates
+    2020-2026 April 2-14 JST. Raw UTC exports on [April1,April8) and
+    [April8,April15) each year (14 export jobs). June2025 quotes were
+    examined before designing this selection and are excluded from outcome tests.
+  retrospective_development: "2020-01-01 through 2023-12-31"
+  retrospective_validation: "2024-01-01 through 2025-12-31"
+  already_inspected_stress: "2026-01-01 through 2026-08-31"
+  holdout_start: "2026-09-01 JST"
+  holdout: SEALED_NO_ACCESS
+  entry_target: "03:00:00 JST first quote second >= clock target plus specified latency"
+  exit_target: "09:54:00 JST first quote second >= clock target plus specified latency"
+  decision_clocks: "02:59:59 and 09:53:59 JST, quote strictly at or before decision time"
+  within_second_ordering: >-
+    Quote records share second timestamps; select MAX ask for buy fill
+    and MIN bid for sell fill within chosen second, NEVER select favorable
+    first/last row with ambiguous ordering. Conservative within-second bound.
+  staleness: >-
+    Decision quote age <= 5s; execution first eligible quote second
+    within 5s of target plus delay. Reject missing or invalid spreads.
+    No extrapolation across missing source windows.
+  execution_model: >-
+    Native ml4t.backtest.Engine NEXT_BAR; four chronological synthetic
+    quote-event bars per session; BUY at source ask plus extra adverse
+    slippage; SELL at source bid minus extra adverse slippage. Native
+    engine owns orders and JPY account; independent source oracle audits
+    fills. Quote-event open prices explicitly represent selected executable
+    side, NOT OHLC candles. Verify timing order for every event.
+  starting_capital_usd: 10000
+  fixed_notional_usd: 10000
+  leverage: "Conservative initial-margin1/2 internal engine mechanics; report broker terms unknown"
+  planned_arms:
+    - {id: A0_gotobi_1s_0p25, latency_seconds: 1, extra_slippage_pips_per_leg: 0.25, kind: gotobi}
+    - {id: A1_ordinary_1s_0p25, latency_seconds: 1, extra_slippage_pips_per_leg: 0.25, kind: ordinary}
+    - {id: A2_gotobi_0s_0, latency_seconds: 0, extra_slippage_pips_per_leg: 0.0, kind: gotobi}
+    - {id: A3_gotobi_5s_0p5, latency_seconds: 5, extra_slippage_pips_per_leg: 0.5, kind: gotobi}
+  stop_rule: >-
+    Do not tune calendar subset or execution times after results.
+    If provider returns 2.5m row cap or truncated date, stop and split
+    that fixed interval without expanding study scope. Incomplete days
+    remain counted as excluded.
+baseline: >-
+  Flat cash and identical 03:00-09:54 market-long on ordinary Japanese
+  bank days. Prior paper replication with hypothetical one-pip cost is
+  historical context, not an independent validation set.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  spread: Historical LSE ask at buy and bid at sell, separate per quote
+  extra_slippage_pips_per_leg: [0.0, 0.25, 0.5]
+  broker_commission: "UNKNOWN, not assumed paid; extra cost stress proxies"
+  native_contract: "JPY broker ledger, realized USD PnL at executed quote exit"
+  funding: "No overnight position; actual same-day financing policies unknown"
+trials:
+  - {id: T0_raw_quote_audit, kind: diagnostic, description: Fixed interval exports data identity schema timestamps validity and freshness}
+  - {id: T1_gotobi_native, kind: preregistered, description: Native 1-second delay 0.25 pip per side reference quote Gotobi}
+  - {id: T2_ordinary_native, kind: preregistered, description: Native same execution on ordinary business mornings}
+  - {id: T3_latency_cost, kind: diagnostic, description: Native 0s clean quote and 5s extra0.5pip side stress}
+  - {id: T4_refutation, kind: diagnostic, description: HAC controlled Gotobi premium and year stability with corrected multiplicity}
+  - {id: T5_quote_oracle, kind: diagnostic, description: Independent source bidask vs native price fill and clock oracle}
+  - {id: T6_final_audit, kind: diagnostic, description: Reproducible audit and honest decision}

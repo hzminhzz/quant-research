@@ -1,0 +1,45 @@
+{
+  "mission": "structural_alpha_mission_20261011",
+  "status": "BLOCKED",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "decision": "No adoption; S2 stopped at missing-input gate. S1 evidence is retrospective. S3-S5 feasibility review only.",
+  "protected_final_test_opened": false,
+  "live_trades": false,
+  "commit_or_push": false,
+  "sessions": {
+    "S1": {
+      "session_id": "gotobi_exact_paper_bridge_20261011_v1",
+      "status": "historical_review_complete",
+      "conclusion": "Retrospective evidence; no executable broker cost validation and no fresh OOS qualification."
+    },
+    "S2": {
+      "session_id": "structural_alpha_eow_6040_20261011",
+      "status": "BLOCKED",
+      "t0_trial_status": "failed",
+      "missing_inputs": [
+        "dated ZN, ZB and UB contract prices",
+        "dated ES contract identity and roll pairs",
+        "synchronized historical bid/ask",
+        "verified contract session calendars and execution costs"
+      ],
+      "metrics_computed": false
+    },
+    "S3": {
+      "status": "BLOCKED",
+      "reason": "IBA round is undefined and has no declared data source or instrument list."
+    },
+    "S4": {
+      "status": "FEASIBILITY_ONLY_BLOCKED",
+      "reason": "No WMR-specific event quotes or executable cost source; existing FX bars are not WMR execution evidence."
+    },
+    "S5": {
+      "status": "FEASIBILITY_ONLY",
+      "evidence": "run_log/cross_asset_tsmom_replication_20261007/phase2_3_summary.json",
+      "conclusion": "Fixed composite thesis gates failed; no new trial run."
+    }
+  },
+  "report": "run_log/structural_alpha_mission_report_20261011.md",
+  "session_report": "run_log/structural_alpha_eow_6040_session_report.json",
+  "next_decisive_question": "Can an auditable, dated CME/CBOT ES/ZN/ZB/UB dataset with roll pairs, bid/ask, calendars and fee assumptions be supplied?"
+}

@@ -1,0 +1,117 @@
+{
+  "session_id": "one_bar_b0_cross_indices_20261012",
+  "status": "COMPLETED_EXPLORATORY_WITH_DATA_AND_EXECUTION_BLOCKERS",
+  "frozen_spec_path": "run_log/one_bar_b0_cross_indices_20261012/phase34_frozen_spec.json",
+  "pre_result_registered_6_trials": true,
+  "canonical_git_head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "phase3": "15 VECTORISED POLARS EVENT_DIAGNOSTIC_SETS COMPLETED; not execution simulations",
+  "phase4": "6 cost variants x 14 yearly shards = 84 COMPLETED final native results",
+  "nq": "unchanged previously observed native frozen control 5462 trades",
+  "trials": [
+    {
+      "id": "ES_native_zero",
+      "phase4": "COMPLETED_NATIVE_ML4T_ENGINE",
+      "years_expected": 14,
+      "years_completed": 14,
+      "closed_trades": 5100,
+      "synthetic_net_index_points": 2134.667000000075,
+      "economic_validity": "proxy structural test; real trading costs unknown"
+    },
+    {
+      "id": "ES_native_costed_synthetic",
+      "phase4": "COMPLETED_NATIVE_ML4T_ENGINE",
+      "years_expected": 14,
+      "years_completed": 14,
+      "closed_trades": 5100,
+      "synthetic_net_index_points": -1689.832999999925,
+      "economic_validity": "proxy structural test; real trading costs unknown"
+    },
+    {
+      "id": "DAX_native_zero",
+      "phase4": "COMPLETED_NATIVE_ML4T_ENGINE",
+      "years_expected": 14,
+      "years_completed": 14,
+      "closed_trades": 2911,
+      "synthetic_net_index_points": -68795.45999999998,
+      "economic_validity": "2013-2023 only; 2024-2026 data scale corruption"
+    },
+    {
+      "id": "DAX_native_costed_synthetic",
+      "phase4": "COMPLETED_NATIVE_ML4T_ENGINE",
+      "years_expected": 14,
+      "years_completed": 14,
+      "closed_trades": 2911,
+      "synthetic_net_index_points": -70935.95999999998,
+      "economic_validity": "2013-2023 only; 2024-2026 data scale corruption"
+    },
+    {
+      "id": "NIKKEI225_native_zero",
+      "phase4": "COMPLETED_NATIVE_ML4T_ENGINE",
+      "years_expected": 14,
+      "years_completed": 14,
+      "closed_trades": 2288,
+      "synthetic_net_index_points": 10582.749999999918,
+      "economic_validity": "2026 ambiguous-entry-stop rate 36.3%; INCONCLUSIVE 2026"
+    },
+    {
+      "id": "NIKKEI225_native_costed_synthetic",
+      "phase4": "COMPLETED_NATIVE_ML4T_ENGINE",
+      "years_expected": 14,
+      "years_completed": 14,
+      "closed_trades": 2288,
+      "synthetic_net_index_points": 8913.849999999917,
+      "economic_validity": "2026 ambiguous-entry-stop rate 36.3%; INCONCLUSIVE 2026"
+    }
+  ],
+  "excluded_market": {
+    "HSI": "1m data not found; 5m HK33 kept independent; not backtested"
+  },
+  "recorded_non_final_attempts": [
+    {
+      "instrument": "ES",
+      "year": 2018,
+      "reason": "initial insufficient causal warmup; later historical-only lookback extended",
+      "status": "recovered"
+    },
+    {
+      "instrument": "NIKKEI225",
+      "year": 2014,
+      "reason": "46 complete preyear bars available; initial run failed before Engine",
+      "status": "recovered",
+      "artifact": "run_log/one_bar_b0_cross_indices_20261012/phase34/NIKKEI225/2014/failed_attempt_01.json"
+    },
+    {
+      "instrument": "ES",
+      "year": 2026,
+      "reason": "prebatch native smoke run; final annual shard rerun",
+      "status": "completed_duplicated_smoke"
+    },
+    {
+      "instrument": "ES",
+      "year": 2018,
+      "reason": "prebatch native smoke run; final annual shard rerun",
+      "status": "completed_duplicated_smoke"
+    },
+    {
+      "instrument": "NIKKEI225",
+      "year": 2026,
+      "reason": "prebatch native smoke run; final annual shard rerun",
+      "status": "completed_duplicated_smoke"
+    }
+  ],
+  "audit": {
+    "native_trade_pnl_reconciliation": "PASS",
+    "source_jump_screen": "DAX invalid from 2024 onward (1000 price jumps above 25%)",
+    "nikkei_intraminute": "2026: 91 of 251 ambiguous events; pessimistic -19.78R sensitivity",
+    "NQ_signal_feed_parity": "test passed",
+    "unseen_test_exposure": "No prices after 2026-07-14 evaluated",
+    "approvals": "No live and no commit"
+  },
+  "results": "run_log/one_bar_b0_cross_indices_20261012/phase34/final_research_metrics.json",
+  "limitations": [
+    "synthetic currency units, not futures $ PnL",
+    "annual engine account reset",
+    "non-atomic OCO",
+    "1m OHLC event order unresolved"
+  ]
+}

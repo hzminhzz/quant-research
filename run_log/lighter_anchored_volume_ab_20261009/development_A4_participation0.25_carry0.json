@@ -1,0 +1,84 @@
+{
+  "assumed_gross_carry_bps_per_day": 0.0,
+  "bar_count_per_market": 230400,
+  "calibration_beta": 0.2976247240451285,
+  "calibration_correlation": 0.5461653027745388,
+  "data_limitations": {
+    "carry_bps_per_day": 0.0,
+    "emergency_taker_fee_bps": 2.25,
+    "emergency_taker_slippage_bps": 2.0,
+    "fill_model": "Resting next-bar limit orders only; require one tick penetration AND positive underlying 1m traded volume",
+    "funding_model": "Conservative per-minute gross carry sensitivity; actual historical Lighter funding unavailable via installed CCXT",
+    "maker_fee_bps": 0.0,
+    "note": "Never self-trade or cross own orders for artificial volume.",
+    "output": "Estimated maker-eligible touch fills only. 1m OHLCV cannot prove order queue or true maker fills.",
+    "short_no_initial_fill": "If price falls monotonically before first QQQ ask fills, QQQ earns zero maker volume."
+  },
+  "end": "2026-08-01T00:00:00+00:00",
+  "max_participation": 0.25,
+  "phase": "development",
+  "results": [
+    {
+      "broker_end_positions": {
+        "QQQ": -0.0738,
+        "SPY": 0.1342
+      },
+      "completed_cycle_maker_notional_usdc": 4086.1916,
+      "completed_volume_per_drawdown_usdc": 168.514,
+      "emergency_taker_cost_usdc": 0.0,
+      "emergency_taker_notional_usdc": 0.0,
+      "ending_equity_usdc": 1002.878,
+      "entry_fills": 15,
+      "estimated_maker_notional_usdc": 4236.6793,
+      "exit_fills": 13,
+      "first_halt_bar": null,
+      "group_results": {
+        "linked": {
+          "accrued_open_cycle_carry_usdc": 0.0,
+          "completed_cycle_pnl_usdc": 3.0275,
+          "completed_cycle_volume_usdc": 4086.1916,
+          "completed_cycles": 7,
+          "completed_negative_cycles": 0,
+          "cycle_anchor_first": {
+            "QQQ": 607.18,
+            "SPY": 688.3
+          },
+          "cycle_anchor_latest": {
+            "QQQ": 685.6,
+            "SPY": 744.77
+          },
+          "median_holding_min": 558,
+          "min_completed_cycle_pnl_usdc": 0.070392,
+          "negative_cycle_pnl_usdc": [],
+          "open_cycle_cashflow_usdc": -49.3684,
+          "open_cycle_volume_usdc": 150.4876,
+          "open_inventory": {
+            "QQQ": -0.0738,
+            "SPY": 0.1342
+          },
+          "p95_holding_min": 123227.3
+        }
+      },
+      "halted": false,
+      "hedge_fills": 17,
+      "kill_reason": null,
+      "limit_quotes_cancelled": 95,
+      "limit_quotes_submitted": 141,
+      "max_beta_residual_usdc": 219.9446,
+      "max_drawdown_usdc": 24.2484,
+      "max_gross_usdc": 628.5985,
+      "max_hedge_shortfall_usdc": 79.6658,
+      "ml4t_engine_sharpe": 0.002659392325099192,
+      "net_pnl_ex_points_usdc": 2.878,
+      "rejected_orders": 0,
+      "simulated_maker_fills": 45,
+      "total_assumed_carry_usdc": 0.0,
+      "unattributed_fills": 0,
+      "variant": "A4",
+      "warning": "Estimated candidate maker fills only. OHLCV does not establish maker queue/fill probability."
+    }
+  ],
+  "session_id": "lighter_anchored_volume_ab_20261009",
+  "start": "2026-02-22T00:00:00+00:00",
+  "status": "EXPLORATORY_NOT_APPROVED"
+}

@@ -1,0 +1,100 @@
+{
+  "catalog_url": "https://github.com/ml4t/skills",
+  "catalog_inspected_via": "TinyFish fetch_content 2026-10-10",
+  "skills": [
+    {
+      "name": "ml4t-polars-patterns",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/infrastructure/polars-patterns/SKILL.md",
+      "sha256": "bcc9062c8b4947765ef467c3becf3c1873eac16612118c2bdd187adcaf62df8e",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-compute-features",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/features/compute-features/SKILL.md",
+      "sha256": "1edc559800ab03336bb8a22e35edd605e0a512174fb1331fbf9fb40765f53328",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-evaluate-factor",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/validation/evaluate-factor/SKILL.md",
+      "sha256": "2919eb8dc6215dc8681d84d3a25ba671f78d54d537271863838164fa5f63cbbe",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-causal-identification",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/concepts/causal-identification/SKILL.md",
+      "sha256": "8f230ce7e691e93afc9b9643d2efe2cd827841a45f411edfb27e9d22dac02683",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/data/calendar-ops/SKILL.md",
+      "sha256": "8e463698e1ccb41edcac3e9164fac409efc3e6a8bd79222bdfc58b7b6cfb467f",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-validate-data",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/data/validate-data/SKILL.md",
+      "sha256": "50a64b8bbbcc161b8cd5f781f55062722874ef76b83c9f237e46fde9c9c15ade",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-point-in-time",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/concepts/point-in-time/SKILL.md",
+      "sha256": "cff8e72b709d54bed7bbc1edc3387fafa6a8a4191326cd1844ff6dd65c9be697",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-backtest-overfitting",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/concepts/backtest-overfitting/SKILL.md",
+      "sha256": "be65e56bddcbd414ae8b9049a0ad5bf7eda87fdab9118fdc637ff8ba01d4372a",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-run-backtest",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/backtest/run-backtest/SKILL.md",
+      "sha256": "6c319d68bd8a933a36ba4266f679fc11b08ab0e666d29c41d1e3cfb41af53d91",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/backtest/cost-model/SKILL.md",
+      "sha256": "6fe10bce1b17e7f1b1a551aab0eea63a3e13042718ac43a0cce9fbaa532b129c",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-transaction-costs",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/concepts/transaction-costs/SKILL.md",
+      "sha256": "d05ca6174949ff57f4bae3b99550a5a00c4a065c9946a9f1a34ca1898afe2c1c",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/concepts/lookahead-bias/SKILL.md",
+      "sha256": "26d18ce123aabee4822dc35325a517690c1b03ac6f04de761ff3d3c7aeaf6695",
+      "loaded_in_full": true
+    },
+    {
+      "name": "ml4t-fetch-data",
+      "path": "/home/quant/.cache/ml4t-skills-f0ea019/data/fetch-data/SKILL.md",
+      "sha256": "f38e76e2e900c231cf9046b3e80470501363aea98c415401c5da121e3e55ed09",
+      "loaded_in_full": true
+    }
+  ],
+  "invariants": [
+    "JST outcomes earlier than 2026-09-01",
+    "541 exact minute opens, no execution forward fill",
+    "unique timezone-aware timestamps and finite positive consistent OHLC",
+    "calendar controls only, no post-treatment adjustment",
+    "prior20 sigma excludes current date",
+    "global Holm all planned inferential contrasts",
+    "conditional native Engine only; no duplicate simulator",
+    "independent markout and calendar identity verification"
+  ],
+  "conflicts_resolved": [
+    "No git commit authorized: frozen CLI and hashed config replace skill suggestion to commit preregistration.",
+    "Single-asset event analysis uses HAC rather than cross-sectional IC.",
+    "No forward fill prices despite generic calendar skill suggestion.",
+    "Costs hypothetical 0.8/1/1.4 pips; no executable bid/ask claims."
+  ]
+}

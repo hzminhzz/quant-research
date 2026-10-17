@@ -1,0 +1,31 @@
+{
+  "trial": "H1-JP225-3",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "terminal_status": "completed",
+  "scientific_status": "NOT_APPROVED",
+  "research_classification": "EXPLORATORY_OBSERVED_POST_SELECTION",
+  "native_metric_snapshot": {
+    "mean_annual_return_pct": 1.208206158082419,
+    "median_annual_return_pct": 0.3207330600451086,
+    "positive_years": 8,
+    "mean_annual_daily_sharpe": 0.17565852044689118,
+    "mean_annual_calmar": 0.595222891081245,
+    "worst_single_year_drawdown_pct": -6.213651510598385,
+    "closed_trades": 2029,
+    "open_trade_occurrences": 1,
+    "closed_trade_win_rate_pct": 37.45687530803352,
+    "2026_ytd_return_pct": 6.660948800628064,
+    "2025_return_pct": -3.197572877504662
+  },
+  "reference_report": "docs/audit/mechanicalpremia_three_candidates_2013_2026/report.md",
+  "reference_csv": "docs/audit/mechanicalpremia_three_candidates_2013_2026/all_annual_metrics.csv",
+  "execution_reconciled_cells": 84,
+  "notes": [
+    "Complete native Engine execution does not mean strategy validation",
+    "C2/C3 candidate universe selected after prior observed C1 results",
+    "No continuous 14-year portfolio across annual resets",
+    "Actual CFD spreads, financing, lot multipliers and FX translation not modeled",
+    "H1 stop not fully source-equivalent; NY17 session assumed",
+    "No protected 2026-10-12+ price observations scored"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "status": "EXECUTION_VALIDATION_INCONCLUSIVE",
+  "primary_source": "LSE JP225/USD 1-minute index-price proxy; not OSE futures trades, not tick BID/ASK",
+  "available_5m_reference": "Processed JP225/USD 5-minute index-price proxy; no intra-minute sequence.",
+  "five_minute_crosscheck": {
+    "overlap": 36447,
+    "matching_open": 36447,
+    "matching_high": 36447,
+    "matching_low": 36447,
+    "matching_close": 36447
+  },
+  "five_minute_raw_rows": 37733,
+  "source_independence_not_established": true,
+  "native_engine_year": 2026,
+  "native_ordering": "1-minute OHLC cannot determine whether entry or protection level was touched first.",
+  "metrics": {
+    "native_closed_evaluation_trades": 251,
+    "source_1m_rows_2026": 186697,
+    "preexisting_native_ambiguous_raw_events_including_warmup": 100,
+    "matched_evaluation_trade_ambiguous": 91,
+    "matched_evaluation_trade_ambiguous_fraction": 0.36254980079681276,
+    "matched_ambiguous_pnl_R": -8.472999999999738,
+    "unambiguous_realized_native_R": 72.58299999999944,
+    "observed_native_total_R": 64.10999999999972,
+    "stop_distance_pct_of_entry": {
+      "min": 0.0685410355179646,
+      "median": 0.0859161887578667,
+      "max": 0.09913357257568849
+    },
+    "matched_ambiguous_source_minute_count": 91,
+    "source_1m_duplicate_timestamps": 0,
+    "source_1m_null_ohlc": 0,
+    "native_gap_trigger_events_including_warmup": 179,
+    "native_protective_stop_gap_through_fills_including_warmup": 95
+  },
+  "pessimistic_R": -19.782000000000536,
+  "pessimistic_is_native_replay": false,
+  "effective_stop": "fixed 50 index points, unchanged frozen B0",
+  "required_before_promotion": [
+    "Tick or timestamped BID/ASK updates from same tradable Nikkei venue covering the exact entry/stop events",
+    "Verify contract, currency and tick, session and trading calendar; calibrate spread, slippage and gaps",
+    "Native order-entry OCO/stop sequence with replayable fill event ordering; independent B0 parity tests",
+    "Chronologically independent unseen test not already mined"
+  ]
+}

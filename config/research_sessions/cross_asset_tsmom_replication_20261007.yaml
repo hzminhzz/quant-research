@@ -1,0 +1,138 @@
+# Pre-registered exploratory cross-asset time-series momentum study.
+# The mixed derivatives/proxy universe cannot be represented perfectly by the v1
+# research-session market enum. "futures" is used as the closest container.
+session_id: cross_asset_tsmom_replication_20261007
+market: futures
+
+thesis: >-
+  Positive own-market returns over approximately 1 to 6 months predict positive
+  subsequent returns, and negative own-market returns predict negative subsequent
+  returns. The effect should replicate across BTCUSDT, ETHUSDT, HYPEUSDT, a DAX
+  research price proxy, and a Nikkei 225 research price proxy after stated
+  execution costs.
+
+mechanism: >-
+  Gradual information diffusion, investor underreaction and herding, slow
+  institutional position adjustment, hedging demand, and forced deleveraging can
+  create persistent directional order flow. The mechanism should weaken in
+  sideways markets, abrupt V-shaped reversals, discontinuous news shocks, and
+  regimes where execution and financing costs exceed trend persistence.
+
+falsifier: >-
+  Development evidence rejects or materially weakens the thesis if fewer than
+  four of five instruments have positive net return for the fixed composite
+  trend rule, if the median individual-instrument net Sharpe is not positive, if
+  the composite fails a two-times execution-cost stress on most instruments, or
+  if results require a narrow parameter optimum. These development criteria do
+  not constitute deployment approval.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: BTCUSDT USD-margined perpetual research series
+    session: 24/7
+    timezone: UTC
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: ETHUSDT USD-margined perpetual research series
+    session: 24/7
+    timezone: UTC
+  - symbol: HYPEUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: HYPEUSDT USD-margined perpetual research series
+    session: 24/7
+    timezone: UTC
+  - symbol: DE30_EUR_PROXY
+    kind: cash_index
+    venue: London Strategic Edge
+    identity: DAX provider-defined intraday research price proxy; not an executable contract
+    session: provider session-window; daily bars aggregate available intraday observations
+    timezone: Europe/Berlin
+  - symbol: JP225_USD_PROXY
+    kind: cash_index
+    venue: London Strategic Edge
+    identity: JP225/USD provider-defined session-window research price proxy; not an executable contract
+    session: provider session-window approximately 8.5 hours per trading day
+    timezone: Asia/Tokyo
+
+data:
+  - id: btc_prices
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1h.parquet
+  - id: eth_prices
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1h.parquet
+  - id: hype_prices
+    symbol: HYPEUSDT
+    role: prices
+    path: data/processed/hypeusdt_1h.parquet
+  - id: dax_proxy_prices
+    symbol: DE30_EUR_PROXY
+    role: prices
+    path: data/processed/dax_1m.parquet
+  - id: nikkei_proxy_prices
+    symbol: JP225_USD_PROXY
+    role: prices
+    path: data/processed/JP225_USD_5m_2017_2026.parquet
+
+evaluation:
+  cadence: daily_or_local_session
+  development_start: "2017-01-03T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_start: "2026-08-01T00:00:00Z"
+  plan: >-
+    Use each instrument from its first available observation through
+    2026-07-31. BTC and ETH periods previously inspected in older TSMOM work are
+    historical/development evidence, not unseen validation. Do not inspect a
+    final cross-market holdout in this phase. Compute features on complete
+    daily/session bars and submit orders only after the signal bar; ml4t.backtest
+    NEXT_BAR execution fills at the next available bar open for each
+    single-instrument simulation.
+
+baseline: >-
+  Zero-trade cash baseline for each instrument. Buy-and-hold is descriptive only
+  because the economic hypothesis is symmetric long/short trend persistence.
+
+costs:
+  funding_included: false
+  crypto_commission_bps_per_side: 4.5
+  crypto_slippage_bps_per_side: 1.5
+  index_proxy_commission_bps_per_side: 2.0
+  index_proxy_slippage_bps_per_side: 1.0
+  stress_multiplier: 2.0
+  assumptions: >-
+    Crypto uses the prior repository Binance USD-M exploratory taker assumption:
+    4.5 bps commission plus 1.5 bps slippage per side. Funding is explicitly
+    excluded because no local HYPE funding dataset was found; crypto results are
+    therefore cost-incomplete. DAX and Nikkei use the repository's prior
+    exploratory 2 bps commission plus 1 bps slippage per side. Those price
+    series are research proxies, so these are not contract-level executable cost
+    claims.
+
+trials:
+  - id: t0_momentum_60
+    kind: preregistered
+    description: Sign of 60-session rate of change; target exposure is -1 or +1.
+  - id: t1_multi_horizon_momentum
+    kind: preregistered
+    description: Equal average of signs of 20-, 60-, and 120-session rate of change.
+  - id: t2_ema_20_60
+    kind: preregistered
+    description: Sign of EMA20 minus EMA60.
+  - id: t3_donchian_60
+    kind: preregistered
+    description: Stateful 60-session Donchian breakout using the previous channel; hold direction until opposite breakout.
+  - id: t4_equal_composite
+    kind: preregistered
+    description: Equal average of t1 multi-horizon momentum, t2 EMA direction, and t3 Donchian direction.
+  - id: t5_composite_vol_scaled
+    kind: preregistered
+    description: t4 composite multiplied by min(1, 20% annual volatility target divided by EWMA20 annualized volatility).
+  - id: t4_t5_cost_stress
+    kind: diagnostic
+    description: Repeat t4 and t5 with commission and slippage multiplied by two; do not use the stress result to tune parameters.

@@ -1,0 +1,88 @@
+{
+  "state": "C3_POST_SELECTION_US2_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Original DE30 and post-selected JP225 performance already observed; C3 is not fresh OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-us500-us100-2013-2026-v1",
+  "year": 2016,
+  "trial": "COST-US2",
+  "cost_multiplier": 1.5,
+  "source_note": "C3 uses only US500/US100 in both sleeves; USD index price-unit account, no broker certification.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "US100",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 153,
+      "d1_signals": 0,
+      "d1_exits": 0
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 98727.11499547627,
+    "num_trades": 72,
+    "num_orders": 144,
+    "num_fills": 144,
+    "num_rejected_orders": 0,
+    "win_rate": 0.3472222222222222,
+    "total_commission": 527.2172949396908,
+    "total_slippage": 1054.4346176684032,
+    "total_costs": 1581.6519126080939,
+    "max_drawdown_pct": 1.7730868513459865
+  },
+  "daily": {
+    "total_return": -0.012728850045237272,
+    "annual_return": -0.012434678499727903,
+    "annual_volatility": 0.01665728042188748,
+    "sharpe_ratio": -0.7428489022932998,
+    "sortino_ratio": -0.9445187856305196,
+    "calmar_ratio": -0.7459541286414578,
+    "omega_ratio": 0.7841882841187017,
+    "tail_ratio": 1.2389238734643122,
+    "max_drawdown": -0.016669494841960477,
+    "skewness": -2.88219952575631,
+    "kurtosis": 40.028862408785706,
+    "var_95": -0.0012117887204446721,
+    "cvar_95": -0.0024892740148217663,
+    "stability": 0.693231305427701,
+    "win_rate": 0.1434108527131783,
+    "profit_factor": 0.7841882841187016,
+    "avg_win": 0.0012441345649167313,
+    "avg_loss": -0.001067298848646755,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 72,
+  "open_trades": 0,
+  "closed_net_pnl": -1272.8850045237953,
+  "native_end_equity": 98727.11499547627,
+  "cash_plus_positions_reconciles": true,
+  "positions": {},
+  "native_order_rejections": [],
+  "units": "SYNTHETIC USD-index price-units, CFD contract multiplier NOT certified; not executable USD PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-us500-us100-2013-2026-v1/yearly_native/year=2016/COST-US2/cost_1.5x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-us500-us100-2013-2026-v1/yearly_native/year=2016/COST-US2/cost_1.5x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-us500-us100-2013-2026-v1/yearly_native/year=2016/COST-US2/cost_1.5x/daily_equity.parquet"
+  }
+}

@@ -1,0 +1,51 @@
+strategy_id: donchian_btc
+display_name: "Donchian BTC nine-lookback volatility targeted trend"
+classification: EXPLORATORY
+workflow_status: PROMOTED_FOR_FURTHER_RESEARCH
+approval_status: NOT_APPROVED
+live_trading_enabled: false
+frozen_selection: post_selected_positive_2020_2022_sharpe_from_seven
+independent_of_shannon: true
+original_strategy_name: donchian-btc
+original_symbol: BTC-USD
+tested_instrument:
+  symbol: BTCUSDT_PERP
+  venue: Binance USDT-margined futures
+  kind: perpetual
+  canonical_store: crypto_futures_minute_BTCUSDT_PERP
+  original_spot_reproduction: false
+  daily_session: UTC
+rules:
+  direction: long_short
+  feature_provider: ml4t.engineer.compute_features
+  extrema_on: close
+  prior_period_extrema: true
+  lookbacks: [10, 15, 20, 30, 45, 65, 95, 140, 200]
+  combine: average_carried_long_short_directions
+  volatility_lookback_days: 60
+  volatility_target_annual: 0.25
+  max_target_leverage: 2.0
+  annualization_factor_source: 252
+  execution: next_bar_native_broker
+  initial_margin: 0.5
+costs:
+  commission_bps_per_side: 5.0
+  slippage_bps_per_side: 2.0
+  modeled_cost_multipliers: [1, 2, 3]
+  funding_financing_spread_impact_unverified: true
+evaluation:
+  first_session: "2019-09-09"
+  last_session: "2026-10-11"
+  protected_data_from_utc: "2026-10-12T00:00:00Z"
+  source_history_previously_observed: true
+  true_untouched_final_test: false
+  engine: ml4t-backtest
+  source_summary: reports/native_summary.json
+  source_ledger: run_log/independent_five_full_history_20261014/donchian-btc
+known_blockers:
+  - Spot-versus-perpetual contract mismatch
+  - Signed funding and leverage financing missing
+  - Liquidation and maintenance margin model not qualified
+  - Native daily Sharpe annualization uses 252 despite BTC 365-day calendar
+  - Rebalance trade records are not independent trading episodes
+  - Source author trial history unknown; fresh independent final holdout unavailable

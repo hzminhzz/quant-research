@@ -1,0 +1,70 @@
+{
+  "year": 2015,
+  "status": "completed",
+  "quality": {
+    "year": 2015,
+    "warmup_start_utc_date": "2014-12-18",
+    "evaluation_session_start": "2015-01-01",
+    "evaluation_session_end": "2015-12-31",
+    "source_timestamp_end": "2016-01-07",
+    "eligible_start_timestamp": "2015-01-02 06:00:00+00:00",
+    "warmup_complete_30m_bars": 122,
+    "raw_source_rows": 245086,
+    "execution_rows_retained": 245086,
+    "complete_30m_bars": 7186,
+    "incomplete_30m_bins": 1748,
+    "source_duplicate_timestamps": 0,
+    "null_ohlc": 0,
+    "invalid_ohlc": 0,
+    "first_timestamp": "2014-12-18 00:00:00+00:00",
+    "last_timestamp": "2016-01-07 21:00:00+00:00",
+    "level_release": "complete 30m levels become available on the final minute; native order fills on the next source bar",
+    "partial_30m_execution_rows_preserved": true
+  },
+  "trials": [
+    {
+      "trial_id": "A",
+      "name": "native_zero_cost",
+      "status": "completed",
+      "closed_trades": 388,
+      "open_evaluation_trades": 0,
+      "net_pnl_usd": 6082.620000000143,
+      "average_trade_pnl_usd": 15.67685567010346,
+      "native_daily_equity_sharpe_utc": 2.2706215426480565,
+      "native_daily_equity_max_drawdown_utc": -0.0010266972579704927,
+      "native_engine_final_value_including_warmup": 1005741.1599999996,
+      "all_native_engine_closed_trades_including_warmup": 396,
+      "same_minute_ambiguity_examples": [],
+      "ending_native_open_trades": 0,
+      "max_entries_per_chicago_session_day": 2,
+      "simultaneous_opposing_stop_fill_events": 0,
+      "commission_per_fill_usd": 0.0,
+      "adverse_slippage_points_per_fill": 0.0
+    },
+    {
+      "trial_id": "B",
+      "name": "native_full_tick_cost",
+      "status": "completed",
+      "closed_trades": 388,
+      "open_evaluation_trades": 0,
+      "net_pnl_usd": 262.6200000001427,
+      "average_trade_pnl_usd": 0.6768556701034605,
+      "native_daily_equity_sharpe_utc": 0.09895793464684254,
+      "native_daily_equity_max_drawdown_utc": -0.0012824004446374156,
+      "native_engine_final_value_including_warmup": 999801.1599999996,
+      "all_native_engine_closed_trades_including_warmup": 396,
+      "same_minute_ambiguity_examples": [],
+      "ending_native_open_trades": 0,
+      "max_entries_per_chicago_session_day": 2,
+      "simultaneous_opposing_stop_fill_events": 0,
+      "commission_per_fill_usd": 2.5,
+      "adverse_slippage_points_per_fill": 0.25,
+      "conservative_ambiguous_bound_usd": 262.6200000001427
+    }
+  ],
+  "ending_strategy_state": {
+    "open_entry_orders": 0,
+    "open_protective_order": false,
+    "tracked_trade": false
+  }
+}

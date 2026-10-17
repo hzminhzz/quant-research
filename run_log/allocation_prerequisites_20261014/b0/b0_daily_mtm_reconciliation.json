@@ -1,0 +1,38 @@
+{
+  "status": "VERIFIED",
+  "period": {
+    "start_inclusive": "2013-01-01",
+    "end_inclusive": "2024-12-31"
+  },
+  "calendar_days": 4383,
+  "observed_source_mark_days": 3347,
+  "no_source_observation_days": 1036,
+  "source_mark_missing_snapshot_count": 0,
+  "source_mark_missing_snapshot_examples": [],
+  "max_abs_ledger_vs_native_nav_difference_usd": 4.190951585769653e-09,
+  "mismatch_count_over_2c": 0,
+  "position_size_check": {
+    "max_abs_contract_quantity": 1.0,
+    "rows_over_one_contract": 0
+  },
+  "no_observation_policy": "Calendar rows have null mark/NAV and status NO_SOURCE_OBSERVATION. Do not forward-fill. Use observed dates only.",
+  "open_position_policy": "Signed fills define position. Source close at the exact native daily snapshot timestamp marks open quantity.",
+  "cost_policy": "Subtract fill commission once. Actual fill prices already include adverse slippage; do not subtract the slippage column again.",
+  "annual_boundary_policy": "Each yearly worker is isolated. Rebase to its last pre-Jan-1 native snapshot. 2013 uses initial cash.",
+  "continuity_limit": "This is not one continuous multi-year broker account.",
+  "continuous_reference_nav_status": "VERIFIED_FLAT_BUT_CONTINUITY_BLOCKED",
+  "continuous_reference_nav_created": false,
+  "classification": "EXPLORATORY allocation prerequisite only; not allocator training, paper, or live",
+  "instrument": "Dukascopy USATECH.IDX/USD BID CFD proxy; illustrative one NQ-equivalent contract; 20 USD/point",
+  "frozen_strategy": "B0; 50 completed 30m bars; fixed 50-point/$1,000 stop; one contract; Chicago 17:00 session anchor; existing native fees/slippage",
+  "inputs": {
+    "practical_run": "run_log/one_bar_practical_1m_20261012/",
+    "run_manifest_sha256": "84da309947b84149a4aa44f0ef7d552173937df216c5eff361d17cde0567136f",
+    "frozen_source_manifest": "run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json",
+    "frozen_source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "frozen_source_manifest_hash_matches": true,
+    "source_root": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+    "source_partitions_used": "year=2013 through year=2024 only"
+  },
+  "native_engine_semantics": "ml4t-backtest Engine._record_portfolio_state records cash plus signed marked position value. BacktestConfig mark_price defaults to PRICE; DataFeed defaults its price column to close."
+}

@@ -1,0 +1,106 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2017,
+  "trial": "SOURCE-JP225-7",
+  "cost_multiplier": 1,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 213862,
+      "first": "2017-01-03 07:00:00+00:00",
+      "last": "2017-12-29 20:59:00+00:00",
+      "h1_signals": 160,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "US100",
+      "rows": 213862,
+      "first": "2017-01-03 07:00:00+00:00",
+      "last": "2017-12-29 20:59:00+00:00",
+      "h1_signals": 187,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "JP225",
+      "rows": 296349,
+      "first": "2017-01-03 01:00:00+00:00",
+      "last": "2017-12-29 20:59:00+00:00",
+      "h1_signals": 156,
+      "d1_signals": 6,
+      "d1_exits": 23
+    },
+    {
+      "symbol": "EU50",
+      "rows": 153303,
+      "first": "2017-01-02 07:00:00+00:00",
+      "last": "2017-12-29 20:59:00+00:00",
+      "h1_signals": 14,
+      "d1_signals": 3,
+      "d1_exits": 11
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 99696.05180104375,
+    "num_trades": 132,
+    "num_orders": 264,
+    "num_fills": 264,
+    "num_rejected_orders": 0,
+    "win_rate": 0.3333333333333333,
+    "total_commission": 592.3428072550412,
+    "total_slippage": 1184.6856734332937,
+    "total_costs": 1777.0284806883349,
+    "max_drawdown_pct": 2.3596713662618183
+  },
+  "daily": {
+    "total_return": -0.003039481989561832,
+    "annual_return": -0.002479496589617769,
+    "annual_volatility": 0.01627423429768214,
+    "sharpe_ratio": -0.14444464919876793,
+    "sortino_ratio": -0.2264219035526444,
+    "calmar_ratio": -0.11375299265981768,
+    "omega_ratio": 0.9653165545001965,
+    "tail_ratio": 0.9984585384717329,
+    "max_drawdown": -0.021797198751797156,
+    "skewness": 1.8012929233012789,
+    "kurtosis": 20.162187026045068,
+    "var_95": -0.0015089345199850986,
+    "cvar_95": -0.00223919360798222,
+    "stability": 0.263832864183623,
+    "win_rate": 0.2686084142394822,
+    "profit_factor": 0.9653165545001962,
+    "avg_win": 0.0009665612692717608,
+    "avg_loss": -0.0008068643035096817,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 132,
+  "open_trades": 0,
+  "closed_net_pnl": -303.94819895619173,
+  "native_end_equity": 99696.05180104375,
+  "cash_plus_positions_reconciles": true,
+  "positions": {},
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2017/SOURCE-JP225-7/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2017/SOURCE-JP225-7/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2017/SOURCE-JP225-7/cost_1x/daily_equity.parquet"
+  }
+}

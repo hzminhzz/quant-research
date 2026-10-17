@@ -1,0 +1,30 @@
+{
+  "status": "frozen_before_bounded_execution",
+  "trial_count": 3,
+  "trials": [
+    {
+      "id": "R1",
+      "name": "native_stop_gap_semantics",
+      "kind": "diagnostic",
+      "status": "completed",
+      "scope": "synthetic long/short stop-entry and protective-stop gaps through ml4t.backtest Engine; opposing-stop OCO failure observed"
+    },
+    {
+      "id": "R2",
+      "name": "execution_rows_in_incomplete_decision_bins",
+      "kind": "diagnostic",
+      "status": "completed",
+      "scope": "synthetic raw-minute feed with incomplete 30-minute bins, 50 complete prior-bin signal timing, available next-boundary open, missing boundary open, and DST"
+    },
+    {
+      "id": "R3",
+      "name": "2013_to_2026_full_history_zero_and_cost_stress",
+      "kind": "historical_review",
+      "status": "blocked",
+      "reason": "Native Broker has no atomic OCO order group; one-minute OHLC cannot order simultaneous opposing stops. No non-native fill simulator or post-hoc correction is permitted."
+    }
+  ],
+  "protected_boundary": "2026-07-14",
+  "parameters_changed": false,
+  "full_history_outcomes_observed": false
+}

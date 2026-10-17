@@ -1,0 +1,104 @@
+session_id: gotobi_exact_paper_bridge_20261011_v1
+market: fx
+thesis: >-
+  The different reported Gotobi return estimates originate in a combination of
+  different nominal settlement dates, bar-completeness selection and 09:55
+  close versus 09:54 open execution boundaries, rather than a proven change
+  in the underlying USDJPY directional anomaly.
+mechanism: >-
+  Japanese importer USD settlement and dealer inventory hedging are plausible,
+  not identified flow sources. This is a retrospective methodological
+  replication of a published rule, not a new strategy search.
+falsifier: >-
+  Retain each measured effect and direction without cherry-picking. A change
+  in calendar, eligibility, or boundary fails to explain the discrepancy if
+  its matched-date bridge contribution is small or the corrected gross mean
+  remains inconsistent with the article. The rule cannot qualify for live
+  trading unless the fixed exact-rule 2024-2025 sample is positive after
+  1pip cost, an ordinary-day controlled premium is supported, and historical
+  coverage is representative. Research is EXPLORATORY, not fresh OOS.
+instruments:
+  - symbol: USDJPY
+    kind: fx
+    venue: LONDON_STRATEGIC_EDGE_RESEARCH_FEED
+    identity: >-
+      Canonical LSE USD/JPY 1-minute OHLCV reference prices; USD base,
+      JPY quote, pip 0.01 JPY. Neither HistData BID candles nor
+      broker-executable bid and ask. All reported cash amounts are
+      nominal USD10000 research accounting.
+    timezone: Asia/Tokyo
+    session: >-
+      Japanese banking calendar from previously preserved
+      BOJ/national-holiday historical registry.
+data:
+  - {id: lse_2020, symbol: USDJPY, role: prices, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet}
+  - {id: lse_2021, symbol: USDJPY, role: prices, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet}
+  - {id: lse_2022, symbol: USDJPY, role: prices, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet}
+  - {id: lse_2023, symbol: USDJPY, role: prices, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet}
+  - {id: lse_2024, symbol: USDJPY, role: prices, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet}
+  - {id: lse_2025, symbol: USDJPY, role: prices, path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet}
+evaluation:
+  source_article: https://www.alphainacademia.com/p/can-you-beat-the-market-by-trading
+  source_companion: "Alpha in Academia Gotobi research companion v1.0.3 / METHODOLOGY.md"
+  source_main_window: "03:00 JST M1 open to 09:55 JST M1 close"
+  source_event_calendar: >-
+    Nominal day 5,10,15,20,25,last CALENDAR day of each month;
+    rollback to preceding Japanese bank day; deduplicate dates; no
+    explicit 30th except when last calendar day itself is 30th.
+  source_eligibility: "Only 03:00 and exit timestamp bars present"
+  source_gross_pips: "(Pexit - Pentry) / 0.01"
+  source_return: "(Pexit - Pentry - 0.01*c) / Pentry"
+  source_costs_pips: [0.0, 0.4, 1.0, 1.5]
+  source_time_sensitivities: ["09:55 JST open", "09:59 JST close"]
+  previous_calendar: "Nominal 5 10 15 20 25 30 rolled, month-end separate"
+  previous_strict_gate: "03:00-09:56 complete minute cadence"
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2025-12-31T15:00:00Z"
+  retrospective_2024_2025: "Previously inspected; not fresh OOS"
+  holdout_start: "2026-08-31T15:00:00Z"
+  holdout_end: "2026-11-01T00:00:00Z"
+  holdout: SEALED_NEVER_READ
+  reproducibility_priority: >-
+    Exact published markout first, without pretending bar close is a
+    causally executable limit/market fill. Native ml4t.backtest.Engine
+    next-bar 09:56-open proxy runs separately on its own eligible cohort.
+  seven_step_bridge:
+    - "B0 old calendar strict gate 03:00 open to 09:54 open"
+    - "B1 author calendar strict gate same 09:54 open"
+    - "B2 author calendar only required boundary bars 09:54 open"
+    - "B3 author calendar only required boundary bars 09:55 open"
+    - "B4 author calendar only required boundary bars 09:55 close"
+    - "B5 author calendar only required boundary bars 09:59 close"
+    - "B6 author calendar native market next-bar 09:56 open with 1pip cost"
+  completeness: >-
+    For gross markouts, two exact bars only. No interpolation. Also
+    report alternative strict full cadence. Denominator all scheduled
+    bank day Gotobi dates 2020-2025, no row-dependent calendar selection.
+  comparison: >-
+    Within common dates paired differences isolate exit boundary. Calendar
+    and complete-bar changes also alter cohorts, so report changes in
+    sample composition and matched-overlap, not call every difference
+    causal.
+  retained_prior_studies: "2020-Aug2026 already inspected. Do not touch Sept-Oct2026."
+baseline: >-
+  Identical 03:00-09:55 close on ordinary Japanese bank business days;
+  earlier 03:00-09:54 Gotobi cohort and published HistData 2006-2025
+  summary as separate non-comparable references.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  research_roundtrip_pips: [0.0, 0.4, 1.0, 1.5]
+  interpretation: "Author hypothetical fixed round trip, not verified broker spreads"
+  separate_native_1pip: "0.5pip adverse each side, NEXT_BAR OPEN with fixed USD10000"
+  caveat: "No execution claim for a bar-close exit without obtainable broker quotes"
+trials:
+  - {id: T0_source_gate, kind: diagnostic, description: Preserve original source methodological differences and inspect calendar and LSE price quality}
+  - {id: T1_author_exact, kind: preregistered, description: Author calendar boundary-only 03:00-open to 09:55-close LSE markouts with published cost ladder}
+  - {id: T2_bridge, kind: preregistered, description: Old versus paper calendar, strict versus boundary-only, and time boundary variants with date composition}
+  - {id: T3_ordinary_control, kind: diagnostic, description: Ordinary morning comparison, annual cuts, HAC5 and calendar placebo}
+  - {id: T4_native_market, kind: diagnostic, description: Native next-bar 03:00 to 09:56 open 1pip market simulation and source price reconciliation}
+  - {id: T5_independent_audit, kind: diagnostic, description: Source timing, calendar membership, metadata, numerical and sampling invariants}
+  - {id: T6_report, kind: diagnostic, description: Explanation of discrepancy vs article and prior study with conclusion and caveats}
+evidence:
+  - run_log/tokyo_fix_alpha_map_program1_20261010/execution_v1/calendar_event_registry.parquet
+  - run_log/gotobi_paper_replication_20261011_v1/T4_refutation/result.json

@@ -1,0 +1,32 @@
+{
+  "trial_id": "trial_2_donchian_breakout",
+  "description": "Donchian 168h Breakout Trend Following",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 73819.25659023752
+  },
+  "performance": {
+    "total_return": 6.381925659023752,
+    "annualized_sharpe": 0.20759960649043005,
+    "max_drawdown": 0.5855866868288627,
+    "win_rate": 0.3828125,
+    "profit_factor": 1.872837149312036
+  },
+  "execution": {
+    "trades": 128,
+    "total_commission": 1364.499062310798,
+    "total_slippage": 454.8344976385444,
+    "total_costs": 1819.3335599493425,
+    "gross_pnl": 65183.75565254836,
+    "fee_drag_pct": 2.791084284322325
+  },
+  "falsifier_checks": {
+    "min_sharpe_0_80": false,
+    "max_drawdown_25_pct": false,
+    "fee_drag_under_40_pct": true
+  }
+}

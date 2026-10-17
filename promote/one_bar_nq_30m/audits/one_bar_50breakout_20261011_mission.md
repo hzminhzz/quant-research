@@ -1,0 +1,19 @@
+# Execution mission — one-bar 50-bar index futures breakout (2026-10-11)
+
+Execute research end-to-end, not only plan. This user explicitly approved executing the exact original rules. Do not add strategy filters, optimize, change 50 bars, or alter one-bar exit.
+
+Read AGENTS.md, docs/research_sessions.md, run_log/validation_status.json, docs/audit/one_bar_50breakout_20261011_plan.md; inspect current HEAD, Git status, current tmux, and prior artifacts. Protect unrelated dirty files. Read full applicable local ML4T skills and inspect actual installed ml4t.backtest APIs. Use native ML4T Strategy/Engine and stop orders, never custom backtest loops; if engine cannot represent stop order with next-open exit, report blocker truthfully, keep valid event-study diagnostics only. Execute/reconcile independent tests.
+
+Provider/data authority: canonical /home/quant/dev/quant/ml4t-data/.data/store/, AGENTS.md therein. Live LSE futures catalog queried today: 68 entries, contains NQ.F (Nasdaq100 futures), ES.F (S&P500 futures), does NOT contain EMD or YM.F. Existing data stores: lse_futures_minute_NQ 366913 rows and ES 366959 rows, both 2025-09-19 through 2026-10-02, LSE 1m with metadata. Do not download new data unnecessarily; do not substitute NAS100/USD or US30/USD CFD/spot indexes as CME futures. Inspect records, expiry adjustment unknown, and catalog as needed. Do not modify canonical ml4t-data store from this project.
+
+Exact rules:
+- 30-minute bars aligned to CME Globex trading session, full electronic hours, long and short.
+- Long buy stop at max high of previous 50 completed bars; short sell stop at min low of previous 50 completed bars; trigger within eligible 30m bar; exit on opening print of immediately following 30m bar. Protective stop loss $1000/trade; max 2 filled entries per exchange trading day.
+- Default 1 E-mini contract per entry, NQ $20/point, ES $50/point, correct native tick rounding, stop exits and costs. Minimal deterministic interpretation of simultaneous orders using 1m candles, no lookahead. Explain any gap and same-minute ambiguity. No additional regime filters or threshold tuning.
+- For data with 1m fills, assemble 30m decision bars while using intrabar 1m execution where native Engine supports; do NOT approximate stop breakout by next-bar market (AGENTS.md prohibits). When engine fill behavior cannot represent this exact logic, stop accuracy claims.
+- Clear zero-cost and cost-aware trial assumptions; commission/exchange/slippage per contract at documented conservative research placeholders if brokerage isn't specified, not broker-certified.
+- At least NQ and ES first pass, 2026-01-01 to last verified current data, provided the protected final-test boundaries aren't breached; research on already inspected historical periods labeled retrospective. No access to previously frozen or protected later holdouts, if implicated. Missing EMD/YM mark BLOCKED, do not claim 4-market replication.
+- Run signal diagnostic and complete event ledger, daily-equity Sharpe from actual daily equity, win rate, avg net P&L, trade count, profit factor, maximum drawdown, max 2/day, no lookahead audit. Distinguish positive gross from positive net. Record trial evidence and reproducible artifacts in dedicated one_bar_50breakout_20261011 paths; create an EXPLORATORY spec only when actual schema validated; no approval status promotion.
+- Run focused tests, review diff and check all results. No live orders. No commit/push unless authorized. If long run, use tmux with session check first, but try to complete in this invocation.
+
+For fast implementation use Codex native subagents where independent; avoid unnecessary rounds of research governance; mission is MVP. End with factual numbers from artifacts and concise file pointers, with caveats and blockers. Do not claim completed if still running.

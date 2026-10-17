@@ -1,0 +1,24 @@
+{
+  "trial_id": "trial_4_holdout_and_dsr_audit",
+  "description": "19-month out-of-sample holdout simulation and Deflated Sharpe Ratio (DSR) multiple-testing accounting",
+  "holdout_results": {
+    "period": "2025-01-01 to 2026-07-31",
+    "market_buy_and_hold_return_pct": -63.15,
+    "market_buy_and_hold_max_dd_pct": 69.99,
+    "stop_market_strategy_return_pct": 12.71,
+    "stop_market_strategy_max_dd_pct": 22.95,
+    "stop_market_alpha_over_bnh_pct": 75.86,
+    "passive_maker_strategy_return_pct": 18.65,
+    "passive_maker_strategy_max_dd_pct": 20.45,
+    "passive_maker_alpha_over_bnh_pct": 81.80
+  },
+  "multiple_testing": {
+    "total_trials_evaluated": 24,
+    "peak_development_sharpe": 1.940,
+    "deflated_sharpe_ratio": 0.9991
+  },
+  "falsifier_checks": {
+    "capital_preservation_achieved": true,
+    "min_dsr_0_90": true
+  }
+}

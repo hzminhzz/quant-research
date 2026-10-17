@@ -1,0 +1,109 @@
+{
+  "package": "rsi_30_50_spy",
+  "strategy_id": "rsi_30_50_spy",
+  "original_strategy_name": "rsi-30-50",
+  "workflow_status": "PROMOTED_FOR_FURTHER_RESEARCH",
+  "approval_status": "NOT_APPROVED",
+  "independent_of_shannon": true,
+  "created_date_utc": "2026-10-14",
+  "captured_head": "98d5949fe11695c709f5ddeaf88a02c79f05b0c7",
+  "captured_dirty_checkout": true,
+  "source_code_snapshots_are_import_dependent": true,
+  "canonical_native_path": "run_log/independent_five_full_history_20261014/rsi-30-50",
+  "canonical_native_audit": "run_log/independent_five_full_history_20261014/audit.json",
+  "source_cost_trial_path": "run_log/independent_five_full_history_20261014/cost_stress_2x_3x.json",
+  "canonical_raw_data": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES",
+  "protected_data_from_utc": "2026-10-12T00:00:00Z",
+  "retrospective_selection": true,
+  "fresh_holdout": false,
+  "uploaded_original_author_source_in_package": false,
+  "files": [
+    {
+      "path": "README.md",
+      "size_bytes": 3554,
+      "sha256": "4b1558c606b459eb746d2742076b1284fb9d6881422b8c80fb6b7bcf16446789"
+    },
+    {
+      "path": "STATUS.md",
+      "size_bytes": 1496,
+      "sha256": "900654a5bfcd8b8f1472b7189fb8eee9a00a65803f1ee52a67c45cb814b3fcbb"
+    },
+    {
+      "path": "audits/evidence.md",
+      "size_bytes": 1205,
+      "sha256": "7ccc45d941b45fabf1fb0a2ded7131f0c4c4fd678622efdb4f70a9938156bb00"
+    },
+    {
+      "path": "provenance/data_manifest.json",
+      "size_bytes": 452,
+      "sha256": "2812164c90db7ca258e866f629b6191fd90bd5f32e1380344b9ba1a324e34a70"
+    },
+    {
+      "path": "reports/cost_stress.json",
+      "size_bytes": 1286,
+      "sha256": "cb5770e93484a8ac15db6014bb1f43181ccceebf6e3ac8e48209877e1989e4bb"
+    },
+    {
+      "path": "reports/native_summary.json",
+      "size_bytes": 10253,
+      "sha256": "4c82500e0bc117031c59d56ba9fd223c3305f426bd5b04369508dffb075a8f51"
+    },
+    {
+      "path": "research_next.md",
+      "size_bytes": 1236,
+      "sha256": "dc94ad8010a75bf6fa3ee08049d93282858c9a1b91f87d56fb0cac55cd6658e8"
+    },
+    {
+      "path": "scripts/verify_package.py",
+      "size_bytes": 3976,
+      "sha256": "4113ba9541f5209a1f71ff57b52ee5c454c47022295bf7d88f488340e76bf80c"
+    },
+    {
+      "path": "src/audit_independent_five_full_history_20261014.py",
+      "size_bytes": 3468,
+      "sha256": "c0fed680d41e4c35640e77fdf8cc4ef9837156f75295146c9cb9ee1ff5734413",
+      "source_path": "scripts/audit_independent_five_full_history_20261014.py",
+      "source_sha256": "c0fed680d41e4c35640e77fdf8cc4ef9837156f75295146c9cb9ee1ff5734413"
+    },
+    {
+      "path": "src/independent_seven_data.py",
+      "size_bytes": 4522,
+      "sha256": "d4fa36b194549018cd2ae6c13c63e28c4f7396f666ad2d4faafb70bdb2e69b21",
+      "source_path": "src/strategies/independent_seven_data.py",
+      "source_sha256": "d4fa36b194549018cd2ae6c13c63e28c4f7396f666ad2d4faafb70bdb2e69b21"
+    },
+    {
+      "path": "src/independent_seven_native_features.py",
+      "size_bytes": 8766,
+      "sha256": "0c2a10c764ca38b72219a08da254a478ab4d8ce742f5fd5ece8c9e448f6294bd",
+      "source_path": "src/strategies/independent_seven_native_features.py",
+      "source_sha256": "0c2a10c764ca38b72219a08da254a478ab4d8ce742f5fd5ece8c9e448f6294bd"
+    },
+    {
+      "path": "src/run_independent_five_full_history_20261014.py",
+      "size_bytes": 7839,
+      "sha256": "fecda1358202b5ddc533b7610a408a074227830ca8d5afa74413d606df80a5ce",
+      "source_path": "scripts/run_independent_five_full_history_20261014.py",
+      "source_sha256": "fecda1358202b5ddc533b7610a408a074227830ca8d5afa74413d606df80a5ce"
+    },
+    {
+      "path": "src/run_independent_seven_2020_2022.py",
+      "size_bytes": 14876,
+      "sha256": "3841b8e3d5096c376d7d421561fe9e5817535f212ce9f191b015ccabe67e03c7",
+      "source_path": "scripts/run_independent_seven_2020_2022.py",
+      "source_sha256": "3841b8e3d5096c376d7d421561fe9e5817535f212ce9f191b015ccabe67e03c7"
+    },
+    {
+      "path": "strategy.yaml",
+      "size_bytes": 1705,
+      "sha256": "d9dfd8b9e0283d6a78151e1e869dbe9363b74469ddd37dee6df9d2cbe3558a1b"
+    },
+    {
+      "path": "tests/test_independent_seven_native_features.py",
+      "size_bytes": 2471,
+      "sha256": "e6c9ed66ed7e9d3db086f69fcb39959873c92835c610438578d41df711e8e7a3",
+      "source_path": "tests/test_independent_seven_native_features.py",
+      "source_sha256": "e6c9ed66ed7e9d3db086f69fcb39959873c92835c610438578d41df711e8e7a3"
+    }
+  ]
+}

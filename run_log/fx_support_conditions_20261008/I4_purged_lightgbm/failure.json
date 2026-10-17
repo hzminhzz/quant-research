@@ -1,0 +1,18 @@
+{
+  "schema_version": "support-followup-run-failure-v1",
+  "session_id": "fx_support_conditions_20261008",
+  "trial_id": "I4_purged_lightgbm",
+  "status": "failed",
+  "failure_kind": "data_quality",
+  "error_type": "ValueError",
+  "error": "Non-finite ML feature detected",
+  "diagnostic": "One AUDUSD event on 2010-01-05T18:30:00Z has an undefined ATR100 warm-up ratio and EMA50 slope.",
+  "num_nonfinite_rows": 1,
+  "num_feature_panel_events": 1395,
+  "model_fit_completed": false,
+  "oof_predictions_emitted": false,
+  "holdout_opened": false,
+  "holdout_scored": false,
+  "files_modified_during_failure": [],
+  "next_action": "New successor session with explicitly declared non-finite feature exclusion; preserve this failure."
+}

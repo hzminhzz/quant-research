@@ -1,0 +1,25 @@
+{
+  "skills_read": [
+    "ml4t-strategy-workflow",
+    "ml4t-run-backtest",
+    "ml4t-cost-model",
+    "ml4t-calendar-ops",
+    "ml4t-validate-data",
+    "ml4t-point-in-time",
+    "ml4t-lookahead-bias",
+    "ml4t-sensitivity-analysis"
+  ],
+  "invariants": [
+    "minute-open UTC/JST clock",
+    "next-bar only",
+    "holiday rollback fixed",
+    "same-day no carry",
+    "fixed USD10000",
+    "quote JPY to USD conversion",
+    "no Sept/Oct2026",
+    "failed trial ledger retained"
+  ],
+  "current_repository_head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "native_backtest_version": "0.1.7 as inspected Oct11",
+  "known_limitation": "No firm historic executable bid/ask or queue data, zero intraday financing assumption"
+}

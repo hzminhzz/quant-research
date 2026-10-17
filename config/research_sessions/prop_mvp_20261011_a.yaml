@@ -1,0 +1,62 @@
+session_id: prop_mvp_20261011_a
+status: EXPLORATORY
+approval_status: NOT_APPROVED
+market: crypto_perpetuals
+thesis: >-
+  BTCUSDT and ETHUSDT 24-hour close-to-close return sign held until the next
+  completed hourly signal change may earn positive returns after 1x gross
+  unlevered execution costs on Binance USD-M reference prices.
+mechanism: >-
+  Gradual information diffusion and trend-following flows may persist across
+  hourly bars. Reversals, fees, slippage, and funding can remove this effect.
+falsifier: >-
+  Reject further validation if either instrument has non-positive net-of-fee
+  returns before funding, or if combined results fail the predeclared
+  chronological validation. Historical data through 2026-07-31 is retrospective.
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures reference; Vest/Propr mapping unknown
+    quote_currency: USDT
+    settlement_currency: USDT
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures reference; Vest/Propr mapping unknown
+    quote_currency: USDT
+    settlement_currency: USDT
+data:
+  - id: btc_1h
+    role: prices
+    path: data/processed/btcusdt_1h.parquet
+  - id: eth_1h
+    role: prices
+    path: data/processed/ethusdt_1h.parquet
+  - id: btc_funding
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    role: funding
+    path: data/processed/eth_funding.parquet
+evaluation:
+  development: 2021-01-01 through 2026-07-31 UTC, all retrospective and previously explored strategy family; no fresh OOS
+  protected_holdout: 2026-08-01 onward; do not read prices or outcomes
+  signal: sign(close[t] / close[t-24] - 1) after completed hourly bar
+  fill: NEXT_BAR market fill at next available bar open
+  exposure: 0.5x equity notional per active symbol, signal changes only, max 1x gross
+  controls: cash and equal-weight buy-and-hold
+  last_verified_data_timestamp: 2026-07-31T23:00:00Z
+  data_identity: Local processed Binance-symbol OHLCV; exact source/provider provenance remains unverified.
+costs:
+  reference_commission_bps_each_fill: 4.5
+  slippage_bps_each_fill: 1.5
+  funding: available locally, excluded from native engine accounting and net claim
+trials:
+  - id: baseline
+    kind: preregistered
+    description: Fixed 24-hour directional sign, 1x total gross cap, next-bar fills.
+  - id: cost_2x
+    kind: diagnostic
+    description: Double commission and slippage; no parameter selection.
+  - id: extra_bar_delay
+    kind: diagnostic
+    description: Delay signal by one additional completed hourly bar.

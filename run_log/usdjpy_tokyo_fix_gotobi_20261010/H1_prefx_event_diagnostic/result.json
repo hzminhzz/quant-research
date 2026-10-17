@@ -1,0 +1,43 @@
+{
+  "provenance": {
+    "session": "usdjpy_tokyo_fix_gotobi_20261010",
+    "development": "2026-01-01 through 2026-08-31 JST",
+    "source_sha256": "5c6ff1bc3cff0a69e1bb22565249fd8dbe03441fb3363edb510c939841685028",
+    "calendar": "PROVISIONAL 2026 Tokyo holiday enumerations; verify against authoritative BOJ before trading",
+    "events": 161,
+    "gotobi_dates_expected": 51,
+    "gotobi_events": 51,
+    "days_with_six_required_minutes": 161
+  },
+  "result": {
+    "gotobi": {
+      "n": 51,
+      "mean": 2.832352941176591,
+      "ci95": [
+        -3.4281503434394818,
+        9.092856225792664
+      ],
+      "t": 0.8867194063859752
+    },
+    "ordinary": {
+      "n": 110,
+      "mean": -2.521363636363699,
+      "ci95": [
+        -7.4156798038515035,
+        2.3729525311241058
+      ],
+      "t": -1.0096981376130334
+    },
+    "gotobi_minus_ordinary_pips": 5.353716577540289,
+    "difference_ci95_pips": [
+      -3.140205254943882,
+      13.847638410024459
+    ],
+    "scenario_cost_adjusted_gotobi_mean_pips": {
+      "0.8": 2.032352941176592,
+      "1.0": 1.832352941176592,
+      "1.4": 1.432352941176592
+    },
+    "gotobi_win_rate": 0.5294117647058824
+  }
+}

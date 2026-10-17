@@ -1,0 +1,170 @@
+# Frozen MVP adaptation of the attached Gemini funding-carry thesis.
+# The canonical Binance 1h source starts 2020-01-01, so the MVP development
+# decision window starts 2020-06-01 after source and warmup qualification.
+# 2024+ data is validation/protected material and must not be loaded by this MVP.
+session_id: crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1
+market: crypto
+
+thesis: >-
+  Across Binance USD-M USDT-settled perpetuals, extreme cross-sectional
+  24-hour funding pressure combined with opposite-signed 24-hour relative
+  price momentum identifies exhausted leveraged crowding. Every 48 hours,
+  a dollar-neutral equal-notional basket shorts high positive-funding laggards
+  and buys low or negative-funding resilient contracts. The candidate must
+  first show positive 48-hour cross-sectional rank IC with HAC significance
+  before any portfolio simulation.
+mechanism: >-
+  Leveraged directional demand can push perpetual funding away from zero.
+  When price stops confirming the crowded direction, the position can earn
+  funding carry and benefit from a subsequent crowding unwind. The effect can
+  fail when strong directional demand persists or when execution friction and
+  squeeze risk exceed the financing transfer.
+falsifier: >-
+  REJECT before backtesting if the strict funding-exhaustion score has mean
+  48-hour Spearman rank IC below 0.015 or HAC t-stat below 2.0 on the frozen
+  development window, or if fewer than 150 eligible 48-hour basket cycles
+  exist. If the IC gate passes, run the preregistered native portfolio trial.
+  REJECT that trial if its net daily-equity Sharpe after 18 bps round-trip
+  modeled execution friction is not above the naive unconditional funding-sort
+  baseline, or if more than 20 percent of held legs hit the 3x frozen-ATR
+  catastrophic stop. Do not tune thresholds after observing results.
+
+instruments:
+  - symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: >-
+      Dynamic point-in-time set of USDT-quoted, USDT-settled linear USD-M
+      perpetual contracts present in the canonical Binance 1h archive and
+      matched to canonical funding records. Index-like USD-M perpetuals are
+      not silently removed unless source identity proves they are non-tradable.
+
+data:
+  - id: prices_2020
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: prices
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/prices_2020.parquet
+  - id: prices_2021
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: prices
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/prices_2021.parquet
+  - id: prices_2022
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: prices
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/prices_2022.parquet
+  - id: prices_2023
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: prices
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/prices_2023.parquet
+  - id: funding_2020
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: funding
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/funding_2020.parquet
+  - id: funding_2021
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: funding
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/funding_2021.parquet
+  - id: funding_2022
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: funding
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/funding_2022.parquet
+  - id: funding_2023
+    symbol: BINANCE_UM_USDT_PERP_CROSS_SECTION
+    role: funding
+    path: data/processed/crypto_xs_funding_carry_exhaustion_basket_mvp_20261015_v1/funding_2023.parquet
+
+evaluation:
+  warmup_start: "2020-01-01T00:00:00Z"
+  development_start: "2020-06-01T00:00:00Z"
+  development_end: "2024-01-01T00:00:00Z"
+  holdout_start: "2024-01-01T00:00:00Z"
+  holdout_policy: >-
+    This MVP must not load, compute, inspect or score observations at or after
+    2024-01-01. Gemini's 2024-2025 validation window and 2026 protected test
+    remain unopened. Source preparation enumerates only 2020-2023 partitions.
+  universe: >-
+    At each 48-hour decision, require 720 contiguous completed hourly bars and
+    a current matched funding settlement. Rank matched contracts by the trailing
+    720 completed bars of close*base_volume and keep the top 40.
+  decision_clock: >-
+    Canonical Binance 1h timestamps are UTC bar starts. Use the completed
+    23:00 bar at the next day's 00:00 close. Funding events can carry
+    millisecond offsets after 00:00, so freeze decision availability at
+    00:01 UTC and fill no earlier than the 01:00 UTC next-hour open.
+  rebalance_cadence: "Every 48 hours; no overlapping daily tranches in MVP."
+  features: >-
+    Use ml4t.engineer.compute_features with group_col=symbol for ROCP(24) and
+    ATR(24). Use explicit tested Polars extensions for trailing 720-hour
+    close*volume, the sum of all actual funding settlements observed in the
+    trailing 24 hours, cross-sectional median, z-score and rank because those
+    panel transforms are not registry features. This corrects Gemini's three-
+    settlement assumption because canonical 2022-2023 data include non-8h
+    funding intervals.
+  signal: >-
+    Strict diagnostic score is -cross-sectional zscore(cum_funding_24h) on
+    symbols whose funding sign is contradicted by relative 24-hour price
+    momentum: positive funding with xs_return_diff_24h<=0, or negative funding
+    with xs_return_diff_24h>=0. Portfolio short candidates additionally require
+    cum_funding_24h>0.0003. Long candidates prefer cum_funding_24h<0 and fall
+    back to the lowest funding resilient names if fewer than five are negative.
+  label: >-
+    48-hour next-open return from 01:00 UTC entry open to the open exactly
+    48 hours later. Require a contiguous future hourly path.
+  sizing: >-
+    Conditional portfolio stage uses five +10 percent long targets and five
+    -10 percent short targets for 1.0 gross and 0.0 dollar net exposure. If
+    either side has fewer than three eligible names, stay flat for that cycle.
+    Equal notional weights resolve the Gemini equal-weight versus inverse-vol
+    ambiguity for this MVP.
+  reporting: >-
+    First report candidate and naive-baseline IC, IC_IR, HAC t-stat, usable
+    dates, cross-sectional breadth and eligible 48-hour cycles. Only if the
+    IC gate passes, run the native event-driven portfolio trial and report
+    fills, turnover, funding cash-flow qualification, daily-equity Sharpe,
+    drawdown, Calmar, cost stress and stop fraction.
+
+baseline: >-
+  Unconditional cross-sectional funding sort on the same point-in-time top-40
+  universe: prediction is -zscore(cum_funding_24h) without the price-stalling
+  gate; portfolio is bottom-five funding long and top-five funding short with
+  the same timing, equal target notionals and execution costs.
+
+costs:
+  commission_bps: 5.0
+  slippage_bps: 4.0
+  total_round_trip_bps_per_leg: 18.0
+  funding_included: true
+  funding_policy: >-
+    Use actual canonical funding_rate events and the held signed notional at
+    settlement. Long positions pay positive funding and receive negative
+    funding; short positions receive positive funding and pay negative funding.
+    If installed ml4t.backtest cannot represent periodic funding cash flows
+    natively, do not invent a homemade execution engine. Preserve native price
+    execution evidence and report INCONCLUSIVE for the portfolio stage unless
+    a repository-approved accounting path exists.
+  assumptions: >-
+    The 5 bps taker plus 4 bps one-way slippage values are the frozen Gemini
+    research assumptions, not a historical venue-tier calibration. MVP size is
+    assumed negligible relative to top-40 liquidity; market impact is not
+    separately estimated.
+
+trials:
+  - id: funding_exhaustion_ic_gate
+    kind: preregistered
+    description: >-
+      Frozen 48-hour rank-IC diagnostic on 2020-06-01 through 2023-12-31.
+      Candidate mean IC must be >=0.015 and HAC t-stat >=2.0. Also require at
+      least 150 48-hour basket cycles and at least 40 matched eligible contracts
+      after 2020-06-01.
+  - id: unconditional_funding_ic_baseline
+    kind: preregistered
+    description: >-
+      Same top-40 panel and 48-hour label with -zscore funding only, no price
+      exhaustion mask. This is a comparator, not a parameter search.
+  - id: native_portfolio_if_ic_passes
+    kind: preregistered
+    description: >-
+      Conditional native ml4t.backtest Engine run of candidate and naive
+      baseline with NEXT_BAR OPEN fills, equal-notional target weights, 18 bps
+      round-trip modeled friction, exact funding qualification and 3x frozen
+      ATR catastrophic stops. Skip if the IC gate rejects.

@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "method": "independent minute source to native fill/JPY/USD reconciliation",
+  "arms": [
+    {
+      "leg": "H1",
+      "status": "PASS",
+      "matched_trades": 492,
+      "matched_source_quotes": 984,
+      "native_realized_jpy": 76475.00000004315,
+      "realized_usd_converted_at_exit": 573.7056850221188,
+      "usd_start": 10000.0,
+      "usd_end": 10573.70568502212,
+      "assumed_roundtrip_cost_pips": 1.0
+    },
+    {
+      "leg": "H2",
+      "status": "PASS",
+      "matched_trades": 45,
+      "matched_source_quotes": 90,
+      "native_realized_jpy": -2429.9999999959696,
+      "realized_usd_converted_at_exit": -21.609441842144843,
+      "usd_start": 10000.0,
+      "usd_end": 9978.390558157855,
+      "assumed_roundtrip_cost_pips": 1.0
+    }
+  ]
+}

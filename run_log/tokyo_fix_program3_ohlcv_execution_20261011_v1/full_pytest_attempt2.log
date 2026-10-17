@@ -1,0 +1,310 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/quant/dev/quant/quant-research
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1, xdist-3.8.0
+created: 2/2 workers
+2 workers [304 items]
+
+............................................................s........... [ 23%]
+........................................................................ [ 47%]
+......FFFF.............................................................. [ 71%]
+........................................................................ [ 94%]
+..............FF                                                         [100%]
+=================================== FAILURES ===================================
+______ test_marimo_check_reports_no_issues[03_mean_reversion_factory.py] _______
+[gw1] linux -- Python 3.14.6 /home/quant/dev/quant/quant-research/.venv/bin/python
+
+notebook = PosixPath('/home/quant/dev/quant/quant-research/notebooks/03_mean_reversion_factory.py')
+
+    @pytest.mark.parametrize("notebook", NOTEBOOKS, ids=lambda path: path.name)
+    def test_marimo_check_reports_no_issues(notebook: Path) -> None:
+>       process = subprocess.run(
+            [sys.executable, "-m", "marimo", "check", "--format", "json", str(notebook)],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+
+tests/test_notebook_dag.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:2154: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['/home/quant/dev/quant/quant-research/.venv/bi...>
+endtime = 868599.000827578, orig_timeout = 300, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/home/quant/dev/quant/quant-research/.venv/bin/python', '-m', 'marimo', 'check', '--format', 'json', '/home/quant/dev/quant/quant-research/notebooks/03_mean_reversion_factory.py']' timed out after 300 seconds
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1268: TimeoutExpired
+________ test_marimo_check_reports_no_issues[01_case_study_pipeline.py] ________
+[gw0] linux -- Python 3.14.6 /home/quant/dev/quant/quant-research/.venv/bin/python
+
+notebook = PosixPath('/home/quant/dev/quant/quant-research/notebooks/01_case_study_pipeline.py')
+
+    @pytest.mark.parametrize("notebook", NOTEBOOKS, ids=lambda path: path.name)
+    def test_marimo_check_reports_no_issues(notebook: Path) -> None:
+>       process = subprocess.run(
+            [sys.executable, "-m", "marimo", "check", "--format", "json", str(notebook)],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+
+tests/test_notebook_dag.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:2154: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['/home/quant/dev/quant/quant-research/.venv/bi...>
+endtime = 868627.786494289, orig_timeout = 300, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/home/quant/dev/quant/quant-research/.venv/bin/python', '-m', 'marimo', 'check', '--format', 'json', '/home/quant/dev/quant/quant-research/notebooks/01_case_study_pipeline.py']' timed out after 300 seconds
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1268: TimeoutExpired
+______ test_marimo_check_reports_no_issues[04_opening_candle_breakout.py] ______
+[gw1] linux -- Python 3.14.6 /home/quant/dev/quant/quant-research/.venv/bin/python
+
+notebook = PosixPath('/home/quant/dev/quant/quant-research/notebooks/04_opening_candle_breakout.py')
+
+    @pytest.mark.parametrize("notebook", NOTEBOOKS, ids=lambda path: path.name)
+    def test_marimo_check_reports_no_issues(notebook: Path) -> None:
+>       process = subprocess.run(
+            [sys.executable, "-m", "marimo", "check", "--format", "json", str(notebook)],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+
+tests/test_notebook_dag.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:2154: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['/home/quant/dev/quant/quant-research/.venv/bi...>
+endtime = 868899.289886587, orig_timeout = 300, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/home/quant/dev/quant/quant-research/.venv/bin/python', '-m', 'marimo', 'check', '--format', 'json', '/home/quant/dev/quant/quant-research/notebooks/04_opening_candle_breakout.py']' timed out after 300 seconds
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1268: TimeoutExpired
+_________ test_marimo_check_reports_no_issues[02_breakout_factory.py] __________
+[gw0] linux -- Python 3.14.6 /home/quant/dev/quant/quant-research/.venv/bin/python
+
+notebook = PosixPath('/home/quant/dev/quant/quant-research/notebooks/02_breakout_factory.py')
+
+    @pytest.mark.parametrize("notebook", NOTEBOOKS, ids=lambda path: path.name)
+    def test_marimo_check_reports_no_issues(notebook: Path) -> None:
+>       process = subprocess.run(
+            [sys.executable, "-m", "marimo", "check", "--format", "json", str(notebook)],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+
+tests/test_notebook_dag.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:2154: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['/home/quant/dev/quant/quant-research/.venv/bi...>
+endtime = 868928.072446766, orig_timeout = 300, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/home/quant/dev/quant/quant-research/.venv/bin/python', '-m', 'marimo', 'check', '--format', 'json', '/home/quant/dev/quant/quant-research/notebooks/02_breakout_factory.py']' timed out after 300 seconds
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1268: TimeoutExpired
+___ test_marimo_check_reports_no_issues[quantified_strategies_engulfing.py] ____
+[gw1] linux -- Python 3.14.6 /home/quant/dev/quant/quant-research/.venv/bin/python
+
+notebook = PosixPath('/home/quant/dev/quant/quant-research/notebooks/quantified_strategies_engulfing.py')
+
+    @pytest.mark.parametrize("notebook", NOTEBOOKS, ids=lambda path: path.name)
+    def test_marimo_check_reports_no_issues(notebook: Path) -> None:
+>       process = subprocess.run(
+            [sys.executable, "-m", "marimo", "check", "--format", "json", str(notebook)],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+
+tests/test_notebook_dag.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:2154: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['/home/quant/dev/quant/quant-research/.venv/bi...>
+endtime = 869199.437056431, orig_timeout = 300, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/home/quant/dev/quant/quant-research/.venv/bin/python', '-m', 'marimo', 'check', '--format', 'json', '/home/quant/dev/quant/quant-research/notebooks/quantified_strategies_engulfing.py']' timed out after 300 seconds
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1268: TimeoutExpired
+_______ test_marimo_check_reports_no_issues[template_strategy_study.py] ________
+[gw1] linux -- Python 3.14.6 /home/quant/dev/quant/quant-research/.venv/bin/python
+
+notebook = PosixPath('/home/quant/dev/quant/quant-research/notebooks/template_strategy_study.py')
+
+    @pytest.mark.parametrize("notebook", NOTEBOOKS, ids=lambda path: path.name)
+    def test_marimo_check_reports_no_issues(notebook: Path) -> None:
+>       process = subprocess.run(
+            [sys.executable, "-m", "marimo", "check", "--format", "json", str(notebook)],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+
+tests/test_notebook_dag.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:557: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1221: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:2154: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['/home/quant/dev/quant/quant-research/.venv/bi...>
+endtime = 869499.583543315, orig_timeout = 300, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/home/quant/dev/quant/quant-research/.venv/bin/python', '-m', 'marimo', 'check', '--format', 'json', '/home/quant/dev/quant/quant-research/notebooks/template_strategy_study.py']' timed out after 300 seconds
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/subprocess.py:1268: TimeoutExpired
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47: PendingDeprecationWarning: The set_bad function will be deprecated in a future version. Use cmap.with_extremes(bad=...) or Colormap(bad=...) instead.
+    red_blue.set_bad(gray_rgb.tolist(), 1.0)
+
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48: PendingDeprecationWarning: The set_over function will be deprecated in a future version. Use cmap.with_extremes(over=...) or Colormap(over=...) instead.
+    red_blue.set_over(gray_rgb.tolist(), 1.0)
+
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49: PendingDeprecationWarning: The set_under function will be deprecated in a future version. Use cmap.with_extremes(under=...) or Colormap(under=...) instead.
+    red_blue.set_under(gray_rgb.tolist(), 1.0)  # "under" is incorrectly used instead of "bad" in the scatter plot
+
+tests/test_meta_labeling.py::test_meta_classifier_training_and_cpcv
+tests/test_validated_model_path.py::test_temporal_model_path_uses_interval_validation_and_complete_scores
+tests/test_validated_orb_runner.py::test_temporal_cpcv_returns_diagnostics_for_every_combination
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/explainers/_tree.py:632: UserWarning: LightGBM binary classifier with TreeExplainer shap values output has changed to a list of ndarray
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_notebook_dag.py::test_marimo_check_reports_no_issues[03_mean_reversion_factory.py]
+FAILED tests/test_notebook_dag.py::test_marimo_check_reports_no_issues[01_case_study_pipeline.py]
+FAILED tests/test_notebook_dag.py::test_marimo_check_reports_no_issues[04_opening_candle_breakout.py]
+FAILED tests/test_notebook_dag.py::test_marimo_check_reports_no_issues[02_breakout_factory.py]
+FAILED tests/test_notebook_dag.py::test_marimo_check_reports_no_issues[quantified_strategies_engulfing.py]
+FAILED tests/test_notebook_dag.py::test_marimo_check_reports_no_issues[template_strategy_study.py]
+====== 6 failed, 297 passed, 1 skipped, 9 warnings in 1205.19s (0:20:05) =======

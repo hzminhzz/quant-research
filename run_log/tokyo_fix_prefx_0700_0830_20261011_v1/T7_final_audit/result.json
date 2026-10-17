@@ -1,0 +1,72 @@
+{
+  "status": "PASS_RESEARCH_COMPLETE",
+  "approval_status": "NOT_APPROVED",
+  "classification": "EXPLORATORY",
+  "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "source_sha256_matched": true,
+  "previous_source_changed_files": [],
+  "preserved_baseline_files_count": 889,
+  "concurrently_changed_unrelated_files": [],
+  "prior_frozen_research_artifact_edits": [],
+  "holdout": "SEALED through 2026-08-31 JST; no >=2026-09-01 source accessed",
+  "native_runs": 11,
+  "trades_checked": 5800,
+  "fills_checked": 11600,
+  "point_in_time_feature_rows_checked": 1240,
+  "ledger_complete": 7,
+  "ledger_artifact_identities_pass": true,
+  "session_check_status": 0,
+  "tests": {
+    "returncode": 0,
+    "stdout_tail": "..............................................                           [100%]\n=============================== warnings summary ===============================\n.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47\n  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47: PendingDeprecationWarning: The set_bad function will be deprecated in a future version. Use cmap.with_extremes(bad=...) or Colormap(bad=...) instead.\n    red_blue.set_bad(gray_rgb.tolist(), 1.0)\n\n.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48\n  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48: PendingDeprecationWarning: The set_over function will be deprecated in a future version. Use cmap.with_extremes(over=...) or Colormap(over=...) instead.\n    red_blue.set_over(gray_rgb.tolist(), 1.0)\n\n.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49\n  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49: PendingDeprecationWarning: The set_under function will be deprecated in a future version. Use cmap.with_extremes(under=...) or Colormap(under=...) instead.\n    red_blue.set_under(gray_rgb.tolist(), 1.0)  # \"under\" is incorrectly used instead of \"bad\" in the scatter plot\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n46 passed, 3 warnings in 2.41s\n",
+    "stderr_tail": "",
+    "test_scope": "5 focused session suites including Programs 1-4A",
+    "full_repository_suite": "NOT_RERUN (previous broad notebook/Marimo suite not known to pass)"
+  },
+  "compile_pass": true,
+  "git_diff_check_pass": true,
+  "report_path": "docs/audit/tokyo_fix_prefx_0700_0830_20261011_v1.md",
+  "report_sha256": "6fda759ec6e19a873d8bc75fd1f4ab59436a8c1c34bf7678e4e510f8555844d2",
+  "script_identities": {
+    "runner": "e5ec2134df34ae7928d4307e7e79ff63fdeed02fec1db03653dc3a1b74b0cb9e",
+    "oracle": "84362339f66a3bebef98f9339fe2dee7639c37c1420a9ade2b6cf0f4bc39a4ab"
+  },
+  "data_gate_complete_days": 1365,
+  "research_decision": "FAIL_PREDECLARED_STABILITY (2024-25 net<0) and no significant absolute net mean; relative Gotobi premium exploratory only",
+  "trials": [
+    {
+      "id": "T0_data_gate",
+      "status": "completed"
+    },
+    {
+      "id": "T1_native_gotobi",
+      "status": "completed"
+    },
+    {
+      "id": "T2_native_ordinary",
+      "status": "completed"
+    },
+    {
+      "id": "T3_cost_sensitivity",
+      "status": "completed"
+    },
+    {
+      "id": "T4_regimes",
+      "status": "completed"
+    },
+    {
+      "id": "T5_refutation",
+      "status": "completed"
+    },
+    {
+      "id": "T6_independent_oracle",
+      "status": "completed"
+    },
+    {
+      "id": "T7_final_audit",
+      "status": "pending"
+    }
+  ],
+  "real_orders": false,
+  "git_commit_push": false
+}

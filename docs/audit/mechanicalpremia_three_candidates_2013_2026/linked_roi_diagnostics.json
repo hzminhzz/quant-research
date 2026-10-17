@@ -1,0 +1,155 @@
+{
+  "status": "ML4T_TEARSHEET_PROXY_RECONCILED",
+  "native_cells_verified": 252,
+  "important_warning": "Hypothetical linked annual resets, NOT continuous native backtest or tradable USD ROI",
+  "meta": {
+    "period": "2013 Jan1 through 2026 Oct11",
+    "tools": [
+      "ml4t.backtest.Engine",
+      "ml4t.diagnostic.api.PortfolioAnalysis",
+      "Matplotlib"
+    ],
+    "risk_metric_calendar_days_per_year": 365,
+    "not_used": "ml4t.diagnostic.visualization native Plotly tearsheet unavailable due to missing optional plotly package"
+  },
+  "candidates": {
+    "C1_DE30": {
+      "hypothetical_linked_roi_pct": 26.965602385109587,
+      "hypothetical_end_value_from_100000": 126965.60238510958,
+      "linked_roi_through_2025_pct": 23.02982817833761,
+      "mean_yearly_return_pct": 1.7463763609392486,
+      "win_rate_closed_trade_pct": 37.771482530689326,
+      "closed_trades": 2118,
+      "calendar_daily_proxy": {
+        "frequency_per_year": 365,
+        "sharpe": 0.5737523673050321,
+        "maxdd_pct": -6.598295319475604,
+        "sortino": 0.85844907686952,
+        "calmar": 0.32254305835588787
+      },
+      "cost_stress": {
+        "1.0": {
+          "hypothetical_compounded_roi_pct": 26.965602385109587,
+          "average_annual_return_pct": 1.7463763609392486
+        },
+        "1.5": {
+          "hypothetical_compounded_roi_pct": 13.086800433398338,
+          "average_annual_return_pct": 0.9050681056335687
+        },
+        "2.0": {
+          "hypothetical_compounded_roi_pct": 0.7236061402371874,
+          "average_annual_return_pct": 0.07136274602153285
+        }
+      },
+      "year_end_open_position_occurrences": 11,
+      "year_end_ends": [
+        1.0296814759728146,
+        1.043004730178759,
+        1.0325259636565391,
+        1.0263206107029508,
+        1.0382922635052518,
+        1.0395107446283374,
+        1.0749108224314314,
+        1.0597334621154364,
+        1.1343439550511083,
+        1.1240751965100122,
+        1.1541035519501623,
+        1.1781273334063833,
+        1.230298281783376,
+        1.2696560238510959
+      ]
+    },
+    "C2_JP225": {
+      "hypothetical_linked_roi_pct": 31.645063087906,
+      "hypothetical_end_value_from_100000": 131645.063087906,
+      "linked_roi_through_2025_pct": 26.49364733470434,
+      "mean_yearly_return_pct": 2.016916252938263,
+      "win_rate_closed_trade_pct": 39.85032740879326,
+      "closed_trades": 2138,
+      "calendar_daily_proxy": {
+        "frequency_per_year": 365,
+        "sharpe": 0.6237457724211598,
+        "maxdd_pct": -11.769055624057726,
+        "sortino": 0.92181082837324,
+        "calmar": 0.20234444086757494
+      },
+      "cost_stress": {
+        "1.0": {
+          "hypothetical_compounded_roi_pct": 31.645063087906,
+          "average_annual_return_pct": 2.016916252938263
+        },
+        "1.5": {
+          "hypothetical_compounded_roi_pct": 17.662843589384835,
+          "average_annual_return_pct": 1.1998139883011913
+        },
+        "2.0": {
+          "hypothetical_compounded_roi_pct": 5.1642428471416535,
+          "average_annual_return_pct": 0.38975904239910714
+        }
+      },
+      "year_end_open_position_occurrences": 12,
+      "year_end_ends": [
+        1.0539427881613168,
+        1.0718703477325198,
+        1.0625174258021255,
+        1.0714710568576353,
+        1.068214339877979,
+        1.0939028669908581,
+        1.1102344494579752,
+        1.0770324924388797,
+        1.1398862963258256,
+        1.1236793328422958,
+        1.1736859432714213,
+        1.2241027835286051,
+        1.2649364733470434,
+        1.31645063087906
+      ]
+    },
+    "C3_US_ONLY": {
+      "hypothetical_linked_roi_pct": 50.15256295741628,
+      "hypothetical_end_value_from_100000": 150152.5629574163,
+      "linked_roi_through_2025_pct": 42.57299422775145,
+      "mean_yearly_return_pct": 2.9881403515274534,
+      "win_rate_closed_trade_pct": 38.93238434163701,
+      "closed_trades": 1405,
+      "calendar_daily_proxy": {
+        "frequency_per_year": 365,
+        "sharpe": 0.7460216149763539,
+        "maxdd_pct": -7.828222092462321,
+        "sortino": 1.1264343208615675,
+        "calmar": 0.46644026685333567
+      },
+      "cost_stress": {
+        "1.0": {
+          "hypothetical_compounded_roi_pct": 50.15256295741628,
+          "average_annual_return_pct": 2.9881403515274534
+        },
+        "1.5": {
+          "hypothetical_compounded_roi_pct": 32.615108417955916,
+          "average_annual_return_pct": 2.0738828190283
+        },
+        "2.0": {
+          "hypothetical_compounded_roi_pct": 17.123893392951572,
+          "average_annual_return_pct": 1.1688418120597501
+        }
+      },
+      "year_end_open_position_occurrences": 3,
+      "year_end_ends": [
+        1.059844667987113,
+        1.0952564883745148,
+        1.0854840066361864,
+        1.0773726728547073,
+        1.0729077961999176,
+        1.0823731598343866,
+        1.1082812688302979,
+        1.1358220125646226,
+        1.2430368363787534,
+        1.2429601027492136,
+        1.2855221746756067,
+        1.346464227777704,
+        1.4257299422775145,
+        1.5015256295741628
+      ]
+    }
+  }
+}

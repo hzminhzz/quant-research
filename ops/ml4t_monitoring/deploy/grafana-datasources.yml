@@ -1,0 +1,9 @@
+apiVersion: 1
+datasources:
+  - name: ML4T Prometheus
+    uid: ml4t-prometheus
+    type: prometheus
+    access: proxy
+    url: http://127.0.0.1:19090
+    isDefault: true
+    editable: false

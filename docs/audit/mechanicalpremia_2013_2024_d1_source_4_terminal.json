@@ -1,0 +1,27 @@
+{
+  "session": "mechanicalpremia-original-four-2013-2024-v1",
+  "trial_id": "D1-SOURCE-4",
+  "terminal_status": "completed",
+  "observations": {
+    "status": "completed",
+    "cells": 12,
+    "closed": 82,
+    "mean_return": 2.3311164167,
+    "positive_years": 8,
+    "decision": "NOT_PROMOTED_UNVERIFIED_EXECUTION_AND_OPEN_POSITIONS"
+  },
+  "benchmark_mode": "annual independent native ML4T backtests",
+  "entrypoint": "scripts/run_mechanicalpremia_extended_2013.py",
+  "parent_evidence": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/yearly_native",
+  "aggregated_audit": "docs/audit/mechanicalpremia_original_2013_2024_final.md",
+  "batch_log": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/batch_log.jsonl",
+  "batch_state": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/batch_state.json",
+  "evidence_limitations": [
+    "source stop first-minute gap",
+    "mixed EUR/USD synthetic units",
+    "no real ask spread or financing",
+    "year-end positions not carried"
+  ],
+  "approval_status": "NOT_APPROVED",
+  "scientific_qualifier": "NOT_PROMOTABLE"
+}

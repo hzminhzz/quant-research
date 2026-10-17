@@ -1,0 +1,31 @@
+YEAR=2013 status=completed
+YEAR=2014 status=completed
+YEAR=2015 status=completed
+YEAR=2016 status=completed
+YEAR=2017 status=completed
+YEAR=2018 status=completed
+YEAR=2019 status=completed
+YEAR=2020 status=completed
+YEAR=2021 status=completed
+YEAR=2022 status=completed
+YEAR=2023 status=completed
+YEAR=2024 status=completed
+YEAR=2025 status=completed
+YEAR=2026 SKIP durable completed summary
+/home/quant/dev/quant/quant-research/scripts/run_one_bar_nq_percent_stop_20261012.py:250: DeprecationWarning: `is_in` with a collection of the same datatype is ambiguous and deprecated.
+Please use `implode` to return to previous behavior.
+
+See https://github.com/pola-rs/polars/issues/22149 for more information.
+  stop_exits = frame.filter(pl.col("exit_time").is_in(exits["timestamp"]))
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_nq_percent_stop_20261012.py", line 527, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_nq_percent_stop_20261012.py", line 523, in main
+    run()
+    ~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_nq_percent_stop_20261012.py", line 507, in run
+    report = audit_and_report()
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_nq_percent_stop_20261012.py", line 401, in audit_and_report
+    from scripts.run_one_bar_nq_percent_stop_yearly_20261012 import chicago_session_day
+ModuleNotFoundError: No module named 'scripts'

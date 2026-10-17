@@ -1,0 +1,77 @@
+{
+  "trial_id": "ONEBAR-NATIVE-DONCHIAN-20261013",
+  "status": "PRE_REGISTERED",
+  "frozen_at_utc": "2026-10-13",
+  "strategy": "unchanged one-bar breakout; 50 complete 30-minute bars; prior-bar high/low stop entries; cancel opposing entry after first fill; $1,000 protective stop; next 30-minute boundary exit; max two entries per Chicago session date",
+  "signal_implementation": "ML4T Engineer registered donchian_channels(period=50), through compute_features",
+  "engine": "ml4t.backtest.Engine 0.1.7",
+  "source": {
+    "provider": "Dukascopy",
+    "instrument": "USATECH.IDX/USD BID CFD/index proxy",
+    "store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+    "manifest_sha256": "94d43399ae47a156d21e65c80dab4615f1c70e9819c1c709126e79a294fe228b",
+    "evaluation_start": "2013-01-01",
+    "evaluation_end": "2026-07-14",
+    "protected_after": "2026-07-14",
+    "cme_mapping": false,
+    "partition_layout": "year/month/day/data.parquet",
+    "partition_count": 4061,
+    "manifest": "run_log/one_bar_practical_native_donchian_20261013/source_manifest.json",
+    "accepted_dataset_manifest_sha256": "ca54f926ab158edcaabe0b19dfdd97857c15d84e41ba79deac856a0f6d81c8cf",
+    "store_metadata_sha256": "1f3bc8e0f58a5e556d02a7a123d3c5e70ffe1f3a6f764b1b3f3c2288b9bacca9",
+    "previous_monthly_manifest_sha256": "3d604bcdd3ae5c8a2ac5f369cedb65ef5b8e603b958d30e80e297af54a466c2f"
+  },
+  "instrument_assumptions": {
+    "contracts": 1,
+    "usd_per_point": 20.0,
+    "tick_points": 0.25,
+    "starting_cash_per_annual_run_usd": 1000000.0,
+    "initial_margin_usd": 25000.0,
+    "maintenance_margin_usd": 20000.0
+  },
+  "trials": [
+    {
+      "name": "native_zero_cost",
+      "commission_usd_per_fill": 0.0,
+      "adverse_slippage_points_per_fill": 0.0
+    },
+    {
+      "name": "native_full_tick_cost",
+      "commission_usd_per_fill": 2.5,
+      "adverse_slippage_points_per_fill": 0.25
+    }
+  ],
+  "invariants": [
+    "all eligible years 2013-2026 are attempted; 2026 ends on 2026-07-14",
+    "source partition hashes match the frozen manifest",
+    "levels use only complete 30-minute OHLCV bins and release at the final minute",
+    "partial bins remain execution rows but never contribute signal levels",
+    "each year is an isolated Engine run and resets to $1,000,000; no continuous multi-year equity claim",
+    "no parameter selection or protected holdout claim"
+  ],
+  "method_record": [
+    {
+      "skill": "ml4t-compute-features",
+      "path": ".agents/skills/ml4t-compute-features/SKILL.md",
+      "reason": "registered Donchian feature implementation",
+      "verification": "synthetic build_year_feed integration checks rolling levels and release timestamps"
+    },
+    {
+      "skill": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "reason": "causal timing of complete-bar levels",
+      "verification": "levels are unavailable before the final minute and available at its close"
+    },
+    {
+      "skill": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "reason": "native event-driven fills, costs, and positions",
+      "verification": "use the existing ML4T Engine yearly runner and audit completed ledgers"
+    }
+  ],
+  "runner_sha256": "303dd44b799257f7ce5d1d5b0d921e6decefe935a59a559978675a5d95d499fc",
+  "execution_adapter": "source_adapter.py",
+  "execution_adapter_sha256": "1e834663e27d1a74b0043905c8b562ee3a68aebe6b90137324297be7ce4c9c45",
+  "outcome_criteria": "Report completion, net PnL for both cost cases, yearly trade counts, and known execution/source limitations. No profitability gate or promotion claim is added.",
+  "deviation": "Initial validation found the frozen monthly partition files absent. The active accepted Dukascopy store is daily-partitioned; this run uses a new hash-frozen daily manifest. No Engine simulation occurred before this source identity was frozen."
+}

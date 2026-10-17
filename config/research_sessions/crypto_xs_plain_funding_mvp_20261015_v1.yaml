@@ -1,0 +1,181 @@
+# New MVP motivated by already-observed funding-only signal evidence.
+# This is a separate exploratory session. 2024+ remains sealed.
+session_id: crypto_xs_plain_funding_mvp_20261015_v1
+market: crypto
+
+thesis: >-
+  Across a point-in-time liquid universe of Binance USD-M USDT-settled
+  perpetuals, contracts with lower trailing-24h realized funding outperform
+  contracts with higher trailing-24h realized funding over the next 48 hours.
+  A dollar-neutral basket that is long the five lowest-funding contracts and
+  short the five highest-funding contracts can earn both cross-sectional price
+  reversal and the funding transfer after realistic small-account execution
+  friction.
+
+mechanism: >-
+  Persistent one-sided leveraged demand pushes perpetual funding away from
+  zero. High positive funding transfers cash from crowded longs to shorts and
+  can coincide with future underperformance; low or negative funding transfers
+  cash toward longs and can coincide with future outperformance. The effect
+  should weaken when directional demand persists strongly enough to overwhelm
+  the financing transfer or when turnover costs dominate the spread in funding.
+
+falsifier: >-
+  Stage 1 REJECT: mean 48h cross-sectional Spearman IC must be at least 0.020,
+  HAC t-stat must be at least 2.0, both chronological half-sample mean ICs must
+  be positive, and at least 150 eligible 48h decision cycles must exist.
+  Stage 2 REJECT: if Stage 1 passes, the native funding-aware portfolio must
+  have positive net total return, daily-equity Sharpe at least 0.50, maximum
+  drawdown no worse than -35%, positive realized funding cashflow, and remain
+  net profitable at 2x execution friction. Technical inability to represent or
+  independently reconcile actual funding cashflows is INCONCLUSIVE, not a pass.
+  No rule, start date, threshold, universe floor, or cost may change after
+  outcomes are observed.
+
+instruments:
+  - symbol: BINANCE_UM_USDT_PERP_PANEL
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: >-
+      Dynamic point-in-time panel of canonical Binance USD-M linear
+      USDT-quoted perpetuals with matched canonical 1h OHLCV and funding data.
+      The panel instrument is a research-universe declaration; actual fills are
+      on the concrete symbols carried in each panel row.
+
+data:
+  - id: prices_2020
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2020.parquet
+  - id: prices_2021
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2021.parquet
+  - id: prices_2022
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2022.parquet
+  - id: prices_2023
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: prices
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/prices_2023.parquet
+  - id: funding_2020
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2020.parquet
+  - id: funding_2021
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2021.parquet
+  - id: funding_2022
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2022.parquet
+  - id: funding_2023
+    symbol: BINANCE_UM_USDT_PERP_PANEL
+    role: funding
+    panel: true
+    path: data/processed/crypto_xs_plain_funding_mvp_20261015_v1/funding_2023.parquet
+
+evaluation:
+  warmup_start: "2020-01-01T00:00:00Z"
+  development_start: "2020-06-01T00:00:00Z"
+  development_end: "2024-01-01T00:00:00Z"
+  holdout_start: "2024-01-01T00:00:00Z"
+  holdout_policy: >-
+    All observations at or after 2024-01-01 are sealed. Preparation enumerates
+    only 2020-2023 source partitions. 2024-2025 is reserved for a later
+    Validation program and 2026 remains protected final-test material.
+  decision_clock: >-
+    Rebalance decisions are anchored at 00:00 UTC every 48 hours from
+    2020-06-01. Price features use only the completed 23:00 hourly bar.
+    Funding used by the signal includes actual settlement events observed by
+    00:01 UTC. Native orders are submitted on the 00:00 engine event without
+    consulting that bar's signal fields and fill at the next 01:00 open.
+  universe: >-
+    For each decision, require 720 contiguous completed hourly bars and at
+    least one actual funding event in the trailing 24 hours. Rank eligible
+    contracts by trailing-720h sum(close*base_volume). Target top 40. If
+    20-39 contracts are eligible, use all eligible contracts. If fewer than
+    20 are eligible, stay flat for that 48h cycle. The floor of 20 equals
+    two times the ten portfolio legs and is fixed independently of prior
+    observed coverage.
+  factor: >-
+    cum_funding_24h is the sum of all actual canonical funding_rate events in
+    (decision_available-24h, decision_available]. Prediction is
+    -cum_funding_24h. No momentum, exhaustion, price filter, ML model, or
+    cross-sectional threshold is allowed.
+  label: >-
+    Forward 48h price return from the 01:00 UTC next-hour entry open to the
+    open exactly 48 hours later. Labels are for diagnostics only and never
+    enter feature or universe construction.
+  portfolio: >-
+    Every eligible 48h cycle, long the five lowest cum_funding_24h names at
+    +10% target weight each and short the five highest at -10% each. Gross
+    target is 1.0 and dollar net target is 0.0. Use native target-weight
+    rebalancing, fractional quantities, no stops, no pyramiding, and flatten
+    after the final 48h development holding interval.
+  funding_accounting: >-
+    At each actual funding event, apply -quantity*mark_price*funding_rate to
+    the native ml4t broker cash ledger. Canonical archive funding rows can have
+    null mark_price. If the IC gate passes, use the existing ml4t-data Binance
+    REST funding provider to retrieve exact /fapi/v1/fundingRate markPrice for
+    every funding event on every ever-selected portfolio symbol, strictly
+    before 2024-01-01. Freeze an execution-data manifest and verify REST
+    fundingRate equals the canonical local funding_rate before running the
+    portfolio. If any required exact markPrice is unavailable or rates do not
+    match, return INCONCLUSIVE rather than substitute OHLCV or a proxy mark.
+    Exact bar-boundary events use the prior-bar position conservatively; later
+    events inside the hour use the position held after that hour's native
+    opening fills. Record every nonzero funding cashflow and independently
+    reconcile cumulative funding, broker cash/equity, fills, and final equity.
+  reporting: >-
+    Report IC, HAC significance, IC IR, chronological-half ICs, breadth,
+    cycles, turnover, funding cashflow, net return, daily Sharpe, Calmar,
+    max drawdown, yearly returns, base and 2x execution cost, and a no-funding
+    decomposition arm.
+
+baseline: >-
+  No-trade cash is the null portfolio. A same-signal native no-funding arm at
+  base execution costs decomposes price alpha from the funding transfer; it
+  is not used for selection.
+
+costs:
+  commission_bps: 5.0
+  slippage_bps: 4.0
+  funding_included: true
+  assumptions: >-
+    Base execution friction is 5 bps taker commission plus 4 bps one-way
+    slippage, interpreted as an all-in spread/slippage placeholder for this
+    small-account liquid-universe MVP: 18 bps round trip per fully turned leg.
+    The stress arm doubles both to 36 bps round trip. No separate impact model
+    is claimed or calibrated at this stage.
+
+trials:
+  - id: plain_funding_ic_gate
+    kind: preregistered
+    description: >-
+      Cross-sectional 48h Rank IC for -cum_funding_24h. Require mean IC >=0.020,
+      HAC t>=2.0, both chronological halves positive, and >=150 eligible cycles.
+  - id: native_funding_base_cost
+    kind: preregistered
+    description: >-
+      Native ml4t.backtest 5-long/5-short funding-aware basket at base 18bps
+      round-trip execution friction. Run only if the IC gate passes.
+  - id: native_funding_double_cost
+    kind: preregistered
+    description: >-
+      Same native funding-aware basket with 2x execution friction, 36bps
+      round trip. No parameter change. Run only if the IC gate passes.
+  - id: native_no_funding_decomposition
+    kind: preregistered
+    description: >-
+      Same native basket and base execution costs with funding cash mutation
+      disabled, solely to decompose price PnL from funding transfer.

@@ -1,0 +1,84 @@
+session_id: dax_monthend_fixed_cost_mvp_20261015_v1
+market: indices
+thesis: >-
+  Exploratory price-proxy adaptation of Gemini dax_monthend_liquidity_rebound_cfd_20261015_v1.
+  Long Germany 40 CFD at last Xetra trading month day 09:11 Berlin, exit T+3 17:11;
+  compare to T-10 09:11 through T-7 17:11 monthly paired control.
+mechanism: >-
+  Institutional month-end payment and settlement liquidity needs may create
+  temporary German equity index price pressure followed by reversal.
+falsifier: >-
+  Reject on at least 60 independent eligible pairs over six calendar years if
+  candidate standalone mean net return <= 0 OR candidate-minus-control monthly mean
+  net return <= 0 under preregistered fixed costs. A VALIDATE research-screen decision
+  also requires positive 95 percent HAC lag-3 lower CI on paired net monthly mean.
+  Missing or faulty quote data, unverified dividends, and unqualified contract
+  economics prohibit broker-qualified/promotion findings.
+instruments:
+  - symbol: DAX
+    kind: cfd
+    venue: Dukascopy Germany40 historical BID-only proxy
+    identity: index_minute_DAX; DEUIDXEUR historical BID quote-price proxy, not executable ASK
+    timezone: Europe/Berlin
+    session: XETR cash reference 09:00-17:30, broker hours provisional
+data:
+  - id: dax-fixed-clock-bars
+    symbol: DAX
+    role: prices
+    path: data/processed/dax_monthend_fixed_cost_mvp_20261015_v1/clock_bars.parquet
+evaluation:
+  development_start: "2018-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_policy: >-
+    Never read any 2025+ market data. The final eligible calendar anchor is November 2024.
+    Up to 83 monthly calendar anchors; drop only the 10 predeclared weekday-mismatched
+    control anchors and report, never conceal, source gaps or invalid months.
+  event_schedule: >-
+    T month-final official Xetra session; candidate decision T 09:10 Europe/Berlin
+    next-bar open fill T 09:11, exit decision T+3 17:10 and next-bar open fill 17:11.
+    Control: T-10 09:10 to T-7 17:10 and their next-minute fill opens.
+    Time in Berlin, sessions by XETR. Calendar-only flags, no price-based filter.
+  sizing: Fixed EUR100000 initial notional per long entry, fractional CFD-like index units, no compounding, one open position; source broker lot-size unverified.
+baseline: >-
+  Long control window anchored 10 and 7 Xetra sessions before same month-end.
+  Matched entry weekdays mandatory. Compare month paired net EUR returns per
+  initial EUR100000 notional. No optimized variants.
+costs:
+  commission_bps: 1.0
+  slippage_bps: 4.0
+  assumptions: >-
+    USER-AUTHORIZED HYPOTHETICAL FIXED MODEL ONLY: per side 1bp commission and
+    4bp adverse execution adjustment (2bp assumed half-spread + 2bp impact/slippage)
+    applied by native Engine at each order, for 5bp per side / 10bp round trip.
+    Charge long CFD hypothetical financing 8.0 percent simple ACT/365 against
+    entry notional, using broker.cash native-ledger adjustment at scheduled
+    exit decision. Do not assert this is observed historical Dukascopy cost.
+    Dividend adjustments assumed zero in the proxy and UNVERIFIED. Stress a
+    single doubled scenario (2bp commission + 8bp adverse execution each side,
+    16 percent financing APR). No other parameter variants.
+trials:
+  - id: phase3-signal-screen
+    kind: diagnostic
+    description: >-
+      Preregistered gross conditional candidate and paired event study; minimum
+      60 observed pairs and six calendar years; PASS if both gross point-estimates
+      are positive, FAIL if any nonpositive with enough pairs, else INCONCLUSIVE.
+      This screen is for direction only, not broker execution.
+  - id: phase4-native-base
+    kind: preregistered
+    description: >-
+      User-requested single-candidate plus matched-control two native
+      ML4T Engine NEXT_BAR runs with 5bp side and 8 percent ACT/365 finance,
+      full fee and cash/equity audit, paired HAC lag-3 uncertainty.
+      Native implementation is a predeclared execution diagnostic even if
+      Phase 3 gross direction fails; FAIL is not relabelled to PASS.
+  - id: phase4-native-2x-cost
+    kind: preregistered
+    description: >-
+      Fixed doubled-cost sensitivity using unchanged schedule and Engine,
+      not an optimization or selection candidate.
+config: config/research_sessions/dax_monthend_fixed_cost_mvp_20261015_v1.yaml
+evidence:
+  - docs/audit/dax_monthend_liquidity_rebound_cfd_20261015_v1_gemini_brief.md
+  - config/research_sessions/dax_monthend_liquidity_rebound_cfd_20261015_v1_gemini_source.yaml

@@ -1,0 +1,54 @@
+session_id: mechanicalpremia-c3-d1-naive-ten-20261014-v1
+market: indices
+thesis: >-
+  D1 rule strictness limits sample to 58 closed US500/US100 D1 trades across 2013-2026 YTD.
+  Test ten predeclared simpler causal daily entry rules with the H1 and D1 exit and sizing fixed.
+mechanism: >-
+  Relaxing pullback and low-volatility eligibility in uptrends may increase qualified
+  daily entries and preserve enough mean-reversion edge after costs.
+falsifier: >-
+  Reject individual variants if more entries produce lower net mean-year Sharpe,
+  materially worse maximum drawdown, weak trade profitability or concentrated single-year edge.
+  Reject promotion if simulated broker execution and point-value remain unqualified.
+instruments:
+  - {symbol: US500, kind: cfd, venue: Dukascopy bid proxy, identity: index_minute_ES, timezone: America/New_York, session: "17:00 New York"}
+  - {symbol: US100, kind: cfd, venue: Dukascopy bid proxy, identity: index_minute_NQ, timezone: America/New_York, session: "17:00 New York"}
+data:
+  - {id: us500, symbol: US500, role: prices, path: docs/audit/mechanicalpremia-us500-us100-2013-2026-v1-manifest.json}
+  - {id: us100, symbol: US100, role: prices, path: docs/audit/mechanicalpremia-us500-us100-2013-2026-v1-manifest.json}
+evaluation:
+  development_start: "2013-01-01T00:00:00Z"
+  development_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  holdout_policy: >-
+    All dates through 2026-10-11 were used in prior C3 selection, so these are
+    observed exploration results and never virgin OOS. No data at or after 2026-10-12.
+  periods: >-
+    Independent annual scored accounts 2013-2025 full years and Jan1-Oct11 2026 YTD,
+    previous Jul1 warmup; no contiguous compounding or cross-year position carry.
+baseline: >-
+  Frozen C3 SOURCE-US2 combined and D1-US2 standalone native yearly portfolios.
+costs:
+  commission_bps: 1
+  slippage_bps: 2
+  assumptions: >-
+    Native 1bp commission plus 2bps slippage PER SIDE; additional 2x cost
+    sensitivity on fixed comparison years 2021,2024,2025,2026 for all ten variants.
+    Broker ASK, real CFD financing and lot point value unqualified.
+trials:
+  - {id: DATA-ELIGIBILITY, kind: preregistered, description: Confirm C3 data and feature causal invariance}
+  - {id: N01-LV-PB35, kind: preregistered, description: "Keep EMA100 trend and ATR20 below median; relax percent-B threshold 0.20 to 0.35"}
+  - {id: N02-LV-PB50, kind: preregistered, description: "Keep EMA100 trend and ATR below median; relax percent-B <0.50"}
+  - {id: N03-LV-PB80, kind: preregistered, description: "Keep EMA100 trend and ATR below median; relax percent-B <0.80"}
+  - {id: N04-PB20, kind: preregistered, description: "Keep EMA100 trend and source percent-B <0.20; drop low-volatility ATR percentile filter"}
+  - {id: N05-PB35, kind: preregistered, description: "EMA100 trend and percent-B <0.35 only"}
+  - {id: N06-PB50, kind: preregistered, description: "EMA100 trend and percent-B <0.50 only"}
+  - {id: N07-PB80, kind: preregistered, description: "EMA100 trend and percent-B <0.80 only"}
+  - {id: N08-LV-ONLY, kind: preregistered, description: "EMA100 trend and ATR below median; remove Bollinger pullback gate"}
+  - {id: N09-TREND, kind: preregistered, description: "EMA100 trend-only entry, no volatility or Bollinger gate"}
+  - {id: N10-VOLPB20, kind: preregistered, description: "ATR below median and percent-B <0.20; remove EMA100 trend gate (regime-ablation control)"}
+  - {id: NATIVE-AUDIT, kind: preregistered, description: Validate 10 variants x 14 annual combined runs and fixed 2x sensitivity}
+config: config/research_sessions/mechanicalpremia-c3-d1-naive-ten-20261014-v1.yaml
+evidence:
+  - docs/plans/mechanicalpremia-c3-d1-naive-ten-20261014-v1.md
+  - docs/audit/mechanicalpremia-c3-d1-naive-ten-20261014-v1-manifest.json

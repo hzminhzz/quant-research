@@ -1,0 +1,142 @@
+{
+  "session": "volt_break_nq_20261012",
+  "phase": 4,
+  "trial_extension": "native_entry_rule_adapter_20261012",
+  "run_classification": "EXPLORATORY_RETROSPECTIVE",
+  "approval_status": "NOT_APPROVED",
+  "execution_status": "COMPLETED_CONSERVATIVE_CFD_PROXY",
+  "run_date": "2026-10-12",
+  "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "native_engine": "ml4t-backtest 0.1.7",
+  "source": "Dukascopy USATECH.IDX/USD BID one-minute CFD proxy",
+  "source_hash_gate": "96/96 matched",
+  "warmup": "2018",
+  "development": "2019-2025",
+  "protected_holdout": "2026 UNOPENED",
+  "cohort": "1576 fully complete CT sessions; 156 strict ATR days or 491 broader ATR days",
+  "spec": "config/research_sessions/volt_break_nq_phase4_native_adapter_20261012.yaml",
+  "engine_adapter": "scripts/volt_break_native_adapter_20261012.py",
+  "runner": "scripts/run_volt_break_phase4_native_20261012.py",
+  "independent_audit": "run_log/research_sessions/volt_break_nq_20261012/phase4_native/phase4_independent_audit_20261012.json",
+  "synthetic_tests": "16 passed",
+  "cost_assumptions": [
+    {
+      "name": "zero",
+      "per_fill_commission_usd": 0,
+      "adverse_slippage_points": 0
+    },
+    {
+      "name": "illustrative",
+      "per_fill_commission_usd": 2.5,
+      "adverse_slippage_points": 0.25
+    },
+    {
+      "name": "double",
+      "per_fill_commission_usd": 5,
+      "adverse_slippage_points": 0.5
+    }
+  ],
+  "trials": [
+    {
+      "variant": "strict",
+      "cost": "zero",
+      "trades": 112,
+      "pnl": 2972.1600000000944,
+      "expectancy": 26.5371428571437,
+      "winrate": 0.625,
+      "profit_factor": 1.064104411233113,
+      "full_calendar_sharpe": 0.11534091745360761,
+      "full_calendar_calmar": 0.05234331164907843,
+      "full_calendar_max_drawdown": -0.009068047096133527,
+      "entry_day_compliance": "PASS",
+      "flat_after_cutoff": "PASS",
+      "ledger": "PASS"
+    },
+    {
+      "variant": "strict",
+      "cost": "illustrative",
+      "trades": 110,
+      "pnl": 155.84000000015294,
+      "expectancy": 1.416727272728663,
+      "winrate": 0.6090909090909091,
+      "profit_factor": 1.0033161821346679,
+      "full_calendar_sharpe": 0.008059481418608076,
+      "full_calendar_calmar": 0.0024455821490893797,
+      "full_calendar_max_drawdown": -0.010188554760810214,
+      "entry_day_compliance": "PASS",
+      "flat_after_cutoff": "PASS",
+      "ledger": "PASS"
+    },
+    {
+      "variant": "strict",
+      "cost": "double",
+      "trades": 110,
+      "pnl": -1079.159999999847,
+      "expectancy": -9.810545454544064,
+      "winrate": 0.6090909090909091,
+      "profit_factor": 0.9772802681330929,
+      "full_calendar_sharpe": -0.039407658502145455,
+      "full_calendar_calmar": -0.01583261657038308,
+      "full_calendar_max_drawdown": -0.010903713334536873,
+      "entry_day_compliance": "PASS",
+      "flat_after_cutoff": "PASS",
+      "ledger": "PASS"
+    },
+    {
+      "variant": "coverage",
+      "cost": "zero",
+      "trades": 389,
+      "pnl": -5507.379999999739,
+      "expectancy": -14.157789203084162,
+      "winrate": 0.6041131105398457,
+      "profit_factor": 0.966404054415944,
+      "full_calendar_sharpe": -0.10609814676820949,
+      "full_calendar_calmar": -0.03578607227306547,
+      "full_calendar_max_drawdown": -0.02466506491813792,
+      "entry_day_compliance": "PASS",
+      "flat_after_cutoff": "PASS",
+      "ledger": "PASS"
+    },
+    {
+      "variant": "coverage",
+      "cost": "illustrative",
+      "trades": 387,
+      "pnl": -11907.459999999683,
+      "expectancy": -30.768630490955253,
+      "winrate": 0.599483204134367,
+      "profit_factor": 0.9284897709551067,
+      "full_calendar_sharpe": -0.23388192031204208,
+      "full_calendar_calmar": -0.07279914291625965,
+      "full_calendar_max_drawdown": -0.026285722935607825,
+      "entry_day_compliance": "PASS",
+      "flat_after_cutoff": "PASS",
+      "ledger": "PASS"
+    },
+    {
+      "variant": "coverage",
+      "cost": "double",
+      "trades": 384,
+      "pnl": -17821.839999999665,
+      "expectancy": -46.411041666665795,
+      "winrate": 0.5963541666666666,
+      "profit_factor": 0.8940357439635167,
+      "full_calendar_sharpe": -0.3529642192868991,
+      "full_calendar_calmar": -0.10026951944378576,
+      "full_calendar_max_drawdown": -0.028635364414241266,
+      "entry_day_compliance": "PASS",
+      "flat_after_cutoff": "PASS",
+      "ledger": "PASS"
+    }
+  ],
+  "decision": "DO_NOT_ADOPT",
+  "trial_count": 6,
+  "remaining_limits": [
+    "CFD BID proxy not actual dated CME futures",
+    "Provider-volume VWAP not CME contract volume VWAP",
+    "Daily SMA15 ATR semantics not independently confirmed",
+    "STOP-first is conservative convention for same-minute OHLC ambiguity",
+    "Source coverage materially changes PnL",
+    "No untouched post-lock OOS validation"
+  ],
+  "git_actions": "No commit, no push"
+}

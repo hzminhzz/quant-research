@@ -1,0 +1,750 @@
+OpenAI Codex v0.162.1
+--------
+workdir: /home/quant/dev/quant/quant-research
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a12f6c-f437-7481-87e4-fad53de5b329
+--------
+user
+Read and EXECUTE run_log/one_bar_nq_stop_scaling_20261012_risk_metrics_audit_mission.md end-to-end. Mandatory: fix signed negative short quantities in 10-MNQ counterfactual AND abs quantity median, ensure counterfactual trade sign/winrate invariant, tests, regenerate output and independent final report; no strategies/backtests or original changes.
+2026-10-12T09:23:53.697115Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when UnexpectedServerResponse("HTTP 403: <!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-72yR4hGmMovVglgXLGXmce&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-src-attr &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src &#39;self&#39; https://challenges.cloudflare.com; connect-src &#39;self&#39; https://challenges.cloudflare.com; frame-src &#39;self&#39; https://challenges.cloudflare.com blob:; child-src &#39;self&#39; https://challenges.cloudflare.com blob:; worker-src blob:; form-action http: https:; base-uri &#39;self&#39;\"><style>*{box-sizing:border-box;margin:0;padding:0}html{line-height:1.15;-webkit-text-size-adjust:100%;color:#313131;font-family:system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"}body{display:flex;flex-direction:column;height:100vh;min-height:100vh}.main-content{margin:8rem auto;padding-left:1.5rem;max-width:60rem}@media (width <= 720px){.main-content{margin-top:4rem}}#challenge-error-text{background-image:url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0ibm9uZSI+PHBhdGggZmlsbD0iI0IyMEYwMyIgZD0iTTE2IDNhMTMgMTMgMCAxIDAgMTMgMTNBMTMuMDE1IDEzLjAxNSAwIDAgMCAxNiAzbTAgMjRhMTEgMTEgMCAxIDEgMTEtMTEgMTEuMDEgMTEuMDEgMCAwIDEtMTEgMTEiLz48cGF0aCBmaWxsPSIjQjIwRjAzIiBkPSJNMTcuMDM4IDE4LjYxNUgxNC44N0wxNC41NjMgOS41aDIuNzgzem0tMS4wODQgMS40MjdxLjY2IDAgMS4wNTcuMzg4LjQwNy4zODkuNDA3Ljk5NCAwIC41OTYtLjQwNy45ODQtLjM5Ny4zOS0xLjA1Ny4zODktLjY1IDAtMS4wNTYtLjM4OS0uMzk4LS4zODktLjM5OC0uOTg0IDAtLjU5Ny4zOTgtLjk4NS40MDYtLjM5NyAxLjA1Ni0uMzk3Ii8+PC9zdmc+\");background-repeat:no-repeat;background-size:contain;padding-left:34px}</style><meta http-equiv=\"refresh\" content=\"360\"></head><body><div class=\"main-wrapper\" role=\"main\"><div class=\"main-content\"><noscript><div class=\"h2\"><span id=\"challenge-error-text\">Enable JavaScript and cookies to continue</span></div></noscript></div></div><script nonce=\"72yR4hGmMovVglgXLGXmce\">(function(){window._cf_chl_opt = {cFPWv: 'g',cH: 'F2zm7sJEWmqMr8fCgNGCM3r4jQ.fRSewervvHWzWRPw-1791797033-1.2.1.1-dkRobmT4TOz85O3bvACikP3_U.Z6zG0DFHPdeZFhhS3hdgZyKCqbxpTLZB87daz0',cITimeS: '1791797033',cN: '72yR4hGmMovVglgXLGXmce',cRay: 'a4950c64780d4d5b',cTplB: '0',cTplC:0,cTplO:0,cTplV:5,cType: 'managed',cUPMDTk:\"/v1/mcp?__cf_chl_tk=Ge3ipo3e0tlXywQ2kHgGTG_JdwkLs4y.Oy7mysVM8JA-1791797033-1.0.1.1-uA6.uN2EAnKTvMrSO0M8PUnRLDpvwKefNtRHMDzqxaM\",cvId: '3',cZone: 'datacamp-mcp.datacamp.com',fa:\"/v1/mcp?__cf_chl_f_tk=Ge3ipo3e0tlXywQ2kHgGTG_JdwkLs4y.Oy7mysVM8JA-1791797033-1.0.1.1-uA6.uN2EAnKTvMrSO0M8PUnRLDpvwKefNtRHMDzqxaM\",md: 'EqwKA90KR_H4IY0bDsQ.L_frBw6_qAHBK1v2P1oi4S4-1791797033-1.2.1.1-aJCn7JLHE45FODD.WWW2hYDb_F5jNCOe16npZ02AfFeisLGMQsrL8ZOHgi9Uo.eC3YlTN0QexHSeIQvwNpawFk1ujtRxbrpK38avbH2tDgocylyxkd93feVFVBq5GXK7GLRrD10HCUEouSzxPpSJ_JN1pe_otV9pvVz12HKptyK9xwYi4dM2B1e1Gjr5o09M2jDe6ufvSvG17ROXCtb0yfQ0dqmUvFgwgJKkJg3BJpaEGf7AT7FNEMsYRWP36BcLF7Y2A21ghsRda4b1Lqff7_avh9AXKmDIdvk6PA6oPsV6P6UI_bqRxU2ncVEyu3m4Ep4beZQLifqAP.FiOSiQqwBRuq1tLWC9CeqmrxdGEntfNadpsuiIK2KUwwlxLmuFwLHiM8jCaS5nOi7997KCAOTsYRzGrUESJQabRw1DFG6z1_evjvcDFQLoeRkRo9w_R67qAfp1JZS_GS7vn6VcpWTebJ5VrpE57W8WgdeDBLzZJIMn9KoBabr9cDICmh_4hXMtz5.b.D2SeUGFNTT2nBHFV98_3d3HstIqRjUYxx79x.0JtZPuw4GkBguzSU0qnsl3DYGDrsL9krbuN278n.vlNhnDOcmAKHFZ0nNnvsp23yQaI_B3QY_QcPmJ5iRjeXsGmw3wVIcROxbF2fg3f9qQhzXNS86zQgSbG5Kn8xEoxOJYdPttI..nh8UHHMXxk4Li8z160jmvE.HHDkM01JRGJ7SSs9bce2iu47f4z8NP8owWo5UkLHQxIwHjd1ubR9vtiJxcjWwYVszYJnyxOdObGFEVhIfsZRYSLtEonv3v_uqlfxVx5BXabXMrNh7EKpiN0uyVQ7UEOAPQuCUoFncL62L7QMmOwpPQ8AFk7pVrkVRCTwvVpaLlB40CZFsgYFnHPNYQGy3iAEo0g.PlPk3xsFT1E6FBG0y3wjgPKkRhiQShlJdLqMMx2.Apkw821jr9Lq_UF6YHzcsquqaLHU00da0cb.1cqOVYCerq5kZ9YMQwR6Fq_c3pBGAcclHe0vvYG9XykTt9oQiVsQZXy9pjKHuLn3.KJ0J0m3aFRlBtbUjhUS6cqhvzbcHRFojz',mdrd: 'IChkUf0RtM2E1aC0idzQSN_Q4NpL6Nj0KCvNS7CeazU-1791797033-1.2.1.1-WhOGLV8WEKd8nvk0g99FHV7erOy1tO2tYmuLTWMRfOnXpDwEO9b4wh7u_0xCvdczXFEW_1IEB9ByrNieGqkjm7fPJcQjgJB7XjnYQoQckLbh3Xsc2NFJWIHY1gpeWQbXbObh6halBgDQy7rDunax6WGxJmqq2LM6OfBgIwkMYKjCk_5IYtaw5E6I2IiIxr2QyzaZ_fpbFwEXWQzQhCqq4pewTkVU5pA92gOQE7I9NqAzRMcMEITLPLc5D1D8Mj2rTDCv7deBA2RwzVFoOsyz8Z0WfariLhyuh52M4oHn.Co6HG_M.mMrTfLZwhW0c8F1PXeIdg18NWB7O8lkQeA0jNyc6Q6xtV4z06KwWUcpffEDGee3DlE6uOysChGaLZ_OCYiL3jx00A.X39njja97HJJ6o92NanDe0jif9Jsd0zQdm3Hq6l69GizYKrdUeX.OH0ntqp8dghQbW9kIBLYSo2TyRUXbk06fN3atyWWIxXdpHqZe2SgkfIYUuiO5wUoT',};var a = document.createElement('script');a.nonce = '72yR4hGmMovVglgXLGXmce';a.src = '/cdn-cgi/challenge-platform/h/g/orchestrate/chl_page/v1?ray=a4950c64780d4d5b';window._cf_chl_opt.cOgUHash = location.hash === '' && location.href.indexOf('#') !== -1 ? '#' : location.hash;window._cf_chl_opt.cOgUQuery = location.search === '' && location.href.slice(0, location.href.length - window._cf_chl_opt.cOgUHash.length).indexOf('?') !== -1 ? '?' : location.search;if (window.history && window.history.replaceState) {var ogU = location.pathname + window._cf_chl_opt.cOgUQuery + window._cf_chl_opt.cOgUHash;history.replaceState(null, null,\"/v1/mcp?__cf_chl_rt_tk=Ge3ipo3e0tlXywQ2kHgGTG_JdwkLs4y.Oy7mysVM8JA-1791797033-1.0.1.1-uA6.uN2EAnKTvMrSO0M8PUnRLDpvwKefNtRHMDzqxaM\"+ window._cf_chl_opt.cOgUHash);a.onload = function() {history.replaceState(null, null, ogU);}}document.getElementsByTagName('head')[0].appendChild(a);}());</script></body></html>")
+2026-10-12T09:23:53.972012Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when AuthRequired(AuthRequiredError { www_authenticate_header: "Bearer error=\"invalid_token\", error_description=\"No authorization provided\", resource_metadata=\"https://mcp.neon.tech/.well-known/oauth-protected-resource/mcp\"" })
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart
+hook: SessionStart Completed
+hook: SessionStart Completed
+hook: SessionStart Failed
+hook: SessionStart Failed
+hook: SessionStart Failed
+hook: SessionStart Failed
+hook: SessionStart Failed
+hook: SessionStart Completed
+hook: UserPromptSubmit
+hook: UserPromptSubmit
+hook: UserPromptSubmit
+hook: UserPromptSubmit
+hook: UserPromptSubmit
+hook: UserPromptSubmit Completed
+hook: UserPromptSubmit Failed
+hook: UserPromptSubmit Failed
+hook: UserPromptSubmit Failed
+hook: UserPromptSubmit Completed
+codex
+I’ll read the mission and session requirements, inspect the current artifacts and working tree, then make only the audit changes the mission requires. I’ll preserve the original evidence and avoid strategy or backtest runs.
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/usr/bin/zsh -lc 'rtk read run_log/one_bar_nq_stop_scaling_20261012_risk_metrics_audit_mission.md && rtk read docs/research_sessions.md && rtk git status --short' in /home/quant/dev/quant/quant-research
+ succeeded in 0ms:
+# Independent correction to B0 versus B2 Monte Carlo / sizing diagnostic
+
+ONLY start after tmux '=ml4t-nq-b2-risk-mc-20261012' is gone; avoid concurrent edits. Repo /home/quant/dev/quant/quant-research. Inspect git/status, AGENTS.md, original results, current code scripts/analyze_one_bar_nq_b0_b2_risk_20261012.py and tests, existing docs/audit/one_bar_nq_b0_b2_risk_comparison_20261012.md (if exists), ML4T risk/tearsheet skill. Preserve promote and historical native ledgers, no strategy trials, no commit/push.
+
+MANDATORY VERIFIED BUG: Quantity in B2 evaluation_trades.csv is SIGNED (negative for shorts). Initial analysis used quantity rather than abs(quantity) when computing counterfactual per-trade B2 PnL * (10 / quantity); this FLIPS profitable short trades into losses and vice versa. Invalidates counterfactual winrate/PF and dollar PnL. Initial analysis reported B2 postlaunch median qty 6 and 2026 3, but verified actual ABS/PLANNED median qty is 10 postlaunch and 4 in 2026. Fix trade_stats qty abs and B2 hypothetical counterfactual factor 10/abs(quantity), stop risk scaling 10/abs(quantity). Make tests with both long and short signed quantities and ASSERT win-rate and per-trade R expectancy invariant after positive scaling of each trade; avoid counterfactual displayed fees/slippage incorrectly remaining unscaled (either scale per-trade fees/slip or omit misleading fields). Check outcomes from recalculated report. Stop wider at fixed 10MNQ may violate $1000 risk, clearly label. Report original B2 results untouched.
+
+Independently verify risk metrics and Monte Carlo output: B0 postlaunch winrate 51.65% B2 49.30%; B0 postlaunch Sharpe ~1.87 Calmar ~1.50, B2 Sharpe ~1.17 Calmar ~0.86, diagnostic calendar-entry-day PnL, $1m base; B0/B2 2026 Sharpe -1.825 vs -1.873 and $DD -16607.98 vs -11396.13. B2 mean risk budget utilization postlaunch 94.35% and 2026 89.93%. PnL B2 postlaunch +104068.85, B0 +169969.02; B2 full history -142674.93. Review bootstrap 5000 paired 5day &20day sens, no claims of forecasts. Check 2026 risk-normalized distribution and oneNQ B2 algebraic dollars. Check tests pass, original package hash unchanged, source identities, git diff --check. Produce one complete user-ready report docs/audit/one_bar_nq_b0_b2_risk_comparison_20261012.md (or correct it) and JSON under run_log/one_bar_nq_stop_scaling_20261012/risk_comparison_20261012/. Include exact reproducible invocation and independent_review.md in same output dir; preserve superseded initial results under superseded_with_signed_qty_bug/ if inexpensive. Only task-owned analysis code/tests and reports; no trades.
+
+IMPORTANT: user asked whether underperformance is 'undersizing' and cares winrate/Sharpe/Calmar/Monte Carlo. Conclusion from verified native originals: 2026 improvement in drawdown but no winrate or Sharpe improvement, and B2 long-run quality lower; underdeployed nominal risk only about 10% in 2026 even though 4 MNQ=0.4NQ eq, due wider ATR stop. State deterministic scaling cannot change win-rate/Sharpe but variable scaling can. Maintain statistical caution about paired block bootstrap and source proxy.
+
+Continue to completion; fix ordinary errors and rerun; no follow-up question.# Thesis-driven research sessions
+
+Use this guide before starting crypto or index research, changing a strategy,
+or reviewing historical results. A session organizes a falsifiable thesis and
+its evidence; it does not confer permission to trade. All new sessions are
+`EXPLORATORY`, including sessions that satisfy their research criteria.
+
+At the start of each working session, read the thesis specification and the
+latest session report before choosing the next trial. For an existing session,
+use its frozen specification and regenerate the report from recorded evidence;
+for a new session, read the proposed thesis and explicitly note that no report
+exists yet. Identify the current falsifier, unresolved evidence, and next
+planned trial rather than restarting selection from remembered results.
+
+## Writing standard: ASD-STE100
+
+Use ASD-STE100 as the writing standard for agent replies, research reports,
+documentation, comments, and handoffs. Apply it to new or revised prose.
+Use the following rules:
+
+- Write short, complete sentences. Use one topic per sentence.
+- Use active voice. State who does the action.
+- Give direct instructions. Put one action in each instruction step.
+- Use the same term for the same concept. Define technical terms on first use.
+- Use simple words. Remove idioms, metaphors, and unnecessary words.
+- State conditions before instructions. Keep each condition explicit.
+- Separate observations, assumptions, conclusions, and unresolved questions.
+- Preserve exact code, commands, paths, API names, symbols, units, and error text.
+  Do not change a technical identifier to simplify its wording.
+
+Check clarity and technical accuracy before you deliver written output.
+Claim formal ASD-STE100 compliance only after you check the applicable rules
+and approved vocabulary. Otherwise, describe the output as ASD-STE100-style
+writing. These rules do not require a rewrite of unchanged historical artifacts.
+
+## 1. Specify the thesis before running trials
+
+Write a session specification that answers these questions:
+
+- **Economic hypothesis:** What return or risk effect is expected, over which
+  horizon, and relative to which simple baseline?
+- **Mechanism:** Who pays for the effect, why should it persist, and under what
+  market conditions should it disappear? An indicator pattern alone is not an
+  economic explanation.
+- **Falsifier:** Which observable result would reject the thesis? Define the
+  metrics, minimum evidence, acceptance criteria, and stopping rule before
+  inspecting trial results.
+- **Tradable instruments:** Identify the venue or broker, exact symbol or
+  contract, instrument type, quote and settlement currencies, contract
+  multiplier, tick/lot constraints, trading calendar, and shorting constraints.
+  BTC spot and a BTC perpetual are different instruments. An index value or
+  `NAS100` vendor alias is not an executable futures, ETF, or CFD contract;
+  specify the actual product and the mapping from research prices to fills.
+- **Trial plan:** Declare the baseline, candidate features, parameters,
+  universes, labels, execution rules, and selection criteria. Record subsequent
+  changes as additional trials rather than silently changing the plan.
+
+Choose labels and diagnostics to test that thesis. Fixed-horizon returns,
+path-dependent barriers, event outcomes, or direct strategy returns may each
+be appropriate. Triple-barrier labeling is an option, not a universal mandate.
+Cross-sectional rank IC and quantile diagnostics apply to comparable asset
+panels; single-instrument time-series or event strategies need diagnostics
+matched to their forecast and decision horizon.
+
+## 2. Fix data, evaluation, and costs
+
+Record data sources, versions, availability timestamps, bar open/close
+semantics, time zones, session calendars, gaps, and instrument history.
+Features and universe membership must be available at the decision time;
+fills must occur at an actually tradable time after the required information
+is known. Use point-in-time joins and training-only preprocessing. Address
+revisions, delistings, listing dates, and survivor-only datasets explicitly.
+
+Use chronological development and walk-forward evaluation. Purge overlapping
+label or holding intervals and apply an embargo appropriate to the information
+horizon where needed. Random splits or combinatorial diagnostics do not replace
+chronological out-of-sample evaluation. Keep a final test period separate and
+freeze the data boundary, specification, model, parameters, costs, metrics, and
+decision rule before opening it.
+
+Never tune, select, or repeatedly test against that frozen final period.
+Report its result even when adverse or inconclusive. A change motivated by
+final-test results is a new exploratory trial, requiring genuinely untouched
+future data for a new final test; renaming the session does not make an observed
+period unseen.
+
+Use costs for the exact instrument and market:
+
+- **Crypto spot:** Venue/tier maker or taker fees, spread, slippage and market
+  impact, plus borrow availability and charges when shorting.
+- **Crypto perpetuals or dated futures:** Those execution costs plus signed
+  funding at actual funding timestamps, margin/liquidation constraints,
+  settlement and expiry, and rolls where applicable.
+- **Index futures:** Per-contract exchange, clearing and broker fees, tick
+  value, spread, slippage, contract expiry, roll execution and basis. Separate
+  continuous-series adjustments from tradable contract PnL.
+- **Index ETFs or CFDs:** Product-specific commissions, spread and slippage,
+  borrow or overnight financing, distributions, and broker trading conditions
+  as applicable.
+
+Document the cost source, effective date, units, charging frequency, and stress
+assumptions. Generic 2 bps commission plus 1 bps slippage is an exploratory
+placeholder only, not evidence of executable economics. Generic IC, DSR, PBO,
+or profitability thresholds cannot approve deployment. Report net performance
+against the baseline, uncertainty, stability, capacity, and multiple-testing
+limitations; derive research criteria from the thesis and market.
+
+## 3. Track every trial and its evidence
+
+Count every evaluated variant, including manual notebook experiments, changes
+to features, parameters, universes, labels, costs, and execution rules. Record
+planned trials before execution and retain completed, failed, abandoned, and
+inconclusive attempts in the research accounting. Preserve failed-run artifacts
+and failure reasons; a missing result is not evidence that no trial occurred.
+Disclose unregistered or missing attempts instead of claiming a complete ledger.
+The CLI below accepts terminal records for `completed` and `failed`; retain
+other dispositions in the session evidence without inventing extra CLI statuses.
+
+Retain the specification, config/data/source fingerprints, trial identity,
+timestamps, metrics, artifacts, and deviations needed to reproduce each result.
+Use the full known trial count for selection-bias analysis, including DSR and
+Sharpe haircuts when appropriate, and state when missing history makes an
+adjustment unreproducible. A hash identifies recorded evidence; it does not
+validate the data, statistical method, completeness, or trading readiness.
+
+### Schema and example declarations
+
+The v1 schema in `src/research_session.py` requires `session_id`, `thesis`,
+`mechanism`, `falsifier`, `market`, `instruments`, `data`, `evaluation`,
+`baseline`, `costs`, and `trials`. Optional `config` and `evidence` link existing
+files. Quote YAML timestamps to keep values JSON-compatible. Declare trial
+kinds as `preregistered`, `diagnostic`, or `historical_review`; only historical
+review declarations include an `artifact` path.
+
+Use [`crypto_example.yaml`](../config/research_sessions/crypto_example.yaml) or
+[`indices_example.yaml`](../config/research_sessions/indices_example.yaml) as a
+declaration example. Their `UNMAPPED_*` symbols, missing identity fields, missing
+data files, illustrative future dates, and zero cost placeholders are deliberate.
+They demonstrate initialization followed by a blocked audit, not executable
+strategy claims. The legacy-review trial links an existing `NOT_APPROVED` ORB
+decision; it supplies neither crypto evidence nor new index-strategy validation.
+
+For real research, fill exact product identity and point-in-time data, replace
+dates and costs, and specify the evaluation/selection rules before `init`.
+Crypto perpetuals require a venue. They require funding data unless
+`costs.funding_included` is explicitly `false`. Indices require identity,
+session, and a valid IANA timezone. These mechanical checks do not verify that
+a supplied mapping or fee estimate is economically correct. Price Parquet
+inputs require `timestamp`, `open`, `high`, `low`, and `close`; funding requires
+`timestamp` and `funding_rate`. Timestamps must be timezone-aware, sorted and
+unique, with valid finite numeric values. The audit is bounded to 100 MB and
+1,000,000 rows per file, so prepare justified bounded inputs rather than
+treating an oversized audit failure as a strategy result.
+
+### Concrete CLI workflow
+
+Run from the repository root. `--root .` means the project/workspace root,
+not a separate log directory. All specification, data, config, evidence, and
+artifact paths are relative to that root and must stay inside it without
+symlinks or parent traversal. Session records live under
+`run_log/research_sessions/<session_id>/`.
+
+Run the following commands individually. The unfilled examples intentionally
+produce `BLOCKED` from `check` and a recorded `failed` diagnostic from
+`diagnose`, both with exit code 2; `init` and `report` succeed. `report` emits
+JSON to stdout and does not save a separate report file.
+
+```bash
+uv run python scripts/research_session.py init --spec config/research_sessions/crypto_example.yaml --root .
+uv run python scripts/research_session.py check --session crypto-example --root .
+uv run python scripts/research_session.py diagnose --session crypto-example --trial development-summary --root .
+uv run python scripts/research_session.py report --session crypto-example --root .
+
+uv run python scripts/research_session.py init --spec config/research_sessions/indices_example.yaml --root .
+uv run python scripts/research_session.py check --session indices-example --root .
+uv run python scripts/research_session.py diagnose --session indices-example --trial development-summary --root .
+uv run python scripts/research_session.py report --session indices-example --root .
+```
+
+`init` freezes the specification and observed config/data/source/evidence
+identities as an `EXPLORATORY` session with `approval_status: NOT_APPROVED`.
+`check` audits identities and declared data requirements; it does not run a
+strategy or prove point-in-time correctness. `diagnose` is the built-in
+descriptive experiment: it summarizes gaps, price returns and funding observations
+within `[development_start, development_end)`, bounded to 100,000 rows per
+dataset. It creates and hashes its diagnostic artifact and terminal trial
+record automatically, including audit-blocked failures. It fits no model,
+runs no backtest, and does not score the holdout. Do not call `record` again
+for that diagnostic trial.
+
+To link the existing historical decision after reviewing it, use an example's
+declared `legacy-review` trial:
+
+```bash
+uv run python scripts/research_session.py record --session indices-example --trial legacy-review --status completed --artifact run_log/validation_status.json --root .
+uv run python scripts/research_session.py report --session indices-example --root .
+```
+
+`completed` means the review was recorded, not that the strategy passed.
+Execute models and backtests separately through existing scripts or Marimo
+notebooks. For example, only if a separately executed `thesis-baseline` trial
+actually failed and produced `run_log/crypto_baseline/failure.json`, record it
+with:
+
+```bash
+uv run python scripts/research_session.py record --session crypto-example --trial thesis-baseline --status failed --artifact run_log/crypto_baseline/failure.json --root .
+uv run python scripts/research_session.py report --session crypto-example --root .
+```
+
+For a completed external trial, use `--status completed` and its actual result
+artifact instead. `record` hashes an existing artifact but does not verify its
+generation. `report` includes pending and failed trials and current identity
+checks; neither a successful check nor any report approves deployment.
+
+Frozen sessions and terminal records are create-once. After filling an example
+that was already initialized, assign a new `session_id` and initialize a new
+session before executing its trials. Adding previously missing data or editing
+the original YAML cannot repair a frozen declaration; never overwrite or
+reclassify the old evidence.
+
+## 4. Keep historical review separate
+
+Historical review audits already-observed results and reconstructs provenance.
+Preregistered trials timestamp the hypothesis, specification, and selection
+rules before their outcomes are observed. Retrospectively importing artifacts
+does not preregister them or restore an unseen test period. Label the evidence
+as historical review, disclose what was already known, and distinguish any new
+prospective trials in the session report.
+
+Preserve existing notebooks, whitepapers, dashboards, tables, and run logs as
+historical artifacts. Write corrected research into separate versioned
+artifacts rather than overwriting old evidence. Existing Marimo conventions
+and reusable pipeline patterns remain in force.
+
+The legacy ORB strategy remains `NOT_APPROVED`, as recorded in
+[`run_log/validation_status.json`](../run_log/validation_status.json) and
+[`validation-remediation-status.md`](audit/validation-remediation-status.md).
+Its incomplete trial ledger and unreproducible DSR are not repaired by starting
+a new session. New `EXPLORATORY` sessions cannot replace that decision or turn
+historical claims into live-readiness evidence.
+
+## Completion criteria
+
+A research session report is complete when it states the thesis and falsifier,
+exact instruments, data and evaluation boundaries, cost assumptions, every
+known trial and missing record, hashed evidence, deviations, and the frozen
+final-test outcome or why that test was not performed. State whether the
+thesis was rejected, supported within the observed scope, or remains
+inconclusive. Keep research completion separate from deployment approval.
+
+At the end of each working session, record the next decisive question: which
+uncertainty matters most, what observation would resolve it, and which declared
+trial or required input will supply that observation? Include that question
+and any blocker in the handoff alongside the latest report so the next session
+continues the thesis rather than opening an untracked search.
+ M AGENTS.md
+ M README.md
+ M pyproject.toml
+ M tests/test_catalog.py
+ M tests/test_factory.py
+ M tests/test_pipeline.py
+ M tests/test_research_session_cli.py
+ M uv.lock
+?? .github/
+?? SESSION_TEMPLATE.md
+?? config/btc_structure_reversal_20261006.yaml
+?? config/btc_structure_reversal_attribution_20261006.yaml
+?? config/research_sessions/btc_eth_maker_kalman_20261006.yaml
+?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006.yaml
+?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v2.yaml
+?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3.yaml
+?? config/research_sessions/btc_eth_pair_trading_scalp.yaml
+?? config/research_sessions/btc_eth_statarb_kalman_regime.yaml
+?? config/research_sessions/continuous_long_grid_short_hedge_20261009.yaml
+?? config/research_sessions/cross_asset_tsmom_replication_20261007.yaml
+?? config/research_sessions/crypto_structural_s1_phase12_20261011.yaml
+?? config/research_sessions/crypto_structural_s2_phase12_20261011.yaml
+?? config/research_sessions/crypto_structural_s3_phase12_20261011.yaml
+?? config/research_sessions/crypto_structural_s4_phase12_20261011.yaml
+?? config/research_sessions/crypto_structural_s5_phase12_20261011.yaml
+?? config/research_sessions/crypto_tsmom_flow_increment_20261008.yaml
+?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v2.yaml
+?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v3.yaml
+?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v4.yaml
+?? config/research_sessions/crypto_tsmom_maker_regime.yaml
+?? config/research_sessions/crypto_tsmom_top10_universe.yaml
+?? config/research_sessions/crypto_tsmom_trend_persistence.yaml
+?? config/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec.yaml
+?? config/research_sessions/crypto_tsmom_vol_targeted.yaml
+?? config/research_sessions/ftmo_fx_intraday_reversion_202610.yaml
+?? config/research_sessions/ftmo_fx_intraday_reversion_202610_v2.yaml
+?? config/research_sessions/funding_extreme_reversal_mvp_20261011_v1.yaml
+?? config/research_sessions/fx_support_conditions_20261008.yaml
+?? config/research_sessions/fx_support_conditions_20261008_ml_v2.yaml
+?? config/research_sessions/fx_support_ml4t_execution_20261008.yaml
+?? config/research_sessions/fx_support_ml4t_execution_20261008_v2.yaml
+?? config/research_sessions/fx_support_reclaim_newhigh_20261008.yaml
+?? config/research_sessions/gotobi_exact_paper_bridge_20261011_v1.yaml
+?? config/research_sessions/gotobi_lse_bidask_execution_pilot_20261011_v1.yaml
+?? config/research_sessions/gotobi_macro_context_20261011_v1.yaml
+?? config/research_sessions/gotobi_macro_context_20261011_v2.yaml
+?? config/research_sessions/gotobi_paper_replication_20261011_v1.yaml
+?? config/research_sessions/hyperliquid_xyz_20level_anchored_volume_ab_20261009.yaml
+?? config/research_sessions/intraday_volatility_breakout.yaml
+?? config/research_sessions/intraday_volatility_breakout_regime.yaml
+?? config/research_sessions/lighter_anchored_volume_ab_20261009.yaml
+?? config/research_sessions/lighter_spy_qqq_pair_grid_20261009.yaml
+?? config/research_sessions/metals_dual_grid_mvp_20261010.yaml
+?? config/research_sessions/one_bar_nq_stop_scaling_20261012.yaml
+?? config/research_sessions/prop_mvp_20261011_a.yaml
+?? config/research_sessions/prop_mvp_20261011_b.yaml
+?? config/research_sessions/prop_mvp_20261011_c.yaml
+?? config/research_sessions/structural_alpha_eow_6040_20261011.yaml
+?? config/research_sessions/taker_flow_exhaustion_mvp_20261011_v1.yaml
+?? config/research_sessions/tokyo_alpha_map_program1_closure_v3.yaml
+?? config/research_sessions/tokyo_alpha_map_program1_native_exploratory_v2.yaml
+?? config/research_sessions/tokyo_alpha_map_program1_v1.yaml
+?? config/research_sessions/tokyo_fix_prefx_0700_0830_20261011_v1.yaml
+?? config/research_sessions/tokyo_fix_program2_cross_currency_20261011_v1.yaml
+?? config/research_sessions/tokyo_fix_program3_ohlcv_execution_20261011_v1.yaml
+?? config/research_sessions/tsmom_40_60_80_lse_2020_2026.yaml
+?? config/research_sessions/usdjpy_gotobi_2020_2026_usd10000_v1.yaml
+?? config/research_sessions/usdjpy_tokyo_fix_gotobi_20261010.yaml
+?? config/research_sessions/usdjpy_tokyo_fix_gotobi_engine_20261010_v1.yaml
+?? config/strategies/
+?? data/hftbacktest/
+?? docs/arcus_rwa_hedged_maker_execution_exit_policy_20261011.md
+?? docs/arcus_rwa_hedged_maker_phase1_20261011.md
+?? docs/arcus_rwa_hedged_maker_phase2_20261011.md
+?? docs/arcus_rwa_hedged_maker_phase3_engineering_20261011.md
+?? docs/arcus_rwa_hedged_maker_roundtrip_e2e_20261011.md
+?? docs/audit/crypto_five_structural_phase12_20261011.md
+?? docs/audit/february_2026_exit_benchmark_tearsheet.png
+?? docs/audit/funding_extreme_reversal_mvp_20261011_v1.md
+?? docs/audit/gotobi_exact_paper_bridge_20261011_v1.md
+?? docs/audit/gotobi_lse_bidask_execution_pilot_20261011_v1.md
+?? docs/audit/gotobi_macro_context_20261011_v2.md
+?? docs/audit/gotobi_paper_replication_20261011_v1.md
+?? docs/audit/hftbacktest_official_1week_tearsheet.png
+?? docs/audit/hyperliquid_xyz_20level_anchored_volume_ab_20261009.md
+?? docs/audit/intraday_breakout_prop_firm_evaluation.md
+?? docs/audit/january_2026_full_month_tearsheet.png
+?? docs/audit/lighter_anchored_volume_ab_20261009.md
+?? docs/audit/lighter_spy_qqq_grid_20261009.md
+?? docs/audit/metals_dual_grid_mvp_20261010.md
+?? docs/audit/multiyear_edge_decay.json
+?? docs/audit/multiyear_edge_decay_tearsheet.png
+?? docs/audit/one_bar_2026_regime_independent_review_20261012.md
+?? docs/audit/one_bar_50breakout_20261011_independent_review.md
+?? docs/audit/one_bar_50breakout_20261011_plan.md
+?? docs/audit/one_bar_dukascopy_2013_2026_20261011.md
+?? docs/audit/one_bar_dukascopy_2013_2026_20261011_independent_review.md
+?? docs/audit/one_bar_dukascopy_phase567_20261011.md
+?? docs/audit/one_bar_dukascopy_phase567_20261011_independent.md
+?? docs/audit/one_bar_execution_remediation_20261012.md
+?? docs/audit/one_bar_nq_b0_b2_risk_comparison_20261012.md
+?? docs/audit/one_bar_nq_stop_scaling_20261012_plan.md
+?? docs/audit/one_bar_nq_stop_scaling_phase234_20261012.md
+?? docs/audit/one_bar_practical_1m_20261012.md
+?? docs/audit/option1_watchdog_1week_tearsheet.png
+?? docs/audit/perp_dex_tools_metals_dual_grid_review_20261010.md
+?? docs/audit/prop_mvp_20261011.md
+?? docs/audit/prop_mvp_20261011_independent_review.md
+?? docs/audit/taker_flow_exhaustion_mvp_20261011_v1.md
+?? docs/audit/tearsheet_metrics.json
+?? docs/audit/tokyo_alpha_map_program1_closure_v3_20261011.md
+?? docs/audit/tokyo_alpha_map_program1_native_exploratory_v2.md
+?? docs/audit/tokyo_alpha_map_program1_v1_20261010.md
+?? docs/audit/tokyo_fix_prefx_0700_0830_20261011_v1.md
+?? docs/audit/tokyo_fix_program2_cross_currency_20261011_v1.md
+?? docs/audit/tokyo_fix_program3_ohlcv_execution_20261011_v1.md
+?? docs/audit/truthful_adaptive_peg_1week_tearsheet.png
+?? docs/audit/usdjpy_gotobi_2020_2026_usd10000_v1.md
+?? docs/audit/usdjpy_tokyo_fix_phase234_20261010.md
+?? docs/audit/volume_farming_summary.json
+?? docs/audit/volume_farming_tearsheet.png
+?? docs/audit/winning_alpha_tearsheet.png
+?? docs/lessons/
+?? promote/
+?? run_log/advanced_validation/
+?? run_log/arcus_btc_eth_live10_audit_report.json
+?? run_log/arcus_btc_eth_live50_audit_report.json
+?? run_log/arcus_btc_eth_policy2_dryrun_2h_report.json
+?? run_log/arcus_btc_eth_ws_fill_gate_report.json
+?? run_log/arcus_btc_eth_z12_live50_report.json
+?? run_log/arcus_mm_lighter_rwa_report.json
+?? run_log/btc_eth_maker_kalman_20261006/
+?? run_log/btc_eth_pair_trading_scalp/
+?? run_log/btc_eth_statarb_kalman_regime/
+?? run_log/btc_structure_reversal_20261006/
+?? run_log/btc_structure_reversal_attribution_20261006/
+?? run_log/continuous_long_grid_short_hedge_20261009/
+?? run_log/cross_asset_tsmom_replication_20261007/
+?? run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json
+?? run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json
+?? run_log/crypto_tsmom_maker_regime/
+?? run_log/crypto_tsmom_mark_price_inputs_20261008_source_manifest.json
+?? run_log/crypto_tsmom_top10_universe/
+?? run_log/crypto_tsmom_trend_persistence/
+?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/
+?? run_log/crypto_tsmom_vol_targeted/
+?? run_log/dynamic_universe/
+?? run_log/fixed23_flow_repair_20261007.json
+?? run_log/forward_expectancy/
+?? run_log/ftmo_fx_intraday_reversion_202610_v2/
+?? run_log/funding_extreme_reversal_mvp_20261011_v1/
+?? run_log/fx_support_conditions_20261008/
+?? run_log/fx_support_conditions_20261008_ml_v2/
+?? run_log/fx_support_ml4t_execution_20261008/
+?? run_log/fx_support_ml4t_execution_20261008_v2/
+?? run_log/fx_support_reclaim_newhigh_20261008/
+?? run_log/gotobi_exact_paper_bridge_20261011_v1/
+?? run_log/gotobi_lse_bidask_execution_pilot_20261011_v1/
+?? run_log/gotobi_macro_context_20261011_v2/
+?? run_log/gotobi_paper_replication_20261011_v1/
+?? run_log/hyperliquid_xyz_20level_anchored_volume_ab_20261009/
+?? run_log/intraday_volatility_breakout/
+?? run_log/intraday_volatility_breakout_regime/
+?? run_log/iterations/
+?? run_log/lighter_anchored_volume_ab_20261009/
+?? run_log/lighter_spy_qqq_pair_grid_20261009/
+?? run_log/near_market_structure_20261005/
+?? run_log/near_market_structure_exit_sweep_20261006/
+?? run_log/one_bar_2026_regime_20261012/
+?? run_log/one_bar_2026_regime_20261012_fix_launcher.sh
+?? run_log/one_bar_2026_regime_20261012_independent_fix.md
+?? run_log/one_bar_2026_regime_20261012_launcher.sh
+?? run_log/one_bar_2026_regime_20261012_mission.md
+?? run_log/one_bar_50breakout_20261011/
+?? run_log/one_bar_50breakout_20261011_mission.md
+?? run_log/one_bar_dukascopy_2013_2026_20261011/
+?? run_log/one_bar_dukascopy_2013_2026_20261011_mission.md
+?? run_log/one_bar_dukascopy_phase567_20261011/
+?? run_log/one_bar_dukascopy_phase567_20261011_launcher.sh
+?? run_log/one_bar_dukascopy_phase567_20261011_mission.md
+?? run_log/one_bar_execution_remediation_20261012/
+?? run_log/one_bar_execution_remediation_20261012_mission.md
+?? run_log/one_bar_execution_remediation_20261012_timing_review.md
+?? run_log/one_bar_nq_stop_scaling_20261012/
+?? run_log/one_bar_nq_stop_scaling_20261012_launcher.sh
+?? run_log/one_bar_nq_stop_scaling_20261012_mission.md
+?? run_log/one_bar_nq_stop_scaling_20261012_phase234_independent_review_mission.md
+?? run_log/one_bar_nq_stop_scaling_20261012_phase234_launcher.sh
+?? run_log/one_bar_nq_stop_scaling_20261012_phase234_mission.md
+?? run_log/one_bar_nq_stop_scaling_20261012_phase234_review_launcher.sh
+?? run_log/one_bar_nq_stop_scaling_20261012_risk_metrics_audit_launcher.sh
+?? run_log/one_bar_nq_stop_scaling_20261012_risk_metrics_audit_mission.md
+?? run_log/one_bar_nq_stop_scaling_20261012_risk_metrics_launcher.sh
+?? run_log/one_bar_nq_stop_scaling_20261012_risk_metrics_mission.md
+?? run_log/one_bar_practical_1m_20261012/
+?? run_log/one_bar_practical_1m_20261012_mission.md
+?? run_log/one_bar_practical_1m_20261012_recovery_mission.md
+?? run_log/one_bar_promotion_packaging_20261012/
+?? run_log/one_bar_promotion_packaging_20261012_launcher.sh
+?? run_log/one_bar_promotion_packaging_20261012_mission.md
+?? run_log/one_bar_tearsheet_20261012/
+?? run_log/one_bar_tearsheet_20261012_frequency_fix.md
+?? run_log/one_bar_tearsheet_20261012_frequency_launcher.sh
+?? run_log/one_bar_tearsheet_20261012_launcher.sh
+?? run_log/one_bar_tearsheet_20261012_mission.md
+?? run_log/paper_trading/
+?? run_log/peter_6asset_7year_backtest_result.json
+?? run_log/peter_7asset_with_btc_backtest_result.json
+?? run_log/prop_firm_evaluation/
+?? run_log/prop_mvp_20261011/
+?? run_log/prop_mvp_20261011_mission.md
+?? run_log/research_sessions/
+?? run_log/stage5_handoffs/
+?? run_log/structural_alpha_eow_6040_session_report.json
+?? run_log/structural_alpha_mission_20261011.md
+?? run_log/structural_alpha_mission_report_20261011.md
+?? run_log/structural_alpha_status_20261011.json
+?? run_log/taker_flow_exhaustion_mvp_20261011_v1/
+?? run_log/taker_flow_exhaustion_mvp_20261011_v1_codex.log
+?? run_log/taker_flow_exhaustion_mvp_20261011_v1_execution_prompt.txt
+?? run_log/tokyo_alpha_map_program1_closure_v3/
+?? run_log/tokyo_alpha_map_program1_native_exploratory_v2/
+?? run_log/tokyo_fix_alpha_map_program1_20261010/
+?? run_log/tokyo_fix_prefx_0700_0830_20261011_mission.md
+?? run_log/tokyo_fix_prefx_0700_0830_20261011_v1/
+?? run_log/tokyo_fix_program2_cross_currency_20261011_mission.md
+?? run_log/tokyo_fix_program2_cross_currency_20261011_v1/
+?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_codex_final.md
+?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_mission.md
+?? run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/
+?? run_log/tsmom_40_60_80_lse_2020_2026/
+?? run_log/usdjpy_gotobi_2020_2026_usd10000_v1/
+?? run_log/usdjpy_tokyo_fix_gotobi_20261010/
+?? run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/
+?? scripts/analyze_static_challenge_windows.py
+?? scripts/audit_fx_support_ml4t_execution_v2.py
+?? scripts/build_crypto_tsmom_flow_increment_phase2.py
+?? scripts/build_dynamic_feature_panel.py
+?? scripts/build_dynamic_monthly_universe.py
+?? scripts/build_fx_support_conditions_panel.py
+?? scripts/build_two_stage_funnel_features.py
+?? scripts/chart_tokyo_fix_prefx_0700_0830_20261011_v1.py
+?? scripts/compare_3_vs_10_in_2026.py
+?? scripts/compare_vs_bnh_and_oos.py
+?? scripts/compute_forward_success_probability.py
+?? scripts/compute_top10_features.py
+?? scripts/compute_tsmom_features.py
+?? scripts/correct_tokyo_alpha_map_calendar_v3.py
+?? scripts/diagnose_gotobi_2020_2026_usd10k_v1.py
+?? scripts/evaluate_prop_firm_pass_cycles.py
+?? scripts/finalize_prop_mvp_20261011.py
+?? scripts/finalize_tokyo_fix_prefx_0700_0830_20261011_v1.py
+?? scripts/finalize_tokyo_fix_program3_ohlcv_execution_20261011_v1.py
+?? scripts/generate_february_tearsheet.py
+?? scripts/generate_tearsheet.py
+?? scripts/materialize_ftmo_fx_reversion_data.py
+?? scripts/materialize_gotobi_2020_2026_usd10k_v1.py
+?? scripts/materialize_gotobi_macro_context_20261011_v1.py
+?? scripts/materialize_tokyo_fix_gotobi_20261010.py
+?? scripts/materialize_tokyo_fix_program2_cross_currency_20261011_v1.py
+?? scripts/prepare_hftbacktest_data.py
+?? scripts/prepare_top10_data.py
+?? scripts/prepare_tsmom_data.py
+?? scripts/register_strategy_freeze.py
+?? scripts/register_two_stage_handoff.py
+?? scripts/render_tokyo_alpha_map_program1_closure_v3.py
+?? scripts/run_1m_btc_eth_prop_firm_backtest.py
+?? scripts/run_1month_truthful_tick_backtest.py
+?? scripts/run_1week_watchdog_option1_tick_backtest.py
+?? scripts/run_5day_truthful_tick_backtest.py
+?? scripts/run_6asset_multiyear_backtest.py
+?? scripts/run_6asset_phases_4_to_7.py
+?? scripts/run_7asset_with_btc_backtest.py
+?? scripts/run_advanced_exit_hftbacktest.py
+?? scripts/run_advanced_phases_4_to_7.py
+?? scripts/run_biweekly_cohort_audit.py
+?? scripts/run_breakout_trials.py
+?? scripts/run_btc_structure_reversal.py
+?? scripts/run_btc_structure_reversal_attribution.py
+?? scripts/run_continuous_long_grid_short_hedge_20261009.py
+?? scripts/run_cross_asset_tsmom_phase2_3.py
+?? scripts/run_crypto_tsmom_flow_diagnostics.py
+?? scripts/run_dual_timeframe_prop_firm_backtest.py
+?? scripts/run_dynamic_monthly_backtest.py
+?? scripts/run_ekstrom_pure_maker.py
+?? scripts/run_factor_diagnostics.py
+?? scripts/run_ftmo_fx_reversion_d0.py
+?? scripts/run_funding_extreme_reversal_mvp_20261011_v1.py
+?? scripts/run_fx_support_conditions_ml_v2.py
+?? scripts/run_fx_support_conditions_trial.py
+?? scripts/run_fx_support_ml4t_execution_v2.py
+?? scripts/run_fx_support_newhigh_d0.py
+?? scripts/run_gold_only_2018_2026.py
+?? scripts/run_gotobi_2020_2026_usd10k_engine_v1.py
+?? scripts/run_gotobi_exact_paper_bridge_20261011_v1.py
+?? scripts/run_gotobi_lse_bidask_execution_pilot_20261011_v1.py
+?? scripts/run_gotobi_lse_bidask_smoke_20261011.py
+?? scripts/run_gotobi_macro_context_20261011_v1.py
+?? scripts/run_gotobi_macro_context_20261011_v2.py
+?? scripts/run_gotobi_paper_replication_20261011_v1.py
+?? scripts/run_hftbacktest_btc_eth_pair.py
+?? scripts/run_hyperliquid_xyz_full_ladder_ab_20261009.py
+?? scripts/run_independent_first_passage_trials.py
+?? scripts/run_iter_a_fast_ema_sweep.py
+?? scripts/run_iter_b_dual_momentum.py
+?? scripts/run_iter_c_symmetric_long_short.py
+?? scripts/run_iter_d_synthesis_and_holdout.py
+?? scripts/run_lighter_anchored_volume_ab_20261009.py
+?? scripts/run_lighter_spy_qqq_grid_comparison.py
+?? scripts/run_maker_regime_backtests.py
+?? scripts/run_metals_dual_grid_mvp_20261010.py
+?? scripts/run_monk_pair_trading.py
+?? scripts/run_monk_pair_trading_beta.py
+?? scripts/run_monk_sensitivity.py
+?? scripts/run_monk_with_time_barrier.py
+?? scripts/run_monthly_cohort_audit.py
+?? scripts/run_multiyear_kalman_backtest.py
+?? scripts/run_near_market_structure.py
+?? scripts/run_near_market_structure_exit_sweep.py
+?? scripts/run_official_ml4t_pipeline.py
+?? scripts/run_one_bar_50breakout_20261011.py
+?? scripts/run_one_bar_dukascopy_2013_2026_20261011.py
+?? scripts/run_one_bar_dukascopy_phase567_20261011.py
+?? scripts/run_one_bar_execution_remediation_20261012.py
+?? scripts/run_one_bar_nq_b2_20261012.py
+?? scripts/run_one_bar_nq_b2_yearly_20261012.py
+?? scripts/run_one_bar_practical_1m_20261012.py
+?? scripts/run_one_bar_practical_yearly_20261012.py
+?? scripts/run_paper_trading_daemon.py
+?? scripts/run_prop_firm_circuit_breaker_backtest.py
+?? scripts/run_prop_mvp_20261011.py
+?? scripts/run_pure_maker_experiment.py
+?? scripts/run_regime_trials.py
+?? scripts/run_stop_market_funnel_backtest.py
+?? scripts/run_stop_market_holdout.py
+?? scripts/run_stop_market_stress_and_audit.py
+?? scripts/run_taker_flow_exhaustion_mvp_20261011_v1.py
+?? scripts/run_tick_microstructure_backtest.py
+?? scripts/run_tokyo_alpha_map_native_exploratory_v2.py
+?? scripts/run_tokyo_alpha_map_program1_closure_v3.py
+?? scripts/run_tokyo_alpha_map_program1_v1.py
+?? scripts/run_tokyo_fix_gotobi_diagnostics_20261010.py
+?? scripts/run_tokyo_fix_phase23_20261010_v1.py
+?? scripts/run_tokyo_fix_phase4_engine_20261010_v1.py
+?? scripts/run_tokyo_fix_prefx_0700_0830_20261011_v1.py
+?? scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py
+?? scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py
+?? scripts/run_top10_advanced_validation.py
+?? scripts/run_top10_backtests.py
+?? scripts/run_top10_diagnostics.py
+?? scripts/run_top10_holdout_and_stage5.py
+?? scripts/run_trial_1_kalman.py
+?? scripts/run_trial_2_regime.py
+?? scripts/run_trial_3_maker.py
+?? scripts/run_trial_4_sensitivity.py
+?? scripts/run_truthful_adaptive_peg_backtest.py
+?? scripts/run_tsmom_40_60_80_lse_2020_2026.py
+?? scripts/run_tsmom_backtests.py
+?? scripts/run_tsmom_prospective_holdout.py
+?? scripts/run_tsmom_temporal_validation.py
+?? scripts/run_two_stage_funnel_diagnostics.py
+?? scripts/run_verified_dual_timeframe_audit.py
+?? scripts/run_vol_targeted_backtests.py
+?? scripts/run_volume_farming_engine.py
+?? scripts/supplement_tokyo_fix_program2_cross_currency_20261011_v1.py
+?? scripts/supplement_tokyo_fix_program3_ohlcv_execution_20261011_v1.py
+?? scripts/sweep_prop_firm_circuit_breaker.py
+?? scripts/test_profitable_volume_farming.py
+?? scripts/test_prop_firm_viability.py
+?? scripts/verify_fx_support_ml4t_features_20261008.py
+?? scripts/verify_fx_support_ml4t_stress_replay_v2.py
+?? scripts/verify_gotobi_2020_2026_usd10k_v1.py
+?? scripts/verify_tokyo_alpha_map_native_exploratory_v2.py
+?? scripts/verify_tokyo_alpha_map_program1_v1.py
+?? scripts/verify_tokyo_fix_phase4_engine_20261010_v1.py
+?? scripts/verify_tokyo_fix_prefx_0700_0830_20261011_v1.py
+?? scripts/verify_tokyo_fix_program2_cross_currency_20261011_v1.py
+?? scripts/verify_tokyo_fix_program3_ohlcv_execution_20261011_v1.py
+?? scripts/verify_winning_strategy.py
+?? src/btc_structure_reversal.py
+?? src/btc_structure_reversal_attribution.py
+?? src/features_breakout.py
+?? src/hftbacktest_accounting.py
+?? src/market_structure.py
+?? src/prop_firm_evaluator.py
+?? src/strategies/
+?? tests/conftest.py
+?? tests/e2e/
+?? tests/lookahead_guard.py
+?? tests/test_btc_structure_reversal.py
+?? tests/test_btc_structure_reversal_attribution.py
+?? tests/test_continuous_long_grid_short_hedge_20261009.py
+?? tests/test_crypto_tsmom_flow_diagnostics.py
+?? tests/test_crypto_tsmom_maker_regime.py
+?? tests/test_funding_extreme_reversal_mvp_20261011_v1.py
+?? tests/test_fx_support_conditions.py
+?? tests/test_fx_support_conditions_ml_v2.py
+?? tests/test_fx_support_ml4t_boundary_v2.py
+?? tests/test_fx_support_ml4t_execution_20261008.py
+?? tests/test_fx_support_ml4t_execution_v2.py
+?? tests/test_fx_support_newhigh_d0.py
+?? tests/test_gotobi_exact_paper_bridge_20261011_v1.py
+?? tests/test_gotobi_lse_bidask_execution_20261011.py
+?? tests/test_gotobi_macro_context_20261011_v2.py
+?? tests/test_hftbacktest_accounting.py
+?? tests/test_hyperliquid_xyz_full_ladder_ab_20261009.py
+?? tests/test_lighter_anchored_volume_ab_20261009.py
+?? tests/test_lighter_spy_qqq_grid_comparison.py
+?? tests/test_market_structure.py
+?? tests/test_metals_dual_grid_mvp_20261010.py
+?? tests/test_near_market_structure_exit_sweep.py
+?? tests/test_notebook_dag.py
+?? tests/test_one_bar_50breakout_20261011.py
+?? tests/test_one_bar_dukascopy_2013_2026_20261011.py
+?? tests/test_one_bar_dukascopy_phase567_20261011.py
+?? tests/test_one_bar_execution_remediation_20261012.py
+?? tests/test_one_bar_nq_b0_b2_risk_20261012.py
+?? tests/test_one_bar_nq_b2_20261012.py
+?? tests/test_one_bar_practical_yearly_20261012.py
+?? tests/test_prop_firm_evaluator.py
+?? tests/test_prop_mvp_20261011.py
+?? tests/test_taker_flow_exhaustion_mvp_20261011_v1.py
+?? tests/test_tokyo_alpha_map_program1_closure_v3.py
+?? tests/test_tokyo_alpha_map_program1_v1.py
+?? tests/test_tokyo_fix_prefx_0700_0830_20261011_v1.py
+?? tests/test_tokyo_fix_program2_cross_currency_20261011_v1.py
+?? tests/test_tokyo_fix_program3_ohlcv_execution_20261011_v1.py
+?? tests/test_two_stage_funnel_validation.py
+hook: PostToolUse
+hook: PostToolUse Completed
+turn interrupted
+tokens used
+19,004

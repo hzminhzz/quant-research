@@ -1,0 +1,109 @@
+{
+  "package": "donchian_btc",
+  "strategy_id": "donchian_btc",
+  "original_strategy_name": "donchian-btc",
+  "workflow_status": "PROMOTED_FOR_FURTHER_RESEARCH",
+  "approval_status": "NOT_APPROVED",
+  "independent_of_shannon": true,
+  "created_date_utc": "2026-10-14",
+  "captured_head": "98d5949fe11695c709f5ddeaf88a02c79f05b0c7",
+  "captured_dirty_checkout": true,
+  "source_code_snapshots_are_import_dependent": true,
+  "canonical_native_path": "run_log/independent_five_full_history_20261014/donchian-btc",
+  "canonical_native_audit": "run_log/independent_five_full_history_20261014/audit.json",
+  "source_cost_trial_path": "run_log/independent_five_full_history_20261014/cost_stress_2x_3x.json",
+  "canonical_raw_data": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_minute_BTCUSDT_PERP",
+  "protected_data_from_utc": "2026-10-12T00:00:00Z",
+  "retrospective_selection": true,
+  "fresh_holdout": false,
+  "uploaded_original_author_source_in_package": false,
+  "files": [
+    {
+      "path": "README.md",
+      "size_bytes": 3595,
+      "sha256": "d2e6d74b2c21c9fba08adaf0d7b74763cd675b0e4da313677303bcfb815f47c8"
+    },
+    {
+      "path": "STATUS.md",
+      "size_bytes": 1577,
+      "sha256": "10fdd54ed14b5d7f861a8989f925bbe820a782fd13737409fde2eff57762055a"
+    },
+    {
+      "path": "audits/evidence.md",
+      "size_bytes": 1101,
+      "sha256": "8a69ef5a5bb6f8344623ada931a421dff8e5389e3f7ba9b1579276ea336fe51d"
+    },
+    {
+      "path": "provenance/data_manifest.json",
+      "size_bytes": 474,
+      "sha256": "0ef142e8281a77be21035c31b47451372af725bb671bd3059e8ed6b0dafef985"
+    },
+    {
+      "path": "reports/cost_stress.json",
+      "size_bytes": 1302,
+      "sha256": "7992d7c35dd3bfe9d4363d08ae6967752a744d646d00e05fc8de2e839cd708da"
+    },
+    {
+      "path": "reports/native_summary.json",
+      "size_bytes": 8266,
+      "sha256": "c6fb4f24d4cdeaa0e218935a142221c441f93fe83b41fad3bc510c6f8d488a13"
+    },
+    {
+      "path": "research_next.md",
+      "size_bytes": 1137,
+      "sha256": "a5c4f1c078cc68740cc403c3a6916e920bfbdd99257977512cfbb94c6dbf6e00"
+    },
+    {
+      "path": "scripts/verify_package.py",
+      "size_bytes": 3976,
+      "sha256": "4113ba9541f5209a1f71ff57b52ee5c454c47022295bf7d88f488340e76bf80c"
+    },
+    {
+      "path": "src/audit_independent_five_full_history_20261014.py",
+      "size_bytes": 3468,
+      "sha256": "c0fed680d41e4c35640e77fdf8cc4ef9837156f75295146c9cb9ee1ff5734413",
+      "source_path": "scripts/audit_independent_five_full_history_20261014.py",
+      "source_sha256": "c0fed680d41e4c35640e77fdf8cc4ef9837156f75295146c9cb9ee1ff5734413"
+    },
+    {
+      "path": "src/independent_seven_data.py",
+      "size_bytes": 4522,
+      "sha256": "d4fa36b194549018cd2ae6c13c63e28c4f7396f666ad2d4faafb70bdb2e69b21",
+      "source_path": "src/strategies/independent_seven_data.py",
+      "source_sha256": "d4fa36b194549018cd2ae6c13c63e28c4f7396f666ad2d4faafb70bdb2e69b21"
+    },
+    {
+      "path": "src/independent_seven_native_features.py",
+      "size_bytes": 8766,
+      "sha256": "0c2a10c764ca38b72219a08da254a478ab4d8ce742f5fd5ece8c9e448f6294bd",
+      "source_path": "src/strategies/independent_seven_native_features.py",
+      "source_sha256": "0c2a10c764ca38b72219a08da254a478ab4d8ce742f5fd5ece8c9e448f6294bd"
+    },
+    {
+      "path": "src/run_independent_five_full_history_20261014.py",
+      "size_bytes": 7839,
+      "sha256": "fecda1358202b5ddc533b7610a408a074227830ca8d5afa74413d606df80a5ce",
+      "source_path": "scripts/run_independent_five_full_history_20261014.py",
+      "source_sha256": "fecda1358202b5ddc533b7610a408a074227830ca8d5afa74413d606df80a5ce"
+    },
+    {
+      "path": "src/run_independent_seven_2020_2022.py",
+      "size_bytes": 14876,
+      "sha256": "3841b8e3d5096c376d7d421561fe9e5817535f212ce9f191b015ccabe67e03c7",
+      "source_path": "scripts/run_independent_seven_2020_2022.py",
+      "source_sha256": "3841b8e3d5096c376d7d421561fe9e5817535f212ce9f191b015ccabe67e03c7"
+    },
+    {
+      "path": "strategy.yaml",
+      "size_bytes": 1911,
+      "sha256": "bc5e0bf4f070a21eba3be0d2dd839bcb895e36a7047f3fd8d468a368bbc4be4e"
+    },
+    {
+      "path": "tests/test_independent_seven_native_features.py",
+      "size_bytes": 2471,
+      "sha256": "e6c9ed66ed7e9d3db086f69fcb39959873c92835c610438578d41df711e8e7a3",
+      "source_path": "tests/test_independent_seven_native_features.py",
+      "source_sha256": "e6c9ed66ed7e9d3db086f69fcb39959873c92835c610438578d41df711e8e7a3"
+    }
+  ]
+}

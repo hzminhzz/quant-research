@@ -1,0 +1,23 @@
+Timeout (0:00:15)!
+Thread 0x0000764b65b3e6c0 [asyncio_0] (most recent call first):
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/concurrent/futures/thread.py", line 116 in _worker
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/threading.py", line 1024 in run
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/threading.py", line 1082 in _bootstrap_inner
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/threading.py", line 1044 in _bootstrap
+
+Thread 0x0000764b6d5df780 [python] (most recent call first):
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/selectors.py", line 452 in select
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 2018 in _run_once
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 677 in run_forever
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 706 in run_until_complete
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 128 in run
+  File "/home/quant/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 205 in run
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/marimo/_lint/linter.py", line 313 in run_streaming
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/marimo/_lint/__init__.py", line 96 in run_check
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/marimo/_cli/cli.py", line 1572 in check
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/click/core.py", line 910 in invoke
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/click/core.py", line 1415 in invoke
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/click/core.py", line 2032 in invoke
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/click/core.py", line 1552 in main
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/click/core.py", line 1631 in __call__
+  File "<stdin>", line 5 in <module>

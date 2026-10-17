@@ -1,0 +1,61 @@
+{
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "provider": "Dukascopy",
+  "source": "canonical daily Hive Parquet 1m BID CFD quotes",
+  "store": "/home/quant/dev/quant/ml4t-data/.data/store",
+  "instruments": [
+    {
+      "symbol": "US500",
+      "store": "index_minute_ES",
+      "original": "usa500idxusd",
+      "currency": "USD",
+      "first": "2011-09-19"
+    },
+    {
+      "symbol": "US100",
+      "store": "index_minute_NQ",
+      "original": "usatechidxusd",
+      "currency": "USD",
+      "first": "2011-09-19"
+    },
+    {
+      "symbol": "JP225",
+      "store": "index_minute_NIKKEI225",
+      "original": "jpnidxjpy",
+      "currency": "JPY",
+      "first": "2011-09-19"
+    },
+    {
+      "symbol": "EU50",
+      "store": "index_minute_EUSIDXEUR",
+      "original": "eusidxeur",
+      "currency": "EUR",
+      "first": "2014-06-02"
+    }
+  ],
+  "periods": [
+    {
+      "start": "2013-01-01T00:00:00Z",
+      "end_exclusive": "2025-01-01T00:00:00Z",
+      "status": "previously observed development"
+    },
+    {
+      "start": "2025-01-01T00:00:00Z",
+      "end_exclusive": "2026-01-01T00:00:00Z",
+      "status": "previously exposed by old portfolio"
+    },
+    {
+      "start": "2026-01-01T00:00:00Z",
+      "end_exclusive": "2026-10-12T00:00:00Z",
+      "status": "previously exposed by old portfolio"
+    }
+  ],
+  "eligible_reader_rule": "Only year<=2026, 2026 month/day<=Oct11; only previous Jul1 warmup per scored calendar year. No Oct12+ reads.",
+  "limitations": [
+    "NY 17:00 proxy daily session unverified for JP225 and EU50",
+    "No JPY/EUR to USD mark conversion; cannot interpret synthetic return as valid USD portfolio economics",
+    "Bid quotes only; broker ASK, financing, lot size unverified",
+    "H1 initial protective stop late by a minute",
+    "Selection of replacement JP225 informed by DE30 losses in previous historical tests; entire period is discovery, not fresh OOS"
+  ]
+}

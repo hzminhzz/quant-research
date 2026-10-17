@@ -1,0 +1,103 @@
+session_id: intraday_volatility_breakout
+market: futures
+
+thesis: >-
+  Intraday volatility breakout beyond 0.4 * ATR(5) from the daily cash open captures
+  directional institutional flow on index futures and gold, producing positive net expectancy
+  when risked at 0.33% per trade and closed at the daily session settlement.
+
+mechanism: >-
+  1. Cash Open Price Discovery: The opening bar establishes the reference baseline. Large institutional
+     order flow that pushes price beyond 0.4 * ATR(5) exhibits intraday trend persistence.
+  2. Asymmetric Risk/Reward: Fixed stop-loss at the open bounds risk to 0.4 * ATR(5), while trending days
+     yield larger intraday gains captured at session close.
+  3. Capped Daily Budget: Maximum 1 long and 1 short attempt per asset per day limits churn.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Net annualized Sharpe ratio is less than 0.80 on development data.
+  2. Maximum drawdown exceeds 30.0%.
+  3. Profit factor is less than 1.15 after realistic futures commissions and slippage.
+  4. Win rate drops below 35%.
+
+instruments:
+  - symbol: ES
+    kind: future
+    venue: CME
+    session: "09:30-16:00"
+    timezone: America/New_York
+  - symbol: NQ
+    kind: future
+    venue: CME
+    session: "09:30-16:00"
+    timezone: America/New_York
+  - symbol: DAX
+    kind: future
+    venue: Eurex
+    session: "09:00-17:30"
+    timezone: Europe/Berlin
+  - symbol: US30
+    kind: future
+    venue: CBOT
+    session: "09:30-16:00"
+    timezone: America/New_York
+  - symbol: XAUUSD
+    kind: fx
+    venue: Oanda
+    session: "08:00-17:00"
+    timezone: America/New_York
+
+data:
+  - id: es_minute
+    symbol: ES
+    role: prices
+    path: data/processed/es_1m.parquet
+  - id: nq_minute
+    symbol: NQ
+    role: prices
+    path: data/processed/nq_1m.parquet
+  - id: dax_minute
+    symbol: DAX
+    role: prices
+    path: data/processed/dax_1m.parquet
+  - id: us30_minute
+    symbol: US30
+    role: prices
+    path: data/processed/us30_1m.parquet
+  - id: xauusd_minute
+    symbol: XAUUSD
+    role: prices
+    path: data/processed/xauusd_1m.parquet
+
+evaluation:
+  cadence: 1m
+  development_start: "2024-01-02T00:00:00Z"
+  development_end: "2025-06-30T23:59:59Z"
+  holdout_start: "2025-07-01T00:00:00Z"
+  holdout_end: "2025-12-30T23:59:59Z"
+  plan: >-
+    Purged chronological evaluation on 18-month development dataset.
+    Holdout period (H2 2025) remains unread until final trial verification.
+
+baseline: >-
+  Zero-trade baseline (0% return) and static buy-and-hold equal-weight index basket.
+
+costs:
+  commission_bps: 0.5
+  slippage_bps: 0.5
+
+trials:
+  - id: trial_1_peter_baseline
+    kind: preregistered
+    description: >-
+      Exact Peter rules: Daily ATR(5), entry at Open +/- 0.4*ATR(5), stop-loss at Open,
+      exit at session close, 0.33% equity risk per trade, max 1 long and 1 short per asset/day.
+  - id: trial_2_low_vol_regime_filter
+    kind: preregistered
+    description: >-
+      Add Peter's low-volatility filter: suppress breakout entries when ATR(5) is below
+      its 20th percentile lookback.
+  - id: trial_3_multiplier_sensitivity
+    kind: diagnostic
+    description: >-
+      Map parameter sensitivity for breakout multiplier across [0.25, 0.30, 0.40, 0.50, 0.60].

@@ -1,0 +1,46 @@
+{
+  "outcome": "FAIL_PREDECLARED_SHARPE_AND_DRAWDOWN_GATE",
+  "development_months": 36,
+  "observed_ml4t_minus_equal_net_sharpe": -0.02812963521359435,
+  "paired_three_month_circular_block_bootstrap_95pct_CI": [
+    -0.08048078308236871,
+    0.016888743968251973
+  ],
+  "bootstrap_replicates": 5000,
+  "bootstrap_seed": 42,
+  "primary_cost_bps_per_one_way_transferred_unit": 10.0,
+  "model_first_label_count": 24,
+  "model_last_label_count": 59,
+  "trial_count_model_configurations": 1,
+  "baseline_comparators": [
+    "cash",
+    "equal_weight",
+    "inverse_vol"
+  ],
+  "cost_scenarios": [
+    "1x",
+    "2x",
+    "3x"
+  ],
+  "model_return_1x": 0.2510321162841087,
+  "equal_return_1x": 0.24950413088109236,
+  "inverse_vol_return_1x": 0.08942642836807568,
+  "model_return_2x": 0.24886369830339072,
+  "equal_return_2x": 0.24774066664373517,
+  "model_sharpe_1x_library_monthly": 0.940731681668141,
+  "equal_sharpe_1x_library_monthly": 0.9688613168817354,
+  "inverse_vol_sharpe_1x_library_monthly": 1.7867472093759693,
+  "invariant_checks": {
+    "model_weights_nonnegative_below_40pct": true,
+    "all_monthly_cohorts_match": true,
+    "holdout_2025_2026_opened": false,
+    "no_model_hyperparameter_tuning": true,
+    "trial_registry_is_development_only": true
+  },
+  "limits": [
+    "Monthly capital-accounting experiment, not a tradeable execution simulation",
+    "BTC funding historical settlement marks partly price proxies",
+    "Undocumented CFD financing and some execution costs",
+    "Known strategy selection exposure to 2025\u20132026, so reserved retrospective period is not independent underlying alpha confirmation"
+  ]
+}

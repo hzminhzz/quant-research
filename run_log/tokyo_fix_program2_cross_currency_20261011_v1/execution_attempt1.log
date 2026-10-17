@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py", line 270, in <module>
+    if __name__=="__main__":main()
+                            ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py", line 192, in main
+    pl.DataFrame([{k:v for k,v in r.items() if k not in ["yearly","quantiles"]} for r in lead],infer_schema_length=None).write_csv(OUT/"leadlag.csv")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/dataframe/frame.py", line 3242, in write_csv
+    self.lazy().sink_csv(
+    ~~~~~~~~~~~~~~~~~~~~^
+        target,
+        ^^^^^^^
+    ...<21 lines>...
+        engine=engine,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py", line 3976, in sink_csv
+    return _select_engine(engine).sink_csv(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<25 lines>...
+        optimizations=optimizations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 763, in sink_csv
+    return self._finish_sink(ldf_py, lazy=lazy, optimizations=optimizations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 522, in _finish_sink
+    self.collect(lf, optimizations=optimizations)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 443, in collect
+    return wrap_df(ldf.collect(self.name, callback))
+                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+polars.exceptions.ComputeError: CSV format does not support nested data

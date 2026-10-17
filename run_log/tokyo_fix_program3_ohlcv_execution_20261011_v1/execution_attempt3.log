@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 332, in <module>
+    else:run()
+         ~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 325, in run
+    results.append(native_run(v,bars,panel,reg,spec))
+                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py", line 208, in native_run
+    touch=prices.join(seg.select('session','ref'),on='session').with_columns(pl.col('timestamp').dt.convert_time_zone('Asia/Tokyo').dt.hour().cast(pl.Int32).mul(60).add(pl.col('timestamp').dt.convert_time_zone('Asia/Tokyo').dt.minute()).alias('minute'))
+          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/dataframe/frame.py", line 8532, in join
+    ._collect_eager(optimizations=QueryOptFlags._eager())
+     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py", line 2240, in _collect_eager
+    return _eager_engine().collect(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, optimizations=optimizations, background=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 443, in collect
+    return wrap_df(ldf.collect(self.name, callback))
+                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+polars.exceptions.ColumnNotFoundError: unable to find column "session"; valid columns: ["timestamp", "symbol", "open", "high", "low", "close", "volume"]

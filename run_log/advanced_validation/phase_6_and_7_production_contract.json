@@ -1,0 +1,52 @@
+{
+  "holdout_audit": {
+    "evaluation_sample": "2018-01-01 to 2024-12-31 (7 Years Full Cycle)",
+    "total_historical_trials": 20,
+    "observed_annual_sharpe": 0.69,
+    "daily_sharpe": 0.0435,
+    "expected_max_null_sr": 1.358,
+    "deflated_sharpe_probability": 0.0387,
+    "dsr_passed": false,
+    "alpha_source": "Volatility breakout momentum expansion across 6 uncorrelated assets"
+  },
+  "production_contract": {
+    "execution_rules": {
+      "order_type": "EXCHANGE_NATIVE_STOP_ORDER",
+      "venue_allocation": {
+        "ES": "CME E-mini Futures (Commission: $1.50/contract, Slippage: 1 tick)",
+        "NQ": "CME E-mini Futures (Commission: $1.50/contract, Slippage: 1 tick)",
+        "US30": "CBOT E-mini Futures (Commission: $1.50/contract, Slippage: 1 tick)",
+        "CL": "NYMEX Crude Oil Futures (Commission: $1.50/contract, Slippage: 1 tick)",
+        "XAUUSD": "Oanda / Spot Forex Gold (Commission: 0.5 bps, Spread: 25 cents)",
+        "DAX": "Eurex DAX Futures (Commission: \u20ac1.00/contract, Slippage: 0.5 tick)"
+      },
+      "position_sizing_rule": "Shares = (Equity * 0.0033) / (0.40 * ATR_5)",
+      "max_gross_intraday_leverage": 4.0,
+      "max_single_asset_risk_pct": 0.33,
+      "max_daily_portfolio_risk_pct": 3.96
+    },
+    "risk_limits": {
+      "max_single_day_drawdown_limit_pct": 4.0,
+      "max_trailing_drawdown_limit_pct": 18.0,
+      "max_consecutive_stopouts": 8
+    },
+    "kill_switch_triggers": [
+      {
+        "trigger": "portfolio_trailing_drawdown >= 18.0%",
+        "action": "HALT_TRADING_AND_FLATTEN_ALL_POSITIONS_IMMEDIATELY"
+      },
+      {
+        "trigger": "single_day_loss >= 4.0%",
+        "action": "CANCEL_PENDING_ORDERS_AND_HALT_REMAINDER_OF_DAY"
+      },
+      {
+        "trigger": "data_feed_gap_detected > 3_bars",
+        "action": "CANCEL_OPEN_BREAKOUT_STOPS_AND_NOTIFY"
+      },
+      {
+        "trigger": "position_held_past_session_close",
+        "action": "FORCE_MARKET_ON_CLOSE_FLATTEN"
+      }
+    ]
+  }
+}

@@ -1,0 +1,559 @@
+{
+  "primary_nqf_subset": {
+    "provenance": "19/64 days; INCOMPLETE_SOURCE_DIAGNOSTIC_ONLY",
+    "audits": {
+      "B1_gross": {
+        "trades": 64,
+        "fills": 128,
+        "limit_fills": 50,
+        "errors": {},
+        "net_pnl_usd": -895.0
+      },
+      "B1_cost": {
+        "trades": 64,
+        "fills": 128,
+        "limit_fills": 50,
+        "errors": {},
+        "net_pnl_usd": -1605.0
+      },
+      "B1_stress": {
+        "trades": 64,
+        "fills": 128,
+        "limit_fills": 50,
+        "errors": {},
+        "net_pnl_usd": -1995.0
+      },
+      "B2_gross": {
+        "trades": 19,
+        "fills": 38,
+        "limit_fills": 8,
+        "errors": {},
+        "net_pnl_usd": -945.0000000002328
+      },
+      "B2_cost": {
+        "trades": 19,
+        "fills": 38,
+        "limit_fills": 8,
+        "errors": {},
+        "net_pnl_usd": -1190.0000000002328
+      },
+      "B2_stress": {
+        "trades": 19,
+        "fills": 38,
+        "limit_fills": 8,
+        "errors": {},
+        "net_pnl_usd": -1340.0000000002328
+      },
+      "B3_gross": {
+        "trades": 14,
+        "fills": 28,
+        "limit_fills": 11,
+        "errors": {},
+        "net_pnl_usd": -355.0
+      },
+      "B3_cost": {
+        "trades": 14,
+        "fills": 28,
+        "limit_fills": 11,
+        "errors": {},
+        "net_pnl_usd": -510.0
+      },
+      "B3_stress": {
+        "trades": 14,
+        "fills": 28,
+        "limit_fills": 11,
+        "errors": {},
+        "net_pnl_usd": -595.0
+      }
+    }
+  },
+  "secondary_nas100_cross_source": {
+    "provenance": "CASH_INDEX_NOT_CME_OOS",
+    "audits": {
+      "B1_gross": {
+        "trades": 174,
+        "fills": 348,
+        "limit_fills": 149,
+        "errors": {},
+        "net_pnl_usd": 2079.0
+      },
+      "B1_cost": {
+        "trades": 174,
+        "fills": 348,
+        "limit_fills": 149,
+        "errors": {},
+        "net_pnl_usd": 214.0
+      },
+      "B1_stress": {
+        "trades": 174,
+        "fills": 348,
+        "limit_fills": 149,
+        "errors": {},
+        "net_pnl_usd": -781.0
+      },
+      "B2_gross": {
+        "trades": 73,
+        "fills": 146,
+        "limit_fills": 28,
+        "errors": {
+          "unpaired/reverse fill": 2
+        },
+        "net_pnl_usd": -11288.0
+      },
+      "B2_cost": {
+        "trades": 73,
+        "fills": 146,
+        "limit_fills": 28,
+        "errors": {
+          "unpaired/reverse fill": 2
+        },
+        "net_pnl_usd": -12243.0
+      },
+      "B2_stress": {
+        "trades": 73,
+        "fills": 146,
+        "limit_fills": 28,
+        "errors": {
+          "unpaired/reverse fill": 2
+        },
+        "net_pnl_usd": -12833.0
+      },
+      "B3_gross": {
+        "trades": 47,
+        "fills": 94,
+        "limit_fills": 37,
+        "errors": {},
+        "net_pnl_usd": -2141.0
+      },
+      "B3_cost": {
+        "trades": 47,
+        "fills": 94,
+        "limit_fills": 37,
+        "errors": {},
+        "net_pnl_usd": -2661.0
+      },
+      "B3_stress": {
+        "trades": 47,
+        "fills": 94,
+        "limit_fills": 37,
+        "errors": {},
+        "net_pnl_usd": -2946.0
+      }
+    }
+  },
+  "phase6_dev": {
+    "provenance": "Jan-Jun 2026 development only",
+    "audits": {
+      "B1_stress4tick": {
+        "trades": 320,
+        "fills": 640,
+        "limit_fills": 276,
+        "errors": {},
+        "net_pnl_usd": -2055.0
+      },
+      "B1_limit_queue1tick": {
+        "trades": 317,
+        "fills": 634,
+        "limit_fills": 273,
+        "errors": {},
+        "net_pnl_usd": 3395.0
+      },
+      "B2_stress4tick": {
+        "trades": 115,
+        "fills": 230,
+        "limit_fills": 60,
+        "errors": {},
+        "net_pnl_usd": 4300.0
+      },
+      "B2_limit_queue1tick": {
+        "trades": 115,
+        "fills": 230,
+        "limit_fills": 60,
+        "errors": {},
+        "net_pnl_usd": 6850.0
+      },
+      "B3_stress4tick": {
+        "trades": 77,
+        "fills": 154,
+        "limit_fills": 60,
+        "errors": {},
+        "net_pnl_usd": 2899.999999999767
+      },
+      "B3_limit_queue1tick": {
+        "trades": 77,
+        "fills": 154,
+        "limit_fills": 60,
+        "errors": {},
+        "net_pnl_usd": 4309.999999999767
+      }
+    }
+  },
+  "partial_monthly_and_bootstrap": {
+    "B1": {
+      "calendar_months": {
+        "2026-07": {
+          "days": 11,
+          "net_usd": -400.0
+        },
+        "2026-09": {
+          "days": 8,
+          "net_usd": -1205.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": -84.47368421052632,
+        "total_usd": -1605.0,
+        "iid_total_95pct_ci_usd": [
+          -6215.125000000233,
+          2235.125000000112
+        ],
+        "block5_total_95pct_ci_usd": [
+          -5465.500000000116,
+          2320.0000000000027
+        ],
+        "block5_probability_total_nonpositive": 0.7922
+      }
+    },
+    "B2": {
+      "calendar_months": {
+        "2026-07": {
+          "days": 11,
+          "net_usd": -1540.0
+        },
+        "2026-09": {
+          "days": 8,
+          "net_usd": 350.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": -62.631578947380675,
+        "total_usd": -1190.0000000002328,
+        "iid_total_95pct_ci_usd": [
+          -5430.375,
+          2950.1249999997654
+        ],
+        "block5_total_95pct_ci_usd": [
+          -4305.0,
+          2055.374999999756
+        ],
+        "block5_probability_total_nonpositive": 0.7785
+      }
+    },
+    "B3": {
+      "calendar_months": {
+        "2026-07": {
+          "days": 11,
+          "net_usd": -160.0
+        },
+        "2026-09": {
+          "days": 8,
+          "net_usd": -350.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": -26.842105263157894,
+        "total_usd": -510.0,
+        "iid_total_95pct_ci_usd": [
+          -2529.9999999998836,
+          1289.9999999998865
+        ],
+        "block5_total_95pct_ci_usd": [
+          -1690.0,
+          830.0
+        ],
+        "block5_probability_total_nonpositive": 0.8002
+      }
+    },
+    "B3_minus_B2_paired": {
+      "sessions": 19,
+      "sampling": {
+        "daily_mean_usd": 35.78947368422278,
+        "total_usd": 680.0000000002328,
+        "iid_total_95pct_ci_usd": [
+          -2654.999999999892,
+          4155.125000000338
+        ],
+        "block5_total_95pct_ci_usd": [
+          -1625.1249999997497,
+          3084.9999999998895
+        ],
+        "block5_probability_total_nonpositive": 0.2782
+      }
+    }
+  },
+  "index_monthly_and_bootstrap": {
+    "B1": {
+      "calendar_months": {
+        "2026-07": {
+          "days": 22,
+          "net_usd": -68.0
+        },
+        "2026-08": {
+          "days": 21,
+          "net_usd": 703.0
+        },
+        "2026-09": {
+          "days": 21,
+          "net_usd": -421.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": 3.34375,
+        "total_usd": 214.0,
+        "iid_total_95pct_ci_usd": [
+          -9026.075,
+          8734.299999999996
+        ],
+        "block5_total_95pct_ci_usd": [
+          -8610.05,
+          8268.199999999997
+        ],
+        "block5_probability_total_nonpositive": 0.4716
+      }
+    },
+    "B2": {
+      "calendar_months": {
+        "2026-07": {
+          "days": 22,
+          "net_usd": -777.0
+        },
+        "2026-08": {
+          "days": 21,
+          "net_usd": -5261.0
+        },
+        "2026-09": {
+          "days": 21,
+          "net_usd": -6205.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": -191.296875,
+        "total_usd": -12243.0,
+        "iid_total_95pct_ci_usd": [
+          -21094.075,
+          -4333.400000000009
+        ],
+        "block5_total_95pct_ci_usd": [
+          -21222.075,
+          -3994.925000000001
+        ],
+        "block5_probability_total_nonpositive": 0.9986
+      }
+    },
+    "B3": {
+      "calendar_months": {
+        "2026-07": {
+          "days": 22,
+          "net_usd": 1917.0
+        },
+        "2026-08": {
+          "days": 21,
+          "net_usd": -1675.0
+        },
+        "2026-09": {
+          "days": 21,
+          "net_usd": -2903.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": -41.578125,
+        "total_usd": -2661.0,
+        "iid_total_95pct_ci_usd": [
+          -10141.05,
+          3823.2999999999956
+        ],
+        "block5_total_95pct_ci_usd": [
+          -9907.125,
+          3929.0
+        ],
+        "block5_probability_total_nonpositive": 0.7696
+      }
+    },
+    "B3_minus_B2_paired": {
+      "sessions": 64,
+      "sampling": {
+        "daily_mean_usd": 149.71875,
+        "total_usd": 9582.0,
+        "iid_total_95pct_ci_usd": [
+          3862.95,
+          16637.225
+        ],
+        "block5_total_95pct_ci_usd": [
+          4590.95,
+          15247.124999999998
+        ],
+        "block5_probability_total_nonpositive": 0.0
+      }
+    }
+  },
+  "development_monthly_and_bootstrap": {
+    "B1": {
+      "calendar_months": {
+        "2026-01": {
+          "days": 20,
+          "net_usd": 960.0
+        },
+        "2026-02": {
+          "days": 19,
+          "net_usd": 3660.0
+        },
+        "2026-03": {
+          "days": 21,
+          "net_usd": -5050.0
+        },
+        "2026-04": {
+          "days": 21,
+          "net_usd": 2420.0
+        },
+        "2026-05": {
+          "days": 20,
+          "net_usd": 1250.0
+        },
+        "2026-06": {
+          "days": 21,
+          "net_usd": 165.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": 27.90983606557377,
+        "total_usd": 3405.0,
+        "iid_total_95pct_ci_usd": [
+          -15395.125,
+          20575.12500000044
+        ],
+        "block5_total_95pct_ci_usd": [
+          -17265.37500000011,
+          21860.37500000011
+        ],
+        "block5_probability_total_nonpositive": 0.3509
+      }
+    },
+    "B2": {
+      "calendar_months": {
+        "2026-01": {
+          "days": 20,
+          "net_usd": 1045.0
+        },
+        "2026-02": {
+          "days": 19,
+          "net_usd": 2290.0
+        },
+        "2026-03": {
+          "days": 21,
+          "net_usd": -1115.0
+        },
+        "2026-04": {
+          "days": 21,
+          "net_usd": 1640.0
+        },
+        "2026-05": {
+          "days": 20,
+          "net_usd": 5430.0
+        },
+        "2026-06": {
+          "days": 21,
+          "net_usd": -2440.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": 56.14754098360656,
+        "total_usd": 6850.0,
+        "iid_total_95pct_ci_usd": [
+          -5630.375000000229,
+          19620.75000000022
+        ],
+        "block5_total_95pct_ci_usd": [
+          -7465.124999999886,
+          19565.125000000116
+        ],
+        "block5_probability_total_nonpositive": 0.1557
+      }
+    },
+    "B3": {
+      "calendar_months": {
+        "2026-01": {
+          "days": 20,
+          "net_usd": 2155.0
+        },
+        "2026-02": {
+          "days": 19,
+          "net_usd": 5135.0
+        },
+        "2026-03": {
+          "days": 21,
+          "net_usd": -6400.0
+        },
+        "2026-04": {
+          "days": 21,
+          "net_usd": 2585.0
+        },
+        "2026-05": {
+          "days": 20,
+          "net_usd": 2260.0
+        },
+        "2026-06": {
+          "days": 21,
+          "net_usd": -1425.0
+        }
+      },
+      "sampling": {
+        "daily_mean_usd": 35.32786885245711,
+        "total_usd": 4309.999999999767,
+        "iid_total_95pct_ci_usd": [
+          -8180.375000000582,
+          17819.999999999887
+        ],
+        "block5_total_95pct_ci_usd": [
+          -10910.000000000238,
+          18930.124999999993
+        ],
+        "block5_probability_total_nonpositive": 0.2732
+      }
+    },
+    "B3_minus_B2_paired": {
+      "sessions": 122,
+      "sampling": {
+        "daily_mean_usd": -20.81967213114945,
+        "total_usd": -2540.000000000233,
+        "iid_total_95pct_ci_usd": [
+          -14175.250000000568,
+          8860.499999999765
+        ],
+        "block5_total_95pct_ci_usd": [
+          -15750.37500000057,
+          9495.62499999987
+        ],
+        "block5_probability_total_nonpositive": 0.6405
+      }
+    }
+  },
+  "not_deployment_approval": true,
+  "missing_CME_dated_contracts_rolls_volume_and_fills": true,
+  "trials_dsr_status": "UNREPRODUCIBLE_FULL_HISTORICAL_TRIAL_ACCOUNTING",
+  "retrospective_OOS_not_pristine": true,
+  "no_november_holdout_used": true,
+  "all_native_execution_audits_pass": false,
+  "errors": [
+    [
+      "secondary_nas100_cross_source",
+      "B2_gross",
+      {
+        "unpaired/reverse fill": 2
+      }
+    ],
+    [
+      "secondary_nas100_cross_source",
+      "B2_cost",
+      {
+        "unpaired/reverse fill": 2
+      }
+    ],
+    [
+      "secondary_nas100_cross_source",
+      "B2_stress",
+      {
+        "unpaired/reverse fill": 2
+      }
+    ]
+  ]
+}

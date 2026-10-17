@@ -1,0 +1,181 @@
+# Research session specification: 10-Asset Universe Time-Series Momentum
+# Session ID: crypto_tsmom_top10_universe
+# Expanding universe from 3 coins to Top 10 Liquid Binance USD-M Futures assets.
+session_id: crypto_tsmom_top10_universe
+market: crypto
+
+thesis: >-
+  Extending Time-Series Momentum across a 10-asset diversified panel of major Binance USD-M perpetual futures
+  (BTC, ETH, SOL, XRP, DOGE, ADA, AVAX, NEAR, BAND, BAL) with passive maker execution (1.8 bps fee, 0.0 bps slippage)
+  and volatility-targeted risk parity achieves enhanced risk-adjusted returns (Sharpe > 1.20, Max DD < 20%)
+  and cross-sectional diversification resilience relative to a concentrated 3-asset trio.
+
+mechanism: >-
+  1. Cross-Asset Diversification: Expanding breadth from 3 to 10 assets dampens idiosyncratic coin crashes
+     (e.g., individual regulatory or network shocks) while capturing widespread crypto macro liquidity expansions.
+  2. Volatility Risk Parity: Equalizing marginal risk contribution ($w_i \propto 1/\sigma_i$) ensures high-beta
+     meme/alt tokens (DOGE, AVAX) do not dominate portfolio variance relative to large caps (BTC, ETH).
+  3. Execution Spread Advantage: Passive maker post-only limit orders reduce portfolio churn friction to 3.6 bps roundtrip,
+     enabling high-capacity multi-asset trend harvesting.
+
+falsifier: >-
+  Reject the thesis if:
+  1. 10-asset portfolio annualized net Sharpe ratio fails to exceed 1.00 on development data.
+  2. Maximum portfolio drawdown exceeds 20.0%.
+  3. Deflated Sharpe Ratio (DSR) fails to exceed 0.85 across cumulative evaluated trials.
+  4. Trading friction consumes more than 15.0% of gross trading profits under maker execution.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: SOLUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: XRPUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: DOGEUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ADAUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: AVAXUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: NEARUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: BANDUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: BALUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1h.parquet
+  - id: eth_prices_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1h.parquet
+  - id: sol_prices_1h
+    symbol: SOLUSDT
+    role: prices
+    path: data/processed/sol_1h.parquet
+  - id: xrp_prices_1h
+    symbol: XRPUSDT
+    role: prices
+    path: data/processed/xrp_1h.parquet
+  - id: doge_prices_1h
+    symbol: DOGEUSDT
+    role: prices
+    path: data/processed/doge_1h.parquet
+  - id: ada_prices_1h
+    symbol: ADAUSDT
+    role: prices
+    path: data/processed/ada_1h.parquet
+  - id: avax_prices_1h
+    symbol: AVAXUSDT
+    role: prices
+    path: data/processed/avax_1h.parquet
+  - id: near_prices_1h
+    symbol: NEARUSDT
+    role: prices
+    path: data/processed/near_1h.parquet
+  - id: band_prices_1h
+    symbol: BANDUSDT
+    role: prices
+    path: data/processed/band_1h.parquet
+  - id: bal_prices_1h
+    symbol: BALUSDT
+    role: prices
+    path: data/processed/bal_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+  - id: sol_funding
+    symbol: SOLUSDT
+    role: funding
+    path: data/processed/sol_funding.parquet
+  - id: xrp_funding
+    symbol: XRPUSDT
+    role: funding
+    path: data/processed/xrp_funding.parquet
+  - id: doge_funding
+    symbol: DOGEUSDT
+    role: funding
+    path: data/processed/doge_funding.parquet
+  - id: ada_funding
+    symbol: ADAUSDT
+    role: funding
+    path: data/processed/ada_funding.parquet
+  - id: avax_funding
+    symbol: AVAXUSDT
+    role: funding
+    path: data/processed/avax_funding.parquet
+  - id: near_funding
+    symbol: NEARUSDT
+    role: funding
+    path: data/processed/near_funding.parquet
+  - id: band_funding
+    symbol: BANDUSDT
+    role: funding
+    path: data/processed/band_funding.parquet
+  - id: bal_funding
+    symbol: BALUSDT
+    role: funding
+    path: data/processed/bal_funding.parquet
+
+evaluation:
+  cadence: 1h
+  development_start: "2021-01-01T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-07-31T23:59:59Z"
+  plan: >-
+    Evaluate 10-asset universe portfolio construction (Equal-weight, Volatility-Targeted, and Cross-Sectional Ranking)
+    over 4-year development data. Holdout window (2025-01-01 to 2026-07-31) remains strictly untouched until Phase 7.
+
+baseline: >-
+  10-asset equal-weight Buy-and-Hold benchmark and 3-asset trio baseline (Iteration 3: Sharpe 1.572).
+
+costs:
+  commission_bps: 1.8
+  slippage_bps: 0.0
+  funding_included: true
+  assumptions: >-
+    Binance USD-M Futures VIP 0 maker fee of 1.8 bps with BNB discount and 0.0 bps slippage for passive limit fills (3.6 bps roundtrip).
+    Signed 8-hour perpetual funding rate cash flows applied at settlement marks.
+
+trials:
+  - id: trial_1_top10_equal_weight_tsmom
+    kind: preregistered
+    description: >-
+      Equal-weight TSMOM across 10 assets: 10% maximum target weight per coin with positive ROC_168 under maker execution.
+  - id: trial_2_top10_vol_targeted_risk_parity
+    kind: preregistered
+    description: >-
+      Volatility-targeted risk parity TSMOM across 10 assets: Inverse volatility scaling (1 / sigma_i)
+      normalizing annualized risk budget across the 10-coin panel.
+  - id: trial_3_top10_cross_sectional_top_quintile
+    kind: preregistered
+    description: >-
+      Cross-sectional relative momentum: Long only the top 3 coins (top 30%) with highest positive ROC_168,
+      concentrating capital in the strongest market leaders.
+  - id: trial_4_top10_regime_gated_maker
+    kind: preregistered
+    description: >-
+      Multi-factor regime-gated 10-asset TSMOM: Scaling risk continuously by ADX trend conviction and choppiness filters.

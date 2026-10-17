@@ -1,0 +1,452 @@
+............................................................s........... [ 13%]
+........................................................................ [ 26%]
+........................................................................ [ 40%]
+...............F...FF.F....FFFFF......F................................. [ 53%]
+.......................................................F................ [ 66%]
+........................................................................ [ 80%]
+........................................................................ [ 93%]
+..........................F.F.....                                       [100%]
+=================================== FAILURES ===================================
+___________ test_input_partition_selection_excludes_protected_august ___________
+
+    def test_input_partition_selection_excludes_protected_august():
+        for symbol in ("NQ", "ES"):
+            files = input_files(symbol)
+>           assert files
+E           assert []
+
+tests/test_one_bar_50breakout_20261011.py:18: AssertionError
+_________________ test_es_schema_drift_is_normalized_read_only _________________
+
+    def test_es_schema_drift_is_normalized_read_only():
+        es = audit.STORE / "index_minute_ES"
+        old = es / "year=2012/month=10/data.parquet"
+        later = es / "year=2013/month=1/data.parquet"
+>       assert "year" not in pl.read_parquet_schema(old)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_b0_cross_indices_20261012.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.14/site-packages/polars/io/parquet/functions.py:403: in read_parquet_schema
+    return scan_parquet(source).collect_schema()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <LazyFrame at 0x7F39485E5680>
+
+    def collect_schema(self) -> Schema:
+        """
+        Resolve the schema of this LazyFrame.
+    
+        .. caution::
+            Computing the schema of a LazyFrame is a potentially expensive operation,
+            as it may involve reading metadata from (slow) disk storage, or performing
+            network requests if the data is remote.
+    
+        Examples
+        --------
+        Determine the schema.
+    
+        >>> lf = pl.LazyFrame(
+        ...     {
+        ...         "foo": [1, 2, 3],
+        ...         "bar": [6.0, 7.0, 8.0],
+        ...         "ham": ["a", "b", "c"],
+        ...     }
+        ... )
+        >>> lf.collect_schema()
+        Schema({'foo': Int64, 'bar': Float64, 'ham': String})
+    
+        Access various properties of the schema.
+    
+        >>> schema = lf.collect_schema()
+        >>> schema["bar"]
+        Float64
+        >>> schema.names()
+        ['foo', 'bar', 'ham']
+        >>> schema.dtypes()
+        [Int64, Float64, String]
+        >>> schema.len()
+        3
+        """
+>       return Schema(self._ldf.collect_schema(), check_dtypes=False)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: No such file or directory (os error 2): ...me/quant/dev/quant/ml4t-data/.data/store/index_minute_ES/year=2012/month=10/data.parquet (set POLARS_VERBOSE=1 to see full path)
+
+.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py:2760: FileNotFoundError
+_____________ test_hang_seng_available_only_at_different_frequency _____________
+
+    def test_hang_seng_available_only_at_different_frequency():
+        quality = json.loads((audit.OUT / "phase2_quality.json").read_text())
+        manifest = json.loads((audit.OUT / "source_manifest.json").read_text())
+        assert quality["HSI"]["status"] == "BLOCKED_1M_NOT_FOUND_5M_AVAILABLE"
+        assert quality["HSI"]["alternate_frequency"] == "5m"
+        assert manifest["HSI"]["one_minute_source"] is None
+>       assert Path(manifest["HSI"]["five_minute_source"]).is_file()
+E       AssertionError: assert False
+E        +  where False = is_file()
+E        +    where is_file = PosixPath('/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet').is_file
+E        +      where PosixPath('/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet') = Path('/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet')
+
+tests/test_one_bar_b0_cross_indices_20261012.py:60: AssertionError
+_________________ test_quarantine_cannot_make_2024_2025_usable _________________
+
+    def test_quarantine_cannot_make_2024_2025_usable():
+        r=read("dax_quality_repair_gate.json")
+        assert r["status"]=="DIAGNOSTIC_QUARANTINE_ONLY_NOT_REPAIRED"
+        assert r["years"]["2024"]["retained_complete_bin_fraction_of_original"]<0.3
+        assert r["years"]["2025"]["retained_complete_bin_fraction_of_original"]<0.16
+        assert r["years"]["2026"]["retained_complete_bin_fraction_of_original"]<0.75
+        assert r["daily_reference"]["source_provenance_verified"] is False
+        for i in ("2024","2025","2026"):
+            v=r["years"][i]
+            assert v["raw_rows"]==v["all_OHLC_above_floor_rows"]+v["quarantined_rows"]
+            assert v["safe_30m"]["complete_30m_bins"]<=v["raw_30m"]["complete_30m_bins"]
+        for x in r["source_sample_sha256"]:
+>           assert hashlib.sha256(Path(x["file"]).read_bytes()).hexdigest()==x["sha256"]
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_b0_dax_nikkei_followup_20261012.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/pathlib/__init__.py:777: in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/home/quant/dev/quant/ml4t-data/.data/store/index_minute_DAX/year=2024/month=9/data.parquet')
+mode = 'rb', buffering = 0, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/home/quant/dev/quant/ml4t-data/.data/store/index_minute_DAX/year=2024/month=9/data.parquet'
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/pathlib/__init__.py:771: FileNotFoundError
+____________________ test_ES_readonly_schema_normalization _____________________
+
+    def test_ES_readonly_schema_normalization():
+>       x=cross.scan_index(cross.store_paths("ES", 2013))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_cross_indices_native_20261012.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/audit_one_bar_b0_cross_indices_20261012.py:51: in scan_index
+    tz = lazy.collect_schema()["timestamp"].time_zone
+         ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <LazyFrame at 0x7F393D7F4D70>
+
+    def collect_schema(self) -> Schema:
+        """
+        Resolve the schema of this LazyFrame.
+    
+        .. caution::
+            Computing the schema of a LazyFrame is a potentially expensive operation,
+            as it may involve reading metadata from (slow) disk storage, or performing
+            network requests if the data is remote.
+    
+        Examples
+        --------
+        Determine the schema.
+    
+        >>> lf = pl.LazyFrame(
+        ...     {
+        ...         "foo": [1, 2, 3],
+        ...         "bar": [6.0, 7.0, 8.0],
+        ...         "ham": ["a", "b", "c"],
+        ...     }
+        ... )
+        >>> lf.collect_schema()
+        Schema({'foo': Int64, 'bar': Float64, 'ham': String})
+    
+        Access various properties of the schema.
+    
+        >>> schema = lf.collect_schema()
+        >>> schema["bar"]
+        Float64
+        >>> schema.names()
+        ['foo', 'bar', 'ham']
+        >>> schema.dtypes()
+        [Int64, Float64, String]
+        >>> schema.len()
+        3
+        """
+>       return Schema(self._ldf.collect_schema(), check_dtypes=False)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       polars.exceptions.ComputeError: failed to retrieve first file schema (parquet): empty input: paths: []. Hint: passing a schema can allow this scan to succeed with an empty DataFrame.
+
+.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py:2760: ComputeError
+__________ test_causal_completed_bar_levels_and_source_retention[ES] ___________
+
+symbol = 'ES'
+
+    @pytest.mark.parametrize("symbol", ["ES","DAX","NIKKEI225"])
+    def test_causal_completed_bar_levels_and_source_retention(symbol):
+>       feed,q=cross.build_feed(symbol,2026)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_cross_indices_native_20261012.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+symbol = 'ES', year = 2026
+
+    def build_feed(symbol: str, year: int) -> tuple[pl.DataFrame, dict]:
+        paths = store_paths(symbol, year)
+        if not paths:
+>           raise ValueError(f"No source partitions for {symbol} {year}")
+E           ValueError: No source partitions for ES 2026
+
+scripts/run_one_bar_cross_indices_native_20261012.py:64: ValueError
+__________ test_causal_completed_bar_levels_and_source_retention[DAX] __________
+
+symbol = 'DAX'
+
+    @pytest.mark.parametrize("symbol", ["ES","DAX","NIKKEI225"])
+    def test_causal_completed_bar_levels_and_source_retention(symbol):
+>       feed,q=cross.build_feed(symbol,2026)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_cross_indices_native_20261012.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+symbol = 'DAX', year = 2026
+
+    def build_feed(symbol: str, year: int) -> tuple[pl.DataFrame, dict]:
+        paths = store_paths(symbol, year)
+        if not paths:
+>           raise ValueError(f"No source partitions for {symbol} {year}")
+E           ValueError: No source partitions for DAX 2026
+
+scripts/run_one_bar_cross_indices_native_20261012.py:64: ValueError
+_______ test_causal_completed_bar_levels_and_source_retention[NIKKEI225] _______
+
+symbol = 'NIKKEI225'
+
+    @pytest.mark.parametrize("symbol", ["ES","DAX","NIKKEI225"])
+    def test_causal_completed_bar_levels_and_source_retention(symbol):
+>       feed,q=cross.build_feed(symbol,2026)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_cross_indices_native_20261012.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+symbol = 'NIKKEI225', year = 2026
+
+    def build_feed(symbol: str, year: int) -> tuple[pl.DataFrame, dict]:
+        paths = store_paths(symbol, year)
+        if not paths:
+>           raise ValueError(f"No source partitions for {symbol} {year}")
+E           ValueError: No source partitions for NIKKEI225 2026
+
+scripts/run_one_bar_cross_indices_native_20261012.py:64: ValueError
+____________ test_nq_signal_feed_matches_original_2026_after_warmup ____________
+
+    def test_nq_signal_feed_matches_original_2026_after_warmup():
+>       canonical,_=original.build_year_feed(2026)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_one_bar_cross_indices_native_20261012.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/run_one_bar_practical_yearly_20261012.py:138: in build_year_feed
+    .sort("timestamp").collect()
+                       ^^^^^^^^^
+.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py:97: in wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/polars/lazyframe/opt_flags.py:361: in wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py:2591: in collect
+    return engine_.collect(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = _AutoEngine(), lf = <LazyFrame at 0x7F393D7F7D40>
+optimizations = <polars.lazyframe.opt_flags.QueryOptFlags object at 0x7f39480f6ba0>
+background = False, post_opt_callback = None
+
+    def collect(
+        self,
+        lf: LazyFrame,
+        *,
+        optimizations: QueryOptFlags,
+        background: bool = False,
+        post_opt_callback: PostOptCallback | None = None,
+    ) -> DataFrame | InProcessQuery:
+        callback = self._post_opt_callback(
+            background=background, eager=optimizations._pyoptflags.eager
+        )
+        optimizations = self._with_monitoring(optimizations)
+    
+        ldf = lf._ldf.with_optimizations(optimizations._pyoptflags)
+        if background:
+            issue_unstable_warning("background mode is considered unstable.")
+            return InProcessQuery(ldf.collect_concurrently())
+    
+        if post_opt_callback is not None:
+            callback = post_opt_callback
+>       return wrap_df(ldf.collect(self.name, callback))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       polars.exceptions.ComputeError: failed to retrieve first file schema (parquet): empty input: paths: []. Hint: passing a schema can allow this scan to succeed with an empty DataFrame.
+
+.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py:443: ComputeError
+_____________ test_source_partitions_exclude_protected_august_2026 _____________
+
+    def test_source_partitions_exclude_protected_august_2026():
+        paths = input_files()
+>       assert paths
+E       assert []
+
+tests/test_one_bar_dukascopy_2013_2026_20261011.py:10: AssertionError
+__________ test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict ___________
+
+    def test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict():
+        process = subprocess.run(
+            [
+                sys.executable,
+                str(CLI),
+                "doctor",
+                "--session",
+                "vwap_pullback_adx_dukascopy_20261012_v1",
+                "--root",
+                str(ROOT),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            timeout=45,
+            check=False,
+        )
+        result = json.loads(process.stdout)
+        conflict = next(
+            item
+            for item in result["findings"]
+            if item["reason_code"] == "SOURCE_IDENTITY_CONFLICT"
+        )
+        assert conflict["requested"] == "Dukascopy USATECH.IDX/USD"
+>       assert any(
+            item["source_symbol"] == "NQ.F"
+            for item in conflict["observed_catalog_candidates"]
+        )
+E       assert False
+E        +  where False = any(<generator object test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict.<locals>.<genexpr> at 0x7f393d7731d0>)
+
+tests/test_research_control.py:534: AssertionError
+__________________________ test_session_grid_and_dst ___________________________
+
+    def test_session_grid_and_dst():
+>       x=prepare()
+          ^^^^^^^^^
+
+tests/test_vwap_pullback_adx_phase4_20261012.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/run_vwap_pullback_adx_phase4_20261012.py:47: in prepare
+    if sha(SOURCE) != EXPECTED_SHA:
+       ^^^^^^^^^^^
+scripts/run_vwap_pullback_adx_phase4_20261012.py:40: in sha
+    with path.open("rb") as f:
+         ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/home/quant/dev/quant/quant-research/data/processed/vwap_adx_nqf_2026h1_1m.parquet')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/home/quant/dev/quant/quant-research/data/processed/vwap_adx_nqf_2026h1_1m.parquet'
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/pathlib/__init__.py:771: FileNotFoundError
+___________ test_primary_nqf_data_incomplete_and_no_august_sessions ____________
+
+    def test_primary_nqf_data_incomplete_and_no_august_sessions():
+>       feed,qa=p5.build()
+                ^^^^^^^^^^
+
+tests/test_vwap_pullback_adx_phase56_20261012.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/run_vwap_pullback_adx_phase5_20261012.py:21: in build
+    assert hashlib.sha256(FILE.read_bytes()).hexdigest()==SHA
+                          ^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/pathlib/__init__.py:777: in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/home/quant/dev/quant/quant-research/data/processed/vwap_adx_nqf_2026h2_validation_1m.parquet')
+mode = 'rb', buffering = 0, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/home/quant/dev/quant/quant-research/data/processed/vwap_adx_nqf_2026h2_validation_1m.parquet'
+
+../../../.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/pathlib/__init__.py:771: FileNotFoundError
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:47: PendingDeprecationWarning: The set_bad function will be deprecated in a future version. Use cmap.with_extremes(bad=...) or Colormap(bad=...) instead.
+    red_blue.set_bad(gray_rgb.tolist(), 1.0)
+
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:48: PendingDeprecationWarning: The set_over function will be deprecated in a future version. Use cmap.with_extremes(over=...) or Colormap(over=...) instead.
+    red_blue.set_over(gray_rgb.tolist(), 1.0)
+
+.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/plots/colors/_colors.py:49: PendingDeprecationWarning: The set_under function will be deprecated in a future version. Use cmap.with_extremes(under=...) or Colormap(under=...) instead.
+    red_blue.set_under(gray_rgb.tolist(), 1.0)  # "under" is incorrectly used instead of "bad" in the scatter plot
+
+.venv/lib/python3.14/site-packages/websockets/legacy/__init__.py:6
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/websockets/legacy/__init__.py:6: DeprecationWarning: websockets.legacy is deprecated; see https://websockets.readthedocs.io/en/stable/howto/upgrade.html for upgrade instructions
+    warnings.warn(  # deprecated in 14.0 - 2024-11-09
+
+tests/test_meta_labeling.py::test_meta_classifier_training_and_cpcv
+tests/test_validated_model_path.py::test_temporal_model_path_uses_interval_validation_and_complete_scores
+tests/test_validated_orb_runner.py::test_temporal_cpcv_returns_diagnostics_for_every_combination
+  /home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/shap/explainers/_tree.py:632: UserWarning: LightGBM binary classifier with TreeExplainer shap values output has changed to a list of ndarray
+    warnings.warn(
+
+tests/test_one_bar_shadow_xyz100.py::test_transient_hyperliquid_disconnect_retries_without_failing_feed
+  /home/quant/dev/quant/quant-research/tests/test_one_bar_shadow_xyz100.py:47: ExperimentalFeedWarning: CryptoFeed experimental opt-in accepted. Missing stable guarantees: bounded overload behavior, provider continuity across reconnect, credentialed exchange qualification.
+    feed = FiniteFeed(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_one_bar_50breakout_20261011.py::test_input_partition_selection_excludes_protected_august - assert []
+FAILED tests/test_one_bar_b0_cross_indices_20261012.py::test_es_schema_drift_is_normalized_read_only - FileNotFoundError: No such file or directory (os error 2): ...me/quant/dev/quant/ml4t-data/.data/store/index_minute_ES/year=2012/month=10/data.parquet (set POLARS_VERBOSE=1 to see full path)
+FAILED tests/test_one_bar_b0_cross_indices_20261012.py::test_hang_seng_available_only_at_different_frequency - AssertionError: assert False
+ +  where False = is_file()
+ +    where is_file = PosixPath('/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet').is_file
+ +      where PosixPath('/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet') = Path('/home/quant/dev/quant/quant-research/data/processed/HK33_5m_2017_2026.parquet')
+FAILED tests/test_one_bar_b0_dax_nikkei_followup_20261012.py::test_quarantine_cannot_make_2024_2025_usable - FileNotFoundError: [Errno 2] No such file or directory: '/home/quant/dev/quant/ml4t-data/.data/store/index_minute_DAX/year=2024/month=9/data.parquet'
+FAILED tests/test_one_bar_cross_indices_native_20261012.py::test_ES_readonly_schema_normalization - polars.exceptions.ComputeError: failed to retrieve first file schema (parquet): empty input: paths: []. Hint: passing a schema can allow this scan to succeed with an empty DataFrame.
+FAILED tests/test_one_bar_cross_indices_native_20261012.py::test_causal_completed_bar_levels_and_source_retention[ES] - ValueError: No source partitions for ES 2026
+FAILED tests/test_one_bar_cross_indices_native_20261012.py::test_causal_completed_bar_levels_and_source_retention[DAX] - ValueError: No source partitions for DAX 2026
+FAILED tests/test_one_bar_cross_indices_native_20261012.py::test_causal_completed_bar_levels_and_source_retention[NIKKEI225] - ValueError: No source partitions for NIKKEI225 2026
+FAILED tests/test_one_bar_cross_indices_native_20261012.py::test_nq_signal_feed_matches_original_2026_after_warmup - polars.exceptions.ComputeError: failed to retrieve first file schema (parquet): empty input: paths: []. Hint: passing a schema can allow this scan to succeed with an empty DataFrame.
+FAILED tests/test_one_bar_dukascopy_2013_2026_20261011.py::test_source_partitions_exclude_protected_august_2026 - assert []
+FAILED tests/test_research_control.py::test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict - assert False
+ +  where False = any(<generator object test_doctor_exposes_dukascopy_vs_lse_nq_f_source_conflict.<locals>.<genexpr> at 0x7f393d7731d0>)
+FAILED tests/test_vwap_pullback_adx_phase4_20261012.py::test_session_grid_and_dst - FileNotFoundError: [Errno 2] No such file or directory: '/home/quant/dev/quant/quant-research/data/processed/vwap_adx_nqf_2026h1_1m.parquet'
+FAILED tests/test_vwap_pullback_adx_phase56_20261012.py::test_primary_nqf_data_incomplete_and_no_august_sessions - FileNotFoundError: [Errno 2] No such file or directory: '/home/quant/dev/quant/quant-research/data/processed/vwap_adx_nqf_2026h2_validation_1m.parquet'
+13 failed, 524 passed, 1 skipped, 8 warnings in 115.73s (0:01:55)

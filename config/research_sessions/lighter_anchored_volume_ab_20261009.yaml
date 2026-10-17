@@ -1,0 +1,81 @@
+# Frozen before first A/B simulation run. Research; not permission to trade.
+session_id: lighter_anchored_volume_ab_20261009
+status: EXPLORATORY_NOT_APPROVED
+hypothesis: >-
+  Two independent anchored long-SPY/short-QQQ inventory cycles may generate
+  more completed maker notional per unit of drawdown than a SPY-only anchored
+  DCA basket protected by a QQQ short hedge.
+source:
+  venue: Lighter
+  symbols: ["SPY/USDC:USDC", "QQQ/USDC:USDC"]
+  timeframe: 1m
+  root: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP
+  first_available_utc: "2026-01-22T16:00:00Z"
+  last_available_utc: "2026-10-09T07:38:00Z"
+evaluation:
+  calibration_end_exclusive: "2026-02-22T00:00:00Z"
+  development_start: "2026-02-22T00:00:00Z"
+  development_end_exclusive: "2026-08-01T00:00:00Z"
+  oos_start: "2026-08-01T00:00:00Z"
+  oos_end_exclusive: "2026-10-09T07:39:00Z"
+  caveat: "OOS window was already inspected in prior grid study; not statistically pristine."
+  beta: "SPY-on-QQQ 1h log-return OLS, fitted on pre-development window"
+  dynamic_beta: "Past-only 14-day hourly returns; value shift by one complete hour"
+arms:
+  A: "Independent SPY-long and QQQ-short anchored DCA cycles; separately reanchor on respective clean exit"
+  A0: "SPY long anchored DCA only; no hedge"
+  A1: "SPY long anchored DCA with 50% of frozen beta QQQ short"
+  A2: "SPY long anchored DCA with 75% of frozen beta QQQ short"
+  A3: "SPY long anchored DCA with 100% of frozen beta QQQ short"
+  A4: "SPY long anchored DCA with 100% dynamically updated beta QQQ short"
+risk:
+  starting_usdc: 1000.0
+  max_gross_usdc: 600.0
+  mark_gross_emergency_usdc: 630.0
+  max_spy_inventory_usdc: 400.0
+  max_qqq_inventory_usdc: 200.0
+  stop_drawdown_usdc: 50.0
+  maximum_levels: 4
+orders:
+  spy_clip_usdc: 100.0
+  qqq_clip_usdc: 50.0
+  grid_spacing_bps: 25.0
+  first_entry_bps: 2.0
+  min_reentry_bars: 1
+  min_hedge_notional_usdc: 10.0
+  max_hedge_shortfall_usdc: 70.0
+  hedge_quote_offset_bps: 1.0
+  maker_exit_offset_bps: 1.0
+  exit_cash_reserve_usdc: 0.05
+  hedge_quote_refresh_minutes: 120
+  force_cancel_if_exit_near_bps: 15.0
+  penetration_ticks: 1.0
+  precision_price: 0.01
+  precision_qty: 0.0001
+assumptions:
+  maker_fee_bps: 0.0
+  carry_bps_per_day: 0.0
+  funding_model: "Conservative per-minute gross carry sensitivity; actual historical Lighter funding unavailable via installed CCXT"
+  emergency_taker_fee_bps: 2.25
+  emergency_taker_slippage_bps: 2.0
+  output: "Estimated maker-eligible touch fills only. 1m OHLCV cannot prove order queue or true maker fills."
+  fill_model: "Resting next-bar limit orders only; require one tick penetration AND positive underlying 1m traded volume"
+  note: "Never self-trade or cross own orders for artificial volume."
+  short_no_initial_fill: "If price falls monotonically before first QQQ ask fills, QQQ earns zero maker volume."
+trials:
+  - A
+  - A0
+  - A1
+  - A2
+  - A3
+  - A4
+primary_metric: "Completed-cycle estimated maker filled notional / max drawdown in USDC"
+secondary_metrics:
+  - completed_cycles
+  - incomplete_inventory_at_end
+  - maximum_drawdown_usdc
+  - total_simulated_maker_volume
+  - completed_cycle_holding_minutes
+  - net_pnl_ex_incentives
+  - carry_sensitivity
+  - risk_stop_count

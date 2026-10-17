@@ -1,0 +1,135 @@
+{
+  "status": "FEATURE_PARITY_ONLY_NO_BACKTEST",
+  "source": "Dukascopy BID CFD minute OHLCV, 2018-2025",
+  "feature_origin": "Polars code in scripts/run_volt_break_phase4_native_20261012.py, not ml4t-engineer",
+  "original_atr_daily_session": "17:00 prior CT to 16:14 current CT",
+  "candidate_source_speech_daily_session": "00:00 to 16:00 CT same day",
+  "compare_only_not_strategy_optimization": true,
+  "daily_0000_to_1600_yearly": [
+    {
+      "year": 2019,
+      "days": 237,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 719,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    },
+    {
+      "year": 2020,
+      "days": 244,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 389,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    },
+    {
+      "year": 2021,
+      "days": 247,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 495,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    },
+    {
+      "year": 2022,
+      "days": 247,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 719,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    },
+    {
+      "year": 2023,
+      "days": 247,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 496,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    },
+    {
+      "year": 2024,
+      "days": 247,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 645,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    },
+    {
+      "year": 2025,
+      "days": 244,
+      "full_0000_1600": 0,
+      "min_daily_minutes": 284,
+      "median_daily_minutes": 915.0,
+      "median_last_minute": 914.0,
+      "max_last_minute": 914
+    }
+  ],
+  "daily_variant_features": {
+    "atr_strict": {
+      "eligible_days": 156,
+      "median_points": 292.40566666666683,
+      "median_barrier_increment_points": 87.72170000000004
+    },
+    "atr_coverage": {
+      "eligible_days": 491,
+      "median_points": 254.8116666666666,
+      "median_barrier_increment_points": 76.44349999999999
+    },
+    "atr_midnight_tr15": {
+      "eligible_days": 0,
+      "median_points": null,
+      "median_barrier_increment_points": null
+    },
+    "atr_midnight_nested": {
+      "eligible_days": 0,
+      "median_points": null,
+      "median_barrier_increment_points": null
+    }
+  },
+  "signal_disagreements": {
+    "strict_vs_midnight_tr15": {
+      "common_qualified_days": 0,
+      "possible_decisions": 0,
+      "original_positive_bars": 0,
+      "midnight_positive_bars": 0,
+      "disagree_bars": 0,
+      "feature_pearson": null,
+      "median_abs_atr_delta_points": null
+    },
+    "strict_vs_midnight_nested": {
+      "common_qualified_days": 0,
+      "possible_decisions": 0,
+      "original_positive_bars": 0,
+      "midnight_positive_bars": 0,
+      "disagree_bars": 0,
+      "feature_pearson": null,
+      "median_abs_atr_delta_points": null
+    },
+    "coverage_vs_midnight_tr15": {
+      "common_qualified_days": 0,
+      "possible_decisions": 0,
+      "original_positive_bars": 0,
+      "midnight_positive_bars": 0,
+      "disagree_bars": 0,
+      "feature_pearson": null,
+      "median_abs_atr_delta_points": null
+    },
+    "coverage_vs_midnight_nested": {
+      "common_qualified_days": 0,
+      "possible_decisions": 0,
+      "original_positive_bars": 0,
+      "midnight_positive_bars": 0,
+      "disagree_bars": 0,
+      "feature_pearson": null,
+      "median_abs_atr_delta_points": null
+    }
+  },
+  "source_limit": "CFD-proxy volume cannot produce authentic exchange-traded futures VWAP",
+  "note": "The nested Wilder14 ATR approximation is a diagnostic hypothesis; source daily ATR lookback is unspecified, so it is not asserted as exact."
+}

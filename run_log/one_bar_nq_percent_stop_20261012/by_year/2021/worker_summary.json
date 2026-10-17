@@ -1,0 +1,70 @@
+{
+  "year": 2021,
+  "status": "completed",
+  "quality": {
+    "year": 2021,
+    "warmup_start_utc_date": "2020-12-18",
+    "evaluation_session_start": "2021-01-01",
+    "evaluation_session_end": "2021-12-31",
+    "source_timestamp_end": "2022-01-07",
+    "eligible_start_timestamp": "2021-01-03 23:00:00+00:00",
+    "warmup_complete_30m_bars": 339,
+    "raw_source_rows": 346396,
+    "execution_rows_retained": 346396,
+    "evaluation_session_rows": 327946,
+    "complete_30m_bars": 11357,
+    "incomplete_30m_bins": 319,
+    "source_duplicate_timestamps": 0,
+    "null_ohlc": 0,
+    "invalid_ohlc": 0,
+    "first_timestamp": "2020-12-18 00:00:00+00:00",
+    "last_timestamp": "2022-01-07 21:14:00+00:00",
+    "level_release": "complete 30m levels become available on the final minute; native order fills on the next source bar",
+    "partial_30m_execution_rows_preserved": true
+  },
+  "trials": [
+    {
+      "trial_id": "PZ",
+      "name": "percent_zero_cost",
+      "status": "completed",
+      "closed_trades": 444,
+      "net_pnl_usd": 38025.120000000825,
+      "average_trade_pnl_usd": 85.64216216216401,
+      "protective_stop_exits": 14,
+      "protective_stop_rate": 0.03153153153153153,
+      "native_daily_equity_sharpe_utc": 3.890772791666377,
+      "native_daily_equity_max_drawdown_utc": -0.003959318791496858,
+      "native_engine_final_value_including_warmup": 1039603.7600000019,
+      "ending_native_open_trades": 0,
+      "same_minute_ambiguity_count": 0,
+      "max_entries_per_chicago_session_day": 2,
+      "commission_per_fill_usd": 0.0,
+      "adverse_slippage_points_per_fill": 0.0,
+      "one_contract_each_entry": true
+    },
+    {
+      "trial_id": "PC",
+      "name": "percent_costed",
+      "status": "completed",
+      "closed_trades": 445,
+      "net_pnl_usd": 31667.52000000084,
+      "average_trade_pnl_usd": 71.16296629213672,
+      "protective_stop_exits": 15,
+      "protective_stop_rate": 0.033707865168539325,
+      "native_daily_equity_sharpe_utc": 3.2491842464737433,
+      "native_daily_equity_max_drawdown_utc": -0.004252535710358645,
+      "native_engine_final_value_including_warmup": 1033096.1600000022,
+      "ending_native_open_trades": 0,
+      "same_minute_ambiguity_count": 0,
+      "max_entries_per_chicago_session_day": 2,
+      "commission_per_fill_usd": 2.5,
+      "adverse_slippage_points_per_fill": 0.25,
+      "one_contract_each_entry": true
+    }
+  ],
+  "ending_strategy_state": {
+    "open_entry_orders": 0,
+    "open_protective_order": false,
+    "tracked_trade": false
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "status": "completed_identical_replay_repeated_for_log_capture",
+  "attempts": [
+    {
+      "attempt": 1,
+      "managed_exec_session_id": 28745,
+      "native_engine_status": "VERIFIED",
+      "command_exit_code": 1,
+      "reason": "tee could not open the not-yet-created task-owned output directory; the native Engine still completed and printed a VERIFIED reconciliation summary; outputs were subsequently replaced by attempt 2."
+    },
+    {
+      "attempt": 2,
+      "managed_exec_session_id": 60857,
+      "native_engine_status": "VERIFIED",
+      "command_exit_code": 0,
+      "reason": "same script, frozen settings, eligible source partitions, and native trial; this attempt produced the retained output files and run log."
+    }
+  ],
+  "parameter_variations": 0,
+  "yearly_path_stitching": false,
+  "retained_artifact_attempt": 2,
+  "comparison": "Both session summaries reported 3,803,769 source rows, 3,583 daily snapshots, 5,227 closed trades, maximum marked-equity reconciliation difference $0.0000000121, and the same year-boundary carry checks."
+}

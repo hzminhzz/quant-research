@@ -1,0 +1,140 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "baseline_scope": "same dates as trial, all support holds",
+  "by_era": {
+    "2010-2013": {
+      "hits": 76,
+      "n": 371,
+      "rate_pct": 20.485175202156334,
+      "wilson_ci95_pct": [
+        16.690752575202232,
+        24.88454683564577
+      ]
+    },
+    "2014-2017": {
+      "hits": 79,
+      "n": 390,
+      "rate_pct": 20.256410256410255,
+      "wilson_ci95_pct": [
+        16.566612340150627,
+        24.526435432246636
+      ]
+    },
+    "2018-2021": {
+      "hits": 85,
+      "n": 353,
+      "rate_pct": 24.07932011331445,
+      "wilson_ci95_pct": [
+        19.913378319840465,
+        28.803342936488118
+      ]
+    },
+    "2022-2024": {
+      "hits": 77,
+      "n": 281,
+      "rate_pct": 27.402135231316727,
+      "wilson_ci95_pct": [
+        22.518286442115524,
+        32.89550741857886
+      ]
+    }
+  },
+  "by_pair": {
+    "AUDUSD": {
+      "hits": 99,
+      "n": 438,
+      "rate_pct": 22.602739726027398,
+      "wilson_ci95_pct": [
+        18.933727184541453,
+        26.748146888440093
+      ]
+    },
+    "EURUSD": {
+      "hits": 106,
+      "n": 471,
+      "rate_pct": 22.505307855626327,
+      "wilson_ci95_pct": [
+        18.96492886161271,
+        26.490549974787392
+      ]
+    },
+    "GBPUSD": {
+      "hits": 112,
+      "n": 486,
+      "rate_pct": 23.045267489711936,
+      "wilson_ci95_pct": [
+        19.521353868888415,
+        26.991952573001644
+      ]
+    }
+  },
+  "classification": "EXPLORATORY",
+  "event_ledger": "run_log/fx_support_conditions_20261008/I1_unfiltered/scored_events.parquet",
+  "excluded": null,
+  "holdout_opened": false,
+  "holdout_scored": false,
+  "horizon": "240 completed 30m bars",
+  "limitations": [
+    "Event/factor diagnostic, not a backtest or executable net PnL.",
+    "Outcome uses first 30m closing breach of support, not broker intrabar stop fills.",
+    "Not all high-break outcomes offer favorable risk:reward.",
+    "For fixed rule arms, all results are exploratory development-sample diagnostics.",
+    "For ML, only chronological out-of-fold 2017-2024 events are scored.",
+    "Overlapping labels reduce effective sample size; monthly clustering is approximate.",
+    "Prior D0 results have been observed on this same development history.",
+    "No model or filter may be selected for deployment without new backtest and final holdout."
+  ],
+  "model": null,
+  "parent_label": "target_before_support_invalidation_240",
+  "preregistered_checks": {
+    "at_least_2_of_3_pair_rates_exceed_same_period_baseline": false,
+    "minimum_100_selected": true,
+    "minimum_20_per_pair": true,
+    "monthly_cluster_95_lower_above_baseline": false,
+    "selected_240bar_target_first_at_least_35pct": false,
+    "selected_lift_above_same_period_baseline_8pp": false
+  },
+  "sample_base": {
+    "hits": 317,
+    "n": 1395,
+    "rate_pct": 22.724014336917563,
+    "wilson_ci95_pct": [
+      20.6016604086947,
+      24.996177344729634
+    ]
+  },
+  "schema_version": "support-followup-diagnostics-v1",
+  "score_source": "data/features/fx_support_conditions_20261008.parquet",
+  "selected": {
+    "hits": 317,
+    "n": 1395,
+    "rate_pct": 22.724014336917563,
+    "wilson_ci95_pct": [
+      20.6016604086947,
+      24.996177344729634
+    ]
+  },
+  "selected_ci95_monthly_cluster": {
+    "ci95_pct": [
+      20.44385345362861,
+      25.0041752202065
+    ],
+    "n_cluster_months": 179,
+    "se_pct": 1.1633473894331352
+  },
+  "selected_lift_vs_same_window_baseline_pp": 0.0,
+  "selected_new_high_anytime_within_240": {
+    "hits": 970,
+    "n": 1395,
+    "rate_pct": 69.53405017921148,
+    "wilson_ci95_pct": [
+      67.06785059712352,
+      71.89296204989847
+    ]
+  },
+  "selected_vs_excluded_cluster_lift": null,
+  "selection_disposition": "DESCRIPTIVE_BASELINE",
+  "session_id": "fx_support_conditions_20261008",
+  "status": "completed",
+  "trial_id": "I1_unfiltered"
+}

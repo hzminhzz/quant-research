@@ -1,0 +1,30 @@
+{
+  "provider": "LSE",
+  "symbol": "NQ.F",
+  "2025_source_partitions": {
+    "lse_futures_minute_NQ/year=2025/month=10/data.parquet": "f7945920406197aad889e6055f86031b8b2ff235ec7bdeca646cbb9476a6a88b",
+    "lse_futures_minute_NQ/year=2025/month=11/data.parquet": "44bcc9d68f7cfa4c81c8a82ea05542d2d09d754dcb75541c44b8cc4fa39f2fde",
+    "lse_futures_minute_NQ/year=2025/month=12/data.parquet": "599c0a1a8adcc5e0221db69834e575a689bbefe20c84bbeca3dd48d2ffb23585",
+    "lse_futures_minute_NQ/year=2025/month=9/data.parquet": "7efede2de8d2665228910d69ccd52cca90e9034d807ad39bccd9c5bf98afc488"
+  },
+  "source_rows": 99179,
+  "complete_0000_1600_sessions": 66,
+  "signal_eligible_sessions": 37,
+  "signals_before_execution": 70,
+  "ml4t_engineer": [
+    "atr(period=14)",
+    "sma(ATR14,period=15)",
+    "typprice"
+  ],
+  "daily_atr_parity_talib": true,
+  "sma_atr_parity_talib": true,
+  "minute_typprice_parity_talib": true,
+  "timestamp_clock": "America/Chicago, DST-aware",
+  "VWAP_method": "pandas grouped cumulative(ml4t typprice*provider volume)/cumulative(volume)",
+  "limitations": [
+    "Provider NQ.F dated contract / roll semantics unknown",
+    "Volume provided by LSE, not independently authenticated CME prints",
+    "Original creator did not specify the inner ATR_Daily period: chosen conventional 14",
+    "Only late 2025 development data; 2026 protected and unread"
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "timestamp_date_filter": [
+    "2013-01-01",
+    "2026-07-14"
+  ],
+  "source_rows": 4328258,
+  "rows_by_chicago_session_year": {
+    "2021": 344053,
+    "2022": 342997,
+    "2013": 372720,
+    "2016": 215643,
+    "2015": 261170,
+    "2017": 213862,
+    "2019": 342965,
+    "2023": 341200,
+    "2026": 182155,
+    "2012": 1380,
+    "2018": 306486,
+    "2024": 344095,
+    "2025": 342334,
+    "2014": 372723,
+    "2020": 344475
+  },
+  "evaluation_rows_by_chicago_session_year": {
+    "2021": 344053,
+    "2022": 342997,
+    "2013": 372720,
+    "2016": 215643,
+    "2015": 261170,
+    "2017": 213862,
+    "2019": 342965,
+    "2023": 341200,
+    "2026": 182155,
+    "2012": 1380,
+    "2018": 306486,
+    "2024": 344095,
+    "2025": 342334,
+    "2014": 372723,
+    "2020": 344475
+  },
+  "annual_feed_matches": {
+    "2013": {
+      "expected_source_rows": 372720,
+      "annual_feed_rows": 372720,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 372720,
+      "evaluation_feed_rows": 372720,
+      "evaluation_period_matches": true
+    },
+    "2014": {
+      "expected_source_rows": 372723,
+      "annual_feed_rows": 372723,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 372723,
+      "evaluation_feed_rows": 372723,
+      "evaluation_period_matches": true
+    },
+    "2015": {
+      "expected_source_rows": 261170,
+      "annual_feed_rows": 261170,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 261170,
+      "evaluation_feed_rows": 261170,
+      "evaluation_period_matches": true
+    },
+    "2016": {
+      "expected_source_rows": 215643,
+      "annual_feed_rows": 215643,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 215643,
+      "evaluation_feed_rows": 215643,
+      "evaluation_period_matches": true
+    },
+    "2017": {
+      "expected_source_rows": 213862,
+      "annual_feed_rows": 213862,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 213862,
+      "evaluation_feed_rows": 213862,
+      "evaluation_period_matches": true
+    },
+    "2018": {
+      "expected_source_rows": 306486,
+      "annual_feed_rows": 306486,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 306486,
+      "evaluation_feed_rows": 306486,
+      "evaluation_period_matches": true
+    },
+    "2019": {
+      "expected_source_rows": 342965,
+      "annual_feed_rows": 342965,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 342965,
+      "evaluation_feed_rows": 342965,
+      "evaluation_period_matches": true
+    },
+    "2020": {
+      "expected_source_rows": 344475,
+      "annual_feed_rows": 344475,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 344475,
+      "evaluation_feed_rows": 344475,
+      "evaluation_period_matches": true
+    },
+    "2021": {
+      "expected_source_rows": 344053,
+      "annual_feed_rows": 344053,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 344053,
+      "evaluation_feed_rows": 344053,
+      "evaluation_period_matches": true
+    },
+    "2022": {
+      "expected_source_rows": 342997,
+      "annual_feed_rows": 342997,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 342997,
+      "evaluation_feed_rows": 342997,
+      "evaluation_period_matches": true
+    },
+    "2023": {
+      "expected_source_rows": 341200,
+      "annual_feed_rows": 341200,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 341200,
+      "evaluation_feed_rows": 341200,
+      "evaluation_period_matches": true
+    },
+    "2024": {
+      "expected_source_rows": 344095,
+      "annual_feed_rows": 344095,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 344095,
+      "evaluation_feed_rows": 344095,
+      "evaluation_period_matches": true
+    },
+    "2025": {
+      "expected_source_rows": 342334,
+      "annual_feed_rows": 342334,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 342334,
+      "evaluation_feed_rows": 342334,
+      "evaluation_period_matches": true
+    },
+    "2026": {
+      "expected_source_rows": 182155,
+      "annual_feed_rows": 182155,
+      "full_session_year_matches": true,
+      "expected_evaluation_rows": 182155,
+      "evaluation_feed_rows": 182155,
+      "evaluation_period_matches": true
+    }
+  },
+  "calendar_bin_parity": {
+    "checked_source_rows": 4328258,
+    "former_vs_correct_30m_bin_mismatches": 0,
+    "mismatch_examples": [],
+    "former_expression": "Polars Int8 hour * 60 + minute >= 1020",
+    "impact_if_zero": "All source minutes remain in the same absolute 30m bins; rolling levels and native trades are unchanged. Only the session-date label was wrong."
+  }
+}

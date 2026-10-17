@@ -1,0 +1,185 @@
+session_id: ftmo_fx_intraday_reversion_202610
+market: fx
+
+thesis: >-
+  Temporary short-horizon liquidity demand in liquid major FX pairs causes some
+  completed 30-minute range extremes to overshoot short-run equilibrium. Fading a
+  sufficiently extreme five-bar breakout should therefore produce positive net
+  60-minute expectancy often enough to improve the probability of passing a static-
+  drawdown prop-firm evaluation relative to cash/no-trade, after realistic retail
+  CFD costs.
+
+mechanism: >-
+  Aggressive market orders, stop execution, and short-lived inventory imbalances can
+  push price beyond its recent intraday range without equivalent permanent information.
+  The strategy supplies liquidity after the excursion. The effect should weaken or
+  reverse during genuine information shocks, persistent macro trends, volatility
+  expansion, and sustained one-sided institutional flow. The planned trend-regime veto
+  tests this failure mechanism rather than assuming every breakout mean-reverts.
+
+falsifier: >-
+  Reject the thesis before optimization if the preregistered D0 raw-event diagnostic
+  does not show positive pooled net 60-minute fade expectancy with a HAC-adjusted 95%
+  confidence interval excluding zero, with the correct sign in at least two of three
+  pairs. Also reject if the pooled effect is not positive in at least three of four
+  eras: 2010-2013, 2014-2017, 2018-2021, and 2022-2024. For the T1 development
+  strategy, require net daily-equity Sharpe >= 1.0, maximum strategy drawdown <= 6%,
+  worst daily loss < 2.5%, zero FTMO 5% daily-loss breaches, zero FTMO 10% static-loss
+  breaches in the continuous development run, at least 1,000 pooled closed trades and
+  at least 250 per pair. For preregistered 60-calendar-day Phase-1 challenge cohorts,
+  require pass rate >= 50% and total breach rate <= 20%. Evidence below the minimum
+  trade count is INCONCLUSIVE, not a pass.
+
+instruments:
+  - symbol: EURUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO EUR/USD CFD; research price proxy is canonical LSE EUR/USD 1m OHLCV"
+    session: "24/5; strategy must be flat before the FTMO daily reset at 00:00 CE(S)T"
+    timezone: Europe/Prague
+  - symbol: GBPUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO GBP/USD CFD; research price proxy is canonical LSE GBP/USD 1m OHLCV"
+    session: "24/5; strategy must be flat before the FTMO daily reset at 00:00 CE(S)T"
+    timezone: Europe/Prague
+  - symbol: AUDUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO AUD/USD CFD; research price proxy is canonical LSE AUD/USD 1m OHLCV"
+    session: "24/5; strategy must be flat before the FTMO daily reset at 00:00 CE(S)T"
+    timezone: Europe/Prague
+
+data:
+  - id: eurusd_dev_2010_2017
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet
+  - id: eurusd_dev_2018_2024
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet
+  - id: eurusd_holdout
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_holdout_2025_20261006_5m.parquet
+  - id: gbpusd_dev_2010_2017
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet
+  - id: gbpusd_dev_2018_2024
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet
+  - id: gbpusd_holdout
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_holdout_2025_20261006_5m.parquet
+  - id: audusd_dev_2010_2017
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet
+  - id: audusd_dev_2018_2024
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet
+  - id: audusd_holdout
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_holdout_2025_20261006_5m.parquet
+
+evaluation:
+  cadence: 5m
+  signal_cadence: 30m
+  decision_rule: >-
+    Form the signal only after a completed 30-minute bar. Earliest execution is the
+    next available 5-minute bar. An upside extreme is close_t above the highest high
+    of the previous five completed 30-minute bars and is faded short. A downside
+    extreme is close_t below the lowest low of the previous five completed 30-minute
+    bars and is faded long.
+  baseline_holding_rule: >-
+    Maximum holding period 60 minutes. Initial hard stop is 1.0 times ATR20 measured
+    on completed 30-minute bars. No averaging down, martingale, pyramiding, or overnight
+    position across the FTMO 00:00 CE(S)T daily reset.
+  development_start: "2010-01-04T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-10-06T23:59:59Z"
+  challenge_account_currency: USD
+  challenge_initial_capital: 100000
+  phase1_profit_target_pct: 10.0
+  phase2_profit_target_pct: 5.0
+  maximum_loss_pct: 10.0
+  maximum_daily_loss_pct: 5.0
+  minimum_trading_days: 4
+  official_time_limit: unlimited
+  challenge_reset_timezone: Europe/Prague
+  primary_research_horizon_calendar_days: 60
+  risk_per_position_pct: 0.50
+  maximum_concurrent_risk_pct: 1.00
+  internal_daily_stop_pct: 1.50
+  plan: >-
+    Use chronological development and walk-forward evidence only through 2024-12-31.
+    The 2025-01-01 through 2026-10-06 data is frozen final holdout and must not be
+    scored, inspected for strategy performance, or used for selection before the final
+    development specification is frozen. Challenge suitability is evaluated as a
+    first-passage problem: hit the profit target before the daily or static loss barrier.
+    The 60-calendar-day cohort horizon is a research comparison window, not an FTMO rule.
+
+baseline: >-
+  Primary comparison is cash/no-trade. T1 is a deliberately simple equal-rule
+  three-pair strategy: fade completed 30-minute five-bar range extremes, enter no
+  earlier than the next 5-minute bar, risk 0.50% per position, cap concurrent risk at
+  1.00%, enforce a 1.50% internal daily stop, use a 1.0*ATR20 hard stop, force exit
+  after 60 minutes, and be flat before the FTMO daily reset. No filter or parameter
+  optimization is part of T1.
+
+costs:
+  commission_bps: 0.25
+  slippage_bps: 0.50
+  commission_note: >-
+    Base commission is modeled as 0.25 bps per side, equivalent to USD 2.50 per
+    100,000-unit standard lot side.
+  slippage_note: >-
+    0.50 bps per side is a conservative fixed spread/slippage proxy, not historical
+    FTMO fill data.
+  base_round_trip_bps: 1.50
+  stress_slippage_bps_per_side: 1.00
+  stress_round_trip_bps: 2.50
+  overnight_financing_included: false
+  overnight_financing_note: "Baseline policy must be flat before daily reset."
+
+trials:
+  - id: D0_raw_event_diagnostic
+    kind: diagnostic
+    description: >-
+      Cheapest falsification. Measure the net 60-minute fade return after the exact
+      completed 30-minute five-bar extreme event. Report pooled and per-pair estimates,
+      HAC confidence intervals, the four preregistered eras, event counts, and cost drag.
+      Do not tune any threshold.
+  - id: T1_raw_fade_baseline
+    kind: preregistered
+    description: >-
+      Exact baseline strategy declared in this specification with no signal filter or
+      parameter search. Evaluate continuous development results and 60-calendar-day
+      FTMO Phase-1 first-passage cohorts.
+  - id: T2_trend_regime_veto
+    kind: preregistered
+    description: >-
+      Add one economically motivated higher-timeframe strong-trend veto to the accepted
+      T1 parent. The exact causal filter must be frozen before T2 is run. T2 must beat
+      T1 on the preregistered selection rule without weakening breach controls.
+  - id: T3_drawdown_risk_throttle
+    kind: preregistered
+    description: >-
+      Add challenge-state risk throttling to the accepted parent. Reduce position risk
+      as the remaining static/daily drawdown buffer contracts. Do not change the alpha
+      rule.
+  - id: T4_execution_cost_stress
+    kind: preregistered
+    description: >-
+      Re-evaluate the selected development parent with 2.50 bps modeled round-trip
+      friction. This is a robustness stress, not a new strategy search.
+
+evidence:
+  - data/processed/ftmo_fx_reversion_202610/manifest.json

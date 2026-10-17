@@ -1,0 +1,35 @@
+{
+  "attempts": [
+    {
+      "trial_id": "E0_unfiltered_oof_cohort",
+      "status": "completed",
+      "artifact": "run_log/fx_support_ml4t_execution_20261008_v2/E0_unfiltered_oof_cohort_attempt2/result.json",
+      "sha256": "abf2e500670f4092bf1361333c40ecb80b939020f5c1e4fd7fbc9caa1591c763",
+      "registry_note": "Original failed terminal record preserved; this is recovered baseline attempt2."
+    },
+    {
+      "trial_id": "E1_lightgbm_oof_capped_risk",
+      "status": "completed",
+      "artifact": "run_log/fx_support_ml4t_execution_20261008_v2/E1_lightgbm_oof_capped_risk/result.json",
+      "sha256": "25eef15509d37a62d5354783e5ada8d9e718a0cbbada74ca25caeebe365e57eb",
+      "registry_note": "Recorded with research_session.record_trial"
+    },
+    {
+      "trial_id": "E2_lightgbm_cost_stress",
+      "status": "completed",
+      "artifact": "run_log/fx_support_ml4t_execution_20261008_v2/E2_lightgbm_cost_stress/result.json",
+      "sha256": "c727105916a23703a0707d70684fce96b10b02283be27bfbd0d71a2e4ffd49ea",
+      "registry_note": "Recorded with research_session.record_trial"
+    },
+    {
+      "trial_id": "E3_lightgbm_flat_before_daily_reset",
+      "status": "failed",
+      "artifact": "run_log/fx_support_ml4t_execution_20261008_v2/E3_lightgbm_flat_before_daily_reset/failure.json",
+      "sha256": "f66e54578d9a9a455362230852b249d506172773dee8c3a32bb64f11b2aedc70",
+      "error": "RuntimeError('E3 daily-flat invariant failed: GBPUSD entry=2020-05-25 21:15:00+00:00, prior date=2020-05-25, next observed=2020-05-25 22:00:00+00:00; cutoff bar absent')"
+    }
+  ],
+  "prior_failed_E0": "E0_unfiltered_oof_cohort/failure.json",
+  "p0_supplement": "P0_causal_ordering_gate.json",
+  "rule_changes": "No outcome-driven economic tuning. Corrected native scheduling and report compatibility only."
+}

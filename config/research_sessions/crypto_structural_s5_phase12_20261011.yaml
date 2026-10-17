@@ -1,0 +1,35 @@
+# DRAFT ONLY: not initialized. Phase-2 blocking data and cost dependencies remain.
+session_id: crypto_structural_s5_phase12_20261011
+thesis: >-
+  Causal DEX minus CEX dislocation predicts subsequent CEX reversion beyond a CEX-only burst control after execution costs.
+mechanism: >-
+  Stale automated market-maker pool state and cross-venue inventory flow can move quoted prices; CEX may instead lead DEX.
+falsifier: >-
+  Reject if the timestamp-aligned DEX state adds no incremental predictive value over CEX-only controls net of latency and costs.
+instruments:
+  - {symbol: ETHUSDT, kind: perpetual, venue: Binance USD-M Futures}
+  - {symbol: SOLUSDT, kind: perpetual, venue: Binance USD-M Futures}
+data:
+  - {id: cex_eth, symbol: ETHUSDT, role: prices, path: data/processed/ethusdt_1h.parquet}
+  - {id: cex_sol, symbol: SOLUSDT, role: prices, path: data/processed/solusdt_1h.parquet}
+baseline: No trade and CEX-only matched price-burst reversion.
+trials:
+  - {id: dex-state-availability, kind: preregistered, description: Verify historical onchain pool reserves swaps block publication times and executable CEX quotes.}
+  - {id: causal-cross-venue-lag, kind: preregistered, description: Compare DEX incremental forecast against CEX-only control with costs.}
+market: crypto
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  plan: >-
+    Exploratory development only; prior studies may have seen parts of this history.
+    Holdout is prospective, never open outcomes while gates are unresolved.
+    Entry after completed signal, costs and signed funding mandatory; no live trades.
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Provisional Binance USD-M VIP0 taker fee and 1.5bp slippage per leg.
+    Not a verified broker cost; add spread, impact, funding, borrow where relevant,
+    contract specifications and retail CFD costs before strategy trials.

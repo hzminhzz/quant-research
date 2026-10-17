@@ -1,0 +1,21 @@
+{
+  "session": "crypto_xs_plain_funding_decay_validation_20261015_v1",
+  "amendment_type": "technical_execution_fix_before_corrected_rerun",
+  "frozen_methodology_changed": false,
+  "invalid_attempt_preserved": "run_log/research_sessions/crypto_xs_plain_funding_decay_validation_20261015_v1/validation",
+  "invalid_attempt_reason": "The frozen runner imported funding_events_by_hour() from the 2020-2023 MVP module. That helper filters by the old DEV_START/DEV_END and therefore applied zero funding events in 2024-2025.",
+  "observed_invalid_attempt": {
+    "mean_ic": 0.012862469535564707,
+    "funding_yield": 0.0,
+    "note": "IC is unaffected by the funding-window bug; funding-aware and terminal portfolio conclusions from this attempt are invalid."
+  },
+  "correction_scope": "Replace only the funding-event extraction window with the already-frozen 2024-01-01 <= timestamp < 2026-01-01 validation window. Delegate all signal, labels, portfolio rules, costs and gates to the frozen runner unchanged.",
+  "frozen_runner_path": "scripts/run_crypto_xs_plain_funding_decay_validation_20261015.py",
+  "frozen_runner_sha256": "798e1b549f8be49c74379ddf4b5c5167f1dd7344e5756e189714d4dfa312e51a",
+  "frozen_spec_runner_sha256": "798e1b549f8be49c74379ddf4b5c5167f1dd7344e5756e189714d4dfa312e51a",
+  "fix_wrapper_path": "scripts/run_crypto_xs_plain_funding_decay_validation_execution_fix1_20261015.py",
+  "fix_wrapper_sha256": "dee84ecb811ee517aa706486d1ff7a43596a16c1c19948c354b5e9c0f6beed0b",
+  "packaging_fix_before_corrected_rerun": "Added repository root to sys.path so the wrapper can import the frozen runner under direct CLI execution. No research or execution rule changed.",
+  "corrected_output_directory": "run_log/research_sessions/crypto_xs_plain_funding_decay_validation_20261015_v1/validation_execution_fix1",
+  "protected_2026_plus_accessed": false
+}

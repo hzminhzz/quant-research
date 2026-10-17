@@ -1,0 +1,302 @@
+{
+  "strategy": "rsi-30-50",
+  "status": "EXPLORATORY_HISTORICAL_EXTENSION_NOT_INDEPENDENT_OOS",
+  "source_asset": "ES",
+  "source_manifest": {
+    "source": "index_minute_ES",
+    "asset": "ES",
+    "files": 4541,
+    "first": "2011-09-19 00:00:00+00:00",
+    "last": "2026-10-09 00:00:00+00:00",
+    "bars": 3899,
+    "min_minutes_per_session": 500,
+    "timestamp_semantics": "daily session label, not decision/fill clock",
+    "session_calendar": "New York 17:00 session end",
+    "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES",
+    "end_exclusive_utc": "2026-10-12 00:00:00+00:00"
+  },
+  "protected_after_utc": "2026-10-12T00:00:00+00:00",
+  "first": "2011-09-19 00:00:00+00:00",
+  "last": "2026-10-09 00:00:00+00:00",
+  "bars": 3899,
+  "commission_bps_per_side": 2,
+  "slippage_bps_per_side": 2,
+  "engine": "ml4t-backtest==0.1.7",
+  "feature_library": "ml4t-engineer==0.1.4",
+  "metrics": {
+    "initial_cash": 100000,
+    "final_value": 201550.76469788153,
+    "total_return": 1.0155076469788153,
+    "total_return_pct": 101.55076469788153,
+    "max_drawdown": 0.10475032658941712,
+    "max_drawdown_pct": 10.475032658941712,
+    "num_trades": 101,
+    "winning_trades": 83,
+    "losing_trades": 18,
+    "win_rate": 0.8217821782178217,
+    "total_commission": 5698.1813686437945,
+    "total_slippage": 5698.185886529073,
+    "sharpe": 0.7835938000318212,
+    "sortino": 0.3895172218854527,
+    "calmar": 0.4549223466824672,
+    "cagr": 0.04765326438781248,
+    "volatility": 0.060138497143911084,
+    "profit_factor": 3.222969069882545,
+    "expectancy": 0.007535261922111522,
+    "avg_trade": 0.007829322565086748,
+    "avg_win": 0.01282835349566552,
+    "avg_loss": -0.0168717714448319,
+    "largest_win": 0.028565738047189083,
+    "largest_loss": -0.05796275794595596,
+    "payoff_ratio": 0.760344196079959,
+    "total_gross_pnl": 107248.94606652523,
+    "total_costs": 11396.367255172867,
+    "avg_cost_drag": 0.0008031320582615849,
+    "gross_profit_factor": 3.3999369733140306,
+    "skipped_bars": 0,
+    "num_orders": 202,
+    "num_rejected_orders": 0,
+    "num_fills": 202,
+    "num_rebalance_events": 202,
+    "unique_symbols_traded": 1,
+    "total_filled_notional": 28490906.84321897,
+    "avg_turnover": 0.04920485180918618,
+    "max_turnover": 0.9840532174650521,
+    "avg_open_positions": 0.11208002051808157,
+    "max_open_positions": 1,
+    "lifecycle_version": "1",
+    "lifecycle_callback_counts": {
+      "run_start": 1,
+      "causal_initialization": 1,
+      "pre_open": 0,
+      "opening_auction": 0,
+      "fill_reconciliation": 0,
+      "intrabar": 0,
+      "close": 0,
+      "market_event": 3899,
+      "run_end": 1
+    },
+    "lifecycle_invocations": [],
+    "execution_policy": {
+      "policy_id": "ml4t-backtest-default-v1",
+      "market_fill_phase": "opening_auction",
+      "opening_auction": "client",
+      "close_auction": "client",
+      "limit": "client",
+      "stop": "client",
+      "stop_limit": "disabled",
+      "trailing": "client",
+      "contingent": "client",
+      "fee_bps": 2,
+      "slippage_bps": 2,
+      "spread_bps": 0,
+      "impact_bps": 0,
+      "latency_ms": 0,
+      "liquidity_fraction": 1,
+      "allow_partial_fills": false,
+      "bar_path": "conservative",
+      "supported_sessions": [
+        "regular"
+      ],
+      "lifecycle_version": "1"
+    },
+    "target_intent_count": 0,
+    "child_order_intent_count": 0,
+    "intent_reconciliation_count": 0,
+    "target_rule_reconciliation_count": 0,
+    "target_intents": [],
+    "child_order_intents": [],
+    "intent_reconciliations": [],
+    "target_rule_reconciliations": []
+  },
+  "segments": {
+    "2011": {
+      "sessions": 75,
+      "net_return_pct": 0,
+      "sharpe_252": 0,
+      "max_drawdown_pct": 0,
+      "start": "2011-09-19 00:00:00+00:00",
+      "end": "2011-12-30 00:00:00+00:00"
+    },
+    "2012": {
+      "sessions": 261,
+      "net_return_pct": 8.328935962213158,
+      "sharpe_252": 2.2441051432365002,
+      "max_drawdown_pct": -0.6207961590369672,
+      "start": "2012-01-02 00:00:00+00:00",
+      "end": "2012-12-31 00:00:00+00:00"
+    },
+    "2013": {
+      "sessions": 261,
+      "net_return_pct": 9.27743823486149,
+      "sharpe_252": 1.7892684563422794,
+      "max_drawdown_pct": -2.725027359941165,
+      "start": "2013-01-01 00:00:00+00:00",
+      "end": "2013-12-31 00:00:00+00:00"
+    },
+    "2014": {
+      "sessions": 261,
+      "net_return_pct": 8.346619883956752,
+      "sharpe_252": 1.3113772765365177,
+      "max_drawdown_pct": -2.7705001403755274,
+      "start": "2014-01-01 00:00:00+00:00",
+      "end": "2014-12-31 00:00:00+00:00"
+    },
+    "2015": {
+      "sessions": 260,
+      "net_return_pct": 4.379131103695255,
+      "sharpe_252": 0.9370330559027809,
+      "max_drawdown_pct": -2.466192213551795,
+      "start": "2015-01-01 00:00:00+00:00",
+      "end": "2015-12-31 00:00:00+00:00"
+    },
+    "2016": {
+      "sessions": 258,
+      "net_return_pct": 5.883173941595099,
+      "sharpe_252": 1.1691602256158304,
+      "max_drawdown_pct": -2.301858302795556,
+      "start": "2016-01-04 00:00:00+00:00",
+      "end": "2016-12-30 00:00:00+00:00"
+    },
+    "2017": {
+      "sessions": 257,
+      "net_return_pct": 5.279151272224025,
+      "sharpe_252": 2.265327093143221,
+      "max_drawdown_pct": -0.775677114475323,
+      "start": "2017-01-03 00:00:00+00:00",
+      "end": "2017-12-29 00:00:00+00:00"
+    },
+    "2018": {
+      "sessions": 258,
+      "net_return_pct": -6.399393469245007,
+      "sharpe_252": -0.6418024022298644,
+      "max_drawdown_pct": -8.593382505520864,
+      "start": "2018-01-02 00:00:00+00:00",
+      "end": "2018-12-31 00:00:00+00:00"
+    },
+    "2019": {
+      "sessions": 258,
+      "net_return_pct": 0.24420771190771795,
+      "sharpe_252": 0.06932174835748128,
+      "max_drawdown_pct": -4.205198219706075,
+      "start": "2019-01-02 00:00:00+00:00",
+      "end": "2019-12-31 00:00:00+00:00"
+    },
+    "2020": {
+      "sessions": 259,
+      "net_return_pct": 3.7448129559615184,
+      "sharpe_252": 0.4212767361892346,
+      "max_drawdown_pct": -7.9061853235760555,
+      "start": "2020-01-02 00:00:00+00:00",
+      "end": "2020-12-31 00:00:00+00:00"
+    },
+    "2021": {
+      "sessions": 259,
+      "net_return_pct": 18.27341232216597,
+      "sharpe_252": 2.3443187716264906,
+      "max_drawdown_pct": -2.92151626679314,
+      "start": "2021-01-04 00:00:00+00:00",
+      "end": "2021-12-31 00:00:00+00:00"
+    },
+    "2022": {
+      "sessions": 258,
+      "net_return_pct": -0.9427600228693156,
+      "sharpe_252": -0.21364617168055913,
+      "max_drawdown_pct": -5.442114198966308,
+      "start": "2022-01-03 00:00:00+00:00",
+      "end": "2022-12-30 00:00:00+00:00"
+    },
+    "2023": {
+      "sessions": 257,
+      "net_return_pct": 0.1819163140848179,
+      "sharpe_252": 0.06059671456221403,
+      "max_drawdown_pct": -4.920455481341874,
+      "start": "2023-01-03 00:00:00+00:00",
+      "end": "2023-12-29 00:00:00+00:00"
+    },
+    "2024": {
+      "sessions": 259,
+      "net_return_pct": 10.591746757132636,
+      "sharpe_252": 1.7603296545270302,
+      "max_drawdown_pct": -2.755528727652736,
+      "start": "2024-01-02 00:00:00+00:00",
+      "end": "2024-12-31 00:00:00+00:00"
+    },
+    "2025": {
+      "sessions": 258,
+      "net_return_pct": 3.138932859379273,
+      "sharpe_252": 0.45490963359985986,
+      "max_drawdown_pct": -7.72656710424451,
+      "start": "2025-01-02 00:00:00+00:00",
+      "end": "2025-12-31 00:00:00+00:00"
+    },
+    "2026": {
+      "sessions": 200,
+      "net_return_pct": 3.9653217501744775,
+      "sharpe_252": 0.6910865321527192,
+      "max_drawdown_pct": -6.383888889167541,
+      "start": "2026-01-02 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    },
+    "full": {
+      "sessions": 3899,
+      "net_return_pct": 101.55076469788153,
+      "sharpe_252": 0.7834930879856691,
+      "max_drawdown_pct": -10.475032658941712,
+      "start": "2011-09-19 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    },
+    "pre_2020": {
+      "sessions": 2149,
+      "net_return_pct": 40.20144821107849,
+      "sharpe_252": 0.7488981677718342,
+      "max_drawdown_pct": -10.44683719907405,
+      "start": "2011-09-19 00:00:00+00:00",
+      "end": "2019-12-31 00:00:00+00:00"
+    },
+    "selected_2020_2022": {
+      "sessions": 776,
+      "net_return_pct": 21.545739986695757,
+      "sharpe_252": 0.9096403770565904,
+      "max_drawdown_pct": -7.9061853235760555,
+      "start": "2020-01-02 00:00:00+00:00",
+      "end": "2022-12-30 00:00:00+00:00"
+    },
+    "after_selection_2023_2025": {
+      "sessions": 774,
+      "net_return_pct": 13.763699516678018,
+      "sharpe_252": 0.7794336034433874,
+      "max_drawdown_pct": -7.72656710424451,
+      "start": "2023-01-03 00:00:00+00:00",
+      "end": "2025-12-31 00:00:00+00:00"
+    },
+    "2026_ytd": {
+      "sessions": 200,
+      "net_return_pct": 3.9653217501744775,
+      "sharpe_252": 0.6910865321527192,
+      "max_drawdown_pct": -6.383888889167541,
+      "start": "2026-01-02 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    }
+  },
+  "fills": 202,
+  "closed_trade_rows": 101,
+  "native_rejections": 0,
+  "artifact_sha256": {
+    "prices.parquet": "3d5c10c0640a5b6e7c707046d6c8de73aaa55e9c7a5cad348c2f078d2edbb831",
+    "signals.parquet": "37f5ea3689d643c93ad17f1885bbafbd3a8c9be1f63c60c3ad11bf5c37ca0b9a",
+    "equity.csv": "91085bef9bb5e40a211408ffd7e97f458081831d7d59cf62c3ec257388ffe7c3",
+    "trades.csv": "a5f22e000b7caa3f5405708e1d52cd594466da3081dcb49589491b453dcde835",
+    "fills.csv": "b1caca7a4b050b55fd2f80b0b67b73d87e93dd9a77cf5d85d177511c15eaba39",
+    "rejected_orders.csv": "b8be29f01f010cf74c5af72f73f305c252445551538e83e2ce63c307bda886bd"
+  },
+  "caveats": [
+    "Five separate strategy simulations, no Shannon portfolio",
+    "Source proxy: Binance BTCUSDT perpetual for BTC, ES CFD/index for SPY",
+    "BTC funding, index/CFD financing, SPY distributions absent",
+    "2020-2022 was selection sample; later historical data not an untouched holdout",
+    "Native next-bar fills, generic fee and slippage assumptions",
+    "No parameter reoptimization; pivot stop entry-bar protection unqualified",
+    "Engine Sharpe convention not independently calibrated for 365-day crypto"
+  ]
+}

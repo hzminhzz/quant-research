@@ -1,0 +1,381 @@
+{
+  "session_id": "near-market-structure-exit-sweep-20261006",
+  "status": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "instrument": {
+    "symbol": "NEARUSDT",
+    "venue": "Binance USD\u24c8-M Futures",
+    "product": "USDT-margined perpetual",
+    "data_path": "/home/quant/dev/quant/ml4t-data/data/crypto/market/ohlcv_1h/symbol=NEARUSDT/data.parquet",
+    "available_start": "2020-10-15T08:00:00Z",
+    "available_end": "2025-12-31T23:00:00Z"
+  },
+  "input_sha256": "6c342175f3a6d4571cd09d5558b1d1e7bd6ef230f838b1837240e5dc0b33d228",
+  "coverage": {
+    "rows": 45688,
+    "expected_rows": 45688,
+    "gaps": 0,
+    "duplicates": 0,
+    "sorted": true,
+    "start": "2020-10-15T08:00:00+00:00",
+    "end": "2025-12-31T23:00:00+00:00"
+  },
+  "entry_signals": 292,
+  "confirmed_pivots": 9744,
+  "trial_count": 20,
+  "trials": [
+    {
+      "ema_period": 5,
+      "atr_multiplier": 1.0,
+      "train_net_return": -0.39333970623116876,
+      "train_sharpe": -0.9048711218285648
+    },
+    {
+      "ema_period": 5,
+      "atr_multiplier": 1.5,
+      "train_net_return": -0.39333970623116876,
+      "train_sharpe": -0.9048711218285648
+    },
+    {
+      "ema_period": 5,
+      "atr_multiplier": 2.0,
+      "train_net_return": -0.39333970623116876,
+      "train_sharpe": -0.9048711218285648
+    },
+    {
+      "ema_period": 5,
+      "atr_multiplier": 2.5,
+      "train_net_return": -0.39333970623116876,
+      "train_sharpe": -0.9048711218285648
+    },
+    {
+      "ema_period": 8,
+      "atr_multiplier": 1.0,
+      "train_net_return": -0.34208129958246214,
+      "train_sharpe": -0.5046847314568641
+    },
+    {
+      "ema_period": 8,
+      "atr_multiplier": 1.5,
+      "train_net_return": -0.3762412379503969,
+      "train_sharpe": -0.5896565606726845
+    },
+    {
+      "ema_period": 8,
+      "atr_multiplier": 2.0,
+      "train_net_return": -0.39170268710191347,
+      "train_sharpe": -0.6319959100260029
+    },
+    {
+      "ema_period": 8,
+      "atr_multiplier": 2.5,
+      "train_net_return": -0.39170268710191347,
+      "train_sharpe": -0.6319959100260029
+    },
+    {
+      "ema_period": 13,
+      "atr_multiplier": 1.0,
+      "train_net_return": -0.2532241608852307,
+      "train_sharpe": -0.2101098417919759
+    },
+    {
+      "ema_period": 13,
+      "atr_multiplier": 1.5,
+      "train_net_return": -0.5261125610356283,
+      "train_sharpe": -0.6602914981775108
+    },
+    {
+      "ema_period": 13,
+      "atr_multiplier": 2.0,
+      "train_net_return": -0.5578921565347689,
+      "train_sharpe": -0.7263228589038898
+    },
+    {
+      "ema_period": 13,
+      "atr_multiplier": 2.5,
+      "train_net_return": -0.5200327161647356,
+      "train_sharpe": -0.5756939824431274
+    },
+    {
+      "ema_period": 21,
+      "atr_multiplier": 1.0,
+      "train_net_return": -0.11984368325825623,
+      "train_sharpe": 0.02214632352586098
+    },
+    {
+      "ema_period": 21,
+      "atr_multiplier": 1.5,
+      "train_net_return": -0.5752995728986787,
+      "train_sharpe": -0.627861300496966
+    },
+    {
+      "ema_period": 21,
+      "atr_multiplier": 2.0,
+      "train_net_return": -0.5988857873123107,
+      "train_sharpe": -0.6800622625609404
+    },
+    {
+      "ema_period": 21,
+      "atr_multiplier": 2.5,
+      "train_net_return": -0.6378876228307957,
+      "train_sharpe": -0.6961642057559441
+    },
+    {
+      "ema_period": 34,
+      "atr_multiplier": 1.0,
+      "train_net_return": -0.12573392075511924,
+      "train_sharpe": 0.02861944978096555
+    },
+    {
+      "ema_period": 34,
+      "atr_multiplier": 1.5,
+      "train_net_return": -0.5015787506922053,
+      "train_sharpe": -0.4009220012416073
+    },
+    {
+      "ema_period": 34,
+      "atr_multiplier": 2.0,
+      "train_net_return": -0.539227515986913,
+      "train_sharpe": -0.4539727000094649
+    },
+    {
+      "ema_period": 34,
+      "atr_multiplier": 2.5,
+      "train_net_return": -0.6133078405799843,
+      "train_sharpe": -0.5092462013987248
+    }
+  ],
+  "selected_config": {
+    "ema_period": 13,
+    "atr_multiplier": 1.0,
+    "train_plateau_score": -0.5471706460647743,
+    "train_profitable_fraction": 0.0,
+    "validation_net_return": -0.1862585405760222,
+    "validation_sharpe": -0.9467144866203003,
+    "validation_gate": "FAIL",
+    "selection_rule": "max min(train_plateau_score, validation_sharpe); frozen tie breaks"
+  },
+  "retrospective_test": {
+    "period": "2025_retrospective_test",
+    "n_days": 365,
+    "net_return": 0.48514922519954906,
+    "annualized_daily_sharpe": 1.2339112491807462,
+    "max_drawdown": -0.10332266035206972,
+    "win_rate": 0.39622641509433965,
+    "profit_factor": 2.373327660475554,
+    "mean_trade_return": 0.008499573882405183,
+    "median_trade_return": -0.0023940914489311016,
+    "trade_count": 53,
+    "exposure_fraction": 0.040981735159817345,
+    "average_holding_bars": 6.773584905660377,
+    "average_holding_hours": 6.773584905660377,
+    "cost_bps_per_side": 10
+  },
+  "selected_cost_stress": [
+    {
+      "period": "2025_retrospective_test",
+      "n_days": 365,
+      "net_return": 0.48514922519954906,
+      "annualized_daily_sharpe": 1.2339112491807462,
+      "max_drawdown": -0.10332266035206972,
+      "win_rate": 0.39622641509433965,
+      "profit_factor": 2.373327660475554,
+      "mean_trade_return": 0.008499573882405183,
+      "median_trade_return": -0.0023940914489311016,
+      "trade_count": 53,
+      "exposure_fraction": 0.040981735159817345,
+      "average_holding_bars": 6.773584905660377,
+      "average_holding_hours": 6.773584905660377,
+      "cost_bps_per_side": 10
+    },
+    {
+      "period": "2025_retrospective_test",
+      "n_days": 365,
+      "net_return": 0.33556711624603364,
+      "annualized_daily_sharpe": 0.946548799236846,
+      "max_drawdown": -0.11845985095526379,
+      "win_rate": 0.33962264150943394,
+      "profit_factor": 1.8691851019081251,
+      "mean_trade_return": 0.006481566236076973,
+      "median_trade_return": -0.004390300870942165,
+      "trade_count": 53,
+      "exposure_fraction": 0.040981735159817345,
+      "average_holding_bars": 6.773584905660377,
+      "average_holding_hours": 6.773584905660377,
+      "cost_bps_per_side": 20
+    },
+    {
+      "period": "2025_retrospective_test",
+      "n_days": 365,
+      "net_return": 0.20092288826680615,
+      "annualized_daily_sharpe": 0.6577742880220834,
+      "max_drawdown": -0.1333562964073054,
+      "win_rate": 0.33962264150943394,
+      "profit_factor": 1.5094865369032875,
+      "mean_trade_return": 0.004465579628953974,
+      "median_trade_return": -0.006384511084718825,
+      "trade_count": 53,
+      "exposure_fraction": 0.040981735159817345,
+      "average_holding_bars": 6.773584905660377,
+      "average_holding_hours": 6.773584905660377,
+      "cost_bps_per_side": 30
+    }
+  ],
+  "yearly_metrics": [
+    {
+      "period": "2020_partial",
+      "n_days": 77,
+      "net_return": 0.22212839549113683,
+      "annualized_daily_sharpe": 2.2461778942137487,
+      "max_drawdown": -0.12343313501831843,
+      "win_rate": 0.4,
+      "profit_factor": 2.773845264630665,
+      "mean_trade_return": 0.017784221897039505,
+      "median_trade_return": -0.010158877356675755,
+      "trade_count": 15,
+      "exposure_fraction": 0.043831168831168825,
+      "average_holding_bars": 5.666666666666667,
+      "average_holding_hours": 5.666666666666667,
+      "cost_bps_per_side": 10
+    },
+    {
+      "period": "2021",
+      "n_days": 365,
+      "net_return": -0.23119989341723524,
+      "annualized_daily_sharpe": -0.735959460504929,
+      "max_drawdown": -0.3066115621739276,
+      "win_rate": 0.2909090909090909,
+      "profit_factor": 0.7175532812819098,
+      "mean_trade_return": -0.0045506955496573106,
+      "median_trade_return": -0.00955718283142204,
+      "trade_count": 55,
+      "exposure_fraction": 0.028767123287671233,
+      "average_holding_bars": 4.509090909090909,
+      "average_holding_hours": 4.509090909090909,
+      "cost_bps_per_side": 10
+    },
+    {
+      "period": "2022",
+      "n_days": 365,
+      "net_return": -0.2514552631373611,
+      "annualized_daily_sharpe": -1.1468359709179856,
+      "max_drawdown": -0.2851715487277623,
+      "win_rate": 0.18333333333333332,
+      "profit_factor": 0.6290590689266979,
+      "mean_trade_return": -0.004334633835192666,
+      "median_trade_return": -0.008665672424259863,
+      "trade_count": 60,
+      "exposure_fraction": 0.03276255707762557,
+      "average_holding_bars": 4.783333333333333,
+      "average_holding_hours": 4.783333333333333,
+      "cost_bps_per_side": 10
+    },
+    {
+      "period": "2023",
+      "n_days": 365,
+      "net_return": 0.06179879397139776,
+      "annualized_daily_sharpe": 0.3903676698075601,
+      "max_drawdown": -0.0931942521858683,
+      "win_rate": 0.3620689655172414,
+      "profit_factor": 1.164721102829069,
+      "mean_trade_return": 0.0013417299091629214,
+      "median_trade_return": -0.0058574779993724735,
+      "trade_count": 58,
+      "exposure_fraction": 0.044178082191780835,
+      "average_holding_bars": 6.672413793103448,
+      "average_holding_hours": 6.672413793103448,
+      "cost_bps_per_side": 10
+    },
+    {
+      "period": "2024",
+      "n_days": 366,
+      "net_return": -0.1862585405760223,
+      "annualized_daily_sharpe": -0.9467144866203011,
+      "max_drawdown": -0.35776373542246065,
+      "win_rate": 0.27450980392156865,
+      "profit_factor": 0.5513224720039659,
+      "mean_trade_return": -0.0038377669057451016,
+      "median_trade_return": -0.005042428275189081,
+      "trade_count": 51,
+      "exposure_fraction": 0.025387067395264116,
+      "average_holding_bars": 4.372549019607843,
+      "average_holding_hours": 4.372549019607843,
+      "cost_bps_per_side": 10
+    },
+    {
+      "period": "2025",
+      "n_days": 365,
+      "net_return": 0.4851492251995484,
+      "annualized_daily_sharpe": 1.2339112491807458,
+      "max_drawdown": -0.10332266035207005,
+      "win_rate": 0.39622641509433965,
+      "profit_factor": 2.373327660475554,
+      "mean_trade_return": 0.008499573882405183,
+      "median_trade_return": -0.0023940914489311016,
+      "trade_count": 53,
+      "exposure_fraction": 0.04098173515981734,
+      "average_holding_bars": 6.773584905660377,
+      "average_holding_hours": 6.773584905660377,
+      "cost_bps_per_side": 10
+    }
+  ],
+  "dsr": {
+    "probability": 0.04503614028124127,
+    "is_significant": false,
+    "n_samples": 1173,
+    "n_trials": 20,
+    "expected_max_sharpe": 0.027091545592757792,
+    "deflated_sharpe": -0.02559353512608513,
+    "variance_trials": 0.00020315933479116792,
+    "frequency": "daily",
+    "periods_per_year": 365
+  },
+  "baseline_comparison": {
+    "source": "run_log/near_market_structure_20261005/result.json",
+    "status": "descriptive_only_different_exit_and_2024-2025_period",
+    "prior_2024_net_return": -0.49844242533592065,
+    "prior_2025_net_return": 0.012243125045555692
+  },
+  "funding_included": false,
+  "funding_note": "No exact canonical NEAR funding-rate file was found in the current crypto dataset path. Premium-index data is not silently substituted for realized funding.",
+  "accounting_check": {
+    "compounded_trade_return": 0.9024991363945098,
+    "portfolio_equity_return": 0.9024991363945019,
+    "absolute_difference": 7.993605777301127e-15,
+    "passed": true
+  },
+  "overfitting_note": "20 exit parameter trials were preregistered. DSR uses the aligned TRAIN daily returns from these 20 cells. Earlier baseline is a separate prior trial and is not pooled because its exit rule and period differ. 2025 is retrospective, not untouched.",
+  "selected_skills": [
+    {
+      "name": "ml4t-sensitivity-analysis",
+      "path": ".agents/skills/ml4t-sensitivity-analysis/SKILL.md",
+      "invariant": "retain full 2D surface and neighborhood stability",
+      "verification": "train_surface.csv/json and frozen plateau selection"
+    },
+    {
+      "name": "ml4t-backtest-overfitting",
+      "path": ".agents/skills/ml4t-backtest-overfitting/SKILL.md",
+      "invariant": "count all 20 preregistered cells",
+      "verification": "trial_accounting.json and aligned-return DSR"
+    },
+    {
+      "name": "ml4t-walk-forward-cv",
+      "path": ".agents/skills/ml4t-walk-forward-cv/SKILL.md",
+      "invariant": "chronological splits with no shuffling",
+      "verification": "frozen TRAIN/VALIDATION/retrospective TEST ranges"
+    },
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "invariant": "close decisions fill at next open; costs per side",
+      "verification": "simulation and tests"
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "invariant": "no future bars affect features, entries, or exits",
+      "verification": "causal indicators and append-future tests"
+    }
+  ],
+  "next_decisive_question": "Can a selected exit remain positive after validated venue execution costs and realized funding, using genuinely new post-2025 data?"
+}

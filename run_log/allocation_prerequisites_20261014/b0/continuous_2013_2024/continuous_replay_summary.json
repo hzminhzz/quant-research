@@ -1,0 +1,325 @@
+{
+  "status": "VERIFIED",
+  "classification": "EXPLORATORY development-only allocation prerequisite; no allocator training, paper, or live",
+  "source": "Dukascopy USATECH.IDX/USD BID one-minute CFD proxy; not CME NQ",
+  "period_utc": {
+    "start_inclusive": "2013-01-01",
+    "end_inclusive": "2024-12-31"
+  },
+  "strategy": {
+    "identity": "promoted B0 one_bar_nq_30m; frozen settings reused unchanged",
+    "contracts": 1,
+    "lookback_complete_30m_bars": 50,
+    "protective_stop_points": 50.0,
+    "next_30m_market_exit": true,
+    "opposing_stop_cancel_after_first_fill_intended_oco": true,
+    "max_entries_per_chicago_session_day": 2,
+    "session_anchor": "17:00 America/Chicago",
+    "commission_usd_per_fill": 2.5,
+    "adverse_slippage_points_per_fill": 0.25,
+    "multiplier_usd_per_point_illustrative": 20.0
+  },
+  "engine": "Installed ml4t.backtest Engine via promote/one_bar_nq_30m/src/run_one_bar_dukascopy_phase567_20261011.py::run_native; no custom execution loop",
+  "native_engine_metrics": {
+    "trial": "native_full_tick_cost",
+    "engine": "ml4t.backtest Engine, NEXT_BAR native STOP/MARKET",
+    "native_engine_metrics": {
+      "initial_cash": 1000000.0,
+      "final_value": 1144582.200000011,
+      "total_return": 0.14458220000001099,
+      "num_trades": 5227,
+      "win_rate": 0.47063325043045723,
+      "profit_factor": 1.2991470693281917,
+      "total_commission": 26135.0,
+      "total_slippage": 52270.0,
+      "total_costs": 78405.0,
+      "num_fills": 10454,
+      "num_rejected_orders": 0
+    },
+    "closed_trades": 5227,
+    "open_trades_at_end": 0,
+    "sum_trade_pnl_usd": 144582.19999999995,
+    "equity_change_usd": 144582.2000000109,
+    "ledger_equity_difference_usd": -1.0943040251731873e-08,
+    "gross_pnl_usd": 170717.19999999995,
+    "commissions_usd": 26135.0,
+    "slippage_points_sum": 2613.5,
+    "slippage_cost_usd": 52270.0,
+    "fees_and_slippage_usd": 78405.0,
+    "trade_ledger_slippage_cost_usd": 52270.0,
+    "fill_trade_slippage_reconciliation_difference_usd": 0.0,
+    "gross_minus_net_pnl_usd": 26135.0,
+    "commission_reconciliation_difference_usd": 0.0,
+    "entry_fills": 5227,
+    "multiple_entry_fills_same_minute": 1,
+    "fill_count": 10454,
+    "max_entries_per_chicago_session_day": 2,
+    "same_minute_entry_stop_ambiguities": 22,
+    "worst_case_same_minute_pnl_usd": 117231.65999999995,
+    "expected_next_boundary_exit_mismatches": 36,
+    "daily_equity_sharpe_library": 1.4235396813376333,
+    "daily_equity_max_drawdown_library": -0.014594759999996284,
+    "commission_per_fill_usd": 2.5,
+    "adverse_slippage_points_per_fill": 0.25,
+    "entry_gap_triggers": 3292,
+    "entry_gap_conservative_price_improvement_usd": 259536.87999999977,
+    "protective_stop_gap_through_fills": 70,
+    "protective_stop_gap_loss_beyond_trigger_usd": 10577.059999999983,
+    "ambiguous_examples": [
+      {
+        "timestamp": "2020-04-12T22:16:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 8113.25,
+        "stop_price": 8163.25
+      },
+      {
+        "timestamp": "2022-03-11T11:23:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 13721.5,
+        "stop_price": 13671.5
+      },
+      {
+        "timestamp": "2022-07-13T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 11682.0,
+        "stop_price": 11732.0
+      },
+      {
+        "timestamp": "2022-08-10T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 13160.75,
+        "stop_price": 13110.75
+      },
+      {
+        "timestamp": "2022-09-21T18:43:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 11983.0,
+        "stop_price": 11933.0
+      },
+      {
+        "timestamp": "2022-10-13T12:29:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 10933.059,
+        "stop_price": 10883.0
+      },
+      {
+        "timestamp": "2022-11-04T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 10653.75,
+        "stop_price": 10703.75
+      },
+      {
+        "timestamp": "2022-11-30T18:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 11616.75,
+        "stop_price": 11566.75
+      },
+      {
+        "timestamp": "2022-12-01T13:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 12058.5,
+        "stop_price": 12008.5
+      },
+      {
+        "timestamp": "2022-12-02T13:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 11922.75,
+        "stop_price": 11972.75
+      },
+      {
+        "timestamp": "2023-01-24T21:01:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 11921.25,
+        "stop_price": 11871.25
+      },
+      {
+        "timestamp": "2023-05-10T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 13253.25,
+        "stop_price": 13203.25
+      },
+      {
+        "timestamp": "2023-10-06T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 14579.25,
+        "stop_price": 14629.25
+      },
+      {
+        "timestamp": "2024-04-05T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 17861.5,
+        "stop_price": 17911.5
+      },
+      {
+        "timestamp": "2024-05-03T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 17700.75,
+        "stop_price": 17650.75
+      },
+      {
+        "timestamp": "2024-05-14T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 18139.5,
+        "stop_price": 18189.5
+      },
+      {
+        "timestamp": "2024-06-07T12:30:00+00:00",
+        "kind": "both_entry_stops_filled",
+        "fills": 2
+      },
+      {
+        "timestamp": "2024-08-13T12:30:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 18720.0,
+        "stop_price": 18670.0
+      },
+      {
+        "timestamp": "2024-08-21T14:36:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 19832.0,
+        "stop_price": 19782.0
+      },
+      {
+        "timestamp": "2024-09-18T18:00:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "long",
+        "entry_price": 19569.75,
+        "stop_price": 19519.75
+      },
+      {
+        "timestamp": "2024-09-18T19:48:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 19325.75,
+        "stop_price": 19375.75
+      },
+      {
+        "timestamp": "2024-10-07T22:33:00+00:00",
+        "kind": "entry_and_protective_stop_same_candle",
+        "side": "short",
+        "entry_price": 19757.0,
+        "stop_price": 19807.0
+      }
+    ]
+  },
+  "source_quality": {
+    "source_partition_count": 3583,
+    "source_partition_years": [
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "source_row_count": 3803769,
+    "source_first_timestamp_utc": "2013-01-01T00:00:00+00:00",
+    "source_last_timestamp_utc": "2024-12-31T23:59:00+00:00",
+    "complete_30m_bars": 125711,
+    "incomplete_30m_bins_excluded": 2559,
+    "duplicate_timestamps": 0,
+    "null_ohlc_values": 0,
+    "invalid_ohlc_rows": 0,
+    "feed_rows": 3803769,
+    "warmup": "All available 2013 data precedes the first eligible 50-bar signal; no pre-2013 source is used.",
+    "cutoff": "Partition discovery and timestamp filter both end at 2024-12-31; 2025+ partitions are not selected."
+  },
+  "frozen_b0_check": {
+    "status": "VERIFIED",
+    "checks": {
+      "strategy_id": true,
+      "lookback": true,
+      "stop_dollars": true,
+      "entry_relation": true,
+      "max_entries": true,
+      "next_30m_exit": true,
+      "17_chicago_session": true,
+      "one_contract": true,
+      "proxy_multiplier": true,
+      "tick": true,
+      "commission": true,
+      "slippage": true,
+      "source_instrument": true
+    }
+  },
+  "cash_mtm_reconciliation": {
+    "daily_snapshots": 3583,
+    "source_mark_missing_count": 0,
+    "max_abs_cash_plus_mark_vs_native_equity_usd": 1.210719347000122e-08,
+    "quantity_max_abs_contracts": 1.0,
+    "rows_over_one_contract": 0,
+    "reconciled_with_existing_b0_cash_and_mtm_adapter": true
+  },
+  "year_boundary_carry": {
+    "boundaries_checked": 11,
+    "cash_and_position_from_single_native_fill_ledger": true,
+    "cash_is_carried_without_annual_reset": true,
+    "boundary_rows": 22,
+    "max_abs_cash_plus_mark_vs_native_equity_usd": 1.0943040251731873e-08,
+    "boundary_positions_flat_count": 21,
+    "boundary_positions_open_count": 1,
+    "endpoint_2024_12_31_marked_from_last_available_development_source_row": true,
+    "2024_2025_boundary_evaluated": false,
+    "2025_plus_source_partitions_selected": false
+  },
+  "files": {
+    "fills": "native_full_tick_cost/fills.csv",
+    "trades": "native_full_tick_cost/trades.csv",
+    "native_daily_equity": "native_full_tick_cost/daily_equity.csv",
+    "cash_mtm_daily": "daily_cash_mtm_reconciliation.csv",
+    "boundary_cash_mtm": "year_boundary_cash_mtm.csv",
+    "source_hashes": "source_hashes.json"
+  },
+  "limitations": [
+    "This is a BID CFD proxy, not a dated CME NQ futures replay.",
+    "The installed broker does not provide atomic OCO. The promoted strategy's opposing-stop cancellation behavior is reused; one-minute OHLC cannot resolve every same-candle ordering.",
+    "No post-2024 close-out rows are included. Any open position at the 2024 cutoff is marked at the last available development close and is not force-liquidated."
+  ],
+  "execution_attempts": {
+    "status": "completed_identical_replay_repeated_for_log_capture",
+    "attempts": [
+      {
+        "attempt": 1,
+        "managed_exec_session_id": 28745,
+        "native_engine_status": "VERIFIED",
+        "command_exit_code": 1,
+        "reason": "tee could not open the not-yet-created task-owned output directory; the native Engine still completed and printed a VERIFIED reconciliation summary; outputs were subsequently replaced by attempt 2."
+      },
+      {
+        "attempt": 2,
+        "managed_exec_session_id": 60857,
+        "native_engine_status": "VERIFIED",
+        "command_exit_code": 0,
+        "reason": "same script, frozen settings, eligible source partitions, and native trial; this attempt produced the retained output files and run log."
+      }
+    ],
+    "parameter_variations": 0,
+    "yearly_path_stitching": false,
+    "retained_artifact_attempt": 2,
+    "comparison": "Both session summaries reported 3,803,769 source rows, 3,583 daily snapshots, 5,227 closed trades, maximum marked-equity reconciliation difference $0.0000000121, and the same year-boundary carry checks."
+  }
+}

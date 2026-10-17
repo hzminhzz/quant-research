@@ -1,0 +1,28 @@
+{
+  "trial": "SOURCE-PARITY",
+  "status": "FAILED_QUALIFICATION",
+  "observed_at": "2026-10-13",
+  "source_url": "https://mechanicalpremia.substack.com/p/building-a-multi-strategy-portfolio",
+  "verified_rules": [
+    "D1 EMA100, BB10 3-sigma percentB 0.2/0.8, ATR20 below upper rank median100",
+    "H1 BB40 2-sigma upper, ATR14 below upper rank median100, 2x ATR trailing stop",
+    "D1 no actual hard stop; ATR20 ghost sizing only"
+  ],
+  "proven_native": [
+    "ml4t.engineer features implemented",
+    "native Engine orders and cash",
+    "two sleeves represented by separate native logical symbols"
+  ],
+  "blocking_gaps": [
+    "Original full MQL5 source not archived in immutable local file",
+    "Unverified MT5 broker H1/D1 session boundaries and calendar",
+    "H1 entry-minute protective stop absent (installed after first native fill)",
+    "H1 live BID trailing differs from 1minute proxy close",
+    "D1/ H1 source broker lot size/multiplier, spread and financing unknown"
+  ],
+  "decision": "SOURCE_PARITY_NOT_CERTIFIED",
+  "artifacts": [
+    "scripts/mechanicalpremia_native_20261013.py",
+    "tests/test_mechanicalpremia_native_20261013.py"
+  ]
+}

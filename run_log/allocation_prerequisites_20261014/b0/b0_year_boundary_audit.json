@@ -1,0 +1,594 @@
+{
+  "status": "VERIFIED_FLAT_BUT_CONTINUITY_BLOCKED",
+  "tested_internal_boundaries": "2013-12/2014-01 through 2023-12/2024-01",
+  "excluded_boundary": "2024-12/2025-01; no 2025 data read by authorization",
+  "boundary_snapshots_all_flat": true,
+  "all_year_worker_overlap_fill_and_equity_continuity_proven": false,
+  "boundary_details": [
+    {
+      "calendar_boundary": "2013-12-31/2014-01",
+      "checkpoints": [
+        {
+          "worker_year": 2013,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2013-12-31T21:00:00+00:00",
+          "native_equity_usd": 997406.6000000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2013,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2014-01-02T23:59:00+00:00",
+          "native_equity_usd": 997406.6000000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2014,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2013-12-31T21:00:00+00:00",
+          "native_equity_usd": 999841.5000000002,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2014,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2014-01-02T23:59:00+00:00",
+          "native_equity_usd": 999608.1200000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 13,
+        "common_first_timestamp_utc": "2013-12-18T23:59:00+00:00",
+        "common_last_timestamp_utc": "2014-01-07T23:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2013": 26,
+          "2014": 42
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 26,
+        "equity_offset_worker_minus_next_min_usd": -2453.280000000028,
+        "equity_offset_worker_minus_next_max_usd": -2182.319999999949,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2014-12-31/2015-01",
+      "checkpoints": [
+        {
+          "worker_year": 2014,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2014-12-31T19:00:00+00:00",
+          "native_equity_usd": 995478.5000000008,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2014,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2015-01-02T21:59:00+00:00",
+          "native_equity_usd": 995458.0600000008,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2015,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2014-12-31T19:00:00+00:00",
+          "native_equity_usd": 999538.5399999999,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2015,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2015-01-02T21:59:00+00:00",
+          "native_equity_usd": 999434.6,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 16,
+        "common_first_timestamp_utc": "2014-12-18T23:59:00+00:00",
+        "common_last_timestamp_utc": "2015-01-07T23:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2014": 20,
+          "2015": 28
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 0,
+        "equity_offset_worker_minus_next_min_usd": -4322.299999999115,
+        "equity_offset_worker_minus_next_max_usd": -3915.299999999348,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2015-12-31/2016-01",
+      "checkpoints": [
+        {
+          "worker_year": 2015,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2015-12-31T18:00:00+00:00",
+          "native_equity_usd": 999801.1599999996,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2015,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2016-01-04T21:00:00+00:00",
+          "native_equity_usd": 999801.1599999996,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2016,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2015-12-31T18:00:00+00:00",
+          "native_equity_usd": 1000010.2599999997,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2016,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2016-01-04T21:00:00+00:00",
+          "native_equity_usd": 1000148.9599999997,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 13,
+        "common_first_timestamp_utc": "2015-12-18T21:00:00+00:00",
+        "common_last_timestamp_utc": "2016-01-07T21:00:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2015": 22,
+          "2016": 34
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 22,
+        "equity_offset_worker_minus_next_min_usd": -1047.8600000001024,
+        "equity_offset_worker_minus_next_max_usd": -209.10000000009313,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2016-12-31/2017-01",
+      "checkpoints": [
+        {
+          "worker_year": 2016,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2016-12-30T21:00:00+00:00",
+          "native_equity_usd": 992490.5600000008,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2016,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2017-01-03T21:00:00+00:00",
+          "native_equity_usd": 992490.5600000008,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2017,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2016-12-30T21:00:00+00:00",
+          "native_equity_usd": 1000353.22,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2017,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2017-01-03T21:00:00+00:00",
+          "native_equity_usd": 1000353.22,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 13,
+        "common_first_timestamp_utc": "2016-12-19T21:00:00+00:00",
+        "common_last_timestamp_utc": "2017-01-06T21:00:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2016": 20,
+          "2017": 32
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 20,
+        "equity_offset_worker_minus_next_min_usd": -8036.939999999246,
+        "equity_offset_worker_minus_next_max_usd": -7862.659999999218,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2017-12-31/2018-01",
+      "checkpoints": [
+        {
+          "worker_year": 2017,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2017-12-29T20:59:00+00:00",
+          "native_equity_usd": 996263.7400000044,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2017,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2018-01-02T20:59:00+00:00",
+          "native_equity_usd": 996263.7400000044,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2018,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2017-12-29T20:59:00+00:00",
+          "native_equity_usd": 999906.6800000002,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2018,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2018-01-02T20:59:00+00:00",
+          "native_equity_usd": 999870.9000000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 13,
+        "common_first_timestamp_utc": "2017-12-18T20:59:00+00:00",
+        "common_last_timestamp_utc": "2018-01-05T20:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2017": 14,
+          "2018": 28
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 0,
+        "equity_offset_worker_minus_next_min_usd": -3680.319999995525,
+        "equity_offset_worker_minus_next_max_usd": -3453.9399999958696,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2018-12-31/2019-01",
+      "checkpoints": [
+        {
+          "worker_year": 2018,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2018-12-31T21:14:00+00:00",
+          "native_equity_usd": 1011101.4200000034,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2018,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2019-01-01T23:59:00+00:00",
+          "native_equity_usd": 1011101.4200000034,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2019,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2018-12-31T21:14:00+00:00",
+          "native_equity_usd": 997865.5200000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2019,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2019-01-01T23:59:00+00:00",
+          "native_equity_usd": 997865.5200000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 18,
+        "common_first_timestamp_utc": "2018-12-18T23:59:00+00:00",
+        "common_last_timestamp_utc": "2019-01-07T23:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2018": 28,
+          "2019": 44
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 28,
+        "equity_offset_worker_minus_next_min_usd": 12678.940000003204,
+        "equity_offset_worker_minus_next_max_usd": 13939.30000000319,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2019-12-31/2020-01",
+      "checkpoints": [
+        {
+          "worker_year": 2019,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2019-12-30T23:59:00+00:00",
+          "native_equity_usd": 1006418.4000000036,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2019,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2020-01-01T23:59:00+00:00",
+          "native_equity_usd": 1006418.4000000036,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2020,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2019-12-30T23:59:00+00:00",
+          "native_equity_usd": 1000951.7399999998,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2020,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2020-01-01T23:59:00+00:00",
+          "native_equity_usd": 1000951.7399999998,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 17,
+        "common_first_timestamp_utc": "2019-12-18T23:59:00+00:00",
+        "common_last_timestamp_utc": "2020-01-07T23:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2019": 24,
+          "2020": 41
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 24,
+        "equity_offset_worker_minus_next_min_usd": 5225.860000003828,
+        "equity_offset_worker_minus_next_max_usd": 5531.060000003781,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2020-12-31/2021-01",
+      "checkpoints": [
+        {
+          "worker_year": 2020,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2020-12-31T21:14:00+00:00",
+          "native_equity_usd": 1010235.9600000001,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2020,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2021-01-03T23:59:00+00:00",
+          "native_equity_usd": 1010235.9600000001,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2021,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2020-12-31T21:14:00+00:00",
+          "native_equity_usd": 1001428.6400000002,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2021,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2021-01-03T23:59:00+00:00",
+          "native_equity_usd": 1001428.6400000002,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 16,
+        "common_first_timestamp_utc": "2020-12-18T21:14:00+00:00",
+        "common_last_timestamp_utc": "2021-01-07T23:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2020": 20,
+          "2021": 36
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 20,
+        "equity_offset_worker_minus_next_min_usd": 7584.039999999688,
+        "equity_offset_worker_minus_next_max_usd": 8807.319999999832,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2021-12-31/2022-01",
+      "checkpoints": [
+        {
+          "worker_year": 2021,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2021-12-31T21:14:00+00:00",
+          "native_equity_usd": 1033113.7600000019,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2021,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2022-01-02T23:59:00+00:00",
+          "native_equity_usd": 1033113.7600000019,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2022,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2021-12-31T21:14:00+00:00",
+          "native_equity_usd": 1002924.8400000001,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2022,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2022-01-02T23:59:00+00:00",
+          "native_equity_usd": 1002924.8400000001,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 17,
+        "common_first_timestamp_utc": "2021-12-19T23:59:00+00:00",
+        "common_last_timestamp_utc": "2022-01-07T21:14:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2021": 33,
+          "2022": 48
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 0,
+        "equity_offset_worker_minus_next_min_usd": 29170.060000001686,
+        "equity_offset_worker_minus_next_max_usd": 31333.34000000183,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2022-12-31/2023-01",
+      "checkpoints": [
+        {
+          "worker_year": 2022,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2022-12-30T21:13:00+00:00",
+          "native_equity_usd": 1057939.4000000004,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2022,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2023-01-02T23:59:00+00:00",
+          "native_equity_usd": 1056927.0200000005,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2023,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2022-12-30T21:13:00+00:00",
+          "native_equity_usd": 1001346.0200000003,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2023,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2023-01-02T23:59:00+00:00",
+          "native_equity_usd": 1000333.6400000002,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 15,
+        "common_first_timestamp_utc": "2022-12-18T23:59:00+00:00",
+        "common_last_timestamp_utc": "2023-01-06T21:14:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2022": 28,
+          "2023": 34
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 0,
+        "equity_offset_worker_minus_next_min_usd": 56410.92000000039,
+        "equity_offset_worker_minus_next_max_usd": 57015.00000000023,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    },
+    {
+      "calendar_boundary": "2023-12-31/2024-01",
+      "checkpoints": [
+        {
+          "worker_year": 2023,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2023-12-29T21:13:00+00:00",
+          "native_equity_usd": 1023344.7800000011,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2023,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2024-01-01T23:59:00+00:00",
+          "native_equity_usd": 1023344.7800000011,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2024,
+          "checkpoint": "last_december_snapshot",
+          "timestamp_utc": "2023-12-29T21:13:00+00:00",
+          "native_equity_usd": 999478.3599999998,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        },
+        {
+          "worker_year": 2024,
+          "checkpoint": "first_january_snapshot",
+          "timestamp_utc": "2024-01-01T23:59:00+00:00",
+          "native_equity_usd": 999478.3599999998,
+          "position_quantity_from_native_fills": 0.0,
+          "flat": true
+        }
+      ],
+      "all_available_checkpoints_flat": true,
+      "overlap": {
+        "common_daily_snapshot_count": 16,
+        "common_first_timestamp_utc": "2023-12-18T23:59:00+00:00",
+        "common_last_timestamp_utc": "2024-01-07T23:59:00+00:00",
+        "worker_fill_count_in_common_window": {
+          "2023": 28,
+          "2024": 44
+        },
+        "fill_sequences_identical_in_common_window": false,
+        "first_fill_mismatch_index": 28,
+        "equity_offset_worker_minus_next_min_usd": 22220.78000000131,
+        "equity_offset_worker_minus_next_max_usd": 23866.420000001322,
+        "equity_offset_constant_within_2c": false,
+        "continuity_proven_for_overlap": false
+      }
+    }
+  ],
+  "continuous_nav_created": false,
+  "blocker": "Year workers have distinct native fill sequences and non-constant equity offsets in their shared daily-snapshot windows. Flat boundary snapshots do not establish a single continuous frozen-fill account; yearly rebasing or compounding annual returns would fabricate continuity."
+}

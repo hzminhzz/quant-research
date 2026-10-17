@@ -1,0 +1,105 @@
+# Frozen Gemini Cycle 9 MVP: only 2020-2024 development data; 2025+ sealed.
+# Original handoff SHA256: 8f3329d02ca801cce0069e0f168f8db42da7331eb42f16b279f2a9d10c18285e
+session_id: crypto_rolling_vwap_pullback_v1_20261015_registered
+market: crypto
+thesis: >-
+  In BTCUSDT Binance USD-M perpetuals, after a 7-day directional move exceeds
+  +/-2%, a retest of the rolling 24-bar close-volume-weighted price that
+  closes back on the trend side predicts a profitable 24-hour continuation
+  after 14 bps of round-trip modeled market-order costs. A native 24h SMA
+  pullback with identical timing, exits and costs is the economic baseline.
+mechanism: >-
+  Benchmark-sensitive institutional execution may concentrate directional
+  demand around 24h volume-weighted cost. A close-times-volume OHLCV proxy
+  is not exact exchange trade-level VWAP. The mechanism remains a hypothesis.
+falsifier: >-
+  Reject when BTC VWAP fails to exceed both the SMA baseline's net daily-equity
+  Sharpe and completed-trade win rate, or has negative net PnL. Acceptance
+  requires at least 50 independent completed BTC trades, BTC profit factor
+  >=1.35, win rate >=53%, and net profitable ETH replication with unchanged
+  rules. Stop the experiment if more than 35% of BTC exits are due to the
+  frozen-entry-ATR catastrophic trigger. Missing unexplained 1h price bars
+  block the research. No parameter tuning or protected holdout access.
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: BTCUSDT linear USDT-margined perpetual, base BTC, quote/settlement USDT, notional multiplier 1
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: ETHUSDT linear USDT-margined perpetual, base ETH, quote/settlement USDT, notional multiplier 1
+data:
+  - id: btcusdt_development_hourly
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/crypto_rolling_vwap_pullback_v1_20261015/btcusdt_1h.parquet
+  - id: ethusdt_development_hourly
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/crypto_rolling_vwap_pullback_v1_20261015/ethusdt_1h.parquet
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_policy: >-
+    The 2025-01-01 and later observations are protected and must never be
+    loaded, computed, inspected or scored. Pre-filter the consolidated store
+    to timestamp <2025 before creating bounded development-only inputs.
+  source_path: /home/quant/dev/quant/ml4t-data/data/crypto/market/perps_1h.parquet
+  source_sha256: f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8
+  bar_clock: >-
+    Actual source timestamps are UTC BAR START, not bar end as asserted in
+    Gemini YAML. Bar t features become available after its one-hour close.
+    The native event at bar t close submits NEXT_BAR MARKET, filling bar
+    t+1 open. No decisions depend on the yet-unfinished next bar.
+  features: >-
+    Use ml4t.engineer.compute_features for rocp(timeperiod=168),
+    atr(period=24), sma(period=24). The unsupported rolling close*volume
+    VWAP is a single tested 24-row rolling-sum ratio extension, per symbol.
+  signal: >-
+    Long when 168h ROCP>0.02, low<=VWAP24, close>VWAP24 and flat.
+    Short when 168h ROCP<-0.02, high>=VWAP24, close<VWAP24 and flat.
+  exits: >-
+    At completed-bar close, exit next open if 24 full bars have been held,
+    close crosses unfavorable benchmark by ATR24, or close crosses entry
+    execution price +/- 2 times the ATR24 frozen from the completed signal
+    bar at entry-order submission. Exit priority for counting catastrophic
+    exits is catastrophic, then benchmark, then time.
+  sizing: >-
+    Single active position per strategy. Target signed 1.0 times current
+    account equity as notional at entry; fractional base units; do not
+    pyramid. Permit only technical broker margin for precise 1x sizing,
+    and audit gross/equity <=1.02. The last 48h are new-entry ineligible
+    so all trades can close without reading 2025 bars.
+  reporting: >-
+    Native fills/trades/cash/equity and 365-day equity-based risk metrics,
+    yearly returns, exit-reason accounting, 14/28 bps cost comparisons.
+baseline: >-
+  Simple SMA(24) pullback with the same 168h trend, ATR exits, hold, target
+  notional, signal-to-fill timing, and commission/slippage as VWAP. Compare
+  BTC native-run Sharpe and win rate. No-trade cash is not the thesis null.
+costs:
+  commission_bps: 5.0
+  slippage_bps: 2.0
+  funding_included: false
+  assumptions: >-
+    Gemini's frozen model: 5 bps taker commission + 2 bps percentage slippage
+    per side; 14 bps round-trip. These are hypothetical uniform costs, not
+    a verified historical Binance tier. Perpetual funding, financing and
+    liquidation are not simulated because the source includes only OHLCV;
+    omitted funding remains an economic qualification limitation. Do not
+    silently claim its effect is negligible.
+trials:
+  - id: btc_vwap_development
+    kind: preregistered
+    description: BTCUSDT frozen VWAP rules, 14bps round-trip, native Engine.
+  - id: btc_sma_baseline
+    kind: preregistered
+    description: BTCUSDT frozen SMA24 comparator, same native execution and costs.
+  - id: btc_vwap_double_cost
+    kind: preregistered
+    description: BTCUSDT unchanged VWAP with 28bps friction stress, not parameter search.
+  - id: eth_vwap_replication
+    kind: preregistered
+    description: ETHUSDT unchanged VWAP rules, 14bps round-trip native replication.

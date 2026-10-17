@@ -1,0 +1,33 @@
+DAYS 1768 FIRST 2020-01-01 00:00:00+00:00 LAST 2026-10-09 00:00:00+00:00
+DAILY_CORR
+                    pivot-breakout-btc  donchian-btc  three-red-spy  slope-hook  rsi-30-50
+pivot-breakout-btc               1.000         0.573          0.060       0.031      0.048
+donchian-btc                     0.573         1.000         -0.064      -0.042     -0.042
+three-red-spy                    0.060        -0.064          1.000       0.331      0.333
+slope-hook                       0.031        -0.042          0.331       1.000      0.377
+rsi-30-50                        0.048        -0.042          0.333       0.377      1.000
+CORR_2023PLUS
+                    pivot-breakout-btc  donchian-btc  three-red-spy  slope-hook  rsi-30-50
+pivot-breakout-btc               1.000         0.619          0.074       0.044      0.069
+donchian-btc                     0.619         1.000         -0.041      -0.036     -0.098
+three-red-spy                    0.074        -0.041          1.000       0.388      0.446
+slope-hook                       0.044        -0.036          0.388       1.000      0.546
+rsi-30-50                        0.069        -0.098          0.446       0.546      1.000
+WEIGHTS
+                    equal_five  market_bucket_equal  market_bucket_inverse_vol_train2020_2022  market_group_equal_risk_train2020_2022  rsi_only_reference
+pivot-breakout-btc         0.2                0.250                                     0.179                                   0.089                 0.0
+donchian-btc               0.2                0.250                                     0.321                                   0.089                 0.0
+three-red-spy              0.2                0.167                                     0.185                                   0.274                 0.0
+slope-hook                 0.2                0.167                                     0.128                                   0.274                 0.0
+rsi-30-50                  0.2                0.167                                     0.187                                   0.274                 1.0
+FULL_METRICS
+equal_five {'total_return': 1.1809, 'sharpe_ratio': 1.0748, 'max_drawdown': -0.1107, 'calmar_ratio': 1.0614, 'cvar_95': -0.0148}
+  POST2022 {'total_return': 0.241, 'sharpe_ratio': 0.7152, 'max_drawdown': -0.1107}
+market_bucket_equal {'total_return': 1.4183, 'sharpe_ratio': 1.0128, 'max_drawdown': -0.1506, 'calmar_ratio': 0.8907, 'cvar_95': -0.0182}
+  POST2022 {'total_return': 0.2754, 'sharpe_ratio': 0.6705, 'max_drawdown': -0.1433}
+market_bucket_inverse_vol_train2020_2022 {'total_return': 1.3398, 'sharpe_ratio': 1.0409, 'max_drawdown': -0.1334, 'calmar_ratio': 0.9658, 'cvar_95': -0.0166}
+  POST2022 {'total_return': 0.2751, 'sharpe_ratio': 0.6986, 'max_drawdown': -0.1334}
+market_group_equal_risk_train2020_2022 {'total_return': 0.7045, 'sharpe_ratio': 1.2402, 'max_drawdown': -0.0658, 'calmar_ratio': 1.1995, 'cvar_95': -0.0086}
+  POST2022 {'total_return': 0.1596, 'sharpe_ratio': 0.8881, 'max_drawdown': -0.0524}
+rsi_only_reference {'total_return': 0.4376, 'sharpe_ratio': 0.8211, 'max_drawdown': -0.0791, 'calmar_ratio': 0.6716, 'cvar_95': -0.0093}
+  POST2022 {'total_return': 0.1376, 'sharpe_ratio': 0.7749, 'max_drawdown': -0.0773}

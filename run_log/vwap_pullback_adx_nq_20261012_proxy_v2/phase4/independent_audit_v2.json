@@ -1,0 +1,277 @@
+{
+  "status": "PASS_MECHANICAL",
+  "exact_CME_execution_verified": false,
+  "phase4_contract_qualified": false,
+  "trials": [
+    {
+      "mode": "B1",
+      "cost": "gross",
+      "audit_counts": {
+        "trades": 320,
+        "signals": 320,
+        "fills": 640,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 1,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 6,
+        "limit_slippage_below_limit": 0,
+        "stop_gap_through": 0,
+        "stop_exit": 42,
+        "limit_exit": 276,
+        "hard_exit": 2,
+        "entrybar_exits": 177
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B1",
+      "cost": "cost",
+      "audit_counts": {
+        "trades": 320,
+        "signals": 320,
+        "fills": 640,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 1,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 6,
+        "limit_slippage_below_limit": 276,
+        "stop_gap_through": 0,
+        "stop_exit": 42,
+        "limit_exit": 276,
+        "hard_exit": 2,
+        "entrybar_exits": 177
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B1",
+      "cost": "stress",
+      "audit_counts": {
+        "trades": 320,
+        "signals": 320,
+        "fills": 640,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 1,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 6,
+        "limit_slippage_below_limit": 276,
+        "stop_gap_through": 0,
+        "stop_exit": 42,
+        "limit_exit": 276,
+        "hard_exit": 2,
+        "entrybar_exits": 177
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B2",
+      "cost": "gross",
+      "audit_counts": {
+        "trades": 115,
+        "signals": 115,
+        "fills": 230,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 0,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 1,
+        "limit_slippage_below_limit": 0,
+        "stop_gap_through": 0,
+        "stop_exit": 53,
+        "limit_exit": 60,
+        "hard_exit": 2,
+        "entrybar_exits": 43
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B2",
+      "cost": "cost",
+      "audit_counts": {
+        "trades": 115,
+        "signals": 115,
+        "fills": 230,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 0,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 1,
+        "limit_slippage_below_limit": 60,
+        "stop_gap_through": 0,
+        "stop_exit": 53,
+        "limit_exit": 60,
+        "hard_exit": 2,
+        "entrybar_exits": 43
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B2",
+      "cost": "stress",
+      "audit_counts": {
+        "trades": 115,
+        "signals": 115,
+        "fills": 230,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 0,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 1,
+        "limit_slippage_below_limit": 60,
+        "stop_gap_through": 0,
+        "stop_exit": 53,
+        "limit_exit": 60,
+        "hard_exit": 2,
+        "entrybar_exits": 43
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B3",
+      "cost": "gross",
+      "audit_counts": {
+        "trades": 77,
+        "signals": 77,
+        "fills": 154,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 0,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 0,
+        "limit_slippage_below_limit": 0,
+        "stop_gap_through": 0,
+        "stop_exit": 17,
+        "limit_exit": 60,
+        "hard_exit": 0,
+        "entrybar_exits": 34
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B3",
+      "cost": "cost",
+      "audit_counts": {
+        "trades": 77,
+        "signals": 77,
+        "fills": 154,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 0,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 0,
+        "limit_slippage_below_limit": 60,
+        "stop_gap_through": 0,
+        "stop_exit": 17,
+        "limit_exit": 60,
+        "hard_exit": 0,
+        "entrybar_exits": 34
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    },
+    {
+      "mode": "B3",
+      "cost": "stress",
+      "audit_counts": {
+        "trades": 77,
+        "signals": 77,
+        "fills": 154,
+        "wrong_time": 0,
+        "wrong_tp": 0,
+        "wrong_sl": 0,
+        "bad_entry_price": 0,
+        "nonflat_end": 0,
+        "nonalternating_fills": 0,
+        "ambiguous_exit_bar": 0,
+        "ambiguous_exit_wrong_side": 0,
+        "immediate_tp_marketable": 0,
+        "limit_slippage_below_limit": 60,
+        "stop_gap_through": 0,
+        "stop_exit": 17,
+        "limit_exit": 60,
+        "hard_exit": 0,
+        "entrybar_exits": 34
+      },
+      "fatal_findings": [],
+      "execution_limitations": [
+        "No native atomic OCO guarantee; tested stop-first event/fill orders only.",
+        "Continuous proxy rolls and true CME volume are unverified.",
+        "Native fixed slippage is applied to resting limit orders below their limit; such prices are not literal valid limit fills."
+      ]
+    }
+  ]
+}

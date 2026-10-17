@@ -1,0 +1,41 @@
+session_id: volt_break_nq_phase4_native_adapter_20261012
+type: registered_execution_lifecycle_remediation
+classification: EXPLORATORY
+strategy_parameter_changes: none
+date: "2026-10-12"
+parent_phase4_spec: config/research_sessions/volt_break_nq_phase4_20261012.yaml
+engine: ml4t-backtest 0.1.7, native Engine/Broker, lifecycle adapter
+research_dataset: Dukascopy BID CFD 2018-2025; 2018 warmup, 2019-2025 development
+holdout: 2026 sealed
+economic_hypothesis: unchanged VOLT BREAK thesis
+diagnostic_gate:
+  - "09:59 completed-minute decision fills next source-minute OPEN at 10:00."
+  - "Immediately after native entry OPEN fills, native PositionRule evaluates the same 1m OHLC."
+  - "Already-open and newly-open positions get at most one native stop-first exit per minute."
+  - "Both-touch 1m OHLC assumes STOP first, never favorable selection."
+  - "Gap-through a stop fills at actual source OPEN, not bounded -75 points."
+  - "One NQ-equivalent contract, $20/point, TP +40, SL -75; native ledger PnL reconciles."
+  - "No modification of site packages, source market data or other research files."
+  - "A same-bar evaluation is a conservative OHLC convention, not intrabar tick truth."
+  - "If all tests pass, run exact same frozen strict_1300 and coverage_1000 cohorts separately."
+registered_trials:
+  - "T1 synthetic entry-minute adapter tests"
+  - "T2 strict_1300 zero-cost"
+  - "T3 strict_1300 illustrative-cost"
+  - "T4 strict_1300 doubled-cost"
+  - "T5 coverage_1000 zero-cost"
+  - "T6 coverage_1000 illustrative-cost"
+  - "T7 coverage_1000 doubled-cost"
+costs:
+  zero: {commission_per_fill_usd: 0, adverse_slippage_points_per_fill: 0}
+  illustrative: {commission_per_fill_usd: 2.5, adverse_slippage_points_per_fill: 0.25}
+  double: {commission_per_fill_usd: 5, adverse_slippage_points_per_fill: 0.5}
+first_entry_bar_rule: >-
+  Native Engine's NEXT_BAR processing fills normal market order at open after
+  the usual rule pass. After a 0->+1 native entry fill, the adapter immediately
+  invokes the installed Broker position-rule evaluator against same source
+  one-minute OHLC, then invokes native Broker order fill and ledger processing
+  for that risk exit. This is NOT an externally hand-rolled simulator.
+  Causal inference assumes trade at minute OPEN and chooses STOP-first on
+  same-minute conflicting range.
+validation_note: 2019-2025 has been used in prior research; do not classify as unseen OOS.

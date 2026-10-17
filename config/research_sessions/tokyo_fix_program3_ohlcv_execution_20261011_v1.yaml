@@ -1,0 +1,253 @@
+session_id: tokyo_fix_program3_ohlcv_execution_20261011_v1
+market: fx
+thesis: Evaluate whether unconditional Gotobi post-fix USDJPY short remains positive
+  under conservative OHLC limit-fill bounds relative to next-open market benchmark.
+  No outcome-based strategy selection.
+mechanism: 'HYPOTHESIS: settlement-related pre-fix USD demand may unwind after fixing.
+  Price proxies do not measure dealer inventory.'
+falsifier: Reject robustness if any conservative bound is nonpositive at1pip full
+  sample, or2024-25 or2026 stress is negative. Report all costs/bounds; economic positivity
+  cannot approve deployment or establish real fill probability.
+instruments:
+- symbol: USDJPY
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: LSE composite JPY per USD price proxy. Broker contract/tick/lot/shorting
+    terms unverified; no real orders. Simulated fractional USD10000 base units, tick
+    assumption .001 JPY.
+  timezone: Asia/Tokyo
+  session: Tokyo bank fix intraday
+data:
+- id: year2020
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2021
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2022
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2023
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2024
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2025
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2026
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet
+  role: prices
+  symbol: USDJPY
+evaluation:
+  development_start: '2020-01-01T00:00:00Z'
+  development_end: '2026-08-31T15:00:00Z'
+  holdout_start: '2026-08-31T15:00:00Z'
+  holdout_end: '2026-10-31T15:00:00Z'
+  holdout: SEALED, never read
+  development: 2020-23;2024-25 retrospective validation;2026Jan-Aug observed regime
+    stress, all exploratory
+  initial_usd: 10000
+  notional_usd: 10000
+  costs_pips:
+  - 0.8
+  - 1
+  - 1.4
+  - 2
+  variants:
+  - id: limit_o0_t1_b0
+    offset: 0
+    ttl: 1
+    buffer: 0
+    group: gotobi
+  - id: limit_o0_t1_b0p5
+    offset: 0
+    ttl: 1
+    buffer: 0.5
+    group: gotobi
+  - id: limit_o0_t3_b0
+    offset: 0
+    ttl: 3
+    buffer: 0
+    group: gotobi
+  - id: limit_o0_t3_b0p5
+    offset: 0
+    ttl: 3
+    buffer: 0.5
+    group: gotobi
+  - id: limit_o0p5_t1_b0
+    offset: 0.5
+    ttl: 1
+    buffer: 0
+    group: gotobi
+  - id: limit_o0p5_t1_b0p5
+    offset: 0.5
+    ttl: 1
+    buffer: 0.5
+    group: gotobi
+  - id: limit_o0p5_t3_b0
+    offset: 0.5
+    ttl: 3
+    buffer: 0
+    group: gotobi
+  - id: limit_o0p5_t3_b0p5
+    offset: 0.5
+    ttl: 3
+    buffer: 0.5
+    group: gotobi
+  - id: limit_o1_t1_b0
+    offset: 1
+    ttl: 1
+    buffer: 0
+    group: gotobi
+  - id: limit_o1_t1_b0p5
+    offset: 1
+    ttl: 1
+    buffer: 0.5
+    group: gotobi
+  - id: limit_o1_t3_b0
+    offset: 1
+    ttl: 3
+    buffer: 0
+    group: gotobi
+  - id: limit_o1_t3_b0p5
+    offset: 1
+    ttl: 3
+    buffer: 0.5
+    group: gotobi
+  execution_window:
+  - 594
+  - 630
+  proxy_windows:
+  - - 510
+    - 594
+  - - 570
+    - 594
+  proxy_features:
+  - extension0830
+  - extension0930
+  - rv
+  - acceleration
+  - range
+  proxy_horizons:
+  - 610
+  - 630
+  placebo_window:
+  - 566
+  - 580
+  reference: 09:54 close available09:55. Submit09:55; first fill09:56; TTL1/3 through09:56/58.
+    Close decision10:09 native MARKET fill10:10. Never use09:55 close.
+  gating: Unchanged OHLC; synthetic volume1 only for strict high>limit+buffer within
+    TTL and market exit. PositiveVolumeLimit is execution DATA GATE, not a signal
+    input. Cancel after last eligible bar matching. Filled native limit price=limit,
+    no optimistic open improvement.
+  multiplicity: Holm20 proxy controlled contrasts; Holm14 policy/control contrasts.
+    Costs, year and quantiles descriptive. No winner selection. Earlier historical
+    trial count incomplete; DSR/PBO not reproducible.
+  categorical: Development2020-23 terciles per feature, applied unchanged; no trading
+    filter
+  dag: weekday/year -> Gotobi and returns; settlement -> price and returns; news ->
+    price and returns. Adjust weekday/year only. No causal inventory estimand.
+  stop_rule: Execute fixed matrix once; retain runtime failures; no new variants or
+    minute optimization.
+baseline: Unconditional Gotobi MARKET09:56-10:10 and ordinary control; old nativev2
+  preserved with distinct cohort; cash0
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  roundtrip_pips:
+  - 0.8
+  - 1
+  - 1.4
+  - 2
+  method: 'Explicit all-in JPY cash-flow overlay translated at actual raw exit; native
+    raw fills zero slippage to preserve limit price. Applies same assumed costs to
+    market and passive: no rebate/zero-spread claim.'
+  quote_scenarios: Estimated market .4+.4,.5+.5,.7+.7,1+1pip; passive .2+.6,.3+.7,.5+.9,.8+1.2pip
+    entry/exit budget; aggregate equal. Not broker-calibrated.
+  financing: No overnight; no rollover. Actual broker terms UNKNOWN.
+  impact: USD10000 small assumed notional; no FX market-volume calibration, capacity
+    UNKNOWN.
+trials:
+- id: T0_quality
+  kind: diagnostic
+  description: Window gates and OHLC quality; all bank dates
+- id: T1_proxy
+  kind: diagnostic
+  description: Five past price proxies x two horizons x Gotobi and ordinary; 20 controlled
+    HAC/interaction tests plus categorical effects, descriptive native signal analysis
+- id: market_gotobi
+  kind: preregistered
+  description: Native short Gotobi09:56-10:10 unchanged timing USD10000
+- id: market_ordinary
+  kind: preregistered
+  description: Native same-time ordinary short control
+- id: limit_o0_t1_b0
+  kind: preregistered
+  description: Native strict-cross limit bound offset0pip TTL1min buffer0pip; four
+    fixed cost overlays
+- id: limit_o0_t1_b0p5
+  kind: preregistered
+  description: Native strict-cross limit bound offset0pip TTL1min buffer0.5pip; four
+    fixed cost overlays
+- id: limit_o0_t3_b0
+  kind: preregistered
+  description: Native strict-cross limit bound offset0pip TTL3min buffer0pip; four
+    fixed cost overlays
+- id: limit_o0_t3_b0p5
+  kind: preregistered
+  description: Native strict-cross limit bound offset0pip TTL3min buffer0.5pip; four
+    fixed cost overlays
+- id: limit_o0p5_t1_b0
+  kind: preregistered
+  description: Native strict-cross limit bound offset0.5pip TTL1min buffer0pip; four
+    fixed cost overlays
+- id: limit_o0p5_t1_b0p5
+  kind: preregistered
+  description: Native strict-cross limit bound offset0.5pip TTL1min buffer0.5pip;
+    four fixed cost overlays
+- id: limit_o0p5_t3_b0
+  kind: preregistered
+  description: Native strict-cross limit bound offset0.5pip TTL3min buffer0pip; four
+    fixed cost overlays
+- id: limit_o0p5_t3_b0p5
+  kind: preregistered
+  description: Native strict-cross limit bound offset0.5pip TTL3min buffer0.5pip;
+    four fixed cost overlays
+- id: limit_o1_t1_b0
+  kind: preregistered
+  description: Native strict-cross limit bound offset1pip TTL1min buffer0pip; four
+    fixed cost overlays
+- id: limit_o1_t1_b0p5
+  kind: preregistered
+  description: Native strict-cross limit bound offset1pip TTL1min buffer0.5pip; four
+    fixed cost overlays
+- id: limit_o1_t3_b0
+  kind: preregistered
+  description: Native strict-cross limit bound offset1pip TTL3min buffer0pip; four
+    fixed cost overlays
+- id: limit_o1_t3_b0p5
+  kind: preregistered
+  description: Native strict-cross limit bound offset1pip TTL3min buffer0.5pip; four
+    fixed cost overlays
+- id: T2_comparison
+  kind: diagnostic
+  description: Matched calendar ordinary/control and09:26-09:40 placebo, paired limit-minus-market
+    HAC, Holm14, yearly/stress
+- id: T3_oracle
+  kind: diagnostic
+  description: Independent every-order original-source oracle and economic conversion
+- id: T4_final_audit
+  kind: diagnostic
+  description: Preservation, ledger, tests, source hashes and sealed holdout
+evidence:
+- run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/source_manifest.json
+- run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/methodology.json
+- run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/preservation_before.json

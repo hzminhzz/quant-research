@@ -1,0 +1,113 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2016,
+  "trial": "EQUAL-JP225-7",
+  "cost_multiplier": 1.0,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "US100",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 153,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "JP225",
+      "rows": 298937,
+      "first": "2016-01-04 01:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 177,
+      "d1_signals": 5,
+      "d1_exits": 19
+    },
+    {
+      "symbol": "EU50",
+      "rows": 215401,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 118,
+      "d1_signals": 1,
+      "d1_exits": 16
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 100555.74114631301,
+    "num_trades": 120,
+    "num_orders": 241,
+    "num_fills": 241,
+    "num_rejected_orders": 0,
+    "win_rate": 0.425,
+    "total_commission": 573.7766497594051,
+    "total_slippage": 1147.5530004943053,
+    "total_costs": 1718.4086419139012,
+    "max_drawdown_pct": 1.8882889626586712
+  },
+  "daily": {
+    "total_return": 0.005557411463129824,
+    "annual_return": 0.004515294194156416,
+    "annual_volatility": 0.024704082418659744,
+    "sharpe_ratio": 0.194685531674937,
+    "sortino_ratio": 0.2870470661507967,
+    "calmar_ratio": 0.2628550621146206,
+    "omega_ratio": 1.0543589523200763,
+    "tail_ratio": 1.3701694822690795,
+    "max_drawdown": -0.01717788562956218,
+    "skewness": -0.610243194471558,
+    "kurtosis": 20.150682185971924,
+    "var_95": -0.001787814868946725,
+    "cvar_95": -0.0033035502011068427,
+    "stability": 0.011494898785690684,
+    "win_rate": 0.20967741935483872,
+    "profit_factor": 1.054358952320076,
+    "avg_win": 0.001765499559569256,
+    "avg_loss": -0.0012655928980009582,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 120,
+  "open_trades": 1,
+  "closed_net_pnl": 542.0241279854886,
+  "native_end_equity": 100555.74114631301,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "JP225_D": {
+      "quantity": 0.5119392820725336,
+      "entry_price": 19021.7725938,
+      "current_price": 19050.469,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/EQUAL-JP225-7/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/EQUAL-JP225-7/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/EQUAL-JP225-7/cost_1x/daily_equity.parquet"
+  }
+}

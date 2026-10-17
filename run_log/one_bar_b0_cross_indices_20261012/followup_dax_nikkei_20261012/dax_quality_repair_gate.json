@@ -1,0 +1,90 @@
+{
+  "status": "DIAGNOSTIC_QUARANTINE_ONLY_NOT_REPAIRED",
+  "source": "London Strategic Edge DE30/EUR, 1m index CFD price proxy",
+  "reference": "equity_daily_DAX used ONLY for scale sanity; provenance and duplicate days unresolved",
+  "floor_rule": "5000 index points fixed below uncontaminated 2013-2023 historical min; NOT a trading strategy feature",
+  "rule": "Quarantine any low-scale OHLC bar. Do not rescale or fill missing minutes. Complete 30m bins require all 30 original verified minutes.",
+  "repair_readiness": "Must source independent point-in-time 1m replacement for rejected timestamps, or reject missing 30m windows.",
+  "years": {
+    "2024": {
+      "raw_rows": 129543,
+      "raw_30m": {
+        "observed_30m_bins": 4321,
+        "complete_30m_bins": 4318,
+        "incomplete_30m_bins": 3
+      },
+      "close_low_rows": 90655,
+      "all_OHLC_above_floor_rows": 38888,
+      "high_close_rows": 38888,
+      "quarantined_rows": 90655,
+      "safe_30m": {
+        "observed_30m_bins": 1418,
+        "complete_30m_bins": 1291,
+        "incomplete_30m_bins": 127
+      },
+      "retained_complete_bin_fraction_of_original": 0.2989810097267253,
+      "scale_state_switches": 447,
+      "classification": "NO_CAUSAL_BAR_FABRICATION"
+    },
+    "2025": {
+      "raw_rows": 142787,
+      "raw_30m": {
+        "observed_30m_bins": 5050,
+        "complete_30m_bins": 4596,
+        "incomplete_30m_bins": 454
+      },
+      "close_low_rows": 115945,
+      "all_OHLC_above_floor_rows": 26842,
+      "high_close_rows": 26842,
+      "quarantined_rows": 115945,
+      "safe_30m": {
+        "observed_30m_bins": 1277,
+        "complete_30m_bins": 726,
+        "incomplete_30m_bins": 551
+      },
+      "retained_complete_bin_fraction_of_original": 0.15796344647519583,
+      "scale_state_switches": 334,
+      "classification": "NO_CAUSAL_BAR_FABRICATION"
+    },
+    "2026": {
+      "raw_rows": 162622,
+      "raw_30m": {
+        "observed_30m_bins": 5521,
+        "complete_30m_bins": 5012,
+        "incomplete_30m_bins": 509
+      },
+      "close_low_rows": 43326,
+      "all_OHLC_above_floor_rows": 119296,
+      "high_close_rows": 119296,
+      "quarantined_rows": 43326,
+      "safe_30m": {
+        "observed_30m_bins": 4100,
+        "complete_30m_bins": 3567,
+        "incomplete_30m_bins": 533
+      },
+      "retained_complete_bin_fraction_of_original": 0.7116919393455706,
+      "scale_state_switches": 218,
+      "classification": "NO_CAUSAL_BAR_FABRICATION"
+    }
+  },
+  "daily_reference": {
+    "rows": 950,
+    "unique_days": 866,
+    "duplicate_days": 84,
+    "min_close": 16417.677,
+    "max_close": 25817.890625,
+    "source_provenance_verified": false
+  },
+  "source_sample_sha256": [
+    {
+      "file": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_DAX/year=2024/month=9/data.parquet",
+      "sha256": "69ff0f14c3909fb101baa623d0815c525a3ba51c4851ca8e2affe742034d1cde",
+      "bytes": 128680
+    },
+    {
+      "file": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_DAX/year=2026/month=6/data.parquet",
+      "sha256": "698f7562c4a906fb88f19ea717515e6378ede2cad8b62c55b0a70ae84e728267",
+      "bytes": 338805
+    }
+  ]
+}

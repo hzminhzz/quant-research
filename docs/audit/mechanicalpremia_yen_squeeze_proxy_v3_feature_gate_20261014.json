@@ -1,0 +1,25 @@
+{
+  "session_id": "mechanicalpremia-yen-squeeze-proxy-20261014-v3",
+  "trial_id": "FEATURE-AND-CLOCK-PARITY",
+  "scientific_status": "PASS_WITH_TIMING_PROXY",
+  "source": "docs/audit/mechanicalpremia_yen_squeeze_proxy_data_20261014.json",
+  "feature_library": "ml4t-engineer",
+  "verified": {
+    "USDJPY": {
+      "h1": 12323,
+      "atr_median_finite": 12210
+    },
+    "GBPJPY": {
+      "h1": 11750,
+      "atr_median_finite": 11637
+    },
+    "CADJPY": {
+      "h1": 11627,
+      "atr_median_finite": 11514
+    }
+  },
+  "future_availability_violations": 0,
+  "limitations": [
+    "Minute bar-open timestamps with callback processed after minute OHLC; future fills only, potential one-minute latency vs source timer"
+  ]
+}

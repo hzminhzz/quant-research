@@ -1,0 +1,32 @@
+{
+  "trial_id": "trial_1_maker_execution_baseline",
+  "description": "Volatility-Targeted TSMOM (Maker Fills)",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 24815.68409323467
+  },
+  "performance": {
+    "total_return": 1.4815684093234673,
+    "annualized_sharpe": 0.25495989630340327,
+    "max_drawdown": 0.20037787337232246,
+    "win_rate": 0.2902097902097902,
+    "profit_factor": 1.6113730182385992
+  },
+  "execution": {
+    "trades": 1716,
+    "total_commission": 1140.0572523489518,
+    "total_slippage": 0.0,
+    "total_costs": 1140.0572523489518,
+    "gross_pnl": 15955.741345583581,
+    "fee_drag_pct": 7.145122421181077
+  },
+  "falsifier_checks": {
+    "min_sharpe_0_80": false,
+    "max_drawdown_25_pct": true,
+    "fee_drag_under_20_pct": true
+  }
+}

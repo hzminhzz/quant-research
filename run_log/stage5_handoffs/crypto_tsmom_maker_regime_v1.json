@@ -1,0 +1,77 @@
+{
+  "handoff_schema_version": "stage5-handoff-v3",
+  "strategy_id": "crypto_tsmom_maker_regime_v1",
+  "version": "1.0.0",
+  "status": "ACCEPTED_FOR_STAGE5_EXECUTION",
+  "created_at": "2026-10-07T04:45:00Z",
+  "research_lane": "empirical_thesis_driven",
+  "research_sessions": [
+    "crypto_tsmom_trend_persistence",
+    "crypto_tsmom_vol_targeted",
+    "crypto_tsmom_maker_regime"
+  ],
+  "verified_data_fingerprints": [
+    {
+      "symbol": "BTCUSDT",
+      "path": "data/processed/btc_1h.parquet",
+      "sha256": "36d90d35afe442406baf97bfab56d9b4b35e2ebad235c5381ab4dae8e84518ed"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "path": "data/processed/eth_1h.parquet",
+      "sha256": "a40b54898b2163cfe5f766bd2d1c72bf2ef57fca1c8008e4f769e5b468b635b1"
+    },
+    {
+      "symbol": "SOLUSDT",
+      "path": "data/processed/sol_1h.parquet",
+      "sha256": "3dbe6a53d0a9bc6fb576045a2f62b270a7253f1ed35574e0411502fdb963cf43"
+    }
+  ],
+  "empirical_scorecard": {
+    "development": {
+      "period": "2021-01-01 to 2024-12-31",
+      "continuous_daily_sharpe": 1.572,
+      "max_drawdown": 0.2426,
+      "annualized_net_return": 0.297,
+      "fee_drag_pct": 6.51,
+      "total_trades": 1716
+    },
+    "out_of_sample_holdout": {
+      "period": "2025-01-01 to 2026-07-31",
+      "net_return": 0.1063,
+      "max_drawdown": 0.1210,
+      "benchmark_buy_and_hold_return": -0.4626,
+      "net_alpha": 0.5689,
+      "status": "POSITIVE_ALPHA_AND_CAPITAL_PRESERVATION"
+    },
+    "sensitivity_surface": {
+      "grid_size": 16,
+      "profitable_combinations_pct": 100.0,
+      "sharpe_greater_than_0_80_pct": 100.0,
+      "cliff_detected": false
+    },
+    "crisis_stress_testing": {
+      "terra_luna_may_2022_max_dd": 0.0151,
+      "ftx_collapse_nov_2022_max_dd": 0.0355,
+      "survival_threshold_breached": false
+    },
+    "multiple_testing_correction": {
+      "total_trials_evaluated": 16,
+      "deflated_sharpe_ratio": 0.9821,
+      "statistical_significance": "P_VALUE_LESS_THAN_0_02"
+    }
+  },
+  "implementation_artifacts": {
+    "config": "config/strategies/crypto_tsmom_maker_regime_v1.yaml",
+    "strategy_module": "src/strategies/crypto_tsmom_maker_regime.py",
+    "features_matrix": "data/features/crypto_tsmom_features.parquet",
+    "paper_trading_runner": "scripts/run_paper_trading_daemon.py"
+  },
+  "operational_guardrails": {
+    "order_type": "LIMIT_POST_ONLY",
+    "max_gross_leverage": 1.0,
+    "max_single_weight": 0.35,
+    "kill_switch_drawdown_limit": 0.15,
+    "kill_switch_action": "HALT_AND_FLATTEN"
+  }
+}

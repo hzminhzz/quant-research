@@ -1,0 +1,23 @@
+classification: EXPLORATORY
+approval_status: NOT_APPROVED
+live_trading_enabled: false
+known_trials:
+  - run: one_bar_50breakout_20261011
+    status: completed historical proxy review
+  - run: one_bar_dukascopy_2013_2026_20261011
+    status: completed historical retrospective proxy review
+  - run: one_bar_dukascopy_phase567_20261011
+    status: completed diagnostics with unresolved execution limits
+  - run: one_bar_execution_remediation_20261012
+    status: full_history_replay_blocked; bounded diagnostics completed
+  - run: one_bar_practical_1m_20261012
+    status: annual replay completed at packaging snapshot
+    completed_years_snapshot: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+    other_years: none
+blockers:
+  - source is BID-only Dukascopy CFD/index proxy, not verified CME NQ futures
+  - no atomic native OCO support
+  - one-minute OHLC leaves event order ambiguous
+  - full corrected historical replay is blocked; prior positive headline is invalid as corrected evidence
+  - annual practical replay is incomplete at snapshot
+  - costs, contract specifications, exchange fees, financing, roll and execution are not verified

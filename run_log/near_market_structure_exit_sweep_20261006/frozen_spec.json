@@ -1,0 +1,106 @@
+{
+  "session_id": "near-market-structure-exit-sweep-20261006",
+  "status": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "research_question": "Can EMA + ATR trailing exits convert the frozen causal NEARUSDT 1h market-structure entry into a robust positive-expectancy long-only strategy?",
+  "prior_observation": "The 2024-2025 baseline entry/structure-exit experiment has already been observed. Therefore 2025 is a retrospective test partition, not an untouched final holdout.",
+  "instrument": {
+    "symbol": "NEARUSDT",
+    "venue": "Binance USDⓈ-M Futures",
+    "product": "USDT-margined perpetual",
+    "data_path": "/home/quant/dev/quant/ml4t-data/data/crypto/market/ohlcv_1h/symbol=NEARUSDT/data.parquet",
+    "available_start": "2020-10-15T08:00:00Z",
+    "available_end": "2025-12-31T23:00:00Z"
+  },
+  "split": {
+    "train": [
+      "2020-10-15T08:00:00Z",
+      "2024-01-01T00:00:00Z"
+    ],
+    "validation": [
+      "2024-01-01T00:00:00Z",
+      "2025-01-01T00:00:00Z"
+    ],
+    "retrospective_test": [
+      "2025-01-01T00:00:00Z",
+      "2026-01-01T00:00:00Z"
+    ],
+    "note": "Chronological only. No shuffling. A genuinely untouched final test requires future data after this research."
+  },
+  "frozen_entry": {
+    "source": "src/market_structure.py",
+    "rule": "At least 2 confirmed LL events, then confirmed HL, HH, HL, HH. Signal available only on confirmation of second HH.",
+    "pivot_confirmation": "1.0 x ATR14 reversal using close confirmation. Historical extremum is not available until confirmation.",
+    "execution": "Entry decision at signal-bar close; fill next bar open. Long-only, 100% equity notional, no leverage, no pyramiding."
+  },
+  "exit_grid": {
+    "ema_periods": [
+      5,
+      8,
+      13,
+      21,
+      34
+    ],
+    "atr_multipliers": [
+      1,
+      1.5,
+      2,
+      2.5
+    ],
+    "configurations": 20,
+    "atr_period": 14,
+    "rule": "For an open long at close t: atr_trail_t = highest_close_since_entry_t - k * ATR14_t; exit_level_t = max(EMA_n_t, atr_trail_t). If close_t < exit_level_t, queue exit for next bar open.",
+    "end_of_sample": "Liquidate remaining position at final close and label it end_of_sample_liquidation.",
+    "fixed_48h_exit": false,
+    "structure_invalidation_exit": false
+  },
+  "costs": {
+    "base_bps_per_side": 10,
+    "selected_config_stress_bps_per_side": [
+      20,
+      30
+    ],
+    "funding_included": false,
+    "funding_note": "No exact canonical NEAR funding-rate file was found in the current crypto dataset path. Premium-index data is not silently substituted for realized funding."
+  },
+  "sweep_and_selection": {
+    "train_sweep": "Evaluate all 20 configurations on train at 10 bps per side.",
+    "neighborhood": "Grid-adjacent cells within one EMA index step and one ATR index step, including self.",
+    "train_plateau_score": "Median annualized daily Sharpe across the local neighborhood.",
+    "train_profitable_fraction": "Fraction of local-neighborhood cells with positive train net return.",
+    "candidates": "Take top 5 configurations by train_plateau_score; tie-break by train_profitable_fraction, then lower absolute max drawdown.",
+    "validation": "Evaluate only those top 5 candidates on 2024 validation.",
+    "final_selection": "Select candidate maximizing min(train_plateau_score, validation_sharpe). Tie-break by validation net return, then lower validation max drawdown.",
+    "validation_gate": "Record PASS only if selected candidate has validation net return > 0 and validation Sharpe > 0. Selection still exists for diagnostic test even if the gate fails.",
+    "test": "Evaluate only the selected configuration on 2025 retrospective test. Do not use test results to change parameters."
+  },
+  "required_metrics": [
+    "net_return",
+    "annualized_daily_sharpe",
+    "max_drawdown",
+    "win_rate",
+    "profit_factor",
+    "mean_trade_return",
+    "median_trade_return",
+    "trade_count",
+    "exposure_fraction",
+    "average_holding_bars",
+    "average_holding_hours"
+  ],
+  "diagnostics": [
+    "full 20-cell train surface",
+    "top-5 validation table",
+    "selected config test metrics",
+    "selected config 10/20/30 bps-per-side cost stress",
+    "per-year selected-config metrics 2020_partial through 2025",
+    "baseline comparison to prior structure+48h result where comparable",
+    "trial count and overfitting warning",
+    "data gaps and coverage",
+    "funding omission"
+  ],
+  "trial_accounting": {
+    "parameter_trials": 20,
+    "baseline_prior_trial": 1,
+    "note": "The 20 exit configurations count as 20 explicit research trials. Cost stresses are diagnostics, not selection variants."
+  }
+}

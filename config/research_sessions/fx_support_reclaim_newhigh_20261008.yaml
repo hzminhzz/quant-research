@@ -1,0 +1,159 @@
+session_id: fx_support_reclaim_newhigh_20261008
+market: fx
+thesis: >-
+  After a significant bullish swing high forms, the first return to its launch
+  support followed by a 30-minute close above that support almost always
+  precedes a new high, within a finite five-trading-day horizon. The condition
+  should predict a materially higher high-retake rate than otherwise comparable
+  retests that close at or below that support.
+mechanism: >-
+  Buyers who initiated the prior upward displacement defend the launch area.
+  A closing support hold shows that sell pressure was absorbed and the prior
+  swing high is likely to be revisited. This mechanism can fail during a
+  persistent bearish macro trend, a regime shift, or when demand disappears.
+falsifier: >-
+  Define almost always as a pooled conditional probability of at least 90%
+  that a new high occurs within 240 subsequent complete 30-minute FX bars
+  after a valid support-holding retest. Require a monthly-cluster-robust 95%
+  confidence-interval lower bound above 80%, at least 10 percentage points
+  predictive lift versus first touches that close at or below support, and a
+  hit rate of at least 80% in each of EURUSD, GBPUSD and AUDUSD. Require at
+  least 150 support-hold events pooled, 30 per pair, and 30 break-close
+  control events; otherwise declare insufficient evidence. Report all
+  conditions and do not tune thresholds based on results. A breach of any
+  criterion rejects this operationalized version of the claim.
+instruments:
+  - symbol: EURUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO EUR/USD CFD; LSE EUR/USD 1m OHLCV research-price proxy, not FTMO bid/ask"
+    session: "FX trading sessions; 30m UTC research bars"
+    timezone: UTC
+  - symbol: GBPUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO GBP/USD CFD; LSE GBP/USD 1m OHLCV research-price proxy, not FTMO bid/ask"
+    session: "FX trading sessions; 30m UTC research bars"
+    timezone: UTC
+  - symbol: AUDUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO AUD/USD CFD; LSE AUD/USD 1m OHLCV research-price proxy, not FTMO bid/ask"
+    session: "FX trading sessions; 30m UTC research bars"
+    timezone: UTC
+data:
+  - id: eurusd_dev_2010_2017
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet
+  - id: eurusd_dev_2018_2024
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet
+  - id: eurusd_holdout
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_holdout_2025_20261006_5m.parquet
+  - id: gbpusd_dev_2010_2017
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet
+  - id: gbpusd_dev_2018_2024
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet
+  - id: gbpusd_holdout
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_holdout_2025_20261006_5m.parquet
+  - id: audusd_dev_2010_2017
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet
+  - id: audusd_dev_2018_2024
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet
+  - id: audusd_holdout
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_holdout_2025_20261006_5m.parquet
+evaluation:
+  cadence: 30m
+  source_cadence: 5m
+  development_start: "2010-01-04T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-10-06T23:59:59Z"
+  frozen_holdout_policy: >-
+    Do not read any file with holdout in its filename when building events,
+    outcomes, controls or tests. Do not score the 2025-2026 holdout in this
+    exploration. The same 2025-2026 boundaries are inherited from the prior
+    FX research session. Events without the complete 960-bar follow-up in
+    the development data are right censored and excluded from all horizons.
+  high_definition: >-
+    A candidate 30m pivot high must exceed every high in the preceding 40
+    completed 30m bars by at least 0.50 x trailing ATR20. It must also exceed
+    highs in the next three 30m bars; the swing is confirmed and actionable
+    only after those three bars have completed. ATR20 is the trailing mean
+    of true range, with no future bars.
+  support_definition: >-
+    Launch support S is the lowest low among the 12 30m bars strictly
+    preceding the pivot high. Require high - S >= 2.0 x ATR20 at the pivot.
+  retest_definition: >-
+    After pivot confirmation, look up to 60 complete 30m bars for the first
+    bar with low <= S + 0.25 x ATR20_at_high. Require the support touch
+    before any subsequent high exceeds the reference high and before a newer
+    confirmed qualifying high supersedes the prior high. Report only one
+    first retest per qualifying high. A close > S defines a support hold;
+    close <= S defines the comparison control. The signal becomes known at
+    the retest bar close, with a hypothetical entry at the next open.
+  outcome_definition: >-
+    New high means a subsequent high > reference high + 0.00001 for quoted
+    FX prices. The primary window is the next 240 complete 30m bars
+    (five active FX days). Predeclared descriptive windows are 48 bars
+    (one active FX day) and 960 bars (20 active FX days). Do not use outcomes
+    from the signal bar. Record the first high break and first subsequent
+    close < S; if both happen in one 30m bar, treat the risk-first outcome
+    conservatively as invalidated. If an event lacks a full 960-bar horizon
+    inside development, exclude it from all horizons.
+  statistical_method: >-
+    Estimate pooled and pair hit proportions, separate support-hold and
+    support-break control proportions, and lift. Use Wilson intervals for
+    descriptive proportions and a monthly UTC-calendar-month cluster-robust
+    95% confidence interval for the primary hit rate and for hold-minus-
+    break-control lift. Correlated events and overlapping horizons limit
+    effective sample size. Report four fixed eras 2010-2013, 2014-2017,
+    2018-2021, 2022-2024 and target-before-support-invalidation risk.
+  pass_threshold_pct: 90
+  robust_lower_bound_pct: 80
+  min_lift_percentage_points: 10
+  min_pair_rate_pct: 80
+  min_hold_events: 150
+  min_per_pair_hold_events: 30
+  min_break_control_events: 30
+  trial_plan: >-
+    One preregistered structural event diagnostic. No tuning, cost-aware
+    execution simulation, model fitting, or final holdout scoring. If the
+    prediction test passes, design a separate cost-aware strategy test.
+baseline: >-
+  First touches of origin support at otherwise identical confirmed
+  significant highs that close at or below S. This control shares symbol,
+  confirmation, support origin and retracement eligibility rules.
+costs:
+  commission_bps: 0.25
+  slippage_bps: 0.50
+  note: >-
+    Per-side FTMO FX approximations carried from the prior session.
+    No return or execution PnL is tested here; a high-hit probability alone
+    does not establish executable net alpha.
+trials:
+  - id: D0_support_hold_new_high
+    kind: preregistered
+    description: >-
+      First-touch support-hold versus close-below-support control.
+      Compute 48/240/960 complete-30m-bar high-retake rates and monthly
+      clustered uncertainty on development data. Primary gate is the
+      240-bar hit probability and 10-pp lift, not return or backtest Sharpe.
+evidence:
+  - data/processed/ftmo_fx_reversion_202610/manifest.json

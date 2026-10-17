@@ -1,0 +1,114 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2013,
+  "trial": "COST-JP225",
+  "cost_multiplier": 1.5,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 372720,
+      "first": "2013-01-01 00:00:00+00:00",
+      "last": "2013-12-31 23:59:00+00:00",
+      "h1_signals": 151,
+      "d1_signals": 8,
+      "d1_exits": 24
+    },
+    {
+      "symbol": "US100",
+      "rows": 372720,
+      "first": "2013-01-01 00:00:00+00:00",
+      "last": "2013-12-31 23:59:00+00:00",
+      "h1_signals": 119,
+      "d1_signals": 3,
+      "d1_exits": 23
+    },
+    {
+      "symbol": "JP225",
+      "rows": 372720,
+      "first": "2013-01-01 00:00:00+00:00",
+      "last": "2013-12-31 23:59:00+00:00",
+      "h1_signals": 191,
+      "d1_signals": 4,
+      "d1_exits": 28
+    },
+    {
+      "symbol": "EU50",
+      "state": "not_yet_available"
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 104093.67500539577,
+    "num_trades": 159,
+    "num_orders": 321,
+    "num_fills": 320,
+    "num_rejected_orders": 0,
+    "win_rate": 0.34591194968553457,
+    "total_commission": 1263.745535424281,
+    "total_slippage": 2527.487456522591,
+    "total_costs": 3770.012839790203,
+    "max_drawdown_pct": 1.6247876218261026
+  },
+  "daily": {
+    "total_return": 0.04093675005395836,
+    "annual_return": 0.03272304046454799,
+    "annual_volatility": 0.02929445618816957,
+    "sharpe_ratio": 1.1138058027146684,
+    "sortino_ratio": 1.8908508514806739,
+    "calmar_ratio": 2.0336697301819147,
+    "omega_ratio": 1.3367611471974057,
+    "tail_ratio": 1.7453358132210393,
+    "max_drawdown": -0.016090636536946867,
+    "skewness": 0.8273455331163634,
+    "kurtosis": 10.723185827116179,
+    "var_95": -0.0018470587015589042,
+    "cvar_95": -0.003628784530468145,
+    "stability": 0.8723632044045054,
+    "win_rate": 0.267515923566879,
+    "profit_factor": 1.3367611471974057,
+    "avg_win": 0.0019212176675386795,
+    "avg_loss": -0.0012194580048691694,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 159,
+  "open_trades": 2,
+  "closed_net_pnl": 3221.98827032176,
+  "native_end_equity": 104093.67500539577,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "US500_D": {
+      "quantity": 13.768471930498245,
+      "entry_price": 1785.0223461,
+      "current_price": 1848.332,
+      "multiplier": 1.0
+    },
+    "JP225_H": {
+      "quantity": 1.385879682792974,
+      "entry_price": 16298.8851991,
+      "current_price": 16303.997,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2013/COST-JP225/cost_1.5x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2013/COST-JP225/cost_1.5x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2013/COST-JP225/cost_1.5x/daily_equity.parquet"
+  }
+}

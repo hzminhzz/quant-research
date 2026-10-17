@@ -1,0 +1,1225 @@
+{
+  "status": "COMPLETED_EXPLORATORY",
+  "research_class": "EXPLORATORY retrospective history; not approval to trade",
+  "source": "Dukascopy USATECH.IDX-USD BID index CFD proxy; not CME NQ futures",
+  "frozen_spec": "frozen_spec.json",
+  "source_quality": {
+    "rows": 3883929,
+    "files": 163,
+    "timestamp_min_utc": "2013-01-01T05:44:00+00:00",
+    "timestamp_max_utc": "2026-07-14T23:59:00+00:00",
+    "naive_utc_interpretation": "verified from decoder's UTC epoch construction",
+    "duplicate_timestamps": 0,
+    "null_price_or_volume_values": 0,
+    "nonfinite_ohlcv_rows": 0,
+    "bad_ohlc_rows": 0,
+    "complete_30m_bars": 121319,
+    "incomplete_30m_bars": 11744,
+    "complete_bar_rows_not_30_unique_minutes": 11744,
+    "bars_with_50_prior_complete_bars": 121270,
+    "bars_with_50_prior_levels_and_two_consecutive_following_bars": 110729,
+    "complete_bars_without_two_consecutive_following_30m_opens": 10549,
+    "feed_minutes": 3639570,
+    "timestamp_gaps_over_one_minute": 24567,
+    "unobserved_minutes_between_source_rows": 3233647,
+    "largest_timestamp_gap_minutes": 22411,
+    "gap_interpretation": "Includes expected weekends, scheduled provider breaks, and source gaps; only incomplete 30-minute bins are categorically excluded here.",
+    "session_alignment": "Elapsed 30-minute UTC intervals anchored at each 17:00 America/Chicago session start; DST-aware",
+    "calendar_qualification": {
+      "qualification_manifest_identity": "3633a2ab7e0b8d56fbab20bed0b3a63179fd4a92fa9163f2ed83a2eb518235e4",
+      "NQ_qualification_identity": "f27123afdeeaf13b65fd1215b7fdc4c751f870a370cb0d3c91477328d08f0e95",
+      "calendar_identity": "663481a30a405212727eb397bb8ea406c114696b2905143c01a50eb8e5b2e8dc",
+      "NQ_calendar_identity": "8264e388d6002fecf2320f35b64e34afb51ece3ec8379aabc69f5bd918eb191b",
+      "qualified_start": "2011-09-19T13:30:00.000Z",
+      "qualified_through": "2026-08-17",
+      "calendar_schema": "dukascopy-us-index-trading-break-calendar-v2",
+      "provider": "USATECH.IDX/USD",
+      "source_instrument": "usatechidxusd",
+      "retrieval_contract": {
+        "timeframe": "m1",
+        "price_type": "bid",
+        "utc_offset_minutes": 0,
+        "volumes": true,
+        "volume_units": "units",
+        "canonical_rows_include_flats": true,
+        "session_detection_uses_nonflat_rows": true
+      }
+    },
+    "expected_open_coverage": {
+      "calendar_identity": "8264e388d6002fecf2320f35b64e34afb51ece3ec8379aabc69f5bd918eb191b",
+      "expected_open_interval_count": 5771,
+      "expected_open_minutes": 4328253,
+      "observed_rows_in_expected_open_intervals": 3883924,
+      "missing_expected_open_minutes": 444329,
+      "expected_open_intervals_with_missing_rows": 1940,
+      "expected_open_intervals_with_no_rows": 362,
+      "dates_with_expected_open_data_gaps": 1780,
+      "largest_expected_open_gaps": [
+        {
+          "date": "2013-01-16",
+          "from": "2013-01-16T00:00:00.000Z",
+          "to": "2013-01-17T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-01-21",
+          "from": "2013-01-21T00:00:00.000Z",
+          "to": "2013-01-22T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-02-18",
+          "from": "2013-02-18T00:00:00.000Z",
+          "to": "2013-02-19T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-03-26",
+          "from": "2013-03-26T00:00:00.000Z",
+          "to": "2013-03-27T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-04-17",
+          "from": "2013-04-17T00:00:00.000Z",
+          "to": "2013-04-18T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-05-16",
+          "from": "2013-05-16T00:00:00.000Z",
+          "to": "2013-05-17T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-05-20",
+          "from": "2013-05-20T00:00:00.000Z",
+          "to": "2013-05-21T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-05-21",
+          "from": "2013-05-21T00:00:00.000Z",
+          "to": "2013-05-22T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-06-17",
+          "from": "2013-06-17T00:00:00.000Z",
+          "to": "2013-06-18T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-07-17",
+          "from": "2013-07-17T00:00:00.000Z",
+          "to": "2013-07-18T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-09-17",
+          "from": "2013-09-17T00:00:00.000Z",
+          "to": "2013-09-18T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-10-14",
+          "from": "2013-10-14T00:00:00.000Z",
+          "to": "2013-10-15T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-10-23",
+          "from": "2013-10-23T00:00:00.000Z",
+          "to": "2013-10-24T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-12-17",
+          "from": "2013-12-17T00:00:00.000Z",
+          "to": "2013-12-18T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2013-12-25",
+          "from": "2013-12-25T00:00:00.000Z",
+          "to": "2013-12-26T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2014-01-01",
+          "from": "2014-01-01T00:00:00.000Z",
+          "to": "2014-01-02T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2014-01-16",
+          "from": "2014-01-16T00:00:00.000Z",
+          "to": "2014-01-17T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2014-02-17",
+          "from": "2014-02-17T00:00:00.000Z",
+          "to": "2014-02-18T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2014-04-16",
+          "from": "2014-04-16T00:00:00.000Z",
+          "to": "2014-04-17T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        },
+        {
+          "date": "2014-05-01",
+          "from": "2014-05-01T00:00:00.000Z",
+          "to": "2014-05-02T00:00:00.000Z",
+          "expected_minutes": 1440,
+          "observed_rows": 0,
+          "missing_minutes": 1440
+        }
+      ],
+      "method": "Compare sorted UTC source-minute timestamps with each qualified calendar interval [from,to). Missing counts include expected open minutes without a source row; calendar-closed minutes are excluded."
+    },
+    "calendar_note": "The source-specific qualification and calendar identities were hash-verified. Incomplete bars are omitted. No missing minute is forward-filled."
+  },
+  "backtests": [
+    {
+      "trial": "zero_cost",
+      "metrics": {
+        "initial_cash": 1000000.0,
+        "final_value": 1246425.900000016,
+        "total_return": 0.24642590000001596,
+        "total_return_pct": 24.642590000001597,
+        "max_drawdown": 0.009216364690240748,
+        "max_drawdown_pct": 0.9216364690240748,
+        "num_trades": 5150,
+        "winning_trades": 2779,
+        "losing_trades": 2370,
+        "win_rate": 0.5396116504854369,
+        "total_commission": 0.0,
+        "total_slippage": 0.0,
+        "sharpe": 0.06426403327474778,
+        "sortino": 0.013000864039726565,
+        "calmar": 1.781135092201508,
+        "cagr": 0.016415590572314676,
+        "volatility": 0.0002377728115466287,
+        "profit_factor": 1.4617984236113828,
+        "expectancy": 0.0001965867443588531,
+        "avg_trade": 0.00019678211089331938,
+        "avg_win": 0.0012227326763331583,
+        "avg_loss": -0.0010061376525017942,
+        "largest_win": 0.013074621755226945,
+        "largest_loss": -0.008715573661694221,
+        "payoff_ratio": 1.2152737483711036,
+        "total_gross_pnl": 246425.90000000552,
+        "total_costs": 0.0,
+        "avg_cost_drag": 0.0,
+        "gross_profit_factor": 1.4617984236113828,
+        "skipped_bars": 0,
+        "num_orders": 151811,
+        "num_rejected_orders": 0,
+        "num_fills": 10300,
+        "num_rebalance_events": 10299,
+        "unique_symbols_traded": 1,
+        "total_filled_notional": 2315040652.9400077,
+        "avg_turnover": 0.0005663847754753577,
+        "max_turnover": 0.6462609724627842,
+        "avg_open_positions": 0.025507408842253342,
+        "max_open_positions": 1,
+        "lifecycle_version": "1",
+        "lifecycle_callback_counts": {
+          "run_start": 1,
+          "causal_initialization": 1,
+          "pre_open": 0,
+          "opening_auction": 0,
+          "fill_reconciliation": 0,
+          "intrabar": 0,
+          "close": 0,
+          "market_event": 3639570,
+          "run_end": 1
+        },
+        "lifecycle_invocations": [],
+        "execution_policy": {
+          "policy_id": "ml4t-backtest-default-v1",
+          "market_fill_phase": "opening_auction",
+          "opening_auction": "client",
+          "close_auction": "client",
+          "limit": "client",
+          "stop": "client",
+          "stop_limit": "disabled",
+          "trailing": "client",
+          "contingent": "client",
+          "fee_bps": 0.0,
+          "slippage_bps": 0.0,
+          "spread_bps": 0.0,
+          "impact_bps": 0.0,
+          "latency_ms": 0.0,
+          "liquidity_fraction": 1.0,
+          "allow_partial_fills": false,
+          "bar_path": "conservative",
+          "supported_sessions": [
+            "regular"
+          ],
+          "lifecycle_version": "1"
+        },
+        "target_intent_count": 0,
+        "child_order_intent_count": 0,
+        "intent_reconciliation_count": 0,
+        "target_rule_reconciliation_count": 0,
+        "target_intents": [],
+        "child_order_intents": [],
+        "intent_reconciliations": [],
+        "target_rule_reconciliations": [],
+        "trial": "zero_cost",
+        "daily_equity_sharpe": 2.0656984579389324,
+        "daily_equity_max_drawdown": 0.008115043743009292,
+        "closed_trade_count": 5150,
+        "average_net_pnl_usd": 47.84968932038942,
+        "max_hold_minutes": 30,
+        "late_next_boundary_exits": 0,
+        "entries_per_session_day_max": 2,
+        "same_minute_entry_stop_ambiguities": 42,
+        "ambiguous_examples": [
+          {
+            "timestamp": "2022-03-11T11:23:00+00:00",
+            "side": "long",
+            "entry": 13721.25,
+            "stop": 13671.25
+          },
+          {
+            "timestamp": "2022-07-13T12:30:00+00:00",
+            "side": "short",
+            "entry": 11682.25,
+            "stop": 11732.25
+          },
+          {
+            "timestamp": "2022-08-10T12:30:00+00:00",
+            "side": "long",
+            "entry": 13160.5,
+            "stop": 13110.5
+          },
+          {
+            "timestamp": "2022-09-21T18:43:00+00:00",
+            "side": "long",
+            "entry": 11982.75,
+            "stop": 11932.75
+          },
+          {
+            "timestamp": "2022-10-07T12:30:00+00:00",
+            "side": "short",
+            "entry": 11394.5,
+            "stop": 11444.5
+          },
+          {
+            "timestamp": "2022-10-13T12:29:00+00:00",
+            "side": "long",
+            "entry": 10932.809000000001,
+            "stop": 10882.75
+          },
+          {
+            "timestamp": "2022-11-04T12:30:00+00:00",
+            "side": "short",
+            "entry": 10654.0,
+            "stop": 10704.0
+          },
+          {
+            "timestamp": "2022-11-30T18:30:00+00:00",
+            "side": "long",
+            "entry": 11616.5,
+            "stop": 11566.5
+          },
+          {
+            "timestamp": "2022-12-01T13:30:00+00:00",
+            "side": "long",
+            "entry": 12058.25,
+            "stop": 12008.25
+          },
+          {
+            "timestamp": "2022-12-02T13:30:00+00:00",
+            "side": "short",
+            "entry": 11923.0,
+            "stop": 11973.0
+          },
+          {
+            "timestamp": "2023-05-10T12:30:00+00:00",
+            "side": "long",
+            "entry": 13253.0,
+            "stop": 13203.0
+          },
+          {
+            "timestamp": "2023-10-06T12:30:00+00:00",
+            "side": "short",
+            "entry": 14579.5,
+            "stop": 14629.5
+          },
+          {
+            "timestamp": "2024-04-05T12:30:00+00:00",
+            "side": "short",
+            "entry": 17861.75,
+            "stop": 17911.75
+          },
+          {
+            "timestamp": "2024-05-14T12:30:00+00:00",
+            "side": "short",
+            "entry": 18139.75,
+            "stop": 18189.75
+          },
+          {
+            "timestamp": "2024-08-13T12:30:00+00:00",
+            "side": "long",
+            "entry": 18719.75,
+            "stop": 18669.75
+          },
+          {
+            "timestamp": "2024-08-21T14:36:00+00:00",
+            "side": "long",
+            "entry": 19831.75,
+            "stop": 19781.75
+          },
+          {
+            "timestamp": "2024-09-18T18:00:00+00:00",
+            "side": "long",
+            "entry": 19603.75,
+            "stop": 19553.75
+          },
+          {
+            "timestamp": "2025-01-10T13:30:00+00:00",
+            "side": "short",
+            "entry": 21004.75,
+            "stop": 21054.75
+          },
+          {
+            "timestamp": "2025-01-15T13:30:00+00:00",
+            "side": "long",
+            "entry": 20973.75,
+            "stop": 20923.75
+          },
+          {
+            "timestamp": "2025-01-21T00:58:00+00:00",
+            "side": "short",
+            "entry": 21329.5,
+            "stop": 21379.5
+          },
+          {
+            "timestamp": "2025-02-07T13:30:00+00:00",
+            "side": "long",
+            "entry": 21801.75,
+            "stop": 21751.75
+          },
+          {
+            "timestamp": "2025-02-12T13:30:00+00:00",
+            "side": "short",
+            "entry": 21575.25,
+            "stop": 21625.25
+          },
+          {
+            "timestamp": "2025-03-12T12:30:00+00:00",
+            "side": "long",
+            "entry": 19657.25,
+            "stop": 19607.25
+          },
+          {
+            "timestamp": "2025-04-07T14:16:00+00:00",
+            "side": "long",
+            "entry": 18112.25,
+            "stop": 18062.25
+          },
+          {
+            "timestamp": "2025-04-08T14:28:00+00:00",
+            "side": "long",
+            "entry": 18221.75,
+            "stop": 18171.75
+          },
+          {
+            "timestamp": "2025-05-23T11:43:00+00:00",
+            "side": "short",
+            "entry": 20969.75,
+            "stop": 21019.75
+          },
+          {
+            "timestamp": "2025-06-11T12:30:00+00:00",
+            "side": "long",
+            "entry": 21976.5,
+            "stop": 21926.5
+          },
+          {
+            "timestamp": "2025-06-13T00:00:00+00:00",
+            "side": "short",
+            "entry": 21693.75,
+            "stop": 21743.75
+          },
+          {
+            "timestamp": "2025-08-14T12:30:00+00:00",
+            "side": "short",
+            "entry": 23787.0,
+            "stop": 23837.0
+          },
+          {
+            "timestamp": "2025-08-26T00:03:00+00:00",
+            "side": "short",
+            "entry": 23374.75,
+            "stop": 23424.75
+          },
+          {
+            "timestamp": "2025-10-20T13:30:00+00:00",
+            "side": "long",
+            "entry": 25003.75,
+            "stop": 24953.75
+          },
+          {
+            "timestamp": "2026-02-05T14:30:00+00:00",
+            "side": "short",
+            "entry": 24608.5,
+            "stop": 24658.5
+          },
+          {
+            "timestamp": "2026-02-26T15:12:00+00:00",
+            "side": "short",
+            "entry": 25054.75,
+            "stop": 25104.75
+          },
+          {
+            "timestamp": "2026-03-06T13:30:00+00:00",
+            "side": "short",
+            "entry": 24741.5,
+            "stop": 24791.5
+          },
+          {
+            "timestamp": "2026-03-16T19:09:00+00:00",
+            "side": "long",
+            "entry": 24746.75,
+            "stop": 24696.75
+          },
+          {
+            "timestamp": "2026-04-07T22:32:00+00:00",
+            "side": "long",
+            "entry": 24485.25,
+            "stop": 24435.25
+          },
+          {
+            "timestamp": "2026-06-11T17:33:00+00:00",
+            "side": "long",
+            "entry": 29213.25,
+            "stop": 29163.25
+          },
+          {
+            "timestamp": "2026-06-17T18:00:00+00:00",
+            "side": "short",
+            "entry": 29989.0,
+            "stop": 30039.0
+          },
+          {
+            "timestamp": "2026-06-18T13:30:00+00:00",
+            "side": "long",
+            "entry": 30290.5,
+            "stop": 30240.5
+          },
+          {
+            "timestamp": "2026-06-24T13:48:00+00:00",
+            "side": "short",
+            "entry": 29274.0,
+            "stop": 29324.0
+          },
+          {
+            "timestamp": "2026-06-29T14:15:00+00:00",
+            "side": "short",
+            "entry": 28990.5,
+            "stop": 29040.5
+          },
+          {
+            "timestamp": "2026-07-09T05:11:00+00:00",
+            "side": "long",
+            "entry": 29365.75,
+            "stop": 29315.75
+          }
+        ],
+        "protective_stop_exit_fills": 194,
+        "protective_stop_gap_through_fills": 94,
+        "entry_gap_triggers": 3117,
+        "cost_assumption": {
+          "commission_per_side_usd": 0.0,
+          "slippage_per_side_points": 0.0
+        },
+        "execution_mode": "ml4t.backtest NEXT_BAR native STOP and MARKET orders",
+        "net_profit_usd": 246425.90000001597,
+        "trade_ledger_net_pnl_usd": 246425.90000000547,
+        "ledger_reconciliation_difference_usd": -1.0506482794880867e-08
+      },
+      "yearly_summary": [
+        {
+          "year": 2013,
+          "closed_trades": 265,
+          "pnl_usd": 2209.4200000001456,
+          "avg_trade_usd": 8.3374339622647
+        },
+        {
+          "year": 2014,
+          "closed_trades": 340,
+          "pnl_usd": 1697.4200000001383,
+          "avg_trade_usd": 4.992411764706289
+        },
+        {
+          "year": 2015,
+          "closed_trades": 361,
+          "pnl_usd": 5754.8400000000765,
+          "avg_trade_usd": 15.941385041551458
+        },
+        {
+          "year": 2016,
+          "closed_trades": 361,
+          "pnl_usd": 1959.2000000001735,
+          "avg_trade_usd": 5.427146814404913
+        },
+        {
+          "year": 2017,
+          "closed_trades": 302,
+          "pnl_usd": 1232.100000000155,
+          "avg_trade_usd": 4.0798013245038245
+        },
+        {
+          "year": 2018,
+          "closed_trades": 400,
+          "pnl_usd": 16831.02000000017,
+          "avg_trade_usd": 42.07755000000043
+        },
+        {
+          "year": 2019,
+          "closed_trades": 391,
+          "pnl_usd": 13399.780000000519,
+          "avg_trade_usd": 34.2705370844003
+        },
+        {
+          "year": 2020,
+          "closed_trades": 408,
+          "pnl_usd": 12509.60000000061,
+          "avg_trade_usd": 30.660784313726985
+        },
+        {
+          "year": 2021,
+          "closed_trades": 430,
+          "pnl_usd": 33877.04000000071,
+          "avg_trade_usd": 78.78381395349001
+        },
+        {
+          "year": 2022,
+          "closed_trades": 433,
+          "pnl_usd": 54874.35999999987,
+          "avg_trade_usd": 126.73062355658169
+        },
+        {
+          "year": 2023,
+          "closed_trades": 419,
+          "pnl_usd": 25150.260000000708,
+          "avg_trade_usd": 60.02448687351004
+        },
+        {
+          "year": 2024,
+          "closed_trades": 402,
+          "pnl_usd": 25707.680000000873,
+          "avg_trade_usd": 63.94945273632058
+        },
+        {
+          "year": 2025,
+          "closed_trades": 405,
+          "pnl_usd": 55426.88000000053,
+          "avg_trade_usd": 136.85649382716178
+        },
+        {
+          "year": 2026,
+          "closed_trades": 233,
+          "pnl_usd": -4203.699999999153,
+          "avg_trade_usd": -18.04163090128392
+        }
+      ],
+      "artifacts": {
+        "fills.csv": "27cc570d4ac321a6abd485f99663350bad9525bcec877e282db5d6e7ba47f890",
+        "yearly_summary.csv": "9e80caef6968f69de4eea03a9c18b28a520ac24b46c7db6ee07a604d0ed7a940",
+        "trades.csv": "24f0e8a434e2379e8a39def97a7e52d2e9a351586b06c5f5ea0a8b56fe5a818a",
+        "daily_equity.csv": "3894eed38b1d29304bc9b9e4641a08dcd6fa9b723b1f9b7dc5adb8bef328f1ec",
+        "metrics.json": "7d34b42b96d3e5e1fac708c141366756fea8d48ad6b42081f2b5a88a68dc03d8"
+      }
+    },
+    {
+      "trial": "cost_aware",
+      "metrics": {
+        "initial_cash": 1000000.0,
+        "final_value": 1207805.900000017,
+        "total_return": 0.20780590000001697,
+        "total_return_pct": 20.7805900000017,
+        "max_drawdown": 0.009954004227377739,
+        "max_drawdown_pct": 0.9954004227377738,
+        "num_trades": 5150,
+        "winning_trades": 2634,
+        "losing_trades": 2516,
+        "win_rate": 0.5114563106796116,
+        "total_commission": 25750.0,
+        "total_slippage": 12875.0,
+        "sharpe": 0.053775022361423536,
+        "sortino": 0.011017266282583493,
+        "calmar": 1.4118587169248995,
+        "cagr": 0.01405364763673056,
+        "volatility": 0.0002436516780572052,
+        "profit_factor": 1.376471667126475,
+        "expectancy": 0.00014303816069386778,
+        "avg_trade": 0.00018028735603193194,
+        "avg_win": 0.001232793689421419,
+        "avg_loss": -0.0009978267290789342,
+        "largest_win": 0.013063991653960355,
+        "largest_loss": -0.008720656516023573,
+        "payoff_ratio": 1.2354787193958778,
+        "total_gross_pnl": 233555.90000000552,
+        "total_costs": 38625.0,
+        "avg_cost_drag": 4.94885211058921e-05,
+        "gross_profit_factor": 1.4328197347915312,
+        "skipped_bars": 0,
+        "num_orders": 151811,
+        "num_rejected_orders": 0,
+        "num_fills": 10300,
+        "num_rebalance_events": 10299,
+        "unique_symbols_traded": 1,
+        "total_filled_notional": 2315040647.9400077,
+        "avg_turnover": 0.0005789982612112284,
+        "max_turnover": 0.6644193380177389,
+        "avg_open_positions": 0.025507408842253342,
+        "max_open_positions": 1,
+        "lifecycle_version": "1",
+        "lifecycle_callback_counts": {
+          "run_start": 1,
+          "causal_initialization": 1,
+          "pre_open": 0,
+          "opening_auction": 0,
+          "fill_reconciliation": 0,
+          "intrabar": 0,
+          "close": 0,
+          "market_event": 3639570,
+          "run_end": 1
+        },
+        "lifecycle_invocations": [],
+        "execution_policy": {
+          "policy_id": "ml4t-backtest-default-v1",
+          "market_fill_phase": "opening_auction",
+          "opening_auction": "client",
+          "close_auction": "client",
+          "limit": "client",
+          "stop": "client",
+          "stop_limit": "disabled",
+          "trailing": "client",
+          "contingent": "client",
+          "fee_bps": 0.0,
+          "slippage_bps": 0.0,
+          "spread_bps": 0.0,
+          "impact_bps": 0.0,
+          "latency_ms": 0.0,
+          "liquidity_fraction": 1.0,
+          "allow_partial_fills": false,
+          "bar_path": "conservative",
+          "supported_sessions": [
+            "regular"
+          ],
+          "lifecycle_version": "1"
+        },
+        "target_intent_count": 0,
+        "child_order_intent_count": 0,
+        "intent_reconciliation_count": 0,
+        "target_rule_reconciliation_count": 0,
+        "target_intents": [],
+        "child_order_intents": [],
+        "intent_reconciliations": [],
+        "target_rule_reconciliations": [],
+        "trial": "cost_aware",
+        "daily_equity_sharpe": 1.7295601375819363,
+        "daily_equity_max_drawdown": 0.00870938052962146,
+        "closed_trade_count": 5150,
+        "average_net_pnl_usd": 40.35066019417583,
+        "max_hold_minutes": 30,
+        "late_next_boundary_exits": 0,
+        "entries_per_session_day_max": 2,
+        "same_minute_entry_stop_ambiguities": 42,
+        "ambiguous_examples": [
+          {
+            "timestamp": "2022-03-11T11:23:00+00:00",
+            "side": "long",
+            "entry": 13721.3125,
+            "stop": 13671.25
+          },
+          {
+            "timestamp": "2022-07-13T12:30:00+00:00",
+            "side": "short",
+            "entry": 11682.1875,
+            "stop": 11732.25
+          },
+          {
+            "timestamp": "2022-08-10T12:30:00+00:00",
+            "side": "long",
+            "entry": 13160.5625,
+            "stop": 13110.5
+          },
+          {
+            "timestamp": "2022-09-21T18:43:00+00:00",
+            "side": "long",
+            "entry": 11982.8125,
+            "stop": 11932.75
+          },
+          {
+            "timestamp": "2022-10-07T12:30:00+00:00",
+            "side": "short",
+            "entry": 11394.4375,
+            "stop": 11444.5
+          },
+          {
+            "timestamp": "2022-10-13T12:29:00+00:00",
+            "side": "long",
+            "entry": 10932.871500000001,
+            "stop": 10882.75
+          },
+          {
+            "timestamp": "2022-11-04T12:30:00+00:00",
+            "side": "short",
+            "entry": 10653.9375,
+            "stop": 10704.0
+          },
+          {
+            "timestamp": "2022-11-30T18:30:00+00:00",
+            "side": "long",
+            "entry": 11616.5625,
+            "stop": 11566.5
+          },
+          {
+            "timestamp": "2022-12-01T13:30:00+00:00",
+            "side": "long",
+            "entry": 12058.3125,
+            "stop": 12008.25
+          },
+          {
+            "timestamp": "2022-12-02T13:30:00+00:00",
+            "side": "short",
+            "entry": 11922.9375,
+            "stop": 11973.0
+          },
+          {
+            "timestamp": "2023-05-10T12:30:00+00:00",
+            "side": "long",
+            "entry": 13253.0625,
+            "stop": 13203.0
+          },
+          {
+            "timestamp": "2023-10-06T12:30:00+00:00",
+            "side": "short",
+            "entry": 14579.4375,
+            "stop": 14629.5
+          },
+          {
+            "timestamp": "2024-04-05T12:30:00+00:00",
+            "side": "short",
+            "entry": 17861.6875,
+            "stop": 17911.75
+          },
+          {
+            "timestamp": "2024-05-14T12:30:00+00:00",
+            "side": "short",
+            "entry": 18139.6875,
+            "stop": 18189.75
+          },
+          {
+            "timestamp": "2024-08-13T12:30:00+00:00",
+            "side": "long",
+            "entry": 18719.8125,
+            "stop": 18669.75
+          },
+          {
+            "timestamp": "2024-08-21T14:36:00+00:00",
+            "side": "long",
+            "entry": 19831.8125,
+            "stop": 19781.75
+          },
+          {
+            "timestamp": "2024-09-18T18:00:00+00:00",
+            "side": "long",
+            "entry": 19603.8125,
+            "stop": 19553.75
+          },
+          {
+            "timestamp": "2025-01-10T13:30:00+00:00",
+            "side": "short",
+            "entry": 21004.6875,
+            "stop": 21054.75
+          },
+          {
+            "timestamp": "2025-01-15T13:30:00+00:00",
+            "side": "long",
+            "entry": 20973.8125,
+            "stop": 20923.75
+          },
+          {
+            "timestamp": "2025-01-21T00:58:00+00:00",
+            "side": "short",
+            "entry": 21329.4375,
+            "stop": 21379.5
+          },
+          {
+            "timestamp": "2025-02-07T13:30:00+00:00",
+            "side": "long",
+            "entry": 21801.8125,
+            "stop": 21751.75
+          },
+          {
+            "timestamp": "2025-02-12T13:30:00+00:00",
+            "side": "short",
+            "entry": 21575.1875,
+            "stop": 21625.25
+          },
+          {
+            "timestamp": "2025-03-12T12:30:00+00:00",
+            "side": "long",
+            "entry": 19657.3125,
+            "stop": 19607.25
+          },
+          {
+            "timestamp": "2025-04-07T14:16:00+00:00",
+            "side": "long",
+            "entry": 18112.3125,
+            "stop": 18062.25
+          },
+          {
+            "timestamp": "2025-04-08T14:28:00+00:00",
+            "side": "long",
+            "entry": 18221.8125,
+            "stop": 18171.75
+          },
+          {
+            "timestamp": "2025-05-23T11:43:00+00:00",
+            "side": "short",
+            "entry": 20969.6875,
+            "stop": 21019.75
+          },
+          {
+            "timestamp": "2025-06-11T12:30:00+00:00",
+            "side": "long",
+            "entry": 21976.5625,
+            "stop": 21926.5
+          },
+          {
+            "timestamp": "2025-06-13T00:00:00+00:00",
+            "side": "short",
+            "entry": 21693.6875,
+            "stop": 21743.75
+          },
+          {
+            "timestamp": "2025-08-14T12:30:00+00:00",
+            "side": "short",
+            "entry": 23786.9375,
+            "stop": 23837.0
+          },
+          {
+            "timestamp": "2025-08-26T00:03:00+00:00",
+            "side": "short",
+            "entry": 23374.6875,
+            "stop": 23424.75
+          },
+          {
+            "timestamp": "2025-10-20T13:30:00+00:00",
+            "side": "long",
+            "entry": 25003.8125,
+            "stop": 24953.75
+          },
+          {
+            "timestamp": "2026-02-05T14:30:00+00:00",
+            "side": "short",
+            "entry": 24608.4375,
+            "stop": 24658.5
+          },
+          {
+            "timestamp": "2026-02-26T15:12:00+00:00",
+            "side": "short",
+            "entry": 25054.6875,
+            "stop": 25104.75
+          },
+          {
+            "timestamp": "2026-03-06T13:30:00+00:00",
+            "side": "short",
+            "entry": 24741.4375,
+            "stop": 24791.5
+          },
+          {
+            "timestamp": "2026-03-16T19:09:00+00:00",
+            "side": "long",
+            "entry": 24746.8125,
+            "stop": 24696.75
+          },
+          {
+            "timestamp": "2026-04-07T22:32:00+00:00",
+            "side": "long",
+            "entry": 24485.3125,
+            "stop": 24435.25
+          },
+          {
+            "timestamp": "2026-06-11T17:33:00+00:00",
+            "side": "long",
+            "entry": 29213.3125,
+            "stop": 29163.25
+          },
+          {
+            "timestamp": "2026-06-17T18:00:00+00:00",
+            "side": "short",
+            "entry": 29988.9375,
+            "stop": 30039.0
+          },
+          {
+            "timestamp": "2026-06-18T13:30:00+00:00",
+            "side": "long",
+            "entry": 30290.5625,
+            "stop": 30240.5
+          },
+          {
+            "timestamp": "2026-06-24T13:48:00+00:00",
+            "side": "short",
+            "entry": 29273.9375,
+            "stop": 29324.0
+          },
+          {
+            "timestamp": "2026-06-29T14:15:00+00:00",
+            "side": "short",
+            "entry": 28990.4375,
+            "stop": 29040.5
+          },
+          {
+            "timestamp": "2026-07-09T05:11:00+00:00",
+            "side": "long",
+            "entry": 29365.8125,
+            "stop": 29315.75
+          }
+        ],
+        "protective_stop_exit_fills": 194,
+        "protective_stop_gap_through_fills": 94,
+        "entry_gap_triggers": 3117,
+        "cost_assumption": {
+          "commission_per_side_usd": 2.5,
+          "slippage_per_side_points": 0.0625
+        },
+        "execution_mode": "ml4t.backtest NEXT_BAR native STOP and MARKET orders",
+        "net_profit_usd": 207805.9000000169,
+        "trade_ledger_net_pnl_usd": 207805.90000000555,
+        "ledger_reconciliation_difference_usd": -1.1350493878126144e-08
+      },
+      "yearly_summary": [
+        {
+          "year": 2013,
+          "closed_trades": 265,
+          "pnl_usd": 221.9200000001456,
+          "avg_trade_usd": 0.8374339622647003
+        },
+        {
+          "year": 2014,
+          "closed_trades": 340,
+          "pnl_usd": -852.5799999998617,
+          "avg_trade_usd": -2.507588235293711
+        },
+        {
+          "year": 2015,
+          "closed_trades": 361,
+          "pnl_usd": 3047.3400000000765,
+          "avg_trade_usd": 8.441385041551458
+        },
+        {
+          "year": 2016,
+          "closed_trades": 361,
+          "pnl_usd": -748.2999999998265,
+          "avg_trade_usd": -2.072853185595087
+        },
+        {
+          "year": 2017,
+          "closed_trades": 302,
+          "pnl_usd": -1032.899999999845,
+          "avg_trade_usd": -3.4201986754961755
+        },
+        {
+          "year": 2018,
+          "closed_trades": 400,
+          "pnl_usd": 13831.020000000171,
+          "avg_trade_usd": 34.57755000000043
+        },
+        {
+          "year": 2019,
+          "closed_trades": 391,
+          "pnl_usd": 10467.280000000519,
+          "avg_trade_usd": 26.770537084400303
+        },
+        {
+          "year": 2020,
+          "closed_trades": 408,
+          "pnl_usd": 9449.60000000061,
+          "avg_trade_usd": 23.160784313726985
+        },
+        {
+          "year": 2021,
+          "closed_trades": 430,
+          "pnl_usd": 30652.040000000707,
+          "avg_trade_usd": 71.28381395349001
+        },
+        {
+          "year": 2022,
+          "closed_trades": 433,
+          "pnl_usd": 51626.85999999987,
+          "avg_trade_usd": 119.23062355658169
+        },
+        {
+          "year": 2023,
+          "closed_trades": 419,
+          "pnl_usd": 22007.760000000708,
+          "avg_trade_usd": 52.52448687351004
+        },
+        {
+          "year": 2024,
+          "closed_trades": 402,
+          "pnl_usd": 22692.680000000873,
+          "avg_trade_usd": 56.44945273632058
+        },
+        {
+          "year": 2025,
+          "closed_trades": 405,
+          "pnl_usd": 52389.38000000053,
+          "avg_trade_usd": 129.35649382716178
+        },
+        {
+          "year": 2026,
+          "closed_trades": 233,
+          "pnl_usd": -5946.199999999153,
+          "avg_trade_usd": -25.520171673816108
+        }
+      ],
+      "artifacts": {
+        "fills.csv": "e151a813b2c28071f8e43bf89d633066103d0b026d87328fcfba776d48cf6ca2",
+        "yearly_summary.csv": "2d30d02f4e5c48f997651e1cc4f4a23c0a5eae36cf6054ab8bc18900fba37658",
+        "trades.csv": "23b6be09a30f291ae46112c8e019a5de37e7ff006871e4d83f94c1e643d4a722",
+        "daily_equity.csv": "0a074ab75371dcebfcd8029cdfa3f2c5a1594e4a02d8708886d8c4e5e6735e77",
+        "metrics.json": "d45393398d3e1dab202a121d62781067ce27505d8193742be1f7f51fe29a2e2e"
+      }
+    }
+  ],
+  "equity_chart": "run_log/one_bar_dukascopy_2013_2026_20261011/equity_curve.png",
+  "equity_chart_sha256": "489704af5822f3b4ce7d599fc5f386672ae2ea017814888ae30e8f0dab606f00",
+  "limitations": [
+    "CFD quote precision is not CME tick-conforming; a deterministic $0.25 grid is used for NQ-equivalent stop levels.",
+    "Same-minute entry and protective-stop ordering cannot be recovered from 1-minute OHLC and is flagged.",
+    "The $2.50 per-side commission is illustrative, not a verified CFD brokerage cost.",
+    "No continuous futures roll, dated futures identity, or executable product economics are inferred.",
+    "The qualified calendar implies 444,329 missing expected-open minutes in the selected range, including a 22,411-minute timestamp gap. Missing coverage is not forward-filled. The exact previous-50-complete-bars rule can use older observations after a long gap.",
+    "The qualified calendar implies 444,329 missing expected-open minutes in the selected range, including a 22,411-minute timestamp gap. Missing coverage is not forward-filled. The exact previous-50-complete-bars rule can use older observations after a long gap.",
+    "The engine used a $25,000 initial and $20,000 maintenance margin schedule for a single illustrative position. These values are not verified product margin requirements."
+  ],
+  "screenshot_comparison": {
+    "approximate_reference": "$200,000 / 4,800 trades = $41.67 per trade",
+    "conclusion": "Visual reference only; not a verified historical result or validation target."
+  },
+  "next_decisive_question": "Can this exploratory result be independently reconstructed on verified dated CME NQ contracts with contract roll history and instrument-specific costs?",
+  "trial_count": 2,
+  "execution_attempts": 2,
+  "data_period": {
+    "start_inclusive_utc": "2013-01-01",
+    "last_available_source_timestamp_utc": "2026-07-14T23:59:00+00:00",
+    "protected_after": "2026-07-14"
+  },
+  "conclusion": "The cost-aware result has positive average net PnL within the observed Dukascopy CFD proxy sample. Source coverage gaps, same-minute path ambiguity, unverified CME product identity, illustrative costs, and incomplete prior selection history prevent a CME NQ or deployment conclusion.",
+  "superseded_implementation_attempt": {
+    "path": "superseded_wall_clock_attempt/attempt_status.json",
+    "reason": "The initial run grouped bars by local wall-clock minute and merged the repeated fall-DST hour. The same two frozen variants were rerun with elapsed UTC 30-minute bars anchored at 17:00 Chicago.",
+    "effect": "Trade and fill values match between the superseded and corrected runs. The corrected trade and fill ledgers explicitly label timestamps as UTC. Daily-equity and yearly-summary ledgers are byte-identical."
+  },
+  "session_artifacts": {
+    "frozen_spec.json": "6c4ea11f94d4570d25ee89d33f85c62ecb80be44cd54e928402e8bc2bc5a9206",
+    "source_manifest.json": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "calendar_qualification.json": "697d4671ea6938faaf83152bbb184a14488197d4e0484ad151550601ef54bf4d",
+    "source_quality.json": "d78d598e683ab7eda2687001ba62130adcdaee4b24f973025ba3e77b89bd358c",
+    "methodology_skills.json": "6148bd74bb897ce3046fdd9497e6f8d335a76ef3f261436d85956403d2501c82",
+    "equity_curve.png": "489704af5822f3b4ce7d599fc5f386672ae2ea017814888ae30e8f0dab606f00",
+    "native_run.log": "b72661518b2e1eb4ce9e05d8404bdaa0591f03013a875ea007ca8c7f2634847d",
+    "superseded_wall_clock_attempt/attempt_status.json": "3dd04e0462ce25560946d034e56cffbb253fbfd6a1608fc1556edd059589a1c9",
+    "superseded_wall_clock_attempt/report.json": "343ccc3195689e4e7cd51cd6ce625a44a6a8530d9781c6d534deb3027aedc764",
+    "runner_source_sha256_at_finalization": "bc06db32ff1f381e98df6c4085161664a14c5759065087064ab3efe97b2e7490"
+  },
+  "engine_run_attempts": 4,
+  "superseded_engine_runs": 2,
+  "execution_configuration": {
+    "initial_cash_usd": 1000000,
+    "allow_short_selling": true,
+    "allow_leverage": true,
+    "fixed_margin_schedule_usd": {
+      "initial": 25000,
+      "maintenance": 20000
+    },
+    "margin_interpretation": "Engine constraint for one illustrative position only; not verified CFD broker or CME exchange margin.",
+    "execution_mode": "NEXT_BAR",
+    "stop_fill_mode": "STOP_PRICE",
+    "contract_spec": {
+      "asset_class": "FUTURE",
+      "multiplier_usd_per_point": 20,
+      "tick_size_points": 0.25
+    }
+  },
+  "multiple_testing": {
+    "declared_variants": 2,
+    "prior_selection_history": "Incomplete. The manager screenshot and prior 2026 LSE proxy study were already observed; their full trial records are unavailable.",
+    "dsr": "Not computed. The complete historical trial count is not reproducible."
+  },
+  "reconciliation": {
+    "zero_cost": {
+      "closed_trades": 5150,
+      "native_fills": 10300,
+      "trade_pnl_sum_usd": 246425.90000000547,
+      "equity_change_usd": 246425.90000001597,
+      "difference_usd": -1.0506482794880867e-08,
+      "explicit_utc_timestamps": true
+    },
+    "cost_aware": {
+      "closed_trades": 5150,
+      "native_fills": 10300,
+      "trade_pnl_sum_usd": 207805.90000000555,
+      "equity_change_usd": 207805.9000000169,
+      "difference_usd": -1.1350493878126144e-08,
+      "explicit_utc_timestamps": true
+    }
+  },
+  "runner_source": {
+    "path": "scripts/run_one_bar_dukascopy_2013_2026_20261011.py",
+    "sha256_at_finalization": "bc06db32ff1f381e98df6c4085161664a14c5759065087064ab3efe97b2e7490",
+    "note": "The methodology-record writer and explicit UTC ledger labeling were added after the corrected engine execution. They do not alter source rows, bars, signals, Strategy behavior, engine configuration, fill values, or metrics."
+  }
+}

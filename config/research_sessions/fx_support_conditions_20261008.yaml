@@ -1,0 +1,182 @@
+session_id: fx_support_conditions_20261008
+market: fx
+thesis: >-
+  Among first retests of launch support after a confirmed significant FX swing
+  high, causal momentum, trend/volatility state, or a small machine-learning
+  classifier may identify events that reach the prior high before the first
+  later close below support within 240 complete 30-minute bars. Compare these
+  three fixed extensions against the same-window unfiltered support-hold baseline.
+mechanism: >-
+  Support alone does not guarantee trend continuation. Stronger reclaim
+  candles, already improving short-term momentum, and alignment with the
+  prevailing medium-term trend may indicate renewed demand and lower odds
+  of support breakdown. A simple nonlinear model may capture their interaction.
+  Information shocks and adverse execution can invalidate the effect.
+falsifier: >-
+  For any filtered trial to pass the exploratory predictive gate, require
+  at least 100 selected events and at least 20 per pair, at least 35 percent
+  first-target-before-support-closing-invalidation events within 240 complete
+  30-minute bars, at least 8 percentage points lift versus the same-period
+  all-support-holds baseline, a monthly-cluster 95 percent interval lower
+  bound above that baseline rate, and selected rate higher than baseline in
+  at least two of three currency pairs. I1 is a descriptive baseline, not
+  a pass/fail strategy. ML must additionally improve positive-class precision
+  over its validation-fold event rate in at least three of four chronological
+  folds and have lower Brier score than the constant train-base-rate forecast
+  in all four folds. Report every test including failures. Insufficient event
+  counts are inconclusive. This is not a trading-economics approval.
+instruments:
+  - symbol: EURUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO EUR/USD CFD; LSE 1-minute proxy transformed to 5m and 30m"
+    session: "FX 24/5; UTC analysis timestamps"
+    timezone: UTC
+  - symbol: GBPUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO GBP/USD CFD; LSE 1-minute proxy transformed to 5m and 30m"
+    session: "FX 24/5; UTC analysis timestamps"
+    timezone: UTC
+  - symbol: AUDUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO AUD/USD CFD; LSE 1-minute proxy transformed to 5m and 30m"
+    session: "FX 24/5; UTC analysis timestamps"
+    timezone: UTC
+data:
+  - id: eurusd_dev_2010_2017
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet
+  - id: eurusd_dev_2018_2024
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet
+  - id: eurusd_holdout
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_holdout_2025_20261006_5m.parquet
+  - id: gbpusd_dev_2010_2017
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet
+  - id: gbpusd_dev_2018_2024
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet
+  - id: gbpusd_holdout
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_holdout_2025_20261006_5m.parquet
+  - id: audusd_dev_2010_2017
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet
+  - id: audusd_dev_2018_2024
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet
+  - id: audusd_holdout
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_holdout_2025_20261006_5m.parquet
+evaluation:
+  cadence: 30m
+  source_cadence: 5m
+  development_start: "2010-01-04T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-10-06T23:59:59Z"
+  selection_target: target_before_support_invalidation_240
+  signal_time: >-
+    Event timestamp is the open of the 30-minute first-retest bar. The decision
+    occurs only at that completed bar close, event_timestamp plus 30 minutes.
+    Every feature is computed at or before the signal decision.
+  outcome_time: >-
+    The label is positive if price trades more than 0.00001 above the reference
+    significant high before the first subsequent 30-minute close below origin
+    support within the following 240 complete 30-minute bars. If both occur
+    within one 30-minute bar, invalidation wins. The event is carried unchanged
+    from the prior first-retest diagnostic.
+  holdout_policy: >-
+    Never open, score, select or tune against 2025-2026 final-test prices.
+    Only the six development 5-minute price snapshots and the previously
+    recorded development event ledger are read by the feature builder.
+    The four scorer processes only read the frozen development feature panel.
+  baseline: >-
+    I1: all 1,395 parent support-hold events, no filter, known 22.724 percent
+    first-target-before-closing-invalidation hit rate.
+  momentum_rule: >-
+    I2: retest candle close-location >= 0.75 and normalized close-to-close
+    three-bar momentum > 0, both observable at the retest close. There is
+    no optimization.
+  regime_rule: >-
+    I3: retest close > EMA50, EMA50 slope over 16 completed 30m bars > 0,
+    and ATR20 / ATR100 <= 1.20, all computed causally using ml4t.engineer.
+    No calendar optimization or additional filters.
+  ml_rule: >-
+    I4: fixed LightGBM classifier, 100 estimators, max_depth=2,
+    num_leaves=7, learning_rate=0.03, min_child_samples=30,
+    reg_lambda=10, seed=42. Features are 13 frozen causal numeric indicators
+    plus one-hot currency pair; no feature selection or hyperparameter search.
+    Select events only when out-of-fold P(target before invalidation) >= 0.30.
+  ml_validation: >-
+    Four expanding chronological validation windows: 2017-2018, 2019-2020,
+    2021-2022, and 2023-2024. Train only on preceding years, exclude any
+    training event whose actual 240-complete-bar label_horizon_end is within
+    two calendar days before the validation start. Fit only training labels;
+    no model sees a validation label, holdout price or outcome. Report
+    average precision, AUC and Brier score per fold and pooled. If too
+    few samples or a single-class fold occurs, record an inconclusive or failed
+    attempt rather than tuning the split.
+  reporting: >-
+    Each arm records selected counts, per-pair and per-era rates, Wilson
+    intervals, clustered calendar-month confidence intervals, selection
+    differences versus its full eligible cohort, and completed/failed status.
+    Compare ML to the 2017-2024 unfiltered cohort rather than the 2010-2024
+    pooled baseline. Reused development periods are exploratory, not a fresh
+    untouched out-of-sample evaluation.
+  source_session: fx_support_reclaim_newhigh_20261008
+  scope: >-
+    This stage tests predictive conditional event outcomes only. It does not
+    simulate orders, stops, fills, account drawdown, net R, or FTMO pass rate.
+    The next stage if an arm survives must use ml4t.backtest Strategy and
+    Engine on next-bar 5-minute fills with conservative stop-first treatment.
+baseline: >-
+  Unfiltered parent support-hold events over each arm's own eligible calendar
+  cohort. The full panel contains 1,395 support-hold events with 317 positive
+  target-before-support-close outcomes. No price parameter is optimized.
+costs:
+  commission_bps: 0.25
+  slippage_bps: 0.50
+  round_trip_bps: 1.50
+  stress_round_trip_bps: 2.50
+  note: >-
+    Exploratory FTMO FX cost assumptions retained for a future execution
+    backtest; probability diagnostics do not subtract trading costs.
+trials:
+  - id: I1_unfiltered
+    kind: preregistered
+    description: >-
+      Baseline rate and uncertainty on all 1,395 parent support-hold events.
+  - id: I2_momentum_confirmation
+    kind: preregistered
+    description: >-
+      One fixed candle-strength >=0.75 and three-bar positive momentum
+      confirmation, with same parent target-before-invalidation label.
+  - id: I3_trend_volatility
+    kind: preregistered
+    description: >-
+      One fixed EMA50 alignment/slope and ATR20/ATR100 <=1.20 regime condition,
+      with the same parent label and cohort.
+  - id: I4_purged_lightgbm
+    kind: preregistered
+    description: >-
+      One fixed LightGBM classifier and P>=0.30 threshold, four chronological
+      expanding purged/embargoed out-of-fold validation windows and no tuning.
+evidence:
+  - data/processed/ftmo_fx_reversion_202610/manifest.json
+  - run_log/fx_support_reclaim_newhigh_20261008/D0_support_hold_new_high/result.json
+  - data/features/fx_support_conditions_20261008.parquet
+  - data/features/fx_support_conditions_20261008_manifest.json

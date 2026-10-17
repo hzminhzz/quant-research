@@ -1,0 +1,76 @@
+session_id: gotobi_paper_replication_20261011_v1
+market: fx
+thesis: >-
+  The Japan bank-day Gotobi indicator predicts additional USDJPY appreciation
+  from 03:00 through the last pre-fix minute relative to same-clock ordinary
+  bank mornings, with positive standalone expectancy after realistic costs.
+mechanism: >-
+  HYPOTHESIS, not verified customer order-flow evidence: importer USD settlement
+  and pre-fix dealer hedging may affect early Tokyo prices.
+falsifier: >-
+  Reject economic qualification if the native Gotobi 1-pip USD return is
+  nonpositive, its HAC5 95 percent lower bound is not positive, its controlled
+  calendar premium is not significant after two-test Holm correction, either
+  2024-2025 combined or Jan-Aug2026 is net negative, its net 1.5-pip scenario
+  is not positive, or the bar-completeness coverage is below 70 percent.
+  No retrospective period counts as genuinely unseen OOS. No deployment approval.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: >-
+      USD/JPY spot research price proxy supplied by canonical LSE UTC minute
+      OHLCV; USD base, JPY quote, USD 10000 fixed base units, pip=JPY0.01.
+      Executable venue, broker spread, commissions, and quote depth UNKNOWN.
+    timezone: Asia/Tokyo
+    session: Japanese bank days from preserved BOJ-derived calendar registry
+data:
+  - {id: usdjpy_2020, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2020.parquet}
+  - {id: usdjpy_2021, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2021.parquet}
+  - {id: usdjpy_2022, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2022.parquet}
+  - {id: usdjpy_2023, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2023.parquet}
+  - {id: usdjpy_2024, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2024.parquet}
+  - {id: usdjpy_2025, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2025.parquet}
+  - {id: usdjpy_2026, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2026.parquet}
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2026-08-31T15:00:00Z"
+  holdout_start: "2026-08-31T15:00:00Z"
+  holdout_end: "2026-11-01T00:00:00Z"
+  holdout: SEALED_NO_ACCESS
+  retrospective_folds: "2020-2023 development; 2024-2025 retrospective validation; 2026 Jan-Aug observed stress"
+  timestamp: UTC one-minute OPEN; close usable only at timestamp plus one minute
+  primary: "calendar decision at 02:59 bar, native NEXT_BAR entry 03:00 open, exit decision 09:53, fill 09:54 open"
+  return_window_jst: ["03:00", "09:54"]
+  contiguous_window_jst: ["02:58", "09:54"]
+  entry_exit_diagnostics: "03:00 to 09:55 and 09:56 native open-to-open timing checks, preregistered but not selected"
+  cost_pips: [0.0, 1.0, 1.5, 2.0]
+  capital_usd: 10000
+  notional_usd: 10000
+  leverage: "Nominal 1.0x initial equity; may exceed current equity slightly after losses; report"
+  multiplicity: "HAC5 unconditioned mean and weekday/year-controlled Gotobi-ordinary incremental premium; Holm2"
+  gate: "All minute timestamps 02:58-09:56 required, valid OHLC geometry, no interpolation"
+  stop_rule: "Test fixed plans once. Do not search entry times or optimize returns. Existing programs already cover historical data."
+baseline: >-
+  Cash (0 trades) and identical native USDJPY market long 03:00-09:54 on
+  ordinary Tokyo bank days; also compare prior 07:00-08:30 Gotobi
+  executed benchmark without claiming same cohorts.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  roundtrip_pips: [0.0, 1.0, 1.5, 2.0]
+  method: >-
+    Native JPY absolute half-spread/adverse slippage each leg through
+    SlippageType.FIXED; totals are hypothetical all-in pip budgets,
+    not measured historical broker costs. USD PnL converted at executed
+    quote exit. Intraday financing assumed zero; broker terms unverified.
+trials:
+  - {id: T0_data_gate, kind: diagnostic, description: Source identity, calendar, minute completeness and timestamp audit}
+  - {id: T1_main_native, kind: preregistered, description: Gotobi native market 03:00-09:54 with 1 pip round trip}
+  - {id: T2_ordinary_native, kind: preregistered, description: Same window ordinary bank days with 1 pip round trip}
+  - {id: T3_cost_and_boundary, kind: diagnostic, description: Native Gotobi cost0 1.5 2 and 09:55/09:56 boundary sensitivity at 1 pip}
+  - {id: T4_refutation, kind: diagnostic, description: HAC5, Holm2, year stability, matched calendar and placebo diagnostics}
+  - {id: T5_independent_audit, kind: diagnostic, description: Original source-price order and JPY/USD accounting reconciliation}
+  - {id: T6_final_report, kind: diagnostic, description: Evidence complete and decision without opening holdout}
+evidence:
+  - run_log/tokyo_fix_prefx_0700_0830_20261011_v1/source_manifest.json

@@ -1,0 +1,598 @@
+{
+  "source": "DUKASCOPY_USATECH_CFD_ONLY",
+  "source_sha256": "4ce2efcf496fb77d936d12d866ef5ed5d1e1869879a6b30434a1d0232bb75425",
+  "CME_volume_confirmed": false,
+  "NQF_data_used": false,
+  "fixed_exit_rule": "15:14 CT next-open",
+  "exact_original_1555_CME_strategy": false,
+  "runs": {
+    "development": {
+      "B1_gross": {
+        "trades": 287,
+        "fills": 574,
+        "first_signal": "2026-01-05T15:31:00+00:00",
+        "last_signal": "2026-06-30T15:02:00+00:00",
+        "limit_fill_count": 235,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 154,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -3031.119999999064,
+        "sharpe": -0.566875422693434,
+        "errors": []
+      },
+      "B1_cost": {
+        "trades": 287,
+        "fills": 574,
+        "first_signal": "2026-01-05T15:31:00+00:00",
+        "last_signal": "2026-06-30T15:02:00+00:00",
+        "limit_fill_count": 235,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 154,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -6161.119999999064,
+        "sharpe": -1.1617275107832672,
+        "errors": []
+      },
+      "B1_stress": {
+        "trades": 287,
+        "fills": 574,
+        "first_signal": "2026-01-05T15:31:00+00:00",
+        "last_signal": "2026-06-30T15:02:00+00:00",
+        "limit_fill_count": 235,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 154,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -7856.119999999064,
+        "sharpe": -1.4826201406671995,
+        "errors": []
+      },
+      "B2_gross": {
+        "trades": 119,
+        "fills": 238,
+        "first_signal": "2026-01-05T17:11:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 67,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 48,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 4299.479999999516,
+        "sharpe": 1.163555336869869,
+        "errors": []
+      },
+      "B2_cost": {
+        "trades": 119,
+        "fills": 238,
+        "first_signal": "2026-01-05T17:11:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 67,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 48,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 2849.4799999995157,
+        "sharpe": 0.7724382687222677,
+        "errors": []
+      },
+      "B2_stress": {
+        "trades": 119,
+        "fills": 238,
+        "first_signal": "2026-01-05T17:11:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 67,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 48,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 1994.4799999995157,
+        "sharpe": 0.5409557043032498,
+        "errors": []
+      },
+      "B3_gross": {
+        "trades": 83,
+        "fills": 166,
+        "first_signal": "2026-01-05T17:12:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 63,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 40,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -2013.3800000005867,
+        "sharpe": -0.6952022029810726,
+        "errors": []
+      },
+      "B3_cost": {
+        "trades": 83,
+        "fills": 166,
+        "first_signal": "2026-01-05T17:12:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 63,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 40,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -2943.3800000005867,
+        "sharpe": -1.0187337111011514,
+        "errors": []
+      },
+      "B3_stress": {
+        "trades": 83,
+        "fills": 166,
+        "first_signal": "2026-01-05T17:12:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 63,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 40,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -3458.3800000005867,
+        "sharpe": -1.1957730615687299,
+        "errors": []
+      }
+    },
+    "validation": {
+      "B1_gross": {
+        "trades": 90,
+        "fills": 180,
+        "first_signal": "2026-07-01T14:00:00+00:00",
+        "last_signal": "2026-08-17T15:10:00+00:00",
+        "limit_fill_count": 77,
+        "hard_exit_count": 0,
+        "same_bar_entry_exit": 43,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 2280.6399999998976,
+        "sharpe": 1.4850902880210122,
+        "errors": []
+      },
+      "B1_cost": {
+        "trades": 90,
+        "fills": 180,
+        "first_signal": "2026-07-01T14:00:00+00:00",
+        "last_signal": "2026-08-17T15:10:00+00:00",
+        "limit_fill_count": 77,
+        "hard_exit_count": 0,
+        "same_bar_entry_exit": 43,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 1315.6399999998976,
+        "sharpe": 0.8710396621770952,
+        "errors": []
+      },
+      "B1_stress": {
+        "trades": 90,
+        "fills": 180,
+        "first_signal": "2026-07-01T14:00:00+00:00",
+        "last_signal": "2026-08-17T15:10:00+00:00",
+        "limit_fill_count": 77,
+        "hard_exit_count": 0,
+        "same_bar_entry_exit": 43,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 800.6399999998976,
+        "sharpe": 0.5350352528416262,
+        "errors": []
+      },
+      "B2_gross": {
+        "trades": 32,
+        "fills": 64,
+        "first_signal": "2026-07-01T14:32:00+00:00",
+        "last_signal": "2026-08-17T15:40:00+00:00",
+        "limit_fill_count": 15,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 15,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -929.3200000000652,
+        "sharpe": -1.2422969028712922,
+        "errors": []
+      },
+      "B2_cost": {
+        "trades": 32,
+        "fills": 64,
+        "first_signal": "2026-07-01T14:32:00+00:00",
+        "last_signal": "2026-08-17T15:40:00+00:00",
+        "limit_fill_count": 15,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 15,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -1334.3200000000652,
+        "sharpe": -1.7841159611929922,
+        "errors": []
+      },
+      "B2_stress": {
+        "trades": 32,
+        "fills": 64,
+        "first_signal": "2026-07-01T14:32:00+00:00",
+        "last_signal": "2026-08-17T15:40:00+00:00",
+        "limit_fill_count": 15,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 15,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -1579.3200000000652,
+        "sharpe": -2.105613756992546,
+        "errors": []
+      },
+      "B3_gross": {
+        "trades": 24,
+        "fills": 48,
+        "first_signal": "2026-07-01T14:37:00+00:00",
+        "last_signal": "2026-08-17T15:48:00+00:00",
+        "limit_fill_count": 22,
+        "hard_exit_count": 0,
+        "same_bar_entry_exit": 18,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 2418.4199999999255,
+        "sharpe": 3.171140985832078,
+        "errors": []
+      },
+      "B3_cost": {
+        "trades": 24,
+        "fills": 48,
+        "first_signal": "2026-07-01T14:37:00+00:00",
+        "last_signal": "2026-08-17T15:48:00+00:00",
+        "limit_fill_count": 22,
+        "hard_exit_count": 0,
+        "same_bar_entry_exit": 18,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 2168.4199999999255,
+        "sharpe": 2.8693987636772555,
+        "errors": []
+      },
+      "B3_stress": {
+        "trades": 24,
+        "fills": 48,
+        "first_signal": "2026-07-01T14:37:00+00:00",
+        "last_signal": "2026-08-17T15:48:00+00:00",
+        "limit_fill_count": 22,
+        "hard_exit_count": 0,
+        "same_bar_entry_exit": 18,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 2038.4199999999255,
+        "sharpe": 2.706580222522251,
+        "errors": []
+      }
+    },
+    "robustness": {
+      "B1_queue1tick": {
+        "trades": 284,
+        "fills": 568,
+        "first_signal": "2026-01-05T15:31:00+00:00",
+        "last_signal": "2026-06-30T15:02:00+00:00",
+        "limit_fill_count": 232,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 151,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -8303.879999999073,
+        "sharpe": -1.428550244688914,
+        "errors": []
+      },
+      "B2_queue1tick": {
+        "trades": 119,
+        "fills": 238,
+        "first_signal": "2026-01-05T17:11:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 67,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 48,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 2849.4799999995157,
+        "sharpe": 0.7724382687222677,
+        "errors": []
+      },
+      "B3_queue1tick": {
+        "trades": 83,
+        "fills": 166,
+        "first_signal": "2026-01-05T17:12:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 62,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 39,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -3748.3800000005867,
+        "sharpe": -1.2793332056390554,
+        "errors": []
+      }
+    },
+    "stress4tick": {
+      "B1_stress4tick": {
+        "trades": 287,
+        "fills": 574,
+        "first_signal": "2026-01-05T15:31:00+00:00",
+        "last_signal": "2026-06-30T15:02:00+00:00",
+        "limit_fill_count": 235,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 154,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -11246.119999999064,
+        "sharpe": -2.120566785125497,
+        "errors": []
+      },
+      "B2_stress4tick": {
+        "trades": 119,
+        "fills": 238,
+        "first_signal": "2026-01-05T17:11:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 67,
+        "hard_exit_count": 1,
+        "same_bar_entry_exit": 48,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": 284.4799999995157,
+        "sharpe": 0.08064685740735009,
+        "errors": []
+      },
+      "B3_stress4tick": {
+        "trades": 83,
+        "fills": 166,
+        "first_signal": "2026-01-05T17:12:00+00:00",
+        "last_signal": "2026-06-30T15:00:00+00:00",
+        "limit_fill_count": 63,
+        "hard_exit_count": 2,
+        "same_bar_entry_exit": 40,
+        "dual_touch_exits": 0,
+        "source_price_not_cme": true,
+        "net_pnl_usd": -4488.380000000587,
+        "sharpe": -1.5473377462918192,
+        "errors": []
+      }
+    }
+  },
+  "statistics": {
+    "development": {
+      "B1": {
+        "monthly": {
+          "2026-01": {
+            "trading_days": 20,
+            "pnl_usd": -255.76
+          },
+          "2026-02": {
+            "trading_days": 18,
+            "pnl_usd": 3944.06
+          },
+          "2026-03": {
+            "trading_days": 16,
+            "pnl_usd": -7156.52
+          },
+          "2026-04": {
+            "trading_days": 15,
+            "pnl_usd": -319.5
+          },
+          "2026-05": {
+            "trading_days": 18,
+            "pnl_usd": -1519.68
+          },
+          "2026-06": {
+            "trading_days": 16,
+            "pnl_usd": -853.72
+          }
+        },
+        "block_bootstrap": {
+          "n": 103,
+          "total": -6161.119999999064,
+          "per_day_mean": -59.816699029117125,
+          "iid_total_95pct": [
+            -22732.70149999963,
+            9390.285500000284
+          ],
+          "block5_total_95pct": [
+            -21238.19750000038,
+            8473.00850000049
+          ],
+          "block5_nonpositive_fraction": 0.7983
+        }
+      },
+      "B2": {
+        "monthly": {
+          "2026-01": {
+            "trading_days": 20,
+            "pnl_usd": 2300.46
+          },
+          "2026-02": {
+            "trading_days": 18,
+            "pnl_usd": 2044.06
+          },
+          "2026-03": {
+            "trading_days": 16,
+            "pnl_usd": 1363.98
+          },
+          "2026-04": {
+            "trading_days": 15,
+            "pnl_usd": -1326.0
+          },
+          "2026-05": {
+            "trading_days": 18,
+            "pnl_usd": -1238.88
+          },
+          "2026-06": {
+            "trading_days": 16,
+            "pnl_usd": -294.14
+          }
+        },
+        "block_bootstrap": {
+          "n": 103,
+          "total": 2849.4799999995157,
+          "per_day_mean": 27.664854368927337,
+          "iid_total_95pct": [
+            -7597.243499999758,
+            14779.581499999711
+          ],
+          "block5_total_95pct": [
+            -7560.579500001325,
+            13458.996499999605
+          ],
+          "block5_nonpositive_fraction": 0.2947
+        }
+      },
+      "B3": {
+        "monthly": {
+          "2026-01": {
+            "trading_days": 20,
+            "pnl_usd": 2149.42
+          },
+          "2026-02": {
+            "trading_days": 18,
+            "pnl_usd": 653.66
+          },
+          "2026-03": {
+            "trading_days": 16,
+            "pnl_usd": -2597.78
+          },
+          "2026-04": {
+            "trading_days": 15,
+            "pnl_usd": 192.7
+          },
+          "2026-05": {
+            "trading_days": 18,
+            "pnl_usd": -882.94
+          },
+          "2026-06": {
+            "trading_days": 16,
+            "pnl_usd": -2458.44
+          }
+        },
+        "block_bootstrap": {
+          "n": 103,
+          "total": -2943.3800000005867,
+          "per_day_mean": -28.57650485437463,
+          "iid_total_95pct": [
+            -11746.17199999991,
+            5937.6489999991045
+          ],
+          "block5_total_95pct": [
+            -12505.085500000117,
+            5796.348499999437
+          ],
+          "block5_nonpositive_fraction": 0.7364
+        }
+      },
+      "paired_B3_minus_B2": {
+        "n": 103,
+        "total": -5792.860000000102,
+        "per_day_mean": -56.24135922330196,
+        "iid_total_95pct": [
+          -16451.429999999917,
+          4475.324000000031
+        ],
+        "block5_total_95pct": [
+          -16580.186500000455,
+          4782.474499999646
+        ],
+        "block5_nonpositive_fraction": 0.8504
+      }
+    },
+    "validation": {
+      "B1": {
+        "monthly": {
+          "2026-07": {
+            "trading_days": 22,
+            "pnl_usd": -282.26
+          },
+          "2026-08": {
+            "trading_days": 11,
+            "pnl_usd": 1597.9
+          }
+        },
+        "block_bootstrap": {
+          "n": 33,
+          "total": 1315.6399999998976,
+          "per_day_mean": 39.86787878787568,
+          "iid_total_95pct": [
+            -7231.758000000499,
+            9018.612500000305
+          ],
+          "block5_total_95pct": [
+            -6405.682999999937,
+            8389.092000000082
+          ],
+          "block5_nonpositive_fraction": 0.3545
+        }
+      },
+      "B2": {
+        "monthly": {
+          "2026-07": {
+            "trading_days": 22,
+            "pnl_usd": -1189.78
+          },
+          "2026-08": {
+            "trading_days": 11,
+            "pnl_usd": -144.54
+          }
+        },
+        "block_bootstrap": {
+          "n": 33,
+          "total": -1334.3200000000652,
+          "per_day_mean": -40.43393939394137,
+          "iid_total_95pct": [
+            -5258.905000000142,
+            2743.1010000000233
+          ],
+          "block5_total_95pct": [
+            -4531.740499999956,
+            2039.9394999999113
+          ],
+          "block5_nonpositive_fraction": 0.7883
+        }
+      },
+      "B3": {
+        "monthly": {
+          "2026-07": {
+            "trading_days": 22,
+            "pnl_usd": 2193.9
+          },
+          "2026-08": {
+            "trading_days": 11,
+            "pnl_usd": -25.48
+          }
+        },
+        "block_bootstrap": {
+          "n": 33,
+          "total": 2168.4199999999255,
+          "per_day_mean": 65.70969696969472,
+          "iid_total_95pct": [
+            -1855.6470000000058,
+            6213.302999999842
+          ],
+          "block5_total_95pct": [
+            -1108.7550000000394,
+            5063.331999999797
+          ],
+          "block5_nonpositive_fraction": 0.0923
+        }
+      },
+      "paired_B3_minus_B2": {
+        "n": 33,
+        "total": 3502.7399999999907,
+        "per_day_mean": 106.14363636363608,
+        "iid_total_95pct": [
+          725.9360000000655,
+          6730.478500000273
+        ],
+        "block5_total_95pct": [
+          792.3164999996225,
+          6449.534999999988
+        ],
+        "block5_nonpositive_fraction": 0.0038
+      }
+    }
+  },
+  "problems": [],
+  "status": "PASS_MECHANICAL_CFD_PROXY",
+  "CME_qualified": false,
+  "July_September_complete": false,
+  "September_available": false,
+  "Nov_prospective_holdout_accessed": false
+}

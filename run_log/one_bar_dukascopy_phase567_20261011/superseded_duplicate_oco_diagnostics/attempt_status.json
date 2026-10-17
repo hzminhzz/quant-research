@@ -1,0 +1,6 @@
+{
+  "status": "superseded_after_audit",
+  "reason": "Entry-order fill counting correctly enforced the two-entry cap, but the OCO diagnostic list retained filled orders and counted the same event on later minute callbacks. The native ledger still reconciled; ambiguity count and worst-case bound were overstated.",
+  "preserved_trials": ["causal_zero_cost", "causal_full_tick"],
+  "followup": "Remove filled orders from the one-time event queue, keep pending opposite orders until callback cancellation, assert a single OCO diagnostic event, and rerun the same frozen cases."
+}

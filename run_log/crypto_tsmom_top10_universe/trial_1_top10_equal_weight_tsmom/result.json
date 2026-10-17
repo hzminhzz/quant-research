@@ -1,0 +1,33 @@
+{
+  "trial_id": "trial_1_top10_equal_weight_tsmom",
+  "description": "Equal-weight TSMOM (10% max weight per coin)",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 165446.73945281666
+  },
+  "performance": {
+    "total_return": 15.544673945281666,
+    "annualized_daily_sharpe": 1.57908231860962,
+    "engine_buggy_sharpe": 0.2552850171946322,
+    "max_drawdown": 0.5245447415192814,
+    "win_rate": 0.30099728014505894,
+    "profit_factor": 1.3874030932062629
+  },
+  "execution": {
+    "trades": 5515,
+    "total_commission": 12926.908184755386,
+    "total_slippage": 0.0,
+    "total_costs": 12926.908184755386,
+    "gross_pnl": 168373.64763757243,
+    "fee_drag_pct": 7.677512702332617
+  },
+  "falsifier_checks": {
+    "min_sharpe_1_00": true,
+    "max_drawdown_20_pct": false,
+    "fee_drag_under_15_pct": true
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2016,
+  "trial": "COST-JP225",
+  "cost_multiplier": 2.0,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "US100",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 153,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "JP225",
+      "rows": 298937,
+      "first": "2016-01-04 01:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 177,
+      "d1_signals": 5,
+      "d1_exits": 19
+    },
+    {
+      "symbol": "EU50",
+      "rows": 215401,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 118,
+      "d1_signals": 1,
+      "d1_exits": 16
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 99779.13175868403,
+    "num_trades": 120,
+    "num_orders": 241,
+    "num_fills": 241,
+    "num_rejected_orders": 0,
+    "win_rate": 0.4,
+    "total_commission": 703.7070478773434,
+    "total_slippage": 1407.4120249080072,
+    "total_costs": 2102.2332456753,
+    "max_drawdown_pct": 2.364559144611692
+  },
+  "daily": {
+    "total_return": -0.00220868241316019,
+    "annual_return": -0.0017958163555352735,
+    "annual_volatility": 0.019638159271879917,
+    "sharpe_ratio": -0.08174916547278314,
+    "sortino_ratio": -0.12432578678048033,
+    "calmar_ratio": -0.09454187706155924,
+    "omega_ratio": 0.9770529355945297,
+    "tail_ratio": 1.3829723234199114,
+    "max_drawdown": -0.018994930197609255,
+    "skewness": 1.2043947361080036,
+    "kurtosis": 24.829361638102704,
+    "var_95": -0.0012717560742756286,
+    "cvar_95": -0.0027252750366073275,
+    "stability": 0.21905086176294633,
+    "win_rate": 0.20967741935483872,
+    "profit_factor": 0.9770529355945297,
+    "avg_win": 0.0012936680774884221,
+    "avg_loss": -0.0010007363455218098,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 120,
+  "open_trades": 1,
+  "closed_net_pnl": -237.28750689298465,
+  "native_end_equity": 99779.13175868403,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "JP225_D": {
+      "quantity": 0.7786182365259967,
+      "entry_price": 19025.5761876,
+      "current_price": 19050.469,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/COST-JP225/cost_2x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/COST-JP225/cost_2x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/COST-JP225/cost_2x/daily_equity.parquet"
+  }
+}

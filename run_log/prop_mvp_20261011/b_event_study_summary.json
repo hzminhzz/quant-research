@@ -1,0 +1,72 @@
+{
+  "BTCUSDT": {
+    "proxy_events": 2963,
+    "proxy_mean_forward_12m_return": 9.647806209322444e-05,
+    "proxy_median_forward_12m_return": 0.00014582204005031407,
+    "high_vol_control_n": 72725,
+    "high_vol_control_mean_forward_12m_return": 3.8022191869264654e-05,
+    "forward_12m_histogram": [
+      {
+        "bin": "(-0.005, 0]",
+        "len": 1245
+      },
+      {
+        "bin": "(0.005, 0.01]",
+        "len": 61
+      },
+      {
+        "bin": "(-0.01, -0.005]",
+        "len": 66
+      },
+      {
+        "bin": "(0.01, inf]",
+        "len": 25
+      },
+      {
+        "bin": "(0, 0.005]",
+        "len": 1530
+      },
+      {
+        "bin": "(-inf, -0.01]",
+        "len": 36
+      }
+    ],
+    "control_threshold": 0.0010758207304457645,
+    "note": "top-decile absolute one-minute return control is descriptive, full-sample and not a liquidation match"
+  },
+  "ETHUSDT": {
+    "proxy_events": 1755,
+    "proxy_mean_forward_12m_return": 0.00042096080339746244,
+    "proxy_median_forward_12m_return": 0.0002111286333512652,
+    "high_vol_control_n": 73103,
+    "high_vol_control_mean_forward_12m_return": 1.7324399878079473e-05,
+    "forward_12m_histogram": [
+      {
+        "bin": "(0.01, inf]",
+        "len": 51
+      },
+      {
+        "bin": "(-0.01, -0.005]",
+        "len": 66
+      },
+      {
+        "bin": "(0, 0.005]",
+        "len": 796
+      },
+      {
+        "bin": "(-0.005, 0]",
+        "len": 693
+      },
+      {
+        "bin": "(-inf, -0.01]",
+        "len": 44
+      },
+      {
+        "bin": "(0.005, 0.01]",
+        "len": 105
+      }
+    ],
+    "control_threshold": 0.0013705004018441658,
+    "note": "top-decile absolute one-minute return control is descriptive, full-sample and not a liquidation match"
+  }
+}

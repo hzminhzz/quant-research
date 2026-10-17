@@ -1,0 +1,117 @@
+{
+  "state": "UNQUALIFIED_CFD_BID_PROXY_NATIVE_EXECUTION",
+  "session": "mechanicalpremia-original-four-2013-2024-v1",
+  "year": 2022,
+  "trial": "EQUAL-RISK-7",
+  "cost_multiplier": 1.0,
+  "source_note": "H1 US500 US100 DE30; D1 those plus EU50; eligible-from-launch only",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 342997,
+      "first": "2022-01-02 23:00:00+00:00",
+      "last": "2022-12-30 21:14:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 1,
+      "d1_exits": 18
+    },
+    {
+      "symbol": "US100",
+      "rows": 342997,
+      "first": "2022-01-02 23:00:00+00:00",
+      "last": "2022-12-30 21:14:00+00:00",
+      "h1_signals": 131,
+      "d1_signals": 1,
+      "d1_exits": 12
+    },
+    {
+      "symbol": "DE30",
+      "rows": 344430,
+      "first": "2022-01-02 23:00:00+00:00",
+      "last": "2022-12-30 21:14:00+00:00",
+      "h1_signals": 164,
+      "d1_signals": 3,
+      "d1_exits": 16
+    },
+    {
+      "symbol": "EU50",
+      "rows": 205732,
+      "first": "2022-01-03 07:00:00+00:00",
+      "last": "2022-12-30 20:59:00+00:00",
+      "h1_signals": 60,
+      "d1_signals": 2,
+      "d1_exits": 14
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 99603.5626928441,
+    "num_trades": 143,
+    "num_orders": 288,
+    "num_fills": 288,
+    "num_rejected_orders": 0,
+    "win_rate": 0.34265734265734266,
+    "total_commission": 599.2401590526663,
+    "total_slippage": 1198.47976205746,
+    "total_costs": 1793.017557693072,
+    "max_drawdown_pct": 2.7771140751786043
+  },
+  "daily": {
+    "total_return": -0.003964373071560168,
+    "annual_return": -0.0032238486919543563,
+    "annual_volatility": 0.027710870872131567,
+    "sharpe_ratio": -0.10275953123182156,
+    "sortino_ratio": -0.18277632806889296,
+    "calmar_ratio": -0.13028475450370952,
+    "omega_ratio": 0.9718350601139557,
+    "tail_ratio": 1.1585437731618116,
+    "max_drawdown": -0.02474463496696051,
+    "skewness": 2.7990598119315773,
+    "kurtosis": 18.982005438963782,
+    "var_95": -0.002335352409502634,
+    "cvar_95": -0.0034319176982201124,
+    "stability": 0.0693915432331665,
+    "win_rate": 0.1774193548387097,
+    "profit_factor": 0.9718350601139557,
+    "avg_win": 0.0021976295528569672,
+    "avg_loss": -0.001498464715713318,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 143,
+  "open_trades": 2,
+  "closed_net_pnl": -20.71454866201455,
+  "native_end_equity": 99603.5626928441,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "DE30_D": {
+      "quantity": 0.546146629825946,
+      "entry_price": 14297.8579998,
+      "current_price": 13856.699,
+      "multiplier": 1.0
+    },
+    "EU50_D": {
+      "quantity": 2.044484038266926,
+      "entry_price": 3848.3585178,
+      "current_price": 3783.199,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/yearly_native/year=2022/EQUAL-RISK-7/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/yearly_native/year=2022/EQUAL-RISK-7/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/yearly_native/year=2022/EQUAL-RISK-7/cost_1x/daily_equity.parquet"
+  }
+}

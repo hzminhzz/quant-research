@@ -1,0 +1,124 @@
+# Source-specific Dukascopy CFD switch, frozen before new outcomes.
+session_id: vwap_pullback_adx_dukascopy_20261012_v1
+market: indices
+thesis: >-
+  Test B1 OR breakout, B2 OR/VWAP reclaim and B3 OR/VWAP
+  reclaim with nonincreasing ADX14 on actual canonical local
+  Dukascopy USATECH.IDX/USD 1-minute OHLCV, after earlier LSE
+  NQ.F findings. This is a new source-dependent replication:
+  CFD tick-volume-weighted VWAP and a shorter vendor session.
+mechanism: >-
+  Equity cash-open price-discovery continuation may persist
+  after VWAP retests; ADX nonincreasing gate may change
+  selection. Source-specific VWAP uses Dukascopy reported
+  volume, not genuine CME contract trading volume.
+falsifier: >-
+  Negative net returns on July-August partial chronological
+  validation or inconsistent historic development stress undermine
+  the hypothesis. Full July-September validation is BLOCKED
+  unless genuine Dukascopy September minute data are present.
+  Insufficient coverage or CIs crossing zero are INCONCLUSIVE,
+  not successful. No changes to thresholds based on outcomes.
+instruments:
+  - symbol: DUK_USATECH
+    kind: cfd
+    venue: Dukascopy USATECH.IDX/USD
+    identity: >-
+      Broker CFD/index price quote, not CME dated NQ. Uses
+      price quotes and vendor-reported proxy volume. All
+      NQ-equivalent $20/point, 0.25-point rounded levels
+      are illustrative translation only and may differ from
+      broker CFD contract/tick/commission/spread.
+    session: >-
+      08:30-08:59 CT OR, 09:00 first eligible decision,
+      no signals from 15:13 onward; forced exit MARKET
+      queued after 15:13 bar, at 15:14 bar OPEN. No
+      data or fill assumed at 15:55 CT. XNYS calendar,
+      DST; only full continuous 08:30-15:14 CFD sessions.
+    timezone: America/Chicago
+data:
+  - id: duk_usatech_1m
+    symbol: DUK_USATECH
+    role: prices
+    path: data/processed/vwap_adx_dukascopy_2026_1m.parquet
+evaluation:
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-07-01T00:00:00Z"
+  retrospective_validation_start: "2026-07-01T00:00:00Z"
+  retrospective_validation_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-11-01T00:00:00Z"
+  plan: >-
+    Source only from local rebuild
+    /home/quant/dev/quant/ml4t-data/.data/rebuild/
+    duk21_usatechidxusd/index_minute_NQ/ (Dukascopy
+    USATECH.IDX/USD), never blend NQ.F or LSE NAS100.
+    Source Jan-Jun 2026 development with Dec 2025 warmup,
+    then July 2026 full month and Aug 1-17 partial
+    retrospective check, explicitly no September 2026.
+    For Phase 6, cost 0/1/2/4 adverse ticks and
+    passive limit 1-tick extra breach on Jan-Jun
+    only. Additional optional long-history source
+    diagnostics 2011-2025 must be separately registered,
+    and cannot be relabeled unseen OOS after prior data
+    inspection. All three B1/B2/B3 unchanged in
+    08:30 OR breakout, later touch/reclaim and ADX gate,
+    next-minute market fills, prior-five-bar TP,
+    prior-twenty-bar SL, native OCO and stop-first.
+    Only session cutoff is changed from CME 15:55 to
+    Dukascopy last available 15:14, explicitly a
+    separate strategy variant. No price interpolation.
+    Initial account 1m USD illustrative NQ-equivalent
+    1-contract PnL. Use native ml4t.backtest Engine
+    v0.1.7 LegalLimitFillExecutor, full ledger audit,
+    record missing days and report by month.
+baseline: >-
+  B0 cash, B1 OR only, B2 OR+VWAP touch/reclaim
+  no ADX, B3 full ADX gating. Primary paired
+  B3 versus B2 and B2 versus B0.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Schema bps placeholders; illustrative per contract
+    $2.50/side commission, 0.25 point adverse
+    market/stop slippage base, 0.50 stress and
+    1.0 four-tick stress. Zero adverse passive
+    limit slippage; CFD spread/true fee unverified.
+trials:
+  - id: T0_dukascopy_source_calendar
+    kind: diagnostic
+    description: >-
+      Validate canonical Duk rebuild identity and sha,
+      from 2011 to 2026-Aug17, 2026 Jan-Aug OHLCV
+      volume, calendar/DST, full 08:30-15:14
+      minutes, no synthetic 15:55 fills.
+  - id: T1_dukascopy_native_development
+    kind: preregistered
+    description: >-
+      Run B1/B2/B3 gross/base/stress on Duk
+      January-June 2026 valid sessions using
+      native ML4T and cutoff at 15:14 CT.
+  - id: T2_dukascopy_retrospective_partial
+    kind: preregistered
+    description: >-
+      Run B1/B2/B3 gross/base/stress separately
+      July 2026 and Aug 1-17 partial on
+      Duk source ONLY; flag missing Sept and
+      incomplete phase5 full date gate.
+  - id: T3_dukascopy_development_stress
+    kind: preregistered
+    description: >-
+      Run January-June Duk source B1/B2/B3 at
+      four-tick aggressive slip and one-tick
+      passive target buffer; paired session
+      bootstrap and monthly stability.
+  - id: T4_independent_trade_audit
+    kind: preregistered
+    description: >-
+      Verify native order/fill ledger, next bar
+      timing, prior 5/20 levels, 15:14 CT flat,
+      full session integrity, paired results,
+      legal limit floor, no reverse trades.
+evidence:
+  - docs/audit/vwap_pullback_adx_phase56_20261012.md
+  - docs/audit/vwap_pullback_adx_nq_data_discovery_20261012.md

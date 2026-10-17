@@ -1,0 +1,139 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "by_era": {
+    "2010-2013": {
+      "events": 29676,
+      "mean_gross_bps": 0.5374029554601087,
+      "mean_net_bps": -0.9625970445398908
+    },
+    "2014-2017": {
+      "events": 29489,
+      "mean_gross_bps": 0.4543974730258609,
+      "mean_net_bps": -1.0456025269741387
+    },
+    "2018-2021": {
+      "events": 29899,
+      "mean_gross_bps": 0.48416127662852226,
+      "mean_net_bps": -1.0158387233714772
+    },
+    "2022-2024": {
+      "events": 20411,
+      "mean_gross_bps": 0.3207134283662996,
+      "mean_net_bps": -1.1792865716337
+    }
+  },
+  "by_pair": {
+    "AUDUSD": {
+      "cost_drag_bps": 1.4999999999999998,
+      "events": 36420,
+      "hac_ci_95_bps": [
+        -1.1332775432736797,
+        -0.793910353790582
+      ],
+      "hac_maxlags": 2,
+      "hac_p_value": 8.924682058703234e-29,
+      "hac_se_bps": 0.08657326262323925,
+      "hac_t_stat": -11.130387365965676,
+      "kurtosis": 17.025196417861604,
+      "lag1_autocorrelation": 0.11380058366246873,
+      "mean_gross_bps": 0.5364060514678691,
+      "mean_net_bps": -0.9635939485321307,
+      "native_event_sharpe": -0.0621613906136291,
+      "return_observations": 36420,
+      "skewness": 0.05133133304898265,
+      "timestamp_cells": 36420
+    },
+    "EURUSD": {
+      "cost_drag_bps": 1.4999999999999998,
+      "events": 36498,
+      "hac_ci_95_bps": [
+        -1.269479045063901,
+        -0.9974714469122585
+      ],
+      "hac_maxlags": 2,
+      "hac_p_value": 5.570325187988159e-60,
+      "hac_se_bps": 0.06938969340603125,
+      "hac_t_stat": -16.334922239180262,
+      "kurtosis": 14.142936955149601,
+      "lag1_autocorrelation": 0.13757455420537765,
+      "mean_gross_bps": 0.3665247540119199,
+      "mean_net_bps": -1.13347524598808,
+      "native_event_sharpe": -0.09312241313387719,
+      "return_observations": 36498,
+      "skewness": -0.36662949598256755,
+      "timestamp_cells": 36498
+    },
+    "GBPUSD": {
+      "cost_drag_bps": 1.4999999999999996,
+      "events": 36557,
+      "hac_ci_95_bps": [
+        -1.1655251793788926,
+        -0.8794518089840635
+      ],
+      "hac_maxlags": 2,
+      "hac_p_value": 1.3363723211614591e-44,
+      "hac_se_bps": 0.0729779006109258,
+      "hac_t_stat": -14.010933249954267,
+      "kurtosis": 14.88229425658706,
+      "lag1_autocorrelation": 0.13107420493807775,
+      "mean_gross_bps": 0.4775115058185215,
+      "mean_net_bps": -1.0224884941814782,
+      "native_event_sharpe": -0.07907422100558868,
+      "return_observations": 36557,
+      "skewness": -0.05726835426100536,
+      "timestamp_cells": 36557
+    }
+  },
+  "classification": "EXPLORATORY",
+  "development_end_exclusive": "2025-01-01T00:00:00Z",
+  "era_positive_count": 0,
+  "events_artifact": "run_log/ftmo_fx_intraday_reversion_202610_v2/D0_raw_event_diagnostic/events.parquet",
+  "falsifier_checks": {
+    "at_least_2_of_3_pairs_positive": false,
+    "at_least_3_of_4_eras_positive": false,
+    "pooled_hac_95_ci_excludes_zero_positive": false,
+    "pooled_net_mean_positive": false
+  },
+  "holdout_opened_by_runner": false,
+  "holdout_scored": false,
+  "method": {
+    "direction": "fade the extreme",
+    "distribution_stats": "ml4t.diagnostic.evaluation.stats.compute_return_statistics",
+    "eligibility": "exact entry and exit timestamps must exist and both must be in the same Europe/Prague calendar day",
+    "entry": "open of the immediately following 5m bar",
+    "event": "close beyond prior five completed 30m highs/lows",
+    "exit": "open exactly 60 minutes after entry",
+    "hac": "Newey-West HAC via statsmodels WLS on contemporaneous timestamp cells; event-count weights preserve pooled event expectancy",
+    "hac_lag_rationale": "60m forward horizon / 30m signal cadence = 2",
+    "hac_maxlags": 2,
+    "round_trip_cost_bps": 1.5,
+    "signal_bar": "30m from six complete 5m bars"
+  },
+  "next_action": "Stop this strategy family. Do not run T1 under this thesis.",
+  "pair_positive_count": 0,
+  "pooled": {
+    "cost_drag_bps": 1.4999999999999996,
+    "events": 109475,
+    "hac_ci_95_bps": [
+      -1.147967008506823,
+      -0.9318280682761035
+    ],
+    "hac_maxlags": 2,
+    "hac_p_value": 2.4283845522952858e-79,
+    "hac_se_bps": 0.05513748475273452,
+    "hac_t_stat": -18.86008299172352,
+    "kurtosis": 16.61167039787149,
+    "lag1_autocorrelation": 0.2686863892129302,
+    "mean_gross_bps": 0.4601024616085364,
+    "mean_net_bps": -1.039897538391463,
+    "native_event_sharpe": -0.07641948773887135,
+    "return_observations": 109475,
+    "skewness": -0.07572528546055515,
+    "timestamp_cells": 72901
+  },
+  "schema_version": "ftmo-fx-reversion-d0-v1",
+  "session_id": "ftmo_fx_intraday_reversion_202610_v2",
+  "thesis_falsifier_verdict": "REJECT",
+  "trial_execution_status": "completed",
+  "trial_id": "D0_raw_event_diagnostic"
+}

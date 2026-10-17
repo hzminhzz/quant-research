@@ -1,0 +1,76 @@
+{
+  "trial": "native_zero",
+  "engine": "ml4t.backtest Engine, NEXT_BAR native STOP/MARKET",
+  "native_engine_metrics": {
+    "initial_cash": 1000000.0,
+    "final_value": 1030218.0,
+    "total_return": 0.030218000000000078,
+    "num_trades": 272,
+    "win_rate": 0.49264705882352944,
+    "profit_factor": 1.4569898977678344,
+    "total_commission": 0.0,
+    "total_slippage": 0.0,
+    "total_costs": 0.0,
+    "num_fills": 544,
+    "num_rejected_orders": 0
+  },
+  "closed_trades": 272,
+  "open_trades_at_end": 0,
+  "sum_trade_pnl_usd": 30218.00000000021,
+  "equity_change_usd": 30218.0,
+  "ledger_equity_difference_usd": 2.1100277081131935e-10,
+  "gross_pnl_usd": 30218.00000000021,
+  "commissions_usd": 0.0,
+  "slippage_points_sum": 0.0,
+  "slippage_cost_usd": 0.0,
+  "fees_and_slippage_usd": 0.0,
+  "trade_ledger_slippage_cost_usd": 0.0,
+  "fill_trade_slippage_reconciliation_difference_usd": 0.0,
+  "gross_minus_net_pnl_usd": 0.0,
+  "commission_reconciliation_difference_usd": 0.0,
+  "entry_fills": 272,
+  "multiple_entry_fills_same_minute": 0,
+  "fill_count": 544,
+  "max_entries_per_chicago_session_day": 2,
+  "same_minute_entry_stop_ambiguities": 4,
+  "worst_case_same_minute_pnl_usd": 20709.000000000233,
+  "expected_next_boundary_exit_mismatches": 10,
+  "daily_equity_sharpe_library": 1.8206533019216953,
+  "daily_equity_max_drawdown_library": -0.004756112479772597,
+  "commission_per_fill_usd": 0.0,
+  "adverse_slippage_points_per_fill": 0.0,
+  "entry_gap_triggers": 160,
+  "entry_gap_conservative_price_improvement_usd": 90525.99999999991,
+  "protective_stop_gap_through_fills": 16,
+  "protective_stop_gap_loss_beyond_trigger_usd": 2950.0,
+  "ambiguous_examples": [
+    {
+      "timestamp": "2020-03-16T08:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 8670.0,
+      "stop_price": 8720.0
+    },
+    {
+      "timestamp": "2020-03-16T08:30:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 8435.4,
+      "stop_price": 8485.5
+    },
+    {
+      "timestamp": "2020-11-09T11:45:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 12742.5,
+      "stop_price": 12692.5
+    },
+    {
+      "timestamp": "2020-11-16T11:56:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 13246.75,
+      "stop_price": 13196.75
+    }
+  ]
+}

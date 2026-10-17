@@ -1,0 +1,24 @@
+{
+  "status": "PASS_ALL_STABLE_IDENTITIES",
+  "stable_artifacts_checked": 315,
+  "preserved_original_files": 811,
+  "terminal_trials": 19,
+  "terminal_trial_artifact_hashes_match": true,
+  "active_log_completion_erratum": {
+    "path": "run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/finalization.log",
+    "final_sha256": "2e36c5200060d3f4e5835638c728690343a881dd5de38a2cf686cccc7bf1698a",
+    "reason": "T4 captured this log before finalization printed its completion receipt. That active log is excluded from stable artifact assertions. No scientific evidence changed."
+  },
+  "final_head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "local_upstream_ahead_behind": "0\t0",
+  "remote_origin": "https://github.com/hzminhzz/quant-research.git",
+  "remote_freshness": "Local tracking ref only; no authenticated remote mutation or fetch",
+  "actual_final_source_sha256": {
+    "scripts/run_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "1fef99665ee4f33d77faa539322a41d92323d43c9e8211389c640f320e6bb92e",
+    "scripts/verify_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "2a60173486ed05f9cea18dbc588b2854d6cde596e6e38721c4e3c48b3b0d87b7",
+    "scripts/supplement_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "4e26fdec54dbdc292b993853c81386393ee5b392fcfb73b0a4aaebb371f90d02",
+    "scripts/finalize_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "332df993ac33810b0d67065cb6e85df4437a1f31337e16e0fc3a19f376456a4f",
+    "tests/test_tokyo_fix_program3_ohlcv_execution_20261011_v1.py": "2337e1f99191fa7f0d270a02ff95f56c50aa045383d93357611de4462be6cba4"
+  },
+  "holdout": "SEALED"
+}

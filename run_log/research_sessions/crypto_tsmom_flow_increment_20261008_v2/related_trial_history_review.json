@@ -1,0 +1,83 @@
+{
+  "scope": "Read-only review of prior TSMOM research before a new fixed BTC/ETH/SOL flow study. No new strategy metrics were computed.",
+  "prior_sessions": [
+    "crypto_tsmom_trend_persistence",
+    "crypto_tsmom_vol_targeted",
+    "crypto_tsmom_maker_regime",
+    "crypto_tsmom_top10_universe",
+    "crypto_tsmom_two_stage_funnel_stop_exec"
+  ],
+  "legacy_trial_count": {
+    "reported_cumulative_count": 24,
+    "source": "run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_4_holdout_and_dsr_audit/result.json",
+    "status": "UNVERIFIED",
+    "limitation": "The source trial record has artifact_generation_verified=false. Several prior session reports also have artifact_generation_verified=false, and the regenerated trend-persistence report is BLOCKED because all six frozen data identities changed. Do not use the reported DSR as reproducible evidence."
+  },
+  "reviewed_development_results": {
+    "btc_eth_sol_trend_persistence": {
+      "period": "2021-01-01 through 2024-12-31",
+      "reported_sharpe_range": [0.1984, 0.2395],
+      "reported_max_drawdown_range": [0.5342, 0.6496],
+      "basis": "Three recorded ROC, Donchian, and EMA strategy artifacts. Results are historical reports only; artifact generation is unverified."
+    },
+    "btc_eth_sol_vol_targeted": {
+      "reported_sharpe_range": [0.1284, 0.2114],
+      "reported_max_drawdown_range": [0.2244, 0.2283],
+      "reported_fee_drag_max_pct": 55.72,
+      "basis": "Three recorded strategy artifacts. Results are not validated."
+    },
+    "btc_eth_sol_maker_regime": {
+      "reported_sharpe_range": [0.2058, 0.2589],
+      "reported_max_drawdown_range": [0.2004, 0.2454],
+      "basis": "Three recorded strategy artifacts. Results are not validated."
+    },
+    "top10_universe": {
+      "reported_daily_sharpe_range": [1.2610, 1.8412],
+      "reported_engine_sharpe_range": [0.2006, 0.2884],
+      "reported_max_drawdown_range": [0.1001, 0.5245],
+      "basis": "Four recorded strategy artifacts. The results contain materially different Sharpe fields and are not validated."
+    },
+    "two_stage_execution": {
+      "reported_development_sharpe_range": [0.3114, 0.6304],
+      "reported_holdout": {
+        "period": "2025-01-01 through 2026-07-31",
+        "stop_market_return_pct": 12.71,
+        "stop_market_max_drawdown_pct": 22.95,
+        "passive_maker_return_pct": 18.65,
+        "passive_maker_max_drawdown_pct": 20.45
+      },
+      "reported_dsr": 0.9991,
+      "reported_cumulative_trials": 24,
+      "basis": "Reported in trial_4_holdout_and_dsr_audit/result.json. The artifact is unverified. Treat the 2025-01 through 2026-07 period as previously accessed, not as a clean holdout."
+    }
+  },
+  "legacy_diagnostics": {
+    "artifact": "run_log/diagnostics/crypto_tsmom_diagnostics.json",
+    "status": "UNVERIFIED",
+    "observations": [
+      "Recorded 72-hour ROC Rank IC at the 72-hour horizon was 0.0116 pooled, below the old 0.015 threshold; the per-symbol values were uneven.",
+      "Several other pooled horizon results were negative or close to zero. The file reports conventional p-values and does not establish serial-dependence-adjusted significance."
+    ]
+  },
+  "selection_policy": {
+    "historical_window": "Treat all data through 2026-07-31 as development or previously accessed evidence. Do not present it as confirmatory holdout evidence.",
+    "prospective_holdout": "2026-08-01 through 2027-07-31; no values or outcomes have been accessed for this study.",
+    "new_search": "Freeze only the user-approved 24h, 72h, and 168h TSMOM specifications plus one diagnostic-only flow comparison. Do not add variants after observing outcomes.",
+    "multiple_testing": "The legacy audit reports 24 cumulative trials. Count at least those 24 before adding new strategy trials. A corrected DSR remains unreproducible until the complete legacy trial roster and artifacts are reconciled."
+  },
+  "files_reviewed": [
+    "run_log/research_sessions/crypto_tsmom_trend_persistence/frozen_spec.json",
+    "run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_1_rate_of_change_momentum.json",
+    "run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_2_donchian_breakout.json",
+    "run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_3_ma_crossover.json",
+    "run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_4_composite_tsmom_diagnostic.json",
+    "run_log/research_sessions/crypto_tsmom_vol_targeted/frozen_spec.json",
+    "run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_4_dsr_sensitivity_audit.json",
+    "run_log/research_sessions/crypto_tsmom_maker_regime/frozen_spec.json",
+    "run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_4_regime_sliced_dsr_audit.json",
+    "run_log/research_sessions/crypto_tsmom_top10_universe/frozen_spec.json",
+    "run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_4_top10_regime_gated_maker.json",
+    "run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/frozen_spec.json",
+    "run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_4_holdout_and_dsr_audit.json"
+  ]
+}

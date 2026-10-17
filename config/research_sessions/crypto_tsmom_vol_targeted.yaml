@@ -1,0 +1,107 @@
+# Research session specification: Volatility-Targeted Time-Series Momentum
+# Session ID: crypto_tsmom_vol_targeted
+# Iteration 2: Addressing excessive drawdown and fee churn via inverse volatility scaling and conviction filters.
+session_id: crypto_tsmom_vol_targeted
+market: crypto
+
+thesis: >-
+  Time-Series Momentum (TSMOM) on BTCUSDT, ETHUSDT, and SOLUSDT generates robust risk-adjusted returns
+  (Sharpe > 0.80, Max Drawdown < 25%) when position weights are scaled inversely by realized volatility
+  (volatility targeting at 20% annual risk budget) and gated by a minimum trend conviction threshold
+  to eliminate zero-line churn after realistic execution friction (4.5 bps taker fee, 1.5 bps slippage, signed 8h funding).
+
+mechanism: >-
+  1. Risk Contribution Equalization: Equal-weight allocations expose portfolios to severe volatility clustering
+     during deleveraging shocks. Sizing inversely to rolling 7-day realized volatility stabilizes portfolio variance.
+  2. Trend Conviction Filtering: Noise around zero momentum creates rapid order flipping and fee drag.
+     Enforcing a minimum threshold dead-band prevents false whipsaws.
+  3. Symmetric Exposure: Directional crypto trends persist during major bear cycles. Allowing short exposure
+     during confirmed downtrends prevents prolonged cash drag.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Annualized net post-cost Sharpe ratio fails to exceed 0.80 on development data.
+  2. Maximum portfolio drawdown exceeds 25.0%.
+  3. Deflated Sharpe Ratio (DSR) fails to exceed 0.80 across cumulative evaluated trials.
+  4. Trading friction consumes more than 35.0% of gross profits.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: SOLUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1h.parquet
+  - id: eth_prices_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1h.parquet
+  - id: sol_prices_1h
+    symbol: SOLUSDT
+    role: prices
+    path: data/processed/sol_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+  - id: sol_funding
+    symbol: SOLUSDT
+    role: funding
+    path: data/processed/sol_funding.parquet
+
+evaluation:
+  cadence: 1h
+  development_start: "2021-01-01T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-07-31T23:59:59Z"
+  plan: >-
+    Evaluate volatility-targeted position sizing and threshold conviction filtering on 4-year development data.
+    Compute Deflated Sharpe Ratio (DSR) to account for multiple testing across all cumulative trials.
+    Holdout window (2025-01-01 to 2026-07-31) remains strictly untouched.
+
+baseline: >-
+  Unscaled raw TSMOM (Trial 1 from previous session: Sharpe 0.198, Max DD 64.96%) and Buy-and-Hold benchmark.
+
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Binance USD-M Futures VIP 0 taker fee of 4.5 bps with BNB discount plus 1.5 bps slippage per side (12.0 bps roundtrip).
+    Signed 8-hour perpetual funding rate cash flows applied at settlement marks.
+
+trials:
+  - id: trial_1_vol_targeted_tsmom
+    kind: preregistered
+    description: >-
+      Inverse volatility-scaled TSMOM: Position sizes scaled by target_vol (20%) / realized_vol_168,
+      capped at 40% maximum single-asset weight and 100% total portfolio gross leverage.
+  - id: trial_2_symmetric_long_short_vol_targeted
+    kind: preregistered
+    description: >-
+      Symmetric long/short volatility-targeted TSMOM: Long when ROC_168 > 0, Short when ROC_168 < 0,
+      scaled by inverse realized volatility.
+  - id: trial_3_conviction_threshold_filtered
+    kind: preregistered
+    description: >-
+      Trend conviction threshold filter: Positions entered only when |ROC_168| >= 1.5% (dead-band filter),
+      preventing whipsaws during consolidation regimes.
+  - id: trial_4_dsr_sensitivity_audit
+    kind: diagnostic
+    description: >-
+      Multiple-testing adjustment: Computing Deflated Sharpe Ratio (DSR) across all cumulative trials
+      and mapping target volatility sensitivity surface (15% to 35% target vol).

@@ -1,0 +1,32 @@
+{
+  "setup": "Native STOP buy 101; next candle opens 100 and trades to 102; following candle opens 101.5.",
+  "results": {
+    "next_bar": [
+      {
+        "timestamp": "2026-01-01T00:01:00+00:00",
+        "price": 101.0,
+        "type": "stop"
+      },
+      {
+        "timestamp": "2026-01-01T00:02:00+00:00",
+        "price": 101.5,
+        "type": "market"
+      }
+    ],
+    "same_bar": [
+      {
+        "timestamp": "2026-01-01T00:01:00+00:00",
+        "price": 101.0,
+        "type": "stop"
+      },
+      {
+        "timestamp": "2026-01-01T00:01:00+00:00",
+        "price": 100.0,
+        "type": "market"
+      }
+    ]
+  },
+  "finding": "NEXT_BAR fills the STOP when the next 1m candle high crosses 101, then fills the market exit at the following 1m open (101.5). This supports the intended native stop-entry and scheduled-open exit sequence.",
+  "exact_strategy_supported": true,
+  "remaining_ambiguity": "A 1m candle can contain both entry trigger and protective-stop prices. OHLC does not reveal their intraminute order; those cases are counted and retained as ambiguous."
+}

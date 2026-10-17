@@ -1,0 +1,117 @@
+{
+  "session": "mechanicalpremia-c3-d1-naive-ten-20261014-v1",
+  "created_date": "2026-10-14",
+  "class": "EXPLORATORY_OBSERVED_SELECTION",
+  "source_baseline": "mechanicalpremia-us500-us100-2013-2026-v1",
+  "root_head": "98d5949fe11695c709f5ddeaf88a02c79f05b0c7",
+  "market_cutoff_exclusive": "2026-10-12T00:00:00Z",
+  "fixed_core": {
+    "H1": "source unchanged",
+    "D1_exit": "percent-B>0.8 source unchanged",
+    "risk": "combined H1 23.36% / D1 76.64%; nominal 1% risk split two indices",
+    "commission_bps_per_side": 1,
+    "slippage_bps_per_side": 2,
+    "symbols": [
+      "US500",
+      "US100"
+    ],
+    "same_native_execution": true,
+    "annual_resets": true
+  },
+  "variants": [
+    {
+      "id": "N01-LV-PB35",
+      "description": "Keep EMA100 trend and ATR20 below median; relax percent-B threshold 0.20 to 0.35",
+      "ema": true,
+      "lowvol": true,
+      "pctb": 0.35
+    },
+    {
+      "id": "N02-LV-PB50",
+      "description": "Keep EMA100 trend and ATR below median; relax percent-B <0.50",
+      "ema": true,
+      "lowvol": true,
+      "pctb": 0.5
+    },
+    {
+      "id": "N03-LV-PB80",
+      "description": "Keep EMA100 trend and ATR below median; relax percent-B <0.80",
+      "ema": true,
+      "lowvol": true,
+      "pctb": 0.8
+    },
+    {
+      "id": "N04-PB20",
+      "description": "Keep EMA100 trend and source percent-B <0.20; drop low-volatility ATR percentile filter",
+      "ema": true,
+      "lowvol": false,
+      "pctb": 0.2
+    },
+    {
+      "id": "N05-PB35",
+      "description": "EMA100 trend and percent-B <0.35 only",
+      "ema": true,
+      "lowvol": false,
+      "pctb": 0.35
+    },
+    {
+      "id": "N06-PB50",
+      "description": "EMA100 trend and percent-B <0.50 only",
+      "ema": true,
+      "lowvol": false,
+      "pctb": 0.5
+    },
+    {
+      "id": "N07-PB80",
+      "description": "EMA100 trend and percent-B <0.80 only",
+      "ema": true,
+      "lowvol": false,
+      "pctb": 0.8
+    },
+    {
+      "id": "N08-LV-ONLY",
+      "description": "EMA100 trend and ATR below median; remove Bollinger pullback gate",
+      "ema": true,
+      "lowvol": true,
+      "pctb": null
+    },
+    {
+      "id": "N09-TREND",
+      "description": "EMA100 trend-only entry, no volatility or Bollinger gate",
+      "ema": true,
+      "lowvol": false,
+      "pctb": null
+    },
+    {
+      "id": "N10-VOLPB20",
+      "description": "ATR below median and percent-B <0.20; remove EMA100 trend gate (regime-ablation control)",
+      "ema": false,
+      "lowvol": true,
+      "pctb": 0.2
+    }
+  ],
+  "primary_outcomes": [
+    "number of D1 entries and closed D1 trades vs baseline",
+    "net synthetic annual return / positive years",
+    "net profit factor of D1 trades",
+    "annual daily Sharpe and worst within-year drawdown",
+    "combined portfolio return and risk",
+    "multi-year robustness; multiple comparisons"
+  ],
+  "trial_count": 10,
+  "primary_cells": 140,
+  "stress_cells": 40,
+  "stress_years": [
+    2021,
+    2024,
+    2025,
+    2026
+  ],
+  "notes": [
+    "No fresh OOS left through 2026 Oct11",
+    "Naive rules may produce repeated signals, count actual native entries not triggers",
+    "2x cost trial only in preregistered years; holdout 2026 YTD already exposed",
+    "No edits to promoted baseline",
+    "No final winner/promotion until native execution and audited ledger"
+  ]
+}

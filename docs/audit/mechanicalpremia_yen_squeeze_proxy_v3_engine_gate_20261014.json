@@ -1,0 +1,18 @@
+{
+  "session_id": "mechanicalpremia-yen-squeeze-proxy-20261014-v3",
+  "trial_id": "ENGINE-STOP-ORDER-AND-CASH-GATES",
+  "scientific_status": "PASS_PROXY_ENGINE_CAPABILITY_NOT_SOURCE_PARITY",
+  "source": "docs/audit/mechanicalpremia_yen_squeeze_proxy_engine_gates_20261014.json",
+  "tests": "25 tests passed independently against installed native libraries",
+  "methods": [
+    "ml4t.backtest.Engine",
+    "Broker.submit_order OrderType.STOP",
+    "Broker.cancel_order",
+    "Broker.update_order",
+    "SlippageType.FIXED"
+  ],
+  "limitations": [
+    "First 1m after pending stop fill remains unprotected",
+    "Simultaneous opposite native STOP fill nets position; no broker hedge parity"
+  ]
+}

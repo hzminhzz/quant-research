@@ -1,0 +1,111 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "builder_sha256": "fba704b84b715ccfb6ac24ddca65060c2227f52a897827b230d8e2656d1620fd",
+  "checks": {
+    "artifact_readback_rows_match": true,
+    "artifact_readback_schema_match": true,
+    "backtests_run": false,
+    "diagnostics_run": false,
+    "duplicate_symbol_timestamp_rows": 0,
+    "flow_invalid_rows": 3,
+    "flow_invalid_timestamp": "2024-10-28T20:00:00+00:00",
+    "flow_score_nulls": {
+      "tsmom_72h_flow_augmented_score": 507,
+      "tsmom_72h_flow_baseline_score": 507
+    },
+    "forward_return_formula_samples_match": true,
+    "forward_return_nulls": {
+      "forward_return_1h": 3,
+      "forward_return_24h": 72,
+      "forward_return_4h": 12,
+      "forward_return_72h": 216
+    },
+    "hourly_grid_contiguous": true,
+    "momentum_nulls": {
+      "roc_168h_pct": 504,
+      "roc_24h_pct": 72,
+      "roc_72h_pct": 216
+    },
+    "per_symbol": {
+      "BTCUSDT": 48912,
+      "ETHUSDT": 48912,
+      "SOLUSDT": 48912
+    },
+    "roc_formula_samples_match": true,
+    "rows": 146736,
+    "signal_nulls": {
+      "tsmom_168h_signal": 504,
+      "tsmom_24h_signal": 504,
+      "tsmom_72h_signal": 504
+    },
+    "timestamp_bounds_verified": true
+  },
+  "classification": "EXPLORATORY",
+  "config_sha256": "86d01418d4cfc3a6f62d67def9b06d3cdd77956c4c98037eb5944745ebc3d46c",
+  "development_window_utc": {
+    "end_exclusive": "2026-08-01T00:00:00+00:00",
+    "start_inclusive": "2021-01-01T00:00:00+00:00"
+  },
+  "feature_artifact": {
+    "columns": [
+      "timestamp",
+      "symbol",
+      "roc_24h_pct",
+      "roc_72h_pct",
+      "roc_168h_pct",
+      "tsmom_24h_signal",
+      "tsmom_72h_signal",
+      "tsmom_168h_signal",
+      "flow_imbalance",
+      "tsmom_72h_flow_baseline_score",
+      "tsmom_72h_flow_augmented_score"
+    ],
+    "path": "data/features/crypto_tsmom_flow_increment_20261008_v4.parquet",
+    "rows": 146736,
+    "sha256": "375fb3818913a5376447f383a971a7aee7b697fb69736520b91f4a02c4a3bb28"
+  },
+  "feature_definitions": {
+    "flow_imbalance": "(2 * taker_buy_quote_volume - quote_volume) / quote_volume; null when denominator <= 0",
+    "flow_scores": "sign(72h return), and that score plus flow imbalance; paired timestamps only; diagnostic, not orders",
+    "roc": "ml4t.engineer ROC in percent, grouped by symbol; 24h, 72h, and 168h"
+  },
+  "frozen_spec_sha256": "acf31212f55a0850605d2488efd4344a0c06fd247e29df9a9edbb30eb2718c7e",
+  "holdout_values_read": false,
+  "input_data": [
+    {
+      "path": "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+      "sha256": "67528cbf7f936e41f34f08fa033b05cfb2800a9f21ee39e6048051dd577db8b7",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "path": "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+      "sha256": "f0c4959e7ed53afeb12cfe93e3776aa3047cb39be2759187d6cd3df866dacab1",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "path": "data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_1h.parquet",
+      "sha256": "99dfc9c52a0c3d6891392048ba090a9def3c3cb905ee2fa1294cf20ceefc46a5",
+      "symbol": "SOLUSDT"
+    }
+  ],
+  "label_api_note": "fixed_time_horizon_labels uses one price column for both endpoints; vectorized Polars shifts preserve the frozen open-to-close label definition.",
+  "label_artifact": {
+    "columns": [
+      "timestamp",
+      "symbol",
+      "forward_return_1h",
+      "forward_return_4h",
+      "forward_return_24h",
+      "forward_return_72h"
+    ],
+    "definition": "close[i + H] / open[i + 1] - 1; contiguous hourly bars required; development boundary only",
+    "path": "data/labels/crypto_tsmom_flow_increment_20261008_v4.parquet",
+    "rows": 146736,
+    "sha256": "5fda7b0db28c19e38fe740b68cefedba6950b8c77cd6fe5bd01d05198ee2b1a9"
+  },
+  "ml4t_engineer_version": "0.1.4",
+  "phase": "Phase 2: Feature Engineering",
+  "polars_version": "1.44.2",
+  "session_id": "crypto_tsmom_flow_increment_20261008_v4",
+  "status": "PASS"
+}

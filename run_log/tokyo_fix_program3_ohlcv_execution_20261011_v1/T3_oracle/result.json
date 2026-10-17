@@ -1,0 +1,686 @@
+{
+  "status": "PASS",
+  "source": "original immutable annual OHLCV snapshots",
+  "holdout_read": false,
+  "method": "Independent strict-cross, TTL, next-bar, exit-time and USD-conversion audit; no portfolio simulation",
+  "results": [
+    {
+      "trial": "limit_o0_t1_b0",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 259,
+      "fills_checked": 518,
+      "missed_checked": 209
+    },
+    {
+      "trial": "limit_o0_t1_b0p5",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 220,
+      "fills_checked": 440,
+      "missed_checked": 248
+    },
+    {
+      "trial": "limit_o0_t3_b0",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 300,
+      "fills_checked": 600,
+      "missed_checked": 168
+    },
+    {
+      "trial": "limit_o0_t3_b0p5",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 268,
+      "fills_checked": 536,
+      "missed_checked": 200
+    },
+    {
+      "trial": "limit_o0p5_t1_b0",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 220,
+      "fills_checked": 440,
+      "missed_checked": 248
+    },
+    {
+      "trial": "limit_o0p5_t1_b0p5",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 188,
+      "fills_checked": 376,
+      "missed_checked": 280
+    },
+    {
+      "trial": "limit_o0p5_t3_b0",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 268,
+      "fills_checked": 536,
+      "missed_checked": 200
+    },
+    {
+      "trial": "limit_o0p5_t3_b0p5",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 237,
+      "fills_checked": 474,
+      "missed_checked": 231
+    },
+    {
+      "trial": "limit_o1_t1_b0",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 188,
+      "fills_checked": 376,
+      "missed_checked": 280
+    },
+    {
+      "trial": "limit_o1_t1_b0p5",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 156,
+      "fills_checked": 312,
+      "missed_checked": 312
+    },
+    {
+      "trial": "limit_o1_t3_b0",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 237,
+      "fills_checked": 474,
+      "missed_checked": 231
+    },
+    {
+      "trial": "limit_o1_t3_b0p5",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 199,
+      "fills_checked": 398,
+      "missed_checked": 269
+    },
+    {
+      "trial": "market_gotobi",
+      "status": "PASS",
+      "signals_checked": 468,
+      "trades_checked": 468,
+      "fills_checked": 936,
+      "missed_checked": 0
+    },
+    {
+      "trial": "market_ordinary",
+      "status": "PASS",
+      "signals_checked": 1157,
+      "trades_checked": 1157,
+      "fills_checked": 2314,
+      "missed_checked": 0
+    }
+  ],
+  "verifier_sha256": "2a60173486ed05f9cea18dbc588b2854d6cde596e6e38721c4e3c48b3b0d87b7",
+  "initial_preserved_run_audits": [
+    {
+      "trial": "limit_o0_t1_b0",
+      "status": "PASS",
+      "trades_checked": 259
+    },
+    {
+      "trial": "limit_o0_t1_b0p5",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "limit_o0_t3_b0",
+      "status": "PASS",
+      "trades_checked": 300
+    },
+    {
+      "trial": "limit_o0_t3_b0p5",
+      "status": "REJECTED",
+      "reason": "Native fill is not first eligible source bar"
+    },
+    {
+      "trial": "limit_o0p5_t1_b0",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "limit_o0p5_t1_b0p5",
+      "status": "PASS",
+      "trades_checked": 188
+    },
+    {
+      "trial": "limit_o0p5_t3_b0",
+      "status": "REJECTED",
+      "reason": "Native fill is not first eligible source bar"
+    },
+    {
+      "trial": "limit_o0p5_t3_b0p5",
+      "status": "PASS",
+      "trades_checked": 237
+    },
+    {
+      "trial": "limit_o1_t1_b0",
+      "status": "PASS",
+      "trades_checked": 188
+    },
+    {
+      "trial": "limit_o1_t1_b0p5",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "limit_o1_t3_b0",
+      "status": "PASS",
+      "trades_checked": 237
+    },
+    {
+      "trial": "limit_o1_t3_b0p5",
+      "status": "REJECTED",
+      "reason": "Phantom fill without strict crossing"
+    },
+    {
+      "trial": "market_gotobi",
+      "status": "PASS",
+      "trades_checked": 468
+    },
+    {
+      "trial": "market_ordinary",
+      "status": "PASS",
+      "trades_checked": 1157
+    }
+  ],
+  "effective_runs": "/home/quant/dev/quant/quant-research/run_log/tokyo_fix_program3_ohlcv_execution_20261011_v1/runs_corrected",
+  "price_resolution": "Independent Decimal quantization1e-8 removes source float dust; strict decimal crossing, no exact touch admitted",
+  "analytics": [
+    {
+      "trial": "limit_o0_t1_b0",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0_t1_b0p5",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0_t3_b0",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0_t3_b0p5",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0p5_t1_b0",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0p5_t1_b0p5",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0p5_t3_b0",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o0p5_t3_b0p5",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o1_t1_b0",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o1_t1_b0p5",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o1_t3_b0",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "limit_o1_t3_b0p5",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "market_gotobi",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    },
+    {
+      "trial": "market_ordinary",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "cost_pips": 0.8,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 1.4,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        },
+        {
+          "cost_pips": 2,
+          "daily_points": 1627,
+          "source_mtm_points": 60125,
+          "metric_status": "PASS",
+          "closed_and_mtm_drawdown_separate": true
+        }
+      ]
+    }
+  ],
+  "proxies": {
+    "status": "PASS",
+    "proxy_rows": 1625,
+    "source_endpoint_and_label_checks": 6473,
+    "window_gates_checked": 6508,
+    "feature_information_last_bar": "09:54 close available09:55",
+    "limitations": "No future mutation test on full runner; library causality mutation regression is in tests."
+  },
+  "remaining_limitations": [
+    "Gate establishes hypothetical bar eligibility; executable broker quote/queue probability UNKNOWN",
+    "MTM uses minute closes, not intrabar or tick path",
+    "No new holdout evidence"
+  ]
+}

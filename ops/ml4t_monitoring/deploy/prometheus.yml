@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+rule_files:
+  - /etc/prometheus/rules/alerts.yml
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["127.0.0.1:19093"]
+scrape_configs:
+  - job_name: ml4t-native
+    static_configs:
+      - targets: ["127.0.0.1:19147"]
+  - job_name: ml4t-vps-node
+    static_configs:
+      - targets: ["127.0.0.1:19148"]
+  - job_name: ats7-local-paper
+    static_configs:
+      - targets: ["127.0.0.1:19149"]
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: "ml4t_live_(.*)"
+        target_label: __name__
+        replacement: "ats7_native_${1}"

@@ -1,0 +1,53 @@
+session_id: mechanicalpremia-authorized-2025-2026-ytd-v1
+market: indices
+thesis: >-
+  Explicitly authorized exploratory 2025 full-year and 2026 YTD reproduction of the unchanged
+  H1 three-index breakout and D1 four-index mean-reversion source strategies and portfolio.
+mechanism: >-
+  Quiet-volatility breakout persistence plus buy-the-dip recoveries may diversify equity beta;
+  inspect recent regime under same cost and execution approximation as prior development.
+falsifier: >-
+  Source-weighted multi-index portfolio fails promotion if it cannot improve both daily Sharpe
+  and max drawdown vs equal-risk and standalone variants, or collapses at 2x costs. Source
+  broker execution remains unqualified independently from returns.
+instruments:
+  - {symbol: US500, kind: cfd, venue: Dukascopy price proxy, identity: index_minute_ES, timezone: America/New_York, session: NY17 assumed}
+  - {symbol: US100, kind: cfd, venue: Dukascopy price proxy, identity: index_minute_NQ, timezone: America/New_York, session: NY17 assumed}
+  - {symbol: DE30, kind: cfd, venue: Dukascopy price proxy, identity: index_minute_DAX, timezone: America/New_York, session: NY17 assumed}
+  - {symbol: EU50, kind: cfd, venue: Dukascopy price proxy, identity: index_minute_EUSIDXEUR, timezone: America/New_York, session: NY17 assumed, notes: D1 only}
+data:
+  - {id: es, symbol: US500, role: prices, path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json}
+  - {id: nq, symbol: US100, role: prices, path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json}
+  - {id: dax, symbol: DE30, role: prices, path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json}
+  - {id: eu50, symbol: EU50, role: prices, path: docs/audit/mechanicalpremia_dukascopy_2013_2024_source_manifest_v1.json}
+evaluation:
+  development_start: "2025-01-01T00:00:00Z"
+  development_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  holdout_policy: >-
+    User authorized consuming former protected final test 2025+ to 2026-10-12 exclusively.
+    This data must be marked observed after this research; no longer pristine. Protect 2026-10-12+.
+  periods: >-
+    2025 [2025-01-01,2026-01-01) full; 2026 [2026-01-01,2026-10-12) YTD.
+    Independent annual resets and previous July 1 warmup.
+  source_sleeves: "H1 US500 US100 DE30; D1 US500 US100 DE30 EU50"
+  model: >-
+    Same installed ml4t.engineer and ml4t.backtest semantics as 2013-2024 source-universe
+    approximation. No parameter fitting or rule improvement.
+baseline: "Standalone H1/D1, equal-risk and no-trade; fixed source 76.64% D1/23.36% H1"
+costs:
+  commission_bps: 1
+  slippage_bps: 2
+  assumptions: "Per-side placeholder costs at 1x, 1.5x, 2x; actual spread/overnight/FX/CFD lot unknown"
+trials:
+  - {id: DATA-ELIGIBILITY, kind: preregistered, description: Check 2025 and 2026 YTD canonical coverage and quote/data provenance}
+  - {id: H1-SOURCE-3, kind: preregistered, description: Run original H1 three-index engine for both scoring periods}
+  - {id: D1-SOURCE-4, kind: preregistered, description: Run original D1 four-index engine for both scoring periods}
+  - {id: EQUAL-RISK-7, kind: preregistered, description: Run 50/50 strategy risk portfolio across both periods}
+  - {id: SOURCE-RISK-7, kind: preregistered, description: Run source 23.36/76.64 risk mix across both periods}
+  - {id: COST-STRESS, kind: preregistered, description: Predeclared 1.5x and 2x source-cost stress in both periods}
+  - {id: NATIVE-AUDIT, kind: preregistered, description: Independently inspect fill timing reconciliation and period boundaries}
+config: config/research_sessions/mechanicalpremia-authorized-2025-2026-ytd-v1.yaml
+evidence:
+  - docs/plans/mechanicalpremia-authorized-2025-2026-ytd-v1.md
+  - docs/audit/mechanicalpremia_original_2013_2024_final.md

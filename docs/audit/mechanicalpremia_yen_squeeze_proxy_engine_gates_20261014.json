@@ -1,0 +1,26 @@
+{
+  "dual_trigger": {
+    "closed_trades": 1,
+    "fills": 2,
+    "final_equity_usd": 990,
+    "initial_cash_usd": 1000,
+    "policy": "No OCO assumed; count opposite-side fills grouped by native symbol and fill timestamp.",
+    "result": "Both opposite native STOPs fill same timestamp in deterministic order; position nets flat and trade closes."
+  },
+  "proxy_deviation": "Protective STOP submitted after entry callback; effective no earlier than next minute. Breached entry-bar case submits a native MARKET exit next eligible bar and is counted; this remains a declared approximation.",
+  "session_id": "mechanicalpremia-yen-squeeze-proxy-20261014",
+  "skills_revision": "ml4t/skills@8800d3fb4c57ffba3e96da78c6b46ee77076b024",
+  "status": "completed",
+  "tests": {
+    "command": "pytest -q tests/test_mechanicalpremia_yen_squeeze_proxy_20261014.py tests/test_mechanicalpremia_yen_squeeze_native_20261014.py tests/test_mechanicalpremia_yen_squeeze_native_strategy_20261014.py",
+    "result": "25 passed"
+  },
+  "trial_id": "ENGINE-STOP-ORDER-AND-CASH-GATES",
+  "verified": [
+    "NEXT_BAR native STOP gap fills use the worse open.",
+    "Native update_order/cancel_order and strategy-clock expiry work.",
+    "Engine owns fill, position, cash, equity and trade ledgers.",
+    "FIXED slippage 1/2/3 units produces adverse buy and sell fill prices and repeated costs.",
+    "Fixed 150 JPY/USD price scaling gives native USD PnL per base unit."
+  ]
+}

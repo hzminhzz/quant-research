@@ -1,0 +1,50 @@
+/home/quant/.config/matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /tmp/matplotlib-5rwndq7e because there was an issue with the default path (/home/quant/.config/matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+Fontconfig error: No writable cache directories
+E0_unfiltered_oof_cohort: native Engine start; 1779843 price rows; 730 signals
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_fx_support_ml4t_execution_v2.py", line 310, in execute
+    result=run_arm(trial,prices,oof.filter(pl.col('selected')) if selected else oof,slip,flat)
+  File "/home/quant/dev/quant/quant-research/scripts/run_fx_support_ml4t_execution_v2.py", line 251, in run_arm
+    ledger=native.join(pl.DataFrame(metadata),on=['symbol','entry_time'],how='left').with_columns((pl.col('pnl')/pl.col('initial_risk_usd')).alias('net_R'))
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/dataframe/frame.py", line 8532, in join
+    ._collect_eager(optimizations=QueryOptFlags._eager())
+     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py", line 2240, in _collect_eager
+    return _eager_engine().collect(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, optimizations=optimizations, background=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 443, in collect
+    return wrap_df(ldf.collect(self.name, callback))
+                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+polars.exceptions.SchemaError: datatypes of join keys don't match - `entry_time`: datetime[μs] on left does not match `entry_time`: datetime[μs, UTC] on right (and no other type was available to cast to)
+

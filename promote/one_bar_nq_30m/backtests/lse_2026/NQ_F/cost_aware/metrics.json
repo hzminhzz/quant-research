@@ -1,0 +1,215 @@
+{
+  "initial_cash": 1000000.0,
+  "final_value": 998991.0,
+  "total_return": -0.0010090000000000376,
+  "total_return_pct": -0.10090000000000376,
+  "max_drawdown": 0.01628694254383474,
+  "max_drawdown_pct": 1.628694254383474,
+  "num_trades": 278,
+  "winning_trades": 125,
+  "losing_trades": 150,
+  "win_rate": 0.44964028776978415,
+  "total_commission": 1390.0,
+  "total_slippage": 2780.0,
+  "sharpe": -0.0016216229051251095,
+  "sortino": -0.00026618550486416854,
+  "calmar": -0.07162972216038445,
+  "cagr": -0.0011666291692570274,
+  "volatility": 0.00045088642057416843,
+  "profit_factor": 0.9883048391770474,
+  "expectancy": -2.122413008881301e-05,
+  "avg_trade": 7.603922892213938e-06,
+  "avg_win": 0.0012539845389324665,
+  "avg_loss": -0.0010630612779820151,
+  "largest_win": 0.0075725913984914526,
+  "largest_loss": -0.003510803532860937,
+  "payoff_ratio": 1.1795976063702336,
+  "total_gross_pnl": 380.99999999976717,
+  "total_costs": 4170.0,
+  "avg_cost_drag": 2.7834271686838664e-05,
+  "gross_profit_factor": 1.0044548377667322,
+  "skipped_bars": 0,
+  "num_orders": 7403,
+  "num_rejected_orders": 0,
+  "num_fills": 556,
+  "num_rebalance_events": 556,
+  "unique_symbols_traded": 1,
+  "total_filled_notional": 301704469.0,
+  "avg_turnover": 0.0009837116158860982,
+  "max_turnover": 0.6141752986466643,
+  "avg_open_positions": 0.014528526719656397,
+  "max_open_positions": 1,
+  "lifecycle_version": "1",
+  "lifecycle_callback_counts": {
+    "run_start": 1,
+    "causal_initialization": 1,
+    "pre_open": 0,
+    "opening_auction": 0,
+    "fill_reconciliation": 0,
+    "intrabar": 0,
+    "close": 0,
+    "market_event": 305468,
+    "run_end": 1
+  },
+  "lifecycle_invocations": [],
+  "execution_policy": {
+    "policy_id": "ml4t-backtest-default-v1",
+    "market_fill_phase": "opening_auction",
+    "opening_auction": "client",
+    "close_auction": "client",
+    "limit": "client",
+    "stop": "client",
+    "stop_limit": "disabled",
+    "trailing": "client",
+    "contingent": "client",
+    "fee_bps": 0.0,
+    "slippage_bps": 0.0,
+    "spread_bps": 0.0,
+    "impact_bps": 0.0,
+    "latency_ms": 0.0,
+    "liquidity_fraction": 1.0,
+    "allow_partial_fills": false,
+    "bar_path": "conservative",
+    "supported_sessions": [
+      "regular"
+    ],
+    "lifecycle_version": "1"
+  },
+  "target_intent_count": 0,
+  "child_order_intent_count": 0,
+  "intent_reconciliation_count": 0,
+  "target_rule_reconciliation_count": 0,
+  "target_intents": [],
+  "child_order_intents": [],
+  "intent_reconciliations": [],
+  "target_rule_reconciliations": [],
+  "daily_equity_sharpe": -0.06970884915809188,
+  "daily_equity_max_drawdown": 0.015237478912307308,
+  "average_net_pnl_usd": -3.6294964028785355,
+  "trade_count_closed": 278,
+  "max_hold_minutes": 41,
+  "late_next_bar_open_exits": 1,
+  "native_stop_exit_fills": 59,
+  "gap_through_stop_fills": 337,
+  "gross_profit_positive": true,
+  "net_profit_positive": false,
+  "entries_per_exchange_day_max": 2,
+  "same_1m_entry_and_stop_ambiguities": 18,
+  "ambiguous_samples": [
+    {
+      "timestamp": "2026-02-05T14:30:00+00:00",
+      "side": "short",
+      "entry": 24707.0,
+      "stop": 24757.0
+    },
+    {
+      "timestamp": "2026-03-01T23:00:00+00:00",
+      "side": "short",
+      "entry": 24682.25,
+      "stop": 24732.25
+    },
+    {
+      "timestamp": "2026-03-06T13:30:00+00:00",
+      "side": "short",
+      "entry": 24772.0,
+      "stop": 24822.0
+    },
+    {
+      "timestamp": "2026-03-15T22:00:00+00:00",
+      "side": "short",
+      "entry": 24284.75,
+      "stop": 24334.75
+    },
+    {
+      "timestamp": "2026-03-22T22:00:00+00:00",
+      "side": "short",
+      "entry": 23901.75,
+      "stop": 23951.75
+    },
+    {
+      "timestamp": "2026-03-24T20:26:00+00:00",
+      "side": "long",
+      "entry": 24537.0,
+      "stop": 24487.0
+    },
+    {
+      "timestamp": "2026-04-07T12:06:00+00:00",
+      "side": "short",
+      "entry": 24152.75,
+      "stop": 24202.75
+    },
+    {
+      "timestamp": "2026-05-06T08:50:00+00:00",
+      "side": "long",
+      "entry": 28422.5,
+      "stop": 28372.5
+    },
+    {
+      "timestamp": "2026-05-18T00:05:00+00:00",
+      "side": "short",
+      "entry": 29011.5,
+      "stop": 29061.5
+    },
+    {
+      "timestamp": "2026-05-24T22:00:00+00:00",
+      "side": "long",
+      "entry": 29749.25,
+      "stop": 29699.25
+    },
+    {
+      "timestamp": "2026-06-09T13:30:00+00:00",
+      "side": "long",
+      "entry": 29747.5,
+      "stop": 29697.5
+    },
+    {
+      "timestamp": "2026-06-10T22:00:00+00:00",
+      "side": "short",
+      "entry": 28408.75,
+      "stop": 28458.75
+    },
+    {
+      "timestamp": "2026-06-17T18:02:00+00:00",
+      "side": "short",
+      "entry": 30272.0,
+      "stop": 30322.0
+    },
+    {
+      "timestamp": "2026-06-24T13:48:00+00:00",
+      "side": "short",
+      "entry": 29577.0,
+      "stop": 29627.0
+    },
+    {
+      "timestamp": "2026-06-24T22:00:00+00:00",
+      "side": "long",
+      "entry": 30158.0,
+      "stop": 30108.0
+    },
+    {
+      "timestamp": "2026-07-09T05:11:00+00:00",
+      "side": "long",
+      "entry": 29583.25,
+      "stop": 29533.25
+    },
+    {
+      "timestamp": "2026-07-20T11:30:00+00:00",
+      "side": "long",
+      "entry": 29050.75,
+      "stop": 29000.75
+    },
+    {
+      "timestamp": "2026-07-29T22:00:00+00:00",
+      "side": "short",
+      "entry": 27201.75,
+      "stop": 27251.75
+    }
+  ],
+  "contract": {
+    "asset": "NQ.F",
+    "multiplier": 20.0,
+    "tick_size": 0.25
+  },
+  "cost_assumption": "$2.50 per contract per fill and one tick adverse slippage per fill; exploratory proxy placeholder, not brokerage-certified.",
+  "execution_mode": "NEXT_BAR; STOP orders test 1m high/low and fill at stop unless gap-through, which fills at open."
+}

@@ -1,0 +1,50 @@
+{
+  "gotobi_hac": {
+    "status": "ESTIMATED",
+    "n": 306,
+    "coefficient": 1.4027426544258443,
+    "lower95": -0.9786768402235408,
+    "upper95": 3.7841621490752297,
+    "p": 0.24732638250601727,
+    "holm2_p": 0.2690193443023107
+  },
+  "controlled_gotobi_premium_hac": {
+    "status": "ESTIMATED",
+    "n": 999,
+    "coefficient": 2.5443708607191766,
+    "lower95": -0.7892241852710784,
+    "upper95": 5.877965906709432,
+    "p": 0.13450967215115536,
+    "holm2_p": 0.2690193443023107
+  },
+  "periods": {
+    "development_2020_2023": {
+      "n": 184,
+      "net_usd": 524.7764511961677,
+      "net_pips_mean": 3.4211956521744313
+    },
+    "retrospective_2024_2025": {
+      "n": 106,
+      "net_usd": -190.06401379903073,
+      "net_pips_mean": -2.4688679245273812
+    },
+    "observed_2026_jan_aug": {
+      "n": 16,
+      "net_usd": 94.52681485717129,
+      "net_pips_mean": 9.268750000000558
+    }
+  },
+  "frozen_checks": {
+    "absolute_hac_lower_gt_0": false,
+    "calendar_holm_p_lt_05": false,
+    "net_usd_gt_0": true,
+    "stable_2024_2025": false,
+    "stable_2026": true,
+    "net_1p5pip_gt_0": true,
+    "completeness_ge_70pct": false
+  },
+  "decision": "REJECTED_OR_INCONCLUSIVE",
+  "existing_trial_multiplicity": "Historical Program1/2/3/4 already explored; Holm2 does not correct complete trial family",
+  "mechanism_identified": false,
+  "holdout_read": false
+}

@@ -1,0 +1,27 @@
+{
+  "session": "mechanicalpremia-original-four-2013-2024-v1",
+  "trial_id": "COST-STRESS",
+  "terminal_status": "completed",
+  "observations": {
+    "status": "completed",
+    "cells": 24,
+    "mean_return_at_1_5x": 0.5532921667,
+    "mean_return_at_2x": -0.2874399167,
+    "positive_years_at_2x": 5,
+    "decision": "FAILED_2X_COST_STRESS"
+  },
+  "benchmark_mode": "annual independent native ML4T backtests",
+  "entrypoint": "scripts/run_mechanicalpremia_extended_2013.py",
+  "parent_evidence": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/yearly_native",
+  "aggregated_audit": "docs/audit/mechanicalpremia_original_2013_2024_final.md",
+  "batch_log": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/batch_log.jsonl",
+  "batch_state": "run_log/research_sessions/mechanicalpremia-original-four-2013-2024-v1/batch_state.json",
+  "evidence_limitations": [
+    "source stop first-minute gap",
+    "mixed EUR/USD synthetic units",
+    "no real ask spread or financing",
+    "year-end positions not carried"
+  ],
+  "approval_status": "NOT_APPROVED",
+  "scientific_qualifier": "NOT_PROMOTABLE"
+}

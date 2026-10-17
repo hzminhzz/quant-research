@@ -1,0 +1,87 @@
+{
+  "status": "EXPLORATORY",
+  "period": [
+    "2020-01-01",
+    "2022-12-31"
+  ],
+  "independent_cases": [
+    "pivot-breakout-btc",
+    "donchian-btc",
+    "three-red-spy",
+    "gold-macd-hook",
+    "slope-hook",
+    "fx-timing",
+    "rsi-30-50"
+  ],
+  "completed": [
+    "pivot-breakout-btc",
+    "donchian-btc",
+    "three-red-spy",
+    "gold-macd-hook",
+    "slope-hook",
+    "fx-timing",
+    "rsi-30-50"
+  ],
+  "data": {
+    "BTC": {
+      "source": "crypto_futures_minute_BTCUSDT_PERP",
+      "asset": "BTC",
+      "files": 40,
+      "first": "2019-09-09 00:00:00+00:00",
+      "last": "2022-12-31 00:00:00+00:00",
+      "bars": 1210,
+      "min_minutes_per_session": 1300,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "UTC crypto",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_minute_BTCUSDT_PERP"
+    },
+    "DXY": {
+      "source": "equity_daily_DX_Y.NYB",
+      "asset": "DXY",
+      "files": 48,
+      "first": "2019-01-02 00:00:00+00:00",
+      "last": "2022-12-30 00:00:00+00:00",
+      "bars": 1008,
+      "min_minutes_per_session": 1,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "DXY exchange date",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/equity_daily_DX_Y.NYB"
+    },
+    "ES": {
+      "source": "index_minute_ES",
+      "asset": "ES",
+      "files": 1245,
+      "first": "2019-01-02 00:00:00+00:00",
+      "last": "2022-12-30 00:00:00+00:00",
+      "bars": 1034,
+      "min_minutes_per_session": 500,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "New York 17:00 session end",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES"
+    },
+    "EUR": {
+      "source": "forex_minute_EURUSD",
+      "asset": "EUR",
+      "files": 1298,
+      "first": "2019-01-02 00:00:00+00:00",
+      "last": "2022-12-30 00:00:00+00:00",
+      "bars": 1039,
+      "min_minutes_per_session": 500,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "New York 17:00 session end",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_EURUSD"
+    },
+    "XAU": {
+      "source": "forex_minute_XAUUSD",
+      "asset": "XAU",
+      "files": 48,
+      "first": "2019-01-02 00:00:00+00:00",
+      "last": "2022-12-30 00:00:00+00:00",
+      "bars": 981,
+      "min_minutes_per_session": 500,
+      "timestamp_semantics": "daily session label, not decision/fill clock",
+      "session_calendar": "New York 17:00 session end",
+      "raw_store": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_XAUUSD"
+    }
+  }
+}

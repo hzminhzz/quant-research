@@ -1,0 +1,217 @@
+{
+  "rows": 3883929,
+  "files": 163,
+  "timestamp_min_utc": "2013-01-01T05:44:00+00:00",
+  "timestamp_max_utc": "2026-07-14T23:59:00+00:00",
+  "naive_utc_interpretation": "verified from decoder's UTC epoch construction",
+  "duplicate_timestamps": 0,
+  "null_price_or_volume_values": 0,
+  "nonfinite_ohlcv_rows": 0,
+  "bad_ohlc_rows": 0,
+  "complete_30m_bars": 121319,
+  "incomplete_30m_bars": 11744,
+  "complete_bar_rows_not_30_unique_minutes": 11744,
+  "bars_with_50_prior_complete_bars": 121270,
+  "bars_with_50_prior_levels_and_two_consecutive_following_bars": 110729,
+  "complete_bars_without_two_consecutive_following_30m_opens": 10549,
+  "feed_minutes": 3639570,
+  "timestamp_gaps_over_one_minute": 24567,
+  "unobserved_minutes_between_source_rows": 3233647,
+  "largest_timestamp_gap_minutes": 22411,
+  "gap_interpretation": "Includes expected weekends, scheduled provider breaks, and source gaps; only incomplete 30-minute bins are categorically excluded here.",
+  "session_alignment": "17:00 America/Chicago; interval labels use first source minute",
+  "calendar_qualification": {
+    "qualification_manifest_identity": "3633a2ab7e0b8d56fbab20bed0b3a63179fd4a92fa9163f2ed83a2eb518235e4",
+    "NQ_qualification_identity": "f27123afdeeaf13b65fd1215b7fdc4c751f870a370cb0d3c91477328d08f0e95",
+    "calendar_identity": "663481a30a405212727eb397bb8ea406c114696b2905143c01a50eb8e5b2e8dc",
+    "NQ_calendar_identity": "8264e388d6002fecf2320f35b64e34afb51ece3ec8379aabc69f5bd918eb191b",
+    "qualified_start": "2011-09-19T13:30:00.000Z",
+    "qualified_through": "2026-08-17",
+    "calendar_schema": "dukascopy-us-index-trading-break-calendar-v2",
+    "provider": "USATECH.IDX/USD",
+    "source_instrument": "usatechidxusd",
+    "retrieval_contract": {
+      "timeframe": "m1",
+      "price_type": "bid",
+      "utc_offset_minutes": 0,
+      "volumes": true,
+      "volume_units": "units",
+      "canonical_rows_include_flats": true,
+      "session_detection_uses_nonflat_rows": true
+    }
+  },
+  "expected_open_coverage": {
+    "calendar_identity": "8264e388d6002fecf2320f35b64e34afb51ece3ec8379aabc69f5bd918eb191b",
+    "expected_open_interval_count": 5771,
+    "expected_open_minutes": 4328253,
+    "observed_rows_in_expected_open_intervals": 3883924,
+    "missing_expected_open_minutes": 444329,
+    "expected_open_intervals_with_missing_rows": 1940,
+    "expected_open_intervals_with_no_rows": 362,
+    "dates_with_expected_open_data_gaps": 1780,
+    "largest_expected_open_gaps": [
+      {
+        "date": "2013-01-16",
+        "from": "2013-01-16T00:00:00.000Z",
+        "to": "2013-01-17T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-01-21",
+        "from": "2013-01-21T00:00:00.000Z",
+        "to": "2013-01-22T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-02-18",
+        "from": "2013-02-18T00:00:00.000Z",
+        "to": "2013-02-19T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-03-26",
+        "from": "2013-03-26T00:00:00.000Z",
+        "to": "2013-03-27T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-04-17",
+        "from": "2013-04-17T00:00:00.000Z",
+        "to": "2013-04-18T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-05-16",
+        "from": "2013-05-16T00:00:00.000Z",
+        "to": "2013-05-17T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-05-20",
+        "from": "2013-05-20T00:00:00.000Z",
+        "to": "2013-05-21T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-05-21",
+        "from": "2013-05-21T00:00:00.000Z",
+        "to": "2013-05-22T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-06-17",
+        "from": "2013-06-17T00:00:00.000Z",
+        "to": "2013-06-18T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-07-17",
+        "from": "2013-07-17T00:00:00.000Z",
+        "to": "2013-07-18T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-09-17",
+        "from": "2013-09-17T00:00:00.000Z",
+        "to": "2013-09-18T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-10-14",
+        "from": "2013-10-14T00:00:00.000Z",
+        "to": "2013-10-15T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-10-23",
+        "from": "2013-10-23T00:00:00.000Z",
+        "to": "2013-10-24T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-12-17",
+        "from": "2013-12-17T00:00:00.000Z",
+        "to": "2013-12-18T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2013-12-25",
+        "from": "2013-12-25T00:00:00.000Z",
+        "to": "2013-12-26T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2014-01-01",
+        "from": "2014-01-01T00:00:00.000Z",
+        "to": "2014-01-02T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2014-01-16",
+        "from": "2014-01-16T00:00:00.000Z",
+        "to": "2014-01-17T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2014-02-17",
+        "from": "2014-02-17T00:00:00.000Z",
+        "to": "2014-02-18T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2014-04-16",
+        "from": "2014-04-16T00:00:00.000Z",
+        "to": "2014-04-17T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      },
+      {
+        "date": "2014-05-01",
+        "from": "2014-05-01T00:00:00.000Z",
+        "to": "2014-05-02T00:00:00.000Z",
+        "expected_minutes": 1440,
+        "observed_rows": 0,
+        "missing_minutes": 1440
+      }
+    ],
+    "method": "Compare sorted UTC source-minute timestamps with each qualified calendar interval [from,to). Missing counts include expected open minutes without a source row; calendar-closed minutes are excluded."
+  },
+  "calendar_note": "The source-specific qualification and calendar identities were hash-verified. Incomplete bars are omitted. No missing minute is forward-filled."
+}

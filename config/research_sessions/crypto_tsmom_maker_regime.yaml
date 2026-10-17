@@ -1,0 +1,103 @@
+# Research session specification: Maker Execution & Regime-Conditioned Time-Series Momentum
+# Session ID: crypto_tsmom_maker_regime
+# Iteration 3: Testing passive maker fills (70% cost reduction) and continuous regime conditioning (ADX + Choppiness + Vol Percentile).
+session_id: crypto_tsmom_maker_regime
+market: crypto
+
+thesis: >-
+  Passive maker execution (1.8 bps fee, 0.0 bps slippage) and continuous multi-factor regime conditioning
+  (ADX trend conviction and rolling volatility percentile scaling) eliminate taker fee drag and toxic chop,
+  enabling Time-Series Momentum on BTCUSDT, ETHUSDT, and SOLUSDT to achieve institutional risk-adjusted returns
+  (Sharpe > 0.80, Max Drawdown < 25%, fee drag < 20%) over 4-year development data.
+
+mechanism: >-
+  1. Execution Spread Capture: Shifting from aggressive market orders (6.0 bps friction per side) to passive
+     limit orders (1.8 bps maker fee, 0.0 bps slippage) cuts roundtrip execution friction from 12.0 bps to 3.6 bps.
+  2. Multi-Factor Regime Conditioning: Conditioning position weights on ADX trend strength and rolling 90-day
+     volatility rank concentrates risk capital in trending regimes and contracts exposure during choppy compression.
+  3. Choppiness Elimination: Suppressing entries during high choppiness index periods avoids fee churn
+     inherent in range-bound consolidation phases.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Annualized net post-cost Sharpe ratio fails to exceed 0.80 on development data.
+  2. Maximum portfolio drawdown exceeds 25.0%.
+  3. Deflated Sharpe Ratio (DSR) fails to exceed 0.80 across cumulative evaluated trials.
+  4. Trading friction consumes more than 20.0% of gross trading profits.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: SOLUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1h.parquet
+  - id: eth_prices_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1h.parquet
+  - id: sol_prices_1h
+    symbol: SOLUSDT
+    role: prices
+    path: data/processed/sol_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+  - id: sol_funding
+    symbol: SOLUSDT
+    role: funding
+    path: data/processed/sol_funding.parquet
+
+evaluation:
+  cadence: 1h
+  development_start: "2021-01-01T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-07-31T23:59:59Z"
+  plan: >-
+    Evaluate maker execution and regime conditioning on 4-year development data.
+    Compute regime-sliced metrics across volatility terciles and calculate cumulative Deflated Sharpe Ratio.
+    Holdout period (2025-01-01 to 2026-07-31) remains strictly unread.
+
+baseline: >-
+  Taker volatility-targeted TSMOM (Trial 1 of Iteration 2: Sharpe 0.211, Max DD 22.68%) and Buy-and-Hold benchmark.
+
+costs:
+  commission_bps: 1.8
+  slippage_bps: 0.0
+  funding_included: true
+  assumptions: >-
+    Binance USD-M Futures VIP 0 maker fee of 1.8 bps with BNB discount and 0.0 bps slippage for passive limit fills (3.6 bps roundtrip).
+    Signed 8-hour perpetual funding rate cash flows applied at settlement marks.
+
+trials:
+  - id: trial_1_maker_execution_baseline
+    kind: preregistered
+    description: >-
+      Volatility-targeted TSMOM under passive maker execution (1.8 bps commission, 0.0 bps slippage).
+  - id: trial_2_continuous_regime_scaled
+    kind: preregistered
+    description: >-
+      Continuous regime-scaled TSMOM: Scaling position size by ADX trend conviction and inverse 90-day volatility rank.
+  - id: trial_3_choppiness_filtered_maker
+    kind: preregistered
+    description: >-
+      Choppiness-filtered TSMOM: Entries suppressed when choppiness_index > 55 under maker execution.
+  - id: trial_4_regime_sliced_dsr_audit
+    kind: diagnostic
+    description: >-
+      Regime-sliced performance attribution across volatility environments and Deflated Sharpe Ratio (DSR) multiple-testing audit.

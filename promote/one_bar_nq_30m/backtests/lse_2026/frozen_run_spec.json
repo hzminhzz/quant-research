@@ -1,0 +1,51 @@
+{
+  "session_id": "one_bar_50breakout_20261011",
+  "classification": "EXPLORATORY; retrospective proxy data; unqualified for CME futures conclusions",
+  "hypothesis": "Prior 50 completed 30-minute highs/lows trigger stop entries whose one-bar hold has positive net expectancy after stated placeholder costs.",
+  "falsifier": "No positive net expectancy in cost-aware NQ.F and ES.F results, or results fail the 1m trigger, $1,000 stop, next-30m-open exit, or two-entry-per-session-day rules.",
+  "rules": {
+    "lookback_completed_30m_bars": 50,
+    "entry_orders": "one buy stop at rolling prior high and one sell stop at rolling prior low; OCO after first fill",
+    "contracts": 1,
+    "protective_stop_usd": 1000,
+    "exit": "opening print of immediately following 30-minute bar",
+    "max_entries_per_globex_session_day": 2,
+    "entry_resolution": "native Engine STOP order checked against each 1m candle; stop-price fill, gap-through fills at 1m open",
+    "ambiguous_1m_entry_stop": "retain and report; OHLC cannot establish sequence"
+  },
+  "instruments": {
+    "NQ.F": "LSE proxy for NQ; not verified as a specific dated CME contract",
+    "ES.F": "LSE proxy for ES; not verified as a specific dated CME contract",
+    "EMD": "unavailable; no substitute",
+    "YM": "unavailable; no substitute"
+  },
+  "evaluation": {
+    "start_inclusive_utc": "2026-01-01",
+    "end_inclusive_utc": "2026-07-31",
+    "protected_after": "2026-07-31",
+    "warmup": "source bars before 2026-01-01 used only to form 50 completed-bar rolling extrema"
+  },
+  "data": {
+    "NQ": {
+      "store": "/home/quant/dev/quant/ml4t-data/.data/store/lse_futures_minute_NQ",
+      "files": 11,
+      "sha256_all_partition_bytes": "a184291d1ce3b066562d2e40d1e709bf2c99d75dc7db824dc14d8f086b451a1d"
+    },
+    "ES": {
+      "store": "/home/quant/dev/quant/ml4t-data/.data/store/lse_futures_minute_ES",
+      "files": 11,
+      "sha256_all_partition_bytes": "c66e279f85702c899608762eed2c13831ef494b43b8f913c153ecd6e22003ca0"
+    }
+  },
+  "trials": [
+    "NQ.F zero cost",
+    "NQ.F cost aware",
+    "ES.F zero cost",
+    "ES.F cost aware"
+  ],
+  "cost_assumptions": {
+    "zero_cost": "0 commission, 0 slippage",
+    "cost_aware": "$2.50 per contract per fill plus one tick adverse slippage per fill; exploratory placeholder, not brokerage-certified"
+  },
+  "status": "frozen before backtest execution"
+}

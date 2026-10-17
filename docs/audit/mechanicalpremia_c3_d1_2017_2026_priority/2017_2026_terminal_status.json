@@ -1,0 +1,36 @@
+{
+  "study": "mechanicalpremia_c3_d1_2017_2026_priority",
+  "time_window": "2017-01-01..2026-10-11 (2026 YTD)",
+  "session": "mechanicalpremia-c3-d1-naive-ten-20261014-v1",
+  "status": "COMPLETE_NATIVE_AUDITED",
+  "baseline": "mechanicalpremia-us500-us100-2013-2026-v1/SOURCE-US2",
+  "variants": [
+    "N01-LV-PB35",
+    "N02-LV-PB50",
+    "N03-LV-PB80"
+  ],
+  "verified_variant_native_cells": 42,
+  "composition": {
+    "annual_1x": 30,
+    "cost2x_2021_2024_2025_2026": 12
+  },
+  "verified_baseline_cells": 14,
+  "worker_sessions": [
+    "ml4t-c3-pb35-2017-26",
+    "ml4t-c3-pb50-2017-26",
+    "ml4t-c3-pb80-2017-26"
+  ],
+  "concurrency": 2,
+  "original_ten_rule_campaign": "PAUSED_AFTER_COMPLETED_RESULTS_PRESERVED",
+  "report": "docs/audit/mechanicalpremia_c3_d1_2017_2026_priority/2017_2026_comparison.md",
+  "technical_outcome": "PASS_42_NATIVE_CELLS",
+  "scientific_outcome": "EXPLORATORY_NOT_APPROVED",
+  "invariants": [
+    "unchanged C3 H1, D1 exit, risk split and native ML4T Engine",
+    "2017-2026 cutoff at Oct11",
+    "1bp commission+2bp slippage per side, 2x same four stress years",
+    "all cells native cash+positions and equity reconciled, trade/fill counts and zero rejections",
+    "not a continuous 10-year compounding, no broker-certified PnL"
+  ],
+  "selected_for_promotion": null
+}

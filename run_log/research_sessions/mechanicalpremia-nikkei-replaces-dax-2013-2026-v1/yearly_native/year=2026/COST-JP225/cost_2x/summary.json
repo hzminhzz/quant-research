@@ -1,0 +1,113 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-10-12 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2026,
+  "trial": "COST-JP225",
+  "cost_multiplier": 2.0,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 266064,
+      "first": "2026-01-01 23:00:00+00:00",
+      "last": "2026-10-11 23:59:00+00:00",
+      "h1_signals": 89,
+      "d1_signals": 7,
+      "d1_exits": 11
+    },
+    {
+      "symbol": "US100",
+      "rows": 266064,
+      "first": "2026-01-01 23:00:00+00:00",
+      "last": "2026-10-11 23:59:00+00:00",
+      "h1_signals": 141,
+      "d1_signals": 2,
+      "d1_exits": 14
+    },
+    {
+      "symbol": "JP225",
+      "rows": 265944,
+      "first": "2026-01-01 23:00:00+00:00",
+      "last": "2026-10-11 23:59:00+00:00",
+      "h1_signals": 143,
+      "d1_signals": 2,
+      "d1_exits": 17
+    },
+    {
+      "symbol": "EU50",
+      "rows": 155977,
+      "first": "2026-01-02 07:00:00+00:00",
+      "last": "2026-10-09 19:59:00+00:00",
+      "h1_signals": 35,
+      "d1_signals": 10,
+      "d1_exits": 16
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 103116.21721035092,
+    "num_trades": 111,
+    "num_orders": 223,
+    "num_fills": 223,
+    "num_rejected_orders": 0,
+    "win_rate": 0.3963963963963964,
+    "total_commission": 626.3427643731134,
+    "total_slippage": 1252.683654000939,
+    "total_costs": 1868.5608499716184,
+    "max_drawdown_pct": 1.873661556470041
+  },
+  "daily": {
+    "total_return": 0.03116217210350869,
+    "annual_return": 0.03247055296293877,
+    "annual_volatility": 0.029247391486227167,
+    "sharpe_ratio": 1.1071408816918897,
+    "sortino_ratio": 2.272033345410782,
+    "calmar_ratio": 2.1711656082865436,
+    "omega_ratio": 1.3054117062111341,
+    "tail_ratio": 1.2498793838423157,
+    "max_drawdown": -0.014955355242829274,
+    "skewness": 2.806419972180043,
+    "kurtosis": 16.279948822188945,
+    "var_95": -0.002406509887588024,
+    "cvar_95": -0.002953675029323595,
+    "stability": 0.803245086492361,
+    "win_rate": 0.2975206611570248,
+    "profit_factor": 1.3054117062111341,
+    "avg_win": 0.001846010548462583,
+    "avg_loss": -0.0011188652343611873,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 111,
+  "open_trades": 1,
+  "closed_net_pnl": 3854.5697345924527,
+  "native_end_equity": 103116.21721035092,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "EU50_D": {
+      "quantity": 2.6997772925302645,
+      "entry_price": 6462.4829596,
+      "current_price": 6190.289,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2026/COST-JP225/cost_2x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2026/COST-JP225/cost_2x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2026/COST-JP225/cost_2x/daily_equity.parquet"
+  }
+}

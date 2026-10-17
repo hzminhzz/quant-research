@@ -1,0 +1,66 @@
+{
+  "status": "frozen_before_execution",
+  "classification": "EXPLORATORY retrospective; not approval",
+  "source": "Dukascopy USATECH.IDX/USD BID 1-minute CFD proxy; not CME NQ",
+  "data": {
+    "root": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+    "start_inclusive_utc": "2013-01-01",
+    "end_inclusive_utc": "2026-07-14",
+    "protected_after": "2026-07-14",
+    "partition_count": 163,
+    "source_manifest": "run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json",
+    "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "source_manifest_matches_frozen_baseline": true
+  },
+  "instrument_assumptions": {
+    "multiplier_usd_per_point": 20,
+    "tick_points": 0.25,
+    "contracts": 1,
+    "identity_limit": "NQ-equivalent sizing is illustrative, not source CFD specification."
+  },
+  "rules": {
+    "lookback": "highest high / lowest low of 50 fully completed session-anchored 30m bars",
+    "entry": "native buy STOP and sell STOP, cancel opposite after fill; max 2 entries per Chicago Globex date",
+    "protective_stop": "$1000 nominal = 50 index points from entry",
+    "exit": "market at next 30m boundary open; next actual source minute if boundary print is absent",
+    "session": "Chicago 17:00 anchored 30m intervals; extended hours",
+    "one contract": true,
+    "ambiguous_ohlc": "Native engine ledger retained as modeled. Separate conservative bound replaces each affected trade/event with worst-case loss; no intraminute sequence inferred."
+  },
+  "trials": [
+    {
+      "id": "A",
+      "name": "native_zero_cost",
+      "commission_per_fill_usd": 0,
+      "slippage_points_per_fill": 0
+    },
+    {
+      "id": "B",
+      "name": "native_full_tick_cost",
+      "commission_per_fill_usd": 2.5,
+      "slippage_points_per_fill": 0.25
+    },
+    {
+      "id": "C",
+      "name": "native_additional_half_spread",
+      "commission_per_fill_usd": 2.5,
+      "slippage_points_per_fill": 0.375,
+      "note": "B plus 0.125 index points per fill; extra one tick round trip, proxy stress."
+    },
+    {
+      "id": "D",
+      "name": "conservative_ambiguous_bound",
+      "source_trial": "B",
+      "method": "Replace ambiguous executions by -$1000 nominal plus B round-trip commission and slippage. Conservative diagnostic, not native replay."
+    }
+  ],
+  "skill_invariants": [
+    "ml4t-run-backtest: Strategy/Engine/DataFeed; future-event fills; explicit costs",
+    "ml4t-polars-patterns: sorted Polars source processing",
+    "ml4t-calendar-ops: Chicago session dates and DST-aware UTC boundaries",
+    "ml4t-build-bars: only 30 complete source minutes form a decision bar",
+    "ml4t-lookahead-bias: levels released only after prior completed bar",
+    "ml4t-validate-data: source row, duplicate, null, and OHLC audit",
+    "ml4t-cost-model: isolate commission and adverse slippage"
+  ]
+}

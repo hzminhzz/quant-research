@@ -1,0 +1,7 @@
+{
+  "status": "superseded_after_audit",
+  "reason": "Independent synthetic OCO test found two opposing native STOP fills can occur at one timestamp. Position-only daily counting missed the second filled entry and the artifact audit found one session day with three actual entry fills.",
+  "preserved_trials": ["causal_zero_cost", "causal_full_tick"],
+  "preserved_log": "native_run.log",
+  "followup": "Rerun the same frozen T3/T4 costs with entry counts based on native filled orders. Keep OCO ambiguity as a failure; do not infer first-touch order from 1m OHLC."
+}

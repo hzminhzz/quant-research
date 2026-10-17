@@ -1,0 +1,68 @@
+{
+  "status": "EXPLORATORY",
+  "data_audit": "run_log/usdjpy_tokyo_fix_gotobi_engine_20261010_v1/data_gate.json",
+  "feature_panel": "data/features/usdjpy_tokyo_fix_gotobi_20261010_continuous.parquet",
+  "library_features": [
+    "ml4t.engineer.compute_features: ema50, atr20"
+  ],
+  "library_diagnostic": {
+    "status": "COMPUTED_WITH_ML4T_DIAGNOSTIC",
+    "summary": "QuantileProfile(means={1: -0.7718750000001329, 2: 0.8859375000002778, 3: 1.5935483870972318, 4: -0.6499999999999062, 5: -4.122580645161355}, counts={1: 32, 2: 32, 3: 31, 4: 32, 5: 31}, monotonicity=-0.3, is_pooled=True)"
+  },
+  "H1": {
+    "gotobi": {
+      "n": 49,
+      "mean_pips": 3.082653061224621,
+      "ci95_pips": [
+        -3.5408882963584145,
+        9.706194418807657
+      ],
+      "win_rate": 0.5510204081632653
+    },
+    "ordinary": {
+      "n": 109,
+      "mean_pips": -2.3958715596330857,
+      "ci95_pips": [
+        -7.151514579556405,
+        2.3597714602902333
+      ],
+      "win_rate": 0.5504587155963303
+    },
+    "gotobi_minus_ordinary_pips": 5.478524620857704,
+    "difference_ci95_pips": [
+      -3.1562554464627715,
+      14.113304688178179
+    ],
+    "scenario_net_gotobi_mean_pips": {
+      "0.8": 2.2826530612246207,
+      "1.0": 2.082653061224621,
+      "1.4": 1.682653061224621
+    }
+  },
+  "H2": {
+    "gated": {
+      "n": 4,
+      "mean_pips": -4.025000000000034,
+      "ci95_pips": [
+        -10.777671054670295,
+        2.7276710546702265
+      ],
+      "win_rate": 0.25
+    },
+    "ungated": {
+      "n": 49,
+      "mean_pips": -1.8836734693877004,
+      "ci95_pips": [
+        -5.5765266758205305,
+        1.8091797370451295
+      ],
+      "win_rate": 0.42857142857142855
+    },
+    "selected_days": [
+      "2026-05-01",
+      "2026-06-15",
+      "2026-06-30",
+      "2026-07-31"
+    ]
+  }
+}

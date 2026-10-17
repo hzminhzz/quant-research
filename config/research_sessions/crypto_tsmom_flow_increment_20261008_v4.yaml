@@ -1,0 +1,233 @@
+# Exploratory TSMOM study with one fixed taker-flow diagnostic.
+session_id: crypto_tsmom_flow_increment_20261008_v4
+market: crypto
+
+thesis: >-
+  A 72-hour time-series momentum signal on BTCUSDT, ETHUSDT, and SOLUSDT
+  perpetuals has positive risk-adjusted returns after Binance VIP 0 taker fees,
+  slippage, and signed funding settlements. Signed quote-volume imbalance from
+  the preceding 60 complete 1-minute bars may add short-horizon predictive
+  information beyond the fixed momentum direction.
+
+mechanism: >-
+  Information may diffuse gradually. Forced liquidations may also extend price
+  trends. Taker-buy quote volume measures aggressive buying. The feature may
+  confirm or contradict the 72-hour trend. It will not change orders in this
+  study. Costs, funding, reversals, and data gaps can erase either effect.
+
+falsifier: >-
+  The TSMOM claim fails if the prospective 12-month holdout has non-positive net
+  return, annualized Sharpe below 0.80, or maximum drawdown above 20.0%. The flow
+  feature is supported only if the paired out-of-sample improvement in per-symbol
+  time-series Spearman Rank IC has a 95% HAC confidence interval whose lower
+  bound is above zero at the primary 1-hour forward-return horizon. Secondary
+  horizons are descriptive. They cannot select or tune a feature. All data
+  through 2026-07-31 is development or previously accessed evidence, not a clean
+  holdout.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: SOLUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet
+  - id: eth_prices_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet
+  - id: sol_prices_1h
+    symbol: SOLUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet
+  - id: sol_funding
+    symbol: SOLUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/solusdt_funding.parquet
+
+evaluation:
+  cadence: 1h
+  development_start: "2021-01-01T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_start: "2026-08-01T00:00:00Z"
+  holdout_end: "2027-08-01T00:00:00Z"
+  minimum_prospective_holdout_days: 365
+  known_historical_window:
+    start: "2025-01-01T00:00:00Z"
+    end_exclusive: "2026-08-01T00:00:00Z"
+    classification: previously_accessed_development_only
+  holdout_policy: >-
+    Do not inspect prices, flow values, returns, or strategy results from
+    2026-08-01 onward until the full holdout window is complete. Source coverage
+    metadata may identify availability only. The 2025-01 through 2026-07 window
+    was used by prior exploratory studies and is not confirmatory.
+  development_policy: >-
+    Use only the common UTC hourly grid. Each development bar contains exactly
+    60 consecutive source minutes. Do not forward-fill or synthesize bars.
+    Reset momentum warmup after any gap. The local rebuilt files have no hourly
+    gaps in the declared development window. Keep per-symbol results visible.
+    Do not claim cross-sectional evidence from three assets. Compute Sharpe from
+    continuous daily portfolio-equity returns, not intraday returns with a
+    frequency multiplier.
+  timing: >-
+    Compute the signal after each completed 1-hour bar. Fill market orders at
+    the next 1-hour bar open. Hold each position until its signal changes, then
+    close or reverse at the next open. Start after the 168-hour warmup. At a
+    signal transition, allocate equal notional across active symbols, capped at
+    1.0x marked equity gross exposure. Do not rebalance otherwise, except
+    proportionate taker reductions at the next bar if marked gross exposure
+    exceeds equity.
+  flow_feature:
+    source: >-
+      Binance USD-M 1-minute partitions identified by
+      run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json.
+    formula: >-
+      For each completed hourly bar, compute (2 * taker_buy_quote_volume -
+      quote_volume) / quote_volume from the sums of its 60 consecutive 1-minute
+      bars. A non-positive denominator invalidates the feature observation. Keep
+      zero-volume minutes with zero taker-buy volume; do not clip source values.
+    zero_denominator_observations:
+      count_per_symbol: 1
+      timestamp_utc: "2024-10-28T20:00:00Z"
+      handling: >-
+        Keep the price bar for TSMOM. Exclude this timestamp from both the
+        baseline and augmented flow comparison. Do not impute the flow value.
+    diagnostic_score: >-
+      Baseline score is sign of the 72-hour close-to-close return. The fixed
+      augmented score is that baseline score plus the signed 60-minute flow
+      imbalance. The augmented score is diagnostic only and does not generate
+      orders.
+    sample_policy: >-
+      Compute each symbol's time-series Spearman Rank IC separately. Compare the
+      baseline and augmented scores on the same valid timestamps. Report each
+      symbol separately and the equal-weight mean change. Do not pool the three
+      assets as a cross-sectional panel.
+    forward_return_horizons_hours: [1, 4, 24, 72]
+    forward_return_definition: >-
+      Let i be the completed feature bar and H be the horizon in hours. The
+      forward return is close[i + H] / open[i + 1] - 1. Require contiguous
+      hourly bars from i+1 through i+H. The primary horizon is 1 hour.
+    primary_horizon_hours: 1
+  funding_application:
+    source: >-
+      Preserve funding timestamp, symbol, funding_interval_hours, and
+      funding_rate from canonical Binance USD-M funding partitions identified by
+      run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json. The
+      mark_price field is the open of the Binance USD-M 1h mark-price candle at
+      the funding event's UTC hour, sourced from
+      run_log/crypto_tsmom_mark_price_inputs_20261008_source_manifest.json.
+    formula: >-
+      For signed base quantity q, positive for long and negative for short,
+      settlement cash flow is -q * mark_price * funding_rate. A positive rate
+      debits longs and credits shorts. A negative rate reverses the direction.
+      Do not add a separate funding fee.
+    timing: >-
+      Use the recorded funding event timestamp and the mark_price candle open
+      for that event's UTC hour. Apply funding to the position held immediately
+      before the corresponding UTC hourly bar open. Process the funding event
+      before any order fill at the same bar open. Use the recorded event time;
+      do not infer an 8-hour schedule from BTC or ETH for SOL. Preserve each
+      symbol's recorded funding interval.
+    boundary_limitation: >-
+      The mark_price is the hourly mark-candle open, not the exact exchange
+      settlement transaction mark. In these inputs it precedes the recorded
+      funding event by 0-47 milliseconds. Binance states that the actual funding
+      transaction can deviate by up to 15 seconds. Hourly bars cannot resolve
+      intra-minute order priority. The pre-open position rule is a fixed
+      ordering convention, not exchange-exact execution. Report these limits.
+  plan: >-
+    Evaluate the registered 24-hour, 72-hour, and 168-hour TSMOM variants on
+    development data. The 72-hour variant is primary. Run one flow diagnostic
+    against that fixed baseline. Use the verified ML4T feature, diagnostic, and
+    backtest APIs where they support the contract. Do not tune on the prospective
+    holdout. The future holdout is the only confirmatory strategy evaluation.
+  prior_trial_history:
+    reported_cumulative_trials: 24
+    reproducibility: unreproducible_until_legacy_artifacts_are_reconciled
+    evidence: run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/related_trial_history_review.json
+    rule: >-
+      Count at least 24 legacy attempts before any selection-bias adjustment, then
+      include all newly evaluated strategy variants. Do not present a DSR as
+      reproducible while the legacy ledger and data identities remain unresolved.
+
+baseline: >-
+  Zero-trade cash and equal-weight long-only buy-and-hold across BTCUSDT,
+  ETHUSDT, and SOLUSDT. TSMOM is long when the selected lookback return is
+  positive, short when negative, and flat when zero. Start with $500. Allocate
+  equal notional across active symbols with no volatility sizing and a 1.0x
+  gross exposure cap.
+
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Use Binance USD-M Futures VIP 0 taker commission of 4.5 bps per fill with no
+    BNB discount. Apply 1.5 bps slippage per side. Round-trip trading friction
+    is 12.0 bps. Apply the recorded funding rate and event-aligned mark-price
+    candle open using the declared signed-position formula and bar-boundary rule.
+
+trials:
+  - id: trial_1_tsmom_72h_primary
+    kind: preregistered
+    description: >-
+      Primary 72-bar close-to-close return sign. Long if positive, short if
+      negative, flat if zero. Decide after the completed hour and fill at the
+      next hourly open.
+  - id: trial_2_tsmom_24h_sensitivity
+    kind: preregistered
+    description: >-
+      Registered 24-bar close-to-close return sign under the same position,
+      timing, capital, cost, and funding rules. Sensitivity only. Do not replace
+      the primary horizon with this result.
+  - id: trial_3_tsmom_168h_sensitivity
+    kind: preregistered
+    description: >-
+      Registered 168-bar close-to-close return sign under the same position,
+      timing, capital, cost, and funding rules. Sensitivity only. Do not replace
+      the primary horizon with this result.
+  - id: trial_4_flow_incremental_diagnostic
+    kind: diagnostic
+    description: >-
+      Compare per-symbol time-series Rank IC for the fixed 72-hour baseline score
+      and the fixed augmented score on identical flow-valid timestamps. Evaluate
+      forward returns at 1, 4, 24, and 72 hours. The 1-hour horizon is primary.
+      Report paired out-of-sample improvement and a 95% HAC confidence interval.
+      Do not alter trades or select a rule from secondary horizons.
+
+config: config/research_sessions/crypto_tsmom_flow_increment_20261008_v4.yaml
+evidence:
+  - run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/superseded_before_trial.json
+  - run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v2/related_trial_history_review.json
+  - run_log/research_sessions/crypto_tsmom_flow_increment_20261008/data_gate_report.json
+  - run_log/research_sessions/crypto_tsmom_trend_persistence/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_vol_targeted/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_maker_regime/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_top10_universe/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_4_holdout_and_dsr_audit.json
+  - run_log/diagnostics/crypto_tsmom_diagnostics.json
+  - run_log/fixed23_flow_repair_20261007.json
+  - run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json
+  - run_log/crypto_tsmom_funding_inputs_20261008_source_manifest.json
+  - run_log/crypto_tsmom_mark_price_inputs_20261008_source_manifest.json
+  - run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v3/frozen_spec.json
+  - run_log/research_sessions/crypto_tsmom_flow_increment_20261008_v3/superseded_before_trial.json

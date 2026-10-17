@@ -1,0 +1,146 @@
+session_id: tokyo_fix_prefx_0700_0830_20261011_v1
+market: fx
+thesis: Calendar-only Gotobi USDJPY long07:00-08:30 has positive net mean and exceeds
+  ordinary Tokyo drift.
+mechanism: 'HYPOTHESIS: corporate USD settlement demand creates early Tokyo buying
+  pressure; prices do not observe flow.'
+falsifier: Reject economic robustness if1pip Gotobi net USD full sample or either2024-25
+  or2026Jan-Aug is nonpositive; calendar-specific evidence requires positive controlled
+  premium with Holm8p<.05. Placebo non-difference limits timing specificity. No live
+  approval.
+instruments:
+- symbol: USDJPY
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: LSE composite research proxy JPY/USD; USD10000 base units, no compounding;
+    actual broker bid/ask, lots, margin and financing UNKNOWN.
+  timezone: Asia/Tokyo
+  session: Tokyo bank calendar
+data:
+- id: year2020
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2021
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2022
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2023
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2024
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2025
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet
+  role: prices
+  symbol: USDJPY
+- id: year2026
+  path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet
+  role: prices
+  symbol: USDJPY
+evaluation:
+  development_start: '2020-01-01T00:00:00Z'
+  development_end: '2026-08-31T15:00:00Z'
+  holdout_start: '2026-08-31T15:00:00Z'
+  holdout_end: '2026-10-31T15:00:00Z'
+  holdout: SEALED NEVER READ
+  chronology: 2020-23 cutoff fit;2024-25 retrospective validation;2026Jan-Aug observed
+    stress. All history previously inspected.
+  initial_usd: 10000
+  notional_usd: 10000
+  entry: 420
+  exit: 510
+  execution_gate:
+  - 418
+  - 510
+  feature_gate:
+  - 388
+  - 418
+  feature: 30 one-minute log returns from06:28 close through06:58 close; 06:58 close
+    available06:59. Drift same endpoints. No06:59 close.
+  placebo:
+  - 600
+  - 690
+  placebo_gate:
+  - 598
+  - 690
+  costs_pips:
+  - 0
+  - 0.8
+  - 1
+  - 1.4
+  - 2
+  - 3
+  delays:
+  - 1
+  - 2
+  cutoff_fit: Both terciles fit on ALL complete bank dates2020-23; frozen before native
+    outcomes. No filter strategy.
+  tests:
+  - Gotobi net1pip mean vs0
+  - weekday/year controlled net calendar premium
+  - placebo controlled net calendar premium
+  - matched fix-minus-placebo controlled premium
+  - 2024-25 rv high-minus-low Gotobi net
+  - 2026 rv high-minus-low Gotobi net
+  - 2024-25 drift high-minus-low Gotobi net
+  - 2026 drift high-minus-low Gotobi net
+  multiplicity: One Holm8 family over listed contrasts, two-sided HAC5; month-cluster
+    sensitivity for calendar contrasts. All other yearly/cost/slice summaries descriptive.
+    Does not erase prior126/18/16/640 and other known historical tests.
+  stop_rule: Execute fixed variants once; repair implementation failures with retained
+    attempt logs; no minute or feature search.
+baseline: Ordinary bank dates same eligibility and clock; flat bank days in portfolio;
+  preserved original08:30-09:54 long and09:56-10:10 short benchmarks on distinct samples.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  roundtrip_pips:
+  - 0
+  - 0.8
+  - 1
+  - 1.4
+  - 2
+  - 3
+  method: Native fixed adverse JPY .01*cost/2 per fill; zero is gross reference only.
+    USD translation at executed adverse exit. Not broker-calibrated.
+  financing: No overnight. Actual same-day financing UNKNOWN.
+  impact: Not calibrated; no executable volume/bid/ask. No capacity claim.
+trials:
+- id: T0_data_gate
+  kind: diagnostic
+  description: Contiguous execution/features/placebo gates and missingness
+- id: T1_native_gotobi
+  kind: preregistered
+  description: Native long07:00-08:30 Gotobi, 1pip
+- id: T2_native_ordinary
+  kind: preregistered
+  description: Same native long on ordinary dates, 1pip
+- id: T3_cost_sensitivity
+  kind: diagnostic
+  description: Native0/.8/1/1.4/2/3pip Gotobi and native07:01/07:02 delay stress1pip
+- id: T4_regimes
+  kind: diagnostic
+  description: Past rv/drift, development2020-23 terciles, retrospective2024-25 and2026
+    stress
+- id: T5_refutation
+  kind: diagnostic
+  description: Native90min10:00-11:30 placebo; calendar premium/control and matched
+    difference; Holm8
+- id: T6_independent_oracle
+  kind: diagnostic
+  description: Original source every-order, gate, feature and native cash oracle
+- id: T7_final_audit
+  kind: diagnostic
+  description: Tests, preservation, ledger hashes, final report and seal
+evidence:
+- run_log/tokyo_fix_prefx_0700_0830_20261011_v1/source_manifest.json
+- run_log/tokyo_fix_prefx_0700_0830_20261011_v1/methodology.json
+- run_log/tokyo_fix_prefx_0700_0830_20261011_v1/preservation_before.json

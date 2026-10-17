@@ -1,0 +1,64 @@
+{
+  "format": "canonical_store_pointer_v1",
+  "scope": "No observations at/after 2025-01-01; all 2013-2024 paths eligible after QA",
+  "cutoff": "2025-01-01T00:00:00Z",
+  "canonical_root": "/home/quant/dev/quant/ml4t-data/.data/store",
+  "provider": "Dukascopy",
+  "data_kind": "CFD bid-only 1m OHLCV",
+  "partition_glob": "year=YYYY/month=M/day=D/data.parquet",
+  "eligible_years": [
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "last_year_for_trading": 2024,
+  "selection": "only 2013-2024 scored, 2012 warmup allowed; exclude all year>=2025",
+  "instruments": [
+    {
+      "name": "US500",
+      "key": "ES",
+      "source_symbol": "usa500idxusd",
+      "currency": "USD",
+      "start": "2013-01-01",
+      "root": "index_minute_ES",
+      "acceptance": ".acceptance/index_minute_ES/YYYY-MM-DD.json"
+    },
+    {
+      "name": "US100",
+      "key": "NQ",
+      "source_symbol": "usatechidxusd",
+      "currency": "USD",
+      "start": "2013-01-01",
+      "root": "index_minute_NQ",
+      "acceptance": ".acceptance/index_minute_NQ/YYYY-MM-DD.json"
+    },
+    {
+      "name": "DE30",
+      "key": "DAX",
+      "source_symbol": "deuidxeur",
+      "currency": "EUR",
+      "start": "2013-09-30",
+      "root": "index_minute_DAX",
+      "acceptance": ".acceptance/index_minute_DAX/YYYY-MM-DD.json"
+    },
+    {
+      "name": "EU50",
+      "key": "EUSIDXEUR",
+      "source_symbol": "eusidxeur",
+      "currency": "EUR",
+      "start": "2014-06-02",
+      "root": "index_minute_EUSIDXEUR",
+      "acceptance": ".acceptance/index_minute_EUSIDXEUR/YYYY-MM-DD.json"
+    }
+  ]
+}

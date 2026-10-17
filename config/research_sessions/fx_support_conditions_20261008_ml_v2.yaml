@@ -1,0 +1,156 @@
+session_id: fx_support_conditions_20261008_ml_v2
+market: fx
+thesis: >-
+  A fixed low-capacity LightGBM classifier may recognize support-retest
+  events that break a prior significant high before the first subsequent
+  30-minute close below origin support within 240 complete 30-minute bars.
+  This is a versioned technical retry after a single 2010 warm-up feature
+  value blocked the first preregistered execution before model fitting.
+mechanism: >-
+  The quality of renewed buying near launch support may depend on candle
+  strength, recent directional persistence, ATR regime, relative EMA trend,
+  and the distance to the significant high. A low-capacity supervised
+  classifier can test nonlinear interactions, but cannot prove profitability.
+falsifier: >-
+  Require at least 100 selected out-of-fold development events and 20 per
+  pair, at least 35 percent prior-high-before-support-close outcomes, at
+  least 8 percentage points lift over unfiltered support holds in the same
+  2017-2024 validation cohort, monthly clustered 95 percent interval lower
+  bound above that cohort baseline, and improvement over baseline in at
+  least two pairs. Additionally require selected event precision above
+  each validation fold's base rate in at least three of four expanding
+  folds, and lower Brier score than the constant training-positive-rate
+  prediction in all four folds. All conditions are frozen. If too few
+  events or single-class folds make inference impossible, INCONCLUSIVE.
+  Do not tune feature choice, model or selection threshold after results.
+instruments:
+  - symbol: EURUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO EUR/USD CFD; LSE 1-minute research price proxy"
+    session: "FX 24/5 UTC analysis bars"
+    timezone: UTC
+  - symbol: GBPUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO GBP/USD CFD; LSE 1-minute research price proxy"
+    session: "FX 24/5 UTC analysis bars"
+    timezone: UTC
+  - symbol: AUDUSD
+    kind: cfd
+    venue: FTMO
+    identity: "FTMO AUD/USD CFD; LSE 1-minute research price proxy"
+    session: "FX 24/5 UTC analysis bars"
+    timezone: UTC
+data:
+  - id: eurusd_dev_a
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet
+  - id: eurusd_dev_b
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet
+  - id: eurusd_frozen_holdout
+    symbol: EURUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/EURUSD_holdout_2025_20261006_5m.parquet
+  - id: gbpusd_dev_a
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet
+  - id: gbpusd_dev_b
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet
+  - id: gbpusd_frozen_holdout
+    symbol: GBPUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/GBPUSD_holdout_2025_20261006_5m.parquet
+  - id: audusd_dev_a
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet
+  - id: audusd_dev_b
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet
+  - id: audusd_frozen_holdout
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/ftmo_fx_reversion_202610/AUDUSD_holdout_2025_20261006_5m.parquet
+evaluation:
+  cadence: 30m
+  development_start: "2010-01-04T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-10-06T23:59:59Z"
+  outcome_label: target_before_support_invalidation_240
+  label: >-
+    First break of reference high before the first subsequent completed 30m
+    support-closing invalidation within 240 completed 30m bars. Label from
+    the prior 2010-2024 event research; not a stop-fill simulation.
+  recovery_rule: >-
+    Drop exactly one AUDUSD feature-panel row at 2010-01-05 18:30:00 UTC
+    because its EMA50 slope and ATR100 ratio are not finite during the
+    indicator warm-up. All other 1,394 events remain. No 2017-2024
+    validation event is dropped. Do not impute values from future bars.
+  model_rule: >-
+    Import the unchanged original run_ml() implementation from
+    scripts/run_fx_support_conditions_trial.py. It has 13 specified
+    numeric features plus three currency one-hot features, a fixed
+    LightGBM classifier with 100 estimators, learning_rate 0.03,
+    max_depth 2, num_leaves 7, min_child_samples 30,
+    reg_lambda 10, random_state 42, and n_jobs=1.
+    Select when out-of-fold probability >=0.30.
+  validation: >-
+    Four expanding chronological validation folds: 2017-2018, 2019-2020,
+    2021-2022 and 2023-2024. No shuffle, selection, hyperparameter
+    search or threshold optimization. Purge training events whose actual
+    240-bar label_horizon_end is within 2 calendar days of the next
+    validation fold start. Keep all holdout files unopened and unscored.
+  note: >-
+    The retry changes only a data-quality eligibility error. It must
+    not be represented as a fresh economic idea or independent strategy
+    trial. The original three completed results and failed ML execution
+    remain permanently discoverable in the predecessor ledger.
+baseline: >-
+  All unfiltered support holds within exactly the 2017-2024 validation
+  event cohort, not the full 2010-2024 baseline. Original parent support
+  first-retake rate was 22.724% overall.
+costs:
+  commission_bps: 0.25
+  slippage_bps: 0.50
+  round_trip_bps: 1.50
+  stress_round_trip_bps: 2.50
+  note: >-
+    No trade or order simulation in this event classification study;
+    these costs are placeholders for a later executable backtest.
+trials:
+  - id: H0_unfiltered_prior
+    kind: historical_review
+    artifact: run_log/fx_support_conditions_20261008/I1_unfiltered/result.json
+    description: "Preserve the original unfiltered baseline outcome."
+  - id: H0_momentum_prior
+    kind: historical_review
+    artifact: run_log/fx_support_conditions_20261008/I2_momentum_confirmation/result.json
+    description: "Preserve the original under-sampled momentum result."
+  - id: H0_regime_prior
+    kind: historical_review
+    artifact: run_log/fx_support_conditions_20261008/I3_trend_volatility/result.json
+    description: "Preserve the original trend/volatility rejection."
+  - id: H0_ml_failure
+    kind: historical_review
+    artifact: run_log/fx_support_conditions_20261008/I4_purged_lightgbm/failure.json
+    description: "Preserve the original failed ML attempt before any model fit."
+  - id: I4_purged_lightgbm_v2
+    kind: preregistered
+    description: >-
+      Retry the original frozen LightGBM configuration only after excluding
+      one known non-finite feature warm-up event. Record all OOF fold metrics
+      and outcome counts without peeking at holdout data.
+evidence:
+  - data/processed/ftmo_fx_reversion_202610/manifest.json
+  - run_log/fx_support_reclaim_newhigh_20261008/D0_support_hold_new_high/result.json
+  - data/features/fx_support_conditions_20261008.parquet
+  - data/features/fx_support_conditions_20261008_manifest.json

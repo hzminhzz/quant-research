@@ -1,0 +1,27 @@
+{
+  "strategy": "BtcEthStatArbPolicy2",
+  "policy": "Ekstrom Early Profit-Take (Policy 2)",
+  "instance_name": "btc-eth-ekstrom-dryrun-20261007-033618",
+  "status": "STOPPED",
+  "connector": "arcus_perpetual",
+  "pairs": {
+    "base": "BTC-USD",
+    "quote": "ETH-USD"
+  },
+  "mode": "dry_run",
+  "metrics": {
+    "total_heartbeat_samples": 21,
+    "btc_price_start": 84064.65,
+    "btc_price_end": 84107.65,
+    "eth_price_start": 2611.14,
+    "eth_price_end": 2612.07,
+    "kalman_beta_final": 0.6962,
+    "z_score_range": [
+      0.0,
+      0.316
+    ],
+    "dislocations_detected": 0,
+    "trades_completed": 0
+  },
+  "audit_summary": "Bot container gracefully stopped and telemetry verified flat-to-flat."
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "cross_asset_tsmom_phase2_3_summary/v1",
+  "session_id": "cross_asset_tsmom_replication_20261007",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "development_end_exclusive": "2026-08-01T00:00:00Z",
+  "outcome": "THESIS_NOT_SUPPORTED_BY_FIXED_COMPOSITE",
+  "falsifier_checks": {
+    "t4_positive_at_least_4_of_5": false,
+    "median_t4_sharpe_positive": true,
+    "t4_2x_cost_positive_at_least_3_of_5": false,
+    "parameter_plateau": "not_evaluated_in_phase_2_3"
+  },
+  "t4_equal_composite": {
+    "BTCUSDT": {
+      "return": -0.1224540646,
+      "sharpe": 0.1498470055,
+      "max_drawdown": 0.5392
+    },
+    "ETHUSDT": {
+      "return": 0.2072365078,
+      "sharpe": 0.308,
+      "max_drawdown": 0.7233
+    },
+    "HYPEUSDT": {
+      "return": -0.4596846768,
+      "sharpe": -0.333,
+      "max_drawdown": 0.6543
+    },
+    "DE30_EUR_PROXY": {
+      "return": 0.0374409395,
+      "sharpe": 0.264,
+      "max_drawdown": 0.1426
+    },
+    "JP225_USD_PROXY": {
+      "return": -0.2502147962,
+      "sharpe": -0.082,
+      "max_drawdown": 0.5181
+    }
+  },
+  "t5_composite_vol_scaled": {
+    "BTCUSDT": {
+      "return": 0.035779,
+      "sharpe": 0.102,
+      "max_drawdown": 0.2017
+    },
+    "ETHUSDT": {
+      "return": 0.322294,
+      "sharpe": 0.323,
+      "max_drawdown": 0.2926
+    },
+    "HYPEUSDT": {
+      "return": -0.058226,
+      "sharpe": -0.238,
+      "max_drawdown": 0.1644
+    },
+    "DE30_EUR_PROXY": {
+      "return": -0.006613,
+      "sharpe": 0.038,
+      "max_drawdown": 0.1424
+    },
+    "JP225_USD_PROXY": {
+      "return": -0.045987,
+      "sharpe": 0.042,
+      "max_drawdown": 0.452
+    }
+  },
+  "t0_momentum_60": {
+    "BTCUSDT": {
+      "return": 0.867779,
+      "sharpe": 0.397,
+      "max_drawdown": 0.5793
+    },
+    "ETHUSDT": {
+      "return": 2.146613,
+      "sharpe": 0.54,
+      "max_drawdown": 0.6991
+    },
+    "HYPEUSDT": {
+      "return": -0.257466,
+      "sharpe": 0.14,
+      "max_drawdown": 0.7362
+    },
+    "DE30_EUR_PROXY": {
+      "return": 0.238169,
+      "sharpe": 0.969,
+      "max_drawdown": 0.1322
+    },
+    "JP225_USD_PROXY": {
+      "return": -0.202247,
+      "sharpe": -0.013,
+      "max_drawdown": 0.5895
+    }
+  },
+  "cost_stress_t4_positive": [
+    "ETHUSDT",
+    "DE30_EUR_PROXY"
+  ],
+  "data_notes": [
+    "The original DE30_EUR_5m_2017_2026.parquet input was rejected during execution because daily aggregation exposed repeated ~96% drops and ~2700% jumps. It was replaced before the valid final run by data/processed/dax_1m.parquet, which passed the basic return-distribution audit.",
+    "HYPEUSDT history begins 2025-05-30 and no local HYPE funding dataset was found.",
+    "Crypto funding is excluded from this comparison; crypto economics are cost-incomplete.",
+    "DAX and Nikkei are research price proxies, not executable contract-level futures.",
+    "No final holdout was opened."
+  ],
+  "method_notes": [
+    "Features use ml4t.engineer.compute_features.",
+    "Supplemental panel diagnostics use ml4t.diagnostic.analyze_signal.",
+    "All strategy simulations use ml4t.backtest.Engine with NEXT_BAR OPEN execution.",
+    "The formal research-session freeze/commit did not precede execution, so this evidence must not be described as formally preregistered despite the YAML being drafted before the valid final run."
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "status": "FROZEN_BEFORE_BACKTEST_SCORING",
+  "frozen_at_utc": "2026-10-11T12:02:20.302449+00:00",
+  "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "spec_hashes": {
+    "config/research_sessions/prop_mvp_20261011_a.yaml": "91b814eb7e22f5bba805dac30185e5e156ef0ad14881a431bdbeaa74b639e25b",
+    "config/research_sessions/prop_mvp_20261011_b.yaml": "4e4243f4186ee150b90aa145b3e0f3f5a44e7d0a480a1c2062e6d35ee5daeec0",
+    "config/research_sessions/prop_mvp_20261011_c.yaml": "2d448c214bafa1a2c35adbc785a0e69d1f53ac78d5f6921c2ae5b308fa405100"
+  },
+  "eligible_data_hashes_ipc_sha256": {
+    "data/processed/btcusdt_1h.parquet": "b5aff1db66437aedbbfcefe16e6fa50cd4b1824d9ff71ff384b4a5d4ab22fc12",
+    "data/processed/ethusdt_1h.parquet": "7a10c56c6b7108c86f31b1e1edf199ed2b2d2d1293eb31d0d7116bbeb9ab9f81",
+    "data/processed/btc_1m.parquet": "c5a0ab8d04912d11b24cbd40a41fd70ab962ce94421920756b20aa2bc10b4ab0",
+    "data/processed/eth_1m.parquet": "4ac1f02822e22ad945e34a4415a6582180064a38a77e6cf320e5c00c734c1497",
+    "data/processed/btc_funding.parquet": "8ab2dcb3b470ca42e3bc3803dabfc8ebcaa3318708ed1a9d1ed7292d2ffccfed",
+    "data/processed/eth_funding.parquet": "7a259ddd01ae4c0b0272b4f87ce77a005a8d3925f08d69ab83f16c3761304997",
+    "data/processed/NAS100_5m_2017_2026.parquet": "94a8bcb7349a8a15fa190c110d0c9f4fcfbe5ce3fe4137946a193218f9b1c076",
+    "data/processed/SPX500_USD_15m_2017_2026.parquet": "6a3d20b1d855e58a21ba056060c3ab7027449334790ddf0cde3b8b04037a16f5"
+  },
+  "protected_window": "2026-08-01T00:00:00Z onward; parquet scans filter before collection; no outcomes read",
+  "trials": {
+    "A": [
+      "gross",
+      "baseline",
+      "buy_and_hold",
+      "cost_2x",
+      "extra_bar_delay"
+    ],
+    "B": [
+      "liquidation_source_audit",
+      "OHLCV_price_only_proxy",
+      "descriptive_high_vol_control"
+    ],
+    "C": [
+      "opening_range_baseline",
+      "cost_2x",
+      "extra_bar_delay"
+    ]
+  },
+  "skills": [
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "invariants": [
+        "native Engine",
+        "NEXT_BAR",
+        "record fills/trades/equity"
+      ]
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "invariants": [
+        "explicit commission and slippage",
+        "stress costs"
+      ]
+    },
+    {
+      "name": "ml4t-validate-data",
+      "path": ".agents/skills/ml4t-validate-data/SKILL.md",
+      "invariants": [
+        "OHLC validity",
+        "duplicates",
+        "gaps",
+        "zero volume"
+      ]
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "invariants": [
+        "features use completed bars",
+        "future periods excluded"
+      ]
+    },
+    {
+      "name": "ml4t-point-in-time",
+      "path": "/home/quant/.agents/skills/ml4t-point-in-time/SKILL.md",
+      "invariants": [
+        "timestamp availability before fills"
+      ]
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "path": "/home/quant/.agents/skills/ml4t-calendar-ops/SKILL.md",
+      "invariants": [
+        "America/New_York DST",
+        "missing session windows excluded"
+      ]
+    },
+    {
+      "name": "ml4t-sensitivity-analysis",
+      "path": "/home/quant/.agents/skills/ml4t-sensitivity-analysis/SKILL.md",
+      "invariants": [
+        "no selection from stress cases",
+        "register delay and cost variants"
+      ]
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "path": "/home/quant/.agents/skills/ml4t-polars-patterns/SKILL.md",
+      "invariants": [
+        "sorted time series",
+        "native Polars expressions"
+      ]
+    },
+    {
+      "name": "ml4t-compute-features",
+      "path": "/home/quant/.agents/skills/ml4t-compute-features/SKILL.md",
+      "invariants": [
+        "lagged ATR uses past bars"
+      ]
+    }
+  ],
+  "api_signatures_verified": "Engine(feed, strategy, config); DataFeed(prices_df, signals_df); BacktestConfig execution_mode=NEXT_BAR; result exports trades/fills/equity."
+}

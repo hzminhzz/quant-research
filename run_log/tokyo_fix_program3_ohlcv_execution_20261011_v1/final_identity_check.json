@@ -1,0 +1,179 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "classification": "EXPLORATORY",
+  "data_audits": [
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2020-12-30 03:00:00+00:00",
+      "id": "year2020",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet",
+        "sha256": "942a0f4abf0a2ea64c125769f4e5447bcbdb559477c9f0011408308641a4d946",
+        "size_bytes": 1250090
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 121542,
+      "start": "2020-01-05 22:00:00+00:00"
+    },
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2021-12-30 03:00:00+00:00",
+      "id": "year2021",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet",
+        "sha256": "bd3b3940ba8da7e45c41ad5e295f9f4393b4760d737bc8e620b15b6c9380d2f5",
+        "size_bytes": 1233369
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 122615,
+      "start": "2021-01-03 22:00:00+00:00"
+    },
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2022-12-30 03:00:00+00:00",
+      "id": "year2022",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet",
+        "sha256": "fbf2e9b8537e4248f0a91885afbeb73278bf18a7b71a3566c4912326cbe61ebb",
+        "size_bytes": 1424643
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 122800,
+      "start": "2022-01-03 18:00:00+00:00"
+    },
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2023-12-29 03:00:00+00:00",
+      "id": "year2023",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet",
+        "sha256": "1e2e12aa1395cafe990fe1cb4b96989ff8b1434e611fe134de64514b63316ca5",
+        "size_bytes": 1406178
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 123201,
+      "start": "2023-01-03 18:00:00+00:00"
+    },
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2024-12-30 03:00:00+00:00",
+      "id": "year2024",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet",
+        "sha256": "2aea64d908eb586294d56e7000aa9bc3907ac8965422a7d44458cdbec1c4570d",
+        "size_bytes": 1433630
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 123231,
+      "start": "2024-01-03 18:00:00+00:00"
+    },
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2025-12-30 03:00:00+00:00",
+      "id": "year2025",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet",
+        "sha256": "c2abd435c7510ebdf7cc4bcc0b3858d1f4787154aa6a40e275ba2281206d977b",
+        "size_bytes": 1421561
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 121990,
+      "start": "2025-01-05 22:00:00+00:00"
+    },
+    {
+      "columns": [
+        "timestamp",
+        "symbol",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "end": "2026-08-31 03:00:00+00:00",
+      "id": "year2026",
+      "identity": {
+        "exists": true,
+        "path": "data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet",
+        "sha256": "f9a513f9c0d261f16ff749ffe2a5368700cdd3c155c0281b5da5701a48193c1c",
+        "size_bytes": 868098
+      },
+      "issues": [],
+      "missing_columns": [],
+      "rows": 80117,
+      "start": "2026-01-04 22:00:00+00:00"
+    }
+  ],
+  "issues": [],
+  "limitations": [
+    "Observed file bounds and timestamps do not prove calendar-complete coverage.",
+    "No vendor identity, missing-session or expected bar-frequency verification.",
+    "No funding-to-price alignment or point-in-time correctness certification.",
+    "PASS means input audit passed, never strategy approval."
+  ],
+  "metrics_computed": false,
+  "schema_version": 1,
+  "scope": "file_identity_and_declared_requirements",
+  "session_id": "tokyo_fix_program3_ohlcv_execution_20261011_v1",
+  "status": "PASS"
+}

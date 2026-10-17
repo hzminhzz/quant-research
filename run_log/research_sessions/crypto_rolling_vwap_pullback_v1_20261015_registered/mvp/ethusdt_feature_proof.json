@@ -1,0 +1,18 @@
+{
+  "rocp168_independent_parity": true,
+  "atr24_talib_parity": true,
+  "sma24_talib_parity": true,
+  "vwap24_scalar_oracle_indices": [
+    23,
+    24,
+    168,
+    169,
+    1000,
+    12000,
+    30000,
+    43847
+  ],
+  "native_engineer": "0.1.4",
+  "vwap_extension": "24-row close*base_volume / 24-row base_volume",
+  "available_after": "UTC bar start + 1h; NEXT_BAR fill"
+}

@@ -1,0 +1,119 @@
+{
+  "state": "USER_AUTHORIZED_HOLDOUT_CONSUMED_UNQUALIFIED_CFD_BID_PROXY",
+  "authorized_holdout_exposure": "2025 full and 2026 YTD through Oct11 are now observed, not pristine OOS",
+  "window_end_exclusive": "2026-10-12 00:00:00+00:00",
+  "session": "mechanicalpremia-authorized-2025-2026-ytd-v1",
+  "year": 2026,
+  "trial": "D1-SOURCE-4",
+  "cost_multiplier": 1.0,
+  "source_note": "H1 US500 US100 DE30; D1 those plus EU50; eligible-from-launch only",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 266064,
+      "first": "2026-01-01 23:00:00+00:00",
+      "last": "2026-10-11 23:59:00+00:00",
+      "h1_signals": 89,
+      "d1_signals": 7,
+      "d1_exits": 11
+    },
+    {
+      "symbol": "US100",
+      "rows": 266064,
+      "first": "2026-01-01 23:00:00+00:00",
+      "last": "2026-10-11 23:59:00+00:00",
+      "h1_signals": 141,
+      "d1_signals": 2,
+      "d1_exits": 14
+    },
+    {
+      "symbol": "DE30",
+      "rows": 267120,
+      "first": "2026-01-01 23:00:00+00:00",
+      "last": "2026-10-11 23:59:00+00:00",
+      "h1_signals": 140,
+      "d1_signals": 6,
+      "d1_exits": 15
+    },
+    {
+      "symbol": "EU50",
+      "rows": 155977,
+      "first": "2026-01-02 07:00:00+00:00",
+      "last": "2026-10-09 19:59:00+00:00",
+      "h1_signals": 35,
+      "d1_signals": 10,
+      "d1_exits": 16
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 103288.43907231395,
+    "num_trades": 12,
+    "num_orders": 26,
+    "num_fills": 26,
+    "num_rejected_orders": 0,
+    "win_rate": 0.9166666666666666,
+    "total_commission": 55.77599775201728,
+    "total_slippage": 111.55034529663125,
+    "total_costs": 153.59109661346707,
+    "max_drawdown_pct": 3.395108414170277
+  },
+  "daily": {
+    "total_return": 0.03288439072313998,
+    "annual_return": 0.034266275092321496,
+    "annual_volatility": 0.045877184135349885,
+    "sharpe_ratio": 0.7572561181144625,
+    "sortino_ratio": 1.20535647830122,
+    "calmar_ratio": 1.0947691206642458,
+    "omega_ratio": 1.180263154177077,
+    "tail_ratio": 0.9221310859024424,
+    "max_drawdown": -0.03130000147568156,
+    "skewness": 0.809525630292943,
+    "kurtosis": 4.2727757845368295,
+    "var_95": -0.004970777289620864,
+    "cvar_95": -0.00624047651095276,
+    "stability": 0.6774721258851871,
+    "win_rate": 0.32644628099173556,
+    "profit_factor": 1.180263154177077,
+    "avg_win": 0.002765025634453986,
+    "avg_loss": -0.002342719608477369,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 12,
+  "open_trades": 2,
+  "closed_net_pnl": 4372.326530721815,
+  "native_end_equity": 103288.43907231395,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "EU50_D": {
+      "quantity": 3.5461819303357207,
+      "entry_price": 6461.190979800001,
+      "current_price": 6190.289,
+      "multiplier": 1.0
+    },
+    "DE30_D": {
+      "quantity": 0.9025002313087676,
+      "entry_price": 25349.2458354,
+      "current_price": 25217.788,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-authorized-2025-2026-ytd-v1/yearly_native/year=2026/D1-SOURCE-4/cost_1x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-authorized-2025-2026-ytd-v1/yearly_native/year=2026/D1-SOURCE-4/cost_1x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-authorized-2025-2026-ytd-v1/yearly_native/year=2026/D1-SOURCE-4/cost_1x/daily_equity.parquet"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "session": "taker_flow_exhaustion_mvp_20261011_v1",
+  "trial": "fixed_95th_flow_exhaustion_reversal_4h",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "window_start": "2026-01-01T00:00:00+00:00",
+  "window_end_exclusive": "2026-08-01T00:00:00+00:00",
+  "sources_sha256": {
+    "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet": "67528cbf7f936e41f34f08fa033b05cfb2800a9f21ee39e6048051dd577db8b7",
+    "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet": "f0c4959e7ed53afeb12cfe93e3776aa3047cb39be2759187d6cd3df866dacab1",
+    "data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet": "750fd743783bc0285cde779d9c1573e12bf31b3c2f5a53b97e782ebcb8585a1a",
+    "data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet": "ee1864a96892c708b4ed6cb784b13373b22015335d77412fab48fce226231c23"
+  },
+  "stats": {
+    "candidate_extreme_flow_count": 206,
+    "eligible_candidates_after_funding_gate": 113,
+    "skipped": {
+      "settlement_schedule": 93,
+      "last_hours": 0
+    },
+    "by_symbol": {
+      "BTCUSDT": {
+        "development_bars": 5088,
+        "first_bar": "2026-01-01 00:00:00+00:00",
+        "last_bar": "2026-07-31 23:00:00+00:00",
+        "funding_events": 636
+      },
+      "ETHUSDT": {
+        "development_bars": 5088,
+        "first_bar": "2026-01-01 00:00:00+00:00",
+        "last_bar": "2026-07-31 23:00:00+00:00",
+        "funding_events": 636
+      }
+    }
+  },
+  "combined_net": {
+    "initial_equity": 500.0,
+    "final_equity": 439.3874741284359,
+    "total_return": -0.12122505174312825,
+    "daily_sharpe": -3.1988983648869227,
+    "max_drawdown": -0.12616463056835797,
+    "daily_observations": 212,
+    "trades": 105,
+    "fills": 210,
+    "wins": 41,
+    "gross_closed_pnl": -42.71045480681221,
+    "net_closed_pnl": -60.61252587156405,
+    "trade_fee_total": 17.902071064751723,
+    "trade_slippage_total": 5.967356194864188,
+    "rejected_orders": 0,
+    "max_positions": 2,
+    "max_gross_to_equity": 0.8460059555079541
+  },
+  "combined_gross": {
+    "initial_equity": 500.0,
+    "final_equity": 462.1469276998496,
+    "total_return": -0.07570614460030078,
+    "daily_sharpe": -1.9961060488125215,
+    "max_drawdown": -0.09345647693423496,
+    "daily_observations": 212,
+    "trades": 105,
+    "fills": 210,
+    "wins": 48,
+    "gross_closed_pnl": -37.85307230014999,
+    "net_closed_pnl": -37.853072300149904,
+    "trade_fee_total": 0.0,
+    "trade_slippage_total": 0.0,
+    "rejected_orders": 0,
+    "max_positions": 2,
+    "max_gross_to_equity": 0.8455896343967825
+  },
+  "by_symbol_net": {
+    "BTCUSDT": {
+      "initial_equity": 500.0,
+      "final_equity": 477.0568547867071,
+      "total_return": -0.04588629042658576,
+      "daily_sharpe": -2.5578948385376385,
+      "max_drawdown": -0.04904020785676898,
+      "daily_observations": 212,
+      "trades": 56,
+      "fills": 112,
+      "wins": 23,
+      "gross_closed_pnl": -13.1262117617464,
+      "net_closed_pnl": -22.943145213292805,
+      "trade_fee_total": 9.816933451546378,
+      "trade_slippage_total": 3.272310928802692,
+      "rejected_orders": 0,
+      "max_positions": 1,
+      "max_gross_to_equity": 0.41164052413800134
+    },
+    "ETHUSDT": {
+      "initial_equity": 500.0,
+      "final_equity": 460.6586611895856,
+      "total_return": -0.07868267762082881,
+      "daily_sharpe": -2.7529836974216124,
+      "max_drawdown": -0.08759795970801564,
+      "daily_observations": 212,
+      "trades": 49,
+      "fills": 98,
+      "wins": 18,
+      "gross_closed_pnl": -30.719669275155947,
+      "net_closed_pnl": -39.341338810414044,
+      "trade_fee_total": 8.621669535258178,
+      "trade_slippage_total": 2.8738892185560085,
+      "rejected_orders": 0,
+      "max_positions": 1,
+      "max_gross_to_equity": 0.42649889261925256
+    }
+  },
+  "no_trade_return": 0.0,
+  "trade_signal_matches": 105,
+  "strategy_supported": false,
+  "costs": {
+    "commission_bps_per_fill": 4.5,
+    "slippage_bps_per_fill": 1.5,
+    "funding_cashflow": 0.0,
+    "explicit_spread_model": false
+  },
+  "execution": {
+    "library": "ml4t.backtest",
+    "mode": "NEXT_BAR",
+    "fill_price": "OPEN",
+    "signal_delay_hours": 2,
+    "hold_hours": 4
+  },
+  "limitations": [
+    "The 2026 development outcomes were previously observable; this is not independent OOS.",
+    "No historical L1 spread, true quote availability or impact calibration.",
+    "Eight-hour funding schedule is assumed from validated BTC/ETH event intervals.",
+    "The engine is not a perpetual contract-accurate liquidation simulator."
+  ]
+}

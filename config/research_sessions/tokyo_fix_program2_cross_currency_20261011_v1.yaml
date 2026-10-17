@@ -1,0 +1,929 @@
+session_id: tokyo_fix_program2_cross_currency_20261011_v1
+market: fx
+thesis: Retrospective cross-currency settlement-flow attribution and incremental USDJPY
+  prediction at Tokyo fix; new tests on already inspected 2020-Aug2026 dates, not
+  unseen OOS.
+mechanism: Corporate USD settlement demand could move multiple USD quotes before09:55JST;
+  inventory unwind could follow. External USD factor may confirm direction. Calendar
+  is only a flow proxy.
+falsifier: No candidate if external increment fails Holm640, net and matched-unconditional
+  increment HAC lower bounds not positive, n<100, 2024-25 n<50 or negative, 2026 stress
+  n<20 or negative, fewer than5 positive years, or incompatible sources. No causal
+  attribution without actual independent compatible JPY crosses.
+instruments:
+- symbol: USDJPY
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: USD/JPY spot proxy, quote units per base, LSE OHLC research only; executable
+    broker tick lot fee and shorting terms UNKNOWN
+  session: Tokyo bank days,09:55 JST fix
+  timezone: Asia/Tokyo
+- symbol: EURUSD
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: EUR/USD spot proxy, quote units per base, LSE OHLC research only; executable
+    broker tick lot fee and shorting terms UNKNOWN
+  session: Tokyo bank days,09:55 JST fix
+  timezone: Asia/Tokyo
+- symbol: GBPUSD
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: GBP/USD spot proxy, quote units per base, LSE OHLC research only; executable
+    broker tick lot fee and shorting terms UNKNOWN
+  session: Tokyo bank days,09:55 JST fix
+  timezone: Asia/Tokyo
+- symbol: AUDUSD
+  kind: cfd
+  venue: UNSPECIFIED_RETAIL_FX_BROKER
+  identity: AUD/USD spot proxy, quote units per base, LSE OHLC research only; executable
+    broker tick lot fee and shorting terms UNKNOWN
+  session: Tokyo bank days,09:55 JST fix
+  timezone: Asia/Tokyo
+data:
+- id: USDJPY_2020
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2020.parquet
+- id: USDJPY_2021
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2021.parquet
+- id: USDJPY_2022
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2022.parquet
+- id: USDJPY_2023
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2023.parquet
+- id: USDJPY_2024
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2024.parquet
+- id: USDJPY_2025
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2025.parquet
+- id: USDJPY_2026
+  symbol: USDJPY
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/USDJPY_2026.parquet
+- id: EURUSD_2020
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2020.parquet
+- id: EURUSD_2021
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2021.parquet
+- id: EURUSD_2022
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2022.parquet
+- id: EURUSD_2023
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2023.parquet
+- id: EURUSD_2024
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2024.parquet
+- id: EURUSD_2025
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2025.parquet
+- id: EURUSD_2026
+  symbol: EURUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/EURUSD_2026.parquet
+- id: GBPUSD_2020
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2020.parquet
+- id: GBPUSD_2021
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2021.parquet
+- id: GBPUSD_2022
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2022.parquet
+- id: GBPUSD_2023
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2023.parquet
+- id: GBPUSD_2024
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2024.parquet
+- id: GBPUSD_2025
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2025.parquet
+- id: GBPUSD_2026
+  symbol: GBPUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/GBPUSD_2026.parquet
+- id: AUDUSD_2020
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2020.parquet
+- id: AUDUSD_2021
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2021.parquet
+- id: AUDUSD_2022
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2022.parquet
+- id: AUDUSD_2023
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2023.parquet
+- id: AUDUSD_2024
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2024.parquet
+- id: AUDUSD_2025
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2025.parquet
+- id: AUDUSD_2026
+  symbol: AUDUSD
+  role: prices
+  path: data/processed/tokyo_fix_program2_cross_currency_20261011_v1/AUDUSD_2026.parquet
+evaluation:
+  development_start: '2019-12-31T15:00:00Z'
+  development_end: '2026-08-31T15:00:00Z'
+  holdout_start: '2026-08-31T15:00:00Z'
+  holdout_end: '2026-11-01T00:00:00Z'
+  holdout_policy: SEALED; never read September or later partitions or outcomes
+  fit_development: 2020-2023
+  validation: 2024-2025 annual expanding train-only fits
+  stress: Jan-Aug2026 retrospective, not genuinely unseen
+  snapshots: 03:00-13:00 JST to support full11:55placebo horizons; extension beyond
+    prior03-12 snapshots
+  horizons_minutes: &id001
+  - 5
+  - 15
+  - 30
+  - 60
+  anchors_minutes:
+  - 420
+  - 510
+  - 595
+  - 610
+  - 715
+  lookbacks_minutes: *id001
+  flow_windows:
+  - - 420
+    - 510
+  - - 510
+    - 594
+  - - 596
+    - 610
+  - - 596
+    - 630
+  feature_availability: bar open+1 minute strictly before anchor; use close at anchor-2;
+    feature endpoints separated by exact lookback. No current anchor open or close
+    used.
+  fill_label: entry open anchor+1; exit open anchor+1+h; all intervening minutes observed
+    and valid
+  data_gate: Exact minutes; valid finite OHLC, five repeated-close staleness excluded.
+    All external factor legs observed. No interpolation. Window-specific cohort. Crosses
+    identity checks only.
+  statistical_family:
+    flow: Holm16
+    predictive: Holm640 including same-time ordinary and11:55placebo
+    declared_test_ids:
+    - B_420_EURUSD_L5_H5_gotobi
+    - B_420_EURUSD_L5_H5_ordinary
+    - B_420_EURUSD_L5_H15_gotobi
+    - B_420_EURUSD_L5_H15_ordinary
+    - B_420_EURUSD_L5_H30_gotobi
+    - B_420_EURUSD_L5_H30_ordinary
+    - B_420_EURUSD_L5_H60_gotobi
+    - B_420_EURUSD_L5_H60_ordinary
+    - B_420_EURUSD_L15_H5_gotobi
+    - B_420_EURUSD_L15_H5_ordinary
+    - B_420_EURUSD_L15_H15_gotobi
+    - B_420_EURUSD_L15_H15_ordinary
+    - B_420_EURUSD_L15_H30_gotobi
+    - B_420_EURUSD_L15_H30_ordinary
+    - B_420_EURUSD_L15_H60_gotobi
+    - B_420_EURUSD_L15_H60_ordinary
+    - B_420_EURUSD_L30_H5_gotobi
+    - B_420_EURUSD_L30_H5_ordinary
+    - B_420_EURUSD_L30_H15_gotobi
+    - B_420_EURUSD_L30_H15_ordinary
+    - B_420_EURUSD_L30_H30_gotobi
+    - B_420_EURUSD_L30_H30_ordinary
+    - B_420_EURUSD_L30_H60_gotobi
+    - B_420_EURUSD_L30_H60_ordinary
+    - B_420_EURUSD_L60_H5_gotobi
+    - B_420_EURUSD_L60_H5_ordinary
+    - B_420_EURUSD_L60_H15_gotobi
+    - B_420_EURUSD_L60_H15_ordinary
+    - B_420_EURUSD_L60_H30_gotobi
+    - B_420_EURUSD_L60_H30_ordinary
+    - B_420_EURUSD_L60_H60_gotobi
+    - B_420_EURUSD_L60_H60_ordinary
+    - B_420_GBPUSD_L5_H5_gotobi
+    - B_420_GBPUSD_L5_H5_ordinary
+    - B_420_GBPUSD_L5_H15_gotobi
+    - B_420_GBPUSD_L5_H15_ordinary
+    - B_420_GBPUSD_L5_H30_gotobi
+    - B_420_GBPUSD_L5_H30_ordinary
+    - B_420_GBPUSD_L5_H60_gotobi
+    - B_420_GBPUSD_L5_H60_ordinary
+    - B_420_GBPUSD_L15_H5_gotobi
+    - B_420_GBPUSD_L15_H5_ordinary
+    - B_420_GBPUSD_L15_H15_gotobi
+    - B_420_GBPUSD_L15_H15_ordinary
+    - B_420_GBPUSD_L15_H30_gotobi
+    - B_420_GBPUSD_L15_H30_ordinary
+    - B_420_GBPUSD_L15_H60_gotobi
+    - B_420_GBPUSD_L15_H60_ordinary
+    - B_420_GBPUSD_L30_H5_gotobi
+    - B_420_GBPUSD_L30_H5_ordinary
+    - B_420_GBPUSD_L30_H15_gotobi
+    - B_420_GBPUSD_L30_H15_ordinary
+    - B_420_GBPUSD_L30_H30_gotobi
+    - B_420_GBPUSD_L30_H30_ordinary
+    - B_420_GBPUSD_L30_H60_gotobi
+    - B_420_GBPUSD_L30_H60_ordinary
+    - B_420_GBPUSD_L60_H5_gotobi
+    - B_420_GBPUSD_L60_H5_ordinary
+    - B_420_GBPUSD_L60_H15_gotobi
+    - B_420_GBPUSD_L60_H15_ordinary
+    - B_420_GBPUSD_L60_H30_gotobi
+    - B_420_GBPUSD_L60_H30_ordinary
+    - B_420_GBPUSD_L60_H60_gotobi
+    - B_420_GBPUSD_L60_H60_ordinary
+    - B_420_AUDUSD_L5_H5_gotobi
+    - B_420_AUDUSD_L5_H5_ordinary
+    - B_420_AUDUSD_L5_H15_gotobi
+    - B_420_AUDUSD_L5_H15_ordinary
+    - B_420_AUDUSD_L5_H30_gotobi
+    - B_420_AUDUSD_L5_H30_ordinary
+    - B_420_AUDUSD_L5_H60_gotobi
+    - B_420_AUDUSD_L5_H60_ordinary
+    - B_420_AUDUSD_L15_H5_gotobi
+    - B_420_AUDUSD_L15_H5_ordinary
+    - B_420_AUDUSD_L15_H15_gotobi
+    - B_420_AUDUSD_L15_H15_ordinary
+    - B_420_AUDUSD_L15_H30_gotobi
+    - B_420_AUDUSD_L15_H30_ordinary
+    - B_420_AUDUSD_L15_H60_gotobi
+    - B_420_AUDUSD_L15_H60_ordinary
+    - B_420_AUDUSD_L30_H5_gotobi
+    - B_420_AUDUSD_L30_H5_ordinary
+    - B_420_AUDUSD_L30_H15_gotobi
+    - B_420_AUDUSD_L30_H15_ordinary
+    - B_420_AUDUSD_L30_H30_gotobi
+    - B_420_AUDUSD_L30_H30_ordinary
+    - B_420_AUDUSD_L30_H60_gotobi
+    - B_420_AUDUSD_L30_H60_ordinary
+    - B_420_AUDUSD_L60_H5_gotobi
+    - B_420_AUDUSD_L60_H5_ordinary
+    - B_420_AUDUSD_L60_H15_gotobi
+    - B_420_AUDUSD_L60_H15_ordinary
+    - B_420_AUDUSD_L60_H30_gotobi
+    - B_420_AUDUSD_L60_H30_ordinary
+    - B_420_AUDUSD_L60_H60_gotobi
+    - B_420_AUDUSD_L60_H60_ordinary
+    - B_420_USDfactor_L5_H5_gotobi
+    - B_420_USDfactor_L5_H5_ordinary
+    - B_420_USDfactor_L5_H15_gotobi
+    - B_420_USDfactor_L5_H15_ordinary
+    - B_420_USDfactor_L5_H30_gotobi
+    - B_420_USDfactor_L5_H30_ordinary
+    - B_420_USDfactor_L5_H60_gotobi
+    - B_420_USDfactor_L5_H60_ordinary
+    - B_420_USDfactor_L15_H5_gotobi
+    - B_420_USDfactor_L15_H5_ordinary
+    - B_420_USDfactor_L15_H15_gotobi
+    - B_420_USDfactor_L15_H15_ordinary
+    - B_420_USDfactor_L15_H30_gotobi
+    - B_420_USDfactor_L15_H30_ordinary
+    - B_420_USDfactor_L15_H60_gotobi
+    - B_420_USDfactor_L15_H60_ordinary
+    - B_420_USDfactor_L30_H5_gotobi
+    - B_420_USDfactor_L30_H5_ordinary
+    - B_420_USDfactor_L30_H15_gotobi
+    - B_420_USDfactor_L30_H15_ordinary
+    - B_420_USDfactor_L30_H30_gotobi
+    - B_420_USDfactor_L30_H30_ordinary
+    - B_420_USDfactor_L30_H60_gotobi
+    - B_420_USDfactor_L30_H60_ordinary
+    - B_420_USDfactor_L60_H5_gotobi
+    - B_420_USDfactor_L60_H5_ordinary
+    - B_420_USDfactor_L60_H15_gotobi
+    - B_420_USDfactor_L60_H15_ordinary
+    - B_420_USDfactor_L60_H30_gotobi
+    - B_420_USDfactor_L60_H30_ordinary
+    - B_420_USDfactor_L60_H60_gotobi
+    - B_420_USDfactor_L60_H60_ordinary
+    - B_510_EURUSD_L5_H5_gotobi
+    - B_510_EURUSD_L5_H5_ordinary
+    - B_510_EURUSD_L5_H15_gotobi
+    - B_510_EURUSD_L5_H15_ordinary
+    - B_510_EURUSD_L5_H30_gotobi
+    - B_510_EURUSD_L5_H30_ordinary
+    - B_510_EURUSD_L5_H60_gotobi
+    - B_510_EURUSD_L5_H60_ordinary
+    - B_510_EURUSD_L15_H5_gotobi
+    - B_510_EURUSD_L15_H5_ordinary
+    - B_510_EURUSD_L15_H15_gotobi
+    - B_510_EURUSD_L15_H15_ordinary
+    - B_510_EURUSD_L15_H30_gotobi
+    - B_510_EURUSD_L15_H30_ordinary
+    - B_510_EURUSD_L15_H60_gotobi
+    - B_510_EURUSD_L15_H60_ordinary
+    - B_510_EURUSD_L30_H5_gotobi
+    - B_510_EURUSD_L30_H5_ordinary
+    - B_510_EURUSD_L30_H15_gotobi
+    - B_510_EURUSD_L30_H15_ordinary
+    - B_510_EURUSD_L30_H30_gotobi
+    - B_510_EURUSD_L30_H30_ordinary
+    - B_510_EURUSD_L30_H60_gotobi
+    - B_510_EURUSD_L30_H60_ordinary
+    - B_510_EURUSD_L60_H5_gotobi
+    - B_510_EURUSD_L60_H5_ordinary
+    - B_510_EURUSD_L60_H15_gotobi
+    - B_510_EURUSD_L60_H15_ordinary
+    - B_510_EURUSD_L60_H30_gotobi
+    - B_510_EURUSD_L60_H30_ordinary
+    - B_510_EURUSD_L60_H60_gotobi
+    - B_510_EURUSD_L60_H60_ordinary
+    - B_510_GBPUSD_L5_H5_gotobi
+    - B_510_GBPUSD_L5_H5_ordinary
+    - B_510_GBPUSD_L5_H15_gotobi
+    - B_510_GBPUSD_L5_H15_ordinary
+    - B_510_GBPUSD_L5_H30_gotobi
+    - B_510_GBPUSD_L5_H30_ordinary
+    - B_510_GBPUSD_L5_H60_gotobi
+    - B_510_GBPUSD_L5_H60_ordinary
+    - B_510_GBPUSD_L15_H5_gotobi
+    - B_510_GBPUSD_L15_H5_ordinary
+    - B_510_GBPUSD_L15_H15_gotobi
+    - B_510_GBPUSD_L15_H15_ordinary
+    - B_510_GBPUSD_L15_H30_gotobi
+    - B_510_GBPUSD_L15_H30_ordinary
+    - B_510_GBPUSD_L15_H60_gotobi
+    - B_510_GBPUSD_L15_H60_ordinary
+    - B_510_GBPUSD_L30_H5_gotobi
+    - B_510_GBPUSD_L30_H5_ordinary
+    - B_510_GBPUSD_L30_H15_gotobi
+    - B_510_GBPUSD_L30_H15_ordinary
+    - B_510_GBPUSD_L30_H30_gotobi
+    - B_510_GBPUSD_L30_H30_ordinary
+    - B_510_GBPUSD_L30_H60_gotobi
+    - B_510_GBPUSD_L30_H60_ordinary
+    - B_510_GBPUSD_L60_H5_gotobi
+    - B_510_GBPUSD_L60_H5_ordinary
+    - B_510_GBPUSD_L60_H15_gotobi
+    - B_510_GBPUSD_L60_H15_ordinary
+    - B_510_GBPUSD_L60_H30_gotobi
+    - B_510_GBPUSD_L60_H30_ordinary
+    - B_510_GBPUSD_L60_H60_gotobi
+    - B_510_GBPUSD_L60_H60_ordinary
+    - B_510_AUDUSD_L5_H5_gotobi
+    - B_510_AUDUSD_L5_H5_ordinary
+    - B_510_AUDUSD_L5_H15_gotobi
+    - B_510_AUDUSD_L5_H15_ordinary
+    - B_510_AUDUSD_L5_H30_gotobi
+    - B_510_AUDUSD_L5_H30_ordinary
+    - B_510_AUDUSD_L5_H60_gotobi
+    - B_510_AUDUSD_L5_H60_ordinary
+    - B_510_AUDUSD_L15_H5_gotobi
+    - B_510_AUDUSD_L15_H5_ordinary
+    - B_510_AUDUSD_L15_H15_gotobi
+    - B_510_AUDUSD_L15_H15_ordinary
+    - B_510_AUDUSD_L15_H30_gotobi
+    - B_510_AUDUSD_L15_H30_ordinary
+    - B_510_AUDUSD_L15_H60_gotobi
+    - B_510_AUDUSD_L15_H60_ordinary
+    - B_510_AUDUSD_L30_H5_gotobi
+    - B_510_AUDUSD_L30_H5_ordinary
+    - B_510_AUDUSD_L30_H15_gotobi
+    - B_510_AUDUSD_L30_H15_ordinary
+    - B_510_AUDUSD_L30_H30_gotobi
+    - B_510_AUDUSD_L30_H30_ordinary
+    - B_510_AUDUSD_L30_H60_gotobi
+    - B_510_AUDUSD_L30_H60_ordinary
+    - B_510_AUDUSD_L60_H5_gotobi
+    - B_510_AUDUSD_L60_H5_ordinary
+    - B_510_AUDUSD_L60_H15_gotobi
+    - B_510_AUDUSD_L60_H15_ordinary
+    - B_510_AUDUSD_L60_H30_gotobi
+    - B_510_AUDUSD_L60_H30_ordinary
+    - B_510_AUDUSD_L60_H60_gotobi
+    - B_510_AUDUSD_L60_H60_ordinary
+    - B_510_USDfactor_L5_H5_gotobi
+    - B_510_USDfactor_L5_H5_ordinary
+    - B_510_USDfactor_L5_H15_gotobi
+    - B_510_USDfactor_L5_H15_ordinary
+    - B_510_USDfactor_L5_H30_gotobi
+    - B_510_USDfactor_L5_H30_ordinary
+    - B_510_USDfactor_L5_H60_gotobi
+    - B_510_USDfactor_L5_H60_ordinary
+    - B_510_USDfactor_L15_H5_gotobi
+    - B_510_USDfactor_L15_H5_ordinary
+    - B_510_USDfactor_L15_H15_gotobi
+    - B_510_USDfactor_L15_H15_ordinary
+    - B_510_USDfactor_L15_H30_gotobi
+    - B_510_USDfactor_L15_H30_ordinary
+    - B_510_USDfactor_L15_H60_gotobi
+    - B_510_USDfactor_L15_H60_ordinary
+    - B_510_USDfactor_L30_H5_gotobi
+    - B_510_USDfactor_L30_H5_ordinary
+    - B_510_USDfactor_L30_H15_gotobi
+    - B_510_USDfactor_L30_H15_ordinary
+    - B_510_USDfactor_L30_H30_gotobi
+    - B_510_USDfactor_L30_H30_ordinary
+    - B_510_USDfactor_L30_H60_gotobi
+    - B_510_USDfactor_L30_H60_ordinary
+    - B_510_USDfactor_L60_H5_gotobi
+    - B_510_USDfactor_L60_H5_ordinary
+    - B_510_USDfactor_L60_H15_gotobi
+    - B_510_USDfactor_L60_H15_ordinary
+    - B_510_USDfactor_L60_H30_gotobi
+    - B_510_USDfactor_L60_H30_ordinary
+    - B_510_USDfactor_L60_H60_gotobi
+    - B_510_USDfactor_L60_H60_ordinary
+    - B_595_EURUSD_L5_H5_gotobi
+    - B_595_EURUSD_L5_H5_ordinary
+    - B_595_EURUSD_L5_H15_gotobi
+    - B_595_EURUSD_L5_H15_ordinary
+    - B_595_EURUSD_L5_H30_gotobi
+    - B_595_EURUSD_L5_H30_ordinary
+    - B_595_EURUSD_L5_H60_gotobi
+    - B_595_EURUSD_L5_H60_ordinary
+    - B_595_EURUSD_L15_H5_gotobi
+    - B_595_EURUSD_L15_H5_ordinary
+    - B_595_EURUSD_L15_H15_gotobi
+    - B_595_EURUSD_L15_H15_ordinary
+    - B_595_EURUSD_L15_H30_gotobi
+    - B_595_EURUSD_L15_H30_ordinary
+    - B_595_EURUSD_L15_H60_gotobi
+    - B_595_EURUSD_L15_H60_ordinary
+    - B_595_EURUSD_L30_H5_gotobi
+    - B_595_EURUSD_L30_H5_ordinary
+    - B_595_EURUSD_L30_H15_gotobi
+    - B_595_EURUSD_L30_H15_ordinary
+    - B_595_EURUSD_L30_H30_gotobi
+    - B_595_EURUSD_L30_H30_ordinary
+    - B_595_EURUSD_L30_H60_gotobi
+    - B_595_EURUSD_L30_H60_ordinary
+    - B_595_EURUSD_L60_H5_gotobi
+    - B_595_EURUSD_L60_H5_ordinary
+    - B_595_EURUSD_L60_H15_gotobi
+    - B_595_EURUSD_L60_H15_ordinary
+    - B_595_EURUSD_L60_H30_gotobi
+    - B_595_EURUSD_L60_H30_ordinary
+    - B_595_EURUSD_L60_H60_gotobi
+    - B_595_EURUSD_L60_H60_ordinary
+    - B_595_GBPUSD_L5_H5_gotobi
+    - B_595_GBPUSD_L5_H5_ordinary
+    - B_595_GBPUSD_L5_H15_gotobi
+    - B_595_GBPUSD_L5_H15_ordinary
+    - B_595_GBPUSD_L5_H30_gotobi
+    - B_595_GBPUSD_L5_H30_ordinary
+    - B_595_GBPUSD_L5_H60_gotobi
+    - B_595_GBPUSD_L5_H60_ordinary
+    - B_595_GBPUSD_L15_H5_gotobi
+    - B_595_GBPUSD_L15_H5_ordinary
+    - B_595_GBPUSD_L15_H15_gotobi
+    - B_595_GBPUSD_L15_H15_ordinary
+    - B_595_GBPUSD_L15_H30_gotobi
+    - B_595_GBPUSD_L15_H30_ordinary
+    - B_595_GBPUSD_L15_H60_gotobi
+    - B_595_GBPUSD_L15_H60_ordinary
+    - B_595_GBPUSD_L30_H5_gotobi
+    - B_595_GBPUSD_L30_H5_ordinary
+    - B_595_GBPUSD_L30_H15_gotobi
+    - B_595_GBPUSD_L30_H15_ordinary
+    - B_595_GBPUSD_L30_H30_gotobi
+    - B_595_GBPUSD_L30_H30_ordinary
+    - B_595_GBPUSD_L30_H60_gotobi
+    - B_595_GBPUSD_L30_H60_ordinary
+    - B_595_GBPUSD_L60_H5_gotobi
+    - B_595_GBPUSD_L60_H5_ordinary
+    - B_595_GBPUSD_L60_H15_gotobi
+    - B_595_GBPUSD_L60_H15_ordinary
+    - B_595_GBPUSD_L60_H30_gotobi
+    - B_595_GBPUSD_L60_H30_ordinary
+    - B_595_GBPUSD_L60_H60_gotobi
+    - B_595_GBPUSD_L60_H60_ordinary
+    - B_595_AUDUSD_L5_H5_gotobi
+    - B_595_AUDUSD_L5_H5_ordinary
+    - B_595_AUDUSD_L5_H15_gotobi
+    - B_595_AUDUSD_L5_H15_ordinary
+    - B_595_AUDUSD_L5_H30_gotobi
+    - B_595_AUDUSD_L5_H30_ordinary
+    - B_595_AUDUSD_L5_H60_gotobi
+    - B_595_AUDUSD_L5_H60_ordinary
+    - B_595_AUDUSD_L15_H5_gotobi
+    - B_595_AUDUSD_L15_H5_ordinary
+    - B_595_AUDUSD_L15_H15_gotobi
+    - B_595_AUDUSD_L15_H15_ordinary
+    - B_595_AUDUSD_L15_H30_gotobi
+    - B_595_AUDUSD_L15_H30_ordinary
+    - B_595_AUDUSD_L15_H60_gotobi
+    - B_595_AUDUSD_L15_H60_ordinary
+    - B_595_AUDUSD_L30_H5_gotobi
+    - B_595_AUDUSD_L30_H5_ordinary
+    - B_595_AUDUSD_L30_H15_gotobi
+    - B_595_AUDUSD_L30_H15_ordinary
+    - B_595_AUDUSD_L30_H30_gotobi
+    - B_595_AUDUSD_L30_H30_ordinary
+    - B_595_AUDUSD_L30_H60_gotobi
+    - B_595_AUDUSD_L30_H60_ordinary
+    - B_595_AUDUSD_L60_H5_gotobi
+    - B_595_AUDUSD_L60_H5_ordinary
+    - B_595_AUDUSD_L60_H15_gotobi
+    - B_595_AUDUSD_L60_H15_ordinary
+    - B_595_AUDUSD_L60_H30_gotobi
+    - B_595_AUDUSD_L60_H30_ordinary
+    - B_595_AUDUSD_L60_H60_gotobi
+    - B_595_AUDUSD_L60_H60_ordinary
+    - B_595_USDfactor_L5_H5_gotobi
+    - B_595_USDfactor_L5_H5_ordinary
+    - B_595_USDfactor_L5_H15_gotobi
+    - B_595_USDfactor_L5_H15_ordinary
+    - B_595_USDfactor_L5_H30_gotobi
+    - B_595_USDfactor_L5_H30_ordinary
+    - B_595_USDfactor_L5_H60_gotobi
+    - B_595_USDfactor_L5_H60_ordinary
+    - B_595_USDfactor_L15_H5_gotobi
+    - B_595_USDfactor_L15_H5_ordinary
+    - B_595_USDfactor_L15_H15_gotobi
+    - B_595_USDfactor_L15_H15_ordinary
+    - B_595_USDfactor_L15_H30_gotobi
+    - B_595_USDfactor_L15_H30_ordinary
+    - B_595_USDfactor_L15_H60_gotobi
+    - B_595_USDfactor_L15_H60_ordinary
+    - B_595_USDfactor_L30_H5_gotobi
+    - B_595_USDfactor_L30_H5_ordinary
+    - B_595_USDfactor_L30_H15_gotobi
+    - B_595_USDfactor_L30_H15_ordinary
+    - B_595_USDfactor_L30_H30_gotobi
+    - B_595_USDfactor_L30_H30_ordinary
+    - B_595_USDfactor_L30_H60_gotobi
+    - B_595_USDfactor_L30_H60_ordinary
+    - B_595_USDfactor_L60_H5_gotobi
+    - B_595_USDfactor_L60_H5_ordinary
+    - B_595_USDfactor_L60_H15_gotobi
+    - B_595_USDfactor_L60_H15_ordinary
+    - B_595_USDfactor_L60_H30_gotobi
+    - B_595_USDfactor_L60_H30_ordinary
+    - B_595_USDfactor_L60_H60_gotobi
+    - B_595_USDfactor_L60_H60_ordinary
+    - B_610_EURUSD_L5_H5_gotobi
+    - B_610_EURUSD_L5_H5_ordinary
+    - B_610_EURUSD_L5_H15_gotobi
+    - B_610_EURUSD_L5_H15_ordinary
+    - B_610_EURUSD_L5_H30_gotobi
+    - B_610_EURUSD_L5_H30_ordinary
+    - B_610_EURUSD_L5_H60_gotobi
+    - B_610_EURUSD_L5_H60_ordinary
+    - B_610_EURUSD_L15_H5_gotobi
+    - B_610_EURUSD_L15_H5_ordinary
+    - B_610_EURUSD_L15_H15_gotobi
+    - B_610_EURUSD_L15_H15_ordinary
+    - B_610_EURUSD_L15_H30_gotobi
+    - B_610_EURUSD_L15_H30_ordinary
+    - B_610_EURUSD_L15_H60_gotobi
+    - B_610_EURUSD_L15_H60_ordinary
+    - B_610_EURUSD_L30_H5_gotobi
+    - B_610_EURUSD_L30_H5_ordinary
+    - B_610_EURUSD_L30_H15_gotobi
+    - B_610_EURUSD_L30_H15_ordinary
+    - B_610_EURUSD_L30_H30_gotobi
+    - B_610_EURUSD_L30_H30_ordinary
+    - B_610_EURUSD_L30_H60_gotobi
+    - B_610_EURUSD_L30_H60_ordinary
+    - B_610_EURUSD_L60_H5_gotobi
+    - B_610_EURUSD_L60_H5_ordinary
+    - B_610_EURUSD_L60_H15_gotobi
+    - B_610_EURUSD_L60_H15_ordinary
+    - B_610_EURUSD_L60_H30_gotobi
+    - B_610_EURUSD_L60_H30_ordinary
+    - B_610_EURUSD_L60_H60_gotobi
+    - B_610_EURUSD_L60_H60_ordinary
+    - B_610_GBPUSD_L5_H5_gotobi
+    - B_610_GBPUSD_L5_H5_ordinary
+    - B_610_GBPUSD_L5_H15_gotobi
+    - B_610_GBPUSD_L5_H15_ordinary
+    - B_610_GBPUSD_L5_H30_gotobi
+    - B_610_GBPUSD_L5_H30_ordinary
+    - B_610_GBPUSD_L5_H60_gotobi
+    - B_610_GBPUSD_L5_H60_ordinary
+    - B_610_GBPUSD_L15_H5_gotobi
+    - B_610_GBPUSD_L15_H5_ordinary
+    - B_610_GBPUSD_L15_H15_gotobi
+    - B_610_GBPUSD_L15_H15_ordinary
+    - B_610_GBPUSD_L15_H30_gotobi
+    - B_610_GBPUSD_L15_H30_ordinary
+    - B_610_GBPUSD_L15_H60_gotobi
+    - B_610_GBPUSD_L15_H60_ordinary
+    - B_610_GBPUSD_L30_H5_gotobi
+    - B_610_GBPUSD_L30_H5_ordinary
+    - B_610_GBPUSD_L30_H15_gotobi
+    - B_610_GBPUSD_L30_H15_ordinary
+    - B_610_GBPUSD_L30_H30_gotobi
+    - B_610_GBPUSD_L30_H30_ordinary
+    - B_610_GBPUSD_L30_H60_gotobi
+    - B_610_GBPUSD_L30_H60_ordinary
+    - B_610_GBPUSD_L60_H5_gotobi
+    - B_610_GBPUSD_L60_H5_ordinary
+    - B_610_GBPUSD_L60_H15_gotobi
+    - B_610_GBPUSD_L60_H15_ordinary
+    - B_610_GBPUSD_L60_H30_gotobi
+    - B_610_GBPUSD_L60_H30_ordinary
+    - B_610_GBPUSD_L60_H60_gotobi
+    - B_610_GBPUSD_L60_H60_ordinary
+    - B_610_AUDUSD_L5_H5_gotobi
+    - B_610_AUDUSD_L5_H5_ordinary
+    - B_610_AUDUSD_L5_H15_gotobi
+    - B_610_AUDUSD_L5_H15_ordinary
+    - B_610_AUDUSD_L5_H30_gotobi
+    - B_610_AUDUSD_L5_H30_ordinary
+    - B_610_AUDUSD_L5_H60_gotobi
+    - B_610_AUDUSD_L5_H60_ordinary
+    - B_610_AUDUSD_L15_H5_gotobi
+    - B_610_AUDUSD_L15_H5_ordinary
+    - B_610_AUDUSD_L15_H15_gotobi
+    - B_610_AUDUSD_L15_H15_ordinary
+    - B_610_AUDUSD_L15_H30_gotobi
+    - B_610_AUDUSD_L15_H30_ordinary
+    - B_610_AUDUSD_L15_H60_gotobi
+    - B_610_AUDUSD_L15_H60_ordinary
+    - B_610_AUDUSD_L30_H5_gotobi
+    - B_610_AUDUSD_L30_H5_ordinary
+    - B_610_AUDUSD_L30_H15_gotobi
+    - B_610_AUDUSD_L30_H15_ordinary
+    - B_610_AUDUSD_L30_H30_gotobi
+    - B_610_AUDUSD_L30_H30_ordinary
+    - B_610_AUDUSD_L30_H60_gotobi
+    - B_610_AUDUSD_L30_H60_ordinary
+    - B_610_AUDUSD_L60_H5_gotobi
+    - B_610_AUDUSD_L60_H5_ordinary
+    - B_610_AUDUSD_L60_H15_gotobi
+    - B_610_AUDUSD_L60_H15_ordinary
+    - B_610_AUDUSD_L60_H30_gotobi
+    - B_610_AUDUSD_L60_H30_ordinary
+    - B_610_AUDUSD_L60_H60_gotobi
+    - B_610_AUDUSD_L60_H60_ordinary
+    - B_610_USDfactor_L5_H5_gotobi
+    - B_610_USDfactor_L5_H5_ordinary
+    - B_610_USDfactor_L5_H15_gotobi
+    - B_610_USDfactor_L5_H15_ordinary
+    - B_610_USDfactor_L5_H30_gotobi
+    - B_610_USDfactor_L5_H30_ordinary
+    - B_610_USDfactor_L5_H60_gotobi
+    - B_610_USDfactor_L5_H60_ordinary
+    - B_610_USDfactor_L15_H5_gotobi
+    - B_610_USDfactor_L15_H5_ordinary
+    - B_610_USDfactor_L15_H15_gotobi
+    - B_610_USDfactor_L15_H15_ordinary
+    - B_610_USDfactor_L15_H30_gotobi
+    - B_610_USDfactor_L15_H30_ordinary
+    - B_610_USDfactor_L15_H60_gotobi
+    - B_610_USDfactor_L15_H60_ordinary
+    - B_610_USDfactor_L30_H5_gotobi
+    - B_610_USDfactor_L30_H5_ordinary
+    - B_610_USDfactor_L30_H15_gotobi
+    - B_610_USDfactor_L30_H15_ordinary
+    - B_610_USDfactor_L30_H30_gotobi
+    - B_610_USDfactor_L30_H30_ordinary
+    - B_610_USDfactor_L30_H60_gotobi
+    - B_610_USDfactor_L30_H60_ordinary
+    - B_610_USDfactor_L60_H5_gotobi
+    - B_610_USDfactor_L60_H5_ordinary
+    - B_610_USDfactor_L60_H15_gotobi
+    - B_610_USDfactor_L60_H15_ordinary
+    - B_610_USDfactor_L60_H30_gotobi
+    - B_610_USDfactor_L60_H30_ordinary
+    - B_610_USDfactor_L60_H60_gotobi
+    - B_610_USDfactor_L60_H60_ordinary
+    - B_715_EURUSD_L5_H5_gotobi
+    - B_715_EURUSD_L5_H5_ordinary
+    - B_715_EURUSD_L5_H15_gotobi
+    - B_715_EURUSD_L5_H15_ordinary
+    - B_715_EURUSD_L5_H30_gotobi
+    - B_715_EURUSD_L5_H30_ordinary
+    - B_715_EURUSD_L5_H60_gotobi
+    - B_715_EURUSD_L5_H60_ordinary
+    - B_715_EURUSD_L15_H5_gotobi
+    - B_715_EURUSD_L15_H5_ordinary
+    - B_715_EURUSD_L15_H15_gotobi
+    - B_715_EURUSD_L15_H15_ordinary
+    - B_715_EURUSD_L15_H30_gotobi
+    - B_715_EURUSD_L15_H30_ordinary
+    - B_715_EURUSD_L15_H60_gotobi
+    - B_715_EURUSD_L15_H60_ordinary
+    - B_715_EURUSD_L30_H5_gotobi
+    - B_715_EURUSD_L30_H5_ordinary
+    - B_715_EURUSD_L30_H15_gotobi
+    - B_715_EURUSD_L30_H15_ordinary
+    - B_715_EURUSD_L30_H30_gotobi
+    - B_715_EURUSD_L30_H30_ordinary
+    - B_715_EURUSD_L30_H60_gotobi
+    - B_715_EURUSD_L30_H60_ordinary
+    - B_715_EURUSD_L60_H5_gotobi
+    - B_715_EURUSD_L60_H5_ordinary
+    - B_715_EURUSD_L60_H15_gotobi
+    - B_715_EURUSD_L60_H15_ordinary
+    - B_715_EURUSD_L60_H30_gotobi
+    - B_715_EURUSD_L60_H30_ordinary
+    - B_715_EURUSD_L60_H60_gotobi
+    - B_715_EURUSD_L60_H60_ordinary
+    - B_715_GBPUSD_L5_H5_gotobi
+    - B_715_GBPUSD_L5_H5_ordinary
+    - B_715_GBPUSD_L5_H15_gotobi
+    - B_715_GBPUSD_L5_H15_ordinary
+    - B_715_GBPUSD_L5_H30_gotobi
+    - B_715_GBPUSD_L5_H30_ordinary
+    - B_715_GBPUSD_L5_H60_gotobi
+    - B_715_GBPUSD_L5_H60_ordinary
+    - B_715_GBPUSD_L15_H5_gotobi
+    - B_715_GBPUSD_L15_H5_ordinary
+    - B_715_GBPUSD_L15_H15_gotobi
+    - B_715_GBPUSD_L15_H15_ordinary
+    - B_715_GBPUSD_L15_H30_gotobi
+    - B_715_GBPUSD_L15_H30_ordinary
+    - B_715_GBPUSD_L15_H60_gotobi
+    - B_715_GBPUSD_L15_H60_ordinary
+    - B_715_GBPUSD_L30_H5_gotobi
+    - B_715_GBPUSD_L30_H5_ordinary
+    - B_715_GBPUSD_L30_H15_gotobi
+    - B_715_GBPUSD_L30_H15_ordinary
+    - B_715_GBPUSD_L30_H30_gotobi
+    - B_715_GBPUSD_L30_H30_ordinary
+    - B_715_GBPUSD_L30_H60_gotobi
+    - B_715_GBPUSD_L30_H60_ordinary
+    - B_715_GBPUSD_L60_H5_gotobi
+    - B_715_GBPUSD_L60_H5_ordinary
+    - B_715_GBPUSD_L60_H15_gotobi
+    - B_715_GBPUSD_L60_H15_ordinary
+    - B_715_GBPUSD_L60_H30_gotobi
+    - B_715_GBPUSD_L60_H30_ordinary
+    - B_715_GBPUSD_L60_H60_gotobi
+    - B_715_GBPUSD_L60_H60_ordinary
+    - B_715_AUDUSD_L5_H5_gotobi
+    - B_715_AUDUSD_L5_H5_ordinary
+    - B_715_AUDUSD_L5_H15_gotobi
+    - B_715_AUDUSD_L5_H15_ordinary
+    - B_715_AUDUSD_L5_H30_gotobi
+    - B_715_AUDUSD_L5_H30_ordinary
+    - B_715_AUDUSD_L5_H60_gotobi
+    - B_715_AUDUSD_L5_H60_ordinary
+    - B_715_AUDUSD_L15_H5_gotobi
+    - B_715_AUDUSD_L15_H5_ordinary
+    - B_715_AUDUSD_L15_H15_gotobi
+    - B_715_AUDUSD_L15_H15_ordinary
+    - B_715_AUDUSD_L15_H30_gotobi
+    - B_715_AUDUSD_L15_H30_ordinary
+    - B_715_AUDUSD_L15_H60_gotobi
+    - B_715_AUDUSD_L15_H60_ordinary
+    - B_715_AUDUSD_L30_H5_gotobi
+    - B_715_AUDUSD_L30_H5_ordinary
+    - B_715_AUDUSD_L30_H15_gotobi
+    - B_715_AUDUSD_L30_H15_ordinary
+    - B_715_AUDUSD_L30_H30_gotobi
+    - B_715_AUDUSD_L30_H30_ordinary
+    - B_715_AUDUSD_L30_H60_gotobi
+    - B_715_AUDUSD_L30_H60_ordinary
+    - B_715_AUDUSD_L60_H5_gotobi
+    - B_715_AUDUSD_L60_H5_ordinary
+    - B_715_AUDUSD_L60_H15_gotobi
+    - B_715_AUDUSD_L60_H15_ordinary
+    - B_715_AUDUSD_L60_H30_gotobi
+    - B_715_AUDUSD_L60_H30_ordinary
+    - B_715_AUDUSD_L60_H60_gotobi
+    - B_715_AUDUSD_L60_H60_ordinary
+    - B_715_USDfactor_L5_H5_gotobi
+    - B_715_USDfactor_L5_H5_ordinary
+    - B_715_USDfactor_L5_H15_gotobi
+    - B_715_USDfactor_L5_H15_ordinary
+    - B_715_USDfactor_L5_H30_gotobi
+    - B_715_USDfactor_L5_H30_ordinary
+    - B_715_USDfactor_L5_H60_gotobi
+    - B_715_USDfactor_L5_H60_ordinary
+    - B_715_USDfactor_L15_H5_gotobi
+    - B_715_USDfactor_L15_H5_ordinary
+    - B_715_USDfactor_L15_H15_gotobi
+    - B_715_USDfactor_L15_H15_ordinary
+    - B_715_USDfactor_L15_H30_gotobi
+    - B_715_USDfactor_L15_H30_ordinary
+    - B_715_USDfactor_L15_H60_gotobi
+    - B_715_USDfactor_L15_H60_ordinary
+    - B_715_USDfactor_L30_H5_gotobi
+    - B_715_USDfactor_L30_H5_ordinary
+    - B_715_USDfactor_L30_H15_gotobi
+    - B_715_USDfactor_L30_H15_ordinary
+    - B_715_USDfactor_L30_H30_gotobi
+    - B_715_USDfactor_L30_H30_ordinary
+    - B_715_USDfactor_L30_H60_gotobi
+    - B_715_USDfactor_L30_H60_ordinary
+    - B_715_USDfactor_L60_H5_gotobi
+    - B_715_USDfactor_L60_H5_ordinary
+    - B_715_USDfactor_L60_H15_gotobi
+    - B_715_USDfactor_L60_H15_ordinary
+    - B_715_USDfactor_L60_H30_gotobi
+    - B_715_USDfactor_L60_H30_ordinary
+    - B_715_USDfactor_L60_H60_gotobi
+    - B_715_USDfactor_L60_H60_ordinary
+    secondary: Per-year/quantile/latency estimates descriptive; no independent p claims
+  controls: Prior USDJPY same-lookback, weekday and year. No contemporaneous returns
+    as causal controls. HAC5 and calendar-month cluster95CI. Scale on2020-23 only.
+  USDfactor: negative equal-weight EURUSD GBPUSD AUDUSD log returns, fixed1/3weights
+  initial_capital_usd: 10000
+  gross_usd_limit: 10000
+  no_compounding: true
+  candidates:
+  - - C1_USD_confirmed_short
+    - -1
+    - 595
+    - 611
+    - null
+  - - C2_USD_neutral_EUR_hedge
+    - -1
+    - 595
+    - 611
+    - EURUSD
+  - - C3_cross_basket
+    - -1
+    - 595
+    - 611
+    - cross
+  benchmarks:
+  - - B_original_long
+    - 510
+    - 594
+    - 1
+  - - B_original_short
+    - 596
+    - 610
+    - -1
+  latency_minutes:
+  - 1
+  - 2
+  - 5
+  qualification_specificity: No10:10 or11:55 external factor Holm significance in
+    same direction, and matched primary-minus-placebo increment positive; otherwise
+    fail specificity gate.
+  candidate_family: 3 planned including source-ineligible cross; no parameter optimization.
+    All markouts event diagnostics.
+  native_policy: Only qualified candidate uses native Engine NEXT_BAR; currency quote
+    ledgers independently translated USD; no scalar mixed quote P&L sum.
+baseline: Same-time ordinary Tokyo bank days, unconditional Gotobi, originalProgram1
+  long08:30-09:54/short09:56-10:10 markouts, cash0
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  round_trip_pips_per_leg:
+  - 1
+  - 2
+  - 3
+  source: Hypothetical aggregate spread+fee+slippage scenarios; no executable historical
+    broker quote evidence
+  funding: Intraday no rollover modeled; actual broker terms UNKNOWN
+  impact: USD10000 very small research notional; no measured venue ADV or broker TCA,
+    capacity UNKNOWN
+trials:
+- id: T1_quality
+  kind: diagnostic
+  description: Per-symbol yearly quality, minute/day coverage and synchronized source
+    identities
+- id: T2_flow
+  kind: diagnostic
+  description: 16 flow contrasts with weekday/year controls, HAC and month clusters
+- id: T3_decomposition
+  kind: diagnostic
+  description: Independent source eligibility and triangle identity; partial USD/JPY
+    identification
+- id: T4_leadlag
+  kind: diagnostic
+  description: All 640 external feature tests plus native Evaluator annual expanding
+    folds
+- id: T5_candidates
+  kind: diagnostic
+  description: Three declared candidates and original long/short ordinary/cash event
+    benchmarks, costs and latency
+- id: T6_native_disposition
+  kind: diagnostic
+  description: Native Engine only if frozen candidate qualification; otherwise no-qualifier
+    rationale
+- id: T7_verification
+  kind: diagnostic
+  description: Independent raw source feature and label price oracle, exposure tests,
+    hashes and preservation
+evidence:
+- run_log/tokyo_fix_program2_cross_currency_20261011_v1/source_manifest.json
+- run_log/tokyo_fix_program2_cross_currency_20261011_v1/calendar_manifest.json
+- run_log/tokyo_fix_program2_cross_currency_20261011_v1/methodology.json
+- run_log/tokyo_fix_program2_cross_currency_20261011_v1/provenance_audit.json
+- run_log/tokyo_fix_program2_cross_currency_20261011_v1/preservation_before.json

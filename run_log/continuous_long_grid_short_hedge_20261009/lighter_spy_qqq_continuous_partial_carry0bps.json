@@ -1,0 +1,261 @@
+{
+  "actual_first_bar": "2026-02-22 00:00:00+00:00",
+  "actual_last_bar": "2026-10-09 07:38:00+00:00",
+  "assumed_gross_carry_bps_per_day": 0.0,
+  "bars": 330219,
+  "calendar_days": 229.31875,
+  "calibration_hourly_bars": 727,
+  "caveat": "OHLCV limit penetration + shared-volume proxy, not proven maker execution, queue rank, Arcus fill rate or points. No liquidation engine. Two venues are separate experiments.",
+  "dataset_location": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP",
+  "full_run_config": {
+    "capital": {
+      "global_drawdown_usdc": 200.0,
+      "leverage": 10.0,
+      "margin_reserve": 0.0,
+      "max_gross_usdc": 6000.0,
+      "max_marked_gross_usdc": 6000.0,
+      "max_per_leg_usdc": 2000.0,
+      "note": "$600 isolated research margin at 10x; $6000 is a hard maximum gross notional, NOT available cash. Independent A 20x$100 per side reserves $4000 of $6000 capacity; A4 uses $2000 primary ladder plus dynamic hedge with remaining headroom. No valid exchange liquidation simulation; stop-loss triggers sooner.",
+      "peak_to_trough_stop_usdc": 200.0,
+      "starting_cash_usdc": 600.0
+    },
+    "caveat": "No valid queue-model maker-fill guarantee, points or real funding history; later holdout previously seen in other strategies but not Hyperliquid 20-level A/B.",
+    "evaluation": {
+      "beta": "14-day trailing 1h SP500 versus XYZ100 log returns, one-hour lag",
+      "calibration_end_utc": "2026-02-22T00:00:00+00:00",
+      "caveat": "Chronologically later than development, but the August-October market regime was examined in prior SPY/QQQ research; do not claim a pristine untouched holdout.",
+      "development_end_utc": "2026-08-01T00:00:00+00:00",
+      "development_start_utc": "2026-05-01T00:00:00+00:00",
+      "later_end_utc": "2026-10-09T00:00:00+00:00",
+      "later_is_fresh": false,
+      "later_start_utc": "2026-08-01T00:00:00+00:00"
+    },
+    "execution": {
+      "carry_bps_per_day": 0.0,
+      "commission_bps": 0.0,
+      "emergency_taker_cost_bps": 4.25,
+      "fill_ambiguous_high_low_convention": "Native engine sees both extremes without chronology. Report as unresolved.",
+      "fill_model": "ml4t-backtest native NEXT_BAR LIMIT, 1 tick penetration and shared per-asset per-minute volume budget",
+      "volume_participation": 0.1,
+      "zero_volume_no_fill": true
+    },
+    "falsifier": "Volume advantage disappears after fill-participation constraints, inventory stop, or carrying costs; incomplete inventory persists in either market.",
+    "order": {
+      "beta_smoothing": 0.1,
+      "beta_update_minutes": 60,
+      "clip_usdc": 100.0,
+      "first_level_bps": 2.0,
+      "hedge_activation_clip_usdc": 100.0,
+      "hedge_beta_max": 1.5,
+      "hedge_beta_min": 0.1,
+      "hedge_quote_offset_bps": 1.0,
+      "limit_penetration_ticks": 1,
+      "maker_exit_offset_bps": 1.0,
+      "maximum_exit_delay_minutes": 10080,
+      "minimum_price_tick": 0.01,
+      "n_levels": 20,
+      "net_breakeven_reserve_usdc": 0.05,
+      "quantity_rounding": 1e-06,
+      "step_bps": 25.0
+    },
+    "primary_metric": "Completed candidate maker volume per USD maximum drawdown",
+    "secondary_metrics": [
+      "total_candidate_maker_volume",
+      "completed_volume",
+      "full_and_partial_fills",
+      "peak_open_and_reserved_notional",
+      "max_drawdown",
+      "unfinished_inventory",
+      "funding_cost_sensitivity",
+      "stop_loss_trigger",
+      "completed_cycles",
+      "holding_time"
+    ],
+    "sensitivity": [
+      "5 bps/day gross holding cost on pre-specified baseline A and A4, after base development run",
+      "No OOS-tuned grid spacing or clipping changes"
+    ],
+    "session_id": "hyperliquid_xyz_20level_anchored_volume_ab_20261009",
+    "source": {
+      "contracts_actual": [
+        "Lighter SPY/USDC:USDC",
+        "Lighter QQQ/USDC:USDC"
+      ],
+      "first_utc": "2026-04-14T00:00:00+00:00",
+      "last_utc": "2026-10-08T23:59:00+00:00",
+      "provider": "CryptoHFTData-derived Hyperliquid HIP3 1m OHLCV",
+      "root": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP",
+      "source_contracts": [
+        "XYZ:SP500",
+        "XYZ:XYZ100"
+      ],
+      "symbols": [
+        "SP500",
+        "XYZ100"
+      ]
+    },
+    "status": "EXPLORATORY_NOT_APPROVED",
+    "thesis": "Compare full fixed-anchor 20x$100 entry ladders for independent SP500-long/XYZ100-short cycles against a dynamic beta-hedged SP500-long linked cycle.",
+    "trials": [
+      {
+        "arm": "dynamic_hedge",
+        "id": "LONG20_DYNAMIC_SHORT_HEDGE",
+        "partial_fills": true,
+        "subbasket": false
+      }
+    ]
+  },
+  "initial_beta": 0.2976247240451285,
+  "no_calendar_restart": true,
+  "partial_fills": true,
+  "research_config": {
+    "acceptance": [
+      "20 anchored $100 LONG limit levels; SHORT may not exist until LONG fill",
+      "Only a linked paired basket, no independently resetting SHORT grid",
+      "Continuous 160+ / 220+ day studies with no month/phase account reset",
+      "Exit at modeled linked net breakeven, forced stop excluded from clean cycle",
+      "Record incomplete inventory and its age even when no exit occurs",
+      "Record qualifying maker candidates vs actual unobservable fills",
+      "Never modify live Arcus account or controller"
+    ],
+    "datasets": [
+      {
+        "calibration_end_exclusive": "2026-05-01T00:00:00+00:00",
+        "exact_contracts": [
+          "Hyperliquid XYZ:SP500",
+          "Hyperliquid XYZ:XYZ100"
+        ],
+        "id": "hyperliquid_hip3",
+        "logical_long": "SP500",
+        "logical_short": "XYZ100",
+        "path": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_HYPERLIQUID_XYZ_PERP",
+        "price_tick": 0.1,
+        "trading_end_exclusive": "2026-10-09T00:00:00+00:00",
+        "trading_start": "2026-05-01T00:00:00+00:00"
+      },
+      {
+        "calibration_end_exclusive": "2026-02-22T00:00:00+00:00",
+        "comparability_caveat": "A different synthetic ETF perpetual market, not a continuous history of Hyperliquid index contracts.",
+        "exact_contracts": [
+          "Lighter SPY/USDC:USDC",
+          "Lighter QQQ/USDC:USDC"
+        ],
+        "id": "lighter_spy_qqq",
+        "logical_long": "SPY",
+        "logical_short": "QQQ",
+        "path": "/home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP",
+        "price_tick": 0.01,
+        "trading_end_exclusive": "2026-10-09T07:39:00+00:00",
+        "trading_start": "2026-02-22T00:00:00+00:00"
+      }
+    ],
+    "economic_thesis": "20 fixed anchored SP500/SPY buy limits stack $100 each. Only after actual long fills, use dynamic-beta-adjusted XYZ100/QQQ short maker orders as risk hedge, never a standalone short grid. Hold the linked basket until joint projected maker breakeven; do not reset at month/development/OOS boundaries.",
+    "execution": {
+      "baseline_maker_fee_bps": 0.0,
+      "emergency_taker_cost_bps": 4.25,
+      "engine": "installed ml4t.backtest.Engine NEXT_BAR limit model",
+      "funding_scenarios_bps_per_day_on_gross": [
+        0.0,
+        5.0
+      ],
+      "no_end_of_sample_liquidation": true,
+      "no_queue_claim": true,
+      "participation_fraction_of_total_1m_volume": 0.1,
+      "penetration_ticks": 1
+    },
+    "falsifier": "Long inventory fails to close over extended history, funding overwhelms price path, passive hedge fails to fill, or $200 risk threshold stops strategy before sustainable volume.",
+    "mechanism": "Accumulate passive long inventory on adverse prices, reduce common market exposure with correlated short positions, and seek maker-only joint-basket breakeven exit; eligible maker activity, not standalone PnL, is the intended reward proxy.",
+    "portfolio": {
+      "global_live_limit": "not modified, standalone simulation cannot override existing account-wide risk rules",
+      "hedge_clips_usdc": 100.0,
+      "leverage_limit": 10.0,
+      "long_clip_usdc": 100.0,
+      "long_levels": 20,
+      "long_max_plus_pending_usdc": 2000.0,
+      "max_gross_notional_usdc": 6000.0,
+      "max_short_plus_pending_usdc": 2000.0,
+      "no_forced_end_liquidation": true,
+      "peak_to_trough_and_starting_loss_stop_usdc": 200.0,
+      "preserve_positions_through_calendar_boundaries": true,
+      "research_margin_usdc": 600.0,
+      "short_type": "hedge_only_after_long_fill"
+    },
+    "session_id": "continuous_long_grid_short_hedge_20261009",
+    "status": "EXPLORATORY_NOT_APPROVED"
+  },
+  "results": {
+    "assumed_carry_paid": 0.0,
+    "candidate_maker_volume": 4791.816,
+    "completed_volume": 2415.465,
+    "cycles": {
+      "pair": {
+        "completed_net": 12.5968,
+        "completed_volume": 2415.465,
+        "cycles": 2,
+        "first_anchor": {
+          "SP500": 688.3,
+          "XYZ100": 607.18
+        },
+        "holding_minutes_median": 34520.0,
+        "holding_minutes_p95": 64555.7,
+        "latest_anchor": {
+          "SP500": 683.4,
+          "XYZ100": 612.89
+        },
+        "longest_completed_holding_minutes_approx": 67893,
+        "negative_completed_cycles": 0,
+        "open_basket_age_minutes_approx": 259687,
+        "open_cycle_mark_pnl": -11.401,
+        "open_inventory_value": {
+          "SP500": 0.0,
+          "XYZ100": -135.9
+        },
+        "open_signed_qty": {
+          "SP500": 8e-07,
+          "XYZ100": -0.180226
+        },
+        "open_subbaskets": 0
+      }
+    },
+    "elapsed_seconds": 23.7,
+    "end_equity_ex_points": 601.1957,
+    "entry_fill_events": 171,
+    "exit_fill_events": 17,
+    "fill_model_limitations": "Candle high/low does not establish price order, maker queue or fill eligibility; 10% combined base-volume budget is a research assumption",
+    "gap_restarts": 0,
+    "hedge_fill_events": 32,
+    "largest_unhedged_target_deficit": 643.27,
+    "leverage_assumed": 10.0,
+    "maker_fill_events": 220,
+    "max_drawdown_usdc": 60.3034,
+    "maximum_beta_residual": 657.69,
+    "maximum_open_gross": 1251.83,
+    "maximum_reserved_entry_notional": 2000.0,
+    "maximum_reserved_plus_open_gross": 2551.83,
+    "maximum_resting_entry_orders": 20,
+    "net_pnl_ex_points": 1.1957,
+    "partial_fill_events": 191,
+    "rejected_orders": 57,
+    "risk_halt": false,
+    "risk_halt_bar": null,
+    "risk_halt_reason": null,
+    "risk_halt_utc": null,
+    "shared_bar_budget_max_overshoot": 0.0,
+    "starting_margin_usdc": 600.0,
+    "taker_emergency_cost": 0.0,
+    "taker_emergency_notional": 0.0,
+    "uncertain_asset_fill_blocks": 259,
+    "variant": "LONG20_DYNAMIC_SHORT_HEDGE",
+    "volume_per_drawdown": 40.055
+  },
+  "rolling_beta_calibrated_on_past": true,
+  "session_id": "continuous_long_grid_short_hedge_20261009",
+  "source_contracts": [
+    "Lighter SPY/USDC:USDC",
+    "Lighter QQQ/USDC:USDC"
+  ],
+  "status": "EXPLORATORY_NOT_APPROVED",
+  "trading_end_exclusive": "2026-10-09T07:39:00+00:00",
+  "trading_start": "2026-02-22T00:00:00+00:00",
+  "venue": "lighter_spy_qqq"
+}

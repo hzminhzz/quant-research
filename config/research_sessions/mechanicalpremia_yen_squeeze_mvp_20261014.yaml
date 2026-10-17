@@ -1,0 +1,108 @@
+session_id: mechanicalpremia-yen-squeeze-mvp-20261014
+market: fx
+thesis: >-
+  Fixed low-ATR breakout rules on three JPY crosses can harvest persistent
+  directional moves after volatility contraction, net of execution costs.
+mechanism: >-
+  Carry and macro positioning may create sustained yen-cross directional
+  flows; quiet ATR windows may precede expansion, but also produce whipsaws.
+falsifier: >-
+  Reject if primary code-faithful 20-hour breakout has nonpositive aggregate
+  net expectancy or daily-equity Sharpe in verified 2023-2024 development,
+  if profits disappear under 2x costs, or if gains are confined to one
+  instrument or year. INCONCLUSIVE when absent CADJPY, source ambiguity,
+  bid/ask/contract conversion, clock or engine fidelity preclude the full
+  three-cross claim. Never use 2025 onward or relabel observed data OOS.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: Canonical USDJPY FX price proxy; USD base JPY quote; unverified broker lot, margin, swap and spread.
+    session: 24/5 FX, weekends closed; true holidays and rollover require verification
+    timezone: UTC
+  - symbol: GBPJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: Dukascopy legacy bid-only GBPJPY OHLC price proxy; GBP base JPY quote; UTC clock assumption.
+    session: 24/5 FX, weekends closed; true holidays and rollover require verification
+    timezone: UTC
+  - symbol: CADJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: Required source instrument; no verified canonical source identified; never substitute synthetic CADJPY.
+    session: 24/5 FX, weekends closed; unverified
+    timezone: UTC
+data:
+  - id: usdjpy-dev-1m
+    symbol: USDJPY
+    role: prices
+    path: data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/USDJPY_2023_2024_1m.parquet
+  - id: gbpjpy-dev-1m
+    symbol: GBPJPY
+    role: prices
+    path: data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/GBPJPY_2023_2024_1m.parquet
+evaluation:
+  development_start: "2023-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  no_holdout_access: true
+  clock: >-
+    Use complete 60-minute UTC H1 bars made from 1m bar-open observations.
+    Signal at last closed H1; contingent stop orders effective only AFTER
+    decision. Fill stop on later eligible 1m bid/ask prices, at worse of
+    stop price and gap open; cancellation after one H1. Conservative ambiguity.
+  signal: >-
+    ATR14 below median of preceding/last 100 completed ATR observations
+    (source parity must decide exact indexing). H1 high/low channels exclude
+    unfinished bar. Original MQL5 lookback_bars=20 versus prose 500.
+    Only one live exposure per source pair. Bidirectional source rules.
+  exit: >-
+    Initial stop 2 ATR14; trail using only completed H1 ATR and eligible 1m
+    marks, ratchet monotonically; do not invent intrabar order.
+  sizing: >-
+    Source 1 percent balance risk to initial stop with broker-contract size,
+    leverage, currency conversion and margin explicitly reconciled. No
+    claimed execution equivalence without observed broker instrument terms.
+  evaluation_periods: 2023 and 2024, no outcomes used to select parameters.
+  metrics: >-
+    Trades, win rate, net expectancy/PnL, marked daily-equity Sharpe,
+    Calmar, max drawdown, 2023/2024, cost stress, attempts and uncertainty.
+baseline: Zero-exposure cash, source code 20-bar single-pair and two-pair aggregated comparator.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  assumed_roundtrip_pips: 2.0
+  sensitivity_roundtrip_pips: [2.0, 4.0, 6.0]
+  assumptions: >-
+    Exploration-only all-in 2 pip round trip cost proxy inclusive of
+    commission, spread, slippage; stress 4 and 6 pips. Separately record
+    financing as unverified. No claims of broker-level cost realism.
+trials:
+  - id: SOURCE-PARITY
+    kind: preregistered
+    description: Archive and audit original source code versus article 20 vs 500; stop/entry/clock and risk rules.
+  - id: DATA-ELIGIBILITY
+    kind: preregistered
+    description: Verify 1m USDJPY GBPJPY source and timestamp semantics, gaps, and missing CADJPY.
+  - id: FEATURE-PARITY
+    kind: preregistered
+    description: Verify native ml4t-engineer ATR14, historical rolling median and previous-channel extrema with independent bounded examples.
+  - id: USDJPY-20
+    kind: preregistered
+    description: Run original code 20-bar USDJPY long/short native ml4t-backtest with full accounting and cost stress.
+  - id: GBPJPY-20
+    kind: preregistered
+    description: Run original code 20-bar GBPJPY long/short native ml4t-backtest with full accounting and cost stress.
+  - id: TWO-PAIR-20
+    kind: preregistered
+    description: Run source rules on both eligible JPY pairs in one native engine with cash risk and shared exposure accounting.
+  - id: PROSE-500
+    kind: preregistered
+    description: Separate 500-hour prose interpretation comparison, not an optimized replacement or source-code replication.
+  - id: ACCOUNTING-AUDIT
+    kind: preregistered
+    description: Independent spot-check signal/fill clock, pending validity, position sizes, stops, cash, positions and equity.
+evidence:
+  - scripts/materialize_mechanicalpremia_yen_squeeze_mvp_20261014.py
+  - data/processed/mechanicalpremia_yen_squeeze_mvp_20261014/source_manifest.json
+  - run_log/validation_status.json

@@ -1,0 +1,98 @@
+session_id: btc_eth_maker_kalman_20261006
+market: crypto
+thesis: >-
+  A maker-first BTC/ETH perpetual pair trade can capture mean reversion in online
+  Kalman residuals after execution costs over the fixed 2026-01-01 through
+  2026-01-03 exploratory window.
+mechanism: >-
+  Short-lived relative-price dislocations may revert as liquidity providers and
+  arbitrageurs restore the BTC/ETH relationship. Passive orders can reduce fees,
+  while adverse selection and emergency taker hedges can remove that benefit.
+falsifier: >-
+  Reject or leave unsupported if confirmed, flat-to-flat trade PnL does not
+  reconcile to engine realized PnL, if net PnL is non-positive after the declared
+  fees and execution, or if asynchronous orders create overlapping or unhedged
+  exposure. This three-day observed window is exploratory and is not a holdout.
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: USDT-margined linear perpetual; multiplier 1; tick 0.1; lot 0.001
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: USDT-margined linear perpetual; multiplier 1; tick 0.01; lot 0.01
+data:
+  - id: btc_20260101_tick_bbo
+    symbol: BTCUSDT
+    role: prices
+    path: data/hftbacktest/btcusdt_20260101.npz
+  - id: btc_20260102_tick_bbo
+    symbol: BTCUSDT
+    role: prices
+    path: data/hftbacktest/btcusdt_20260102.npz
+  - id: btc_20260103_tick_bbo
+    symbol: BTCUSDT
+    role: prices
+    path: data/hftbacktest/btcusdt_20260103.npz
+  - id: eth_20260101_tick_bbo
+    symbol: ETHUSDT
+    role: prices
+    path: data/hftbacktest/ethusdt_20260101.npz
+  - id: eth_20260102_tick_bbo
+    symbol: ETHUSDT
+    role: prices
+    path: data/hftbacktest/ethusdt_20260102.npz
+  - id: eth_20260103_tick_bbo
+    symbol: ETHUSDT
+    role: prices
+    path: data/hftbacktest/ethusdt_20260103.npz
+evaluation:
+  cadence: 1s engine steps
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-01-04T00:00:00Z"
+  plan: >-
+    Run one continuous engine and capital account on 2026-01-01 through
+    2026-01-03. Do not tune parameters. Record order confirmations, flat exits,
+    per-trade accounting, costs, attribution residuals, and limitations.
+  strategy_parameters:
+    signal: Online Kalman residual mean reversion with maker-first microstructure execution.
+    abs_z_entry: 2.5
+    zero_cross_exit: true
+    z_stop: 3.5
+    max_hold_seconds: 360
+    cooldown_seconds: 60
+    re_peg_seconds: 10
+    emergency_hedge_seconds: 25
+    latency_ms: 10
+    queue_model: risk-adverse
+    maker_fee_bps: 0.0
+    taker_fee_bps: 4.0
+baseline: No trade; zero PnL. Compare execution and accounting against the preserved historical one-week artifact only as a historical review.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  maker_fee_bps: 0.0
+  taker_fee_bps: 4.0
+  spread_and_crossing: Measured from simulated execution; unresolved execution shortfall remains in reconciliation residual.
+  funding_included: false
+  assumptions: >-
+    No funding cash flows are implemented. Queue model is risk-adverse. Engine
+    latency is 10 ms. Maker orders use zero fee; emergency taker orders use four
+    basis points. Data contains tick trades plus best bid/offer derived from a
+    top10 source, not full top10 L2 depth.
+trials:
+  - id: continuous_three_day_execution_accounting
+    kind: preregistered
+    description: >-
+      Fixed-parameter execution and accounting audit over three continuous days.
+      This observed period is exploratory, not a holdout, and is not optimized.
+  - id: historical_one_week_accounting_review
+    kind: historical_review
+    description: >-
+      Preserve the original one-week result and assess its accounting validity.
+      Historical evidence is already observed and is not preregistered.
+    artifact: run_log/btc_eth_pair_trading_scalp/hftbacktest_official_1week_results.json
+evidence:
+  - scripts/run_hftbacktest_btc_eth_pair.py
+  - scripts/prepare_hftbacktest_data.py

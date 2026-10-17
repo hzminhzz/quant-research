@@ -1,0 +1,104 @@
+# Research session specification: Time-Series Momentum Trend Persistence
+# Assets: BTCUSDT, ETHUSDT, SOLUSDT on Binance USD-M Futures (1H bars)
+session_id: crypto_tsmom_trend_persistence
+market: crypto
+
+thesis: >-
+  Time-Series Momentum (TSMOM) generates positive risk-adjusted returns across major crypto perpetuals
+  (BTCUSDT, ETHUSDT, SOLUSDT) because directional trends exhibit persistence over multi-day horizons
+  after realistic taker commissions (4.5 bps), slippage (1.5 bps), and 8-hour funding cash flows.
+
+mechanism: >-
+  1. Information Underreaction & Capital Constraints: Retail and institutional participants adjust positions
+     gradually rather than instantaneously, creating multi-day return autocorrelation.
+  2. Forced Liquidation Spirals: Highly leveraged positions experience cascading liquidations during directional
+     moves, accelerating and prolonging trend continuation.
+  3. Execution Flow Dynamics: Institutional algorithmic execution slices large parent orders over hours and days,
+     creating persistent directional pressure that trend-following rules exploit.
+
+falsifier: >-
+  Reject the thesis if:
+  1. Mean forward Information Coefficient (Rank IC) at horizons H in [1h, 4h, 24h, 72h] is less than 0.015 or p-value >= 0.05.
+  2. Annualized net post-cost Sharpe ratio fails to exceed 0.80 on development data.
+  3. Maximum drawdown exceeds 25.0%.
+  4. Trading fee and slippage drag consumes more than 40.0% of gross strategy returns.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: SOLUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1h.parquet
+  - id: eth_prices_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1h.parquet
+  - id: sol_prices_1h
+    symbol: SOLUSDT
+    role: prices
+    path: data/processed/sol_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+  - id: sol_funding
+    symbol: SOLUSDT
+    role: funding
+    path: data/processed/sol_funding.parquet
+
+evaluation:
+  cadence: 1h
+  development_start: "2021-01-01T00:00:00Z"
+  development_end: "2024-12-31T23:59:59Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  holdout_end: "2026-07-31T23:59:59Z"
+  plan: >-
+    Evaluate trend-following expressions (ROC, Donchian Breakout, EMA crossover) across development data (2021-2024).
+    Compute Factor Rank IC and evaluate execution with ml4t.backtest.Engine.
+    Holdout period (2025-01-01 to 2026-07-31) remains strictly unread until final validation.
+
+baseline: >-
+  Equal-weight buy-and-hold portfolio across BTCUSDT, ETHUSDT, and SOLUSDT, and zero-trade cash baseline (0% return).
+
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: true
+  assumptions: >-
+    Binance USD-M Futures VIP 0 taker fee of 4.5 bps (with BNB discount) plus 1.5 bps slippage per side (12.0 bps roundtrip).
+    Actual signed 8-hour perpetual funding rate cash flows applied at settlement marks.
+
+trials:
+  - id: trial_1_rate_of_change_momentum
+    kind: preregistered
+    description: >-
+      Time-Series Momentum baseline using multi-horizon Rate of Change (24h, 72h, 168h lookback returns).
+      Long when momentum is positive, flat/short when negative.
+  - id: trial_2_donchian_breakout
+    kind: preregistered
+    description: >-
+      Donchian Channel Breakout trend following across 24-bar, 48-bar, and 168-bar channels.
+      Long on upper breakout, exit/short on lower breakdown.
+  - id: trial_3_ma_crossover
+    kind: preregistered
+    description: >-
+      Moving average trend filter using Fast EMA vs Slow EMA (12/48 and 24/168 hour spans).
+  - id: trial_4_composite_tsmom_diagnostic
+    kind: diagnostic
+    description: >-
+      Factor diagnostics across ROC, Donchian, and EMA momentum formulations: Spearman Rank IC,
+      decay profile across forward horizons (1h, 4h, 24h, 72h), and quantile spread monotonicity.

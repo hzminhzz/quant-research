@@ -1,0 +1,15 @@
+{
+  "session_id": "vwap_pullback_adx_nq_20261012_proxy_v3_execfix",
+  "parent_session": "vwap_pullback_adx_nq_20261012_proxy_v2",
+  "source_sha256": "a0670b34b2175ca0df4a7ab98fa79bb02650cf4cce64ed67261ad29f706ebaad",
+  "frozen_spec_sha256": "881c68714517617b73ca83a34c7a8b6d58e61a9e750a312fec2a8f9724f83cfb",
+  "code_sha256": "d6a7a9acba18976185eea5fa77fbc4970a13e1ff5650c533c2a8be62193c6d76",
+  "library": "ml4t-backtest 0.1.7",
+  "library_adapter": "LegalLimitFillExecutor using native fill ledger and sibling cancellation",
+  "changes_from_v2": "Only no adverse slippage for passive LIMIT; zero price improvement, same market/stop adverse slippage",
+  "fee_per_side_usd": 2.5,
+  "base_adverse_market_stop_points": 0.25,
+  "stress_adverse_market_stop_points": 0.5,
+  "execution_assurance": "simulation OCO native parent_id, not broker atomic OCO live assurance",
+  "CME_contract_level_qualified": false
+}

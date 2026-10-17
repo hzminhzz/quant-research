@@ -1,0 +1,108 @@
+session_id: funding_extreme_reversal_mvp_20261011_v1
+market: crypto
+
+thesis: >-
+  At BTCUSDT and ETHUSDT Binance USD-M perpetual funding settlements, an
+  absolute funding rate at or above the symbol's prior 90-event 90th percentile
+  predicts a contrarian four-hour price return after the funding-hour bar closes.
+  Positive funding signals short; negative funding signals long.
+mechanism: >-
+  Extreme funding can mark one-sided leveraged positioning. Traders on the
+  crowded side pay funding and may reduce exposure after settlement. The
+  reversal can fail when directional demand dominates financing pressure.
+falsifier: >-
+  The single fixed rule is not supported if combined net return is not above the
+  no-trade baseline, or if either symbol has no valid trades. Report adverse
+  outcomes as exploratory evidence. Do not tune this rule or claim deployment
+  readiness. All available data through 2026-07-31 is previously observed
+  development evidence, not a prospective holdout.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: BTCUSDT linear USD-M perpetual, USDT quote and settlement, multiplier 1
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: ETHUSDT linear USD-M perpetual, USDT quote and settlement, multiplier 1
+
+data:
+  - id: btcusdt_1h
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet
+  - id: ethusdt_1h
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet
+  - id: btcusdt_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet
+  - id: ethusdt_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet
+
+evaluation:
+  warmup_start: "2025-10-01T00:00:00Z"
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_policy: >-
+    There is no confirmatory holdout in this MVP. Do not read or score any
+    observations from 2026-08-01 onward. The 2026-01-01 through 2026-07-31
+    window is historical development evidence.
+  signal: >-
+    At each funding event, compare absolute funding_rate with the rolling 90th
+    percentile of the prior 90 actual funding events for that symbol. The
+    threshold excludes the current event. Signal only when abs(rate) is greater
+    than or equal to the threshold. Position direction is -sign(rate).
+  timing: >-
+    Funding timestamps include milliseconds after the hour boundary. Decision
+    availability is no earlier than the recorded event timestamp. Wait for the
+    completed 1-hour candle containing the event; submit after that candle and
+    enter at the next hour open. Exit at the open four hours after entry. For
+    engine timestamp semantics, submit at the containing candle timestamp and
+    use NEXT_BAR OPEN execution. Skip a signal if its entry-to-exit interval
+    intersects any same-symbol funding settlement timestamp.
+  sizing: >-
+    Start with 500 USDT. Target 0.4 times decision-time account equity per
+    position, fractional quantities, no more than two simultaneous positions,
+    and no leverage. Monitor marked gross exposure and fail the run if it exceeds
+    1.0 times equity.
+  outcomes: >-
+    One preregistered rule only. Compare gross and net cost decomposition for
+    that same rule. Report combined and per-symbol results, daily equity Sharpe
+    and maximum drawdown, no-trade cash, and equal-weight long-only BTC/ETH.
+
+baseline: >-
+  No-trade cash with 500 USDT. Also report equal-weight 50/50 long-only
+  BTCUSDT and ETHUSDT from the first development bar, with the same execution
+  engine and configured costs.
+
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: false
+  funding_policy: >-
+    Accepted positions cannot overlap a funding event. Funding cash flow is
+    therefore zero by construction; record skipped settlement-crossing signals.
+    The engine has no funding ledger, so any crossing position blocks the run.
+  spread_policy: >-
+    No bid/ask data is present. The configured 1.5 bps per-side percentage
+    slippage is the declared execution-friction estimate; do not add a second
+    spread charge.
+  assumptions: >-
+    Binance USD-M Futures VIP 0 taker commission without BNB discount. Apply
+    4.5 bps commission and 1.5 bps slippage on each fill using ml4t.backtest.
+    No borrow cost is modeled. The constrained four-hour positions are flat
+    before settlement; do not infer broader perp financing economics.
+
+trials:
+  - id: extreme_funding_contrarian_4h
+    kind: preregistered
+    description: >-
+      One fixed event-level rule: prior-90-event absolute funding 90th
+      percentile, contrarian direction, next-hour-open entry, four-hour hold,
+      settlement-crossing skip, 0.4x equity notional, and declared costs.

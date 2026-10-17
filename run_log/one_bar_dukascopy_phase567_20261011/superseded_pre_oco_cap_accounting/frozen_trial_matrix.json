@@ -1,0 +1,60 @@
+{
+  "status": "executed_with_postrun_diagnostics",
+  "source": "baseline frozen Dukascopy BID CFD proxy, through 2026-07-14 only",
+  "rule_changes": "none; remove future entry_valid filter; exit at next observed event if boundary missing and record mismatch",
+  "trials": [
+    {
+      "id": "T1",
+      "name": "historical_zero_cost_reference",
+      "status": "completed_reference_only",
+      "source_artifact": "run_log/one_bar_dukascopy_2013_2026_20261011/zero_cost"
+    },
+    {
+      "id": "T2",
+      "name": "historical_quarter_tick_reference",
+      "status": "completed_reference_only",
+      "source_artifact": "run_log/one_bar_dukascopy_2013_2026_20261011/cost_aware"
+    },
+    {
+      "id": "T3",
+      "name": "causal_zero_cost",
+      "status": "completed",
+      "commission_per_fill": 0,
+      "slippage_points_per_fill": 0
+    },
+    {
+      "id": "T4",
+      "name": "causal_full_tick",
+      "status": "completed",
+      "commission_per_fill_usd": 2.5,
+      "slippage_points_per_fill": 0.25
+    },
+    {
+      "id": "T5",
+      "name": "same_minute_adverse_bound",
+      "status": "completed_diagnostic",
+      "method": "replace each ambiguous trade result by -$1,000 plus per-fill T4 costs; no tick path inference",
+      "result": "44 ambiguous events; adverse replacement bound net PnL $117,173.48."
+    },
+    {
+      "id": "T6",
+      "name": "delayed_fill_1m",
+      "status": "not_run",
+      "reason": "lower priority; no trading-time data supports resolving source outages"
+    },
+    {
+      "id": "T7",
+      "name": "native_oco_same_minute_falsification",
+      "status": "completed_failure_of_required_invariant",
+      "method": "Synthetic 1m OHLC crossed both entry stops. Native Engine produced two stop fills before callback cancellation.",
+      "reason_added": "Added after the independent code audit identified same-event OCO risk; execution diagnostic only, no parameter or performance selection."
+    }
+  ],
+  "protected_holdout": "No data after 2026-07-14 read by the analysis or strategy run.",
+  "predeclared_before_native_replay": true,
+  "trial_limitations": [
+    "No 2x/3x full-tick native replays.",
+    "No delayed-fill or rule-neutral placebo replay; no additional performance variants were selected.",
+    "Source outages make exact gap fills and same-minute order sequence unidentifiable from 1m OHLC."
+  ]
+}

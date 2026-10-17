@@ -1,0 +1,93 @@
+{
+  "iteration": "B_dual_momentum",
+  "period": {
+    "start": "2021-01-01",
+    "end": "2024-12-31"
+  },
+  "universe": "dynamic Binance perpetuals, as represented in input feature panel",
+  "composite_definition": "0.6 * cross-sectional rank(roc_168 / (realized_vol_168 + 0.05)) + 0.4 * cross-sectional rank(macd_hist)",
+  "indicators": {
+    "macd": [
+      12,
+      26,
+      9
+    ],
+    "rsi": 14
+  },
+  "factor_diagnostics": {
+    "1h": {
+      "composite_mom": {
+        "rank_ic": -0.012332286662251286,
+        "p_value": 6.411381082547685e-67,
+        "ic_ir": -2.6059150201825623,
+        "quintile_spread": 0.00013570422618258313,
+        "observations": 1963703
+      },
+      "roc_168": {
+        "rank_ic": -0.008151294383531066,
+        "p_value": 3.2181204614879406e-30,
+        "ic_ir": -2.0670735983613047,
+        "quintile_spread": 0.00017744982650468543,
+        "observations": 1963703
+      }
+    },
+    "4h": {
+      "composite_mom": {
+        "rank_ic": -0.013584332898236403,
+        "p_value": 8.444076572162402e-81,
+        "ic_ir": -3.1234819013589,
+        "quintile_spread": 0.0005399965031789843,
+        "observations": 1963697
+      },
+      "roc_168": {
+        "rank_ic": -0.013411197667515404,
+        "p_value": 8.422633344073527e-79,
+        "ic_ir": -2.5462158910142985,
+        "quintile_spread": 0.0009265507466154197,
+        "observations": 1963697
+      }
+    },
+    "24h": {
+      "composite_mom": {
+        "rank_ic": -0.011450683223012084,
+        "p_value": 6.055712577002433e-58,
+        "ic_ir": -3.1121947591880335,
+        "quintile_spread": 0.0029520104310846937,
+        "observations": 1963657
+      },
+      "roc_168": {
+        "rank_ic": -0.015150615575934227,
+        "p_value": 4.85195381007953e-100,
+        "ic_ir": -3.406771799487385,
+        "quintile_spread": 0.004519728757999667,
+        "observations": 1963657
+      }
+    },
+    "72h": {
+      "composite_mom": {
+        "rank_ic": -0.008696882325908355,
+        "p_value": 3.6498478930418136e-34,
+        "ic_ir": -2.7075369220615513,
+        "quintile_spread": 0.0071785629979352365,
+        "observations": 1963561
+      },
+      "roc_168": {
+        "rank_ic": -0.004469523907434903,
+        "p_value": 3.775377662642853e-10,
+        "ic_ir": -3.128756238555752,
+        "quintile_spread": 0.010605665280275867,
+        "observations": 1963561
+      }
+    }
+  },
+  "backtest": {
+    "daily_sharpe": 2.0548727438758894,
+    "total_return": 628.0190739305145,
+    "max_drawdown": 0.8747295953329232,
+    "trades": 20990,
+    "costs": 3805039.3819544837,
+    "commission_rate": 0.00018,
+    "slippage_rate": 0.0,
+    "initial_cash": 10000.0
+  }
+}

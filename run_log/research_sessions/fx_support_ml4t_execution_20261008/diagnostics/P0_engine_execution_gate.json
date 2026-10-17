@@ -1,0 +1,117 @@
+{
+  "schema_version": "fx-support-engine-execution-gate-v1",
+  "session_id": "fx_support_ml4t_execution_20261008",
+  "trial_id": "P0_engine_execution_gate",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "status": "failed",
+  "gate_disposition": "BLOCKED",
+  "engine": {
+    "package": "ml4t-backtest",
+    "version": "0.1.7",
+    "api": "Engine(DataFeed(prices_df=...), Strategy(), BacktestConfig(...))",
+    "execution_mode": "NEXT_BAR",
+    "execution_price": "OPEN"
+  },
+  "feature_gate": {
+    "status": "PASS",
+    "artifact": "run_log/fx_support_ml4t_execution_20261008/feature_integrity_v1.json",
+    "feature_rows": 1395,
+    "oof_rows": 730,
+    "selected_rows": 112,
+    "latest_signal_open": "2024-11-29T09:30:00Z",
+    "latest_decision": "2024-11-29T10:00:00Z",
+    "holdout_opened": false,
+    "post_2024_prices_opened": false
+  },
+  "synthetic_execution_fixture": {
+    "test_command": "MPLCONFIGDIR=/tmp/mpl-fx-support .venv/bin/python -m pytest -q tests/test_fx_support_ml4t_execution_20261008.py",
+    "result": "7 passed",
+    "event_bar_open": "2024-01-02T00:00:00Z",
+    "decision_after_30m_close": "2024-01-02T00:30:00Z",
+    "strategy_submit_timestamp": "2024-01-02T00:30:00Z",
+    "required_first_5m_open": "2024-01-02T00:30:00Z",
+    "actual_next_bar_fill_timestamp": "2024-01-02T00:35:00Z",
+    "actual_entry_fill_price": 1.100055,
+    "finding": "Engine processes eligible NEXT_BAR orders before Strategy.on_data at the current timestamp. An order submitted by the strategy at the 30m decision boundary cannot fill at the 5m open with that same timestamp; it fills five minutes later.",
+    "required_invariant": "First executable 5m open at or after event_timestamp + 30m, which is 00:30Z in this fixture.",
+    "invariant_passed": false
+  },
+  "verified_engine_semantics": {
+    "oco": "PASS. Full fill cancels another pending order with the same parent_id.",
+    "same_bar_stop_target_tie": "PASS. Submit the stop child before the target child. EXIT_FIRST preserves exit submission order. The stop fills and the OCO target cancels.",
+    "target_only": "PASS. Target limit fills and the OCO stop cancels.",
+    "gap_down_stop": "PASS. Sell stop fills from the bar open when open is below stop, then applies configured slippage. The realized price is no better than the available open.",
+    "terminal_close": "PASS. MOC submitted on the final data bar fills at that bar close. The engine does not automatically close terminal positions.",
+    "cash_validation": "PASS. Insufficient cash rejects the oversized entry.",
+    "cost_units": "PASS. Commission uses 0.000025 of notional per side. Percentage slippage uses 0.00005 per side. The fixture reconciles engine trade fees and slippage.",
+    "bracket_api_note": "Broker.submit_bracket submits the target child before the stop child. The tested stop-first variant submitted separate children in stop-first order and assigned the shared parent_id used by native sibling cancellation."
+  },
+  "stop_reason": "The required 30m-close decision and same-boundary 5m open cannot both be represented by the installed Strategy/NEXT_BAR callback order. The first causal submission at 00:30Z fills at 00:35Z. Submitting during the preceding 00:25Z callback would submit before the decision is available. This violates the frozen entry timestamp contract.",
+  "trials": {
+    "E0_unfiltered_oof_cohort": "NOT_STARTED: P0 stop condition",
+    "E1_lightgbm_oof_capped_risk": "NOT_STARTED: P0 stop condition",
+    "E2_lightgbm_cost_stress": "NOT_STARTED: P0 stop condition",
+    "E3_lightgbm_flat_before_daily_reset": "NOT_STARTED: P0 stop condition"
+  },
+  "attempt_history": [
+    "Initial synthetic test run found six test-fixture/API expectation failures. The attempt did not evaluate the research signal.",
+    "Second synthetic test run found three cost and fill-price assertion mismatches. The attempt did not evaluate the research signal.",
+    "The fixtures were corrected to assert costs after per-unit slippage, actual MOC closure and non-finite feature parity. The final test suite passed 7 tests."
+  ],
+  "skills_and_invariants": [
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "reason": "Use the installed event-driven Strategy/Engine contract.",
+      "verification": "Synthetic actual order creation and fill timestamps, order statuses, costs and terminal closure."
+    },
+    {
+      "name": "ml4t-compute-features",
+      "path": ".agents/skills/ml4t-compute-features/SKILL.md",
+      "reason": "Regenerate event features from per-symbol completed development bars.",
+      "verification": "1,395 event identities and all fixed features matched the frozen panel within 1e-8."
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "reason": "Use sorted, group-aware Polars transformations for event panels.",
+      "verification": "Feature regeneration uses the existing per-symbol development builder and registered ml4t.engineer indicators."
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "reason": "Check event decision availability and OOF temporal bounds.",
+      "verification": "Latest OOF decision is 2024-11-29T10:00:00Z. The +30m boundary mismatch is reproduced by actual engine timestamps."
+    },
+    {
+      "name": "ml4t-purging-embargo",
+      "path": ".agents/skills/ml4t-purging-embargo/SKILL.md",
+      "reason": "Preserve and audit the inherited purged OOF signal without refitting.",
+      "verification": "The immutable 730-row OOF scored-events file hash and 112 selected rows were checked. No model was retrained."
+    },
+    {
+      "name": "ml4t-validate-data",
+      "path": ".agents/skills/ml4t-validate-data/SKILL.md",
+      "reason": "Validate the development-only source window and artifact identities.",
+      "verification": "Six named DEV snapshots hash to the frozen hashes and end no later than 2024-12-31."
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "reason": "Check engine percentage rate units and realized fixture drag.",
+      "verification": "The synthetic round trip reconciles commission and slippage from actual engine trades."
+    }
+  ],
+  "official_references": [
+    "https://github.com/ml4t/skills",
+    "https://ml4trading.io/docs/backtest/",
+    "https://ml4trading.io/docs/engineer/"
+  ],
+  "limitations": [
+    "No E0-E3 economic backtest ran because the P0 timestamp invariant failed.",
+    "The 2025-2026 frozen final holdout was not opened or scored.",
+    "No result establishes FTMO prop trading economics or live approval.",
+    "The available engine source and synthetic fixtures show a 5-minute timing mismatch. A different engine lifecycle surface would need to pass the same timestamp fixture before economic trials."
+  ]
+}

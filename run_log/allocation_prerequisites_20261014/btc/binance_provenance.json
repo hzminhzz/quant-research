@@ -1,0 +1,34 @@
+{
+  "blocking_error": "RuntimeError: Binance request failed; see binance_provenance.json: <urlopen error [Errno -3] Temporary failure in name resolution>",
+  "documentation_observation": "GET /fapi/v1/fundingRate; startTime/endTime inclusive; limit max 1000; ascending; response markPrice is the mark associated with funding fee charge.",
+  "official_documentation": "https://developers.binance.com/docs/derivatives/usds-margined-futures/market-data/rest-api/Get-Funding-Rate-History",
+  "page_count": 1,
+  "pages": [
+    {
+      "error": "<urlopen error [Errno -3] Temporary failure in name resolution>",
+      "http_status": null,
+      "raw_response_path": "run_log/allocation_prerequisites_20261014/btc/binance_raw/page_0000_error.bin",
+      "request_started_utc": "2026-10-14T10:53:13.541665+00:00",
+      "request_url": "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime=1567296000000&endTime=1735689599999&limit=1000",
+      "response_bytes": 0,
+      "response_received_utc": "2026-10-14T10:53:13.545771+00:00",
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retrieval_started_utc": "2026-10-14T10:53:13.541665+00:00",
+  "retrieval_updated_utc": "2026-10-14T10:53:13.545860+00:00",
+  "row_count": 0,
+  "scope": {
+    "credentials_used": false,
+    "end_time_ms_inclusive": 1735689599999,
+    "end_time_utc": "2024-12-31T23:59:59.999Z",
+    "future_data_requested": false,
+    "limit_per_request": 1000,
+    "start_time_ms_inclusive": 1567296000000,
+    "start_time_utc": "2019-09-01T00:00:00.000Z",
+    "symbol": "BTCUSDT",
+    "user_agent": "OpenAI File Downloader, XaiImageApiFetch/1.0"
+  },
+  "source": "https://fapi.binance.com/fapi/v1/fundingRate",
+  "status": "BLOCKED"
+}

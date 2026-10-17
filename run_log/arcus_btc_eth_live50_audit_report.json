@@ -1,0 +1,29 @@
+{
+  "deployment": {
+    "instance_name": "btc-eth-ekstrom-live50-20261007-045937",
+    "status": "LIVE_RUNNING",
+    "connector": "arcus_perpetual",
+    "trading_pairs": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "execution_mode": "LIVE_REAL_ORDERS",
+    "clip_notional_usd": 50.0,
+    "strategy": "Ekstrom Policy 2 Stat-Arb"
+  },
+  "sizing_plan": {
+    "btc_clip_usd": 50.0,
+    "eth_clip_usd": 50.0,
+    "btc_qty_est": 0.0004,
+    "eth_qty_est": 0.019,
+    "margin_required_usd": 10.0,
+    "free_collateral_usd": 415.7
+  },
+  "market_state": {
+    "btc_mid": 84070.65,
+    "eth_mid": 2609.61,
+    "kalman_beta": 0.6961,
+    "z_entry_threshold": 3.0,
+    "z_exit_threshold": 0.5
+  }
+}

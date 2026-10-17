@@ -1,0 +1,109 @@
+{
+  "strategy": "H1",
+  "status": "PASS_IMPLEMENTATION_NOT_APPROVED",
+  "account_start_usd": 10000.0,
+  "position_notional_usd": 10000.0,
+  "position_sizing": "Fixed base 10,000 USD, no compounding",
+  "accounting": "Native Engine simulates JPY quote; USD realized PnL converted at each exit, starts at USD 10,000; uncalibrated spot-CFD proxy",
+  "native_start_jpy": 1094770.0,
+  "native_end_jpy": 1171245.0000000382,
+  "native_pnl_jpy": 76475.00000003818,
+  "source_sha256": "c740244cfdd42c53f12f623f9923ab5b7f46f51e95fafc793841fdd723fb5867",
+  "engine": "ml4t.backtest.Engine, NEXT_BAR OPEN, native FX-like quote proxy",
+  "assumed_slippage_jpy_per_side": 0.005,
+  "assumed_all_in_cost_pips": 1.0,
+  "num_trade_days": 492,
+  "submitted_filled_orders": 984,
+  "net_pnl_usd": 573.7056850220018,
+  "final_equity_usd": 10573.705685022001,
+  "return_pct_on_usd_start": 5.737056850220019,
+  "mean_net_pips": 1.5543699186998008,
+  "win_rate": 0.532520325203252,
+  "daily_usd_equity_sharpe_flat_days": 0.7149347716388972,
+  "max_closed_trade_drawdown_usd": -241.71752701285186,
+  "max_closed_trade_drawdown_pct_initial": -2.4171752701285185,
+  "engine_native_quote_pnl_reconciliation": 7.959897629916668e-09,
+  "yearly": [
+    {
+      "year": 2020,
+      "trades": 67,
+      "net_pips": 127.40000000000862,
+      "mean_net_pips": 1.9014925373135614,
+      "net_pnl_usd": 120.83606953322982,
+      "net_return_pct_of_initial_capital": 1.2083606953322983,
+      "win_rate": 0.5074626865671642,
+      "profit_factor": 1.48785388359821
+    },
+    {
+      "year": 2021,
+      "trades": 74,
+      "net_pips": 124.90000000001658,
+      "mean_net_pips": 1.6878378378380618,
+      "net_pnl_usd": 114.07570827227927,
+      "net_return_pct_of_initial_capital": 1.1407570827227929,
+      "win_rate": 0.5675675675675675,
+      "profit_factor": 1.6096173815652366
+    },
+    {
+      "year": 2022,
+      "trades": 77,
+      "net_pips": 166.50000000003615,
+      "mean_net_pips": 2.162337662338132,
+      "net_pnl_usd": 107.78299193781086,
+      "net_return_pct_of_initial_capital": 1.0778299193781087,
+      "win_rate": 0.5194805194805194,
+      "profit_factor": 1.230517227306622
+    },
+    {
+      "year": 2023,
+      "trades": 77,
+      "net_pips": 195.4000000000832,
+      "mean_net_pips": 2.537662337663418,
+      "net_pnl_usd": 143.664587210051,
+      "net_return_pct_of_initial_capital": 1.43664587210051,
+      "win_rate": 0.5584415584415584,
+      "profit_factor": 1.4393503457436663
+    },
+    {
+      "year": 2024,
+      "trades": 75,
+      "net_pips": 94.00000000004809,
+      "mean_net_pips": 1.2533333333339745,
+      "net_pnl_usd": 50.19776847994688,
+      "net_return_pct_of_initial_capital": 0.5019776847994688,
+      "win_rate": 0.56,
+      "profit_factor": 1.1128696561993945
+    },
+    {
+      "year": 2025,
+      "trades": 73,
+      "net_pips": -45.499999999941565,
+      "mean_net_pips": -0.6232876712320762,
+      "net_pnl_usd": -28.097236302419947,
+      "net_return_pct_of_initial_capital": -0.2809723630241995,
+      "win_rate": 0.4931506849315068,
+      "profit_factor": 0.9371547282592505
+    },
+    {
+      "year": 2026,
+      "trades": 49,
+      "net_pips": 102.050000000051,
+      "mean_net_pips": 2.0826530612255305,
+      "net_pnl_usd": 65.2457958911039,
+      "net_return_pct_of_initial_capital": 0.652457958911039,
+      "win_rate": 0.5102040816326531,
+      "profit_factor": 1.3348473081446404
+    }
+  ],
+  "cost_sensitivity_mean_pips_from_event_screen": {
+    "0.8": 1.754369918699154,
+    "1.0": 1.554369918699154,
+    "1.4": 1.154369918699154
+  },
+  "limitations": [
+    "No executable bid/ask history; price slip is hypothetical.",
+    "Native JPY broker uses proxy margin; USD closed PnL converted from actual native order fills.",
+    "Closed-trade drawdown omits intratrade peak/trough.",
+    "All history retrospective including previously inspected 2026 development; holdout unopened."
+  ]
+}

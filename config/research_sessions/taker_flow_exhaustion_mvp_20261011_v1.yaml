@@ -1,0 +1,98 @@
+session_id: taker_flow_exhaustion_mvp_20261011_v1
+market: crypto
+thesis: >-
+  Following a complete 1-hour candle with extreme directional taker quote-volume imbalance
+  and an aligned price move under normal-or-higher trading volume, temporary
+  aggressive execution demand overshoots fundamental value. A position opposite
+  that candle direction held four hours has positive net expectancy after fees.
+mechanism: >-
+  Liquidity demand from urgent buyers or sellers temporarily displaces quotes;
+  replenishing order-book liquidity can reverse some price impact. The signal
+  fails when informed flow initiates a persistent trend.
+falsifier: >-
+  Reject this single frozen, cost-aware rule in its 2026 development sample if
+  net portfolio return is non-positive, no valid trades occur in either asset,
+  or simulated maximum drawdown exceeds 10 percent. Positive results remain
+  exploratory and do not establish live or prop-firm viability. No tuning.
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: Binance BTCUSDT USDT-linear perpetual with multiplier 1
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: Binance ETHUSDT USDT-linear perpetual with multiplier 1
+data:
+  - id: btc_hourly
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet
+  - id: eth_hourly
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet
+evaluation:
+  warmup_start: "2025-11-01T00:00:00Z"
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-08-01T00:00:00Z"
+  holdout_policy: >-
+    Do not open or evaluate 2026-08 onward data in this research. 2026-Jan-Jul
+    is already-observed historical development and is not confirmatory.
+  one_fixed_signal: >-
+    On each fully completed 1h candle at start timestamp t, calculate signed
+    taker quote imbalance = (2*taker_buy_quote_volume-quote_volume)/quote_volume.
+    Require denominator > 0, abs(imbalance) >= 95th percentile of PREVIOUS 720
+    valid hourly abs imbalances of the same symbol (shift one), candle
+    close/open-1 has the same sign as imbalance, and completed hour quote volume
+    >= PRIOR 24h mean quote volume (shift one). Positive imbalance fades SHORT;
+    negative fades LONG. Do not add price-return threshold, ML, or tuning.
+  timing: >-
+    Candle timestamp t is its start; its content becomes known after t+1h.
+    To avoid same-boundary fill assumptions, submit on engine callback for bar
+    timestamp t+1h and use NEXT_BAR OPEN fill at t+2h. Close at open t+6h
+    (exact 4h hold). Only use market-visible known schedule to avoid entry
+    or holdings overlapping an 8h funding settlement. Audit actual
+    settlements after execution; fail closed on any crossing. Skip competing
+    new signals while a symbol is held or has pending orders.
+  sizing: >-
+    Start $500. Target 0.4 times current equity notional per instrument.
+    Maximum two simultaneous positions and gross marked exposure <= 1.0x.
+    No leverage, no liquidation assumptions, fractional contracts in simulator.
+  cost_handling: >-
+    Use ml4t.backtest Engine Strategy with NEXT_BAR OPEN, 4.5 bps taker fee
+    per fill and 1.5 bps modeled slippage per fill; fee+slippage
+    12 bps round trip. No additional spread estimated due to missing L1.
+    Avoid all funding settlements by scheduled entry-window filter, audit
+    actual event timestamps, and refuse if a held trade crossed funding.
+  output: >-
+    One strategy, gross and net cost decomposition and cash baseline; report
+    per-symbol results, continuous daily equity Sharpe and maximum drawdown,
+    number of candidate signals, actual trades, win rate, gaps, rejected
+    orders, and data SHA256. Preserve every failure and limitations.
+baseline: >-
+  Zero-trade cash at $500; gross-cost version is attribution for the SAME
+  frozen strategy, not an additional tuned variant.
+costs:
+  commission_bps: 4.5
+  slippage_bps: 1.5
+  funding_included: false
+  assumptions: >-
+    Binance VIP 0 taker-fee and conservative but uncalibrated execution
+    slippage. No explicit spread or impact. Funding excluded only if
+    no accepted trade intersects a funding settlement and verified after run.
+trials:
+  - id: fixed_95th_flow_exhaustion_reversal_4h
+    kind: preregistered
+    description: >-
+      One fixed rule using prior 720 completed-hour absolute imbalance 95th
+      percentile, aligned candle return, at-least-prior-24-hour volume, reverse
+      next-next open, exit after four hours and avoid funding settlements.

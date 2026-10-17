@@ -1,0 +1,84 @@
+{
+  "trial_id": "phase4_no_drawdown_stop_sensitivity",
+  "created_date": "2026-10-11",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "parent_session": "metals_dual_grid_mvp_20261010",
+  "base_frozen_spec_sha256": "d4790a520bb6de18ddebfbc89dddb50fdbd43b42f24e4bb3751634fa337beb95",
+  "base_config_sha256": "1c5d042291eecfb290258b2c12741f2cda5074face1481a29c9ec3834a7cadf5",
+  "runner_sha256": "e3ae23aa8b9b7d19666592c1d305d5bdccb94a4116f2ad3fb244f295b6b88599",
+  "paired_2m_artifact_sha256": "7b9746d0c11933309f227586029c26494a62bc839c9d61ec1bb11667deefb7e9",
+  "scope": "Repeat the preregistered A and B arms across the full beta-ready sample. Change only the drawdown-stop threshold. Do not use this sensitivity to approve or select a live strategy.",
+  "runtime_override": {
+    "capital.max_drawdown_usdc": 1e300,
+    "meaning": "Effectively disables the drawdown stop for this finite historical sample.",
+    "unchanged_controls": {
+      "capital.max_gross_notional_usdc": 6000,
+      "capital.initial_margin_usdc": 600,
+      "fees_slippage_funding_grid_beta_order_fill_rules": "unchanged from frozen base config"
+    }
+  },
+  "evaluation": {
+    "first_beta_ready_utc": "2026-02-21T16:02:00Z",
+    "last_utc": "2026-10-09T07:36:00Z",
+    "beta_ready_timestamps": 165348,
+    "arms": ["A_fixed_spacing", "B_beta_adjusted_silver_spacing"]
+  },
+  "report_metrics": [
+    "maker_fill_notional_usdc",
+    "completed_maker_volume_usdc",
+    "completed_grid_cycles",
+    "net_mark_to_market_pnl_usdc",
+    "max_drawdown_usdc",
+    "max_gross_plus_reserved_usdc",
+    "ending_inventory_notional_usdc",
+    "emergency_taker_notional_usdc",
+    "risk_halted",
+    "risk_halt_bar"
+  ],
+  "decision_rule": "Report total turnover and risk outcomes for both arms. Do not select the higher-volume arm. Report any gross-cap stop separately.",
+  "methodology_skills": [
+    {
+      "name": "ml4t-run-backtest",
+      "local_path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "reason": "Run the frozen A/B comparison through the installed event-driven engine.",
+      "invariants": [
+        "Use Engine with native resting limit orders.",
+        "Preserve next-bar price-touch fill semantics and the positive-volume gate.",
+        "Keep every frozen execution assumption unchanged except the drawdown stop."
+      ],
+      "verification": "Focused synthetic execution checks and full-sample Engine run."
+    },
+    {
+      "name": "ml4t-risk-metrics",
+      "local_path": ".agents/skills/ml4t-risk-metrics/SKILL.md",
+      "reason": "Interpret account-level drawdown and ending inventory risk.",
+      "invariants": [
+        "Report drawdown and inventory alongside gross completed volume.",
+        "Do not equate a long/short pair with a dollar-neutral hedge.",
+        "Keep marked ending inventory distinct from realized liquidation P&L."
+      ],
+      "verification": "Report account equity drawdown, per-leg marked inventory, and emergency exits."
+    },
+    {
+      "name": "ml4t-cost-model",
+      "local_path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "reason": "Audit whether execution-cost assumptions constrain the interpretation.",
+      "invariants": [
+        "Do not change frozen maker-fee or emergency-exit cost assumptions in this sensitivity.",
+        "Disclose that OHLCV touch fills do not model queue position, actual passive fills, or market impact."
+      ],
+      "verification": "Retain the pre-frozen execution config and report the fill-model limitation."
+    },
+    {
+      "name": "ml4t-transaction-costs",
+      "local_path": ".agents/skills/ml4t-transaction-costs/SKILL.md",
+      "reason": "Separate the turnover sensitivity from evidence of real executable capacity.",
+      "invariants": [
+        "Do not treat simulated maker turnover as verified venue volume.",
+        "Do not promote either exploratory arm based on this comparison."
+      ],
+      "verification": "Compare only the two pre-registered arms and preserve the production-readiness caveat."
+    }
+  ]
+}

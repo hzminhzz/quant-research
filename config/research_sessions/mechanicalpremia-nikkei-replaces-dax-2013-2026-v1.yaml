@@ -1,0 +1,52 @@
+session_id: mechanicalpremia-nikkei-replaces-dax-2013-2026-v1
+market: indices
+thesis: >-
+  Replace DE30 with JP225 in H1/D1 index source sleeves and test whether the same frozen rules
+  and risk budgets improve price-proxy risk-adjusted performance versus prior DE30 baseline.
+mechanism: >-
+  Market-specific breakout behavior and mean reversion differ between European and Japanese indices.
+falsifier: >-
+  REJECT if JP225 replacement does not improve paired-year Sharpe and risk/drawdown across 2013-2026
+  and withstand predeclared cost stress. INCONCLUSIVE for broker economics while JPY/EUR FX
+  accounting, stop/fill parity, bid ask and CFD terms are unresolved.
+instruments:
+  - {symbol: US500, kind: cfd, venue: Dukascopy bid proxy, identity: index_minute_ES/usa500idxusd, timezone: America/New_York, session: NY17 assumed}
+  - {symbol: US100, kind: cfd, venue: Dukascopy bid proxy, identity: index_minute_NQ/usatechidxusd, timezone: America/New_York, session: NY17 assumed}
+  - {symbol: JP225, kind: cfd, venue: Dukascopy bid proxy, identity: index_minute_NIKKEI225/jpnidxjpy, timezone: America/New_York, session: NY17 assumed}
+  - {symbol: EU50, kind: cfd, venue: Dukascopy bid proxy, identity: index_minute_EUSIDXEUR/eusidxeur, timezone: America/New_York, session: NY17 assumed, notes: D1 only}
+data:
+  - {id: us500, symbol: US500, role: prices, path: docs/audit/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1-manifest.json}
+  - {id: us100, symbol: US100, role: prices, path: docs/audit/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1-manifest.json}
+  - {id: jp225, symbol: JP225, role: prices, path: docs/audit/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1-manifest.json}
+  - {id: eu50, symbol: EU50, role: prices, path: docs/audit/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1-manifest.json}
+evaluation:
+  development_start: "2013-01-01T00:00:00Z"
+  development_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  holdout_policy: >-
+    Years 2013-2026 YTD were previously observed via DE30 candidate. This is exploratory,
+    not virgin validation. Do not read 2026-10-12 onward.
+  periods: >-
+    Independent Jan-Dec 2013-2025 year-reset comparisons, 2026 Jan1-Oct11 YTD, preceding
+    July1 warmup. No continuous carry/FX conversion; source model unchanged.
+  source_sleeves: "H1: US500 US100 JP225; D1: US500 US100 JP225 EU50"
+baseline: >-
+  Previously archived matched-year old DE30 H1, D1, equal-risk and source-risk; no-trade cash.
+costs:
+  commission_bps: 1
+  slippage_bps: 2
+  assumptions: >-
+    Native price-unit proxies 1x / 1.5x / 2x per-side fee ladder; missing true broker spread,
+    CFD overnight financing, multi-CCY FX conversion, contract tick/lot multiplier.
+trials:
+  - {id: DATA-QUALIFICATION, kind: preregistered, description: Verify JP225 canonical symbol, daily acceptance and prior history, session coverage, Japanese market break}
+  - {id: H1-JP225-3, kind: preregistered, description: H1 US500 US100 JP225 versus old H1 source three}
+  - {id: D1-JP225-4, kind: preregistered, description: D1 US500 US100 JP225 EU50 versus old D1 four}
+  - {id: EQUAL-JP225-7, kind: preregistered, description: New equal risk versus old equal risk}
+  - {id: SOURCE-JP225-7, kind: preregistered, description: New source D1 76.64pct H1 23.36pct versus old source risk}
+  - {id: COST-JP225, kind: preregistered, description: New source-risk at fixed 1.5x and 2.0x direct costs}
+  - {id: NATIVE-AUDIT, kind: preregistered, description: 84 identities, causal clock, native cash equity, fills, quote risk and pairwise results}
+config: config/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1.yaml
+evidence:
+  - docs/plans/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1.md
+  - docs/audit/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1-manifest.json

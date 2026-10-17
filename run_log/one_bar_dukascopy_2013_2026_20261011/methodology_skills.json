@@ -1,0 +1,75 @@
+{
+  "skills": [
+    {
+      "name": "ml4t-run-backtest",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-run-backtest/SKILL.md",
+      "sha256": "6c319d68bd8a933a36ba4266f679fc11b08ab0e666d29c41d1e3cfb41af53d91",
+      "reason_selected": "Native simulation and order fills",
+      "required_invariants": "Use Strategy, DataFeed, Engine, next-bar fills, and explicit costs.",
+      "verification": "Native ledgers contain stop and market fills; daily Sharpe uses ml4t.backtest.analytics."
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-polars-patterns/SKILL.md",
+      "sha256": "bcc9062c8b4947765ef467c3becf3c1873eac16612118c2bdd187adcaf62df8e",
+      "reason_selected": "Process 3.8 million source rows",
+      "required_invariants": "Use sorted Polars operations and lazy scans for large data.",
+      "verification": "Source files are scanned lazily; grouped bar and rolling-level operations are Polars expressions."
+    },
+    {
+      "name": "ml4t-validate-data",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-validate-data/SKILL.md",
+      "sha256": "50a64b8bbbcc161b8cd5f781f55062722874ef76b83c9f237e46fde9c9c15ade",
+      "reason_selected": "Audit source quality before simulation",
+      "required_invariants": "Check OHLC consistency, duplicates, nulls, finite values, timestamps, and gaps.",
+      "verification": "source_quality.json reports these checks and source/calendar gaps."
+    },
+    {
+      "name": "ml4t-build-bars",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-build-bars/SKILL.md",
+      "sha256": "1f3fd6f903785d6c0d267aa79e2bf420d0976980af36eec5f16d9660a46350d6",
+      "reason_selected": "Build the specified 30-minute bars",
+      "required_invariants": "Keep intervals explicit and do not treat partial bars as complete.",
+      "verification": "Only bins with 30 distinct minute timestamps are retained; a DST regression test checks 50 elapsed bars."
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-calendar-ops/SKILL.md",
+      "sha256": "8e463698e1ccb41edcac3e9164fac409efc3e6a8bd79222bdfc58b7b6cfb467f",
+      "reason_selected": "Align entries with the Chicago session and provider calendar",
+      "required_invariants": "Use the correct timezone, DST behavior, and qualified trading sessions.",
+      "verification": "Session starts use America/Chicago then elapsed UTC intervals; qualification and calendar identity hashes pass."
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "sha256": "26d18ce123aabee4822dc35325a517690c1b03ac6f04de761ff3d3c7aeaf6695",
+      "reason_selected": "Prevent future bar data from setting stop levels",
+      "required_invariants": "Use only previous complete bars and submit orders for a future engine event.",
+      "verification": "The 50-bar test verifies prior-bar extrema; native execution uses NEXT_BAR."
+    },
+    {
+      "name": "ml4t-cost-model",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-cost-model/SKILL.md",
+      "sha256": "6fe10bce1b17e7f1b1a551aab0eea63a3e13042718ac43a0cce9fbaa532b129c",
+      "reason_selected": "Compare the declared zero-cost and cost-aware cases",
+      "required_invariants": "Apply costs per fill and disclose unsupported market-specific assumptions.",
+      "verification": "Fills record commission and slippage; the cost-aware assumption is explicitly illustrative."
+    },
+    {
+      "name": "ml4t-continuous-futures",
+      "source": "/home/quant/dev/quant/quant-research/.agents/skills/ml4t-continuous-futures/SKILL.md",
+      "sha256": "36d29e98da813ed648b9510eb0775cb929513e2f7feb07c9736066808abdf653",
+      "reason_selected": "Prevent a CFD proxy from being described as CME futures",
+      "required_invariants": "Verify contract and roll identity before making futures claims.",
+      "verification": "The report identifies a Dukascopy CFD proxy and makes no NQ roll or product-economics claim."
+    }
+  ],
+  "ml4t_backtest_version": "0.1.7",
+  "api_signatures_inspected": [
+    "Strategy()",
+    "Engine(feed, strategy, config, contract_specs=...)",
+    "DataFeed(prices_df=..., signals_df=...)"
+  ],
+  "selection_rule": "Only task-relevant ML4T procedures were loaded."
+}

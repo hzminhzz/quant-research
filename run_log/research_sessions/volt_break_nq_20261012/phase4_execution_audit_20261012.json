@@ -1,0 +1,59 @@
+{
+  "session": "volt_break_nq_20261012",
+  "phase": 4,
+  "status": "BLOCKED_STRICT_NATIVE_STRATEGY",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "strategy_trials_run": 0,
+  "no_real_orders": true,
+  "no_2026_market_outcome_read": true,
+  "canonical_store_modified": false,
+  "source_identity": {
+    "status": "VERIFIED",
+    "partitions": 96,
+    "sha256_matches": 96,
+    "manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "years": "2018-2025; 2018 warmup; 2019-2025 development"
+  },
+  "engine": {
+    "distribution": "ml4t-backtest",
+    "version": "0.1.7",
+    "execution_mode": "NEXT_BAR",
+    "stop_fill_mode": "STOP_PRICE",
+    "broker_order_callbacks": false,
+    "atomic_oco_supported": false,
+    "submit_bracket_behavior": "Submits independent LIMIT and STOP orders with parent_id linkage only; no cancel-on-fill OCO behavior was found."
+  },
+  "synthetic_trial": {
+    "id": "P4_T1_synthetic_engine_timing_and_oco",
+    "status": "completed_blocking",
+    "pytest": "5 passed",
+    "artifact": "tests/test_volt_break_phase4_execution_20261012.py",
+    "observations": {
+      "signal_callback_0959_utc_to_1000_boundary_fill": "PASS",
+      "signal_callback_1000_utc_to_1001_fill": "PASS; demonstrates one-minute late fill when signal is only released on boundary callback",
+      "stop_market_gap_open_90_below_stop_95": "PASS; native fill at source open 90, not stop trigger 95",
+      "entry_minute_without_bracket_protection": "PASS; position filled at 15:01 and callback-submitted bracket could first execute at 15:02",
+      "same_minute_tp_105_and_sl_95": "PASS; both independent sell orders filled on the same timestamp; second exit reversed the position"
+    }
+  },
+  "blockers": [
+    "Same-minute TP and SL hits produce two fills and a position reversal because native Broker has no atomic OCO/cancel-on-fill support.",
+    "A bracket submitted after the entry fill cannot protect the entry minute. The entry-open gap and within-minute path can cross either or both fixed levels before protection activates.",
+    "A boundary-time signal callback submits after NEXT_BAR open processing and fills at the following minute, not the same boundary open. The signal must be released by the prior minute callback after that minute is complete."
+  ],
+  "strategy_trials": {
+    "strict_1300": "BLOCKED; zero-cost, illustrative-cost, and 2x-cost not run",
+    "coverage_1000": "BLOCKED; zero-cost, illustrative-cost, and 2x-cost not run"
+  },
+  "metrics_not_estimated": [
+    "net/gross PnL",
+    "trade count and win rate",
+    "profit factor and expectancy",
+    "year stability",
+    "daily equity Sharpe, Calmar, and drawdown",
+    "exit reasons and ambiguity counts",
+    "ledger-to-equity reconciliation",
+    "14:30 position status"
+  ]
+}

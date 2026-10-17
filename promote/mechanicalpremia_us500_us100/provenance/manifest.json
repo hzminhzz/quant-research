@@ -1,0 +1,144 @@
+{
+  "package": "mechanicalpremia_us500_us100",
+  "captured_utc_date": "2026-10-14",
+  "promotion_intent": "FURTHER_RESEARCH_ONLY",
+  "workflow_status": "PROMOTED_FOR_FURTHER_RESEARCH",
+  "approval_status": "NOT_APPROVED",
+  "original_repo": "/home/quant/dev/quant/quant-research",
+  "captured_head": "98d5949fe11695c709f5ddeaf88a02c79f05b0c7",
+  "captured_dirty_checkout": true,
+  "frozen_source_session": "mechanicalpremia-us500-us100-2013-2026-v1",
+  "native_c3_cells_verified": 84,
+  "native_three_way_cells_verified": 252,
+  "scored_start": "2013-01-01",
+  "scored_end_inclusive": "2026-10-11",
+  "selection_period_observed": true,
+  "not_fresh_oos": true,
+  "revised_html_sha256": "b96253786bb305473f5eb6f5711eb6225d1753149fb8eca49d123271d20954a8",
+  "observed_metrics": {
+    "closed_trades": 1405,
+    "long_trades": 1405,
+    "short_trades": 0,
+    "win_rate_pct": 38.93238434163701,
+    "closed_trade_profit_factor": 1.5469030726317632,
+    "linked_annual_roi_pct": 50.15256295741628,
+    "scientific_approval": "NOT_APPROVED"
+  },
+  "warnings": [
+    "Separate annual reset accounts; linked annual ROI not verified continuous compounding",
+    "Original H1 stop first-minute protection gap",
+    "Real CFD spread, financing and contract mapping unknown",
+    "Future parameter changes need new frozen session; all 2013-2026 observations already observed"
+  ],
+  "canonical_artifact_paths": [
+    "run_log/research_sessions/mechanicalpremia-us500-us100-2013-2026-v1/yearly_native/",
+    "docs/audit/mechanicalpremia_three_candidates_2013_2026/"
+  ],
+  "files": [
+    {
+      "path": "audits/h1_source_parity.md",
+      "sha256": "de49b1fee8fb9f7e81a2e67cb8c2d17a37d2e75ebd34f8afbb711534e703b774",
+      "size_bytes": 7481
+    },
+    {
+      "path": "audits/initial_thesis_and_trial_plan.md",
+      "sha256": "23ba6fa848c52b4a1aa878116a07a81be892810232afe49f6133fe5aba1f702c",
+      "size_bytes": 3081
+    },
+    {
+      "path": "config/research_session.yaml",
+      "sha256": "1511f96fce1854fb917181d800ef7e8f342f9295753deeb26dce4b48077c4b6f",
+      "size_bytes": 3058
+    },
+    {
+      "path": "provenance/data_manifest.json",
+      "sha256": "27ee38d571428f6290dcb244bc6ff903ab4f9961767f11b35d14dcb345f493d6",
+      "size_bytes": 1562
+    },
+    {
+      "path": "README.md",
+      "sha256": "57c292dd935a47de0a6510da8ec5f60f3d554c724d14eabadf729293d1f5e568",
+      "size_bytes": 6303
+    },
+    {
+      "path": "reports/all_annual_metrics.csv",
+      "sha256": "4cdaa3812a1ed402870500a4164ed106e2a19533304e044beb2fdea4ef85d398",
+      "size_bytes": 68046
+    },
+    {
+      "path": "reports/C3_US500_US100_Strategy_and_Portfolio_Tearsheet_2013_2026.html",
+      "sha256": "b96253786bb305473f5eb6f5711eb6225d1753149fb8eca49d123271d20954a8",
+      "size_bytes": 90817
+    },
+    {
+      "path": "reports/linked_roi_diagnostics.json",
+      "sha256": "bc6d5c5ef5525d97e0f37f22cc1c585da10fbe955d2c6b680bb852fb197d5164",
+      "size_bytes": 5119
+    },
+    {
+      "path": "reports/ROI_README.md",
+      "sha256": "77c27f9e262de773e3c2303b0daa9b731174df3e0090d2cbf20949da6645ad8f",
+      "size_bytes": 4663
+    },
+    {
+      "path": "reports/three_candidate_comparison.md",
+      "sha256": "3f11455fb451223a5c6735bb2cd208010c11e69bb180e608e06a1782e4804faa",
+      "size_bytes": 2407
+    },
+    {
+      "path": "reports/three_candidate_summary.json",
+      "sha256": "39a3e3b9b081bc8ee008e1fc5d0bc682525629e7afe4301e3671618bb8d91a07",
+      "size_bytes": 11274
+    },
+    {
+      "path": "research_next.md",
+      "sha256": "50a263ad6611ebbcb652d780961ee245eaebd8b8093ffb35c2147e4c055a059a",
+      "size_bytes": 2934
+    },
+    {
+      "path": "scripts/batch_mechanicalpremia_us2_v1.py",
+      "sha256": "0d6e9be531e0a22f5298e1b95da6fb53432c92a2d77aa2c827a5aa59d6b25bbd",
+      "size_bytes": 4764
+    },
+    {
+      "path": "scripts/report_mechanicalpremia_threeway_v1.py",
+      "sha256": "2f764a6f259affcfebca0089ea92fbf0309e0426028646a16bcafabe6fd79aed",
+      "size_bytes": 11472
+    },
+    {
+      "path": "scripts/tearsheet_mechanicalpremia_threeway_2013_2026.py",
+      "sha256": "7df20b706ba28c0eb7db4ee61e553f7b0d99345d867f0497d61979751c18ad53",
+      "size_bytes": 14517
+    },
+    {
+      "path": "scripts/verify_package.py",
+      "sha256": "b39a4fa9134631d5d01b9d3bac419399d1250b18aabec40268c7f586bbc2c851",
+      "size_bytes": 2002
+    },
+    {
+      "path": "src/mechanicalpremia_us2_2013_2026_v1.py",
+      "sha256": "24c0bec21e9530b523b39becbdde49cf85fd07cd796729cf3dfe6ca66d63fc33",
+      "size_bytes": 15628
+    },
+    {
+      "path": "src/run_mechanicalpremia_us2_2013_2026_v1.py",
+      "sha256": "8a1da58203eb3959f11ee544bbb254c3f9d53e07f08847e9d4fdbc4b9add9c07",
+      "size_bytes": 7591
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "53269b810b710780822399782aa86c2dbb5bb2b55a23fd6c07b10d33521a4324",
+      "size_bytes": 1253
+    },
+    {
+      "path": "strategy.yaml",
+      "sha256": "01e404b1d7459b7e80857710ab42e73cbe45048c9b7d3929e96c42cf40840211",
+      "size_bytes": 2124
+    },
+    {
+      "path": "tests/test_mechanicalpremia_us2_2013_2026_v1.py",
+      "sha256": "070a0f51ebf2faa17888f65ac4183fc761fde48508866f03ec86f2b6f51ef243",
+      "size_bytes": 1966
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "compute_features": "(data: polars.dataframe.frame.DataFrame | polars.lazyframe.frame.LazyFrame, features: list[str | dict[str, Any]] | pathlib.Path | str, *, group_col: str | list[str] | None = None, timestamp_col: str | None = None, assume_sorted: bool = False) -> polars.dataframe.frame.DataFrame | polars.lazyframe.frame.LazyFrame",
+  "Engine": "(feed: 'DataFeed', strategy: 'Strategy', config: 'BacktestConfig | None' = None, *, contract_specs: 'dict[str, Any] | None' = None, market_impact_model: 'Any | None' = None, execution_limits: 'Any | None' = None, lifecycle_version: 'LifecycleVersion | str' = <LifecycleVersion.V1: '1'>, execution_policy: 'ExecutionPolicy | None' = None, target_intent_state: 'dict[str, Any] | None' = None)",
+  "TradeAnalyzer": "(trades: collections.abc.Sequence['Trade']) -> None",
+  "imports_verified": [
+    "labeling",
+    "analyze_signal",
+    "Evaluator",
+    "Strategy"
+  ],
+  "event_method": "statsmodels OLS calendar associations; no cross-sectional IC or feature catalog equivalent"
+}

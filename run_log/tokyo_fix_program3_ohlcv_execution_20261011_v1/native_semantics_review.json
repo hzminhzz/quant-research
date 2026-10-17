@@ -1,0 +1,143 @@
+{
+  "role": "VERIFIED",
+  "review_scope": "synthetic native execution only; no market outcomes read",
+  "library_version": "0.1.7",
+  "cases": {
+    "native_touch_inclusive": {
+      "fills": [
+        {
+          "timestamp": "2020-01-02T09:56:00",
+          "price": 150.0,
+          "side": "sell",
+          "type": "limit",
+          "quantity": 10000.0
+        },
+        {
+          "timestamp": "2020-01-02T10:10:00",
+          "price": 149.95,
+          "side": "buy",
+          "type": "market",
+          "quantity": 10000.0
+        }
+      ],
+      "cancel_return": false,
+      "order_status": "filled"
+    },
+    "strict_gate_rejects_touch": {
+      "fills": [],
+      "cancel_return": true,
+      "order_status": "cancelled"
+    },
+    "no_same_bar_fill": {
+      "fills": [],
+      "cancel_return": true,
+      "order_status": "cancelled"
+    },
+    "strict_cross_allowed": {
+      "fills": [
+        {
+          "timestamp": "2020-01-02T09:56:00",
+          "price": 150.0,
+          "side": "sell",
+          "type": "limit",
+          "quantity": 10000.0
+        },
+        {
+          "timestamp": "2020-01-02T10:10:00",
+          "price": 149.95,
+          "side": "buy",
+          "type": "market",
+          "quantity": 10000.0
+        }
+      ],
+      "cancel_return": false,
+      "order_status": "filled"
+    },
+    "TTL1_cancels_before_late_cross": {
+      "fills": [],
+      "cancel_return": true,
+      "order_status": "cancelled"
+    },
+    "TTL3_last_bar_allowed": {
+      "fills": [
+        {
+          "timestamp": "2020-01-02T09:58:00",
+          "price": 150.0,
+          "side": "sell",
+          "type": "limit",
+          "quantity": 10000.0
+        },
+        {
+          "timestamp": "2020-01-02T10:10:00",
+          "price": 149.95,
+          "side": "buy",
+          "type": "market",
+          "quantity": 10000.0
+        }
+      ],
+      "cancel_return": false,
+      "order_status": "filled"
+    },
+    "TTL3_late_bar_cancelled": {
+      "fills": [],
+      "cancel_return": true,
+      "order_status": "cancelled"
+    },
+    "limit_slippage_violation": {
+      "fills": [
+        {
+          "timestamp": "2020-01-02T09:56:00",
+          "price": 149.995,
+          "side": "sell",
+          "type": "limit",
+          "quantity": 10000.0
+        },
+        {
+          "timestamp": "2020-01-02T10:10:00",
+          "price": 149.95499999999998,
+          "side": "buy",
+          "type": "market",
+          "quantity": 10000.0
+        }
+      ],
+      "cancel_return": false,
+      "order_status": "filled"
+    }
+  },
+  "source": {
+    "limit_matching": {
+      "path": "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/core/fill_engine.py",
+      "line": 277,
+      "signature": "(self, order, high: 'float', low: 'float') -> 'float | None'",
+      "source_sha256": "f23dfba7e15d083a48a0dca9b95f78c804981f61b917e4baf7433a72d7d2522d"
+    },
+    "cancel": {
+      "path": "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/core/order_book.py",
+      "line": 262,
+      "signature": "(self, order_id: 'str') -> 'bool'",
+      "source_sha256": "bd1db511fb9a1e8a81f042a53447001729ffaca559327729d8ba42cdc5529ea8"
+    },
+    "positive_volume_gate": {
+      "path": "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/execution/limits.py",
+      "line": 66,
+      "signature": "(self, order_quantity: float, bar_volume: float | None, price: float) -> ml4t.backtest.execution.result.ExecutionResult",
+      "source_sha256": "f3f07924640c766058fa7d71e9b2317c8420835cfde50ef927dea82ff9839c99"
+    },
+    "engine_constructor": {
+      "path": "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/engine.py",
+      "line": 83,
+      "signature": "(self, feed: 'DataFeed', strategy: 'Strategy', config: 'BacktestConfig | None' = None, *, contract_specs: 'dict[str, Any] | None' = None, market_impact_model: 'Any | None' = None, execution_limits: 'Any | None' = None, lifecycle_version: 'LifecycleVersion | str' = <LifecycleVersion.V1: '1'>, execution_policy: 'ExecutionPolicy | None' = None, target_intent_state: 'dict[str, Any] | None' = None)",
+      "source_sha256": "e0b90bd959bb15c2f19aaf4227646cc4b1fca45f82a3007430d8c298a406cd11"
+    }
+  },
+  "recommendation": "Native NEXT_BAR LIMIT with PositiveVolumeLimit synthetic 0/1 bar eligibility, unchanged OHLC, exact limit price and zero native slippage. Gate entries on strict high>limit+buffer inside TTL, permit scheduled exit. Explicit quote-currency roundtrip cost overlay converted at raw exit. Cancel after last permitted matching cycle.",
+  "timing": "09:54 close available at09:55; submit at09:55; first match09:56; TTL1 cancel after09:56 cycle; TTL3 cancel after09:58 cycle; submit exit10:09 for10:10 open.",
+  "limitations": [
+    "Gate volume is synthetic eligibility, not executable FX volume",
+    "Native inclusive touch is inadequate alone",
+    "Native slippage applies to limit fills and can violate limit",
+    "No native expiry/TTL order field found; cancellation is strategy-managed",
+    "FX quote account requires independent USD conversion",
+    "Within-bar crossing time/queue position/fill probability unknown"
+  ]
+}

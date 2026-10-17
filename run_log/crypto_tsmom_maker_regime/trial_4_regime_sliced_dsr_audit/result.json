@@ -1,0 +1,38 @@
+{
+  "trial_id": "trial_4_regime_sliced_dsr_audit",
+  "description": "Regime-sliced performance attribution and DSR audit across 10 cumulative trials",
+  "regime_attribution": {
+    "low_volatility": {
+      "observations": 18921,
+      "annualized_sharpe": 0.9527810783408868
+    },
+    "mid_volatility": {
+      "observations": 11318,
+      "annualized_sharpe": 2.635357970869052
+    },
+    "high_volatility": {
+      "observations": 4825,
+      "annualized_sharpe": 0.993249976533988
+    }
+  },
+  "multiple_testing": {
+    "cumulative_trials_count": 10,
+    "all_evaluated_sharpes": [
+      0.237,
+      0.198,
+      0.208,
+      0.24,
+      0.211,
+      0.128,
+      0.129,
+      0.25495989630340327,
+      0.2588681948473431,
+      0.20577143571238526
+    ],
+    "best_sharpe": 0.2588681948473431,
+    "deflated_sharpe_probability": 0.6476133196787294
+  },
+  "falsifier_checks": {
+    "min_dsr_probability_0_80": false
+  }
+}

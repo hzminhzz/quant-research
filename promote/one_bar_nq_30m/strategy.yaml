@@ -1,0 +1,25 @@
+strategy_id: one_bar_nq_30m
+workflow_status: PROMOTED_FOR_FURTHER_RESEARCH
+agent_selection: active_promoted_b0
+promotion_note: "B0 retained; percentage-stop and ATR/MNQ alternatives tested but not adopted; live trading separately unqualified"
+classification: EXPLORATORY
+approval_status: NOT_APPROVED
+instrument_assumption:
+  source: Dukascopy USATECH.IDX/USD BID CFD/index proxy
+  mapping: one illustrative NQ-equivalent contract at 20 USD per index point
+  cme_contract_verified: false
+rules:
+  decision_bar_minutes: 30
+  session: extended, aligned to 17:00 America/Chicago
+  lookback_complete_bars: 50
+  entry_orders: one buy stop at prior 50-bar high and one sell stop at prior 50-bar low
+  entry_order_relation: cancel opposing entry after first fill (intended OCO)
+  protective_loss_usd: 1000
+  max_entries_per_chicago_session_day: 2
+  exit: market at opening print of immediately following 30-minute bar
+  directions: [long, short]
+  filters: none
+known_execution_limits:
+  - One-minute OHLC cannot resolve intraminute ordering.
+  - Installed native broker has no atomic OCO order group.
+  - A stop trigger does not cap loss through market gaps.

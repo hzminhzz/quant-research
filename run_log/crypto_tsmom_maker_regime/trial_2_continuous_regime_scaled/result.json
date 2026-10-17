@@ -1,0 +1,32 @@
+{
+  "trial_id": "trial_2_continuous_regime_scaled",
+  "description": "Continuous Regime-Scaled TSMOM (ADX + Vol Rank)",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 28320.721343355537
+  },
+  "performance": {
+    "total_return": 1.8320721343355535,
+    "annualized_sharpe": 0.2588681948473431,
+    "max_drawdown": 0.24258566339008353,
+    "win_rate": 0.2896270396270396,
+    "profit_factor": 1.6559366082837763
+  },
+  "execution": {
+    "trades": 1716,
+    "total_commission": 1276.62989161001,
+    "total_slippage": 0.0,
+    "total_costs": 1276.62989161001,
+    "gross_pnl": 19597.351234965583,
+    "fee_drag_pct": 6.514298163581655
+  },
+  "falsifier_checks": {
+    "min_sharpe_0_80": false,
+    "max_drawdown_25_pct": true,
+    "fee_drag_under_20_pct": true
+  }
+}

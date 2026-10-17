@@ -1,0 +1,70 @@
+{
+  "handoff_schema_version": "stage5-handoff-v3",
+  "strategy_id": "crypto_tsmom_two_stage_funnel_stop_exec_v1",
+  "version": "1.0.0",
+  "status": "ACCEPTED_FOR_STAGE5_EXECUTION",
+  "created_at": "2026-10-07T09:39:58.020016+00:00",
+  "research_lane": "empirical_thesis_driven",
+  "architecture": "Two-Stage Funnel (Liquidity Screen + EMA200 Structural Trend Gate + Risk-Adjusted Momentum Ranking)",
+  "execution_models": {
+    "primary_recommended": {
+      "type": "PASSIVE_MAKER_LIMIT",
+      "commission_rate": 0.00018,
+      "slippage_rate": 0.0,
+      "development_metrics": {
+        "sharpe": 0.63,
+        "return_pct": 17.63,
+        "max_dd_pct": 12.89,
+        "costs": 477.69
+      },
+      "holdout_metrics": {
+        "return_pct": 18.65,
+        "max_dd_pct": 20.45,
+        "sharpe": 0.55,
+        "alpha_vs_bnh_pct": 81.8
+      }
+    },
+    "breakout_alternative": {
+      "type": "STOP_MARKET_ORDER",
+      "order_type": "OrderType.STOP",
+      "trigger_offset": "Close * 1.002",
+      "commission_rate": 0.00045,
+      "slippage_rate": 0.00015,
+      "development_metrics": {
+        "sharpe": 0.311,
+        "return_pct": 7.76,
+        "max_dd_pct": 14.95,
+        "costs": 1430.31
+      },
+      "holdout_metrics": {
+        "return_pct": 12.71,
+        "max_dd_pct": 22.95,
+        "sharpe": 0.42,
+        "alpha_vs_bnh_pct": 75.86
+      }
+    }
+  },
+  "stress_testing": {
+    "terra_luna_may_2022": {
+      "market_drop_pct": -52.06,
+      "strategy_loss_pct": -0.22,
+      "survived": true
+    },
+    "ftx_collapse_nov_2022": {
+      "market_drop_pct": -34.99,
+      "strategy_loss_pct": -0.99,
+      "survived": true
+    }
+  },
+  "multiple_testing": {
+    "total_trials_evaluated": 24,
+    "peak_development_sharpe": 1.94,
+    "deflated_sharpe_ratio": 0.9991
+  },
+  "production_guardrails": {
+    "max_gross_leverage": 1.0,
+    "max_single_weight": 0.2,
+    "kill_switch_drawdown": 0.15,
+    "kill_switch_action": "HALT_AND_FLATTEN_ALL_POSITIONS"
+  }
+}

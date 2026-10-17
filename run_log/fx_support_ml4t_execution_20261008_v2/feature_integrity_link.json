@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "prior_artifact": "run_log/fx_support_ml4t_execution_20261008/feature_integrity_v1.json",
+  "prior_sha256": "55f0a9401a4ef0e9f0fca959c72080193398eb66fc78ba06e621ac9d3d595e0f",
+  "identity_checks": [
+    "data/features/fx_support_conditions_20261008.parquet",
+    "run_log/fx_support_conditions_20261008_ml_v2/I4_purged_lightgbm_v2/scored_events.parquet",
+    "data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2010_2017_5m.parquet",
+    "data/processed/ftmo_fx_reversion_202610/EURUSD_dev_2018_2024_5m.parquet",
+    "data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2010_2017_5m.parquet",
+    "data/processed/ftmo_fx_reversion_202610/GBPUSD_dev_2018_2024_5m.parquet",
+    "data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2010_2017_5m.parquet",
+    "data/processed/ftmo_fx_reversion_202610/AUDUSD_dev_2018_2024_5m.parquet"
+  ],
+  "feature_rows": 1395,
+  "oof_rows": 730,
+  "selected_rows": 112,
+  "holdout_opened": false,
+  "regeneration": "Reused previously independent installed ml4t.engineer.compute_features parity verification. No retraining."
+}

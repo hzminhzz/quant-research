@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/quant/dev/quant/quant-research/scripts/run_mechanicalpremia_yen_squeeze_mt5atr_v4_20261014.py", line 197, in <module>
+    main()
+    ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_mechanicalpremia_yen_squeeze_mt5atr_v4_20261014.py", line 184, in main
+    summary = _write_trial(args.lookback, args.pips, minutes)
+  File "/home/quant/dev/quant/quant-research/scripts/run_mechanicalpremia_yen_squeeze_mt5atr_v4_20261014.py", line 73, in _write_trial
+    strategy, engine, native = run_engine(minutes, lookback=lookback, roundtrip_jpy=pips * 0.01)
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/mechanicalpremia_yen_squeeze_mt5atr_proxy_v4_20261014.py", line 246, in run_engine
+    result = engine.run()
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/engine.py", line 165, in run
+    return self._run_once()
+           ~~~~~~~~~~~~~~^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/engine.py", line 443, in _run_once
+    self._dispatch_market_event(timestamp, assets_data, context)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/engine.py", line 500, in _dispatch_market_event
+    self.lifecycle_dispatcher.dispatch(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        LifecyclePhase.MARKET_EVENT,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        event_time=timestamp,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/lifecycle.py", line 80, in dispatch
+    return callback(*args)
+  File "/home/quant/dev/quant/quant-research/scripts/mechanicalpremia_yen_squeeze_mt5atr_proxy_v4_20261014.py", line 66, in on_data
+    order = broker.get_order(order_id)
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/broker.py", line 2274, in get_order
+    return self._order_book.get_order(order_id)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/ml4t/backtest/core/order_book.py", line 273, in get_order
+    if order.order_id == order_id:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

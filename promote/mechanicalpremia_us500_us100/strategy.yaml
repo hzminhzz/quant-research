@@ -1,0 +1,59 @@
+strategy_id: mechanicalpremia_us500_us100
+display_name: Mechanical Premia C3 - US500 and US100, H1 plus D1
+classification: EXPLORATORY
+workflow_status: PROMOTED_FOR_FURTHER_RESEARCH
+approval_status: NOT_APPROVED
+frozen_session: mechanicalpremia-us500-us100-2013-2026-v1
+selection: selected_after_review_of_c1_c2_and_2025_2026_performance
+instruments:
+  - symbol: US500
+    provider: Dukascopy
+    canonical_store: index_minute_ES
+    currency: USD
+  - symbol: US100
+    provider: Dukascopy
+    canonical_store: index_minute_NQ
+    currency: USD
+position_sizing:
+  dynamic_budget_fraction_of_current_equity: 0.01
+  standalone_each_sleeve_budget_fraction: 1.0
+  combined:
+    h1_share_of_total_risk: 0.2336
+    d1_share_of_total_risk: 0.7664
+  allocation_within_sleeve: equal_over_two_indices
+  atr_distance_multiplier:
+    h1: 2.0
+    d1: 1.0
+  d1_atr_distance_is_actual_stop: false
+  fixed_contract_count: false
+  guaranteed_loss_cap: false
+  risk_is_nominal_budget_not_target_volatility: true
+execution:
+  engine: ml4t.backtest.Engine
+  feature_provider: ml4t.engineer.compute_features
+  bid_only_price_proxy: true
+  quote_ask_prices_available: false
+  exact_mt5_source_execution_certified: false
+  initial_h1_protective_stop_attach_after_entry_callback: true
+costs:
+  commission_bps_per_side: 1.0
+  slippage_bps_per_side: 2.0
+  spread_and_financing_not_broker_verified: true
+backtest:
+  scored_start: 2013-01-01
+  last_scored_day: 2026-10-11
+  partial_last_year: true
+  annual_simulations_independently_reset: true
+  actual_continuous_account_compounding_verified: false
+  total_native_cells_c3: 84
+  total_native_cells_three_way_comparison: 252
+artifacts:
+  html: reports/C3_US500_US100_Strategy_and_Portfolio_Tearsheet_2013_2026.html
+  baseline_annual_metrics: reports/all_annual_metrics.csv
+  source_code: src/mechanicalpremia_us2_2013_2026_v1.py
+  root_session_spec: config/research_sessions/mechanicalpremia-us500-us100-2013-2026-v1.yaml
+next_work:
+  - source_stop_and_session_parity
+  - continuous_position_carry_with_realistic_costs
+  - risk_normalized_h1_and_d1_attribution
+  - bounded_one_change_at_a_time_trials

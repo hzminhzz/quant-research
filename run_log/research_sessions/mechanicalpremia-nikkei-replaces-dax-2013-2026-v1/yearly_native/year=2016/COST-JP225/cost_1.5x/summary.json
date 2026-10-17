@@ -1,0 +1,113 @@
+{
+  "state": "NEW_POST_SELECTION_JP225_UNQUALIFIED_CFD_BID_PROXY",
+  "selection_bias": "Old DE30 losses were observed before choosing JP225; no pristine OOS",
+  "window_end_exclusive": "2026-01-01 00:00:00+00:00",
+  "session": "mechanicalpremia-nikkei-replaces-dax-2013-2026-v1",
+  "year": 2016,
+  "trial": "COST-JP225",
+  "cost_multiplier": 1.5,
+  "source_note": "JP225 replaces DE30 in BOTH sleeves; no DE30. USD/JPY/EUR synthetic price units.",
+  "coverage": [
+    {
+      "symbol": "US500",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 163,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "US100",
+      "rows": 215643,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 153,
+      "d1_signals": 0,
+      "d1_exits": 0
+    },
+    {
+      "symbol": "JP225",
+      "rows": 298937,
+      "first": "2016-01-04 01:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 177,
+      "d1_signals": 5,
+      "d1_exits": 19
+    },
+    {
+      "symbol": "EU50",
+      "rows": 215401,
+      "first": "2016-01-04 07:00:00+00:00",
+      "last": "2016-12-30 21:00:00+00:00",
+      "h1_signals": 118,
+      "d1_signals": 1,
+      "d1_exits": 16
+    }
+  ],
+  "native": {
+    "initial_cash": 100000.0,
+    "final_value": 100309.51996642168,
+    "num_trades": 120,
+    "num_orders": 241,
+    "num_fills": 241,
+    "num_rejected_orders": 0,
+    "win_rate": 0.4,
+    "total_commission": 529.158883562612,
+    "total_slippage": 1058.3165958146467,
+    "total_costs": 1580.776056233054,
+    "max_drawdown_pct": 2.1160749701218085
+  },
+  "daily": {
+    "total_return": 0.003095199664217896,
+    "annual_return": 0.0025153701438691556,
+    "annual_volatility": 0.019559983360049635,
+    "sharpe_ratio": 0.13817548084063805,
+    "sortino_ratio": 0.21345319515407046,
+    "calmar_ratio": 0.15238993924964625,
+    "omega_ratio": 1.0403074765857148,
+    "tail_ratio": 1.4825054447548824,
+    "max_drawdown": -0.016506143097468257,
+    "skewness": 1.2509605117074605,
+    "kurtosis": 25.08917746276933,
+    "var_95": -0.0012252000686931474,
+    "cvar_95": -0.0026735737104896843,
+    "stability": 0.025089124961229028,
+    "win_rate": 0.20967741935483872,
+    "profit_factor": 1.040307476585715,
+    "avg_win": 0.0013201502774540894,
+    "avg_loss": -0.0009591279721223219,
+    "alpha": null,
+    "beta": null,
+    "information_ratio": null,
+    "up_capture": null,
+    "down_capture": null
+  },
+  "closed_trades": 120,
+  "open_trades": 1,
+  "closed_net_pnl": 290.7803509810385,
+  "native_end_equity": 100309.51996642168,
+  "cash_plus_positions_reconciles": true,
+  "positions": {
+    "JP225_D": {
+      "quantity": 0.7827396487649868,
+      "entry_price": 19023.674390700002,
+      "current_price": 19050.469,
+      "multiplier": 1.0
+    }
+  },
+  "native_order_rejections": [],
+  "units": "SYNTHETIC price-units; EUR and USD index values NOT FX-converted; NOT tradable $ PnL",
+  "blockers": [
+    "H1 protective stop installed after first fill, entry minute uncovered",
+    "BID quotes only; no observed ASK spread",
+    "CFD lot size/multiplier, FX conversion, overnight financing unverified",
+    "NY17 daily market session assumed even for DAX/EU50",
+    "Open positions not carried across standalone yearly partitions"
+  ],
+  "artifacts": {
+    "fills": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/COST-JP225/cost_1.5x/fills.parquet",
+    "trades": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/COST-JP225/cost_1.5x/trades.parquet",
+    "daily": "/home/quant/dev/quant/quant-research/run_log/research_sessions/mechanicalpremia-nikkei-replaces-dax-2013-2026-v1/yearly_native/year=2016/COST-JP225/cost_1.5x/daily_equity.parquet"
+  }
+}

@@ -1,0 +1,126 @@
+session_id: gotobi_macro_context_20261011_v2
+market: fx
+thesis: >-
+  Lagged relative government yield, preannounced monetary-policy meeting proximity,
+  and Japan banking-calendar subtypes may condition the economic Gotobi effect.
+  The primary falsifiable question is whether adding a delayed US-Japan yield
+  spread to an existing banking-calendar model improves chronological net
+  USDJPY returns in 2023-2025 versus the same calendar-only comparator.
+mechanism: >-
+  Interest rate policy can dominate exporter/importer FX flows. Policy-decision
+  dates can disrupt flows, but LSE event backfills are not proven historically
+  observable schedules. Month-end/roll dates can alter settlement imbalances.
+  No mechanism is presumed proven by calendar/price correlation.
+falsifier: >-
+  Reject deployable incremental macro feature if the 2023-2025 walk-forward
+  native ML4T filtered candidate does not outperform same-date calendar-only
+  model net of 1pip, or its 2024-2025 PnL is nonpositive, or its candidate
+  signal uses observations without independently verified availability vintages.
+  Fail closed if yield feature coverage below 80% across executable Gotobi dates.
+  Do not use retrospective LSE policy decision archives as PIT predictors.
+  Statistical tests without multiple-comparison correction do not qualify.
+instruments:
+  - symbol: USDJPY
+    kind: fx
+    venue: LSE_REFERENCE_FX_NOT_EXECUTABLE_BROKER
+    identity: >-
+      USDJPY spot-research proxy, USD base JPY quote, JPY0.01 pip,
+      fixed USD10000 base notional and reference USD10000 equity.
+      USD/JPY broker spreads, latency, contract margin not verified.
+    timezone: Asia/Tokyo
+    session: Japanese bank business dates from inherited BOJ-derived registry
+data:
+  - {id: usdjpy_native_source_2020, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2020.parquet}
+  - {id: usdjpy_native_source_2021, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2021.parquet}
+  - {id: usdjpy_native_source_2022, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2022.parquet}
+  - {id: usdjpy_native_source_2023, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2023.parquet}
+  - {id: usdjpy_native_source_2024, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2024.parquet}
+  - {id: usdjpy_native_source_2025, symbol: USDJPY, role: prices, path: data/processed/gotobi_paper_replication_20261011_v1/USDJPY_2025.parquet}
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2025-12-31T15:00:00Z"
+  holdout_start: "2026-08-31T15:00:00Z"
+  holdout_end: "2026-11-01T00:00:00Z"
+  supersedes_failed_preflight: "gotobi_macro_context_20261011_v1 could not pass generic-data schema; NO outcomes inspected; v2 registers exogenous macro files as external evidence, never as prices or funding"
+  source_report: docs/audit/gotobi_exact_paper_bridge_20261011_v1.md
+  native_previous_results: run_log/gotobi_exact_paper_bridge_20261011_v1/native/trades.parquet
+  period_start_jst: "2020-01-01"
+  period_end_jst: "2025-12-31"
+  training_initial_jst: "2020-01-01 through 2022-12-31"
+  walkforward_test_folds: ["2023", "2024", "2025"]
+  retraining: "Yearly expanding training, never test-year data in fit"
+  holdout: "2026-09-01 through 2026-10-31 JST SEALED"
+  past_inspected: "Entire 2020-2025 history examined in earlier Gotobi programs; results are retrospective only"
+  primary_hypothesis: "H1 delayed US10Y minus JP10Y improves 2023-2025 prediction net of costs"
+  yield_input: "LSE series JP10Y and US10Y captured Oct11; vendor vault values may reflect hindsight corrections"
+  assumed_yield_available_at: >-
+    00:00 UTC on observation-date plus 3 calendar days, deliberately delayed
+    since daily closing/publication exact times and revisions are not verified.
+    Observations joined backward to USDJPY 02:59 JST decision timestamps.
+    This is NOT point-in-time vintage certification; no deployment approval.
+  h1_feature: "US10Y-JP10Y most recently assumed-available yield spread in percentage points"
+  h2_feature: >-
+    ±1 JST calendar day of realized BoJ/Fed policy decision, for retrospective
+    event diagnostics ONLY. Never feed to model or strategy because 99/100
+    archive records were created after historic event; advance publication
+    of meeting schedules is not independently confirmed by source archive.
+  h3_features: >-
+    last-calendar-day rolled onto final Japanese banking day month-end indicator;
+    any nominal 5/10/15/20/25 event rolled back because of Japanese holiday
+    or weekend; flags computed only from prior official bank calendar.
+  economic_controls: "Global year indicators used only for retrospective conditional association, NOT for trained models"
+  labels: "Native 03:00-open long to 09:56-open exit net of 1pip observed source-account execution"
+  feature_sample: "Original author Gotobi dates, 2020-2025, exact prior native 4bar eligibility; no 2026 observations"
+  primary_models:
+    - {id: cash, description: zero entries on every day}
+    - {id: always_long, description: same eligible Gotobi sessions without filtering}
+    - {id: ridge_calendar_only, description: "Ridge alpha 10, train-only StandardScaler, month_end and rolled flags; trade if predicted net pips > 0"}
+    - {id: ridge_with_yield, description: "Ridge alpha 10, train-only StandardScaler, month_end, rolled and lagged yield spread; trade if predicted net pips > 0"}
+  training_gate: "At least 100 event samples with complete features by 2022-12-31"
+  evaluation_gate: >-
+    Same complete-feature candidate dates across all models. Three fixed yearly
+    test folds 2023,2024,2025. No threshold or hyperparameter optimization.
+    Compare 2023-2025 PnL, 2024-2025 PnL, drawdown, net PnL per scheduled
+    event, yearly signs, relative always-long and calendar-only;
+    report fold-wise forecast RMSE against train historical-mean comparator.
+  statistical_trials: >-
+    Three distinct univariate tests: yield spread, month-end, rolled, with
+    Holm 3-family p correction; event-proximity ex-post is a separate fourth
+    diagnostic and not a deployable predictor. HAC5 for mean/coefficients.
+  execution:
+    primary_market: "Native ml4t.backtest.Engine NEXT_BAR OPEN"
+    order_entry: "Submit at 02:59 JST, fill 03:00 JST open"
+    order_exit: "Submit at 09:55 JST, fill 09:56 JST open"
+    cost_reference_pips_round_trip: 1.0
+    stress_pips_round_trip: [1.5, 2.0]
+    position_base_units_usd: 10000
+    reference_equity_usd: 10000
+    no_compounding: true
+    unverified_costs: "1pip hypothetical adverse slippage, not historical broker spreads"
+    currency_conversion: "Native JPY portfolio, realized trade JPY PnL converted using executed JPY per USD exit"
+  acceptance: >-
+    A candidate is not an approved alpha unless source vintages are verified,
+    calendar-model incremental 2023-2025 PnL positive, incremental 2024-2025
+    positive, nonnegative yearly average net returns, and robust at 1.5pip.
+    No post hoc modifications; protected holdout stays sealed.
+baseline: "Cash, fixed Gotobi market-long and separate simple calendar-only Ridge"
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  simulated_total_roundtrip_pips: [1.0, 1.5, 2.0]
+  caveat: "LSE yields retrospectively retrieved; historical macro vintages and executable FX quotes unverified"
+trials:
+  - {id: T0_source_audit, kind: diagnostic, description: Verify yield dates, source hashes, historical availability and economic-event record creation}
+  - {id: T1_feature_panel, kind: preregistered, description: Frozen delayed-yield and official Japanese calendar feature construction}
+  - {id: T2_hypothesis_diagnostics, kind: preregistered, description: Yield and settlement-calendar association, ex-post BoJ Fed event diagnostics, HAC and Holm correction}
+  - {id: T3_walkforward, kind: preregistered, description: Yearly expanding train-only Ridge calendar vs Ridge with delayed yields}
+  - {id: T4_native_engine, kind: preregistered, description: Native ML4T cash all-event calendar-only and yield model at 1pip, quote timing reconciliation}
+  - {id: T5_cost_robustness, kind: diagnostic, description: Native 1p5 and 2pip round trip cost sensitivities, yearly attribution}
+  - {id: T6_independent_audit, kind: diagnostic, description: Check source hashes, all timestamps, no lookahead, full trial accounting and report}
+evidence:
+  - data/processed/gotobi_macro_context_20261011_v1/JP10Y.parquet
+  - data/processed/gotobi_macro_context_20261011_v1/US10Y.parquet
+  - data/processed/gotobi_macro_context_20261011_v1/rate_events.parquet
+  - data/processed/gotobi_macro_context_20261011_v1/source_manifest.json
+  - data/processed/gotobi_macro_context_20261011_v1/source_manifest.json
+  - run_log/gotobi_exact_paper_bridge_20261011_v1/T4_native_market/result.json

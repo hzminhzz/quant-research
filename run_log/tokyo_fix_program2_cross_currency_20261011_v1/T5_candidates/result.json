@@ -1,0 +1,344 @@
+{
+  "candidates": [
+    {
+      "id": "C1_USD_confirmed_short",
+      "qualifies": false,
+      "gates": {
+        "n100": true,
+        "development_positive": true,
+        "validation_n50_positive": true,
+        "stress_positive": false,
+        "net_hac_lower_positive": true,
+        "increment_hac_lower_positive": false,
+        "external_predictive_holm_pass": false,
+        "placebo_not_same_direction_holm": true,
+        "matched_specificity_lower_positive": false,
+        "year_sign_5_of_7": true,
+        "source_comparable": true
+      },
+      "selected_n": 213,
+      "unconditional_n": 466,
+      "net_cost1": {
+        "n": 213,
+        "coef": 0.9517066058630052,
+        "ci95": [
+          0.16799983677332553,
+          1.7354133749526848
+        ],
+        "p": 0.01754708137420794
+      },
+      "unconditional": {
+        "n": 466,
+        "coef": 0.5870992581296252,
+        "ci95": [
+          -0.02780924440895982,
+          1.2020077606682102
+        ],
+        "p": 0.061252859334137495
+      },
+      "increment_vs_unconditional": {
+        "n": 466,
+        "coef": -0.152091732273788,
+        "ci95": [
+          -0.6343919725307224,
+          0.3302085079831465
+        ],
+        "p": 0.5357714382206082
+      },
+      "matched_specificity": {
+        "n": 466,
+        "coef": -0.5426463340283677,
+        "ci95": [
+          -1.3907356272778648,
+          0.3054429592211294
+        ],
+        "p": 0.20925783754585991
+      },
+      "cost_sensitivity": {
+        "1": {
+          "n": 213,
+          "coef": 0.9517066058630052,
+          "ci95": [
+            0.16799983677332553,
+            1.7354133749526848
+          ],
+          "p": 0.01754708137420794
+        },
+        "2": {
+          "n": 213,
+          "coef": 0.20081446899215888,
+          "ci95": [
+            -0.5904542977228604,
+            0.9920832357071783
+          ],
+          "p": 0.6174031067726338
+        },
+        "3": {
+          "n": 213,
+          "coef": -0.5500776678786874,
+          "ci95": [
+            -1.3505653178116441,
+            0.25040998205426923
+          ],
+          "p": 0.17699411156192132
+        }
+      },
+      "years": [
+        {
+          "year": 2020,
+          "n": 25,
+          "net_usd_cost1": -0.6712303027526311
+        },
+        {
+          "year": 2021,
+          "n": 33,
+          "net_usd_cost1": 0.4423012586330173
+        },
+        {
+          "year": 2022,
+          "n": 26,
+          "net_usd_cost1": 2.7021283126953195
+        },
+        {
+          "year": 2023,
+          "n": 34,
+          "net_usd_cost1": 1.374301926598558
+        },
+        {
+          "year": 2024,
+          "n": 35,
+          "net_usd_cost1": 0.8848552638280468
+        },
+        {
+          "year": 2025,
+          "n": 41,
+          "net_usd_cost1": 1.617154367975522
+        },
+        {
+          "year": 2026,
+          "n": 19,
+          "net_usd_cost1": -0.4924495722453147
+        }
+      ],
+      "gross_entry_notional_usd": 10000,
+      "costs": "Hypothetical 1/2/3 pip round-trip per leg, including spread+fees+slippage aggregate; broker costs UNKNOWN"
+    },
+    {
+      "id": "C2_USD_neutral_EUR_hedge",
+      "qualifies": false,
+      "gates": {
+        "n100": true,
+        "development_positive": false,
+        "validation_n50_positive": true,
+        "stress_positive": false,
+        "net_hac_lower_positive": false,
+        "increment_hac_lower_positive": false,
+        "external_predictive_holm_pass": false,
+        "placebo_not_same_direction_holm": true,
+        "matched_specificity_lower_positive": false,
+        "year_sign_5_of_7": true,
+        "source_comparable": true
+      },
+      "selected_n": 213,
+      "unconditional_n": 465,
+      "net_cost1": {
+        "n": 213,
+        "coef": -0.03723753909366795,
+        "ci95": [
+          -0.3889526810225196,
+          0.3144776028351837
+        ],
+        "p": 0.8348821116617688
+      },
+      "unconditional": {
+        "n": 465,
+        "coef": -0.18486016971984479,
+        "ci95": [
+          -0.46154223254597315,
+          0.09182189310628361
+        ],
+        "p": 0.18985227239741045
+      },
+      "increment_vs_unconditional": {
+        "n": 465,
+        "coef": 0.16780297439306785,
+        "ci95": [
+          -0.04636581114612548,
+          0.3819717599322612
+        ],
+        "p": 0.1243239987345749
+      },
+      "matched_specificity": {
+        "n": 465,
+        "coef": -0.5425933917604245,
+        "ci95": [
+          -1.3921258876467002,
+          0.30693910412585124
+        ],
+        "p": 0.21007450441530817
+      },
+      "cost_sensitivity": {
+        "1": {
+          "n": 213,
+          "coef": -0.03723753909366795,
+          "ci95": [
+            -0.3889526810225196,
+            0.3144776028351837
+          ],
+          "p": 0.8348821116617688
+        },
+        "2": {
+          "n": 213,
+          "coef": -0.8610006326002523,
+          "ci95": [
+            -1.2143695891423578,
+            -0.5076316760581467
+          ],
+          "p": 2.9535944694231503e-06
+        },
+        "3": {
+          "n": 213,
+          "coef": -1.6847637261068367,
+          "ci95": [
+            -2.0405705283152535,
+            -1.3289569238984198
+          ],
+          "p": 1.4232594449992483e-17
+        }
+      },
+      "years": [
+        {
+          "year": 2020,
+          "n": 25,
+          "net_usd_cost1": -0.8700389149759619
+        },
+        {
+          "year": 2021,
+          "n": 33,
+          "net_usd_cost1": 0.3010381001525034
+        },
+        {
+          "year": 2022,
+          "n": 26,
+          "net_usd_cost1": 0.018898666765887386
+        },
+        {
+          "year": 2023,
+          "n": 34,
+          "net_usd_cost1": 0.12020749448743831
+        },
+        {
+          "year": 2024,
+          "n": 35,
+          "net_usd_cost1": 0.13567525437096312
+        },
+        {
+          "year": 2025,
+          "n": 41,
+          "net_usd_cost1": 0.327184336138852
+        },
+        {
+          "year": 2026,
+          "n": 19,
+          "net_usd_cost1": -0.9924469521446025
+        }
+      ],
+      "gross_entry_notional_usd": 10000,
+      "costs": "Hypothetical 1/2/3 pip round-trip per leg, including spread+fees+slippage aggregate; broker costs UNKNOWN"
+    },
+    {
+      "id": "C3_cross_basket",
+      "status": "INELIGIBLE_SOURCE",
+      "qualifies": false
+    }
+  ],
+  "benchmarks": [
+    {
+      "id": "B_original_long_gotobi",
+      "net_usd_1pip": {
+        "n": 459,
+        "coef": 0.9926100850408937,
+        "ci95": [
+          -0.2879186431478036,
+          2.2731388132295907
+        ],
+        "p": 0.12837277090401625
+      },
+      "kind": "USD10000 fixed base event markout, not new Engine run"
+    },
+    {
+      "id": "B_original_long_ordinary",
+      "net_usd_1pip": {
+        "n": 1142,
+        "coef": 0.050883329966511515,
+        "ci95": [
+          -0.7910446215551328,
+          0.8928112814881557
+        ],
+        "p": 0.9056293782192664
+      },
+      "kind": "USD10000 fixed base event markout, not new Engine run"
+    },
+    {
+      "id": "B_original_short_gotobi",
+      "net_usd_1pip": {
+        "n": 468,
+        "coef": 0.4535690917082769,
+        "ci95": [
+          -0.1533430396284538,
+          1.0604812230450076
+        ],
+        "p": 0.14262445764876955
+      },
+      "kind": "USD10000 fixed base event markout, not new Engine run"
+    },
+    {
+      "id": "B_original_short_ordinary",
+      "net_usd_1pip": {
+        "n": 1157,
+        "coef": -0.401268006540569,
+        "ci95": [
+          -0.7631388868153359,
+          -0.03939712626580205
+        ],
+        "p": 0.029785396341750425
+      },
+      "kind": "USD10000 fixed base event markout, not new Engine run"
+    }
+  ],
+  "latency": [
+    {
+      "lag_minutes": 1,
+      "n": 466,
+      "coef": -0.17069855665014302,
+      "ci95": [
+        -0.8948937606962586,
+        0.5534966473959726
+      ],
+      "p": 0.643447323389091
+    },
+    {
+      "lag_minutes": 2,
+      "n": 466,
+      "coef": -0.1598905724139191,
+      "ci95": [
+        -0.791004493237489,
+        0.47122334840965074
+      ],
+      "p": 0.6188264559077509
+    },
+    {
+      "lag_minutes": 5,
+      "n": 466,
+      "coef": -0.060429541446584904,
+      "ci95": [
+        -0.7515478722789957,
+        0.630688789385826
+      ],
+      "p": 0.8636522211005858
+    }
+  ],
+  "kind": "Event markout economic screen, not strategy backtest",
+  "approval_status": "NOT_APPROVED",
+  "cash_benchmark_markout": 0.0
+}

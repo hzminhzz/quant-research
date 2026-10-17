@@ -1,0 +1,102 @@
+session_id: structural_alpha_eow_6040_20261011
+market: futures
+thesis: >-
+  Month-end 60/40 target-weight rebalancing can create temporary closing
+  pressure in CME E-mini S&P 500 futures (ES) and Treasury futures (ZN, ZB,
+  UB). A frozen prior-period equity-versus-bond relative-return imbalance
+  should predict signed close-to-next-session reversal or continuation beyond
+  matched ordinary month-end controls, after executable costs.
+mechanism: >-
+  Funds that restore target weights after relative equity and bond moves may
+  submit correlated month-end orders. Dealers may absorb this demand and
+  require temporary price concessions. The signal must be known before the
+  closing execution window. Calendar coincidence alone does not identify
+  rebalancing; flow data or a predeclared imbalance interaction is required.
+falsifier: >-
+  Reject the mechanism if the preregistered month-end imbalance interaction is
+  not different from matched controls under chronological development with
+  HAC uncertainty and the declared family-wise correction, if the direction
+  does not persist across prespecified regimes, or if the result is not net
+  positive under verified executable bid/ask, commissions, roll and impact.
+  Do not open the protected final period. Stop before outcome analysis while
+  dated contract, roll, quote or cost inputs are missing.
+instruments:
+  - symbol: ES
+    kind: futures
+    venue: CME Globex
+    identity: >-
+      E-mini S&P 500 quarterly futures. USD settlement, $50 index multiplier,
+      minimum tick 0.25 index points ($12.50). Dated contracts and actual
+      execution contract must be recorded per fill; continuous adjusted prices
+      are research signals only.
+    session: CME equity index futures calendar; exact session template and DST-aware holidays required from source
+    timezone: America/Chicago
+  - symbol: ZN
+    kind: futures
+    venue: CBOT / CME Globex
+    identity: >-
+      10-Year T-Note futures, USD settlement, $100,000 face-value contract;
+      minimum tick 1/64 point ($15.625). Dated contracts and conversion factors
+      must be recorded per fill.
+    session: CBOT Treasury futures calendar; exact session template and DST-aware holidays required from source
+    timezone: America/Chicago
+  - symbol: ZB
+    kind: futures
+    venue: CBOT / CME Globex
+    identity: >-
+      U.S. Treasury Bond futures, USD settlement, $100,000 face-value contract;
+      minimum tick 1/32 point ($31.25). Dated contracts and conversion factors
+      must be recorded per fill.
+    session: CBOT Treasury futures calendar; exact session template and DST-aware holidays required from source
+    timezone: America/Chicago
+  - symbol: UB
+    kind: futures
+    venue: CBOT / CME Globex
+    identity: >-
+      Ultra U.S. Treasury Bond futures, USD settlement, $100,000
+      face-value contract; minimum tick 1/32 point ($31.25). Confirm current
+      contract specification, delivery basket and conversion factors from CME
+      before use.
+    session: CBOT Treasury futures calendar; exact session template and DST-aware holidays required from source
+    timezone: America/Chicago
+data:
+  - {id: es_continuous_candidate, symbol: ES, role: prices, path: data/processed/es_1m.parquet}
+  - {id: zn_dated_contracts, symbol: ZN, role: prices, path: data/processed/structural_alpha/ZN_dated_contracts.parquet}
+  - {id: zb_dated_contracts, symbol: ZB, role: prices, path: data/processed/structural_alpha/ZB_dated_contracts.parquet}
+  - {id: ub_dated_contracts, symbol: UB, role: prices, path: data/processed/structural_alpha/UB_dated_contracts.parquet}
+evaluation:
+  development_start: "2010-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2026-09-01T00:00:00Z"
+  holdout_end: "2026-11-01T00:00:00Z"
+  holdout: SEALED_NEVER_READ
+  plan: >-
+    Historical development uses 2010-2024 only when verified dated contracts,
+    roll prices and quotes cover the interval. Chronological expanding
+    development folds, purged at event/holding overlap. Matched ordinary
+    month-end windows use same weekday, volatility regime and prior relative
+    equity/bond return bins. Freeze dates, matching, event horizon, regime
+    strata, HAC lag and family-wise correction before outcomes. No final-test
+    analysis in this session.
+baseline: >-
+  Flat/no-trade and matched non-event closing windows. For 60/40 context,
+  compare a fixed 60% ES / 40% Treasury-duration basket with event-matched
+  ordinary sessions; do not treat continuous-series returns as executable PnL.
+costs:
+  commission_bps: 0
+  slippage_bps: 0
+  assumptions: >-
+    Numeric zeros are schema placeholders only. The gate is BLOCKED until dated
+    CME/CBOT commission, clearing and broker fees, historical bid/ask, roll
+    execution, contract multipliers, Treasury conversion factors and calibrated
+    impact are sourced and frozen. Never interpret this as zero cost.
+trials:
+  - {id: T0_contract_data_gate, kind: diagnostic, description: Audit dated-contract prices, roll pairs, ticks, calendars and executable bid/ask.}
+  - {id: T1_structural_event_study, kind: preregistered, description: Matched month-end versus ordinary windows and prior relative-return imbalance interaction.}
+  - {id: T2_chronological_development, kind: preregistered, description: Expanding chronological folds with event-overlap purge and frozen HAC/multiplicity rule.}
+  - {id: T3_placebo_and_cost_refutation, kind: preregistered, description: Calendar placebos, non-event windows and verified base/stress execution costs.}
+  - {id: T4_native_engine, kind: preregistered, description: Native ml4t.backtest Strategy/Engine fills on exact dated contracts only after T0 passes.}
+  - {id: T5_independent_audit, kind: diagnostic, description: Independent contract mapping, timestamp, roll, fill and accounting audit.}
+evidence:
+  - run_log/structural_alpha_mission_20261011.md
+  - run_log/validation_status.json

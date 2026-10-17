@@ -1,0 +1,32 @@
+{
+  "trial_id": "trial_2_symmetric_long_short_vol_targeted",
+  "description": "Symmetric Long/Short Vol-Targeted TSMOM",
+  "period": {
+    "start": "dyn int: 2021.dt.datetime([dyn int: 1, dyn int: 1, dyn int: 0, dyn int: 0, dyn int: 0, dyn int: 0, \"raise\"]).alias(\"datetime\")",
+    "end": "dyn int: 2024.dt.datetime([dyn int: 12, dyn int: 31, dyn int: 23, dyn int: 59, dyn int: 59, dyn int: 0, \"raise\"]).alias(\"datetime\")"
+  },
+  "capital": {
+    "initial": 10000.0,
+    "final": 16936.41645501561
+  },
+  "performance": {
+    "total_return": 0.6936416455015608,
+    "annualized_sharpe": 0.12840687908640622,
+    "max_drawdown": 0.22827071675276026,
+    "win_rate": 0.26166618952190096,
+    "profit_factor": 1.148129017254085
+  },
+  "execution": {
+    "trades": 3493,
+    "total_commission": 4865.211033358228,
+    "total_slippage": 1621.7374486761337,
+    "total_costs": 6483.249031551055,
+    "gross_pnl": 11659.708523579213,
+    "fee_drag_pct": 55.6038688140454
+  },
+  "falsifier_checks": {
+    "min_sharpe_0_80": false,
+    "max_drawdown_25_pct": true,
+    "fee_drag_under_35_pct": false
+  }
+}

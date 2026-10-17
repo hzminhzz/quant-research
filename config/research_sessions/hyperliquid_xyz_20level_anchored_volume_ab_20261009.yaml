@@ -1,0 +1,93 @@
+# Preregistered 2026-10-09 before execution; no live trading.
+session_id: hyperliquid_xyz_20level_anchored_volume_ab_20261009
+status: EXPLORATORY_NOT_APPROVED
+thesis: "Compare full fixed-anchor 20x$100 entry ladders for independent SP500-long/XYZ100-short cycles against a dynamic beta-hedged SP500-long linked cycle."
+falsifier: "Volume advantage disappears after fill-participation constraints, inventory stop, or carrying costs; incomplete inventory persists in either market."
+source:
+  root: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_HYPERLIQUID_XYZ_PERP
+  symbols: [SP500, XYZ100]
+  source_contracts: ["XYZ:SP500", "XYZ:XYZ100"]
+  provider: CryptoHFTData-derived Hyperliquid HIP3 1m OHLCV
+  first_utc: "2026-04-14T00:00:00+00:00"
+  last_utc: "2026-10-08T23:59:00+00:00"
+evaluation:
+  calibration_end_utc: "2026-05-01T00:00:00+00:00"
+  development_start_utc: "2026-05-01T00:00:00+00:00"
+  development_end_utc: "2026-08-01T00:00:00+00:00"
+  later_start_utc: "2026-08-01T00:00:00+00:00"
+  later_end_utc: "2026-10-09T00:00:00+00:00"
+  later_is_fresh: false
+  caveat: "Chronologically later than development, but the August-October market regime was examined in prior SPY/QQQ research; do not claim a pristine untouched holdout."
+  beta: 14-day trailing 1h SP500 versus XYZ100 log returns, one-hour lag
+capital:
+  starting_cash_usdc: 600.0
+  leverage: 10.0
+  max_gross_usdc: 6000.0
+  max_marked_gross_usdc: 6000.0
+  max_per_leg_usdc: 2000.0
+  peak_to_trough_stop_usdc: 50.0
+  global_drawdown_usdc: 100.0
+  margin_reserve: 0.0
+  note: "$600 isolated research margin at 10x; $6000 is a hard maximum gross notional, NOT available cash. Independent A 20x$100 per side reserves $4000 of $6000 capacity; A4 uses $2000 primary ladder plus dynamic hedge with remaining headroom. No valid exchange liquidation simulation; stop-loss triggers sooner."
+order:
+  n_levels: 20
+  clip_usdc: 100.0
+  first_level_bps: 2.0
+  step_bps: 25.0
+  minimum_price_tick: 0.1
+  quantity_rounding: 0.000001
+  limit_penetration_ticks: 1
+  maker_exit_offset_bps: 1.0
+  net_breakeven_reserve_usdc: 0.05
+  hedge_quote_offset_bps: 1.0
+  hedge_beta_min: 0.1
+  hedge_beta_max: 1.5
+  beta_smoothing: 0.1
+  beta_update_minutes: 60
+  hedge_activation_clip_usdc: 100.0
+  maximum_exit_delay_minutes: 10080
+execution:
+  fill_model: "ml4t-backtest native NEXT_BAR LIMIT, 1 tick penetration and shared per-asset per-minute volume budget"
+  volume_participation: 0.10
+  commission_bps: 0.0
+  emergency_taker_cost_bps: 4.25
+  carry_bps_per_day: 0.0
+  zero_volume_no_fill: true
+  fill_ambiguous_high_low_convention: "Native engine sees both extremes without chronology. Report as unresolved."
+trials:
+  - id: A_full20
+    arm: independent
+    partial_fills: false
+    subbasket: false
+  - id: A4_full20
+    arm: dynamic_hedge
+    partial_fills: false
+    subbasket: false
+  - id: A_partial20
+    arm: independent
+    partial_fills: true
+    subbasket: false
+  - id: A_subbasket20
+    arm: independent
+    partial_fills: true
+    subbasket: true
+  - id: A4_partial20
+    arm: dynamic_hedge
+    partial_fills: true
+    subbasket: false
+sensitivity:
+  - "5 bps/day gross holding cost on pre-specified baseline A and A4, after base development run"
+  - "No OOS-tuned grid spacing or clipping changes"
+primary_metric: "Completed candidate maker volume per USD maximum drawdown"
+secondary_metrics:
+  - total_candidate_maker_volume
+  - completed_volume
+  - full_and_partial_fills
+  - peak_open_and_reserved_notional
+  - max_drawdown
+  - unfinished_inventory
+  - funding_cost_sensitivity
+  - stop_loss_trigger
+  - completed_cycles
+  - holding_time
+caveat: "No valid queue-model maker-fill guarantee, points or real funding history; later holdout previously seen in other strategies but not Hyperliquid 20-level A/B."

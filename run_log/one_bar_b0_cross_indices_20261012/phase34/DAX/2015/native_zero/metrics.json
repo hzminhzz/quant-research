@@ -1,0 +1,76 @@
+{
+  "trial": "native_zero",
+  "engine": "ml4t.backtest Engine, NEXT_BAR native STOP/MARKET",
+  "native_engine_metrics": {
+    "initial_cash": 1000000.0,
+    "final_value": 1024007.0,
+    "total_return": 0.02400699999999989,
+    "num_trades": 308,
+    "win_rate": 0.5032467532467533,
+    "profit_factor": 1.3780629921259826,
+    "total_commission": 0.0,
+    "total_slippage": 0.0,
+    "total_costs": 0.0,
+    "num_fills": 616,
+    "num_rejected_orders": 0
+  },
+  "closed_trades": 308,
+  "open_trades_at_end": 0,
+  "sum_trade_pnl_usd": 24006.99999999997,
+  "equity_change_usd": 24007.0,
+  "ledger_equity_difference_usd": -2.9103830456733704e-11,
+  "gross_pnl_usd": 24006.99999999997,
+  "commissions_usd": 0.0,
+  "slippage_points_sum": 0.0,
+  "slippage_cost_usd": 0.0,
+  "fees_and_slippage_usd": 0.0,
+  "trade_ledger_slippage_cost_usd": 0.0,
+  "fill_trade_slippage_reconciliation_difference_usd": 0.0,
+  "gross_minus_net_pnl_usd": 0.0,
+  "commission_reconciliation_difference_usd": 0.0,
+  "entry_fills": 308,
+  "multiple_entry_fills_same_minute": 0,
+  "fill_count": 616,
+  "max_entries_per_chicago_session_day": 2,
+  "same_minute_entry_stop_ambiguities": 4,
+  "worst_case_same_minute_pnl_usd": 23365.999999999985,
+  "expected_next_boundary_exit_mismatches": 16,
+  "daily_equity_sharpe_library": 1.5649784092696022,
+  "daily_equity_max_drawdown_library": -0.005876953163975973,
+  "commission_per_fill_usd": 0.0,
+  "adverse_slippage_points_per_fill": 0.0,
+  "entry_gap_triggers": 190,
+  "entry_gap_conservative_price_improvement_usd": 50119.000000000015,
+  "protective_stop_gap_through_fills": 17,
+  "protective_stop_gap_loss_beyond_trigger_usd": 2530.0000000000364,
+  "ambiguous_examples": [
+    {
+      "timestamp": "2015-01-15T09:51:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 9618.25,
+      "stop_price": 9668.25
+    },
+    {
+      "timestamp": "2015-01-22T12:45:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 10312.0,
+      "stop_price": 10262.0
+    },
+    {
+      "timestamp": "2015-06-02T08:13:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 11342.75,
+      "stop_price": 11392.75
+    },
+    {
+      "timestamp": "2015-12-03T12:40:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 11153.5,
+      "stop_price": 11203.5
+    }
+  ]
+}

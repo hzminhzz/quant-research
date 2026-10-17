@@ -1,0 +1,116 @@
+{
+  "audit_id": "fixed23-flow-repair-20261007",
+  "scope": "Authoritative data repair and validation only; no strategy trials, feature diagnostics, or backtests.",
+  "canonical_store": "/home/quant/dev/quant/ml4t-data/.data/store",
+  "staging_store": "/home/quant/dev/quant/ml4t-data/.data/rebuild/fixed23_flow_repair_20261007/store",
+  "pre_repair_backup": "/home/quant/dev/quant/ml4t-data/.data/rebuild/fixed23_flow_repair_20261007/previous",
+  "sources": [
+    "Binance public USD-M monthly 1-minute kline archives for historical rebuilds.",
+    "Binance USD-M REST klines API for the October 2026 tail and source checks."
+  ],
+  "repairs": {
+    "ADAUSDT": {
+      "onboard_date": "2020-01-31",
+      "old_rows": 3341521,
+      "new_rows": 3515999,
+      "rows_added": 174478,
+      "first_timestamp_utc": "2020-01-31T08:01:00Z",
+      "last_timestamp_utc": "2026-10-07T23:59:00Z",
+      "schema_bad_files": 0,
+      "gaps": 0,
+      "source_price_correction": {
+        "timestamp_utc": "2026-10-06T20:01:00Z",
+        "old": {"low": 0.2704, "close": 0.2704, "volume": 40501.0},
+        "official_source": {"low": 0.2703, "close": 0.2703, "volume": 396927.0}
+      }
+    },
+    "AVAXUSDT": {
+      "onboard_date": "2020-09-19",
+      "old_rows": 3001742,
+      "new_rows": 3176220,
+      "rows_added": 174478,
+      "first_timestamp_utc": "2020-09-23T07:00:00Z",
+      "last_timestamp_utc": "2026-10-07T23:59:00Z",
+      "schema_bad_files": 0,
+      "gaps": 0,
+      "source_price_correction": {
+        "timestamp_utc": "2026-10-06T20:01:00Z",
+        "old": {"low": 11.452, "close": 11.454, "volume": 1779.0},
+        "official_source": {"low": 11.435, "close": 11.441, "volume": 4238.0}
+      }
+    },
+    "TONUSDT": {
+      "onboard_date": "2024-03-01",
+      "old_rows": 1194211,
+      "new_rows": 1368689,
+      "rows_added": 174478,
+      "first_timestamp_utc": "2024-03-01T12:31:00Z",
+      "last_timestamp_utc": "2026-10-07T23:59:00Z",
+      "schema_bad_files": 0,
+      "gaps": 0,
+      "source_price_corrections": []
+    }
+  },
+  "fixed_roster_audit": {
+    "symbol_count": 23,
+    "total_rows": 56296420,
+    "schema_bad_files": 0,
+    "duplicate_timestamps": 0,
+    "null_values": 0,
+    "nonfinite_values": 0,
+    "invalid_ohlc_or_negative_volume_values": 0,
+    "coverage_by_symbol": {
+      "1000PEPEUSDT": {"rows": 1800450, "first": "2023-05-05T16:30:00Z", "last": "2026-10-06T23:59:00Z"},
+      "ADAUSDT": {"rows": 3515999, "first": "2020-01-31T08:01:00Z", "last": "2026-10-07T23:59:00Z"},
+      "AKEUSDT": {"rows": 540690, "first": "2025-09-26T12:30:00Z", "last": "2026-10-06T23:59:00Z"},
+      "ARBUSDT": {"rows": 1862459, "first": "2023-03-23T15:01:00Z", "last": "2026-10-06T23:59:00Z"},
+      "AVAXUSDT": {"rows": 3176220, "first": "2020-09-23T07:00:00Z", "last": "2026-10-07T23:59:00Z"},
+      "BNBUSDT": {"rows": 3500159, "first": "2020-02-10T08:01:00Z", "last": "2026-10-06T23:59:00Z"},
+      "BTCUSDT": {"rows": 3723962, "first": "2019-09-08T17:57:00Z", "last": "2026-10-07T19:59:00Z"},
+      "DOGEUSDT": {"rows": 3283861, "first": "2020-07-10T09:00:00Z", "last": "2026-10-07T20:00:00Z"},
+      "ENAUSDT": {"rows": 1321170, "first": "2024-04-02T12:30:00Z", "last": "2026-10-06T23:59:00Z"},
+      "ETHUSDT": {"rows": 3609376, "first": "2019-11-27T07:45:00Z", "last": "2026-10-07T20:00:00Z"},
+      "HYPEUSDT": {"rows": 712170, "first": "2025-05-30T10:30:00Z", "last": "2026-10-06T23:59:00Z"},
+      "LINKUSDT": {"rows": 3534720, "first": "2020-01-17T08:00:00Z", "last": "2026-10-06T23:59:00Z"},
+      "LSKUSDT": {"rows": 1418985, "first": "2024-01-25T14:15:00Z", "last": "2026-10-06T23:59:00Z"},
+      "NEARUSDT": {"rows": 3143040, "first": "2020-10-15T08:00:00Z", "last": "2026-10-06T23:59:00Z"},
+      "PUMPUSDT": {"rows": 780600, "first": "2025-04-12T14:30:00Z", "last": "2026-10-06T23:59:00Z"},
+      "QNTUSDT": {"rows": 2084970, "first": "2022-10-20T02:30:00Z", "last": "2026-10-06T23:59:00Z"},
+      "SOLUSDT": {"rows": 3188941, "first": "2020-09-14T07:00:00Z", "last": "2026-10-07T20:00:00Z"},
+      "SUIUSDT": {"rows": 1803360, "first": "2023-05-03T16:00:00Z", "last": "2026-10-06T23:59:00Z"},
+      "TONUSDT": {"rows": 1368689, "first": "2024-03-01T12:31:00Z", "last": "2026-10-07T23:59:00Z"},
+      "UNIUSDT": {"rows": 3181980, "first": "2020-09-18T07:00:00Z", "last": "2026-10-06T23:59:00Z"},
+      "WLDUSDT": {"rows": 1685520, "first": "2023-07-24T12:00:00Z", "last": "2026-10-06T23:59:00Z"},
+      "XRPUSDT": {"rows": 3551740, "first": "2020-01-06T08:21:00Z", "last": "2026-10-07T20:00:00Z"},
+      "ZECUSDT": {"rows": 3507359, "first": "2020-02-05T08:01:00Z", "last": "2026-10-06T23:59:00Z"}
+    }
+  },
+  "remaining_source_gaps": [
+    {
+      "symbol": "BTCUSDT",
+      "missing_interval_utc": ["2019-09-08T19:00:00Z", "2019-09-08T19:00:00Z"],
+      "missing_minutes": 1,
+      "result": "No row in the authoritative archive or API response; not synthesized."
+    },
+    {
+      "symbol": "PUMPUSDT",
+      "missing_interval_utc": ["2025-07-10T00:00:00Z", "2025-07-10T07:29:00Z"],
+      "missing_minutes": 450,
+      "result": "The official monthly archive contains 44,190 rows for July 2025 versus 44,640 possible minutes; the API returned no rows for the missing interval. Not synthesized."
+    }
+  ],
+  "official_source_flow_anomalies": [
+    {"symbol": "QNTUSDT", "timestamp_utc": "2023-09-19T16:03:00Z", "volume": 11.5, "taker_buy_base_volume": 70.9},
+    {"symbol": "SUIUSDT", "timestamp_utc": "2023-11-30T12:35:00Z", "volume": 51979.5, "taker_buy_base_volume": 60168.1},
+    {"symbol": "XRPUSDT", "timestamp_utc": "2023-11-30T12:35:00Z", "volume": 91695.7, "taker_buy_base_volume": 132462.5}
+  ],
+  "flow_anomaly_interpretation": "All three rows match both the local dataset and Binance's official monthly archive and API. They are source-level quantity inconsistencies, not repaired or clipped. Do not treat these rows as a validated bounded flow feature.",
+  "tail_alignment": "Eight symbols have October 7 data; fifteen end on October 6. ADAUSDT, AVAXUSDT, and TONUSDT reach 23:59 UTC; DOGEUSDT, ETHUSDT, SOLUSDT, and XRPUSDT reach 20:00 UTC; BTCUSDT reaches 19:59 UTC. Use a common UTC intersection for cross-sectional joins.",
+  "verification": {
+    "canonical_23_symbol_scan": "56,296,420 rows; schema, uniqueness, null, finite-value, and OHLC/negative-volume checks passed.",
+    "repaired_symbol_targeted_scan": "ADAUSDT, AVAXUSDT, TONUSDT have no gaps, nulls, non-finite values, invalid OHLC/volume values, or flow-over-total observations.",
+    "focused_importer_tests": "4 passed; provider User-Agent request-header assertion passed.",
+    "full_test_suite": "Attempted; process exited 137 (resource termination). No passing full-suite claim.",
+    "strategy_trials_or_backtests": "Not run, as instructed."
+  }
+}

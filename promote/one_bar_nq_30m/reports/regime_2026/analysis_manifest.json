@@ -1,0 +1,135 @@
+{
+  "analysis_type": "historical descriptive review; not preregistered prospective testing",
+  "outcome_boundary_utc_inclusive": "2026-07-14T23:59:59Z",
+  "protected_after_boundary": true,
+  "strategy": "Frozen 50 complete 30-minute bar NQ-equivalent breakout; unchanged; BID CFD/index proxy, not CME NQ",
+  "accounting": {
+    "primary_ledger": "promote/one_bar_nq_30m/backtests/practical_yearly/by_year/YYYY/native_full_tick_cost/evaluation_trades.csv",
+    "comparison_ledger": "promote/one_bar_nq_30m/backtests/practical_yearly/by_year/YYYY/native_zero_cost/evaluation_trades.csv",
+    "season_window": "entry timestamp from January 1 through July 14 inclusive for each year",
+    "subgroups": [
+      "calendar month",
+      "long/short",
+      "native fills.csv STOP/MARKET exit order type",
+      "bars held",
+      "Chicago RTH 08:30-15:00 vs overnight",
+      "year-matched sample"
+    ],
+    "concentration": [
+      "worst/best 1, 3, 5, 10 trades"
+    ],
+    "costed_gross_definition": "Trade ledger gross_pnl is before commissions but includes modeled fill slippage; zero-cost PnL is reported from the separate zero-cost ledger. Do not label costed gross as zero-cost gross."
+  },
+  "market_features": {
+    "bar_construction": "30 unique one-minute source rows per complete Chicago 17:00-anchored 30-minute interval; same bins as fixed strategy",
+    "causal_feature_availability": "Each complete 30m bar releases at bar_start+30m; backward as-of join requires release_time <= entry_time.",
+    "features": [
+      "ATR(20) in points and bps",
+      "20-bar efficiency ratio",
+      "prior range / ATR(20)",
+      "50-bar high-low channel width in points and bps",
+      "ATR versus trailing 252-complete-bar 33rd/67th percentile thresholds"
+    ],
+    "regime_comparison": "Use 2018-2025 Jan 1-Jul 14 entry observations as the reference; report 2026 trade counts, costed net/gross PnL, and win rate by reference-tercile thresholds. Terciles are descriptive, not a trading rule.",
+    "market_context": "Daily close-to-close realized volatility and close trend from the same proxy; external reporting only as dated context and hypothesis, never as causal proof."
+  },
+  "event_windows": "Fixed descriptive tags: 2026-01; 2026-02; 2026-03; 2026-04; 2026-05; 2026-06; 2026-07-01 through 2026-07-14. No post-boundary context.",
+  "methods": {
+    "ledger_processing": "Polars group_by aggregations; no backtest rerun",
+    "market_feature_engine": "ml4t.engineer.compute_features for ATR(20), sorted Polars expressions for causal features, and ml4t.diagnostic.evaluation.drift.compute_psi plus scipy KS for descriptive distribution comparisons. No model fitting or predictive performance claims.",
+    "causal_interpretation": "Accounting identities are verified. Feature/PnL slices are conditional associations, not identified causal effects. Exclude post-entry MFE/MAE from feature definitions. 1-minute OHLC cannot identify within-minute event ordering.",
+    "uncertainty": "Report sample sizes and descriptive differences. Do not fabricate confidence intervals if a valid day-cluster bootstrap is not implemented."
+  },
+  "selected_ml4t_skills": [
+    {
+      "name": "ml4t-polars-patterns",
+      "local_path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "reason": "large canonical minute source and ledger aggregation",
+      "invariants": "lazy projection/filtering, sorted native Polars expressions",
+      "verification": "source_manifest hash and scanned partition hashes; complete 30-minute bars; report table sums"
+    },
+    {
+      "name": "ml4t-regime-awareness",
+      "local_path": ".agents/skills/ml4t-regime-awareness/SKILL.md",
+      "reason": "conditional performance attribution across observable regimes",
+      "invariants": "use regimes as descriptive conditioning only; no market timing",
+      "verification": "fixed retrospective tertile groupings; no strategy rule or filter changed"
+    },
+    {
+      "name": "ml4t-regime-features",
+      "local_path": ".agents/skills/ml4t-regime-features/SKILL.md",
+      "reason": "causal volatility and trend context",
+      "invariants": "features available from completed bars only",
+      "verification": "per-trade feature_available_at <= entry_time test"
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "local_path": ".agents/skills/ml4t-lookahead-bias/SKILL.md",
+      "reason": "entry-time feature availability and protected cutoff",
+      "invariants": "no feature after entry; no observations after 2026-07-14",
+      "verification": "strict timestamp checks in focused tests and analysis cutoff guard"
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "local_path": ".agents/skills/ml4t-calendar-ops/SKILL.md",
+      "reason": "Chicago DST-aware source bars and RTH attribution",
+      "invariants": "explicit America/Chicago conversion and 17:00 bar anchor",
+      "verification": "same bar construction as frozen runner; tests check cutoff and availability"
+    },
+    {
+      "name": "ml4t-non-stationarity",
+      "local_path": ".agents/skills/ml4t-non-stationarity/SKILL.md",
+      "reason": "compare feature distributions across periods",
+      "invariants": "do not normalize using the future; show distributions and date boundaries",
+      "verification": "matched 2018-2025 reference and 2026 sample sizes in metrics.json"
+    },
+    {
+      "name": "ml4t-drift-detection",
+      "local_path": ".agents/skills/ml4t-drift-detection/SKILL.md",
+      "reason": "quantify shifts in ATR, efficiency, and channel width",
+      "invariants": "reference-only bins; report KS and PSI as diagnostics, not causes",
+      "verification": "ML4T PSI API and two-sample KS output with sample counts"
+    },
+    {
+      "name": "ml4t-causal-identification",
+      "local_path": ".agents/skills/ml4t-causal-identification/SKILL.md",
+      "reason": "avoid causal claims from regime/event subgroups",
+      "invariants": "no post-treatment controls or causal estimand claims",
+      "verification": "report labels all conditional PnL/event links observational or hypothesis"
+    },
+    {
+      "name": "ml4t-tearsheet",
+      "local_path": ".agents/skills/ml4t-tearsheet/SKILL.md",
+      "reason": "present monthly net/gross outcomes with market context",
+      "invariants": "include gross and net and the sample cutoff",
+      "verification": "chart, CSV, and trade ledger reconciliation"
+    }
+  ],
+  "required_reconciliations": {
+    "trade_count": 238,
+    "zero_cost_pnl_usd": -10806.96,
+    "full_tick_net_pnl_usd": -14166.96,
+    "modeled_cost_drag_usd": 3360.0,
+    "all_reported_partitioned_pnl_must_sum_to_total": true
+  },
+  "provenance": {
+    "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "canonical_source_root": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+    "data_cutoff": "2026-07-14",
+    "classification": "EXPLORATORY retrospective; NOT_APPROVED"
+  },
+  "workflow_note": "The mission asked for bin declaration before outcome inspection. An earlier broad inspection exposed a legacy aggregate report and a phase-567 run metric before this file was written. Those observations are not used as diagnostic inputs. This manifest records the historical-review scope before the relevant annual trade ledgers and source features are analyzed.",
+  "corrective_audit": {
+    "supersedes_errors": [
+      "exit class inferred from generic evaluation_trades.exit_reason",
+      "Chicago RTH used 09:30-16:00",
+      "complete 30m feature release at bar_start+29m"
+    ],
+    "native_exit_pairing": "Pair fills.csv rows by zero-based row index: even rows are entry, odd rows are exit; assert both timestamps against same-index trades.csv; join exit order_type to evaluation_trades by (entry_time, exit_time, direction), one-to-one.",
+    "rth": "Convert entry_time with America/Chicago DST rules; RTH is 08:30 inclusive to 15:00 exclusive (510 <= minute_of_day < 900).",
+    "feature_release": "A complete 30m bar releases at bar_start+30m. Use a backward as-of join only where feature_available_at <= entry_time.",
+    "fixed_stop_diagnostic": "Keep the fixed 50-point stop unchanged. Compare native STOP frequency by 50/pre-entry ATR20 terciles cut on matched Jan 1-Jul 14 2018-2025 trades. Report 2018 full-year and 2026 median prices separately. No threshold selection.",
+    "source_minute_stop_touch": "Include entry and exit minute OHLC in the 50-point touch scan; report minute-order ambiguity.",
+    "scope": "Historical correction only. No strategy rerun, no rule change, no holdout access, no orders."
+  }
+}

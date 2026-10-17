@@ -1,0 +1,25 @@
+{
+  "trial": "D1-ONLY",
+  "terminal_status": "completed",
+  "scientific_verdict": "UNQUALIFIED_PRICE_PROXY_EXECUTION",
+  "source_engine": "ml4t.backtest.Engine",
+  "feature_revision": "v2_mql5_upper_middle_median",
+  "development": "2024-01-01 through 2024-12-31 UTC, no signal or fills after 2025-01-01",
+  "closed_trades": 2,
+  "final_equity_delta_usd": 5406.045222870176,
+  "artifacts": {
+    "base": "run_log/research_sessions/mechanicalpremia-two-engine-mvp-20261013/native_research_v2/D1-ONLY/ES_PROXY_NQ_PROXY/cost_1x",
+    "summary": "run_log/research_sessions/mechanicalpremia-two-engine-mvp-20261013/native_research_v2/D1-ONLY/ES_PROXY_NQ_PROXY/cost_1x/summary.json",
+    "fills": "run_log/research_sessions/mechanicalpremia-two-engine-mvp-20261013/native_research_v2/D1-ONLY/ES_PROXY_NQ_PROXY/cost_1x/native_fills.parquet",
+    "daily": "run_log/research_sessions/mechanicalpremia-two-engine-mvp-20261013/native_research_v2/D1-ONLY/ES_PROXY_NQ_PROXY/cost_1x/daily_equity.parquet"
+  },
+  "additional_cost_stress": [],
+  "audit": "docs/audit/mechanicalpremia_two_engine_mvp_20261013.md",
+  "limitations": [
+    "No quote-level spread or overnight CFD financing",
+    "2024-only development data",
+    "Native H1 stop one-minute protection gap",
+    "Source/data qualification gates failed",
+    "Two D1 open positions at end where applicable"
+  ]
+}

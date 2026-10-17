@@ -1,0 +1,98 @@
+{
+  "session_id": "one_bar_b0_cross_indices_20261012_followup",
+  "status": "BLOCKED_DAX_MISSING_VERIFIED_REPLACEMENT_AND_NIKKEI_TICK_SOURCE",
+  "phase": "Post-Phase4 source and execution audit; no backtest",
+  "date_utc": "2026-10-12",
+  "git_head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "immutable_promote": "promote/one_bar_nq_30m",
+  "strategy_changed": false,
+  "canonical_data_changed": false,
+  "skills": [
+    {
+      "name": "ml4t-validate-data",
+      "path": ".agents/skills/ml4t-validate-data/SKILL.md",
+      "used_for": "source outlier, duplicate and completeness checks"
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "path": ".agents/skills/ml4t-polars-patterns/SKILL.md",
+      "used_for": "lazy scan, group by and independent join"
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "path": ".agents/skills/ml4t-calendar-ops/SKILL.md",
+      "used_for": "market sessions and zero forward fill"
+    },
+    {
+      "name": "ml4t-run-backtest",
+      "path": ".agents/skills/ml4t-run-backtest/SKILL.md",
+      "used_for": "retain native Engine as only executable backtest authority"
+    },
+    {
+      "name": "ml4t-cost-model",
+      "path": ".agents/skills/ml4t-cost-model/SKILL.md",
+      "used_for": "assumed synthetic costs explicitly non-executable"
+    }
+  ],
+  "attempts": [
+    {
+      "id": "DAX_01_ARCHIVE_COMPARE",
+      "status": "REJECTED_NOT_INDEPENDENT",
+      "evidence": "dax_source_comparison.json",
+      "detail": "sampled 2024-2026 archive and live prices identical; restore cannot fix"
+    },
+    {
+      "id": "DAX_02_QUARANTINE",
+      "status": "REJECTED_COVERAGE",
+      "evidence": "dax_quality_repair_gate.json",
+      "data_retained_complete_30m_fraction": {
+        "2024": 0.2989810097,
+        "2025": 0.1579634465,
+        "2026": 0.7116919393
+      },
+      "detail": "no synthetic bars/interpolation permitted"
+    },
+    {
+      "id": "DAX_03_INDEPENDENT_DUK_M1_PILOT",
+      "status": "BLOCKED_BY_TOOL_SAFETY_CHECK",
+      "script": "scripts/pilot_b0_dax_dukascopy_source_20261012.py",
+      "detail": "VPS refused execution; no outbound request or independent data acquired"
+    },
+    {
+      "id": "NIKKEI_01_5MIN_CROSSCHECK",
+      "status": "REJECTED_NOT_INDEPENDENT",
+      "evidence": "nikkei_execution_validation.json",
+      "windows_identical_ohlc": 36447
+    },
+    {
+      "id": "NIKKEI_02_AMBIGUITY_RECONCILE",
+      "status": "INCONCLUSIVE",
+      "evidence": "nikkei_execution_validation.json",
+      "same_minute_entry_stop_2026": 91,
+      "closed_2026": 251,
+      "native_R": 64.11,
+      "pessimistic_non_native_R": -19.78
+    }
+  ],
+  "gating_requirements": {
+    "DAX": "Obtain reliable independent 1-minute replacement and validate historical timestamps and price scale",
+    "NIKKEI": "obtain same-venue timestamped trades/BID-ASK for entry/stop event ordering; verify costs and contract"
+  },
+  "code_changed": [
+    "scripts/inspect_b0_cross_followup_sources_20261012.py",
+    "scripts/gate_b0_cross_dax_source_20261012.py",
+    "scripts/validate_b0_cross_nikkei_execution_20261012.py",
+    "scripts/pilot_b0_dax_dukascopy_source_20261012.py",
+    "tests/test_one_bar_b0_dax_nikkei_followup_20261012.py",
+    "docs/audit/one_bar_b0_dax_nikkei_followup_20261012.md"
+  ],
+  "tests": {
+    "command": "uv run --no-sync python -m pytest -q tests/test_one_bar_b0_dax_nikkei_followup_20261012.py tests/test_one_bar_b0_cross_indices_20261012.py tests/test_one_bar_cross_indices_native_20261012.py tests/test_one_bar_cross_indices_phase34_audit_20261012.py",
+    "passed": 21,
+    "failed": 0,
+    "promoted_package_integrity": "Verified 386 package files and 3 YAML files."
+  },
+  "live_orders": 0,
+  "commits": 0,
+  "pushes": 0
+}

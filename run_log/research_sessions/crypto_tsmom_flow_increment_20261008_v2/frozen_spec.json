@@ -1,0 +1,1091 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "artifact_generation_verified": false,
+  "classification": "EXPLORATORY",
+  "created_at": "2026-10-08T06:29:47.054167+00:00",
+  "frozen_sha256": "501eddf9eb640441576f508988c92e8841be95aad5d8d68dca80113e1a92e585",
+  "identity": {
+    "config": null,
+    "data": [
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+        "sha256": "67528cbf7f936e41f34f08fa033b05cfb2800a9f21ee39e6048051dd577db8b7",
+        "size_bytes": 2409504
+      },
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+        "sha256": "f0c4959e7ed53afeb12cfe93e3776aa3047cb39be2759187d6cd3df866dacab1",
+        "size_bytes": 2413546
+      },
+      {
+        "exists": true,
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_1h.parquet",
+        "sha256": "99dfc9c52a0c3d6891392048ba090a9def3c3cb905ee2fa1294cf20ceefc46a5",
+        "size_bytes": 2242116
+      },
+      {
+        "exists": true,
+        "path": "data/processed/btc_funding.parquet",
+        "sha256": "d72a0409481046d7bce50411055f94177f54747cdce59062ba2310180a68845f",
+        "size_bytes": 51839
+      },
+      {
+        "exists": true,
+        "path": "data/processed/eth_funding.parquet",
+        "sha256": "0d9582bb73755ae041a16249c5e403b3cfa6a80bf7569344cbeb99af1f41007b",
+        "size_bytes": 52463
+      },
+      {
+        "exists": true,
+        "path": "data/processed/sol_funding.parquet",
+        "sha256": "1d218601c7136a5cc43e939abe25f8ddffe951af3a567746725b001bf3c9db1c",
+        "size_bytes": 53339
+      }
+    ],
+    "evidence": [
+      {
+        "exists": true,
+        "path": "run_log/research_sessions/crypto_tsmom_flow_increment_20261008/frozen_spec.json",
+        "sha256": "c3af8e83719bac3d340b3ce17df4cfb3a5be70e7f34c0698958d72897ab1fe4c",
+        "size_bytes": 61629
+      },
+      {
+        "exists": true,
+        "path": "run_log/research_sessions/crypto_tsmom_flow_increment_20261008/data_gate_report.json",
+        "sha256": "f36bae0ba131f694a41f1e233f2dd0842d1ec5ba459cd9fdde8516eb703e21d2",
+        "size_bytes": 3865
+      },
+      {
+        "exists": true,
+        "path": "run_log/research_sessions/crypto_tsmom_trend_persistence/frozen_spec.json",
+        "sha256": "5d11b358be9aeb22491efe9585abc10ee5d60331564b03de506264f320881703",
+        "size_bytes": 33760
+      },
+      {
+        "exists": true,
+        "path": "run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/frozen_spec.json",
+        "sha256": "9063b55406e19e7ad2db05c8f3cc51e38ab63cde575ceabcb728638d97f1391e",
+        "size_bytes": 53227
+      },
+      {
+        "exists": true,
+        "path": "run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_4_holdout_and_dsr_audit.json",
+        "sha256": "a89e601839b30b6fa0756829b8b7e8a7abe9d84abbb4d5d5eb80be7f050fa98c",
+        "size_bytes": 642
+      },
+      {
+        "exists": true,
+        "path": "run_log/fixed23_flow_repair_20261007.json",
+        "sha256": "87fd95ac676210bcc5694cebc02e1e837e9f57a912ce7b5cd520efc241b52ae1",
+        "size_bytes": 6777
+      },
+      {
+        "exists": true,
+        "path": "run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json",
+        "sha256": "6c9bc7222fc77c60634fbd59bcb101bc38bd11b7c04f8957d8a8d9b65e435209",
+        "size_bytes": 2137
+      }
+    ],
+    "git": {
+      "available": true,
+      "dirty": true,
+      "dirty_diff_sha256": "371fe125e5ea6c22e6fa722679eb476b3e5323b6e743c0abeaa532b229940917",
+      "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+      "status_porcelain": " M AGENTS.md\n M README.md\n M pyproject.toml\n M uv.lock\n?? SESSION_TEMPLATE.md\n?? config/btc_structure_reversal_20261006.yaml\n?? config/btc_structure_reversal_attribution_20261006.yaml\n?? config/research_sessions/btc_eth_maker_kalman_20261006.yaml\n?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006.yaml\n?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v2.yaml\n?? config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3.yaml\n?? config/research_sessions/btc_eth_pair_trading_scalp.yaml\n?? config/research_sessions/btc_eth_statarb_kalman_regime.yaml\n?? config/research_sessions/cross_asset_tsmom_replication_20261007.yaml\n?? config/research_sessions/crypto_tsmom_flow_increment_20261008.yaml\n?? config/research_sessions/crypto_tsmom_flow_increment_20261008_v2.yaml\n?? config/research_sessions/crypto_tsmom_maker_regime.yaml\n?? config/research_sessions/crypto_tsmom_top10_universe.yaml\n?? config/research_sessions/crypto_tsmom_trend_persistence.yaml\n?? config/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec.yaml\n?? config/research_sessions/crypto_tsmom_vol_targeted.yaml\n?? config/research_sessions/ftmo_fx_intraday_reversion_202610.yaml\n?? config/research_sessions/ftmo_fx_intraday_reversion_202610_v2.yaml\n?? config/research_sessions/intraday_volatility_breakout.yaml\n?? config/research_sessions/intraday_volatility_breakout_regime.yaml\n?? config/research_sessions/tsmom_40_60_80_lse_2020_2026.yaml\n?? config/strategies/crypto_tsmom_maker_regime_v1.yaml\n?? data/hftbacktest/btcusdt_20260101.npz\n?? data/hftbacktest/btcusdt_20260102.npz\n?? data/hftbacktest/btcusdt_20260103.npz\n?? data/hftbacktest/btcusdt_20260104.npz\n?? data/hftbacktest/btcusdt_20260105.npz\n?? data/hftbacktest/btcusdt_20260106.npz\n?? data/hftbacktest/btcusdt_20260107.npz\n?? data/hftbacktest/btcusdt_20260201.npz\n?? data/hftbacktest/btcusdt_20260202.npz\n?? data/hftbacktest/btcusdt_20260203.npz\n?? data/hftbacktest/btcusdt_20260204.npz\n?? data/hftbacktest/btcusdt_20260205.npz\n?? data/hftbacktest/btcusdt_20260206.npz\n?? data/hftbacktest/btcusdt_20260207.npz\n?? data/hftbacktest/ethusdt_20260101.npz\n?? data/hftbacktest/ethusdt_20260102.npz\n?? data/hftbacktest/ethusdt_20260103.npz\n?? data/hftbacktest/ethusdt_20260104.npz\n?? data/hftbacktest/ethusdt_20260105.npz\n?? data/hftbacktest/ethusdt_20260106.npz\n?? data/hftbacktest/ethusdt_20260107.npz\n?? data/hftbacktest/ethusdt_20260201.npz\n?? data/hftbacktest/ethusdt_20260202.npz\n?? data/hftbacktest/ethusdt_20260203.npz\n?? data/hftbacktest/ethusdt_20260204.npz\n?? data/hftbacktest/ethusdt_20260205.npz\n?? data/hftbacktest/ethusdt_20260206.npz\n?? data/hftbacktest/ethusdt_20260207.npz\n?? docs/audit/february_2026_exit_benchmark_tearsheet.png\n?? docs/audit/hftbacktest_official_1week_tearsheet.png\n?? docs/audit/intraday_breakout_prop_firm_evaluation.md\n?? docs/audit/january_2026_full_month_tearsheet.png\n?? docs/audit/multiyear_edge_decay.json\n?? docs/audit/multiyear_edge_decay_tearsheet.png\n?? docs/audit/option1_watchdog_1week_tearsheet.png\n?? docs/audit/tearsheet_metrics.json\n?? docs/audit/truthful_adaptive_peg_1week_tearsheet.png\n?? docs/audit/volume_farming_summary.json\n?? docs/audit/volume_farming_tearsheet.png\n?? docs/audit/winning_alpha_tearsheet.png\n?? docs/lessons/01_breakout_execution_and_regime_testing.md\n?? run_log/advanced_validation/phase_4_sensitivity_results.json\n?? run_log/advanced_validation/phase_5_stress_results.json\n?? run_log/advanced_validation/phase_6_and_7_production_contract.json\n?? run_log/advanced_validation/top10_sensitivity_and_stress.json\n?? run_log/arcus_btc_eth_live10_audit_report.json\n?? run_log/arcus_btc_eth_live50_audit_report.json\n?? run_log/arcus_btc_eth_policy2_dryrun_2h_report.json\n?? run_log/arcus_btc_eth_ws_fill_gate_report.json\n?? run_log/arcus_btc_eth_z12_live50_report.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_baseline_z0.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_collapsing_boundary.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_ekstrom_z05.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_ekstrom_z08.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_benchmark_guilbaud_pham_urgency.json\n?? run_log/btc_eth_maker_kalman_20261006/exit_policy_benchmark_summary.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_audit.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_audit_summary.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_audit_summary_v3.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger.csv\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger.json\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger_v3.csv\n?? run_log/btc_eth_maker_kalman_20261006/three_day_trade_ledger_v3.json\n?? run_log/btc_eth_pair_trading_scalp/hftbacktest_day1_result.json\n?? run_log/btc_eth_pair_trading_scalp/hftbacktest_official_1week_results.json\n?? run_log/btc_eth_pair_trading_scalp/january_2026_full_month_tick_results.json\n?? run_log/btc_eth_pair_trading_scalp/lookback_horizon_sensitivity/result.json\n?? run_log/btc_eth_pair_trading_scalp/monk_continuous_beta_hedged/result.json\n?? run_log/btc_eth_pair_trading_scalp/monk_continuous_equal_dollar/result.json\n?? run_log/btc_eth_pair_trading_scalp/official_ml4t_pipeline/metrics.json\n?? run_log/btc_eth_pair_trading_scalp/option1_watchdog_1week_results.json\n?? run_log/btc_eth_pair_trading_scalp/profitable_volume_farming/results.json\n?? run_log/btc_eth_pair_trading_scalp/scale_in_vs_static_ablation/result.json\n?? run_log/btc_eth_pair_trading_scalp/tick_l2_backtest_result.json\n?? run_log/btc_eth_pair_trading_scalp/truthful_5day_tick_results.json\n?? run_log/btc_eth_pair_trading_scalp/truthful_adaptive_peg_1week_results.json\n?? run_log/btc_eth_statarb_kalman_regime/final_verification/report.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_1_kalman_ou_baseline/result.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_2_ml_regime_gated/result.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_3_maker_execution_optimized/result.json\n?? run_log/btc_eth_statarb_kalman_regime/trial_4_parameter_sensitivity/result.json\n?? run_log/btc_structure_reversal_20261006/result.json\n?? run_log/btc_structure_reversal_attribution_20261006/result.json\n?? run_log/cross_asset_tsmom_replication_20261007/phase2_3_summary.json\n?? run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json\n?? run_log/crypto_tsmom_maker_regime/trial_1_maker_execution_baseline/result.json\n?? run_log/crypto_tsmom_maker_regime/trial_2_continuous_regime_scaled/result.json\n?? run_log/crypto_tsmom_maker_regime/trial_3_choppiness_filtered_maker/result.json\n?? run_log/crypto_tsmom_maker_regime/trial_4_regime_sliced_dsr_audit/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_1_top10_equal_weight_tsmom/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_2_top10_vol_targeted_risk_parity/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_3_top10_cross_sectional_top_quintile/result.json\n?? run_log/crypto_tsmom_top10_universe/trial_4_top10_regime_gated_maker/result.json\n?? run_log/crypto_tsmom_trend_persistence/baseline_buy_and_hold/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_1_rate_of_change_momentum/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_2_donchian_breakout/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_3_ma_crossover/result.json\n?? run_log/crypto_tsmom_trend_persistence/trial_4_composite_tsmom_diagnostic/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/crisis_stress_testing_results.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/holdout_execution_comparison.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_1_two_stage_funnel_stop_market/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_2_two_stage_funnel_passive_maker/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_3_stop_market_sensitivity_sweep/result.json\n?? run_log/crypto_tsmom_two_stage_funnel_stop_exec/trial_4_holdout_and_dsr_audit/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_1_vol_targeted_tsmom/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_2_symmetric_long_short_vol_targeted/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_3_conviction_threshold_filtered/result.json\n?? run_log/crypto_tsmom_vol_targeted/trial_4_dsr_sensitivity_audit/result.json\n?? run_log/dynamic_universe/dynamic_rolling_backtest_summary.json\n?? run_log/dynamic_universe/monthly_top10_universe.json\n?? run_log/fixed23_flow_repair_20261007.json\n?? run_log/forward_expectancy/forward_success_probability.json\n?? run_log/ftmo_fx_intraday_reversion_202610_v2/D0_raw_event_diagnostic/result.json\n?? run_log/intraday_volatility_breakout/trial_1_peter_baseline/result.json\n?? run_log/intraday_volatility_breakout/trial_2_low_vol_regime_filter/result.json\n?? run_log/intraday_volatility_breakout/trial_3_multiplier_sensitivity/result.json\n?? run_log/intraday_volatility_breakout_regime/trial_1_regime_gated_040/result.json\n?? run_log/intraday_volatility_breakout_regime/trial_2_regime_gated_050/result.json\n?? run_log/intraday_volatility_breakout_regime/trial_3_adaptive_tier_matrix/result.json\n?? run_log/iterations/iteration_a_fast_ema_sweep.json\n?? run_log/iterations/iteration_b_dual_momentum.json\n?? run_log/iterations/iteration_c_symmetric_long_short.json\n?? run_log/iterations/iteration_d_composite_synthesis.json\n?? run_log/near_market_structure_20261005/daily_equity_10bps.csv\n?? run_log/near_market_structure_20261005/frozen_spec.json\n?? run_log/near_market_structure_20261005/pivots.json\n?? run_log/near_market_structure_20261005/result.json\n?? run_log/near_market_structure_exit_sweep_20261006/frozen_spec.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_config.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_cost_stress.csv\n?? run_log/near_market_structure_exit_sweep_20261006/selected_cost_stress.json\n?? run_log/near_market_structure_exit_sweep_20261006/selected_yearly_metrics.csv\n?? run_log/near_market_structure_exit_sweep_20261006/selected_yearly_metrics.json\n?? run_log/near_market_structure_exit_sweep_20261006/summary.json\n?? run_log/near_market_structure_exit_sweep_20261006/test_daily_equity.csv\n?? run_log/near_market_structure_exit_sweep_20261006/test_result.json\n?? run_log/near_market_structure_exit_sweep_20261006/test_trades.csv\n?? run_log/near_market_structure_exit_sweep_20261006/train_surface.csv\n?? run_log/near_market_structure_exit_sweep_20261006/train_surface.json\n?? run_log/near_market_structure_exit_sweep_20261006/trial_accounting.json\n?? run_log/near_market_structure_exit_sweep_20261006/validation_top5.csv\n?? run_log/near_market_structure_exit_sweep_20261006/validation_top5.json\n?? run_log/paper_trading/smoke_verification.json\n?? run_log/peter_6asset_7year_backtest_result.json\n?? run_log/peter_7asset_with_btc_backtest_result.json\n?? run_log/prop_firm_evaluation/btc_eth_1m_prop_firm_results.json\n?? run_log/prop_firm_evaluation/circuit_breaker_2025_2026_result.json\n?? run_log/prop_firm_evaluation/dual_timeframe_prop_firm_results.json\n?? run_log/prop_firm_evaluation/monthly_cohort_audit_retail_costs.json\n?? run_log/prop_firm_evaluation/prop_firm_evaluation_results.json\n?? run_log/prop_firm_evaluation/static_challenge_funding_cycles.json\n?? run_log/prop_firm_evaluation/verified_dual_timeframe_audit.json\n?? run_log/research_sessions/btc_eth_maker_kalman_20261006/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v2/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3/frozen_spec.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3/trials/continuous_three_day_execution_accounting.json\n?? run_log/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3/trials/historical_one_week_accounting_review.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/frozen_spec.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/lookback_horizon_sensitivity.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/monk_continuous_beta_hedged.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/monk_continuous_equal_dollar.json\n?? run_log/research_sessions/btc_eth_pair_trading_scalp/trials/scale_in_vs_static_ablation.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/frozen_spec.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_1_kalman_ou_baseline.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_2_ml_regime_gated.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_3_maker_execution_optimized.json\n?? run_log/research_sessions/btc_eth_statarb_kalman_regime/trials/trial_4_parameter_sensitivity.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008/data_gate_report.json\n?? run_log/research_sessions/crypto_tsmom_flow_increment_20261008/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_1_maker_execution_baseline.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_2_continuous_regime_scaled.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_3_choppiness_filtered_maker.json\n?? run_log/research_sessions/crypto_tsmom_maker_regime/trials/trial_4_regime_sliced_dsr_audit.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_1_top10_equal_weight_tsmom.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_2_top10_vol_targeted_risk_parity.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_3_top10_cross_sectional_top_quintile.json\n?? run_log/research_sessions/crypto_tsmom_top10_universe/trials/trial_4_top10_regime_gated_maker.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_1_rate_of_change_momentum.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_2_donchian_breakout.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_3_ma_crossover.json\n?? run_log/research_sessions/crypto_tsmom_trend_persistence/trials/trial_4_composite_tsmom_diagnostic.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_1_two_stage_funnel_stop_market.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_2_two_stage_funnel_passive_maker.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_3_stop_market_sensitivity_sweep.json\n?? run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_4_holdout_and_dsr_audit.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/frozen_spec.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_1_vol_targeted_tsmom.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_2_symmetric_long_short_vol_targeted.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_3_conviction_threshold_filtered.json\n?? run_log/research_sessions/crypto_tsmom_vol_targeted/trials/trial_4_dsr_sensitivity_audit.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/diagnostics/D0_raw_event_diagnostic.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/diagnostics/D0_raw_event_diagnostic.started.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/frozen_spec.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610/trials/D0_raw_event_diagnostic.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610_v2/frozen_spec.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610_v2/trials/D0_raw_event_diagnostic.json\n?? run_log/research_sessions/ftmo_fx_intraday_reversion_202610_v2/trials/H0_builtin_diagnostic_failure.json\n?? run_log/research_sessions/intraday_volatility_breakout/frozen_spec.json\n?? run_log/research_sessions/intraday_volatility_breakout/trials/trial_1_peter_baseline.json\n?? run_log/research_sessions/intraday_volatility_breakout/trials/trial_2_low_vol_regime_filter.json\n?? run_log/research_sessions/intraday_volatility_breakout/trials/trial_3_multiplier_sensitivity.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/frozen_spec.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/trials/trial_1_regime_gated_040.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/trials/trial_2_regime_gated_050.json\n?? run_log/research_sessions/intraday_volatility_breakout_regime/trials/trial_3_adaptive_tier_matrix.json\n?? run_log/stage5_handoffs/crypto_tsmom_maker_regime_v1.json\n?? run_log/stage5_handoffs/crypto_tsmom_top10_universe_v1.json\n?? run_log/stage5_handoffs/crypto_tsmom_two_stage_funnel_stop_exec_v1.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/prospective_holdout_freeze.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/prospective_runner_manifest.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/summary.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/temporal_validation.json\n?? run_log/tsmom_40_60_80_lse_2020_2026/temporal_validation_plan.json\n?? scripts/analyze_static_challenge_windows.py\n?? scripts/build_dynamic_feature_panel.py\n?? scripts/build_dynamic_monthly_universe.py\n?? scripts/build_two_stage_funnel_features.py\n?? scripts/compare_3_vs_10_in_2026.py\n?? scripts/compare_vs_bnh_and_oos.py\n?? scripts/compute_forward_success_probability.py\n?? scripts/compute_top10_features.py\n?? scripts/compute_tsmom_features.py\n?? scripts/evaluate_prop_firm_pass_cycles.py\n?? scripts/generate_february_tearsheet.py\n?? scripts/generate_tearsheet.py\n?? scripts/materialize_ftmo_fx_reversion_data.py\n?? scripts/prepare_hftbacktest_data.py\n?? scripts/prepare_top10_data.py\n?? scripts/prepare_tsmom_data.py\n?? scripts/register_strategy_freeze.py\n?? scripts/register_two_stage_handoff.py\n?? scripts/run_1m_btc_eth_prop_firm_backtest.py\n?? scripts/run_1month_truthful_tick_backtest.py\n?? scripts/run_1week_watchdog_option1_tick_backtest.py\n?? scripts/run_5day_truthful_tick_backtest.py\n?? scripts/run_6asset_multiyear_backtest.py\n?? scripts/run_6asset_phases_4_to_7.py\n?? scripts/run_7asset_with_btc_backtest.py\n?? scripts/run_advanced_exit_hftbacktest.py\n?? scripts/run_advanced_phases_4_to_7.py\n?? scripts/run_biweekly_cohort_audit.py\n?? scripts/run_breakout_trials.py\n?? scripts/run_btc_structure_reversal.py\n?? scripts/run_btc_structure_reversal_attribution.py\n?? scripts/run_cross_asset_tsmom_phase2_3.py\n?? scripts/run_dual_timeframe_prop_firm_backtest.py\n?? scripts/run_dynamic_monthly_backtest.py\n?? scripts/run_ekstrom_pure_maker.py\n?? scripts/run_factor_diagnostics.py\n?? scripts/run_ftmo_fx_reversion_d0.py\n?? scripts/run_gold_only_2018_2026.py\n?? scripts/run_hftbacktest_btc_eth_pair.py\n?? scripts/run_independent_first_passage_trials.py\n?? scripts/run_iter_a_fast_ema_sweep.py\n?? scripts/run_iter_b_dual_momentum.py\n?? scripts/run_iter_c_symmetric_long_short.py\n?? scripts/run_iter_d_synthesis_and_holdout.py\n?? scripts/run_maker_regime_backtests.py\n?? scripts/run_monk_pair_trading.py\n?? scripts/run_monk_pair_trading_beta.py\n?? scripts/run_monk_sensitivity.py\n?? scripts/run_monk_with_time_barrier.py\n?? scripts/run_monthly_cohort_audit.py\n?? scripts/run_multiyear_kalman_backtest.py\n?? scripts/run_near_market_structure.py\n?? scripts/run_near_market_structure_exit_sweep.py\n?? scripts/run_official_ml4t_pipeline.py\n?? scripts/run_paper_trading_daemon.py\n?? scripts/run_prop_firm_circuit_breaker_backtest.py\n?? scripts/run_pure_maker_experiment.py\n?? scripts/run_regime_trials.py\n?? scripts/run_stop_market_funnel_backtest.py\n?? scripts/run_stop_market_holdout.py\n?? scripts/run_stop_market_stress_and_audit.py\n?? scripts/run_tick_microstructure_backtest.py\n?? scripts/run_top10_advanced_validation.py\n?? scripts/run_top10_backtests.py\n?? scripts/run_top10_diagnostics.py\n?? scripts/run_top10_holdout_and_stage5.py\n?? scripts/run_trial_1_kalman.py\n?? scripts/run_trial_2_regime.py\n?? scripts/run_trial_3_maker.py\n?? scripts/run_trial_4_sensitivity.py\n?? scripts/run_truthful_adaptive_peg_backtest.py\n?? scripts/run_tsmom_40_60_80_lse_2020_2026.py\n?? scripts/run_tsmom_backtests.py\n?? scripts/run_tsmom_prospective_holdout.py\n?? scripts/run_tsmom_temporal_validation.py\n?? scripts/run_two_stage_funnel_diagnostics.py\n?? scripts/run_verified_dual_timeframe_audit.py\n?? scripts/run_vol_targeted_backtests.py\n?? scripts/run_volume_farming_engine.py\n?? scripts/sweep_prop_firm_circuit_breaker.py\n?? scripts/test_profitable_volume_farming.py\n?? scripts/test_prop_firm_viability.py\n?? scripts/verify_winning_strategy.py\n?? src/btc_structure_reversal.py\n?? src/btc_structure_reversal_attribution.py\n?? src/features_breakout.py\n?? src/hftbacktest_accounting.py\n?? src/market_structure.py\n?? src/prop_firm_evaluator.py\n?? src/strategies/crypto_tsmom_maker_regime.py\n?? src/strategies/two_stage_funnel_tsmom.py\n?? tests/test_btc_eth_stat_arb_policy2.py\n?? tests/test_btc_structure_reversal.py\n?? tests/test_btc_structure_reversal_attribution.py\n?? tests/test_crypto_tsmom_maker_regime.py\n?? tests/test_hftbacktest_accounting.py\n?? tests/test_market_structure.py\n?? tests/test_near_market_structure_exit_sweep.py\n?? tests/test_prop_firm_evaluator.py\n?? tests/test_two_stage_funnel_validation.py\n?? tests/test_zero_lookahead_dual_timeframe.py\n"
+    },
+    "input_spec": {
+      "path": "config/research_sessions/crypto_tsmom_flow_increment_20261008_v2.yaml",
+      "sha256": "efe73655cd3dd2bc1e056c0470fd8be37ef3590c3a22fdda887b83eb5a59deea"
+    },
+    "runner": [
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "93ac6a14c98ba4904e27ee23ed08a240994dde0d7675f1542b902192512279b8",
+        "size_bytes": 34565
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      }
+    ],
+    "source": [
+      {
+        "exists": true,
+        "path": "src/__init__.py",
+        "sha256": "207c7f0dac7ca4ee0d52115d00ce992604166a4f196f31b4d626b2de1efcf5ee",
+        "size_bytes": 2593
+      },
+      {
+        "exists": true,
+        "path": "src/backtest.py",
+        "sha256": "cacab1983743a4d1ad1045f7d482ffd381889d6164c1beddafb7348d27684b13",
+        "size_bytes": 5833
+      },
+      {
+        "exists": true,
+        "path": "src/btc_structure_reversal.py",
+        "sha256": "747f1259bc991e42c7cb648f04eff8a5171e60157cfb4c16379dbf64ae2add91",
+        "size_bytes": 15387
+      },
+      {
+        "exists": true,
+        "path": "src/btc_structure_reversal_attribution.py",
+        "sha256": "5420d9c4f13aaca7b49cde6e7446e3cf1e0282193c64fb27abbdf7a54ac8f139",
+        "size_bytes": 5298
+      },
+      {
+        "exists": true,
+        "path": "src/catalog.py",
+        "sha256": "8163cae53cd25bbc64b29659145b113c454e5829fc131b678c9a29d0cfe1fc27",
+        "size_bytes": 11542
+      },
+      {
+        "exists": true,
+        "path": "src/diagnostics.py",
+        "sha256": "aebb402bb4696a5ecd6f2b6c78ad9f926451a71027b8cec8aa17ddb77af4d56b",
+        "size_bytes": 6399
+      },
+      {
+        "exists": true,
+        "path": "src/eow_rebuild.py",
+        "sha256": "9edc111e44dcdded8f681bf9489c69aa97f805ccbca969fcecc5d2ce620bb186",
+        "size_bytes": 66561
+      },
+      {
+        "exists": true,
+        "path": "src/experiment.py",
+        "sha256": "0ec6e61466e861ecfc039e7fab416472d83d74cbaecc926dd8aaa2780d367d1d",
+        "size_bytes": 5496
+      },
+      {
+        "exists": true,
+        "path": "src/factory.py",
+        "sha256": "2c20d53f2ecea255a8801320fd913e4069de47cd7c8fae2ca74409be7748bc02",
+        "size_bytes": 11340
+      },
+      {
+        "exists": true,
+        "path": "src/features.py",
+        "sha256": "12b314ac5aa0c85a1dff654ebcb0eb088aaf7411d98292588534c7e0a426424c",
+        "size_bytes": 11777
+      },
+      {
+        "exists": true,
+        "path": "src/features_breakout.py",
+        "sha256": "15c29b2cbf6527062a59526fc4f649d82895d934d0d7f286207a2fef26f89858",
+        "size_bytes": 5898
+      },
+      {
+        "exists": true,
+        "path": "src/ftmo_simulator.py",
+        "sha256": "636d2889d963cd4067d8acda296b77923c229ca39e62e11861c278210b2c592c",
+        "size_bytes": 18183
+      },
+      {
+        "exists": true,
+        "path": "src/hftbacktest_accounting.py",
+        "sha256": "2de4e787035bd44064dab4e46561fa132ae6969795afdc949c8e8f282f247ae5",
+        "size_bytes": 5716
+      },
+      {
+        "exists": true,
+        "path": "src/labeling.py",
+        "sha256": "a7789b9dce32fad45ef45e65f02b55e4b5ff970c82fb6dd47c785da55a612f3f",
+        "size_bytes": 29294
+      },
+      {
+        "exists": true,
+        "path": "src/market_structure.py",
+        "sha256": "49b2bd5694bffa3d02fe1ff1c2b3eec1a5b47ca7094da42f0dfad176ea4bd5c5",
+        "size_bytes": 5952
+      },
+      {
+        "exists": true,
+        "path": "src/market_time.py",
+        "sha256": "146af457c128fceee95ff351a59d24fad34ffac7f9e2f913cbaf16a11cacb39a",
+        "size_bytes": 6324
+      },
+      {
+        "exists": true,
+        "path": "src/models.py",
+        "sha256": "891057c7707e96d951da81a969a7e85c29c467f1de5dc4a6e844f98c747c6ea5",
+        "size_bytes": 16624
+      },
+      {
+        "exists": true,
+        "path": "src/orb_ml_research.py",
+        "sha256": "e91128fc73d21dc2c599b51f42fe86323516999d79b2c1244a324578182defde",
+        "size_bytes": 42949
+      },
+      {
+        "exists": true,
+        "path": "src/orb_raw_optimization.py",
+        "sha256": "9212b114d9936e6ea62ae64bf56209a63e3a7bbe460ec8f1c5c1c9ae56c992d6",
+        "size_bytes": 54291
+      },
+      {
+        "exists": true,
+        "path": "src/patterns.py",
+        "sha256": "51432b7c9767cf9493a5b41b673c94e4ad094e5ee408e2a74101cc2cc71be073",
+        "size_bytes": 2364
+      },
+      {
+        "exists": true,
+        "path": "src/pipeline.py",
+        "sha256": "fe650b668628cbd5232be5d6f45f3d25cfd62b361d08856d5dc05c26a90ba87e",
+        "size_bytes": 20597
+      },
+      {
+        "exists": true,
+        "path": "src/prop_firm_evaluator.py",
+        "sha256": "e120ba8a1a0c0a38214d530fbfbce25e9e042517d5621b4afd60388afbecae26",
+        "size_bytes": 15760
+      },
+      {
+        "exists": true,
+        "path": "src/research_session.py",
+        "sha256": "93ac6a14c98ba4904e27ee23ed08a240994dde0d7675f1542b902192512279b8",
+        "size_bytes": 34565
+      },
+      {
+        "exists": true,
+        "path": "src/session_calendar.py",
+        "sha256": "165a24422ecd6c481b23ff55cb1a62bb95c819e4c10769221f1c10e376bceb47",
+        "size_bytes": 5377
+      },
+      {
+        "exists": true,
+        "path": "src/strategies/crypto_tsmom_maker_regime.py",
+        "sha256": "b6c2467fce59d91a9b559ef645cdc8ca4bb24c4ab8e2c76422cd6c8bb883629d",
+        "size_bytes": 3340
+      },
+      {
+        "exists": true,
+        "path": "src/strategies/two_stage_funnel_tsmom.py",
+        "sha256": "4981e4919c4d9830a4771c03f09ac10aae2665faf4f2ff28367c2791f103d796",
+        "size_bytes": 3079
+      },
+      {
+        "exists": true,
+        "path": "src/synthesis.py",
+        "sha256": "4bc7d779c5e0c8c84722e3aa2b501dc782437e513da8003222861390010af617",
+        "size_bytes": 5825
+      },
+      {
+        "exists": true,
+        "path": "src/validated_orb_pipeline.py",
+        "sha256": "6731a7cad5dc66250c77cc03a759a53524a37249ef20521c9a4ed6285fe8c4df",
+        "size_bytes": 61012
+      },
+      {
+        "exists": true,
+        "path": "src/validation.py",
+        "sha256": "793ed95f123a8af630881eb5399346d6fc593418f6aec356dc6ebb847357f62c",
+        "size_bytes": 9016
+      },
+      {
+        "exists": true,
+        "path": "src/validation_status.py",
+        "sha256": "b44e882edcc9e1e2e71464da6f2ce5d593daba93389ad3feb118fe5b07795027",
+        "size_bytes": 1398
+      },
+      {
+        "exists": true,
+        "path": "scripts/analyze_static_challenge_windows.py",
+        "sha256": "ae5d7d75eff02e5cb0e39afc835b9f2f91bd85a5c9f6734682184cb6d2c41f76",
+        "size_bytes": 7627
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_dynamic_feature_panel.py",
+        "sha256": "b0755435c7218268d905e4bd65e43d9a215b3f6f7bc7237e87e7f6d555e1161f",
+        "size_bytes": 3378
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_dynamic_monthly_universe.py",
+        "sha256": "aba753fdfa6363d8d27f581dd33312c7549958d167093c3ccfcf731e734215c4",
+        "size_bytes": 4399
+      },
+      {
+        "exists": true,
+        "path": "scripts/build_two_stage_funnel_features.py",
+        "sha256": "81cb45c075c08aeca12835bef95cfe70e7f25132d69b40718f89b25c397e2e61",
+        "size_bytes": 4924
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_3_vs_10_in_2026.py",
+        "sha256": "5d09b830c554318d6a5cfb0482ba396ed536550c57bd57cdd25819598cb5e30a",
+        "size_bytes": 5300
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_ftmo_baseline_vs_optimized.py",
+        "sha256": "ab937fe6ee14e0a3e0deb189e2751e5508f386b0f03392df4bbf24e45a873cb1",
+        "size_bytes": 2740
+      },
+      {
+        "exists": true,
+        "path": "scripts/compare_vs_bnh_and_oos.py",
+        "sha256": "9e5ac194ea4034575518337ff4b640d939b531eef000f9e5997f9f9c56024ae7",
+        "size_bytes": 5357
+      },
+      {
+        "exists": true,
+        "path": "scripts/compute_forward_success_probability.py",
+        "sha256": "d64742c6fd4ce6f6f7cb61ca1292343c3974e80fb78902dce3d175b2df255721",
+        "size_bytes": 11127
+      },
+      {
+        "exists": true,
+        "path": "scripts/compute_top10_features.py",
+        "sha256": "b955e3f4bc7e618b27b651df4351ce62fd317710add07f861a9b8fe0d6eeaeb5",
+        "size_bytes": 3844
+      },
+      {
+        "exists": true,
+        "path": "scripts/compute_tsmom_features.py",
+        "sha256": "4e46fd8096347a76668bff069f9d381444880112741833774128e30f7d639a29",
+        "size_bytes": 5131
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_expanded_assets.py",
+        "sha256": "1e8ba5f7b9c96af762a50c999329061373e7c7cbfc3ba4f25471d94b5aafb476",
+        "size_bytes": 5670
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_historical_2017_2026.py",
+        "sha256": "f3b2e0b12efb6cb0f39822add4479552eba1e77f5ac7a98e69621b456f5156cc",
+        "size_bytes": 3766
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_intraday_data.py",
+        "sha256": "0a1479fb8451642132ee2c1d3209c0d3a26af5b86d2838ede1dc496878fea8e2",
+        "size_bytes": 3535
+      },
+      {
+        "exists": true,
+        "path": "scripts/download_nas100_hk33_2017_2022.py",
+        "sha256": "09cab62c1d542e1beaca79e556aaa07386a4cfd0f44e51e4d5eff7e493603688",
+        "size_bytes": 4425
+      },
+      {
+        "exists": true,
+        "path": "scripts/evaluate_prop_firm_pass_cycles.py",
+        "sha256": "0e984e0e87d6393a8b4996f9199ef9aaffb19af34e7bd50abd11cdce9a0dcc94",
+        "size_bytes": 8349
+      },
+      {
+        "exists": true,
+        "path": "scripts/generate_february_tearsheet.py",
+        "sha256": "c464dd2180397a19e0ea9412ffac32d11b5183630cf356f9af4e0f9ae8552850",
+        "size_bytes": 3910
+      },
+      {
+        "exists": true,
+        "path": "scripts/generate_tearsheet.py",
+        "sha256": "0c1e949ce6eefcc489e3909289e7d6b76ef93f9fb31d077e3378d245caee7cf9",
+        "size_bytes": 15180
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_long_short.py",
+        "sha256": "a1120fbefac9f82325bf4697948c03ef252a8bab2a11c75864a192cce5747c5f",
+        "size_bytes": 1232
+      },
+      {
+        "exists": true,
+        "path": "scripts/inspect_sessions_2017_2026.py",
+        "sha256": "3d1d64bfd2776face574d81a2554a1bd6a5cae3289a72ada6d4883145f631fdb",
+        "size_bytes": 2767
+      },
+      {
+        "exists": true,
+        "path": "scripts/materialize_ftmo_fx_reversion_data.py",
+        "sha256": "0913230decea5cf5f44bcd5c9c2fa4e68fd16261ac14bd6b81b400ffc72674a9",
+        "size_bytes": 5852
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_hftbacktest_data.py",
+        "sha256": "7901303e6a1c517bbcb4b6fe4e6a0714b4e24cadd5881bffb2d7db195335afa3",
+        "size_bytes": 4176
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_top10_data.py",
+        "sha256": "b4d6aac236b953d08aa2a91bb7440a5f06728c77028cb3deeb7397162c56ea06",
+        "size_bytes": 2365
+      },
+      {
+        "exists": true,
+        "path": "scripts/prepare_tsmom_data.py",
+        "sha256": "5b2f40abaa825a1cacc64b8a598a2b15959fd71ebd7f0ab3a61243b5aa0b5627",
+        "size_bytes": 2400
+      },
+      {
+        "exists": true,
+        "path": "scripts/register_strategy_freeze.py",
+        "sha256": "cc1a551edd0cdecd294b5d9ae4303ad3520d489c75c370a8d2929e7c44d3798b",
+        "size_bytes": 2268
+      },
+      {
+        "exists": true,
+        "path": "scripts/register_two_stage_handoff.py",
+        "sha256": "593638a8ce52cf6a0a9c43da42540bb232bf8f62a2ab9fe69b588e2811001697",
+        "size_bytes": 3146
+      },
+      {
+        "exists": true,
+        "path": "scripts/research_session.py",
+        "sha256": "5723be6b12a17f8214a347b0a50ec944330ffdf9ce297b97494ba682c06a25ef",
+        "size_bytes": 2589
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_1m_btc_eth_prop_firm_backtest.py",
+        "sha256": "a1992a1385d5111c3ad806bfc2b938df46d139c80de84ef6fe9dee66eaea5a15",
+        "size_bytes": 7565
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_1month_truthful_tick_backtest.py",
+        "sha256": "a3117c6442576ead7c7525b3fe584ff862f8fec308b26a1b0eea90b374af36cb",
+        "size_bytes": 16696
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_1week_watchdog_option1_tick_backtest.py",
+        "sha256": "f114595e800e48d362ad1ee132080f15ca3e99f8a0c56cb1ad7b566d230f6a46",
+        "size_bytes": 23268
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_5day_truthful_tick_backtest.py",
+        "sha256": "3e0dc6b962a9def17d401460b6d15f09a445923692bda96d3f35e84257d99062",
+        "size_bytes": 14349
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_6asset_multiyear_backtest.py",
+        "sha256": "1eacd35d9a0de6eabf6cd664d56f9def87def1311d1804402ba015bc4085aa6b",
+        "size_bytes": 12650
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_6asset_phases_4_to_7.py",
+        "sha256": "acf8782c0f7b7b7a53b13312f9f992212407d9f8a0d2a0784d7be91fa553329b",
+        "size_bytes": 13354
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_7asset_with_btc_backtest.py",
+        "sha256": "8c3b1c48a1d52d26c72909e7b8b063bad67fd8f75a94d0f9abea0656f769d033",
+        "size_bytes": 12792
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_advanced_exit_hftbacktest.py",
+        "sha256": "c0f2436bbc75290f1d75d48e3535223dfc556254ea222fc69e62e0b66b07f92a",
+        "size_bytes": 30269
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_advanced_phases_4_to_7.py",
+        "sha256": "df2e3e6d0ff860cc13e01f2e2c59d2b7878984630ea79313e8b2befe9a6d385a",
+        "size_bytes": 11373
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_biweekly_cohort_audit.py",
+        "sha256": "4c711bf14a2d4858703ed55426094123281b7b9f114733096891cad787f56e61",
+        "size_bytes": 4778
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_breakout_trials.py",
+        "sha256": "a6d4d1a2f8c33c51fdbcd45196ab46d85037c49bf7eaaffa19aeae94e9c98e2f",
+        "size_bytes": 8036
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_eth_relative_value.py",
+        "sha256": "9d8efc563a89f44b2becc7ec99f8203aed05c298a0965f560c788e456d180bfe",
+        "size_bytes": 23582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_structure_reversal.py",
+        "sha256": "c9f3b2a0e8b5cbf376afef6ae6670f97512f39a062aaa94831902b2d32a012a5",
+        "size_bytes": 7867
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_btc_structure_reversal_attribution.py",
+        "sha256": "dd4e62339fdc54fc8259df0857a3decb4a61de6b393b2d5e571b9eccca23a523",
+        "size_bytes": 7921
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_cross_asset_tsmom_phase2_3.py",
+        "sha256": "3a5930d3c1dcad0a2c334736760748b921bd4bd904f32592155b51b904ac821d",
+        "size_bytes": 18363
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_dual_timeframe_prop_firm_backtest.py",
+        "sha256": "ef362a354256f77168824be5bc37ad0da0514a231b3e1a7b92e0fd7b621bd26a",
+        "size_bytes": 8064
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_dynamic_monthly_backtest.py",
+        "sha256": "8c09b03b5b63ae52df2a08f0131b17340c83a37d5b8cb803ca2018330379f8e1",
+        "size_bytes": 6739
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ekstrom_pure_maker.py",
+        "sha256": "7379f074ed7e9b56910afb74f219eaf194cad7945add46cbc4edf5c946f4cfca",
+        "size_bytes": 15820
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_eow_rebuild.py",
+        "sha256": "32f9124ab0f79ed548f2d652b00dbc71517643222d4c94a1e472021b5c6d6096",
+        "size_bytes": 2511
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_factor_diagnostics.py",
+        "sha256": "ef10ab7f3b793d54830830bb23ef4930401939ed6a4f43f70d433fa5f9d41201",
+        "size_bytes": 3756
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_challenge_simulation.py",
+        "sha256": "6dfd97b3a400d0b90243f31ddc611acc1ab32bec6ff8a9a146b9023293302d87",
+        "size_bytes": 6862
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_ftmo_fx_reversion_d0.py",
+        "sha256": "72e9bae414653be9d9186476c471349ca65a6e3c254fc9493ab992f6f4dcf7a3",
+        "size_bytes": 12976
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_full_10y_backtest.py",
+        "sha256": "9804dab1a6e6304fd72e9d682af37d5388256ba7c7fb6f4e757358438d406c36",
+        "size_bytes": 8202
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_gold_only_2018_2026.py",
+        "sha256": "e2900d81f35cb2865d51bf9a06b4cb245ea1899cc15612cc1699a758845b3707",
+        "size_bytes": 8729
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_hftbacktest_btc_eth_pair.py",
+        "sha256": "3b1d28a8fa73eaadd4c66f6be3ef25e1d9d2d77f8f9d39d850dad88781069fe8",
+        "size_bytes": 39536
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_independent_first_passage_trials.py",
+        "sha256": "8c8b9fe12be888413803da43aefcfefe588d5495be5c592449d3199b02f2412e",
+        "size_bytes": 12285
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_a_fast_ema_sweep.py",
+        "sha256": "219f62d39a4878f33539b6d25cff0883073305f9a4dbc34c2ceeb25a473b9b45",
+        "size_bytes": 3908
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_b_dual_momentum.py",
+        "sha256": "7b0ea61d37d9574c4bbb554f5d2b034a22ff7392b1fff1f369d0a769c6c89e4e",
+        "size_bytes": 6715
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_c_symmetric_long_short.py",
+        "sha256": "c791587494e7259ff4ab1310c25c03cbb1129a91309aab58c3540f6aba5e773f",
+        "size_bytes": 7123
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_iter_d_synthesis_and_holdout.py",
+        "sha256": "7a23566517044dcc520fc0cb4bcdf92e232606baafe323dff7b75673673b821e",
+        "size_bytes": 10294
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_maker_regime_backtests.py",
+        "sha256": "f2d67005c32ba30d46309d1dcba7bc97c30a71c2b925fc4fb5254ed51b555860",
+        "size_bytes": 10608
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_pair_trading.py",
+        "sha256": "f118f9ff05a528766ee1b062b2e1378cb01e863f72dd368827b22625418674ba",
+        "size_bytes": 12038
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_pair_trading_beta.py",
+        "sha256": "773894f691f138d22ab7d3ce1cb8d8abb4c17d256c53455e6c4c41a3f4371d4a",
+        "size_bytes": 11681
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_sensitivity.py",
+        "sha256": "1b3453243c9400ed2a3e31ad0929896a230e6c2a550bb934767e5c67c3c5705e",
+        "size_bytes": 7168
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monk_with_time_barrier.py",
+        "sha256": "54f2db4c9c839cc0542137384d48b8c824d16706cc2311cf29ea7a37b35e3f7c",
+        "size_bytes": 10652
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_monthly_cohort_audit.py",
+        "sha256": "3adfbf648b376860b9857f3372872c96d71d2c3364264f37a891e34fecff6be8",
+        "size_bytes": 6610
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_multiyear_kalman_backtest.py",
+        "sha256": "3d0648eb69570e3d1378ef20718562753bb70ea1e5d5c8e09a91f61d4a1d4212",
+        "size_bytes": 13582
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_near_market_structure.py",
+        "sha256": "41d0bfd0cc68afc566303d506c545b24e7cfaa3814a813d645a3db35caeb6e94",
+        "size_bytes": 10196
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_near_market_structure_exit_sweep.py",
+        "sha256": "bba785bf0502f2ae2f06f0e7f0655cb24909fdbee68fbff702dc9de64e79bd0b",
+        "size_bytes": 17735
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_official_ml4t_pipeline.py",
+        "sha256": "62f9cebe23ce645d42b7a4f75750cdd874fa44af269b9264ccc7703e43575161",
+        "size_bytes": 11035
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_2017_2026.py",
+        "sha256": "8230647e61f8783eed523aa25a0a0da3593908669d5abbd03e9d8dd715784004",
+        "size_bytes": 17416
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_dual_session.py",
+        "sha256": "e054b5e425746f284fe8c89985ff4b72ab7c49f9cc2fac8872586ed01a36e3a0",
+        "size_bytes": 8912
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_filtered_matrix.py",
+        "sha256": "ca12580991a270f49325b713f010b6ddf1647b6478200d77638c6c79c7a11889",
+        "size_bytes": 15977
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_final_benchmark.py",
+        "sha256": "b63eaee7ddaf4516822750e688179b5091616992b353962dbf2c7d935a76f281",
+        "size_bytes": 7199
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_ml_research.py",
+        "sha256": "45a2d41bdacb7d9d96287387c5e1cb631777a236480ddc2b9c922f00473fa5f3",
+        "size_bytes": 1481
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset.py",
+        "sha256": "0f7b1e2abf55150ad60d096bd36ffa3e73a160b5ffc5ceaf3b130098d04fe011",
+        "size_bytes": 13414
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_multi_asset_evaluation.py",
+        "sha256": "785f5ad3367d717853a17b66228941a4acca62fea7c85c054c918c50ae47023f",
+        "size_bytes": 19745
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_parallel_matrix.py",
+        "sha256": "cd458dc8742c673f59f4dab3b6b9310ea670d0383937b662ea715bf9c2360875",
+        "size_bytes": 12228
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_orb_raw_optimization.py",
+        "sha256": "6c06c2cba46c8de74be761e57abd6a38fd61c861b8aae9eb407ca9701f98d948",
+        "size_bytes": 1566
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_paper_trading_daemon.py",
+        "sha256": "24b49d27bd6d67ac74ddef894cb8103a9836d445baef383c680ef4d6a0c8e491",
+        "size_bytes": 3911
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pipeline.py",
+        "sha256": "2c2e49f6c5616e8859b6ee7135eaf0f36e2844dec9b92e64a043c128c4e8581c",
+        "size_bytes": 3260
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_prop_firm_circuit_breaker_backtest.py",
+        "sha256": "5515beae63ecf0fb94cd2e8fea67af616980ebb8ce6e297c300dfae2b921d21d",
+        "size_bytes": 10118
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_pure_maker_experiment.py",
+        "sha256": "b76b419efedb98009e3ebed6ee85514252a3b1979ce1e35da3c09d0244b3d9ab",
+        "size_bytes": 18092
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_regime_trials.py",
+        "sha256": "c85fb2b209c5f5968eeb806f1578df0b840187e602962d0a4acb01fad566a64a",
+        "size_bytes": 8533
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_stop_market_funnel_backtest.py",
+        "sha256": "aec5904a00a29abba3dda344a02e15968e1078fa7772474dab4a9de7ed4bed1c",
+        "size_bytes": 8693
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_stop_market_holdout.py",
+        "sha256": "e14593b4d8ff2d6a963e01bb7d990db0ca3f6a2d1ee5d608cc373f175ccafa49",
+        "size_bytes": 7765
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_stop_market_stress_and_audit.py",
+        "sha256": "489d21fbab8ca85ad5c825b04254e79d76f4720d4b94615212f0e678588b9957",
+        "size_bytes": 5509
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tick_microstructure_backtest.py",
+        "sha256": "45f4f1dd8b1a59a493477f9b97f7167b014031958c65620fce2a55063c456c49",
+        "size_bytes": 12698
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_advanced_validation.py",
+        "sha256": "d50ab0132e636c0be71054a6d387a38e074ebc6d0702a30ff29134fb26399b2c",
+        "size_bytes": 7771
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_backtests.py",
+        "sha256": "2d3091220ca3e23b5efb6e7acb9187b165218b957692cd9ac8f4a947d15f2ee3",
+        "size_bytes": 8215
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_diagnostics.py",
+        "sha256": "e3a192d619e2277f65f839fd1f81c4cdae22c6ea6428add31c0e01a3d48b041a",
+        "size_bytes": 3507
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_top10_holdout_and_stage5.py",
+        "sha256": "6c1562c0bf68cb518dc32b9d78a0123110922a22176afde56ccfa3b7301496d1",
+        "size_bytes": 8046
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_1_kalman.py",
+        "sha256": "db254362459fa36c2aec7fa5cb5486b3a711858590d4c0a71bc466bcd88a7a70",
+        "size_bytes": 7353
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_2_regime.py",
+        "sha256": "4b81840bcd7b99df864fd1ce6f6651db8aea4dd0a52af0136d62b614e5f66997",
+        "size_bytes": 8133
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_3_maker.py",
+        "sha256": "27b836857c98e649efc3a16919d57811904a675863c715a807f3dee3de31749c",
+        "size_bytes": 8706
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_trial_4_sensitivity.py",
+        "sha256": "80bbc91189a16e2894a3a220e79bdbf400df134891761ee1b13dbab7efc1c57a",
+        "size_bytes": 8281
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_truthful_adaptive_peg_backtest.py",
+        "sha256": "e122104e870ec467acc1c46507fe9ef75b86351265c66ddd45e8835fd0fde091",
+        "size_bytes": 26802
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_40_60_80_lse_2020_2026.py",
+        "sha256": "76cca6fe3ecb45a6702941fa985359e1d338682a0765ce68576ae543cd5781a9",
+        "size_bytes": 23961
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_backtests.py",
+        "sha256": "e90d4f165177d0501e75fd631e256bc8699e1ec3847e02efc6b6ec384be841a6",
+        "size_bytes": 8644
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_prospective_holdout.py",
+        "sha256": "2161cb322388038edb68eb015d361824924d4febad0cd55ccd32c24079e28c15",
+        "size_bytes": 18262
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_tsmom_temporal_validation.py",
+        "sha256": "f3c50edc366ca81ccb5d58493bbdc0859113753cbc612cc420830e547e0eac45",
+        "size_bytes": 13577
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_two_stage_funnel_diagnostics.py",
+        "sha256": "cb4f74385523e1feedd21b275ff339115d5ba4865027fa5ac6f1f6d4b6f7da6b",
+        "size_bytes": 5956
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_validated_orb.py",
+        "sha256": "ce6eca7d5420c967fec64449c9c2e164e14f54e519dfcb7b243f990fd4864fba",
+        "size_bytes": 2970
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_verified_dual_timeframe_audit.py",
+        "sha256": "6ca4d7f02b8bff8e66063de1f987e15dafc6304221b816b630b232fd06d752b1",
+        "size_bytes": 9932
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_vol_targeted_backtests.py",
+        "sha256": "5b218c2aa20493e38b6d24fb035c5886aa0cfa131b46ee09c8cdf1e31bdbd34a",
+        "size_bytes": 9389
+      },
+      {
+        "exists": true,
+        "path": "scripts/run_volume_farming_engine.py",
+        "sha256": "b76603527b04db7e563635cae99b5db9c8c2969fb3d055745e110e98c7041225",
+        "size_bytes": 10866
+      },
+      {
+        "exists": true,
+        "path": "scripts/simulate_ftmo_portfolio.py",
+        "sha256": "98a900a7ef44de2939681c762ca9dd7517cd88ab5b9538c5d132f47076c14e25",
+        "size_bytes": 7669
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_portfolio.py",
+        "sha256": "ccd2f8fe2fafdecd94f9b7636079881a4d3efcb4e44af58ea1f721e5c0653b09",
+        "size_bytes": 10315
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_microstructure_variants.py",
+        "sha256": "5fb0ca97dc09f2632c064f3b7b4632a5ebfca79e67a0dc70f6dc17ef7135f2bb",
+        "size_bytes": 7489
+      },
+      {
+        "exists": true,
+        "path": "scripts/sweep_prop_firm_circuit_breaker.py",
+        "sha256": "4da6942b079dd9ccf8dcfe66531cd49f0c64d845aad8688d62d94659108cb21c",
+        "size_bytes": 5586
+      },
+      {
+        "exists": true,
+        "path": "scripts/test_profitable_volume_farming.py",
+        "sha256": "1221c3439aa3d35081f1c30e860c485f8d24b993d1d28195341d1d46c5d3b780",
+        "size_bytes": 11386
+      },
+      {
+        "exists": true,
+        "path": "scripts/test_prop_firm_viability.py",
+        "sha256": "94306741672b1d314823630758001eb4cf94160776e17698057671ff89063014",
+        "size_bytes": 7089
+      },
+      {
+        "exists": true,
+        "path": "scripts/verify_winning_strategy.py",
+        "sha256": "8588ed5880d78ac8d866f51a94df436292c3e522e56dafc5dbfc719748c1d9bd",
+        "size_bytes": 8826
+      }
+    ],
+    "source_sha256": "76972ee52f0c713b44336198580cff1491c4d65965d8afa5df07a58fd6b234cf"
+  },
+  "schema_version": 1,
+  "session_id": "crypto_tsmom_flow_increment_20261008_v2",
+  "spec": {
+    "baseline": "Zero-trade cash and equal-weight long-only buy-and-hold across BTCUSDT, ETHUSDT, and SOLUSDT. TSMOM is long when the selected lookback return is positive and short when it is negative; zero return is flat. Use $500 initial equity, equal notional per active symbol, and no volatility sizing.",
+    "costs": {
+      "assumptions": "Binance USD-M Futures VIP 0 taker commission is 4.5 bps per fill. Assume no BNB discount. Apply 1.5 bps slippage per side, for 12.0 bps total round-trip friction. Apply each actual signed funding settlement while a position is open. Use the recorded per-symbol settlement times; BTCUSDT and ETHUSDT have 8-hour events, while SOLUSDT includes observed 2-hour and 4-hour intervals in addition to 8-hour events. Align a recorded settlement to the nearest hourly bar only within 50 ms. Do not interpolate funding rates or assume a fixed interval across symbols.",
+      "commission_bps": 4.5,
+      "funding_included": true,
+      "slippage_bps": 1.5
+    },
+    "data": [
+      {
+        "id": "btc_prices_1h",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/btcusdt_1h.parquet",
+        "role": "prices",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "id": "eth_prices_1h",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/ethusdt_1h.parquet",
+        "role": "prices",
+        "symbol": "ETHUSDT"
+      },
+      {
+        "id": "sol_prices_1h",
+        "path": "data/processed/crypto_tsmom_flow_inputs_20261008/solusdt_1h.parquet",
+        "role": "prices",
+        "symbol": "SOLUSDT"
+      },
+      {
+        "id": "btc_funding",
+        "path": "data/processed/btc_funding.parquet",
+        "role": "funding",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "id": "eth_funding",
+        "path": "data/processed/eth_funding.parquet",
+        "role": "funding",
+        "symbol": "ETHUSDT"
+      },
+      {
+        "id": "sol_funding",
+        "path": "data/processed/sol_funding.parquet",
+        "role": "funding",
+        "symbol": "SOLUSDT"
+      }
+    ],
+    "evaluation": {
+      "cadence": "1h",
+      "development_end": "2026-08-01T00:00:00Z",
+      "development_policy": "Use only the common UTC hourly grid. The development hourly bars are built from exactly 60 consecutive source minutes; do not forward-fill or synthesize bars. A momentum lookback is valid only across contiguous hourly bars; reset warmup after any gap. Require all 60 preceding one-minute bars for flow. Keep per-symbol results visible; do not claim broad cross-sectional evidence from three instruments. Calculate Sharpe from continuous daily portfolio equity returns, not intraday returns with a frequency multiplier.",
+      "development_start": "2021-01-01T00:00:00Z",
+      "flow_feature": {
+        "diagnostic_score": "Compare the fixed baseline score sign(72-hour close-to-close return) with the diagnostic-only score sign(72-hour close-to-close return) plus the signed 60-minute flow imbalance. The flow score does not generate orders.",
+        "formula": "For the 60 consecutive complete 1-minute bars ending at the completed 1-hour decision boundary, (2 * sum(taker_buy_quote_volume) - sum(quote_volume)) / sum(quote_volume). A non-positive hourly denominator invalidates the feature observation. Zero-volume minutes with zero taker volume are retained. Do not clip source values.",
+        "forward_return_horizons_hours": [
+          1,
+          4,
+          24,
+          72
+        ],
+        "primary_horizon_hours": 1,
+        "required_columns": [
+          "quote_volume",
+          "taker_buy_quote_volume"
+        ],
+        "source": "Binance USD-M 1-minute partitions identified by run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json."
+      },
+      "holdout_end": "2027-08-01T00:00:00Z",
+      "holdout_policy": "Do not inspect prices, returns, flow values, or strategy results from 2026-08-01 onward until the full 12-month window is complete. Existing source metadata may identify coverage only; it must not be used to score or change the protocol.",
+      "holdout_start": "2026-08-01T00:00:00Z",
+      "known_historical_window": {
+        "classification": "development_only_prior_TSMOM_holdout_was_scored",
+        "end_exclusive": "2026-08-01T00:00:00Z",
+        "start": "2025-01-01T00:00:00Z"
+      },
+      "minimum_prospective_holdout_days": 365,
+      "plan": "Evaluate registered 24-hour, 72-hour, and 168-hour TSMOM variants on known development data. The 72-hour variant is primary. Run the flow feature as one fixed diagnostic against the 72-hour baseline. Do not tune using the prospective holdout. The future holdout is the only confirmatory strategy evaluation.",
+      "timing": "Compute momentum after each completed 1-hour bar. Submit market orders at the next available 1-hour bar open. Hold each direction until its signal changes, then close or reverse at the next available open. Start after the 168-hour warmup. At a signal transition, allocate equal notional across active symbols, capped at 1.0x marked equity gross exposure. Do not rebalance otherwise, except proportionate taker reductions at the next bar if marked gross exposure exceeds equity."
+    },
+    "evidence": [
+      "run_log/research_sessions/crypto_tsmom_flow_increment_20261008/frozen_spec.json",
+      "run_log/research_sessions/crypto_tsmom_flow_increment_20261008/data_gate_report.json",
+      "run_log/research_sessions/crypto_tsmom_trend_persistence/frozen_spec.json",
+      "run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/frozen_spec.json",
+      "run_log/research_sessions/crypto_tsmom_two_stage_funnel_stop_exec/trials/trial_4_holdout_and_dsr_audit.json",
+      "run_log/fixed23_flow_repair_20261007.json",
+      "run_log/crypto_tsmom_flow_inputs_20261008_source_manifest.json"
+    ],
+    "falsifier": "The TSMOM claim fails if the untouched prospective 12-month holdout has non-positive net return, annualized Sharpe below 0.80, or maximum drawdown above 20.0%. The flow feature is supported only if the paired out-of-sample improvement in Rank IC over the fixed 72-hour momentum score has a 95% HAC confidence interval with a lower bound above zero at the primary 1-hour forward-return horizon. Secondary horizons are descriptive and cannot select or tune a feature. Historical results through 2026-07-31 are development evidence, not a fresh holdout.",
+    "instruments": [
+      {
+        "kind": "perpetual",
+        "symbol": "BTCUSDT",
+        "venue": "Binance USD-M Futures"
+      },
+      {
+        "kind": "perpetual",
+        "symbol": "ETHUSDT",
+        "venue": "Binance USD-M Futures"
+      },
+      {
+        "kind": "perpetual",
+        "symbol": "SOLUSDT",
+        "venue": "Binance USD-M Futures"
+      }
+    ],
+    "market": "crypto",
+    "mechanism": "Multi-day price trends can persist when information diffuses gradually and forced liquidations extend directional order flow. Taker-buy versus total quote volume measures aggressor-side flow over the prior hour. Flow may confirm or contradict the 72-hour trend, but this study does not use flow to alter orders. Costs, funding, reversals, and source-data gaps can erase either effect.",
+    "session_id": "crypto_tsmom_flow_increment_20261008_v2",
+    "thesis": "A 72-hour time-series momentum signal on BTCUSDT, ETHUSDT, and SOLUSDT perpetuals has positive risk-adjusted returns on 1-hour bars after Binance VIP 0 taker fees, slippage, and actual funding settlements. Signed quote-volume imbalance from the preceding 60 complete 1-minute bars may add short-horizon predictive information beyond the fixed momentum direction.",
+    "trials": [
+      {
+        "description": "Primary 72-bar close-to-close return sign. Long if positive, short if negative, flat if zero. Decide after the completed hour and fill at the next hourly open.",
+        "id": "trial_1_tsmom_72h_primary",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Registered 24-bar close-to-close return sign under the same position, timing, capital, cost, and funding rules. Sensitivity only; not a basis to replace the primary horizon.",
+        "id": "trial_2_tsmom_24h_sensitivity",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Registered 168-bar close-to-close return sign under the same position, timing, capital, cost, and funding rules. Sensitivity only; not a basis to replace the primary horizon.",
+        "id": "trial_3_tsmom_168h_sensitivity",
+        "kind": "preregistered"
+      },
+      {
+        "description": "Compare Rank IC for the fixed 72-hour baseline score and the diagnostic-only score augmented by 60-minute signed quote-volume imbalance. Use forward returns at 1, 4, 24, and 72 hours; 1 hour is primary. Report paired out-of-sample improvement with a 95% HAC confidence interval. Do not alter trades or select a new flow rule from secondary horizons.",
+        "id": "trial_4_flow_incremental_diagnostic",
+        "kind": "diagnostic"
+      }
+    ]
+  },
+  "spec_sha256": "ba7ab04fb28eececaf997cb4a6769dd37a492e47a6e00d5a2b238916dd627bc1",
+  "status": "FROZEN"
+}

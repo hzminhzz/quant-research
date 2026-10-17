@@ -1,0 +1,32 @@
+{
+  "session": "volt_break_nq_20261012",
+  "phase": "4_position_rule_probe",
+  "date": "2026-10-12",
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "execution_gate": "BLOCKED_ORDINARY_NEXT_BAR_ENTRY_MINUTE",
+  "native_library": "ml4t-backtest",
+  "version": "0.1.7",
+  "head": "c095faab89835c49f4cd6fd66d1a9ed922709039",
+  "source_test": "tests/test_volt_break_phase4_execution_20261012.py",
+  "tests_passing": 10,
+  "tests_failing": 0,
+  "historical_strategy_trials_run": 0,
+  "market_outcomes_2026_read": false,
+  "real_orders": false,
+  "verified": {
+    "native_position_rule_connected_to_engine": true,
+    "post_entry_dual_touch_stop_first_single_exit": true,
+    "post_entry_gap_open_handled": true,
+    "absolute_fixed_point_rules": true,
+    "native_pnl_account_reconciliation": true,
+    "boundary_market_exit": true,
+    "ordinary_NEXT_BAR_entry_minute_protected": false
+  },
+  "blocker": "Engine evaluates rules before filling ordinary pending NEXT_BAR entries on current row. Custom RuleChain alone cannot protect same-minute entry bar.",
+  "untested_potential": "PreOpenTargetManager / CanonicalTargetIntent pathway prior to position rule evaluation",
+  "next_gate": "independent synthetic proof of preopen target lifecycle before historical Phase4",
+  "report": "docs/audit/volt_break_phase4_position_rules_20261012.md",
+  "predeclared_spec": "config/research_sessions/volt_break_nq_phase4_position_rule_probe_20261012.yaml",
+  "codex_status": "out_of_credits_in_finalization; independently ran pytest"
+}

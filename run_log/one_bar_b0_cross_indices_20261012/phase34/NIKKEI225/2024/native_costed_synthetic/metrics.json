@@ -1,0 +1,195 @@
+{
+  "trial": "native_costed_synthetic",
+  "engine": "ml4t.backtest Engine, NEXT_BAR native STOP/MARKET",
+  "native_engine_metrics": {
+    "initial_cash": 1000000.0,
+    "final_value": 1001359.0,
+    "total_return": 0.0013590000000001101,
+    "num_trades": 186,
+    "win_rate": 0.43010752688172044,
+    "profit_factor": 1.0101238853669203,
+    "total_commission": 930.0,
+    "total_slippage": 1860.0,
+    "total_costs": 2790.0,
+    "num_fills": 372,
+    "num_rejected_orders": 0
+  },
+  "closed_trades": 186,
+  "open_trades_at_end": 0,
+  "sum_trade_pnl_usd": 1358.999999999287,
+  "equity_change_usd": 1359.0,
+  "ledger_equity_difference_usd": -7.130438461899757e-10,
+  "gross_pnl_usd": 2288.999999999287,
+  "commissions_usd": 930.0,
+  "slippage_points_sum": 93.0,
+  "slippage_cost_usd": 1860.0,
+  "fees_and_slippage_usd": 2790.0,
+  "trade_ledger_slippage_cost_usd": 1860.0,
+  "fill_trade_slippage_reconciliation_difference_usd": 0.0,
+  "gross_minus_net_pnl_usd": 930.0,
+  "commission_reconciliation_difference_usd": 0.0,
+  "entry_fills": 186,
+  "multiple_entry_fills_same_minute": 0,
+  "fill_count": 372,
+  "max_entries_per_chicago_session_day": 2,
+  "same_minute_entry_stop_ambiguities": 21,
+  "worst_case_same_minute_pnl_usd": -4290.000000000509,
+  "expected_next_boundary_exit_mismatches": 14,
+  "daily_equity_sharpe_library": 0.05089547807576499,
+  "daily_equity_max_drawdown_library": -0.057685108788656965,
+  "commission_per_fill_usd": 2.5,
+  "adverse_slippage_points_per_fill": 0.25,
+  "entry_gap_triggers": 120,
+  "entry_gap_conservative_price_improvement_usd": 236413.00000000055,
+  "protective_stop_gap_through_fills": 45,
+  "protective_stop_gap_loss_beyond_trigger_usd": 11111.99999999997,
+  "ambiguous_examples": [
+    {
+      "timestamp": "2023-11-20T00:01:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 33491.25,
+      "stop_price": 33441.25
+    },
+    {
+      "timestamp": "2024-01-22T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 36192.75,
+      "stop_price": 36142.75
+    },
+    {
+      "timestamp": "2024-02-15T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 38020.450000000004,
+      "stop_price": 37970.5
+    },
+    {
+      "timestamp": "2024-03-18T00:12:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 38795.25,
+      "stop_price": 38745.25
+    },
+    {
+      "timestamp": "2024-03-21T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 40199.75,
+      "stop_price": 40149.75
+    },
+    {
+      "timestamp": "2024-04-17T00:31:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 38005.5,
+      "stop_price": 38055.5
+    },
+    {
+      "timestamp": "2024-06-06T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 38966.0,
+      "stop_price": 38916.0
+    },
+    {
+      "timestamp": "2024-07-01T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 39460.75,
+      "stop_price": 39410.75
+    },
+    {
+      "timestamp": "2024-07-24T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 39061.25,
+      "stop_price": 39111.25
+    },
+    {
+      "timestamp": "2024-08-02T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 36360.649999999994,
+      "stop_price": 36410.75
+    },
+    {
+      "timestamp": "2024-08-05T04:08:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 33113.25,
+      "stop_price": 33163.25
+    },
+    {
+      "timestamp": "2024-08-05T04:46:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 32795.75,
+      "stop_price": 32845.75
+    },
+    {
+      "timestamp": "2024-08-22T00:32:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 38144.75,
+      "stop_price": 38094.75
+    },
+    {
+      "timestamp": "2024-08-30T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 38400.049999999996,
+      "stop_price": 38350.0
+    },
+    {
+      "timestamp": "2024-09-04T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 37362.15,
+      "stop_price": 37412.25
+    },
+    {
+      "timestamp": "2024-09-04T00:38:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 37257.25,
+      "stop_price": 37307.25
+    },
+    {
+      "timestamp": "2024-09-13T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 36893.5,
+      "stop_price": 36843.5
+    },
+    {
+      "timestamp": "2024-10-10T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 39786.25,
+      "stop_price": 39736.25
+    },
+    {
+      "timestamp": "2024-10-23T03:42:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 38290.75,
+      "stop_price": 38340.75
+    },
+    {
+      "timestamp": "2024-11-06T03:30:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 39755.85,
+      "stop_price": 39705.75
+    },
+    {
+      "timestamp": "2024-12-19T00:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 38415.35,
+      "stop_price": 38465.25
+    }
+  ]
+}

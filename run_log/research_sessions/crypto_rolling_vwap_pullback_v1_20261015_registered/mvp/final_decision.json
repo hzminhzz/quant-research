@@ -1,0 +1,58 @@
+{
+  "session": "crypto_rolling_vwap_pullback_v1_20261015",
+  "status": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "development": "2020-01-01 through 2024-12-31 UTC, 2025+ protected",
+  "trials_completed": [
+    "btc_vwap_development",
+    "btc_sma_baseline",
+    "btc_vwap_double_cost",
+    "eth_vwap_replication"
+  ],
+  "trials_skipped": [],
+  "decision": "REJECT",
+  "reasons": [
+    "BTC net PnL negative",
+    "BTC trade profit factor <1.35",
+    "BTC trade win rate <53%",
+    "BTC VWAP daily-equity Sharpe does not beat SMA",
+    "BTC VWAP trade win rate does not beat SMA",
+    "ETH replication has no net profit"
+  ],
+  "numerical_gates_not_broker_qualification": true,
+  "funding_not_modeled": true,
+  "metrics": {
+    "btc_vwap_development": {
+      "closed_trades": 1206,
+      "pnl": -76592.23664321809,
+      "pf": 0.9205094037442735,
+      "win_rate": 0.33913764510779437,
+      "daily_sharpe": -0.4202975201295999,
+      "max_dd": -0.8426808682098736
+    },
+    "btc_sma_baseline": {
+      "closed_trades": 1169,
+      "pnl": -60130.117782873785,
+      "pf": 0.953221108674104,
+      "win_rate": 0.3473053892215569,
+      "daily_sharpe": -0.2016641012201621,
+      "max_dd": -0.8588111975988019
+    },
+    "btc_vwap_double_cost": {
+      "closed_trades": 1209,
+      "pnl": -95823.4883378474,
+      "pf": 0.8444152023808574,
+      "win_rate": 0.3267162944582299,
+      "daily_sharpe": -1.1628440637287416,
+      "max_dd": -0.9660002275431503
+    },
+    "eth_vwap_replication": {
+      "closed_trades": 1319,
+      "pnl": -56966.28330987765,
+      "pf": 0.9508801306665415,
+      "win_rate": 0.3570887035633055,
+      "daily_sharpe": 0.01926422813772333,
+      "max_dd": -0.7437561586310325
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "source": "/home/quant/dev/quant/ml4t-data/data/crypto/market/perps_1h.parquet",
+  "source_sha256_preflight": "f35452fab6b9a32ebc7e773162575ecf582e62ed5cdfaab200f6808060f5f6b8",
+  "data_window_start_inclusive": "2020-01-01T00:00:00+00:00",
+  "data_window_end_exclusive": "2025-01-01T00:00:00+00:00",
+  "timestamp_semantics": "UTC bar start, complete after +1 hour",
+  "protected_2025_plus_rows_materialized": 0,
+  "volume": "base-asset traded volume; each symbol has one zero-volume hour",
+  "symbol_evidence": {
+    "BTCUSDT": {
+      "bars": 43848,
+      "first_bar_start": "2020-01-01 00:00:00+00:00",
+      "last_bar_start": "2024-12-31 23:00:00+00:00",
+      "zero_volume_bars": 1,
+      "development_file": "data/processed/crypto_rolling_vwap_pullback_v1_20261015/btcusdt_1h.parquet",
+      "development_sha256": "5195685bdb3ff445e2d1f3e157dee246eb4170b72afa17c2bb2b780b1786b7d5"
+    },
+    "ETHUSDT": {
+      "bars": 43848,
+      "first_bar_start": "2020-01-01 00:00:00+00:00",
+      "last_bar_start": "2024-12-31 23:00:00+00:00",
+      "zero_volume_bars": 1,
+      "development_file": "data/processed/crypto_rolling_vwap_pullback_v1_20261015/ethusdt_1h.parquet",
+      "development_sha256": "e989dd40287d2f39bc33bfadd01fbb9a80f2f2a6d51cda65d653a26cdf031e7c"
+    }
+  }
+}

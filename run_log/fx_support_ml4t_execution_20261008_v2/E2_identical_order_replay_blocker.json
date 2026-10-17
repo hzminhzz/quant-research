@@ -1,0 +1,29 @@
+{
+  "status": "BLOCKED",
+  "contract": "Exact E1-order replay with E2 costs and unchanged current-equity risk/leverage caps",
+  "native_Engine_run": true,
+  "rows": [
+    {
+      "symbol": "GBPUSD",
+      "event_timestamp": "2017-01-11 07:00:00+00:00",
+      "required_E1_quantity": 246000.0,
+      "E2_risk_capped_quantity": 246000.0,
+      "status": "filled",
+      "rejection_code": null,
+      "opening_equity": 100000.0
+    },
+    {
+      "symbol": "EURUSD",
+      "event_timestamp": "2017-01-23 13:00:00+00:00",
+      "required_E1_quantity": 247000.0,
+      "E2_risk_capped_quantity": 243000.0,
+      "status": "rejected",
+      "rejection_code": "matched_order_risk_conflict",
+      "opening_equity": 99563.6196765959
+    }
+  ],
+  "reason": "The second E1 quantity must shrink under E2 current-equity caps. Keeping identical E1 orders violates a frozen cap; shrinking them changes the matched-order cohort.",
+  "holdout_opened": false,
+  "source_sha256": "5e47df3b6aad0e4eab8651b7f28794e136d8cb35bd96a0fdbb813dcdb84540c0",
+  "economic_variant": "Diagnostic only. No parameters, filter or threshold were tuned."
+}

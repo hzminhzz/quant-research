@@ -1,0 +1,360 @@
+{
+  "initial_cash": 1000000.0,
+  "final_value": 1207805.900000017,
+  "total_return": 0.20780590000001697,
+  "total_return_pct": 20.7805900000017,
+  "max_drawdown": 0.009954004227377739,
+  "max_drawdown_pct": 0.9954004227377738,
+  "num_trades": 5150,
+  "winning_trades": 2634,
+  "losing_trades": 2516,
+  "win_rate": 0.5114563106796116,
+  "total_commission": 25750.0,
+  "total_slippage": 12875.0,
+  "sharpe": 0.053775022361423536,
+  "sortino": 0.011017266282583493,
+  "calmar": 1.4118587169248995,
+  "cagr": 0.01405364763673056,
+  "volatility": 0.0002436516780572052,
+  "profit_factor": 1.376471667126475,
+  "expectancy": 0.00014303816069386778,
+  "avg_trade": 0.00018028735603193194,
+  "avg_win": 0.001232793689421419,
+  "avg_loss": -0.0009978267290789342,
+  "largest_win": 0.013063991653960355,
+  "largest_loss": -0.008720656516023573,
+  "payoff_ratio": 1.2354787193958778,
+  "total_gross_pnl": 233555.90000000552,
+  "total_costs": 38625.0,
+  "avg_cost_drag": 4.94885211058921e-05,
+  "gross_profit_factor": 1.4328197347915312,
+  "skipped_bars": 0,
+  "num_orders": 151811,
+  "num_rejected_orders": 0,
+  "num_fills": 10300,
+  "num_rebalance_events": 10299,
+  "unique_symbols_traded": 1,
+  "total_filled_notional": 2315040647.9400077,
+  "avg_turnover": 0.0005789982612112284,
+  "max_turnover": 0.6644193380177389,
+  "avg_open_positions": 0.025507408842253342,
+  "max_open_positions": 1,
+  "lifecycle_version": "1",
+  "lifecycle_callback_counts": {
+    "run_start": 1,
+    "causal_initialization": 1,
+    "pre_open": 0,
+    "opening_auction": 0,
+    "fill_reconciliation": 0,
+    "intrabar": 0,
+    "close": 0,
+    "market_event": 3639570,
+    "run_end": 1
+  },
+  "lifecycle_invocations": [],
+  "execution_policy": {
+    "policy_id": "ml4t-backtest-default-v1",
+    "market_fill_phase": "opening_auction",
+    "opening_auction": "client",
+    "close_auction": "client",
+    "limit": "client",
+    "stop": "client",
+    "stop_limit": "disabled",
+    "trailing": "client",
+    "contingent": "client",
+    "fee_bps": 0.0,
+    "slippage_bps": 0.0,
+    "spread_bps": 0.0,
+    "impact_bps": 0.0,
+    "latency_ms": 0.0,
+    "liquidity_fraction": 1.0,
+    "allow_partial_fills": false,
+    "bar_path": "conservative",
+    "supported_sessions": [
+      "regular"
+    ],
+    "lifecycle_version": "1"
+  },
+  "target_intent_count": 0,
+  "child_order_intent_count": 0,
+  "intent_reconciliation_count": 0,
+  "target_rule_reconciliation_count": 0,
+  "target_intents": [],
+  "child_order_intents": [],
+  "intent_reconciliations": [],
+  "target_rule_reconciliations": [],
+  "trial": "cost_aware",
+  "daily_equity_sharpe": 1.7295601375819363,
+  "daily_equity_max_drawdown": 0.00870938052962146,
+  "closed_trade_count": 5150,
+  "average_net_pnl_usd": 40.35066019417583,
+  "max_hold_minutes": 30,
+  "late_next_boundary_exits": 0,
+  "entries_per_session_day_max": 2,
+  "same_minute_entry_stop_ambiguities": 42,
+  "ambiguous_examples": [
+    {
+      "timestamp": "2022-03-11T11:23:00+00:00",
+      "side": "long",
+      "entry": 13721.3125,
+      "stop": 13671.25
+    },
+    {
+      "timestamp": "2022-07-13T12:30:00+00:00",
+      "side": "short",
+      "entry": 11682.1875,
+      "stop": 11732.25
+    },
+    {
+      "timestamp": "2022-08-10T12:30:00+00:00",
+      "side": "long",
+      "entry": 13160.5625,
+      "stop": 13110.5
+    },
+    {
+      "timestamp": "2022-09-21T18:43:00+00:00",
+      "side": "long",
+      "entry": 11982.8125,
+      "stop": 11932.75
+    },
+    {
+      "timestamp": "2022-10-07T12:30:00+00:00",
+      "side": "short",
+      "entry": 11394.4375,
+      "stop": 11444.5
+    },
+    {
+      "timestamp": "2022-10-13T12:29:00+00:00",
+      "side": "long",
+      "entry": 10932.871500000001,
+      "stop": 10882.75
+    },
+    {
+      "timestamp": "2022-11-04T12:30:00+00:00",
+      "side": "short",
+      "entry": 10653.9375,
+      "stop": 10704.0
+    },
+    {
+      "timestamp": "2022-11-30T18:30:00+00:00",
+      "side": "long",
+      "entry": 11616.5625,
+      "stop": 11566.5
+    },
+    {
+      "timestamp": "2022-12-01T13:30:00+00:00",
+      "side": "long",
+      "entry": 12058.3125,
+      "stop": 12008.25
+    },
+    {
+      "timestamp": "2022-12-02T13:30:00+00:00",
+      "side": "short",
+      "entry": 11922.9375,
+      "stop": 11973.0
+    },
+    {
+      "timestamp": "2023-05-10T12:30:00+00:00",
+      "side": "long",
+      "entry": 13253.0625,
+      "stop": 13203.0
+    },
+    {
+      "timestamp": "2023-10-06T12:30:00+00:00",
+      "side": "short",
+      "entry": 14579.4375,
+      "stop": 14629.5
+    },
+    {
+      "timestamp": "2024-04-05T12:30:00+00:00",
+      "side": "short",
+      "entry": 17861.6875,
+      "stop": 17911.75
+    },
+    {
+      "timestamp": "2024-05-14T12:30:00+00:00",
+      "side": "short",
+      "entry": 18139.6875,
+      "stop": 18189.75
+    },
+    {
+      "timestamp": "2024-08-13T12:30:00+00:00",
+      "side": "long",
+      "entry": 18719.8125,
+      "stop": 18669.75
+    },
+    {
+      "timestamp": "2024-08-21T14:36:00+00:00",
+      "side": "long",
+      "entry": 19831.8125,
+      "stop": 19781.75
+    },
+    {
+      "timestamp": "2024-09-18T18:00:00+00:00",
+      "side": "long",
+      "entry": 19603.8125,
+      "stop": 19553.75
+    },
+    {
+      "timestamp": "2025-01-10T13:30:00+00:00",
+      "side": "short",
+      "entry": 21004.6875,
+      "stop": 21054.75
+    },
+    {
+      "timestamp": "2025-01-15T13:30:00+00:00",
+      "side": "long",
+      "entry": 20973.8125,
+      "stop": 20923.75
+    },
+    {
+      "timestamp": "2025-01-21T00:58:00+00:00",
+      "side": "short",
+      "entry": 21329.4375,
+      "stop": 21379.5
+    },
+    {
+      "timestamp": "2025-02-07T13:30:00+00:00",
+      "side": "long",
+      "entry": 21801.8125,
+      "stop": 21751.75
+    },
+    {
+      "timestamp": "2025-02-12T13:30:00+00:00",
+      "side": "short",
+      "entry": 21575.1875,
+      "stop": 21625.25
+    },
+    {
+      "timestamp": "2025-03-12T12:30:00+00:00",
+      "side": "long",
+      "entry": 19657.3125,
+      "stop": 19607.25
+    },
+    {
+      "timestamp": "2025-04-07T14:16:00+00:00",
+      "side": "long",
+      "entry": 18112.3125,
+      "stop": 18062.25
+    },
+    {
+      "timestamp": "2025-04-08T14:28:00+00:00",
+      "side": "long",
+      "entry": 18221.8125,
+      "stop": 18171.75
+    },
+    {
+      "timestamp": "2025-05-23T11:43:00+00:00",
+      "side": "short",
+      "entry": 20969.6875,
+      "stop": 21019.75
+    },
+    {
+      "timestamp": "2025-06-11T12:30:00+00:00",
+      "side": "long",
+      "entry": 21976.5625,
+      "stop": 21926.5
+    },
+    {
+      "timestamp": "2025-06-13T00:00:00+00:00",
+      "side": "short",
+      "entry": 21693.6875,
+      "stop": 21743.75
+    },
+    {
+      "timestamp": "2025-08-14T12:30:00+00:00",
+      "side": "short",
+      "entry": 23786.9375,
+      "stop": 23837.0
+    },
+    {
+      "timestamp": "2025-08-26T00:03:00+00:00",
+      "side": "short",
+      "entry": 23374.6875,
+      "stop": 23424.75
+    },
+    {
+      "timestamp": "2025-10-20T13:30:00+00:00",
+      "side": "long",
+      "entry": 25003.8125,
+      "stop": 24953.75
+    },
+    {
+      "timestamp": "2026-02-05T14:30:00+00:00",
+      "side": "short",
+      "entry": 24608.4375,
+      "stop": 24658.5
+    },
+    {
+      "timestamp": "2026-02-26T15:12:00+00:00",
+      "side": "short",
+      "entry": 25054.6875,
+      "stop": 25104.75
+    },
+    {
+      "timestamp": "2026-03-06T13:30:00+00:00",
+      "side": "short",
+      "entry": 24741.4375,
+      "stop": 24791.5
+    },
+    {
+      "timestamp": "2026-03-16T19:09:00+00:00",
+      "side": "long",
+      "entry": 24746.8125,
+      "stop": 24696.75
+    },
+    {
+      "timestamp": "2026-04-07T22:32:00+00:00",
+      "side": "long",
+      "entry": 24485.3125,
+      "stop": 24435.25
+    },
+    {
+      "timestamp": "2026-06-11T17:33:00+00:00",
+      "side": "long",
+      "entry": 29213.3125,
+      "stop": 29163.25
+    },
+    {
+      "timestamp": "2026-06-17T18:00:00+00:00",
+      "side": "short",
+      "entry": 29988.9375,
+      "stop": 30039.0
+    },
+    {
+      "timestamp": "2026-06-18T13:30:00+00:00",
+      "side": "long",
+      "entry": 30290.5625,
+      "stop": 30240.5
+    },
+    {
+      "timestamp": "2026-06-24T13:48:00+00:00",
+      "side": "short",
+      "entry": 29273.9375,
+      "stop": 29324.0
+    },
+    {
+      "timestamp": "2026-06-29T14:15:00+00:00",
+      "side": "short",
+      "entry": 28990.4375,
+      "stop": 29040.5
+    },
+    {
+      "timestamp": "2026-07-09T05:11:00+00:00",
+      "side": "long",
+      "entry": 29365.8125,
+      "stop": 29315.75
+    }
+  ],
+  "cost_assumption": {
+    "commission_per_side_usd": 2.5,
+    "slippage_per_side_points": 0.0625
+  },
+  "execution_mode": "ml4t.backtest NEXT_BAR native STOP and MARKET orders",
+  "net_profit_usd": 207805.9000000169,
+  "protective_stop_exit_fills": 194,
+  "protective_stop_gap_through_fills": 94,
+  "entry_gap_triggers": 3117,
+  "trade_ledger_net_pnl_usd": 207805.90000000555,
+  "ledger_reconciliation_difference_usd": -1.1350493878126144e-08
+}

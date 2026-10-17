@@ -1,0 +1,48 @@
+session_id: mechanicalpremia-us500-us100-2013-2026-v1
+market: indices
+thesis: >-
+  Evaluate whether restricting the original H1 breakout plus D1 mean reversion portfolio
+  to US500 and US100 improves matched-year net Sharpe, returns and drawdown versus C1/C2.
+mechanism: >-
+  US-only liquid correlated indices might reduce poor cross-session trades and missing FX assumptions,
+  but correlation may reduce diversification.
+falsifier: >-
+  REJECT C3 improvement if fixed-cost comparative returns, paired-year Sharpe and drawdown
+  do not robustly improve. All prior years are observed; broker execution parity still unknown.
+instruments:
+  - {symbol: US500, kind: cfd, venue: Dukascopy bid price proxy, identity: index_minute_ES, timezone: America/New_York, session: assumed NY17}
+  - {symbol: US100, kind: cfd, venue: Dukascopy bid price proxy, identity: index_minute_NQ, timezone: America/New_York, session: assumed NY17}
+data:
+  - {id: us500, symbol: US500, role: prices, path: docs/audit/mechanicalpremia-us500-us100-2013-2026-v1-manifest.json}
+  - {id: us100, symbol: US100, role: prices, path: docs/audit/mechanicalpremia-us500-us100-2013-2026-v1-manifest.json}
+evaluation:
+  development_start: "2013-01-01T00:00:00Z"
+  development_end: "2026-10-12T00:00:00Z"
+  holdout_start: "2026-10-12T00:00:00Z"
+  holdout_policy: >-
+    2013-2026 through Oct11 are observed discovery history, not fresh OOS.
+    Never read Oct12+ price observations. Existing protected 2025+ was explicitly consumed previously.
+  periods: >-
+    Independent annual calendar resets 2013-2025; 2026 Jan1-Oct11 YTD.
+    Same start cash in all candidates; position mark is not liquidation.
+  source_sleeves: "H1 US500 US100; D1 US500 US100"
+baseline: >-
+  Archived C1 original DE30/EU50 and C2 JP225/EU50, matched-year 1x costs.
+costs:
+  commission_bps: 1.0
+  slippage_bps: 2.0
+  assumptions: >-
+    Direct-cost proxy 1x/1.5x/2x per side. Actual bid ask spread, overnight financing,
+    CFP lot specifications unverified.
+trials:
+  - {id: DATA-ELIGIBILITY, kind: preregistered, description: Canonical US500 US100 coverage, symbol, timestamps, daily completeness, holdout}
+  - {id: H1-US2, kind: preregistered, description: H1 breakout only US500 US100 across all scored years}
+  - {id: D1-US2, kind: preregistered, description: D1 mean reversion only US500 US100 across all scored years}
+  - {id: EQUAL-US2, kind: preregistered, description: H1 D1 equal sleeve budgets, two instruments per sleeve}
+  - {id: SOURCE-US2, kind: preregistered, description: H1 23.36pct D1 76.64pct original source budget across two instruments}
+  - {id: COST-US2, kind: preregistered, description: 1.5x 2x source costs for same two-asset portfolios}
+  - {id: NATIVE-AUDIT, kind: preregistered, description: Strict 84 native cell ledger, cash position identity, fill timing, comparison}
+config: config/research_sessions/mechanicalpremia-us500-us100-2013-2026-v1.yaml
+evidence:
+  - docs/plans/mechanicalpremia-us500-us100-2013-2026-v1.md
+  - docs/audit/mechanicalpremia-us500-us100-2013-2026-v1-manifest.json

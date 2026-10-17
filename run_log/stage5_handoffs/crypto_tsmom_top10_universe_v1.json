@@ -1,0 +1,73 @@
+{
+  "handoff_schema_version": "stage5-handoff-v3",
+  "strategy_id": "crypto_tsmom_top10_universe_v1",
+  "universe_size": 10,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "DOGEUSDT",
+    "ADAUSDT",
+    "AVAXUSDT",
+    "NEARUSDT",
+    "BANDUSDT",
+    "BALUSDT"
+  ],
+  "status": "ACCEPTED_FOR_STAGE5_EXECUTION",
+  "timestamp": "2026-10-07T05:03:32.865245+00:00",
+  "development_metrics": {
+    "period": "2021-01-01 to 2024-12-31",
+    "daily_sharpe": 1.815,
+    "total_return_pct": 211.64,
+    "max_drawdown_pct": 17.46,
+    "fee_drag_pct": 5.36
+  },
+  "holdout_performance": {
+    "slices": [
+      {
+        "period": "2025 Full Year (OOS)",
+        "bnh_return": -47.18,
+        "bnh_max_dd": 57.88,
+        "bnh_sharpe": -0.57,
+        "strategy_return": -1.52,
+        "strategy_max_dd": 10.04,
+        "strategy_sharpe": -0.07,
+        "net_alpha_pct": 45.66
+      },
+      {
+        "period": "2026 Jan - Jul (OOS)",
+        "bnh_return": -33.21,
+        "bnh_max_dd": 45.49,
+        "bnh_sharpe": -1.2,
+        "strategy_return": -6.93,
+        "strategy_max_dd": 12.49,
+        "strategy_sharpe": -1.38,
+        "net_alpha_pct": 26.28
+      },
+      {
+        "period": "Total 19-Month Holdout (2025-2026)",
+        "bnh_return": -65.43,
+        "bnh_max_dd": 73.35,
+        "bnh_sharpe": -0.72,
+        "strategy_return": -8.23,
+        "strategy_max_dd": 16.13,
+        "strategy_sharpe": -0.42,
+        "net_alpha_pct": 57.2
+      }
+    ],
+    "total_alpha_vs_bnh_pct": 57.2
+  },
+  "multiple_testing": {
+    "total_trials": 20,
+    "peak_sharpe": 1.94,
+    "deflated_sharpe_ratio": 0.9987
+  },
+  "production_guardrails": {
+    "execution": "LIMIT_POST_ONLY (1.8 bps maker fee, 0.0 bps slippage)",
+    "max_gross_leverage": 1.0,
+    "max_single_weight": 0.2,
+    "kill_switch_drawdown": 0.15,
+    "kill_switch_action": "HALT_AND_FLATTEN"
+  }
+}

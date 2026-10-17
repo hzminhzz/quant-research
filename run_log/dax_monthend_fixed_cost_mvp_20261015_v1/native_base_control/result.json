@@ -1,0 +1,78 @@
+{
+  "arm": "control",
+  "cost_label": "base",
+  "costs": {
+    "commission_rate": 0.0001,
+    "slippage_rate": 0.0004,
+    "finance_rate_annual": 0.08
+  },
+  "engine": "ml4t.backtest.Engine(NEXT_BAR,OPEN)",
+  "n_trades": 73,
+  "win_rate": 0.3972602739726027,
+  "native_final_value_eur": 86540.9673881617,
+  "native_net_pnl_eur": -13459.032611838295,
+  "total_finance_eur": 7703.394690469274,
+  "total_commission_eur": 1460.122803288343,
+  "avg_net_monthly_return": -0.0018437030975120767,
+  "native_cash_pnl_reconciliation_eur": -1.3096723705530167e-10,
+  "risk_252d_daily_equity": {
+    "total_return": -0.13459032611838284,
+    "annual_return": -0.020381390898264518,
+    "annual_volatility": 0.07067899845197136,
+    "sharpe_ratio": -0.25600117901895897,
+    "sortino_ratio": -0.35212037459086903,
+    "calmar_ratio": -0.09858633823787337,
+    "omega_ratio": 0.8916143929034265,
+    "tail_ratio": 0.9683826342478774,
+    "max_drawdown": -0.2067364633128722,
+    "skewness": 0.07478922888296782,
+    "kurtosis": 47.85047938617529,
+    "var_95": -0.004257498834924756,
+    "cvar_95": -0.011731478098602859,
+    "stability": 0.7692311802124873,
+    "win_rate": 0.07857546636517806,
+    "profit_factor": 0.8916143929034263,
+    "avg_win": 0.007517099520937916,
+    "avg_loss": -0.007659432601630387
+  },
+  "yearly": {
+    "2018": {
+      "trades": 10,
+      "net_eur": -4589.496909621608,
+      "return_initial_nav": -0.045894969096216084
+    },
+    "2019": {
+      "trades": 10,
+      "net_eur": 3691.814109331791,
+      "return_initial_nav": 0.03691814109331791
+    },
+    "2020": {
+      "trades": 11,
+      "net_eur": -2708.0349425717004,
+      "return_initial_nav": -0.027080349425717003
+    },
+    "2021": {
+      "trades": 10,
+      "net_eur": -7595.063421202837,
+      "return_initial_nav": -0.07595063421202837
+    },
+    "2022": {
+      "trades": 10,
+      "net_eur": 1035.3427272087986,
+      "return_initial_nav": 0.010353427272087986
+    },
+    "2023": {
+      "trades": 11,
+      "net_eur": -3454.872303470187,
+      "return_initial_nav": -0.03454872303470187
+    },
+    "2024": {
+      "trades": 11,
+      "net_eur": 161.27812848758575,
+      "return_initial_nav": 0.0016127812848758575
+    }
+  },
+  "candidate_notional_fixed_initial": 100000.0,
+  "source": "Dukascopy BID-only CFD proxy, 2025+ untouched",
+  "quote_and_funding_assumptions_not_broker_validated": true
+}

@@ -1,0 +1,93 @@
+# AUDUSD historical price-only direction screen; separate from CFD carry economics.
+# Explicit user scope change: use perpetual-market intent and waive broker FX swaps.
+# Hyperliquid had no AUDUSD perpetual in the live perpDexs/meta inventory on 2026-10-15.
+session_id: audusd_policy_spread_gross_phase3_20261015_v1
+market: fx
+thesis: >-
+  In development years 2015-2024, fixed 10,000-AUD notional monthly
+  directional AUDUSD price changes selected by the prior-known sign of
+  RBA cash-rate target minus Fed target upper limit have positive mean
+  gross USD price PnL versus no-trade cash, without assuming any carry credit.
+mechanism: >-
+  Monetary-policy relative stance might correlate with medium-horizon
+  currency repricing and risk sentiment. This is a PRICE-DIRECTION
+  hypothesis and is not a currency-forward carry premium replication:
+  net retail FX swap or perpetual funding can have either sign.
+falsifier: >-
+  Phase 3 proxy PASS requires >=96 complete consecutive-eligible monthly
+  intervals across >=8 calendar years, >=12 long and >=12 short months,
+  >=4 signed exposure episodes, mean gross fixed-AUD monthly USD PnL >0,
+  and strictly positive 95% lower bound using a predeclared six-month
+  moving-block bootstrap (seed=7, 5000 resamples). FAIL only if the
+  upper 95% CI is below zero with qualified coverage. Otherwise
+  INCONCLUSIVE. A proxy PASS never implies executable perpetual net
+  return or FINAL VALIDATE. Do not optimize sign, month, cutoff, or horizon.
+instruments:
+  - symbol: AUDUSD
+    kind: fx
+    venue: London Strategic Edge historical AUD/USD price feed; not an executable perpetual book
+    identity: >-
+      forex_minute_AUDUSD provider=london_strategic_edge 1m historical
+      quote-OHLC research proxy, USD per AUD, no bid/ask or perp funding.
+      Live Hyperliquid perpDexs/meta inspection found no AUDUSD perpetual.
+    session: FX Monday-Friday observed NY local 10:00-10:01 quote availability
+    timezone: America/New_York
+data:
+  - id: audusd_monthly_price_endpoints_and_pit_policy_rates
+    symbol: AUDUSD
+    role: prices
+    path: data/processed/audusd_policy_spread_gross_phase3_20261015_v1/monthly_endpoints.parquet
+evaluation:
+  mode: MVP Research - gross price-only Phase 3 diagnostic
+  development_start: "2015-01-01T00:00:00Z"
+  development_end: "2025-01-01T00:00:00Z"
+  holdout_start: "2025-01-01T00:00:00Z"
+  source: London Strategic Edge AUDUSD 1m current canonical metadata
+  macro_sources: RBA cash-rate official effective-date decision table, Fed DFEDTARU effective date from Federal Reserve via FRED
+  macro_alignment: >-
+    At the first observed FX weekday 10:00 New York per month,
+    select official RBA/Fed effective levels dated at or before 16:00
+    New York of the preceding completed observed FX session. For the
+    historical decisions, RBA published 14:30 Sydney the previous day,
+    and the Federal Reserve published its rate decisions before the
+    corresponding US-session 16:00 cutoff. Exact archival release-time
+    verification remains unqualified and limits interpretation.
+  monthly_clock: >-
+    Decision at NY 10:00, next-bar 10:01 quote open is the gross-price
+    outcome entry proxy. Real 09:59, 10:00, and 10:01 UTC-tagged
+    source minute bars required; first eligible weekday in each month.
+    Next monthly 10:01 quote open ends the label. No same-bar signal
+    price, weekend price, or missing-price fill.
+  sizing: >-
+    Target sign times 10,000 AUD units, unchanged if sign persists;
+    gross monthly price PnL USD = target_AUD * (next_quote_open - quote_open).
+  diagnostic: >-
+    119 calendar-month starting intervals from 2015-01 through 2024-11
+    are eligible in principle. Report exclusions and contiguous month
+    coverage, direction counts/episodes, mean USD/month and bps relative
+    to USD 100,000, six-month moving-block bootstrap CI, hit rate,
+    always-long comparator and predeclared 2015-2019 / 2020-2024 splits.
+    Diagnose only; no Engine or executable fill simulation.
+  trial_budget: one predeclared price-direction screen; no variant search
+  limit: >-
+    No historical AUDUSD perpetual on Hyperliquid; old FX quote prices
+    are not perpetual returns. Neither perp funding nor executable
+    bid/ask/commission/slippage is included in gross signal results.
+baseline: Zero cash/no-trade gross return; always-long fixed 10,000 AUD gross price exposure is context only.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  funding_included: false
+  mode: gross_price_only_diagnostic_not_a_tradable_net_backtest
+  explanation: >-
+    Gross quote changes only; a zero here is NOT a claim that real
+    perpetual funding, spread, fees, or impact are zero.
+trials:
+  - id: phase3_signal_screen
+    kind: diagnostic
+    description: >-
+      Single frozen 2015-2024 AUDUSD macro-rate spread sign
+      monthly gross-price effect and 6-month block-bootstrap uncertainty,
+      with no unknown financing imputed and no protected holdout access.
+evidence:
+  - docs/audit/audusd_policy_carry_cfd_v1_mvp_preflight_20261015.md

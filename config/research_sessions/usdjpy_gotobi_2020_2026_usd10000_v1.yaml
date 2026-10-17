@@ -1,0 +1,96 @@
+session_id: usdjpy_gotobi_2020_2026_usd10000_v1
+market: fx
+thesis: >-
+  Retrospective expansion of frozen 2026 Tokyo Gotobi hypothesis:
+  compared with ordinary Tokyo business days, USDJPY drifts up between
+  08:30 and 09:54 JST on Gotobi settlement dates. A separate H2 tests
+  shorting 09:56-10:30 JST after a prior-information-gated 08:00-09:55 extension.
+mechanism: >-
+  Calendar-linked demand by Japanese importers/banks before the 09:55
+  daily fixing could cause temporary USDJPY dollar-buying price pressure,
+  which may dissipate afterward. Historical results are not prospective proof.
+falsifier: >-
+  Pre-fix H1 fails economic screen if mean Gotobi-minus-ordinary difference
+  has a 95 percent HAC interval spanning zero or 1.0 pip costed expectancy
+  does not remain positive in at least four of seven calendar years.
+  H2 fails screen if conditional mean is nonpositive or fewer than twenty
+  eligible trades. Broker cost validity must be established separately.
+  Do not optimize parameters; all results are exploratory and NOT_APPROVED.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: >-
+      Research USDJPY LSE OHLC proxy: USD base, JPY quote. No executable broker
+      quotes, commission, margin contract or swap specification available.
+    session: "FX 24/5; Tokyo business days from XTKS calendar proxy"
+    timezone: Asia/Tokyo
+data:
+  - id: usdjpy_tk_windows_1m
+    symbol: USDJPY
+    role: prices
+    path: data/processed/gotobi_2020_2026_usd10k_v1/USDJPY_tokyo_windows_1m.parquet
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2026-09-01T00:00:00Z"
+  holdout_start: "2026-09-01T00:00:00Z"
+  holdout_end: "2026-10-10T00:00:00Z"
+  inherited_freeze: usdjpy_tokyo_fix_gotobi_20261010
+  initial_equity_usd: 10000
+  position_base_usd: 10000
+  sizing: "Fixed USDJPY notional of 10,000 USD per trade (about 1x initial equity); not risk-target sizing, no compounding."
+  price_accounting: >-
+    Native Engine tracks JPY quote cash with initial JPY proxy equal
+    to USD10000 x first retained source USDJPY price, using a 50-percent
+    margin setting only to bridge historical quote-currency changes.
+    Trade-by-trade native JPY realized PnL is converted to USD at exit
+    fill price. Starting and ending USD equity are then based on realized
+    USD PnL, not Engine native JPY return or Sharpe. Not a broker FX account.
+  calendar: >-
+    Japan XTKS sessions as Tokyo banking-day proxy, weekends+national holidays
+    and Dec31-Jan3 closures, with Gotobi 5,10,15,20,25,30 backward rolled
+    plus prior-month-end business day. Skip missing/incomplete minute windows.
+  h1: >-
+    Gotobi pre-fix long: submit at completed 08:29 JST bar, buy at
+    08:30 JST NEXT_BAR open; submit exit after 09:53 JST, close at
+    09:54 JST NEXT_BAR open.
+  h2: >-
+    Gotobi conditional post-fix short: price(09:55 JST open)-price(08:00
+    JST open) in pips exceeds 1.5x the sample SD of the PRECEDING 20
+    complete Tokyo business day extensions, no current inclusion;
+    enter at 09:56 NEXT_BAR open, cover 10:30 NEXT_BAR open.
+  sample: "Only dates with 151 exact minute bar opens between 08:00 and 10:30 JST inclusive. Date availability and exclusions reported."
+  status: "All 2020-Aug2026 is retrospective development; previously inspected Jan-Aug2026 is not unseen OOS."
+baseline: >-
+  Same-time-window ordinary Tokyo sessions, zero exposure/cash.
+  Keep H1 and H2 independent. Do not select parameters on inspected development.
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  hypothetical_half_spread_plus_slippage_jpy_per_side: 0.005
+  hypothetical_roundtrip_pips: 1.0
+  sensitivity_roundtrip_pips: [0.8,1.0,1.4]
+  financing: "Not modeled; positions intraday only; spread and commissions unverified"
+  assumptions: >-
+    Fixed price-slip applies to EACH entry/exit side inside native
+    Engine, regardless of size or actual historical spread. Treat as
+    illustrative; no executable quotes, capacity or retail eligibility inferred.
+trials:
+  - id: T0_data_calendar_gate
+    kind: diagnostic
+    description: "Report years, Tokyo business session coverage and missing minutes"
+  - id: T1_prefx_event_diagnostics
+    kind: preregistered
+    description: "H1 vs ordinary events HAC interval and yearly gross/costed pip statistics"
+  - id: T2_postfix_event_diagnostics
+    kind: preregistered
+    description: "Frozen H2 extension gate; historical trade count and yearly event statistics"
+  - id: T3_H1_engine_costed
+    kind: preregistered
+    description: "Native ml4t.backtest.Engine NEXT_BAR pre-fix H1, cost 1 pip, starting USD 10000"
+  - id: T4_H2_engine_costed
+    kind: preregistered
+    description: "Native Engine NEXT_BAR post-fix H2, cost 1 pip, starting USD 10000"
+  - id: T5_native_fill_oracle
+    kind: diagnostic
+    description: "Independent fill and per-trade JPY-to-USD accounting reconciliation"

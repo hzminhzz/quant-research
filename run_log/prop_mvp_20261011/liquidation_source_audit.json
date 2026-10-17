@@ -1,0 +1,19 @@
+{
+  "formal_track_status": "BLOCKED",
+  "reason": "No local timestamped liquidation/force-order records were found or loaded. A documented commercial archive is a candidate only; no credentials or records were available to verify coverage or event data.",
+  "candidate": {
+    "name": "CryptoHFTData Binance liquidation dataset",
+    "url": "https://www.cryptohftdata.com/datasets/binance-liquidation-data",
+    "documented_claims": [
+      "Binance Futures public !forceOrder@arr feed normalized to Parquet",
+      "first history date claimed as 2025-06-28",
+      "at most one latest event per symbol per second; sampled/lower-bound event stream"
+    ],
+    "verification": "Documentation only; no records loaded; not accepted as evidence."
+  },
+  "local_inventory": {
+    "liquidation_or_force_order_records": 0,
+    "funding_records": "present; used only for availability audit, not applied to Engine PnL"
+  },
+  "proxy_status": "Separate OHLCV-only extreme-dislocation reversal diagnostic; not liquidation evidence and does not validate the liquidation mechanism."
+}

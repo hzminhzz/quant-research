@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "scope": "artifact hashes, source cutoff, native equity/fill/trade reconciliation",
+  "cases": [
+    {
+      "case": "pivot-breakout-btc",
+      "outcome": "PASS",
+      "price_rows": 2590,
+      "fills": 96,
+      "source_end": "2026-10-11 00:00:00+00:00",
+      "net_pct": 306.41135683915326,
+      "sha256_verified": true
+    },
+    {
+      "case": "donchian-btc",
+      "outcome": "PASS",
+      "price_rows": 2590,
+      "fills": 2506,
+      "source_end": "2026-10-11 00:00:00+00:00",
+      "net_pct": 208.17764652769247,
+      "sha256_verified": true
+    },
+    {
+      "case": "three-red-spy",
+      "outcome": "PASS",
+      "price_rows": 3899,
+      "fills": 374,
+      "source_end": "2026-10-09 00:00:00+00:00",
+      "net_pct": 6.049634185337105,
+      "sha256_verified": true
+    },
+    {
+      "case": "slope-hook",
+      "outcome": "PASS",
+      "price_rows": 3899,
+      "fills": 374,
+      "source_end": "2026-10-09 00:00:00+00:00",
+      "net_pct": 17.655729311335257,
+      "sha256_verified": true
+    },
+    {
+      "case": "rsi-30-50",
+      "outcome": "PASS",
+      "price_rows": 3899,
+      "fills": 202,
+      "source_end": "2026-10-09 00:00:00+00:00",
+      "net_pct": 101.55076469788153,
+      "sha256_verified": true
+    }
+  ],
+  "excluded": "no source-parity certification, no cost calibration, no true unseen holdout"
+}

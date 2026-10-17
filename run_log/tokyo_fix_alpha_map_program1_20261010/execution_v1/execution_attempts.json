@@ -1,0 +1,35 @@
+{
+  "attempts": [
+    {
+      "id": "prepare1",
+      "status": "failed",
+      "failure": "CSV collision dates inferred as Date; before market-data read",
+      "log": "prepare_failed_csv.log"
+    },
+    {
+      "id": "prepare2",
+      "status": "completed",
+      "log": "prepare.log"
+    },
+    {
+      "id": "freeze",
+      "status": "completed",
+      "log": "freeze.log"
+    },
+    {
+      "id": "data_check_before_outcomes",
+      "status": "PASS",
+      "artifact": "check_before_run.json"
+    },
+    {
+      "id": "diagnostics",
+      "status": "completed",
+      "log": "run.log"
+    },
+    {
+      "id": "data_check_final",
+      "status": "PASS",
+      "artifact": "check_final.json"
+    }
+  ]
+}

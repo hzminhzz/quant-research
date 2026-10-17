@@ -1,0 +1,36 @@
+ENGINE_START native_zero_cost 2026-10-11T17:26:07.757915+00:00
+Traceback (most recent call last):
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_practical_1m_20261012.py", line 140, in <module>
+    if __name__=="__main__": main()
+                             ~~~~^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_practical_1m_20261012.py", line 120, in main
+    phase.run_native(feed,name,commission,slippage)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/scripts/run_one_bar_dukascopy_phase567_20261011.py", line 220, in run_native
+    signals = feed.select("timestamp", "asset", "next_long_stop", "next_short_stop", "range_proxy")
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/dataframe/frame.py", line 10585, in select
+    ._collect_eager(optimizations=QueryOptFlags._eager())
+     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/frame.py", line 2240, in _collect_eager
+    return _eager_engine().collect(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, optimizations=optimizations, background=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/quant/dev/quant/quant-research/.venv/lib/python3.14/site-packages/polars/lazyframe/engine.py", line 443, in collect
+    return wrap_df(ldf.collect(self.name, callback))
+                   ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+polars.exceptions.ColumnNotFoundError: unable to find column "range_proxy"; valid columns: ["timestamp", "open", "high", "low", "close", "volume", "local", "session_date", "session_start_utc", "bar_no", "release_decision_at", "next_long_stop", "next_short_stop", "asset"]
+ENGINE_START native_zero_cost 2026-10-11T17:26:18.076035+00:00
+ENGINE_START native_zero_cost 2026-10-11T17:27:29.010310+00:00
+YEAR=2013 SKIP durable completed summary
+
+RECOVERY COMPLETION RECORD
+Attempt: RESHARD-ANNUAL-20261012; engine: installed native ml4t.backtest Engine/Strategy/DataFeed.
+Source dates: 2013-01-01 through 2026-07-14; source rows: 3,883,929; partition SHA-256: fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75.
+Annual workers 2013-2026: 14/14 completed, zero failed years; native runs: 28; focused tests: 5 passed; independent audit: passed; adjacent-year checks: 26/26 reconciled.
+Native zero-cost: 5,462 trades, net PnL $247,566.38, mean $45.33/trade. Native full-tick cost: 5,462 trades, net PnL $166,107.92, mean $30.41/trade. Conservative ambiguity diagnostic bound: $118,402.92.
+Timing limitation: 98 late scheduled exits; 79 boundary minutes absent, 19 present but native prior submission minute absent; max delay 3,100 minutes. At source cutoff 2026-07-14 there are two unfilled entry orders and zero open trades.
+Classification: completed_with_documented_timing_deviation; retrospective exploratory only. No live orders or commit. Original monolithic failure traces retained above.
+Repository-wide test attempt: UV_CACHE_DIR=/tmp/uv-cache uv run python -m pytest tests -q ran silently for over four minutes and was interrupted; no suite result was obtained. Recovery-specific test file passed separately.

@@ -1,0 +1,54 @@
+{
+  "session": "volt_break_nq_20261012",
+  "phase": 4,
+  "classification": "EXPLORATORY",
+  "approval_status": "NOT_APPROVED",
+  "spec": "config/research_sessions/volt_break_nq_phase4_20261012.yaml",
+  "frozen_before_strategy_trials": true,
+  "source_identity": {
+    "path": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+    "years": "2018-2025 only; 2018 warmup; 2019-2025 outcomes",
+    "expected_partitions": 96,
+    "verified_partitions": 96,
+    "status": "PASS",
+    "manifest": "run_log/one_bar_dukascopy_2013_2026_20261011/source_manifest.json",
+    "manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+    "audit_artifact": "run_log/research_sessions/volt_break_nq_20261012/phase4_source_identity_20261012.json",
+    "audit_artifact_sha256": "78da3bab8b44ed3ed57a863c779acfee75a4a9a4a2b6d1dab990d3b2ad63b3d9"
+  },
+  "engine": {
+    "distribution": "ml4t-backtest",
+    "version": "0.1.7",
+    "execution_mode": "NEXT_BAR",
+    "source": ".venv/lib/python3.14/site-packages/ml4t/backtest",
+    "oco": "submit_bracket creates independent LIMIT and STOP orders; no OCO group/cancel-on-fill API found"
+  },
+  "trials": [
+    {"id": "P4_T0_source_identity_and_api_audit", "status": "completed", "kind": "diagnostic", "result": "source hash PASS; installed API source audited"},
+    {
+      "id": "P4_T1_synthetic_engine_timing_and_oco",
+      "status": "completed_blocking",
+      "kind": "diagnostic",
+      "tests": "tests/test_volt_break_phase4_execution_20261012.py",
+      "tests_sha256": "f936a2d91d54a261381b5a8fbf82dc1f40107b016bc39dd7a5aaa710e0fc6f9b",
+      "pytest_log": "run_log/research_sessions/volt_break_nq_20261012/phase4_pytest_20261012.log",
+      "pytest_log_sha256": "ea80395087750a7a4238343b69f1a67177d7c477ec3a1798d6e6f2cfdd3d7e73",
+      "result": "5 passed; reproduced boundary timing, unprotected entry minute, stop gap, and same-minute dual exit fills"
+    },
+    {"id": "P4_T2_strict_1300_zero_cost", "status": "blocked", "kind": "preregistered", "reason": "Native engine lacks atomic OCO and entry-minute bracket protection."},
+    {"id": "P4_T3_strict_1300_illustrative_cost", "status": "blocked", "kind": "preregistered", "reason": "Native engine lacks atomic OCO and entry-minute bracket protection."},
+    {"id": "P4_T4_strict_1300_double_cost", "status": "blocked", "kind": "preregistered", "reason": "Native engine lacks atomic OCO and entry-minute bracket protection."},
+    {"id": "P4_T5_coverage_1000_zero_cost", "status": "blocked", "kind": "preregistered", "reason": "Native engine lacks atomic OCO and entry-minute bracket protection."},
+    {"id": "P4_T6_coverage_1000_illustrative_cost", "status": "blocked", "kind": "preregistered", "reason": "Native engine lacks atomic OCO and entry-minute bracket protection."},
+    {"id": "P4_T7_coverage_1000_double_cost", "status": "blocked", "kind": "preregistered", "reason": "Native engine lacks atomic OCO and entry-minute bracket protection."},
+    {"id": "P4_T8_independent_fill_and_ledger_audit", "status": "not_run", "kind": "diagnostic", "reason": "No historical strategy fills were generated."}
+  ],
+  "execution_audit": "run_log/research_sessions/volt_break_nq_20261012/phase4_execution_audit_20261012.json",
+  "execution_audit_sha256": "86f3f98853a3a195c45b1162300b41c3097e316535b0544419a256d0ab9449ef",
+  "report": "docs/audit/volt_break_phase4_20261012.md",
+  "report_sha256": "456ea74abc5a6108f395e045a6c1f59ef2e94c31e88509ba1f4d4c76b6748cd6",
+  "spec_sha256": "5db610727228ce5007573b9d5302ad2ecb3b24619218b7485c9cbfe1e214d7f5",
+  "no_2026_market_outcome_read": true,
+  "no_canonical_store_modified": true,
+  "no_real_orders": true
+}

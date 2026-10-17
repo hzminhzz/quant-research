@@ -1,0 +1,83 @@
+{
+  "trial": "percent_costed",
+  "engine": "ml4t.backtest Engine, NEXT_BAR native STOP/MARKET",
+  "native_engine_metrics": {
+    "initial_cash": 1000000.0,
+    "final_value": 1004982.5600000042,
+    "total_return": 0.004982560000004188,
+    "num_trades": 419,
+    "win_rate": 0.47255369928400953,
+    "profit_factor": 1.1541851201778592,
+    "total_commission": 2095.0,
+    "total_slippage": 4190.0,
+    "total_costs": 6285.0,
+    "num_fills": 838,
+    "num_rejected_orders": 0
+  },
+  "closed_trades": 419,
+  "open_trades_at_end": 0,
+  "sum_trade_pnl_usd": 4982.560000000394,
+  "equity_change_usd": 4982.560000004247,
+  "ledger_equity_difference_usd": -3.852619556710124e-09,
+  "gross_pnl_usd": 7077.560000000394,
+  "commissions_usd": 2095.0,
+  "slippage_points_sum": 209.5,
+  "slippage_cost_usd": 4190.0,
+  "fees_and_slippage_usd": 6285.0,
+  "trade_ledger_slippage_cost_usd": 4190.0,
+  "fill_trade_slippage_reconciliation_difference_usd": 0.0,
+  "gross_minus_net_pnl_usd": 2095.0,
+  "commission_reconciliation_difference_usd": 0.0,
+  "entry_fills": 419,
+  "multiple_entry_fills_same_minute": 0,
+  "fill_count": 838,
+  "max_entries_per_chicago_session_day": 2,
+  "same_minute_entry_stop_ambiguities": 5,
+  "worst_case_same_minute_pnl_usd": 802.7800000003845,
+  "expected_next_boundary_exit_mismatches": 5,
+  "daily_equity_sharpe_library": 0.8820720514049606,
+  "daily_equity_max_drawdown_library": -0.00477501469371358,
+  "commission_per_fill_usd": 2.5,
+  "adverse_slippage_points_per_fill": 0.25,
+  "entry_gap_triggers": 248,
+  "entry_gap_conservative_price_improvement_usd": 21557.120000000323,
+  "protective_stop_gap_through_fills": 14,
+  "protective_stop_gap_loss_beyond_trigger_usd": 1537.53999999999,
+  "ambiguous_examples": [
+    {
+      "timestamp": "2018-12-24T14:42:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 5978.5,
+      "stop_price": 5999.0
+    },
+    {
+      "timestamp": "2019-09-02T15:50:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 7586.75,
+      "stop_price": 7612.75
+    },
+    {
+      "timestamp": "2019-09-12T14:10:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "long",
+      "entry_price": 7954.0,
+      "stop_price": 7926.75
+    },
+    {
+      "timestamp": "2019-09-18T18:01:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 7829.75,
+      "stop_price": 7856.75
+    },
+    {
+      "timestamp": "2019-10-03T14:00:00+00:00",
+      "kind": "entry_and_protective_stop_same_candle",
+      "side": "short",
+      "entry_price": 7511.0,
+      "stop_price": 7536.75
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "tsmom_temporal_validation_plan/v1",
+  "session_id": "tsmom_40_60_80_lse_2020_2026",
+  "created_before_execution": true,
+  "classification": "EXPLORATORY",
+  "candidate": {
+    "signal": "equal average of sign(ROC40), sign(ROC60), sign(ROC80)",
+    "sizing": "20% annualized realized-volatility target using backward-looking 20-session volatility, capped at 1x gross",
+    "execution": "NEXT_BAR OPEN",
+    "parameters_frozen": true
+  },
+  "primary_markets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "HYPEUSDT",
+    "NIKKEI225_LSE"
+  ],
+  "supplemental_markets": [
+    "DAX_LSE"
+  ],
+  "chronological_validation": {
+    "annual_slices": "calendar years 2020 through 2026 YTD; HYPE begins when data become usable",
+    "rolling_windows": "365-calendar-day windows stepped every 90 calendar days after candidate warmup; no parameter fitting",
+    "success_diagnostics": [
+      "fraction of annual slices with positive net return",
+      "fraction of rolling one-year windows with positive net return",
+      "median annual Sharpe",
+      "worst annual return and drawdown"
+    ]
+  },
+  "cost_stress": {
+    "base": "existing market-specific fixed costs",
+    "stress": "2x commission and slippage",
+    "evaluate": "full sample and each annual slice"
+  },
+  "regime_attribution": {
+    "kind": "descriptive only; no regime timing",
+    "observable": "lagged 20-session realized volatility",
+    "thresholds": "rolling prior-252-observation 33rd and 67th percentiles, minimum 60 prior observations",
+    "labels": [
+      "low_vol",
+      "mid_vol",
+      "high_vol"
+    ],
+    "metrics": [
+      "observations",
+      "mean daily return bps",
+      "annualized Sharpe",
+      "hit rate",
+      "compounded return on regime days"
+    ]
+  },
+  "constraints": [
+    "No new indicators.",
+    "No parameter selection or retuning.",
+    "No final holdout claim.",
+    "DAX cannot affect the primary verdict while its LSE data gate fails.",
+    "DSR/PBO are not used as approval gates because the complete historical trial ledger is not reconstructable."
+  ]
+}

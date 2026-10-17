@@ -1,0 +1,16 @@
+{
+  "canonical_sources": [
+    "equity_daily_NQ",
+    "index_minute_NAS100",
+    "index_minute_NQ",
+    "lse_futures_minute_NQ"
+  ],
+  "minute_source": "/home/quant/dev/quant/ml4t-data/.data/store/index_minute_NQ",
+  "source_partitions_through_boundary": 163,
+  "source_manifest_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+  "data_boundary": "2013-01-01 through 2026-07-14 inclusive",
+  "minute_source_identity": "Dukascopy USATECH.IDX/USD BID index CFD proxy; not CME NQ futures",
+  "verified_ask_or_index_tick_store": false,
+  "evidence": "No index_tick_* or index_quote_* source exists in the local canonical store. index_minute_NAS100 and index_minute_NQ are OHLCV stores, not verified ASK/tick data.",
+  "ask_synthesized": false
+}

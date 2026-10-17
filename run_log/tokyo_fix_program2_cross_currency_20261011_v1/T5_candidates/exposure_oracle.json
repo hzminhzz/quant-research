@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "candidate": "C1_USD_confirmed_short",
+      "rows": 466,
+      "max_gross_entry_usd": 10000,
+      "max_USD_units_abs": 10000,
+      "Pnl_quote_conversion_parity": true,
+      "all_currency_units_recorded": true
+    },
+    {
+      "candidate": "C2_USD_neutral_EUR_hedge",
+      "rows": 465,
+      "max_gross_entry_usd": 10000.0,
+      "max_USD_units_abs": 9.094947017729282e-13,
+      "Pnl_quote_conversion_parity": true,
+      "all_currency_units_recorded": true
+    }
+  ],
+  "warning": "Entry markout sizing only; no qualified holdings, broker readiness or intrahold gross cap claim"
+}

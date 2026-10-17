@@ -1,0 +1,120 @@
+# Active successor to the retired btc_eth_pair_trading_scalp (Monk) session.
+# v3 preserves the historical UTC-daily Kalman reset while keeping continuous engine/capital accounting.
+# This session audits execution/accounting only. The Jan 1-3 window is already
+# observed research data and is not a holdout or strategy-selection test.
+session_id: btc_eth_maker_kalman_exec_audit_20261006_v3
+market: crypto
+
+thesis: >-
+  The fixed BTC/ETH online-Kalman residual mean-reversion strategy can be measured
+  faithfully with maker-first execution when every pair entry and exit is confirmed
+  flat-to-flat and execution shortfall is reconciled separately from gross alpha.
+
+mechanism: >-
+  The strategy trades short-lived deviations in the dynamic log-price relationship
+  ln(ETH) = alpha_t + beta_t * ln(BTC). A one-hour standardized Kalman innovation
+  supplies the fixed mean-reversion signal. Passive quoting attempts to capture
+  spread and avoid fees, while re-pegs, emergency taker hedges, queue adverse
+  selection, and latency can consume the gross relative-value edge.
+
+falsifier: >-
+  The audit fails if any pair is declared open before both entry legs are confirmed,
+  if any trade is declared complete before both exit legs are confirmed and positions
+  are flat, if completed trade PnL does not reconcile to engine realized PnL, if the
+  execution-attribution bridge has a material residual, or if the fixed strategy is
+  net non-positive after measured execution and fees. A three-day result cannot by
+  itself validate or reject long-run alpha persistence.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: USDT-margined linear perpetual; multiplier 1; tick 0.1; lot 0.001
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+    identity: USDT-margined linear perpetual; multiplier 1; tick 0.01; lot 0.01
+
+# The research-session auditor currently validates OHLC Parquet, not hftbacktest
+# NPZ event arrays. These canonical files provide the formal instrument/data
+# declaration. The exact Jan 1-3 tick+BBO caches used by the runner are frozen
+# below as evidence.
+data:
+  - id: btc_prices_1m
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1m.parquet
+  - id: eth_prices_1m
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1m.parquet
+
+evaluation:
+  cadence: 1s hftbacktest engine steps
+  development_start: "2026-01-01T00:00:00Z"
+  development_end: "2026-01-04T00:00:00Z"
+  plan: >-
+    Run one continuous engine and nominal $500 capital account from
+    2026-01-01 through 2026-01-03. Do not tune signal or execution parameters.
+    Reset Kalman state at each UTC day to preserve the historical signal process.
+    Verify confirmed fills, flat exits, no overlapping trades, flat-to-flat PnL,
+    execution attribution, and end-of-run flatness. Treat the period as observed
+    diagnostic evidence, not as an unseen holdout.
+  strategy_parameters:
+    signal: online Kalman residual mean reversion
+    innovation_window_seconds: 3600
+    kalman_reset_policy: UTC daily
+    abs_z_entry: 2.5
+    zero_cross_exit: true
+    z_stop: 3.5
+    max_hold_seconds: 360
+    cooldown_seconds: 60
+    re_peg_seconds: 10
+    emergency_hedge_seconds: 25
+    latency_ms_inbound: 10
+    latency_ms_response: 10
+    queue_model: risk_adverse_queue_model
+    maker_fee_bps: 0.0
+    taker_fee_bps: 4.0
+
+baseline: >-
+  Zero-trade PnL for economic comparison. For accounting review only, compare the
+  corrected ledger against the preserved historical one-week hftbacktest artifact;
+  do not use that old artifact as valid trade-level accounting evidence.
+
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  maker_fee_bps: 0.0
+  taker_fee_bps: 4.0
+  funding_included: false
+  assumptions: >-
+    Maker fees are zero and emergency taker fills pay four basis points through
+    hftbacktest's trading-value fee model. Spread crossing and timing shortfall are
+    measured from actual simulated fills rather than imposed as a flat slippage rate.
+    Funding is omitted from this short execution/accounting diagnostic and must be
+    added before a longer-horizon economic qualification.
+
+trials:
+  - id: continuous_three_day_execution_accounting
+    kind: diagnostic
+    description: >-
+      Fixed-parameter Jan 1-3 execution/accounting audit. This period was already
+      observed before the corrected runner and is not preregistered alpha evidence.
+  - id: historical_one_week_accounting_review
+    kind: historical_review
+    description: >-
+      Preserve and review the original one-week result whose emergency-order lifecycle
+      and per-trade accounting are known to be invalid.
+    artifact: run_log/btc_eth_pair_trading_scalp/hftbacktest_official_1week_results.json
+
+evidence:
+  - scripts/run_hftbacktest_btc_eth_pair.py
+  - scripts/prepare_hftbacktest_data.py
+  - src/hftbacktest_accounting.py
+  - data/hftbacktest/btcusdt_20260101.npz
+  - data/hftbacktest/btcusdt_20260102.npz
+  - data/hftbacktest/btcusdt_20260103.npz
+  - data/hftbacktest/ethusdt_20260101.npz
+  - data/hftbacktest/ethusdt_20260102.npz
+  - data/hftbacktest/ethusdt_20260103.npz

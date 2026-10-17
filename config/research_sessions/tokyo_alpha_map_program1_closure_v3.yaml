@@ -1,0 +1,115 @@
+session_id: tokyo_alpha_map_program1_closure_v3
+market: fx
+thesis: >-
+  Coverage-corrected retrospective closure of Program 1, with the original
+  economic hypotheses A through D and unchanged USDJPY fixing schedule.
+  Compare Gotobi against ordinary Tokyo bank days, independently for each
+  declared observation horizon. Do not claim discovery from reusing observed data.
+mechanism: >-
+  Corporate USD settlement flow could alter USDJPY drift before 09:55 JST
+  and dealer inventory might unwind afterward. Gotobi calendar is a proxy.
+falsifier: >-
+  No live approval unless positive calendar-controlled Gotobi incremental
+  return survives multiplicity adjustment, positive costed mean confidence
+  lower bound, stable years, placebo specificity, and adequate eligible-day
+  coverage. All retests are retrospective, not independent OOS.
+instruments:
+  - symbol: USDJPY
+    kind: cfd
+    venue: UNSPECIFIED_RETAIL_FX_BROKER
+    identity: LSE spot USDJPY 1-minute OHLC as broker price proxy, JPY per USD
+    session: Tokyo 09:55 JST
+    timezone: Asia/Tokyo
+data:
+  - id: year2020
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2020.parquet
+  - id: year2021
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2021.parquet
+  - id: year2022
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2022.parquet
+  - id: year2023
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2023.parquet
+  - id: year2024
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2024.parquet
+  - id: year2025
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2025.parquet
+  - id: year2026
+    symbol: USDJPY
+    role: prices
+    path: data/processed/tokyo_alpha_map_program1_v1/USDJPY_03_12_JST_2026.parquet
+evaluation:
+  development_start: "2020-01-01T00:00:00Z"
+  development_end: "2026-08-31T15:00:00Z"
+  holdout_start: "2026-08-31T15:00:00Z"
+  holdout_end: "2026-10-10T00:00:00Z"
+  inherited_program1: tokyo_alpha_map_program1_v1
+  inherited_native: tokyo_alpha_map_program1_native_exploratory_v2
+  data_gate: Per-interval complete contiguous minute opens with no forward fill, record cohort sizes and missingness; do not require 03-12 completeness for 09:56-10:10 test
+  registered_windows:
+    A:
+      - ["03:00","05:00"]
+      - ["05:00","07:00"]
+      - ["07:00","08:30"]
+      - ["08:30","09:54"]
+      - ["09:56","10:10"]
+      - ["10:10","10:30"]
+      - ["10:30","12:00"]
+    L:
+      - ["03:00","09:54"]
+      - ["05:00","09:54"]
+      - ["07:00","09:54"]
+      - ["08:30","09:54"]
+    B:
+      - ["09:56","10:10"]
+      - ["09:56","10:30"]
+      - ["09:56","11:00"]
+    D:
+      - ["09:30","09:54"]
+      - ["11:30","11:54"]
+      - ["09:56","10:00"]
+      - ["11:56","12:00"]
+  calendar: Preserve prior official BOJ plus Japan Cabinet Office holiday/date registry, nominal 5 10 15 20 25 30, holiday rollback as an assumption, month-end independently labeled
+  gate_definition: Original prior 20 complete 08:00-10:30 bank-session extension, lagged, from original_gate_history.parquet
+  tests: Per-interval HAC calendar effects and Holm over 18 increment tests plus B post-fix subgroups and placebo
+  controls: Weekday and year only; no post-treatment controls
+  retrospective_status: All 2020 through Aug 2026 was already explored
+  min_category_n: 30
+  min_strategy_n: 100
+baseline: Identical timestamp ordinary Tokyo bank-day USDJPY markouts
+costs:
+  commission_bps: 0.0
+  slippage_bps: 0.0
+  round_trip_pips: 1.0
+  sensitivity_round_trip_pips: [0.8,1.0,1.4]
+  cost_source: illustrative, actual historical executable broker spread unavailable
+trials:
+  - id: T1_window_coverage
+    kind: diagnostic
+    description: Window-specific completeness and source identity, calendar group composition
+  - id: T2_alpha_windows
+    kind: diagnostic
+    description: A and earlier entry L interval results with HAC/adjusted Gotobi increment
+  - id: T3_postfix
+    kind: diagnostic
+    description: B0 ordinary B1 Gotobi B2 month-end B3 historical conditional per exit horizon
+  - id: T4_calendar
+    kind: diagnostic
+    description: Calendar subdivision weekday/month-end/quarter-end regression
+  - id: T5_refutation
+    kind: diagnostic
+    description: Yearly, placebo and negative control and program-wide Holm comparisons
+  - id: T6_reconciliation
+    kind: diagnostic
+    description: Reconcile previous native engine runs and final research disposition

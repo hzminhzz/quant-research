@@ -1,0 +1,29 @@
+{
+  "session_id": "mechanicalpremia-yen-squeeze-mvp-20261014",
+  "trial_id": "DATA-ELIGIBILITY",
+  "status": "inconclusive",
+  "observations": {
+    "USDJPY": {
+      "rows": 748068,
+      "source": "canonical FX minute snapshot 2023-2024",
+      "timezone": "UTC aware",
+      "snapshot_sha256": "00e8b7ebceab3cec1a2f92d04e20b5061d8994dd84cd86aa51eb46c8f71bfd89"
+    },
+    "GBPJPY": {
+      "rows": 744864,
+      "source": "Dukascopy legacy bid minute snapshot 2023-2024",
+      "timezone": "naive localized UTC assumption; not certified",
+      "snapshot_sha256": "7bf8319bddfa9715bb86eb9513221dea135eebf8156ff11e247fecb03d2d800d"
+    },
+    "CADJPY": {
+      "status": "missing"
+    }
+  },
+  "gates_unresolved": [
+    "USDJPY historical feed provenance",
+    "GBPJPY timezone provenance",
+    "broker spreads, swap, lot/multiplier and FX conversion",
+    "CADJPY absent; full source universe cannot be tested"
+  ],
+  "outcomes_observed": false
+}

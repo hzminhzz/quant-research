@@ -1,0 +1,31 @@
+{
+  "trial": "SOURCE-US2",
+  "session": "mechanicalpremia-us500-us100-2013-2026-v1",
+  "terminal_status": "completed",
+  "scientific_status": "NOT_APPROVED",
+  "research_classification": "EXPLORATORY_OBSERVED_POST_SELECTION",
+  "native_metric_snapshot": {
+    "mean_annual_return_pct": 2.9881403515274534,
+    "median_annual_return_pct": 2.9131116312324012,
+    "positive_years": 10,
+    "mean_annual_daily_sharpe": 0.6630165407976578,
+    "mean_annual_calmar": 1.1811113940536135,
+    "worst_single_year_drawdown_pct": -7.828222092462369,
+    "closed_trades": 1405,
+    "open_trade_occurrences": 3,
+    "closed_trade_win_rate_pct": 38.93238434163701,
+    "2026_ytd_return_pct": 5.316272391359722,
+    "2025_return_pct": 5.886952869935214
+  },
+  "reference_report": "docs/audit/mechanicalpremia_three_candidates_2013_2026/report.md",
+  "reference_csv": "docs/audit/mechanicalpremia_three_candidates_2013_2026/all_annual_metrics.csv",
+  "execution_reconciled_cells": 84,
+  "notes": [
+    "Complete native Engine execution does not mean strategy validation",
+    "C2/C3 candidate universe selected after prior observed C1 results",
+    "No continuous 14-year portfolio across annual resets",
+    "Actual CFD spreads, financing, lot multipliers and FX translation not modeled",
+    "H1 stop not fully source-equivalent; NY17 session assumed",
+    "No protected 2026-10-12+ price observations scored"
+  ]
+}

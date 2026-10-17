@@ -1,0 +1,1015 @@
+{
+  "status": "EXPLORATORY_COMPLETED_DAX_POST2023_DATA_BLOCKED",
+  "study": "Frozen NQ B0 literal raw 50-point stop cross-index transfer",
+  "synthetic_unit": "1R=50 raw index points; 20 synthetic units per point, 1 contract, per-side cost 2.50 synthetic units +0.25 point adverse slippage",
+  "warning": "ES, DAX, Nikkei USD dollar PnL not tradable futures returns; no actual currency/contract/cost mapping.",
+  "portfolio_measurement": "Calendar UTC daily realized trade PnL allocated to entry date, not mark-to-market. Calmar assumes initial 1000 synthetic R.",
+  "no_holdout": "All data through 2026-07-14 already observed",
+  "metrics": {
+    "full": {
+      "NQ": {
+        "closed_trades": 5462,
+        "net_R": 166.10792000000464,
+        "mean_R_per_trade": 0.030411556206518607,
+        "win_rate": 0.47821310875137313,
+        "profit_factor": 1.267195210751804,
+        "worst_trade_R": -9.116860000000015,
+        "daily_realized_sharpe": 1.2810991243366474,
+        "calmar_on_fixed_1000R_balance": 0.5384249717399522,
+        "max_realized_drawdown_R": 21.21213999999918,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "ES": {
+        "closed_trades": 5100,
+        "net_R": -33.796659999998504,
+        "mean_R_per_trade": -0.006626796078431079,
+        "win_rate": 0.3962745098039216,
+        "profit_factor": 0.8177003288407018,
+        "worst_trade_R": -1.9795800000000008,
+        "daily_realized_sharpe": -1.0812264368352575,
+        "calmar_on_fixed_1000R_balance": -0.07270873105564672,
+        "max_realized_drawdown_R": 34.89631999999847,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "DAX": {
+        "closed_trades": 2911,
+        "net_R": -1418.7191999999993,
+        "mean_R_per_trade": -0.4873648917897627,
+        "win_rate": 0.49811061490896597,
+        "profit_factor": 0.314423527726692,
+        "worst_trade_R": -478.931,
+        "daily_realized_sharpe": -0.4204701698049414,
+        "calmar_on_fixed_1000R_balance": null,
+        "max_realized_drawdown_R": 1543.9801999999995,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "NIKKEI225": {
+        "closed_trades": 2288,
+        "net_R": 178.27699999999834,
+        "mean_R_per_trade": 0.0779182692307685,
+        "win_rate": 0.44274475524475526,
+        "profit_factor": 1.1764903878042554,
+        "worst_trade_R": -22.465,
+        "daily_realized_sharpe": 0.6236848882667232,
+        "calmar_on_fixed_1000R_balance": 0.2272173580447612,
+        "max_realized_drawdown_R": 60.406000000000404,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      }
+    },
+    "pre_DAX_corruption_2013_2023": {
+      "NQ": {
+        "closed_trades": 4392,
+        "net_R": 119.42732000000366,
+        "mean_R_per_trade": 0.02719201275045621,
+        "win_rate": 0.4719945355191257,
+        "profit_factor": 1.308352924153972,
+        "worst_trade_R": -4.199580000000005,
+        "daily_realized_sharpe": 1.4959371427391124,
+        "calmar_on_fixed_1000R_balance": 0.48613514964099,
+        "max_realized_drawdown_R": 21.21213999999918,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "ES": {
+        "closed_trades": 4036,
+        "net_R": -18.442779999999093,
+        "mean_R_per_trade": -0.004569568880079061,
+        "win_rate": 0.3902378592666006,
+        "profit_factor": 0.8509762011576275,
+        "worst_trade_R": -1.9795800000000008,
+        "daily_realized_sharpe": -0.8467286279785163,
+        "calmar_on_fixed_1000R_balance": -0.07113748181199761,
+        "max_realized_drawdown_R": 23.773039999999128,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "DAX": {
+        "closed_trades": 2805,
+        "net_R": 112.8530000000004,
+        "mean_R_per_trade": 0.04023279857397519,
+        "win_rate": 0.503030303030303,
+        "profit_factor": 1.2153235300290595,
+        "worst_trade_R": -5.992000000000007,
+        "daily_realized_sharpe": 0.9769186501847013,
+        "calmar_on_fixed_1000R_balance": 0.8340528054858212,
+        "max_realized_drawdown_R": 13.180999999999358,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "NIKKEI225": {
+        "closed_trades": 1682,
+        "net_R": 78.89500000000018,
+        "mean_R_per_trade": 0.04690546967895373,
+        "win_rate": 0.4595719381688466,
+        "profit_factor": 1.1275879021537687,
+        "worst_trade_R": -12.593000000000028,
+        "daily_realized_sharpe": 0.47160438548339506,
+        "calmar_on_fixed_1000R_balance": 0.19808352621689,
+        "max_realized_drawdown_R": 38.44599999999946,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      }
+    },
+    "2018_2023": {
+      "NQ": {
+        "closed_trades": 2583,
+        "net_R": 137.73028000000284,
+        "mean_R_per_trade": 0.053321827332560134,
+        "win_rate": 0.5199380565234224,
+        "profit_factor": 1.453761850398396,
+        "worst_trade_R": -1.237440000000024,
+        "daily_realized_sharpe": 2.438925554032849,
+        "calmar_on_fixed_1000R_balance": 2.8690616047933863,
+        "max_realized_drawdown_R": 7.731999999999971,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "ES": {
+        "closed_trades": 2355,
+        "net_R": -2.664899999999352,
+        "mean_R_per_trade": -0.0011315923566876229,
+        "win_rate": 0.4288747346072187,
+        "profit_factor": 0.9695460673869754,
+        "worst_trade_R": -1.4071399999999994,
+        "daily_realized_sharpe": -0.18143861874736347,
+        "calmar_on_fixed_1000R_balance": -0.0555672640897373,
+        "max_realized_drawdown_R": 8.003799999999387,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "DAX": {
+        "closed_trades": 1529,
+        "net_R": 50.50700000000052,
+        "mean_R_per_trade": 0.03303270111183814,
+        "win_rate": 0.4944408109875736,
+        "profit_factor": 1.153550787864786,
+        "worst_trade_R": -3.6540000000000146,
+        "daily_realized_sharpe": 0.7454491519334939,
+        "calmar_on_fixed_1000R_balance": 0.6651063015470339,
+        "max_realized_drawdown_R": 13.180999999999585,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "NIKKEI225": {
+        "closed_trades": 943,
+        "net_R": 67.97900000000023,
+        "mean_R_per_trade": 0.07208801696712644,
+        "win_rate": 0.4591728525980912,
+        "profit_factor": 1.1689737885435185,
+        "worst_trade_R": -12.593000000000028,
+        "daily_realized_sharpe": 0.6580614945114117,
+        "calmar_on_fixed_1000R_balance": 0.3120437372023322,
+        "max_realized_drawdown_R": 38.44599999999946,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      }
+    },
+    "2018_2025": {
+      "NQ": {
+        "closed_trades": 3415,
+        "net_R": 198.57784000000305,
+        "mean_R_per_trade": 0.05814870863836107,
+        "win_rate": 0.51800878477306,
+        "profit_factor": 1.4273229173978772,
+        "worst_trade_R": -9.116860000000015,
+        "daily_realized_sharpe": 2.1381176243934132,
+        "calmar_on_fixed_1000R_balance": 1.5799263401022414,
+        "max_realized_drawdown_R": 17.184400000000096,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "ES": {
+        "closed_trades": 3178,
+        "net_R": -10.324999999999028,
+        "mean_R_per_trade": -0.0032488986784137905,
+        "win_rate": 0.4276274386406545,
+        "profit_factor": 0.9208536066915681,
+        "worst_trade_R": -1.4071399999999994,
+        "daily_realized_sharpe": -0.4889066137117562,
+        "calmar_on_fixed_1000R_balance": -0.123540351300401,
+        "max_realized_drawdown_R": 10.494579999999019,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "DAX": {
+        "closed_trades": 1614,
+        "net_R": -1001.9125999999994,
+        "mean_R_per_trade": -0.6207636926889711,
+        "win_rate": 0.48946716232961585,
+        "profit_factor": 0.28168359947772037,
+        "worst_trade_R": -352.02160000000003,
+        "daily_realized_sharpe": -0.45297980248726827,
+        "calmar_on_fixed_1000R_balance": null,
+        "max_realized_drawdown_R": 1064.8275999999996,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "NIKKEI225": {
+        "closed_trades": 1298,
+        "net_R": 103.25099999999867,
+        "mean_R_per_trade": 0.07954622496147817,
+        "win_rate": 0.4491525423728814,
+        "profit_factor": 1.1635343347503508,
+        "worst_trade_R": -22.465,
+        "daily_realized_sharpe": 0.5829106365856995,
+        "calmar_on_fixed_1000R_balance": 0.2280086743767768,
+        "max_realized_drawdown_R": 60.406000000000404,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      }
+    },
+    "2022_2025": {
+      "NQ": {
+        "closed_trades": 1705,
+        "net_R": 137.86088000000075,
+        "mean_R_per_trade": 0.08085682111436995,
+        "win_rate": 0.5225806451612903,
+        "profit_factor": 1.4750685047443517,
+        "worst_trade_R": -9.116860000000015,
+        "daily_realized_sharpe": 2.3888349729374783,
+        "calmar_on_fixed_1000R_balance": 2.1479803292195014,
+        "max_realized_drawdown_R": 17.184400000000323,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "ES": {
+        "closed_trades": 1647,
+        "net_R": -4.193539999999648,
+        "mean_R_per_trade": -0.0025461687917423485,
+        "win_rate": 0.4474802671523983,
+        "profit_factor": 0.9465375914850608,
+        "worst_trade_R": -1.4071399999999994,
+        "daily_realized_sharpe": -0.33271740048666504,
+        "calmar_on_fixed_1000R_balance": -0.11405597011238985,
+        "max_realized_drawdown_R": 9.251419999999712,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "DAX": {
+        "closed_trades": 636,
+        "net_R": -1040.6565999999993,
+        "mean_R_per_trade": -1.6362525157232695,
+        "win_rate": 0.4606918238993711,
+        "profit_factor": 0.13160283079075813,
+        "worst_trade_R": -352.02160000000003,
+        "daily_realized_sharpe": -0.6657211171184229,
+        "calmar_on_fixed_1000R_balance": null,
+        "max_realized_drawdown_R": 1064.8275999999996,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "NIKKEI225": {
+        "closed_trades": 708,
+        "net_R": 20.898999999998995,
+        "mean_R_per_trade": 0.029518361581919485,
+        "win_rate": 0.4209039548022599,
+        "profit_factor": 1.0516028513791436,
+        "worst_trade_R": -22.465,
+        "daily_realized_sharpe": 0.19510678519975264,
+        "calmar_on_fixed_1000R_balance": 0.08858084737876315,
+        "max_realized_drawdown_R": 60.40600000000029,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      }
+    },
+    "2026": {
+      "NQ": {
+        "closed_trades": 238,
+        "net_R": -14.166959999999236,
+        "mean_R_per_trade": -0.05952504201680351,
+        "win_rate": 0.47478991596638653,
+        "profit_factor": 0.806444050053908,
+        "worst_trade_R": -4.283059999999969,
+        "daily_realized_sharpe": -1.8246327094850305,
+        "calmar_on_fixed_1000R_balance": -1.5904195056209491,
+        "max_realized_drawdown_R": 16.60797999999909,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "ES": {
+        "closed_trades": 241,
+        "net_R": -7.693779999999733,
+        "mean_R_per_trade": -0.03192439834024786,
+        "win_rate": 0.4024896265560166,
+        "profit_factor": 0.5882349792987812,
+        "worst_trade_R": -1.0960199999999896,
+        "daily_realized_sharpe": -3.4853259840985076,
+        "calmar_on_fixed_1000R_balance": -1.6333340092230975,
+        "max_realized_drawdown_R": 8.793439999999805,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "DAX": {
+        "closed_trades": 21,
+        "net_R": -479.15259999999995,
+        "mean_R_per_trade": -22.816790476190477,
+        "win_rate": 0.23809523809523808,
+        "profit_factor": 0.00050063350998743,
+        "worst_trade_R": -478.931,
+        "daily_realized_sharpe": -1.36924033209972,
+        "calmar_on_fixed_1000R_balance": -1.4716876596937158,
+        "max_realized_drawdown_R": 479.3342,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      },
+      "NIKKEI225": {
+        "closed_trades": 251,
+        "net_R": 64.10999999999972,
+        "mean_R_per_trade": 0.25541832669322595,
+        "win_rate": 0.35856573705179284,
+        "profit_factor": 1.3940429507430927,
+        "worst_trade_R": -3.313999999999942,
+        "daily_realized_sharpe": 2.3977941350390535,
+        "calmar_on_fixed_1000R_balance": 6.793795977205048,
+        "max_realized_drawdown_R": 18.968000000000075,
+        "initial_balance_R": 1000.0,
+        "realized_only_not_mark_to_market": true
+      }
+    }
+  },
+  "monte_carlo": {
+    "full": {
+      "5day": {
+        "NQ": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            106.241539000004,
+            166.4491900000032,
+            223.33817600000378
+          ],
+          "prob_terminal_R_positive": 1.0,
+          "sharpe_p05_p50_p95": [
+            0.8211920293485718,
+            1.291069589782958,
+            1.721001239708411
+          ],
+          "drawdown_R_p50_p95": [
+            14.510479999999525,
+            24.061108999999643
+          ],
+          "prob_drawdown_over_10R": 0.9185
+        },
+        "ES": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            -48.22645899999792,
+            -33.77060999999835,
+            -19.869275999998077
+          ],
+          "prob_terminal_R_positive": 0.0,
+          "sharpe_p05_p50_p95": [
+            -1.5349695655208715,
+            -1.0875434571950813,
+            -0.6449527856213336
+          ],
+          "drawdown_R_p50_p95": [
+            35.56480999999862,
+            49.605765999998
+          ],
+          "prob_drawdown_over_10R": 0.9995,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -2.8962667146209817,
+            -2.3731080391929167,
+            -1.8526702297394337
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0
+        },
+        "NIKKEI225": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            50.8651999999974,
+            174.05349999999848,
+            304.25594999999686
+          ],
+          "prob_terminal_R_positive": 0.988,
+          "sharpe_p05_p50_p95": [
+            0.1800173827334838,
+            0.6174864212995888,
+            1.0501882103464872
+          ],
+          "drawdown_R_p50_p95": [
+            44.31150000000007,
+            80.5163000000003
+          ],
+          "prob_drawdown_over_10R": 1.0,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -1.2727143713900295,
+            -0.6726384604986796,
+            -0.039422202426849774
+          ],
+          "prob_sharpe_exceeds_NQ": 0.041
+        }
+      },
+      "20day": {
+        "NQ": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            101.83054200000407,
+            164.76570000000433,
+            231.26856900000396
+          ],
+          "prob_terminal_R_positive": 1.0,
+          "sharpe_p05_p50_p95": [
+            0.7892860158918166,
+            1.2849710732979487,
+            1.776634141792567
+          ],
+          "drawdown_R_p50_p95": [
+            16.134360000000044,
+            27.20267999999985
+          ],
+          "prob_drawdown_over_10R": 0.9515
+        },
+        "ES": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            -49.651574999999,
+            -34.26271999999833,
+            -18.422257999998227
+          ],
+          "prob_terminal_R_positive": 0.0005,
+          "sharpe_p05_p50_p95": [
+            -1.5822878098453539,
+            -1.0998370132907782,
+            -0.5939230513352359
+          ],
+          "drawdown_R_p50_p95": [
+            36.08201999999854,
+            51.00226599999843
+          ],
+          "prob_drawdown_over_10R": 0.998,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -2.8749001202615267,
+            -2.369275516531312,
+            -1.8842611856705695
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0
+        },
+        "NIKKEI225": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            44.652949999997595,
+            178.07299999999725,
+            307.07114999999794
+          ],
+          "prob_terminal_R_positive": 0.985,
+          "sharpe_p05_p50_p95": [
+            0.15578788513495195,
+            0.6280600581072423,
+            1.07491798427323
+          ],
+          "drawdown_R_p50_p95": [
+            46.18800000000033,
+            87.13734999999998
+          ],
+          "prob_drawdown_over_10R": 1.0,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -1.32260209617053,
+            -0.658639804080118,
+            -0.0017046106712357175
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0495
+        }
+      }
+    },
+    "2026": {
+      "5day": {
+        "NQ": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            -31.038168999999307,
+            -14.512699999999748,
+            1.3364400000008418
+          ],
+          "prob_terminal_R_positive": 0.0675,
+          "sharpe_p05_p50_p95": [
+            -4.162639188681444,
+            -1.8434181233254687,
+            0.166870885887696
+          ],
+          "drawdown_R_p50_p95": [
+            18.802679999999533,
+            33.06107899999895
+          ],
+          "prob_drawdown_over_10R": 0.9145
+        },
+        "ES": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            -12.255658999999746,
+            -7.645459999999648,
+            -2.99262799999962
+          ],
+          "prob_terminal_R_positive": 0.0015,
+          "sharpe_p05_p50_p95": [
+            -5.450990449616399,
+            -3.51426142832252,
+            -1.424966954925311
+          ],
+          "drawdown_R_p50_p95": [
+            8.321819999999736,
+            12.704217999999592
+          ],
+          "prob_drawdown_over_10R": 0.26,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -4.222793583769052,
+            -1.6539780308165253,
+            1.1226380822428204
+          ],
+          "prob_sharpe_exceeds_NQ": 0.151
+        },
+        "NIKKEI225": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            6.396549999999587,
+            63.24249999999913,
+            122.25209999999855
+          ],
+          "prob_terminal_R_positive": 0.9675,
+          "sharpe_p05_p50_p95": [
+            0.26563192348907644,
+            2.376677152077312,
+            4.155554913157098
+          ],
+          "drawdown_R_p50_p95": [
+            17.80800000000012,
+            33.70085000000014
+          ],
+          "prob_drawdown_over_10R": 0.975,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            1.645562304540652,
+            4.2249991884805205,
+            6.727233408097622
+          ],
+          "prob_sharpe_exceeds_NQ": 0.999
+        }
+      },
+      "20day": {
+        "NQ": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            -28.63875000000036,
+            -14.222329999999346,
+            0.9047460000005402
+          ],
+          "prob_terminal_R_positive": 0.06,
+          "sharpe_p05_p50_p95": [
+            -3.7172955312492184,
+            -1.8412966110995437,
+            0.12073433951703648
+          ],
+          "drawdown_R_p50_p95": [
+            18.320079999999216,
+            30.739426999999843
+          ],
+          "prob_drawdown_over_10R": 0.9005
+        },
+        "ES": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            -11.489947999999817,
+            -7.809119999999739,
+            -3.740140999999674
+          ],
+          "prob_terminal_R_positive": 0.0005,
+          "sharpe_p05_p50_p95": [
+            -5.082461866690157,
+            -3.536669991372359,
+            -1.840739055365462
+          ],
+          "drawdown_R_p50_p95": [
+            8.369609999999648,
+            11.840364999999803
+          ],
+          "prob_drawdown_over_10R": 0.2175,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -3.7610799920763553,
+            -1.6896769439490935,
+            0.39150420779800305
+          ],
+          "prob_sharpe_exceeds_NQ": 0.101
+        },
+        "NIKKEI225": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            9.465649999999442,
+            62.472000000000044,
+            123.28129999999861
+          ],
+          "prob_terminal_R_positive": 0.976,
+          "sharpe_p05_p50_p95": [
+            0.422655530111824,
+            2.347501348925851,
+            4.31693201503564
+          ],
+          "drawdown_R_p50_p95": [
+            17.119499999999896,
+            31.229050000000335
+          ],
+          "prob_drawdown_over_10R": 0.9595,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            1.2566485928745934,
+            4.149736242209624,
+            6.958644979680824
+          ],
+          "prob_sharpe_exceeds_NQ": 0.992
+        }
+      }
+    },
+    "pre_DAX_corruption_2013_2023": {
+      "5day": {
+        "NQ": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            79.11338500000267,
+            118.90410000000338,
+            162.66182000000413
+          ],
+          "prob_terminal_R_positive": 1.0,
+          "sharpe_p05_p50_p95": [
+            1.009769387295988,
+            1.4913411981470577,
+            1.9744139198468025
+          ],
+          "drawdown_R_p50_p95": [
+            8.993489999999912,
+            14.134988999999736
+          ],
+          "prob_drawdown_over_10R": 0.341
+        },
+        "ES": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            -29.20694199999885,
+            -18.33206999999899,
+            -7.28241699999923
+          ],
+          "prob_terminal_R_positive": 0.0035,
+          "sharpe_p05_p50_p95": [
+            -1.3597662052982253,
+            -0.8460027809577682,
+            -0.34443822951449404
+          ],
+          "drawdown_R_p50_p95": [
+            20.24992999999906,
+            30.630177999999148
+          ],
+          "prob_drawdown_over_10R": 0.966,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -2.8964569801728244,
+            -2.3382331230774422,
+            -1.7641300168771914
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0
+        },
+        "DAX": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            58.389949999999935,
+            113.14250000000075,
+            169.1516000000001
+          ],
+          "prob_terminal_R_positive": 0.9995,
+          "sharpe_p05_p50_p95": [
+            0.5244143928856094,
+            0.9799055810319658,
+            1.4280276146667497
+          ],
+          "drawdown_R_p50_p95": [
+            16.75049999999997,
+            27.908500000000238
+          ],
+          "prob_drawdown_over_10R": 0.9805,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -1.1867792674482052,
+            -0.5105546772710212,
+            0.15398111054236574
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0985
+        },
+        "NIKKEI225": {
+          "iterations": 2000,
+          "block_days": 5,
+          "terminal_R_p05_p50_p95": [
+            0.6171499999999128,
+            78.34749999999951,
+            161.09489999999977
+          ],
+          "prob_terminal_R_positive": 0.952,
+          "sharpe_p05_p50_p95": [
+            0.004105372829118723,
+            0.46952469761528315,
+            0.9352422329297602
+          ],
+          "drawdown_R_p50_p95": [
+            33.37400000000008,
+            63.07360000000022
+          ],
+          "prob_drawdown_over_10R": 1.0,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -1.6936046383885364,
+            -1.0346683633386298,
+            -0.3253580188708732
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0105
+        }
+      },
+      "20day": {
+        "NQ": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            78.20793400000362,
+            120.25070000000379,
+            166.10328600000324
+          ],
+          "prob_terminal_R_positive": 1.0,
+          "sharpe_p05_p50_p95": [
+            1.0121943780073268,
+            1.5164825276105762,
+            2.0023284159211605
+          ],
+          "drawdown_R_p50_p95": [
+            8.961599999999873,
+            14.522573999999713
+          ],
+          "prob_drawdown_over_10R": 0.3445
+        },
+        "ES": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            -29.733317999999073,
+            -18.553749999998853,
+            -6.381099999998975
+          ],
+          "prob_terminal_R_positive": 0.0065,
+          "sharpe_p05_p50_p95": [
+            -1.388592208177042,
+            -0.8490834893174924,
+            -0.29490143996107465
+          ],
+          "drawdown_R_p50_p95": [
+            20.645889999999127,
+            31.12327499999896
+          ],
+          "prob_drawdown_over_10R": 0.962,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -2.9073330509536963,
+            -2.357377103304905,
+            -1.812350338542734
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0
+        },
+        "DAX": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            58.49180000000059,
+            111.36500000000044,
+            166.4200000000009
+          ],
+          "prob_terminal_R_positive": 1.0,
+          "sharpe_p05_p50_p95": [
+            0.5149687483592305,
+            0.9669580953442456,
+            1.416870882213452
+          ],
+          "drawdown_R_p50_p95": [
+            15.185499999999736,
+            25.714450000000042
+          ],
+          "prob_drawdown_over_10R": 0.949,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -1.2101455201618176,
+            -0.5285798084933202,
+            0.11328629221568001
+          ],
+          "prob_sharpe_exceeds_NQ": 0.086
+        },
+        "NIKKEI225": {
+          "iterations": 2000,
+          "block_days": 20,
+          "terminal_R_p05_p50_p95": [
+            -4.873899999999511,
+            77.65150000000122,
+            160.76490000000115
+          ],
+          "prob_terminal_R_positive": 0.9385,
+          "sharpe_p05_p50_p95": [
+            -0.03014975224747426,
+            0.4707416984273769,
+            0.9458723886551201
+          ],
+          "drawdown_R_p50_p95": [
+            34.140000000000526,
+            67.04919999999817
+          ],
+          "prob_drawdown_over_10R": 1.0,
+          "paired_delta_sharpe_vs_NQ_p05_p50_p95": [
+            -1.7673026094710198,
+            -1.0443195049122092,
+            -0.33350397334303833
+          ],
+          "prob_sharpe_exceeds_NQ": 0.0095
+        }
+      }
+    }
+  },
+  "audit": {
+    "status": "PASS",
+    "errors": []
+  },
+  "price_jump_quality": {
+    "NQ": {
+      "source": "index_minute_NQ",
+      "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+      "extreme_discontinuities": 0,
+      "extremes_on_adjacent_one_minute_prints": 0,
+      "extreme_by_year": [],
+      "extreme_examples": [],
+      "classification": "NO_EXTREME_PRICE_JUMPS_DETECTED"
+    },
+    "ES": {
+      "source": "index_minute_ES",
+      "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+      "extreme_discontinuities": 0,
+      "extremes_on_adjacent_one_minute_prints": 0,
+      "extreme_by_year": [],
+      "extreme_examples": [],
+      "classification": "NO_EXTREME_PRICE_JUMPS_DETECTED"
+    },
+    "DAX": {
+      "source": "index_minute_DAX",
+      "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+      "extreme_discontinuities": 1000,
+      "extremes_on_adjacent_one_minute_prints": 802,
+      "extreme_by_year": [
+        {
+          "year": 2024,
+          "len": 447
+        },
+        {
+          "year": 2025,
+          "len": 334
+        },
+        {
+          "year": 2026,
+          "len": 219
+        }
+      ],
+      "extreme_examples": [
+        {
+          "timestamp": "2026-06-19 15:30:00+00:00",
+          "close": 25065.8,
+          "previous_close": 871.59,
+          "gap_minutes": 1,
+          "return": 27.758705354581853,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-18 15:30:00+00:00",
+          "close": 25041.6,
+          "previous_close": 871.88,
+          "gap_minutes": 1,
+          "return": 27.72138367665275,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-17 11:01:00+00:00",
+          "close": 24945.3,
+          "previous_close": 869.71,
+          "gap_minutes": 1,
+          "return": 27.682319393820926,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-18 11:01:00+00:00",
+          "close": 24919.0,
+          "previous_close": 868.93,
+          "gap_minutes": 1,
+          "return": 27.677799132266124,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-17 15:30:00+00:00",
+          "close": 24934.0,
+          "previous_close": 869.54,
+          "gap_minutes": 1,
+          "return": 27.67493157301562,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-16 15:30:00+00:00",
+          "close": 24921.0,
+          "previous_close": 869.5,
+          "gap_minutes": 1,
+          "return": 27.66129959746981,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-15 15:30:00+00:00",
+          "close": 24899.7,
+          "previous_close": 869.5,
+          "gap_minutes": 1,
+          "return": 27.636802760207015,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-16 11:01:00+00:00",
+          "close": 25036.0,
+          "previous_close": 874.39,
+          "gap_minutes": 1,
+          "return": 27.632532394011825,
+          "year": 2026
+        },
+        {
+          "timestamp": "2026-06-12 15:30:00+00:00",
+          "close": 24608.7,
+          "previous_close": 860.01,
+          "gap_minutes": 1,
+          "return": 27.614434715875397,
+          "year": 2026
+        },
+        {
+          "timestamp": "2025-11-10 19:19:00+00:00",
+          "close": 24062.5,
+          "previous_close": 848.67,
+          "gap_minutes": 170,
+          "return": 27.353187929348277,
+          "year": 2025
+        },
+        {
+          "timestamp": "2025-10-30 00:27:00+00:00",
+          "close": 24216.1,
+          "previous_close": 854.28,
+          "gap_minutes": 478,
+          "return": 27.34679496183921,
+          "year": 2025
+        },
+        {
+          "timestamp": "2025-11-07 17:42:00+00:00",
+          "close": 23624.699999999997,
+          "previous_close": 833.58,
+          "gap_minutes": 73,
+          "return": 27.341250989707042,
+          "year": 2025
+        },
+        {
+          "timestamp": "2025-11-05 17:23:00+00:00",
+          "close": 24114.5,
+          "previous_close": 850.87,
+          "gap_minutes": 54,
+          "return": 27.34099216096466,
+          "year": 2025
+        },
+        {
+          "timestamp": "2025-11-18 17:00:00+00:00",
+          "close": 23233.0,
+          "previous_close": 820.08,
+          "gap_minutes": 31,
+          "return": 27.330162910935517,
+          "year": 2025
+        }
+      ],
+      "classification": "BLOCKED_2024_ONWARD_SCALE_MIX"
+    },
+    "NIKKEI225": {
+      "source": "index_minute_NIKKEI225",
+      "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+      "extreme_discontinuities": 0,
+      "extremes_on_adjacent_one_minute_prints": 0,
+      "extreme_by_year": [],
+      "extreme_examples": [],
+      "classification": "NO_EXTREME_PRICE_JUMPS_DETECTED"
+    }
+  },
+  "instrument_decisions": {
+    "NQ": "UNCHANGED_FROZEN_CONTROL",
+    "ES": "EXPLORATORY_NEGATIVE_AFTER_SYNTHETIC_COSTS",
+    "DAX": "PRE_2024_ONLY_DIAGNOSTIC; 2024-2026 SCALE_MIX_CORRUPTED; FULL_HISTORY_INVALID",
+    "NIKKEI225": "EXPLORATORY_POSITIVE_SYNTHETIC_ONLY; REAL_COSTS_AND_LIVE_VALIDATION_UNRESOLVED",
+    "HSI": "BLOCKED_1M_SOURCE_MISSING"
+  },
+  "blocked": "Hang Seng 1min data unavailable; DAX 2024-onward scale-mixed corruption; no real cross-contract currency mapping",
+  "method": "ml4t.backtest.Engine original B0 strategy; ML4T analytics for risk; Polars-only future event labels; paired NumPy block bootstrap for uncertainty"
+}

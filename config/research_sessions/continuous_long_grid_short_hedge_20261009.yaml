@@ -1,0 +1,63 @@
+# Long-horizon follow-up defined before observing these continuous-run outcomes.
+session_id: continuous_long_grid_short_hedge_20261009
+status: EXPLORATORY_NOT_APPROVED
+economic_thesis: "20 fixed anchored SP500/SPY buy limits stack $100 each. Only after actual long fills, use dynamic-beta-adjusted XYZ100/QQQ short maker orders as risk hedge, never a standalone short grid. Hold the linked basket until joint projected maker breakeven; do not reset at month/development/OOS boundaries."
+mechanism: "Accumulate passive long inventory on adverse prices, reduce common market exposure with correlated short positions, and seek maker-only joint-basket breakeven exit; eligible maker activity, not standalone PnL, is the intended reward proxy."
+falsifier: "Long inventory fails to close over extended history, funding overwhelms price path, passive hedge fails to fill, or $200 risk threshold stops strategy before sustainable volume."
+portfolio:
+  research_margin_usdc: 600.0
+  leverage_limit: 10.0
+  max_gross_notional_usdc: 6000.0
+  long_levels: 20
+  long_clip_usdc: 100.0
+  long_max_plus_pending_usdc: 2000.0
+  short_type: "hedge_only_after_long_fill"
+  hedge_clips_usdc: 100.0
+  max_short_plus_pending_usdc: 2000.0
+  peak_to_trough_and_starting_loss_stop_usdc: 200.0
+  global_live_limit: "not modified, standalone simulation cannot override existing account-wide risk rules"
+  preserve_positions_through_calendar_boundaries: true
+  no_forced_end_liquidation: true
+datasets:
+  - id: hyperliquid_hip3
+    path: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_HYPERLIQUID_XYZ_PERP
+    logical_long: SP500
+    logical_short: XYZ100
+    exact_contracts: ["Hyperliquid XYZ:SP500", "Hyperliquid XYZ:XYZ100"]
+    calibration_end_exclusive: "2026-05-01T00:00:00+00:00"
+    trading_start: "2026-05-01T00:00:00+00:00"
+    trading_end_exclusive: "2026-10-09T00:00:00+00:00"
+    price_tick: 0.1
+    price_ticks_by_leg: {SP500: 0.1, XYZ100: 1.0}
+    quantity_steps_by_leg: {SP500: 0.001, XYZ100: 0.0001}
+    minimum_notional_usdc: 10.0
+  - id: lighter_spy_qqq
+    path: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP
+    logical_long: SPY
+    logical_short: QQQ
+    exact_contracts: ["Lighter SPY/USDC:USDC", "Lighter QQQ/USDC:USDC"]
+    calibration_end_exclusive: "2026-02-22T00:00:00+00:00"
+    trading_start: "2026-02-22T00:00:00+00:00"
+    trading_end_exclusive: "2026-10-09T07:39:00+00:00"
+    price_tick: 0.01
+    price_ticks_by_leg: {SP500: 0.01, XYZ100: 0.01}
+    quantity_steps_by_leg: {SP500: 0.0001, XYZ100: 0.0001}
+    minimum_notional_usdc: 10.0
+    comparability_caveat: "A different synthetic ETF perpetual market, not a continuous history of Hyperliquid index contracts."
+execution:
+  engine: "installed ml4t.backtest.Engine NEXT_BAR limit model"
+  baseline_maker_fee_bps: 0.0
+  participation_fraction_of_total_1m_volume: 0.1
+  penetration_ticks: 1
+  emergency_taker_cost_bps: 4.25
+  funding_scenarios_bps_per_day_on_gross: [0.0, 5.0]
+  no_queue_claim: true
+  no_end_of_sample_liquidation: true
+acceptance:
+  - "20 anchored $100 LONG limit levels; SHORT may not exist until LONG fill"
+  - "Only a linked paired basket, no independently resetting SHORT grid"
+  - "Continuous 160+ / 220+ day studies with no month/phase account reset"
+  - "Exit at modeled linked net breakeven, forced stop excluded from clean cycle"
+  - "Record incomplete inventory and its age even when no exit occurs"
+  - "Record qualifying maker candidates vs actual unobservable fills"
+  - "Never modify live Arcus account or controller"

@@ -1,0 +1,65 @@
+{
+  "manifest_version": 1,
+  "purpose": "Pre-outcome funding settlement mark inputs for crypto_tsmom_flow_increment_20261008_v4",
+  "created_date": "2026-10-08",
+  "source": {
+    "provider": "Binance USD-M Futures",
+    "endpoint": "GET https://fapi.binance.com/fapi/v1/markPriceKlines",
+    "documentation": "https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data",
+    "interval": "1h",
+    "field": "open",
+    "range_start_inclusive_utc": "2021-01-01T00:00:00Z",
+    "range_end_exclusive_utc": "2026-08-01T00:00:00Z",
+    "fetch_limit_per_request": 1500,
+    "funding_history_note": "The historical /fapi/v1/fundingRate response returned an empty markPrice for the sampled 2021 settlement. Settlement marks therefore use the documented markPriceKlines endpoint."
+  },
+  "construction": {
+    "method": "For each funding event, join the Binance 1h mark-price candle whose open timestamp equals the event timestamp truncated to the UTC hour. Store the candle open as mark_price, plus the source bar timestamp and event-to-mark offset.",
+    "lookahead_policy": "Use only the candle open at the settlement hour. This mark observation precedes the funding event by 0-47 milliseconds in the audited inputs.",
+    "limitation": "mark_price is the hourly mark-candle open, not the exact exchange settlement transaction mark. Binance states that actual funding transaction timing can deviate by up to 15 seconds."
+  },
+  "coverage": {
+    "common_mark_bars_per_symbol": 48912,
+    "symbols": {
+      "BTCUSDT": {
+        "funding_events": 6114,
+        "matched_events": 6114,
+        "missing_marks": 0,
+        "mark_api_pages": 33,
+        "mark_age_ms_min": 0,
+        "mark_age_ms_max": 47,
+        "output": {
+          "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/btcusdt_funding.parquet",
+          "sha256": "750fd743783bc0285cde779d9c1573e12bf31b3c2f5a53b97e782ebcb8585a1a",
+          "size_bytes": 109849
+        }
+      },
+      "ETHUSDT": {
+        "funding_events": 6114,
+        "matched_events": 6114,
+        "missing_marks": 0,
+        "mark_api_pages": 33,
+        "mark_age_ms_min": 0,
+        "mark_age_ms_max": 47,
+        "output": {
+          "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/ethusdt_funding.parquet",
+          "sha256": "ee1864a96892c708b4ed6cb784b13373b22015335d77412fab48fce226231c23",
+          "size_bytes": 110798
+        }
+      },
+      "SOLUSDT": {
+        "funding_events": 6189,
+        "matched_events": 6189,
+        "missing_marks": 0,
+        "mark_api_pages": 33,
+        "mark_age_ms_min": 0,
+        "mark_age_ms_max": 47,
+        "output": {
+          "path": "data/processed/crypto_tsmom_flow_inputs_20261008_v4/solusdt_funding.parquet",
+          "sha256": "c2972b2be8ae998f2789d9da973e8d3144934f4605111fcb287b9209077a9137",
+          "size_bytes": 113678
+        }
+      }
+    }
+  }
+}

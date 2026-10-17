@@ -1,0 +1,78 @@
+{
+  "session": "crypto_xs_plain_funding_phase4_20261015_v1",
+  "verified_decision": "REJECT",
+  "base": {
+    "final_equity": 1681152.456703369,
+    "total_return": 15.81152456703369,
+    "commission": 221576.16841986022,
+    "slippage": 177261.10024360937,
+    "funding": 945566.4683834733,
+    "risk": {
+      "daily_sharpe": 2.1696331500876114,
+      "max_drawdown": -0.35346805100344236
+    },
+    "checks": {
+      "final_equity_matches": true,
+      "return_matches": true,
+      "commission_matches": true,
+      "slippage_matches": true,
+      "funding_matches": true,
+      "sharpe_matches": true,
+      "max_dd_matches": true,
+      "protected_boundary_respected": true
+    }
+  },
+  "double_cost": {
+    "final_equity": 901661.7584692815,
+    "total_return": 8.016617584692815,
+    "commission": 302201.3952293301,
+    "slippage": 241761.5876012878,
+    "funding": 609034.3918398814,
+    "risk": {
+      "daily_sharpe": 1.7322889361936982,
+      "max_drawdown": -0.380539029616885
+    },
+    "checks": {
+      "final_equity_matches": true,
+      "return_matches": true,
+      "commission_matches": true,
+      "slippage_matches": true,
+      "funding_matches": true,
+      "sharpe_matches": true,
+      "max_dd_matches": true,
+      "protected_boundary_respected": true
+    }
+  },
+  "no_funding": {
+    "final_equity": 450049.34046375984,
+    "total_return": 3.5004934046375986,
+    "commission": 110155.49115159977,
+    "slippage": 88124.48065396979,
+    "funding": 0.0,
+    "risk": {
+      "daily_sharpe": 1.2575847091203287,
+      "max_drawdown": -0.4236747894809082
+    },
+    "checks": {
+      "final_equity_matches": true,
+      "return_matches": true,
+      "commission_matches": true,
+      "slippage_matches": true,
+      "funding_matches": true,
+      "sharpe_matches": true,
+      "max_dd_matches": true,
+      "protected_boundary_respected": true
+    }
+  },
+  "mark_sensitivity": {
+    "primary_event_minute_open_funding_usdt": 945566.4683834733,
+    "prior_minute_close_funding_usdt": 945594.9663013268,
+    "difference_usdt": 28.49791785341222,
+    "relative_difference": 3.013846070709647e-05,
+    "same_sign": true,
+    "events": 39971
+  },
+  "gate_reasons": [
+    "base-cost max drawdown breaches frozen threshold"
+  ]
+}

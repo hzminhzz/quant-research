@@ -1,0 +1,73 @@
+{
+  "session_id": "metals_dual_grid_mvp_20261010",
+  "status": "EXPLORATORY_NOT_APPROVED",
+  "primary_metric": "completed_maker_volume_usdc_per_max_drawdown_usdc",
+  "arms": [
+    {
+      "arm": "A",
+      "elapsed_seconds": 610.32,
+      "bars_per_symbol": 165348,
+      "maker_fill_notional_usdc": 381149.2924,
+      "completed_maker_volume_usdc": 380052.9251,
+      "maker_volume_per_max_drawdown": 1869.0041,
+      "completed_grid_cycles": 1908,
+      "net_mark_to_market_pnl_usdc": -199.5002,
+      "max_drawdown_usdc": 203.3452,
+      "max_gross_plus_reserved_usdc": 4146.5191,
+      "ending_inventory_notional_usdc": {
+        "XAU": 0.0,
+        "XAG": 0.0
+      },
+      "unfinished_inventory_usdc": 0.0,
+      "emergency_taker_notional_usdc": 897.2484,
+      "emergency_exit_cost_usdc": 0.3813,
+      "rejected_emergency_orders": 0,
+      "risk_halted": true,
+      "risk_halt_bar": 21340,
+      "volume_gate_ambiguities": 21,
+      "volume_gate_max_overshoot": 0.0,
+      "maker_volume_fraction_completed": 0.997124,
+      "unfilled_emergency_orders": 0,
+      "terminal_inventory_mark_only": true
+    },
+    {
+      "arm": "B",
+      "elapsed_seconds": 1606.65,
+      "bars_per_symbol": 165348,
+      "maker_fill_notional_usdc": 364633.5208,
+      "completed_maker_volume_usdc": 363537.1535,
+      "maker_volume_per_max_drawdown": 1804.8833,
+      "completed_grid_cycles": 1825,
+      "net_mark_to_market_pnl_usdc": -195.5086,
+      "max_drawdown_usdc": 201.4186,
+      "max_gross_plus_reserved_usdc": 4136.7999,
+      "ending_inventory_notional_usdc": {
+        "XAU": 0.0,
+        "XAG": 0.0
+      },
+      "unfinished_inventory_usdc": 0.0,
+      "emergency_taker_notional_usdc": 901.2417,
+      "emergency_exit_cost_usdc": 0.3830,
+      "rejected_emergency_orders": 0,
+      "risk_halted": true,
+      "risk_halt_bar": 21339,
+      "volume_gate_ambiguities": 5,
+      "volume_gate_max_overshoot": 2.220446049250313e-16,
+      "maker_volume_fraction_completed": 0.996993,
+      "unfilled_emergency_orders": 0,
+      "terminal_inventory_mark_only": true
+    }
+  ],
+  "comparison": {
+    "B_minus_A_primary_metric": -64.1208,
+    "primary_metric_winner": "A"
+  },
+  "post_run_metric_derivation": "emergency_exit_cost_usdc was calculated from the recorded emergency_taker_notional_usdc using the frozen 4.25 bps fee-plus-slippage rate, then rounded to four decimals. Net P&L already includes the exact strategy cost.",
+  "limitations": [
+    "Historical OHLCV touch fills do not model queue position or passive fill probability.",
+    "Funding history was unavailable and excluded.",
+    "The full period was previously inspected in related Lighter grid studies; this is not an untouched holdout.",
+    "Ending inventory is marked, not liquidated; emergency costs apply only to actual risk-stop market fills.",
+    "Per-lot breakeven exits create no planned gross price profit; results screen volume generation and inventory risk, not strategy profitability."
+  ]
+}

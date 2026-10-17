@@ -1,0 +1,65 @@
+# Exploratory preregistration. These parameters are fixed before strategy results.
+session_id: lighter_spy_qqq_pair_grid_20261009
+status: EXPLORATORY_NOT_APPROVED
+thesis: "A matched long-SPY/short-QQQ grid, especially one triggered by relative spread, reduces trend-risk losses versus a solo one-sided grid after costs."
+mechanism: "Correlated markets share a market component, while temporary relative mispricings may revert."
+falsifier: "Reject if hedged grid has no smaller downside than solo/independent after fixed friction, or if persistent spread divergence dominates."
+source:
+  provider: Lighter via CCXT 4.5.85
+  universe: [SPY/USDC:USDC, QQQ/USDC:USDC]
+  timeframe: 1m
+  data_root: /home/quant/dev/quant/ml4t-data/.data/store/crypto_futures_ohlcv_1m_LIGHTER_USDC_PERP
+  first_available_utc: "2026-01-22T16:00:00Z"
+  last_downloaded_utc: "2026-10-09T07:38:00Z"
+evaluation:
+  calibration_end_exclusive: "2026-02-22T00:00:00Z"
+  development_start: "2026-02-22T00:00:00Z"
+  development_end_exclusive: "2026-08-01T00:00:00Z"
+  test_start: "2026-08-01T00:00:00Z"
+  test_end_exclusive: "2026-10-09T07:39:00Z"
+  no_train_test_tuning: true
+  beta: "OLS SPY-on-QQQ hourly log returns using calibration only; freeze thereafter"
+  spread: "log(SPY) minus beta times log(QQQ)"
+  spread_zscore_lookback_minutes: 10080
+  signals_lag_bars: 1
+baseline:
+  solo: "Long SPY DCA grid, 3 x $200 maximum inventory"
+  independent: "Separate SPY-long and QQQ-short DCA grids, each 3 x $100"
+  paired: "Spread z-score grid with synchronized SPY/QQQ opposing positions, 3 x $200 gross pair notional"
+execution:
+  engine: ml4t.backtest.Engine
+  execution_mode: NEXT_BAR
+  order_type: MARKET
+  initial_cash_usdc: 1000.0
+  max_gross_notional_usdc: 600.0
+  base_gross_notional_per_level: 200.0
+  independent_leg_notional_per_level: 100.0
+  max_levels: 3
+  grid_step_fraction: 0.005
+  take_profit_fraction: 0.002
+  min_add_interval_bars: 10
+  zscore_entry: 1.5
+  zscore_add_step: 0.5
+  zscore_exit: 0.25
+  zscore_stop: 3.5
+  max_pair_hold_minutes: 10080
+  max_drawdown_usdc: 50.0
+  allow_short_selling: true
+  allow_leverage: true
+  fractional_quantities: true
+costs:
+  commission_bps_per_fill: 2.0
+  slippage_bps_per_fill: 2.0
+  note: "Stress assumption, NOT venue-verified spread or Arcus fee. No funding, maker queue, or fill probability modeling."
+assumptions:
+  - "Trades simulated as market orders on next-bar open; no claim of maker fills."
+  - "Zero-volume candles are retained as supplied; empty-minute maker orders cannot be inferred."
+  - "Mark-to-market of remaining open inventory; no liquidation model."
+  - "Fixed warmup beta cannot adapt to subsequent beta drift."
+  - "Two-leg orders are not atomic in the underlying market."
+trials: [solo, independent, paired]
+posthoc_robustness:
+  added_after_initial_oos_results: true
+  purpose: "Diagnose sensitivity of the unchanged rules to execution friction; nonconfirmatory, not parameter tuning"
+  total_cost_bps_per_fill: [0.0, 8.0]
+decision: "EXPLORATORY only; deploy nothing; compare both development and untouched chronological test and document costs/gaps."

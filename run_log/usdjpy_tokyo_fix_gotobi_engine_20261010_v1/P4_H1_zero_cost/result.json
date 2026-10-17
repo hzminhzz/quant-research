@@ -1,0 +1,1051 @@
+{
+  "status": "PASS_IMPLEMENTATION",
+  "arm": "H1",
+  "costed": false,
+  "engine": "ml4t.backtest.Engine (native NEXT_BAR OPEN)",
+  "accounting": "JPY quote-value proxy, not retail USD account",
+  "source_sha256": "5c6ff1bc3cff0a69e1bb22565249fd8dbe03441fb3363edb510c939841685028",
+  "n_eligible_days": 49,
+  "native_feed_rows": 7399,
+  "fixed_usd_base_units": 1000.0,
+  "slippage_fixed_jpy_per_side": 0.0,
+  "submitted_orders": 98,
+  "filled_orders": 98,
+  "engine_metrics": {
+    "initial_cash": "1000000.0",
+    "final_value": "1001510.5",
+    "total_return": "0.0015104999999999702",
+    "total_return_pct": "0.15104999999999702",
+    "max_drawdown": "0.001609243366113847",
+    "max_drawdown_pct": "0.1609243366113847",
+    "num_trades": "49",
+    "winning_trades": "27",
+    "losing_trades": "22",
+    "win_rate": "0.5510204081632653",
+    "total_commission": "0.0",
+    "total_slippage": "0.0",
+    "sharpe": "0.23558413016004937",
+    "sortino": "0.23731796991163906",
+    "calmar": "1.4404470717080795",
+    "cagr": "0.0023180298943843436",
+    "volatility": "0.00021834056682259917",
+    "profit_factor": "1.527409217877095",
+    "expectancy": "0.00019791305004932468",
+    "avg_trade": "0.00019791305004932466",
+    "avg_win": "0.0010262029117542207",
+    "avg_loss": "-0.000818624507497593",
+    "largest_win": "0.004807535075383547",
+    "largest_loss": "-0.0026425883356788935",
+    "payoff_ratio": "1.253569740895203",
+    "total_gross_pnl": "1510.5000000000643",
+    "total_costs": "0.0",
+    "avg_cost_drag": "0.0",
+    "gross_profit_factor": "1.527409217877117",
+    "skipped_bars": "0",
+    "num_orders": "98",
+    "num_rejected_orders": "0",
+    "num_fills": "98",
+    "num_rebalance_events": "98",
+    "unique_symbols_traded": "1",
+    "total_filled_notional": "15572550.5",
+    "avg_turnover": "0.0021028406236944146",
+    "max_turnover": "0.16378658756211475",
+    "avg_open_positions": "0.5562913907284768",
+    "max_open_positions": "1",
+    "lifecycle_version": "1",
+    "lifecycle_callback_counts": "{'run_start': 1, 'causal_initialization': 1, 'pre_open': 0, 'opening_auction': 0, 'fill_reconciliation': 0, 'intrabar': 0, 'close': 0, 'market_event': 7399, 'run_end': 1}",
+    "lifecycle_invocations": "[]",
+    "execution_policy": "{'policy_id': 'ml4t-backtest-default-v1', 'market_fill_phase': 'opening_auction', 'opening_auction': 'client', 'close_auction': 'client', 'limit': 'client', 'stop': 'client', 'stop_limit': 'disabled', 'trailing': 'client', 'contingent': 'client', 'fee_bps': 0.0, 'slippage_bps': 0.0, 'spread_bps': 0.0, 'impact_bps': 0.0, 'latency_ms': 0.0, 'liquidity_fraction': 1.0, 'allow_partial_fills': False, 'bar_path': 'conservative', 'supported_sessions': ['regular'], 'lifecycle_version': '1'}",
+    "target_intent_count": "0",
+    "child_order_intent_count": "0",
+    "intent_reconciliation_count": "0",
+    "target_rule_reconciliation_count": "0",
+    "target_intents": "[]",
+    "child_order_intents": "[]",
+    "intent_reconciliations": "[]",
+    "target_rule_reconciliations": "[]"
+  },
+  "errors": [],
+  "orders": [
+    {
+      "role": "entry",
+      "session": "2026-01-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-04 23:30:00+00:00",
+      "fill_price": "156.823",
+      "order_properties": {
+        "filled_at": "2026-01-04 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-01-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-05 00:54:00+00:00",
+      "fill_price": "157.227",
+      "order_properties": {
+        "filled_at": "2026-01-05 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-01-09",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-08 23:30:00+00:00",
+      "fill_price": "156.881",
+      "order_properties": {
+        "filled_at": "2026-01-08 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-01-09",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-09 00:54:00+00:00",
+      "fill_price": "157.037",
+      "order_properties": {
+        "filled_at": "2026-01-09 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-01-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-14 23:30:00+00:00",
+      "fill_price": "158.356",
+      "order_properties": {
+        "filled_at": "2026-01-14 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-01-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-15 00:54:00+00:00",
+      "fill_price": "158.432",
+      "order_properties": {
+        "filled_at": "2026-01-15 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-01-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-19 23:30:00+00:00",
+      "fill_price": "158.203",
+      "order_properties": {
+        "filled_at": "2026-01-19 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-01-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-20 00:54:00+00:00",
+      "fill_price": "158.187",
+      "order_properties": {
+        "filled_at": "2026-01-20 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-01-23",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-22 23:30:00+00:00",
+      "fill_price": "158.403",
+      "order_properties": {
+        "filled_at": "2026-01-22 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-01-23",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-23 00:54:00+00:00",
+      "fill_price": "158.523",
+      "order_properties": {
+        "filled_at": "2026-01-23 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-01-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-29 23:30:00+00:00",
+      "fill_price": "152.885",
+      "order_properties": {
+        "filled_at": "2026-01-29 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-01-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-01-30 00:54:00+00:00",
+      "fill_price": "153.62",
+      "order_properties": {
+        "filled_at": "2026-01-30 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-02-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-04 23:30:00+00:00",
+      "fill_price": "156.842",
+      "order_properties": {
+        "filled_at": "2026-02-04 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-02-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-05 00:54:00+00:00",
+      "fill_price": "156.783",
+      "order_properties": {
+        "filled_at": "2026-02-05 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-02-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-09 23:30:00+00:00",
+      "fill_price": "156.059",
+      "order_properties": {
+        "filled_at": "2026-02-09 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-02-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-10 00:54:00+00:00",
+      "fill_price": "156.189",
+      "order_properties": {
+        "filled_at": "2026-02-10 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-02-13",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-12 23:30:00+00:00",
+      "fill_price": "152.845",
+      "order_properties": {
+        "filled_at": "2026-02-12 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-02-13",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-13 00:54:00+00:00",
+      "fill_price": "152.743",
+      "order_properties": {
+        "filled_at": "2026-02-13 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-02-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-19 23:30:00+00:00",
+      "fill_price": "154.943",
+      "order_properties": {
+        "filled_at": "2026-02-19 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-02-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-20 00:54:00+00:00",
+      "fill_price": "154.996",
+      "order_properties": {
+        "filled_at": "2026-02-20 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-02-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-24 23:30:00+00:00",
+      "fill_price": "155.856",
+      "order_properties": {
+        "filled_at": "2026-02-24 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-02-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-25 00:54:00+00:00",
+      "fill_price": "155.783",
+      "order_properties": {
+        "filled_at": "2026-02-25 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-02-27",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-26 23:30:00+00:00",
+      "fill_price": "155.952",
+      "order_properties": {
+        "filled_at": "2026-02-26 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-02-27",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-02-27 00:54:00+00:00",
+      "fill_price": "155.845",
+      "order_properties": {
+        "filled_at": "2026-02-27 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-04 23:30:00+00:00",
+      "fill_price": "157.043",
+      "order_properties": {
+        "filled_at": "2026-03-04 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-05 00:54:00+00:00",
+      "fill_price": "156.628",
+      "order_properties": {
+        "filled_at": "2026-03-05 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-09 23:30:00+00:00",
+      "fill_price": "157.801",
+      "order_properties": {
+        "filled_at": "2026-03-09 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-10 00:54:00+00:00",
+      "fill_price": "157.698",
+      "order_properties": {
+        "filled_at": "2026-03-10 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-13",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-12 23:30:00+00:00",
+      "fill_price": "159.313",
+      "order_properties": {
+        "filled_at": "2026-03-12 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-13",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-13 00:54:00+00:00",
+      "fill_price": "159.214",
+      "order_properties": {
+        "filled_at": "2026-03-13 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-19",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-18 23:30:00+00:00",
+      "fill_price": "159.751",
+      "order_properties": {
+        "filled_at": "2026-03-18 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-19",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-19 00:54:00+00:00",
+      "fill_price": "159.735",
+      "order_properties": {
+        "filled_at": "2026-03-19 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-24 23:30:00+00:00",
+      "fill_price": "158.671",
+      "order_properties": {
+        "filled_at": "2026-03-24 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-25 00:54:00+00:00",
+      "fill_price": "158.607",
+      "order_properties": {
+        "filled_at": "2026-03-25 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-29 23:30:00+00:00",
+      "fill_price": "160.349",
+      "order_properties": {
+        "filled_at": "2026-03-29 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-30 00:54:00+00:00",
+      "fill_price": "159.975",
+      "order_properties": {
+        "filled_at": "2026-03-30 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-03-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-30 23:30:00+00:00",
+      "fill_price": "159.832",
+      "order_properties": {
+        "filled_at": "2026-03-30 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-03-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-03-31 00:54:00+00:00",
+      "fill_price": "159.778",
+      "order_properties": {
+        "filled_at": "2026-03-31 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-04-03",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-02 23:30:00+00:00",
+      "fill_price": "159.518",
+      "order_properties": {
+        "filled_at": "2026-04-02 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-04-03",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-03 00:54:00+00:00",
+      "fill_price": "159.573",
+      "order_properties": {
+        "filled_at": "2026-04-03 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-04-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-09 23:30:00+00:00",
+      "fill_price": "159.075",
+      "order_properties": {
+        "filled_at": "2026-04-09 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-04-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-10 00:54:00+00:00",
+      "fill_price": "159.211",
+      "order_properties": {
+        "filled_at": "2026-04-10 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-04-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-14 23:30:00+00:00",
+      "fill_price": "158.831",
+      "order_properties": {
+        "filled_at": "2026-04-14 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-04-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-15 00:54:00+00:00",
+      "fill_price": "158.858",
+      "order_properties": {
+        "filled_at": "2026-04-15 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-04-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-19 23:30:00+00:00",
+      "fill_price": "159.093",
+      "order_properties": {
+        "filled_at": "2026-04-19 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-04-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-20 00:54:00+00:00",
+      "fill_price": "158.911",
+      "order_properties": {
+        "filled_at": "2026-04-20 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-04-24",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-23 23:30:00+00:00",
+      "fill_price": "159.713",
+      "order_properties": {
+        "filled_at": "2026-04-23 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-04-24",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-24 00:54:00+00:00",
+      "fill_price": "159.796",
+      "order_properties": {
+        "filled_at": "2026-04-24 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-04-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-29 23:30:00+00:00",
+      "fill_price": "160.26",
+      "order_properties": {
+        "filled_at": "2026-04-29 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-04-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-30 00:54:00+00:00",
+      "fill_price": "160.23",
+      "order_properties": {
+        "filled_at": "2026-04-30 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-05-01",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-04-30 23:30:00+00:00",
+      "fill_price": "156.702",
+      "order_properties": {
+        "filled_at": "2026-04-30 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-01",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-01 00:54:00+00:00",
+      "fill_price": "157.11",
+      "order_properties": {
+        "filled_at": "2026-05-01 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-05-08",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-07 23:30:00+00:00",
+      "fill_price": "156.905",
+      "order_properties": {
+        "filled_at": "2026-05-07 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-08",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-08 00:54:00+00:00",
+      "fill_price": "156.963",
+      "order_properties": {
+        "filled_at": "2026-05-08 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-05-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-14 23:30:00+00:00",
+      "fill_price": "158.413",
+      "order_properties": {
+        "filled_at": "2026-05-14 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-15 00:54:00+00:00",
+      "fill_price": "158.4975",
+      "order_properties": {
+        "filled_at": "2026-05-15 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-05-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-19 23:30:00+00:00",
+      "fill_price": "159.026",
+      "order_properties": {
+        "filled_at": "2026-05-19 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-20 00:54:00+00:00",
+      "fill_price": "158.985",
+      "order_properties": {
+        "filled_at": "2026-05-20 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-05-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-24 23:30:00+00:00",
+      "fill_price": "158.874",
+      "order_properties": {
+        "filled_at": "2026-05-24 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-25 00:54:00+00:00",
+      "fill_price": "158.838",
+      "order_properties": {
+        "filled_at": "2026-05-25 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-05-29",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-28 23:30:00+00:00",
+      "fill_price": "159.231",
+      "order_properties": {
+        "filled_at": "2026-05-28 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-05-29",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-05-29 00:54:00+00:00",
+      "fill_price": "159.276",
+      "order_properties": {
+        "filled_at": "2026-05-29 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-09 23:30:00+00:00",
+      "fill_price": "160.407",
+      "order_properties": {
+        "filled_at": "2026-06-09 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-10 00:54:00+00:00",
+      "fill_price": "160.414",
+      "order_properties": {
+        "filled_at": "2026-06-10 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-14 23:30:00+00:00",
+      "fill_price": "159.942",
+      "order_properties": {
+        "filled_at": "2026-06-14 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-15 00:54:00+00:00",
+      "fill_price": "160.088",
+      "order_properties": {
+        "filled_at": "2026-06-15 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-19",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-18 23:30:00+00:00",
+      "fill_price": "161.322",
+      "order_properties": {
+        "filled_at": "2026-06-18 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-19",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-19 00:54:00+00:00",
+      "fill_price": "161.126",
+      "order_properties": {
+        "filled_at": "2026-06-19 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-24 23:30:00+00:00",
+      "fill_price": "161.774",
+      "order_properties": {
+        "filled_at": "2026-06-24 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-25 00:54:00+00:00",
+      "fill_price": "161.701",
+      "order_properties": {
+        "filled_at": "2026-06-25 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-06-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-29 23:30:00+00:00",
+      "fill_price": "161.915",
+      "order_properties": {
+        "filled_at": "2026-06-29 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-06-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-06-30 00:54:00+00:00",
+      "fill_price": "162.204",
+      "order_properties": {
+        "filled_at": "2026-06-30 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-03",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-02 23:30:00+00:00",
+      "fill_price": "161.254",
+      "order_properties": {
+        "filled_at": "2026-07-02 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-03",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-03 00:54:00+00:00",
+      "fill_price": "161.319",
+      "order_properties": {
+        "filled_at": "2026-07-03 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-09 23:30:00+00:00",
+      "fill_price": "162.375",
+      "order_properties": {
+        "filled_at": "2026-07-09 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-10 00:54:00+00:00",
+      "fill_price": "162.055",
+      "order_properties": {
+        "filled_at": "2026-07-10 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-14 23:30:00+00:00",
+      "fill_price": "162.19",
+      "order_properties": {
+        "filled_at": "2026-07-14 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-15",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-15 00:54:00+00:00",
+      "fill_price": "162.131",
+      "order_properties": {
+        "filled_at": "2026-07-15 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-17",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-16 23:30:00+00:00",
+      "fill_price": "162.336",
+      "order_properties": {
+        "filled_at": "2026-07-16 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-17",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-17 00:54:00+00:00",
+      "fill_price": "162.431",
+      "order_properties": {
+        "filled_at": "2026-07-17 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-24",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-23 23:30:00+00:00",
+      "fill_price": "163.813",
+      "order_properties": {
+        "filled_at": "2026-07-23 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-24",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-24 00:54:00+00:00",
+      "fill_price": "163.929",
+      "order_properties": {
+        "filled_at": "2026-07-24 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-29 23:30:00+00:00",
+      "fill_price": "163.362",
+      "order_properties": {
+        "filled_at": "2026-07-29 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-30",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-30 00:54:00+00:00",
+      "fill_price": "163.466",
+      "order_properties": {
+        "filled_at": "2026-07-30 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-07-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-30 23:30:00+00:00",
+      "fill_price": "159.911",
+      "order_properties": {
+        "filled_at": "2026-07-30 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-07-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-07-31 00:54:00+00:00",
+      "fill_price": "160.537",
+      "order_properties": {
+        "filled_at": "2026-07-31 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-08-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-04 23:30:00+00:00",
+      "fill_price": "157.791",
+      "order_properties": {
+        "filled_at": "2026-08-04 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-08-05",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-05 00:54:00+00:00",
+      "fill_price": "157.521",
+      "order_properties": {
+        "filled_at": "2026-08-05 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-08-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-09 23:30:00+00:00",
+      "fill_price": "157.833",
+      "order_properties": {
+        "filled_at": "2026-08-09 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-08-10",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-10 00:54:00+00:00",
+      "fill_price": "157.935",
+      "order_properties": {
+        "filled_at": "2026-08-10 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-08-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-19 23:30:00+00:00",
+      "fill_price": "158.225",
+      "order_properties": {
+        "filled_at": "2026-08-19 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-08-20",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-20 00:54:00+00:00",
+      "fill_price": "158.407",
+      "order_properties": {
+        "filled_at": "2026-08-20 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-08-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-24 23:30:00+00:00",
+      "fill_price": "159.108",
+      "order_properties": {
+        "filled_at": "2026-08-24 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-08-25",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-25 00:54:00+00:00",
+      "fill_price": "159.177",
+      "order_properties": {
+        "filled_at": "2026-08-25 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-08-28",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-27 23:30:00+00:00",
+      "fill_price": "159.352",
+      "order_properties": {
+        "filled_at": "2026-08-27 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-08-28",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-28 00:54:00+00:00",
+      "fill_price": "159.355",
+      "order_properties": {
+        "filled_at": "2026-08-28 00:54:00+00:00"
+      }
+    },
+    {
+      "role": "entry",
+      "session": "2026-08-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-30 23:30:00+00:00",
+      "fill_price": "160.161",
+      "order_properties": {
+        "filled_at": "2026-08-30 23:30:00+00:00"
+      }
+    },
+    {
+      "role": "exit",
+      "session": "2026-08-31",
+      "status": "OrderStatus.FILLED",
+      "filled_at": "2026-08-31 00:54:00+00:00",
+      "fill_price": "159.986",
+      "order_properties": {
+        "filled_at": "2026-08-31 00:54:00+00:00"
+      }
+    }
+  ]
+}

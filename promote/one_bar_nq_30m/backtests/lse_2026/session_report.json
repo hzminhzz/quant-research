@@ -1,0 +1,964 @@
+{
+  "session_id": "one_bar_50breakout_20261011",
+  "status": "COMPLETED_EXPLORATORY_PROXY_WITH_EXECUTION_EXCEPTIONS",
+  "research_class": "EXPLORATORY; retrospective proxy study",
+  "rule": "50 completed 30m bars; one-contract stop entry at prior high/low; 1m trigger check; $1,000 protective stop; next 30m opening-print exit; max two filled entries per exchange trading day.",
+  "data_identity": "LSE NQ.F and ES.F minute proxy data from canonical ml4t-data store. Roll/contract semantics are unverified. These are unqualified proxy results, not CME futures results.",
+  "missing_markets": {
+    "EMD": "unavailable; no substitute",
+    "YM": "unavailable; no substitute"
+  },
+  "protected_boundary": "Data and outcomes restricted through 2026-07-31 UTC. Source files included only 2025 warm-up and January-July 2026 partitions. No August onward partitions were read.",
+  "native_engine_gate": {
+    "setup": "Native STOP buy 101; next candle opens 100 and trades to 102; following candle opens 101.5.",
+    "results": {
+      "next_bar": [
+        {
+          "timestamp": "2026-01-01T00:01:00+00:00",
+          "price": 101.0,
+          "type": "stop"
+        },
+        {
+          "timestamp": "2026-01-01T00:02:00+00:00",
+          "price": 101.5,
+          "type": "market"
+        }
+      ],
+      "same_bar": [
+        {
+          "timestamp": "2026-01-01T00:01:00+00:00",
+          "price": 101.0,
+          "type": "stop"
+        },
+        {
+          "timestamp": "2026-01-01T00:01:00+00:00",
+          "price": 100.0,
+          "type": "market"
+        }
+      ]
+    },
+    "finding": "NEXT_BAR fills the STOP when the next 1m candle high crosses 101, then fills the market exit at the following 1m open (101.5). This supports the intended native stop-entry and scheduled-open exit sequence.",
+    "exact_strategy_supported": true,
+    "remaining_ambiguity": "A 1m candle can contain both entry trigger and protective-stop prices. OHLC does not reveal their intraminute order; those cases are counted and retained as ambiguous."
+  },
+  "diagnostics": [
+    {
+      "asset": "NQ.F",
+      "symbol": "NQ.F",
+      "source_identity": {
+        "store": "/home/quant/dev/quant/ml4t-data/.data/store/lse_futures_minute_NQ",
+        "files": 11,
+        "sha256_all_partition_bytes": "a184291d1ce3b066562d2e40d1e709bf2c99d75dc7db824dc14d8f086b451a1d"
+      },
+      "period": {
+        "start_inclusive": "2026-01-01",
+        "end_inclusive": "2026-07-31"
+      },
+      "bar_alignment": "CME Globex 17:00 America/Chicago session date; 30-minute local-wall-clock bars; require 30 source minutes per bar.",
+      "bars_with_50_prior_complete_bars": 6810,
+      "long_stop_touched": 640,
+      "short_stop_touched": 469,
+      "both_sides_touched_same_30m_bar": 1,
+      "both_sides_touched_same_1m_candle": 0,
+      "long_open_at_or_above_stop_bars": 532,
+      "short_open_at_or_below_stop_bars": 399,
+      "ohlc_checks": {
+        "bad_ohlc_rows": 0,
+        "duplicate_timestamps": 0,
+        "zero_volume_rows": 0
+      },
+      "price_performance_metrics": null,
+      "price_performance_reason": "Not computed. The installed native Engine cannot represent intraminute stop entry and next-30m-open exit in one run mode. This is a signal/trigger diagnostic, not a simulated trade ledger."
+    },
+    {
+      "asset": "ES.F",
+      "symbol": "ES.F",
+      "source_identity": {
+        "store": "/home/quant/dev/quant/ml4t-data/.data/store/lse_futures_minute_ES",
+        "files": 11,
+        "sha256_all_partition_bytes": "c66e279f85702c899608762eed2c13831ef494b43b8f913c153ecd6e22003ca0"
+      },
+      "period": {
+        "start_inclusive": "2026-01-01",
+        "end_inclusive": "2026-07-31"
+      },
+      "bar_alignment": "CME Globex 17:00 America/Chicago session date; 30-minute local-wall-clock bars; require 30 source minutes per bar.",
+      "bars_with_50_prior_complete_bars": 6819,
+      "long_stop_touched": 620,
+      "short_stop_touched": 441,
+      "both_sides_touched_same_30m_bar": 1,
+      "both_sides_touched_same_1m_candle": 0,
+      "long_open_at_or_above_stop_bars": 519,
+      "short_open_at_or_below_stop_bars": 370,
+      "ohlc_checks": {
+        "bad_ohlc_rows": 0,
+        "duplicate_timestamps": 0,
+        "zero_volume_rows": 0
+      },
+      "price_performance_metrics": null,
+      "price_performance_reason": "Not computed. The installed native Engine cannot represent intraminute stop entry and next-30m-open exit in one run mode. This is a signal/trigger diagnostic, not a simulated trade ledger."
+    }
+  ],
+  "backtests": [
+    {
+      "asset": "NQ.F",
+      "trial": "zero_cost",
+      "metrics": {
+        "initial_cash": 1000000.0,
+        "final_value": 1002871.0,
+        "total_return": 0.002871000000000068,
+        "total_return_pct": 0.2871000000000068,
+        "max_drawdown": 0.014957286011291863,
+        "max_drawdown_pct": 1.4957286011291864,
+        "num_trades": 278,
+        "winning_trades": 130,
+        "losing_trades": 146,
+        "win_rate": 0.4676258992805755,
+        "total_commission": 0.0,
+        "total_slippage": 0.0,
+        "sharpe": 0.005481363222568264,
+        "sortino": 0.0008956742499499144,
+        "calmar": 0.22200036078152827,
+        "cagr": 0.0033205228908192996,
+        "volatility": 0.00044994347142409536,
+        "profit_factor": 1.0340448239060804,
+        "expectancy": 1.6541410808009155e-05,
+        "avg_trade": 2.4237721678801563e-05,
+        "avg_win": 0.0012532847649120464,
+        "avg_loss": -0.0010697872110401315,
+        "largest_win": 0.007592417533210607,
+        "largest_loss": -0.00349239026542166,
+        "payoff_ratio": 1.1715271522955524,
+        "total_gross_pnl": 2870.999999999767,
+        "total_costs": 0.0,
+        "avg_cost_drag": 0.0,
+        "gross_profit_factor": 1.0340448239060804,
+        "skipped_bars": 0,
+        "num_orders": 7403,
+        "num_rejected_orders": 0,
+        "num_fills": 556,
+        "num_rebalance_events": 556,
+        "unique_symbols_traded": 1,
+        "total_filled_notional": 301704579.0,
+        "avg_turnover": 0.000981728418861652,
+        "max_turnover": 0.6123212060062913,
+        "avg_open_positions": 0.014535074050309689,
+        "max_open_positions": 1,
+        "lifecycle_version": "1",
+        "lifecycle_callback_counts": {
+          "run_start": 1,
+          "causal_initialization": 1,
+          "pre_open": 0,
+          "opening_auction": 0,
+          "fill_reconciliation": 0,
+          "intrabar": 0,
+          "close": 0,
+          "market_event": 305468,
+          "run_end": 1
+        },
+        "lifecycle_invocations": [],
+        "execution_policy": {
+          "policy_id": "ml4t-backtest-default-v1",
+          "market_fill_phase": "opening_auction",
+          "opening_auction": "client",
+          "close_auction": "client",
+          "limit": "client",
+          "stop": "client",
+          "stop_limit": "disabled",
+          "trailing": "client",
+          "contingent": "client",
+          "fee_bps": 0.0,
+          "slippage_bps": 0.0,
+          "spread_bps": 0.0,
+          "impact_bps": 0.0,
+          "latency_ms": 0.0,
+          "liquidity_fraction": 1.0,
+          "allow_partial_fills": false,
+          "bar_path": "conservative",
+          "supported_sessions": [
+            "regular"
+          ],
+          "lifecycle_version": "1"
+        },
+        "target_intent_count": 0,
+        "child_order_intent_count": 0,
+        "intent_reconciliation_count": 0,
+        "target_rule_reconciliation_count": 0,
+        "target_intents": [],
+        "child_order_intents": [],
+        "intent_reconciliations": [],
+        "target_rule_reconciliations": [],
+        "daily_equity_sharpe": 0.23213042279697402,
+        "daily_equity_max_drawdown": 0.013684179392887776,
+        "average_net_pnl_usd": 10.327338129495566,
+        "trade_count_closed": 278,
+        "max_hold_minutes": 41,
+        "late_next_bar_open_exits": 1,
+        "native_stop_exit_fills": 59,
+        "gap_through_stop_fills": 337,
+        "gross_profit_positive": true,
+        "net_profit_positive": true,
+        "entries_per_exchange_day_max": 2,
+        "same_1m_entry_and_stop_ambiguities": 18,
+        "ambiguous_samples": [
+          {
+            "timestamp": "2026-02-05T14:30:00+00:00",
+            "side": "short",
+            "entry": 24707.25,
+            "stop": 24757.25
+          },
+          {
+            "timestamp": "2026-03-01T23:00:00+00:00",
+            "side": "short",
+            "entry": 24682.5,
+            "stop": 24732.5
+          },
+          {
+            "timestamp": "2026-03-06T13:30:00+00:00",
+            "side": "short",
+            "entry": 24772.25,
+            "stop": 24822.25
+          },
+          {
+            "timestamp": "2026-03-15T22:00:00+00:00",
+            "side": "short",
+            "entry": 24285.0,
+            "stop": 24335.0
+          },
+          {
+            "timestamp": "2026-03-22T22:00:00+00:00",
+            "side": "short",
+            "entry": 23902.0,
+            "stop": 23952.0
+          },
+          {
+            "timestamp": "2026-03-24T20:26:00+00:00",
+            "side": "long",
+            "entry": 24536.75,
+            "stop": 24486.75
+          },
+          {
+            "timestamp": "2026-04-07T12:06:00+00:00",
+            "side": "short",
+            "entry": 24153.0,
+            "stop": 24203.0
+          },
+          {
+            "timestamp": "2026-05-06T08:50:00+00:00",
+            "side": "long",
+            "entry": 28422.25,
+            "stop": 28372.25
+          },
+          {
+            "timestamp": "2026-05-18T00:05:00+00:00",
+            "side": "short",
+            "entry": 29011.75,
+            "stop": 29061.75
+          },
+          {
+            "timestamp": "2026-05-24T22:00:00+00:00",
+            "side": "long",
+            "entry": 29749.0,
+            "stop": 29699.0
+          },
+          {
+            "timestamp": "2026-06-09T13:30:00+00:00",
+            "side": "long",
+            "entry": 29747.25,
+            "stop": 29697.25
+          },
+          {
+            "timestamp": "2026-06-10T22:00:00+00:00",
+            "side": "short",
+            "entry": 28409.0,
+            "stop": 28459.0
+          },
+          {
+            "timestamp": "2026-06-17T18:02:00+00:00",
+            "side": "short",
+            "entry": 30272.25,
+            "stop": 30322.25
+          },
+          {
+            "timestamp": "2026-06-24T13:48:00+00:00",
+            "side": "short",
+            "entry": 29577.25,
+            "stop": 29627.25
+          },
+          {
+            "timestamp": "2026-06-24T22:00:00+00:00",
+            "side": "long",
+            "entry": 30157.75,
+            "stop": 30107.75
+          },
+          {
+            "timestamp": "2026-07-09T05:11:00+00:00",
+            "side": "long",
+            "entry": 29583.0,
+            "stop": 29533.0
+          },
+          {
+            "timestamp": "2026-07-20T11:30:00+00:00",
+            "side": "long",
+            "entry": 29050.5,
+            "stop": 29000.5
+          },
+          {
+            "timestamp": "2026-07-29T22:00:00+00:00",
+            "side": "short",
+            "entry": 27202.0,
+            "stop": 27252.0
+          }
+        ],
+        "contract": {
+          "asset": "NQ.F",
+          "multiplier": 20.0,
+          "tick_size": 0.25
+        },
+        "cost_assumption": "Zero commission and slippage reference.",
+        "execution_mode": "NEXT_BAR; STOP orders test 1m high/low and fill at stop unless gap-through, which fills at open."
+      }
+    },
+    {
+      "asset": "NQ.F",
+      "trial": "cost_aware",
+      "metrics": {
+        "initial_cash": 1000000.0,
+        "final_value": 998991.0,
+        "total_return": -0.0010090000000000376,
+        "total_return_pct": -0.10090000000000376,
+        "max_drawdown": 0.01628694254383474,
+        "max_drawdown_pct": 1.628694254383474,
+        "num_trades": 278,
+        "winning_trades": 125,
+        "losing_trades": 150,
+        "win_rate": 0.44964028776978415,
+        "total_commission": 1390.0,
+        "total_slippage": 2780.0,
+        "sharpe": -0.0016216229051251095,
+        "sortino": -0.00026618550486416854,
+        "calmar": -0.07162972216038445,
+        "cagr": -0.0011666291692570274,
+        "volatility": 0.00045088642057416843,
+        "profit_factor": 0.9883048391770474,
+        "expectancy": -2.122413008881301e-05,
+        "avg_trade": 7.603922892213938e-06,
+        "avg_win": 0.0012539845389324665,
+        "avg_loss": -0.0010630612779820151,
+        "largest_win": 0.0075725913984914526,
+        "largest_loss": -0.003510803532860937,
+        "payoff_ratio": 1.1795976063702336,
+        "total_gross_pnl": 380.99999999976717,
+        "total_costs": 4170.0,
+        "avg_cost_drag": 2.7834271686838664e-05,
+        "gross_profit_factor": 1.0044548377667322,
+        "skipped_bars": 0,
+        "num_orders": 7403,
+        "num_rejected_orders": 0,
+        "num_fills": 556,
+        "num_rebalance_events": 556,
+        "unique_symbols_traded": 1,
+        "total_filled_notional": 301704469.0,
+        "avg_turnover": 0.0009837116158860982,
+        "max_turnover": 0.6141752986466643,
+        "avg_open_positions": 0.014528526719656397,
+        "max_open_positions": 1,
+        "lifecycle_version": "1",
+        "lifecycle_callback_counts": {
+          "run_start": 1,
+          "causal_initialization": 1,
+          "pre_open": 0,
+          "opening_auction": 0,
+          "fill_reconciliation": 0,
+          "intrabar": 0,
+          "close": 0,
+          "market_event": 305468,
+          "run_end": 1
+        },
+        "lifecycle_invocations": [],
+        "execution_policy": {
+          "policy_id": "ml4t-backtest-default-v1",
+          "market_fill_phase": "opening_auction",
+          "opening_auction": "client",
+          "close_auction": "client",
+          "limit": "client",
+          "stop": "client",
+          "stop_limit": "disabled",
+          "trailing": "client",
+          "contingent": "client",
+          "fee_bps": 0.0,
+          "slippage_bps": 0.0,
+          "spread_bps": 0.0,
+          "impact_bps": 0.0,
+          "latency_ms": 0.0,
+          "liquidity_fraction": 1.0,
+          "allow_partial_fills": false,
+          "bar_path": "conservative",
+          "supported_sessions": [
+            "regular"
+          ],
+          "lifecycle_version": "1"
+        },
+        "target_intent_count": 0,
+        "child_order_intent_count": 0,
+        "intent_reconciliation_count": 0,
+        "target_rule_reconciliation_count": 0,
+        "target_intents": [],
+        "child_order_intents": [],
+        "intent_reconciliations": [],
+        "target_rule_reconciliations": [],
+        "daily_equity_sharpe": -0.06970884915809188,
+        "daily_equity_max_drawdown": 0.015237478912307308,
+        "average_net_pnl_usd": -3.6294964028785355,
+        "trade_count_closed": 278,
+        "max_hold_minutes": 41,
+        "late_next_bar_open_exits": 1,
+        "native_stop_exit_fills": 59,
+        "gap_through_stop_fills": 337,
+        "gross_profit_positive": true,
+        "net_profit_positive": false,
+        "entries_per_exchange_day_max": 2,
+        "same_1m_entry_and_stop_ambiguities": 18,
+        "ambiguous_samples": [
+          {
+            "timestamp": "2026-02-05T14:30:00+00:00",
+            "side": "short",
+            "entry": 24707.0,
+            "stop": 24757.0
+          },
+          {
+            "timestamp": "2026-03-01T23:00:00+00:00",
+            "side": "short",
+            "entry": 24682.25,
+            "stop": 24732.25
+          },
+          {
+            "timestamp": "2026-03-06T13:30:00+00:00",
+            "side": "short",
+            "entry": 24772.0,
+            "stop": 24822.0
+          },
+          {
+            "timestamp": "2026-03-15T22:00:00+00:00",
+            "side": "short",
+            "entry": 24284.75,
+            "stop": 24334.75
+          },
+          {
+            "timestamp": "2026-03-22T22:00:00+00:00",
+            "side": "short",
+            "entry": 23901.75,
+            "stop": 23951.75
+          },
+          {
+            "timestamp": "2026-03-24T20:26:00+00:00",
+            "side": "long",
+            "entry": 24537.0,
+            "stop": 24487.0
+          },
+          {
+            "timestamp": "2026-04-07T12:06:00+00:00",
+            "side": "short",
+            "entry": 24152.75,
+            "stop": 24202.75
+          },
+          {
+            "timestamp": "2026-05-06T08:50:00+00:00",
+            "side": "long",
+            "entry": 28422.5,
+            "stop": 28372.5
+          },
+          {
+            "timestamp": "2026-05-18T00:05:00+00:00",
+            "side": "short",
+            "entry": 29011.5,
+            "stop": 29061.5
+          },
+          {
+            "timestamp": "2026-05-24T22:00:00+00:00",
+            "side": "long",
+            "entry": 29749.25,
+            "stop": 29699.25
+          },
+          {
+            "timestamp": "2026-06-09T13:30:00+00:00",
+            "side": "long",
+            "entry": 29747.5,
+            "stop": 29697.5
+          },
+          {
+            "timestamp": "2026-06-10T22:00:00+00:00",
+            "side": "short",
+            "entry": 28408.75,
+            "stop": 28458.75
+          },
+          {
+            "timestamp": "2026-06-17T18:02:00+00:00",
+            "side": "short",
+            "entry": 30272.0,
+            "stop": 30322.0
+          },
+          {
+            "timestamp": "2026-06-24T13:48:00+00:00",
+            "side": "short",
+            "entry": 29577.0,
+            "stop": 29627.0
+          },
+          {
+            "timestamp": "2026-06-24T22:00:00+00:00",
+            "side": "long",
+            "entry": 30158.0,
+            "stop": 30108.0
+          },
+          {
+            "timestamp": "2026-07-09T05:11:00+00:00",
+            "side": "long",
+            "entry": 29583.25,
+            "stop": 29533.25
+          },
+          {
+            "timestamp": "2026-07-20T11:30:00+00:00",
+            "side": "long",
+            "entry": 29050.75,
+            "stop": 29000.75
+          },
+          {
+            "timestamp": "2026-07-29T22:00:00+00:00",
+            "side": "short",
+            "entry": 27201.75,
+            "stop": 27251.75
+          }
+        ],
+        "contract": {
+          "asset": "NQ.F",
+          "multiplier": 20.0,
+          "tick_size": 0.25
+        },
+        "cost_assumption": "$2.50 per contract per fill and one tick adverse slippage per fill; exploratory proxy placeholder, not brokerage-certified.",
+        "execution_mode": "NEXT_BAR; STOP orders test 1m high/low and fill at stop unless gap-through, which fills at open."
+      }
+    },
+    {
+      "asset": "ES.F",
+      "trial": "zero_cost",
+      "metrics": {
+        "initial_cash": 1000000.0,
+        "final_value": 991375.0,
+        "total_return": -0.008624999999999994,
+        "total_return_pct": -0.8624999999999994,
+        "max_drawdown": 0.011789536786102334,
+        "max_drawdown_pct": 1.1789536786102335,
+        "num_trades": 273,
+        "winning_trades": 128,
+        "losing_trades": 140,
+        "win_rate": 0.46886446886446886,
+        "total_commission": 0.0,
+        "total_slippage": 0.0,
+        "sharpe": -0.02893946107826353,
+        "sortino": -0.0046996906742001925,
+        "calmar": -0.8453658772194965,
+        "cagr": -0.009966472107194924,
+        "volatility": 0.0002458481901817017,
+        "profit_factor": 0.8157543391188302,
+        "expectancy": -0.00010786813459997185,
+        "avg_trade": -9.052364919322502e-05,
+        "avg_win": 0.0008427210173392345,
+        "avg_loss": -0.0009470089032083748,
+        "largest_win": 0.008077181960960288,
+        "largest_loss": -0.0030721966205837174,
+        "payoff_ratio": 0.8898765518298476,
+        "total_gross_pnl": -8624.999999999773,
+        "total_costs": 0.0,
+        "avg_cost_drag": 0.0,
+        "gross_profit_factor": 0.8157543391188302,
+        "skipped_bars": 0,
+        "num_orders": 7893,
+        "num_rejected_orders": 0,
+        "num_fills": 546,
+        "num_rebalance_events": 546,
+        "unique_symbols_traded": 1,
+        "total_filled_notional": 194727200.0,
+        "avg_turnover": 0.0006407284969145144,
+        "max_turnover": 0.38427920098743035,
+        "avg_open_positions": 0.015946478486001007,
+        "max_open_positions": 1,
+        "lifecycle_version": "1",
+        "lifecycle_callback_counts": {
+          "run_start": 1,
+          "causal_initialization": 1,
+          "pre_open": 0,
+          "opening_auction": 0,
+          "fill_reconciliation": 0,
+          "intrabar": 0,
+          "close": 0,
+          "market_event": 305522,
+          "run_end": 1
+        },
+        "lifecycle_invocations": [],
+        "execution_policy": {
+          "policy_id": "ml4t-backtest-default-v1",
+          "market_fill_phase": "opening_auction",
+          "opening_auction": "client",
+          "close_auction": "client",
+          "limit": "client",
+          "stop": "client",
+          "stop_limit": "disabled",
+          "trailing": "client",
+          "contingent": "client",
+          "fee_bps": 0.0,
+          "slippage_bps": 0.0,
+          "spread_bps": 0.0,
+          "impact_bps": 0.0,
+          "latency_ms": 0.0,
+          "liquidity_fraction": 1.0,
+          "allow_partial_fills": false,
+          "bar_path": "conservative",
+          "supported_sessions": [
+            "regular"
+          ],
+          "lifecycle_version": "1"
+        },
+        "target_intent_count": 0,
+        "child_order_intent_count": 0,
+        "intent_reconciliation_count": 0,
+        "target_rule_reconciliation_count": 0,
+        "target_intents": [],
+        "child_order_intents": [],
+        "intent_reconciliations": [],
+        "target_rule_reconciliations": [],
+        "daily_equity_sharpe": -1.2679847226938858,
+        "daily_equity_max_drawdown": 0.011120829688866674,
+        "average_net_pnl_usd": -31.59340659340576,
+        "trade_count_closed": 273,
+        "max_hold_minutes": 30,
+        "late_next_bar_open_exits": 0,
+        "native_stop_exit_fills": 17,
+        "gap_through_stop_fills": 290,
+        "gross_profit_positive": false,
+        "net_profit_positive": false,
+        "entries_per_exchange_day_max": 2,
+        "same_1m_entry_and_stop_ambiguities": 5,
+        "ambiguous_samples": [
+          {
+            "timestamp": "2026-01-13T13:30:00+00:00",
+            "side": "long",
+            "entry": 7025.25,
+            "stop": 7005.25
+          },
+          {
+            "timestamp": "2026-02-20T15:01:00+00:00",
+            "side": "long",
+            "entry": 6904.75,
+            "stop": 6884.75
+          },
+          {
+            "timestamp": "2026-03-06T13:30:00+00:00",
+            "side": "short",
+            "entry": 6777.0,
+            "stop": 6797.0
+          },
+          {
+            "timestamp": "2026-03-15T22:00:00+00:00",
+            "side": "short",
+            "entry": 6608.5,
+            "stop": 6628.5
+          },
+          {
+            "timestamp": "2026-06-17T18:00:00+00:00",
+            "side": "short",
+            "entry": 7560.5,
+            "stop": 7580.5
+          }
+        ],
+        "contract": {
+          "asset": "ES.F",
+          "multiplier": 50.0,
+          "tick_size": 0.25
+        },
+        "cost_assumption": "Zero commission and slippage reference.",
+        "execution_mode": "NEXT_BAR; STOP orders test 1m high/low and fill at stop unless gap-through, which fills at open."
+      }
+    },
+    {
+      "asset": "ES.F",
+      "trial": "cost_aware",
+      "metrics": {
+        "initial_cash": 1000000.0,
+        "final_value": 983222.5,
+        "total_return": -0.0167775,
+        "total_return_pct": -1.67775,
+        "max_drawdown": 0.017926888083142377,
+        "max_drawdown_pct": 1.7926888083142376,
+        "num_trades": 273,
+        "winning_trades": 112,
+        "losing_trades": 161,
+        "win_rate": 0.41025641025641024,
+        "total_commission": 1365.0,
+        "total_slippage": 6825.0,
+        "sharpe": -0.05643456426919257,
+        "sortino": -0.009305550923677025,
+        "calmar": -1.080751126482105,
+        "cagr": -0.01937450449017475,
+        "volatility": 0.00024675277809991435,
+        "profit_factor": 0.6729850891725989,
+        "expectancy": -0.0001976269299677853,
+        "avg_trade": -0.0001602509610933859,
+        "avg_win": 0.0008700876639140083,
+        "avg_loss": -0.0009403849083203373,
+        "largest_win": 0.008002692494671105,
+        "largest_loss": -0.003110718537578248,
+        "payoff_ratio": 0.9252463073531347,
+        "total_gross_pnl": -15412.499999999773,
+        "total_costs": 8190.0,
+        "avg_cost_drag": 8.431480093313433e-05,
+        "gross_profit_factor": 0.6948019801980243,
+        "skipped_bars": 0,
+        "num_orders": 7892,
+        "num_rejected_orders": 0,
+        "num_fills": 546,
+        "num_rebalance_events": 546,
+        "unique_symbols_traded": 1,
+        "total_filled_notional": 194727287.5,
+        "avg_turnover": 0.0006434121009348168,
+        "max_turnover": 0.3872631643076173,
+        "avg_open_positions": 0.015877743664940658,
+        "max_open_positions": 1,
+        "lifecycle_version": "1",
+        "lifecycle_callback_counts": {
+          "run_start": 1,
+          "causal_initialization": 1,
+          "pre_open": 0,
+          "opening_auction": 0,
+          "fill_reconciliation": 0,
+          "intrabar": 0,
+          "close": 0,
+          "market_event": 305522,
+          "run_end": 1
+        },
+        "lifecycle_invocations": [],
+        "execution_policy": {
+          "policy_id": "ml4t-backtest-default-v1",
+          "market_fill_phase": "opening_auction",
+          "opening_auction": "client",
+          "close_auction": "client",
+          "limit": "client",
+          "stop": "client",
+          "stop_limit": "disabled",
+          "trailing": "client",
+          "contingent": "client",
+          "fee_bps": 0.0,
+          "slippage_bps": 0.0,
+          "spread_bps": 0.0,
+          "impact_bps": 0.0,
+          "latency_ms": 0.0,
+          "liquidity_fraction": 1.0,
+          "allow_partial_fills": false,
+          "bar_path": "conservative",
+          "supported_sessions": [
+            "regular"
+          ],
+          "lifecycle_version": "1"
+        },
+        "target_intent_count": 0,
+        "child_order_intent_count": 0,
+        "intent_reconciliation_count": 0,
+        "target_rule_reconciliation_count": 0,
+        "target_intents": [],
+        "child_order_intents": [],
+        "intent_reconciliations": [],
+        "target_rule_reconciliations": [],
+        "daily_equity_sharpe": -2.4607803938438724,
+        "daily_equity_max_drawdown": 0.0172775,
+        "average_net_pnl_usd": -61.45604395604313,
+        "trade_count_closed": 273,
+        "max_hold_minutes": 30,
+        "late_next_bar_open_exits": 0,
+        "native_stop_exit_fills": 18,
+        "gap_through_stop_fills": 291,
+        "gross_profit_positive": false,
+        "net_profit_positive": false,
+        "entries_per_exchange_day_max": 2,
+        "same_1m_entry_and_stop_ambiguities": 5,
+        "ambiguous_samples": [
+          {
+            "timestamp": "2026-01-13T13:30:00+00:00",
+            "side": "long",
+            "entry": 7025.5,
+            "stop": 7005.5
+          },
+          {
+            "timestamp": "2026-02-20T15:01:00+00:00",
+            "side": "long",
+            "entry": 6905.0,
+            "stop": 6885.0
+          },
+          {
+            "timestamp": "2026-03-06T13:30:00+00:00",
+            "side": "short",
+            "entry": 6776.75,
+            "stop": 6796.75
+          },
+          {
+            "timestamp": "2026-03-15T22:00:00+00:00",
+            "side": "short",
+            "entry": 6608.25,
+            "stop": 6628.25
+          },
+          {
+            "timestamp": "2026-06-17T18:00:00+00:00",
+            "side": "short",
+            "entry": 7560.25,
+            "stop": 7580.25
+          }
+        ],
+        "contract": {
+          "asset": "ES.F",
+          "multiplier": 50.0,
+          "tick_size": 0.25
+        },
+        "cost_assumption": "$2.50 per contract per fill and one tick adverse slippage per fill; exploratory proxy placeholder, not brokerage-certified.",
+        "execution_mode": "NEXT_BAR; STOP orders test 1m high/low and fill at stop unless gap-through, which fills at open."
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/zero_cost/trades.csv",
+      "sha256": "65ac26ebf88cf3c4b7a7c3008f9642ded33214f65f15e633acb2b82e1966ab88"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/zero_cost/fills.csv",
+      "sha256": "1cf9816025be8899dd1c2024d35aaa864f0122c4626a66c5241be7d0410be49d"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/zero_cost/daily_equity.csv",
+      "sha256": "73dfbc31e19cc895bd157ef19fd1a4b56361720ec98b241e3809178b24ceef82"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/zero_cost/metrics.json",
+      "sha256": "683bc76ff553d09f72bd8c9c325765d514745ec14374ebcb43287f3e50ef3895"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/cost_aware/trades.csv",
+      "sha256": "b72c753b58c078d9711c03b398c23f62e92fb411e52a0e63c7540c83e50287cb"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/cost_aware/fills.csv",
+      "sha256": "ff6f5fadb58f660926606074b9086c02b8113d47757bcea7421cbdf5f7db9941"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/cost_aware/daily_equity.csv",
+      "sha256": "c6b72ab657c4e0b2fd265c69f483111cbdbdc055fae3535260df9189fdc6114d"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/NQ_F/cost_aware/metrics.json",
+      "sha256": "c3739bc3cb338be4f9797e3befcd56907cf6f194381080c6e0ff42b03f53596d"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/zero_cost/trades.csv",
+      "sha256": "16782d37382bf67de8894590c997d078f5654af2da3a1a5a919fa84c504c6f74"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/zero_cost/fills.csv",
+      "sha256": "9922f3afc68b4abaa751675447bde935b3c0bdc0fda13444e05c5dcd6b2e5d8f"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/zero_cost/daily_equity.csv",
+      "sha256": "efbc54ffda7dc94692352e8fbf88b12598e4caa106114f01637a20d2f18dd6d1"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/zero_cost/metrics.json",
+      "sha256": "ad2ecc2356debf0275a103d204789504458476fc600293f63a3fce0a44b56ecb"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/cost_aware/trades.csv",
+      "sha256": "09b7cb84fd07e357bccd47d9d3c0449052ed65d293d2312d3988eefc70b008d4"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/cost_aware/fills.csv",
+      "sha256": "6beb37f95ef02d9e8cbd29dcbc03f7c3c7fed0021deae5a8d3fe86f0833440b3"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/cost_aware/daily_equity.csv",
+      "sha256": "a29b12e37abf3db0cc57fa40934894cbccca9f6ea863d0c506fc21e2edd1b6cf"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/ES_F/cost_aware/metrics.json",
+      "sha256": "684525dc0993c304b582bd67f0e6c43965c379bbe7b432d80cbb5e322a7391a6"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/frozen_run_spec.json",
+      "sha256": "0db18bfdbe25f06dce7221ec5e5be180636c708bdf5e3f0a56db731c67d5ceb2"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/native_engine_gate.json",
+      "sha256": "3c573965d461d01d187f26e1836f916fc290165e103a48fae2aacde65b27bc45"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/signal_diagnostics.csv",
+      "sha256": "34108445fdd8f83b820e356d27904b38a2141bb45207207c3c700a52832f48b9"
+    },
+    {
+      "path": "/home/quant/dev/quant/quant-research/run_log/one_bar_50breakout_20261011/lookahead_audit.json",
+      "sha256": "2451d6b657c8a3b7a765ebe145551fb472df78e0fefb276c5a767c10c08c52c9"
+    }
+  ],
+  "trial_count": 4,
+  "execution_exceptions": {
+    "same_minute_entry_stop": "The entry is filled from a 1m OHLC candle. The Strategy can install the protective STOP only after the Engine reports the fill. OHLC does not show whether a $1,000 stop also traded later in that same candle. These cases are counted in each run's metrics and are not resolved.",
+    "late_exit": "A scheduled next-30m-open order fills at the next available source bar. The artifact counts holds longer than 30 minutes caused by missing 1m data at the boundary.",
+    "interpretation": "Report the Engine outputs as as-modeled proxy results. Do not treat the unresolved cases as an exact reproduction of the complete rule set."
+  },
+  "conclusion": "The cost-aware NQ.F and ES.F proxy outputs are negative. This sample does not support the edge as modeled. Same-minute stop ambiguity, missing-minute boundary exits, and unverified proxy roll semantics prevent a firm rejection of the actual CME strategy thesis.",
+  "next_decisive_question": "Can the LSE NQ.F and ES.F proxy findings be replicated on verified dated CME contracts with documented roll mapping and broker costs?",
+  "lookahead_audit": {
+    "rolling_window": "50 complete 30m bars",
+    "decision_timing": "Strategy reads the completed bar extrema only from that bar's final 1m event (:29 or :59), then submits native STOP orders for the next 1m event at the next 30m boundary.",
+    "fills": "NEXT_BAR Engine fills pending STOP orders against the next 1m OHLC range; gap-through stop fills use the 1m open. Market exits submitted at the final 1m event fill at the next available 1m open.",
+    "protected_data": "Only 2025 warm-up and 2026 January-July source partitions were selected.",
+    "same_minute_exceptions": "The Engine cannot sequence an entry and protective stop crossed inside the same 1m OHLC candle. Metrics retain this count; no intrabar path is invented."
+  },
+  "skills": [
+    {
+      "name": "ml4t-compute-features",
+      "source": "https://github.com/ml4t/skills/blob/main/features/compute-features/SKILL.md",
+      "invariants": "Sorted Polars rolling extrema; align each completed bar's range to the next candidate bar."
+    },
+    {
+      "name": "ml4t-run-backtest",
+      "source": "https://github.com/ml4t/skills/blob/main/backtest/run-backtest/SKILL.md",
+      "invariants": "Use Engine/Strategy, causally ordered fills, explicit costs."
+    },
+    {
+      "name": "ml4t-cost-model",
+      "source": "https://github.com/ml4t/skills/blob/main/backtest/cost-model/SKILL.md",
+      "invariants": "Do not claim net returns without per-fill costs and suitable volume."
+    },
+    {
+      "name": "ml4t-calendar-ops",
+      "source": "https://github.com/ml4t/skills/blob/main/data/calendar-ops/SKILL.md",
+      "invariants": "Use exchange timezone/calendar alignment."
+    },
+    {
+      "name": "ml4t-continuous-futures",
+      "source": "https://github.com/ml4t/skills/blob/main/data/continuous-futures/SKILL.md",
+      "invariants": "Do not claim futures performance with unverified continuous-series roll semantics."
+    },
+    {
+      "name": "ml4t-polars-patterns",
+      "source": "https://github.com/ml4t/skills/blob/main/infrastructure/polars-patterns/SKILL.md",
+      "invariants": "Use sorted, grouped Polars operations."
+    },
+    {
+      "name": "ml4t-lookahead-bias",
+      "source": "https://github.com/ml4t/skills/blob/main/concepts/lookahead-bias/SKILL.md",
+      "invariants": "Use only previous completed 30m bars for extrema."
+    },
+    {
+      "name": "ml4t-validate-data",
+      "source": "https://github.com/ml4t/skills/blob/main/data/validate-data/SKILL.md",
+      "invariants": "Check OHLC, duplicate timestamps, timezone, and volume."
+    }
+  ],
+  "local_skill_discovery": "Applicable local skills were not installed in .agents/skills; official upstream skill files were read via TinyFish. The local ml4t-prop-firm-evaluation skill is unrelated and was not used."
+}

@@ -1,0 +1,164 @@
+{
+  "NQ": {
+    "source": "index_minute_NQ",
+    "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+    "extreme_discontinuities": 0,
+    "extremes_on_adjacent_one_minute_prints": 0,
+    "extreme_by_year": [],
+    "extreme_examples": [],
+    "classification": "NO_EXTREME_PRICE_JUMPS_DETECTED"
+  },
+  "ES": {
+    "source": "index_minute_ES",
+    "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+    "extreme_discontinuities": 0,
+    "extremes_on_adjacent_one_minute_prints": 0,
+    "extreme_by_year": [],
+    "extreme_examples": [],
+    "classification": "NO_EXTREME_PRICE_JUMPS_DETECTED"
+  },
+  "DAX": {
+    "source": "index_minute_DAX",
+    "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+    "extreme_discontinuities": 1000,
+    "extremes_on_adjacent_one_minute_prints": 802,
+    "extreme_by_year": [
+      {
+        "year": 2024,
+        "len": 447
+      },
+      {
+        "year": 2025,
+        "len": 334
+      },
+      {
+        "year": 2026,
+        "len": 219
+      }
+    ],
+    "extreme_examples": [
+      {
+        "timestamp": "2026-06-19 15:30:00+00:00",
+        "close": 25065.8,
+        "previous_close": 871.59,
+        "gap_minutes": 1,
+        "return": 27.758705354581853,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-18 15:30:00+00:00",
+        "close": 25041.6,
+        "previous_close": 871.88,
+        "gap_minutes": 1,
+        "return": 27.72138367665275,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-17 11:01:00+00:00",
+        "close": 24945.3,
+        "previous_close": 869.71,
+        "gap_minutes": 1,
+        "return": 27.682319393820926,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-18 11:01:00+00:00",
+        "close": 24919.0,
+        "previous_close": 868.93,
+        "gap_minutes": 1,
+        "return": 27.677799132266124,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-17 15:30:00+00:00",
+        "close": 24934.0,
+        "previous_close": 869.54,
+        "gap_minutes": 1,
+        "return": 27.67493157301562,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-16 15:30:00+00:00",
+        "close": 24921.0,
+        "previous_close": 869.5,
+        "gap_minutes": 1,
+        "return": 27.66129959746981,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-15 15:30:00+00:00",
+        "close": 24899.7,
+        "previous_close": 869.5,
+        "gap_minutes": 1,
+        "return": 27.636802760207015,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-16 11:01:00+00:00",
+        "close": 25036.0,
+        "previous_close": 874.39,
+        "gap_minutes": 1,
+        "return": 27.632532394011825,
+        "year": 2026
+      },
+      {
+        "timestamp": "2026-06-12 15:30:00+00:00",
+        "close": 24608.7,
+        "previous_close": 860.01,
+        "gap_minutes": 1,
+        "return": 27.614434715875397,
+        "year": 2026
+      },
+      {
+        "timestamp": "2025-11-10 19:19:00+00:00",
+        "close": 24062.5,
+        "previous_close": 848.67,
+        "gap_minutes": 170,
+        "return": 27.353187929348277,
+        "year": 2025
+      },
+      {
+        "timestamp": "2025-10-30 00:27:00+00:00",
+        "close": 24216.1,
+        "previous_close": 854.28,
+        "gap_minutes": 478,
+        "return": 27.34679496183921,
+        "year": 2025
+      },
+      {
+        "timestamp": "2025-11-07 17:42:00+00:00",
+        "close": 23624.699999999997,
+        "previous_close": 833.58,
+        "gap_minutes": 73,
+        "return": 27.341250989707042,
+        "year": 2025
+      },
+      {
+        "timestamp": "2025-11-05 17:23:00+00:00",
+        "close": 24114.5,
+        "previous_close": 850.87,
+        "gap_minutes": 54,
+        "return": 27.34099216096466,
+        "year": 2025
+      },
+      {
+        "timestamp": "2025-11-18 17:00:00+00:00",
+        "close": 23233.0,
+        "previous_close": 820.08,
+        "gap_minutes": 31,
+        "return": 27.330162910935517,
+        "year": 2025
+      }
+    ],
+    "classification": "BLOCKED_2024_ONWARD_SCALE_MIX"
+  },
+  "NIKKEI225": {
+    "source": "index_minute_NIKKEI225",
+    "quality_condition": "abs(close/current_prior_observed_close - 1) > 25%, includes sessions across gaps",
+    "extreme_discontinuities": 0,
+    "extremes_on_adjacent_one_minute_prints": 0,
+    "extreme_by_year": [],
+    "extreme_examples": [],
+    "classification": "NO_EXTREME_PRICE_JUMPS_DETECTED"
+  }
+}

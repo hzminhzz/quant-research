@@ -1,0 +1,67 @@
+{
+  "iteration": "D_composite_synthesis_and_holdout",
+  "holdout_slices": [
+    {
+      "period": "2025 Full Year (OOS)",
+      "market_bnh": {
+        "return_pct": -50.18,
+        "max_dd_pct": 59.89,
+        "sharpe": -0.67
+      },
+      "long_only": {
+        "return_pct": 24.76,
+        "max_dd_pct": 24.79,
+        "sharpe": 0.74
+      },
+      "symmetric_long_short": {
+        "return_pct": 35.51,
+        "max_dd_pct": 16.94,
+        "sharpe": 0.9,
+        "alpha_vs_bnh_pct": 85.69
+      }
+    },
+    {
+      "period": "2026 Jan - Jul Bear Market (OOS)",
+      "market_bnh": {
+        "return_pct": -32.0,
+        "max_dd_pct": 42.74,
+        "sharpe": -0.82
+      },
+      "long_only": {
+        "return_pct": -1.25,
+        "max_dd_pct": 13.44,
+        "sharpe": -0.01
+      },
+      "symmetric_long_short": {
+        "return_pct": 21.8,
+        "max_dd_pct": 20.08,
+        "sharpe": 1.18,
+        "alpha_vs_bnh_pct": 53.79
+      }
+    },
+    {
+      "period": "Total 19-Month Holdout (2025-2026)",
+      "market_bnh": {
+        "return_pct": -63.15,
+        "max_dd_pct": 69.99,
+        "sharpe": -0.68
+      },
+      "long_only": {
+        "return_pct": 23.38,
+        "max_dd_pct": 25.73,
+        "sharpe": 0.54
+      },
+      "symmetric_long_short": {
+        "return_pct": 65.04,
+        "max_dd_pct": 20.08,
+        "sharpe": 0.97,
+        "alpha_vs_bnh_pct": 128.19
+      }
+    }
+  ],
+  "multiple_testing": {
+    "total_trials": 28,
+    "peak_sharpe": 2.05,
+    "deflated_sharpe_ratio": 0.977
+  }
+}

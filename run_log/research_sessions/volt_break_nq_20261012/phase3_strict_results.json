@@ -1,0 +1,329 @@
+{
+  "actual_cme_vwap": false,
+  "approval_status": "NOT_APPROVED",
+  "atr_variant": "prior15_completed_globex_sessions_mean_true_range",
+  "classification": "EXPLORATORY",
+  "data_rows_2018_2025": 2563510,
+  "days_with_prior_atr_and_decision": 156,
+  "decision_rows": 1404,
+  "files_2018_2025": 96,
+  "filter_decomposition": {
+    "barrier_only": {
+      "event_days": 63,
+      "gross_30m_points_mean": -4.1303174603173884,
+      "positive_fraction": 0.4444444444444444
+    },
+    "joint": {
+      "event_days": 63,
+      "gross_30m_points_mean": -4.498015873015757,
+      "positive_fraction": 0.42857142857142855
+    },
+    "vwap_only": {
+      "event_days": 120,
+      "gross_30m_points_mean": 2.3382833333333264,
+      "positive_fraction": 0.55
+    }
+  },
+  "first_joint_signal_days": 63,
+  "forward_markout_stats": {
+    "1430": {
+      "controls_per_event_median": 18,
+      "matched_premium": {
+        "ci95": [
+          -44.965584197285615,
+          23.58051307636054
+        ],
+        "holm3_p": 0.7381521737615655,
+        "holm3_reject05": false,
+        "mean": -10.692535560462538,
+        "n": 63,
+        "p_hac": 0.5408876322000956,
+        "se_hac": 17.486570624340303,
+        "status": "ESTIMATED",
+        "t_hac": -0.6114712707349915
+      },
+      "matching": "year and CT decision clock, no-signal controls >=5",
+      "signal_gross": {
+        "ci95": [
+          -41.83781567645416,
+          19.16899027962922
+        ],
+        "mean": -11.334412698412471,
+        "mean_usd_gross_one_nq_equivalent": -226.68825396824943,
+        "n": 63,
+        "p_hac": 0.4664417541817045,
+        "se_hac": 15.563246681392435,
+        "status": "ESTIMATED",
+        "t_hac": -0.7282807328347498
+      },
+      "yearly": [
+        {
+          "first_hits": 6,
+          "fraction_positive": 0.6666666666666666,
+          "mean_gross_points": 10.181833333333543,
+          "mean_matched_premium_points": 2.238674603174624,
+          "year": 2019
+        },
+        {
+          "first_hits": 5,
+          "fraction_positive": 0.8,
+          "mean_gross_points": 13.22360000000008,
+          "mean_matched_premium_points": 8.86524871794844,
+          "year": 2020
+        },
+        {
+          "first_hits": 2,
+          "fraction_positive": 0,
+          "mean_gross_points": -80.52999999999884,
+          "mean_matched_premium_points": -125.43466666666578,
+          "year": 2021
+        },
+        {
+          "first_hits": 13,
+          "fraction_positive": 0.6153846153846154,
+          "mean_gross_points": 7.627230769230944,
+          "mean_matched_premium_points": 17.639892081448213,
+          "year": 2022
+        },
+        {
+          "first_hits": 10,
+          "fraction_positive": 0.8,
+          "mean_gross_points": 33.16840000000011,
+          "mean_matched_premium_points": 50.342998717948845,
+          "year": 2023
+        },
+        {
+          "first_hits": 14,
+          "fraction_positive": 0.42857142857142855,
+          "mean_gross_points": -19.555071428571214,
+          "mean_matched_premium_points": -14.279337191699028,
+          "year": 2024
+        },
+        {
+          "first_hits": 13,
+          "fraction_positive": 0.5384615384615384,
+          "mean_gross_points": -64.40646153846123,
+          "mean_matched_premium_points": -77.95050474916363,
+          "year": 2025
+        }
+      ]
+    },
+    "30m": {
+      "controls_per_event_median": 18,
+      "matched_premium": {
+        "ci95": [
+          -18.282899424317634,
+          -0.07075219885371808
+        ],
+        "holm3_p": 0.144738928426114,
+        "holm3_reject05": false,
+        "mean": -9.176825811585676,
+        "n": 63,
+        "p_hac": 0.048246309475371334,
+        "se_hac": 4.646041296962345,
+        "status": "ESTIMATED",
+        "t_hac": -1.9751924757073576
+      },
+      "matching": "year and CT decision clock, no-signal controls >=5",
+      "signal_gross": {
+        "ci95": [
+          -11.28097904933648,
+          2.284947303304965
+        ],
+        "mean": -4.498015873015758,
+        "mean_usd_gross_one_nq_equivalent": -89.96031746031517,
+        "n": 63,
+        "p_hac": 0.19369714444913855,
+        "se_hac": 3.460759090383227,
+        "status": "ESTIMATED",
+        "t_hac": -1.2997194417591402
+      },
+      "yearly": [
+        {
+          "first_hits": 6,
+          "fraction_positive": 0.3333333333333333,
+          "mean_gross_points": 0.6700000000000728,
+          "mean_matched_premium_points": -1.5684761904760658,
+          "year": 2019
+        },
+        {
+          "first_hits": 5,
+          "fraction_positive": 0.6,
+          "mean_gross_points": 5.643999999999869,
+          "mean_matched_premium_points": 4.6955179487178125,
+          "year": 2020
+        },
+        {
+          "first_hits": 2,
+          "fraction_positive": 0,
+          "mean_gross_points": -55.3799999999992,
+          "mean_matched_premium_points": -89.6833333333328,
+          "year": 2021
+        },
+        {
+          "first_hits": 13,
+          "fraction_positive": 0.3076923076923077,
+          "mean_gross_points": -4.621692307691914,
+          "mean_matched_premium_points": -8.820307239818625,
+          "year": 2022
+        },
+        {
+          "first_hits": 10,
+          "fraction_positive": 0.7,
+          "mean_gross_points": 11.308599999999752,
+          "mean_matched_premium_points": 13.88121410256359,
+          "year": 2023
+        },
+        {
+          "first_hits": 14,
+          "fraction_positive": 0.42857142857142855,
+          "mean_gross_points": -5.611357142856962,
+          "mean_matched_premium_points": -8.993741293028158,
+          "year": 2024
+        },
+        {
+          "first_hits": 13,
+          "fraction_positive": 0.38461538461538464,
+          "mean_gross_points": -13.792307692307636,
+          "mean_matched_premium_points": -23.928912374581863,
+          "year": 2025
+        }
+      ]
+    },
+    "60m": {
+      "controls_per_event_median": 18,
+      "matched_premium": {
+        "ci95": [
+          -23.462192156683464,
+          8.71578360329418
+        ],
+        "holm3_p": 0.7381521737615655,
+        "holm3_reject05": false,
+        "mean": -7.373204276694642,
+        "n": 60,
+        "p_hac": 0.36907608688078275,
+        "se_hac": 8.208818124667955,
+        "status": "ESTIMATED",
+        "t_hac": -0.8982053402471852
+      },
+      "matching": "year and CT decision clock, no-signal controls >=5",
+      "signal_gross": {
+        "ci95": [
+          -17.675220865717453,
+          9.261454199050835
+        ],
+        "mean": -4.20688333333331,
+        "mean_usd_gross_one_nq_equivalent": -84.13766666666619,
+        "n": 60,
+        "p_hac": 0.5404042832282556,
+        "se_hac": 6.871727051425777,
+        "status": "ESTIMATED",
+        "t_hac": -0.612201751008205
+      },
+      "yearly": [
+        {
+          "first_hits": 6,
+          "fraction_positive": 0.16666666666666666,
+          "mean_gross_points": -4.115000000000085,
+          "mean_matched_premium_points": -7.043849206349265,
+          "year": 2019
+        },
+        {
+          "first_hits": 5,
+          "fraction_positive": 0.6,
+          "mean_gross_points": 11.996000000000276,
+          "mean_matched_premium_points": 17.39984102564136,
+          "year": 2020
+        },
+        {
+          "first_hits": 2,
+          "fraction_positive": 0,
+          "mean_gross_points": -111.49399999999969,
+          "mean_matched_premium_points": -140.92899999999977,
+          "year": 2021
+        },
+        {
+          "first_hits": 13,
+          "fraction_positive": 0.6153846153846154,
+          "mean_gross_points": 9.16523076923071,
+          "mean_matched_premium_points": 12.92860563097029,
+          "year": 2022
+        },
+        {
+          "first_hits": 9,
+          "fraction_positive": 0.5555555555555556,
+          "mean_gross_points": 5.157111111110983,
+          "mean_matched_premium_points": 9.099350427350224,
+          "year": 2023
+        },
+        {
+          "first_hits": 13,
+          "fraction_positive": 0.5384615384615384,
+          "mean_gross_points": 4.187538461538329,
+          "mean_matched_premium_points": 1.1480887911944535,
+          "year": 2024
+        },
+        {
+          "first_hits": 12,
+          "fraction_positive": 0.5,
+          "mean_gross_points": -23.72624999999971,
+          "mean_matched_premium_points": -39.18012898550698,
+          "year": 2025
+        }
+      ]
+    }
+  },
+  "full_00_1430_ct_days_2019_2025": 1576,
+  "limitations": [
+    "CFD BID price and provider-volume VWAP; not actual NQ futures execution",
+    "SMA15(daily true range) is an explicit proxy interpretation, not confirmed nested ATR",
+    "all 2019-2025 data are retrospective; 2026 held out",
+    "one first hit/day ignores trade exits and reentries; Phase 4 required",
+    "mean returns exclude spread, commissions, and slippage",
+    "matched ordinary periods are observational, not causal flow identification",
+    "multiple 30m observations per day are not treated as independent primary samples"
+  ],
+  "no_2026_market_outcomes_read": true,
+  "no_joint_signal_days_in_atr_eligible": 93,
+  "primary_first_hit_by_year": [
+    {
+      "event_days": 6,
+      "median_decision_minute": 615,
+      "year": 2019
+    },
+    {
+      "event_days": 5,
+      "median_decision_minute": 600,
+      "year": 2020
+    },
+    {
+      "event_days": 2,
+      "median_decision_minute": 600,
+      "year": 2021
+    },
+    {
+      "event_days": 13,
+      "median_decision_minute": 600,
+      "year": 2022
+    },
+    {
+      "event_days": 10,
+      "median_decision_minute": 600,
+      "year": 2023
+    },
+    {
+      "event_days": 14,
+      "median_decision_minute": 630,
+      "year": 2024
+    },
+    {
+      "event_days": 13,
+      "median_decision_minute": 660,
+      "year": 2025
+    }
+  ],
+  "session": "volt_break_nq_phase3_2019_2025_20261012",
+  "source_manifest_existing_sha256": "fd810bef0a390a77972d22d1cb0100e6d17f46dec437bed5abf865f39e579e75",
+  "source_provider": "Dukascopy USATECH.IDX/USD BID CFD proxy",
+  "status": "COMPLETED_DIAGNOSTIC"
+}

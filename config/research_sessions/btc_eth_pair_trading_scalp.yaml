@@ -1,0 +1,95 @@
+# RETIRED 2026-10-06: historical Monk-style thesis; do not use for new runs.
+# Frozen historical evidence remains under run_log/research_sessions/btc_eth_pair_trading_scalp/.
+# Active successor: config/research_sessions/btc_eth_maker_kalman_exec_audit_20261006_v3.yaml
+# Thesis specification for BTC/ETH relative-value intraday scalp.
+session_id: btc_eth_pair_trading_scalp
+market: crypto
+thesis: >-
+  When broad crypto market momentum triggers high-velocity moves (pumps/dumps), ETH exhibits
+  higher short-term beta and retail chasing, causing ETH to over-expand or over-dump relative
+  to BTC by 2-3% over short lookback horizons. The strategy opens a pair trade on market orders
+  and holds continuously without a fixed time limit or stop-loss. If the market continues diverging
+  adversely, the strategy gradually scales up the size of the underperforming leg. The position is
+  held until net cumulative PnL (including all trading fees, slippage, and accrued funding) becomes positive.
+
+mechanism: >-
+  Temporary liquidity dislocations and overshooting eventually exhaust as market volatility cools
+  and institutional arbitrage restores relative parity. Scaling up into the underperforming leg
+  lowers the effective breakeven price of the spread, allowing the overall position to exit into
+  profit upon modest retracement.
+
+falsifier: >-
+  Reject the thesis if:
+  1. The strategy triggers margin liquidation (drawdown exceeds total allocated capital) before
+     the spread retraces to net profitability.
+  2. Mean net return post-costs (market order taker fees + slippage + funding) is non-positive.
+  3. Persistent structural divergence (e.g., prolonged ETH/BTC trend) traps capital in an
+     underwater state for more than 30 consecutive days, destroying risk-adjusted returns.
+
+instruments:
+  - symbol: BTCUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+  - symbol: ETHUSDT
+    kind: perpetual
+    venue: Binance USD-M Futures
+
+data:
+  - id: btc_prices_1m
+    symbol: BTCUSDT
+    role: prices
+    path: data/processed/btc_1m.parquet
+  - id: eth_prices_1m
+    symbol: ETHUSDT
+    role: prices
+    path: data/processed/eth_1m.parquet
+  - id: btc_funding
+    symbol: BTCUSDT
+    role: funding
+    path: data/processed/btc_funding.parquet
+  - id: eth_funding
+    symbol: ETHUSDT
+    role: funding
+    path: data/processed/eth_funding.parquet
+evaluation:
+  cadence: 1m
+  development_start: "2024-01-01T00:00:00Z"
+  development_end: "2025-06-01T00:00:00Z"
+  holdout_start: "2025-06-01T00:00:00Z"
+  holdout_end: "2026-01-01T00:00:00Z"
+  plan: >-
+    Train rolling beta and spread parameters on development window using walk-forward CV
+    with purging/embargo. The holdout period remains frozen and strictly unread until final confirmation.
+
+baseline: >-
+  Zero-trade baseline (0% return), and static buy-and-hold 50/50 BTC/ETH portfolio.
+
+costs:
+  commission_bps: 4.0
+  slippage_bps: 2.0
+  funding_included: true
+  assumptions: >-
+    VIP0 / retail taker fee schedule (4 bps/leg) plus 2 bps conservative slippage/spread per side.
+    Funding rates applied 8-hourly based on official Binance settlement timestamps.
+
+trials:
+  - id: monk_continuous_equal_dollar
+    kind: preregistered
+    description: >-
+      Primary Monk strategy with equal-dollar (1:1) base sizing, no stop loss, unlimited holding time
+      until net profit, and gradual scale-in on the underperforming leg as spread widens adversely.
+  - id: monk_continuous_beta_hedged
+    kind: preregistered
+    description: >-
+      Beta-adjusted sizing variant: Uses rolling 60m OLS beta to size the BTC/ETH legs for delta neutrality,
+      with the same scale-in logic on the lagging leg and unlimited holding until net profit.
+  - id: scale_in_vs_static_ablation
+    kind: diagnostic
+    description: >-
+      Ablation comparing continuous scale-in averaging against a static (single-entry) holding position
+      to isolate whether adding to the losing leg improves time-to-profit or accelerates liquidation risk.
+  - id: lookback_horizon_sensitivity
+    kind: preregistered
+    description: >-
+      Parameter sensitivity sweep across divergence measurement horizons (15m, 30m, 60m, 240m)
+      and entry thresholds (1.5%, 2.0%, 2.5%, 3.0%).

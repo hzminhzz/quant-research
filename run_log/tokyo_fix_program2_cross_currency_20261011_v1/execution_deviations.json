@@ -1,0 +1,66 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "failed",
+      "cause": "Polars CSV nested confidence interval columns",
+      "log": "execution_attempt1.log"
+    },
+    {
+      "attempt": 2,
+      "status": "failed",
+      "cause": "Strict byte equality of recomputed JSON rejects subprecision numeric drift",
+      "log": "execution_attempt2.log"
+    },
+    {
+      "attempt": 3,
+      "status": "completed",
+      "log": "execution_attempt3.log"
+    },
+    {
+      "verification_attempt": 1,
+      "status": "failed",
+      "cause": "Verifier incorrectly assumed three native annual folds where 2026 sample below20",
+      "log": "verification.log"
+    },
+    {
+      "verification_attempt": 2,
+      "status": "completed",
+      "log": "verification_attempt2.log"
+    }
+  ],
+  "repairs": [
+    {
+      "path": "scripts/run_tokyo_fix_program2_cross_currency_20261011_v1.py",
+      "frozen_sha256": "03e618892091c07c1aec61f7af019a01f10a5353b13d6c11f877c5f4cc40514a",
+      "current_sha256": "fdf8980cab0027117344370eb2742b14aeeba22d212f801d2259d1fc1cbe830d"
+    },
+    {
+      "path": "scripts/verify_tokyo_fix_program2_cross_currency_20261011_v1.py",
+      "frozen_sha256": "eb65a334f74df1d6cf1b9ab15460ddcb304a3f32e4c696e9ced837595022ee5b",
+      "current_sha256": "bc53b725318672daac80a922638d42daf0a39230725f8ec0a0a493e636882ea3"
+    }
+  ],
+  "method": "Frozen config, data and outcomes retained. Immutable resume compares numeric JSON tolerance1e-10, frames semantically; existing bytes never overwritten. CSV uses scalar table. Candidate HAC sorted by session before outcomes. Verifier reconstructs exact eligible annual-fold counts. Added own-only model baseline, currency exposure and factor co-movement supplements; these implement declared comparisons, not new candidate selection.",
+  "source_freeze_limitation": "Final implementation hashes differ from original code freeze due logged repairs. No spec or source-price identity changes. Final hashes supplied in evidence index.",
+  "review": {
+    "read_only_audits": [
+      "FX source provenance",
+      "timing and currency exposure",
+      "implementation audit"
+    ],
+    "fixed_findings": [
+      "nested CSV",
+      "chronological candidate HAC",
+      "real event currency exposure table",
+      "matched own-only native baseline",
+      "finite hit-rate verification"
+    ],
+    "unresolved": [
+      "No compatible content-bound JPYcross source",
+      "No executable broker bid/ask or costs",
+      "No unseen evaluation"
+    ],
+    "holdout_read": false
+  }
+}
