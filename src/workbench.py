@@ -4,7 +4,10 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Callable
 from pathlib import Path
+from typing import Literal
 from uuid import uuid4
+
+REPO = Path(__file__).resolve().parents[1]
 
 import cloudpickle
 import polars as pl
@@ -134,6 +137,23 @@ class Workbench:
         except Exception as exc:
             self._record('features', 'FAILED', reason=str(exc))
             raise
+    def train_colab(self, training_script: str | Path | None = None, *,
+                    gpu: Literal['T4', 'L4', 'A100'] = 'T4',
+                    timeout: int = 3600) -> PythonFeatureArtifact:
+        """Train an ML model on Google Colab GPU and bind the artifact to this session."""
+        if self._event:
+            self._record('train_colab', 'REJECTED', reason='event protocol does not support external ML features')
+            raise QuantError('PROTOCOL_NOT_APPLICABLE', 'Colab GPU training is not applicable to event protocol')
+        from src.engine.colab_trainer import ColabTrainer
+
+        trainer = ColabTrainer(self.spec, run_log=self.run_log)
+        artifact, updated_spec = trainer.train(training_script=training_script, gpu=gpu, timeout=timeout)
+        self.spec = updated_spec
+        self.spec._base_dir = REPO
+        self._custom_python = True
+        self.feature_panel = None
+        self._record('train_colab', 'COMPLETED', artifact_sha256=artifact.sha256, gpu=gpu)
+        return artifact
 
     def ic(self) -> dict:
         if self._event:
