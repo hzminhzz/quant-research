@@ -349,6 +349,10 @@ def test_benchmark_ats8_runs_and_passes(tmp_path: Path):
     result = benchmark_corpus(samples=1, output_dir=tmp_path / "bench_run")
     assert result["fixture_count"] == 14
     assert result["all_critical_correct"] is True
+    # Correctly choosing "inspect" is not a successfully applied remedy.
+    # This corpus has no remedy-positive fixture, so 14/14 would be misleading.
+    assert result["summary"]["remedy_eligible_fixture_count"] == 0
+    assert result["summary"]["remedy_success_rate"] == "NOT_EXERCISED (0/0)"
     assert (tmp_path / "bench_run/report.json").is_file()
 
     # CLI main execution

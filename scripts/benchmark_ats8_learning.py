@@ -544,6 +544,12 @@ def benchmark_corpus(
     else:
         stale_rejection_str = "NOT_EXERCISED"
 
+    remedy_cases = [case for case in cases_results if case["expected_remedy"] is not None]
+    remedy_success_rate = (
+        f"{sum(case['observed_remedy'] == case['expected_remedy'] for case in remedy_cases)}/{len(remedy_cases)}"
+        if remedy_cases else "NOT_EXERCISED (0/0)"
+    )
+
     report = {
         "schema_version": BENCHMARK_SCHEMA,
         "benchmark": "ats8_continuous_learning_and_operating_benchmark_v1",
@@ -562,7 +568,8 @@ def benchmark_corpus(
             "managed_learning_median_bytes": sum(c["managed_with_learning"]["context_bytes"] for c in cases_results),
             "managed_no_learning_median_bytes": sum(c["managed_no_learning"]["context_bytes"] for c in cases_results),
             "baseline_raw_median_bytes": sum(c["baseline_raw"]["context_bytes"] for c in cases_results),
-            "remedy_success_rate": f"{sum(c['observed_remedy'] == c['expected_remedy'] for c in cases_results)}/{len(CASES)}",
+            "remedy_eligible_fixture_count": len(remedy_cases),
+            "remedy_success_rate": remedy_success_rate,
             "stale_advice_rejection_rate": stale_rejection_str,
         },
     }
