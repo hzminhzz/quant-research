@@ -1,0 +1,326 @@
+{
+  "candidate_id": "connors_alvarez_spy_qqq_double7_nextopen_v1",
+  "selection_family_id": "connors_alvarez_double7_etf_nextopen",
+  "status": "THESIS_READY_UNVERIFIED",
+  "research_mode": "MVP_RESEARCH_DESIGN_ONLY",
+  "not_execution_approved": true,
+  "not_a_frozen_session": true,
+  "created_on": "2026-10-17",
+  "source_references": [
+    {
+      "id": "ALVAREZ_DOUBLE7_2016",
+      "role": "original_rules_and_author_retrospective_portfolio_tests",
+      "author": "Cesar Alvarez",
+      "publication_date": "2016-02-10",
+      "title": "Double 7's Strategy",
+      "url": "https://alvarezquanttrading.com/blog/double-7s-strategy/"
+    },
+    {
+      "id": "ALVAREZ_FAQ_COSTS",
+      "role": "author_general_testing_cost_and_data_disclosure_not_strategy_specific",
+      "author": "Cesar Alvarez",
+      "title": "FAQ",
+      "url": "https://alvarezquanttrading.com/faq/"
+    },
+    {
+      "id": "ALVAREZ_MEAN_REVERSION_2022",
+      "role": "adversarial_context_different_stock_RSI2_strategy_not_double7_replication",
+      "author": "Cesar Alvarez",
+      "publication_date": "2022-10-24",
+      "title": "Mean Reversion Check Up 2022",
+      "url": "https://alvarezquanttrading.com/blog/mean-reversion-check-up-2022/"
+    },
+    {
+      "id": "REPO_RESEARCH_OPERATIONS",
+      "role": "local_research_governance",
+      "local_path": "docs/research_operations.md"
+    }
+  ],
+  "economic_thesis": {
+    "statement": "A US equity index ETF above its own 200-session closing SMA, but closing at the minimum of its most recent seven session closes, may experience a short-lived liquidity-driven reversal after the next cash-market open. This is a negative-replication-first hypothesis because the author documented post-2008 deterioration.",
+    "economic_null": "On pre-authorized point-in-time development data, the 3-session signed next-open-to-next-open return after Double-7 entry events does not exceed a date/regime-matched eligible non-event baseline after prospective costs.",
+    "scope": "SPY and QQQ US cash ETFs tested separately; no cross-sectional rank and no basket selection.",
+    "source_claim_status": "The author's 2000-2007 favorable results and 2008-2015 deterioration are source claims, not independently reproduced alpha."
+  },
+  "mechanism": {
+    "hypothesis": "Dip buyers and short-term inventory providers may be compensated when temporary risk-off selling creates multi-day lower-close pressure in an established uptrend.",
+    "counterparty": "Urgent liquidity-demanding sellers and short-term de-risking flows; inferred, not identified from trade data.",
+    "risk_premium_alternative": "Exposure timing and crash-risk insurance rather than alpha; a 2008 tail event may dominate.",
+    "competing_explanations": [
+      "Broad index beta and time out of market explain drawdown changes.",
+      "Seven-session threshold selected after research and may be mined.",
+      "Increased arbitrage and ETF efficiency may have eliminated historical reversal premium.",
+      "Opening gaps can remove the alleged end-of-day edge.",
+      "One unbounded holding episode can dominate drawdown without a stop."
+    ]
+  },
+  "instruments": {
+    "original_2008_book": {
+      "market": "US exchange-traded ETFs; specific broad index ETF implementations discussed in the 2016 public retrospective",
+      "execution": "buy/sell at the decision-day close",
+      "test_type": "points_test_as_characterized_by_author"
+    },
+    "author_2016_retest": {
+      "market": "US cash equity ETFs",
+      "symbols": [
+        "SPY",
+        "QQQ"
+      ],
+      "product_class": "physical_exchange_traded_fund",
+      "granularity": "daily regular-session OHLC and open auction/quote timing",
+      "portfolio_interpretation": "Run separate single-ETF all-cash-or-long tests; DO NOT invent a combined SPY+QQQ portfolio.",
+      "venue": "historical ETF listing exchange and opening-auction executable feed require source verification"
+    },
+    "local_adaptation": {
+      "instrument_substitution": "NONE; no CFD, futures or perpetual proxy approved",
+      "exchange_clock": "America/New_York",
+      "trading_sessions": "US ETF regular sessions with holidays, DST and half-day handling from an effective-dated calendar"
+    }
+  },
+  "data_requirements": {
+    "mandatory": [
+      {
+        "source": "historical_SPY_QQQ_ETF_prices",
+        "fields": [
+          "timestamp",
+          "symbol",
+          "open",
+          "high",
+          "low",
+          "close",
+          "corporate_actions",
+          "distribution_records"
+        ],
+        "frequency": "1 US exchange session",
+        "adjustment": "Keep raw tradable opens and causally reconstructed total-return adjustments separate; do not use hindsight-adjusted opening prints as executable prices.",
+        "availability": "UNVERIFIED; no claim local data exists or was inspected."
+      },
+      {
+        "source": "effective_dated_US_cash_equity_calendar",
+        "fields": [
+          "session_date",
+          "session_open_utc",
+          "session_close_utc",
+          "holiday",
+          "half_day"
+        ],
+        "availability": "UNVERIFIED",
+        "requirements": "Historical NY DST; t+1 means next eligible session, not next calendar date."
+      },
+      {
+        "source": "ETF_executable_quote_and_friction_evidence",
+        "fields": [
+          "opening_auction_print",
+          "bid",
+          "ask",
+          "commission_schedule",
+          "spread",
+          "slippage_estimate",
+          "volume_or_ADV",
+          "dividend_corporate_action_dates"
+        ],
+        "availability": "UNVERIFIED",
+        "requirements": "Opening print may differ from an individual investor's executable fill; no price-only execution truth."
+      }
+    ],
+    "prohibited_shortcuts": [
+      "Do not map SPY/QQQ ETF to index CFDs, index futures or crypto contracts.",
+      "Do not count the source article's adjusted close as an actual executable next-open quote.",
+      "Do not treat current-adjusted history or present-day constituents as point-in-time evidence.",
+      "Do not access any protected or holdout partitions."
+    ]
+  },
+  "feature_contracts": [
+    {
+      "name": "sma200_close",
+      "formula": "arithmetic_mean(C[t-199],...,C[t]) using exactly 200 completed consecutive eligible ETF sessions including signal session t",
+      "lookback_sessions": 200,
+      "smoothing": "simple arithmetic average; not EMA",
+      "group_by": "ETF_symbol",
+      "availability": "after official regular-session close for session t",
+      "causality": "strictly trailing inclusive; at least 200 qualified sessions"
+    },
+    {
+      "name": "low7_close",
+      "formula": "min(C[t-6],...,C[t]); entry flag C[t] <= low7_close[t]",
+      "lookback_sessions": 7,
+      "smoothing": "none",
+      "tie_policy": "inclusive <= as author's Method 1",
+      "group_by": "ETF_symbol",
+      "availability": "after session t close"
+    },
+    {
+      "name": "high7_close",
+      "formula": "max(C[t-6],...,C[t]); exit flag C[t] >= high7_close[t]",
+      "lookback_sessions": 7,
+      "smoothing": "none",
+      "tie_policy": "inclusive >=; local interpretation symmetrical to published low rule, verify source AmiBroker code before implementation",
+      "group_by": "ETF_symbol",
+      "availability": "after session t close"
+    },
+    {
+      "name": "eligible_trend",
+      "formula": "C[t] > sma200_close[t]",
+      "availability": "after t close",
+      "notes": "Strict greater-than, not >=."
+    }
+  ],
+  "strategy_rules": {
+    "ORIGINAL_AUTHOR_RULES_2008": {
+      "buy": [
+        "ETF close above its 200-day moving average",
+        "close at a trailing 7-close low",
+        "buy on the same close"
+      ],
+      "sell": [
+        "close at a trailing 7-close high",
+        "sell on the same close"
+      ],
+      "source_execution_warning": "Same-close decision/fill is not executable if the full closing price is used to determine the signal; do not silently replicate it."
+    },
+    "SOURCE_TESTED_AUTHOR_REVISION_2016": {
+      "buy": [
+        "After t close, require C[t] > SMA200[t] and C[t] <= minimum of t and previous six closes.",
+        "Buy at the next trading session's open using 100% of available cash; test SPY and QQQ separately."
+      ],
+      "sell": [
+        "When holding and C[t] is a 7-session high of closes, sell at next session open."
+      ],
+      "risk": [
+        "Long or cash; no short, no leverage, no described protective stop."
+      ],
+      "source_test_periods": [
+        "2000-2007",
+        "2008-2015"
+      ],
+      "source_disclosure": "The author says ~26% exposure in 2000-2007 and underperformance versus buy/hold in 2008-2015; trades, cost attribution and downloadable dataset not established."
+    },
+    "LOCAL_ADAPTATION": {
+      "entry_priority": "Evaluate exit for existing holdings before any new entry on a given close; disallow same-day exit/reentry unless independently specified and preregistered.",
+      "partial_trade_rule": "If cost/volume sizing or rounding prevents 100% use, record unused cash; do not use leverage to fill gap.",
+      "half_days": "Do not infer missing bars; use exchange calendar and explicit execution-time eligibility.",
+      "drawdown_safety": "Do not add a stop to the SOURCE_TESTED 2016 rule for research design. A protective stop would be a new candidate version."
+    }
+  },
+  "signal_and_execution_clock": {
+    "data_session": "US ETF exchange session on America/New_York; source daily bar close is known only after completed session.",
+    "decision": "After t regular-session close AND after final adjusted/raw vendor bar is verifiably available.",
+    "earliest_buy": "Opening auction or earliest independently executable eligible ask/market order at t+1 regular session; source author assumes next open, execution realizability UNVERIFIED.",
+    "earliest_sell": "Opening auction or first eligible executable bid/market fill at t+1 after t close high7 exit signal.",
+    "trade_order": "No market-on-close decision from full close; all signals shifted to next valid session.",
+    "dst_holidays": "Use effective-dated NY listing-calendar session boundaries, including DST shifts and early closes.",
+    "missing_bar": "Censor event and record reason; never substitute calendar day or forward-fill."
+  },
+  "sizing": {
+    "source_author_2016": "Buy using 100% of cash; one ETF at a time in separate SPY and QQQ studies.",
+    "local_constraints": "Long/cash, no leverage, no implied two-ETF pooled portfolio; smallest lot, rounding, dividend cash and cash yield remain explicit.",
+    "risk": "No stop in 2016 source rules; quantify rare prolonged non-reversal as mandatory later risk analysis."
+  },
+  "cost_assumptions": {
+    "SOURCE_CLAIM": "The author's general FAQ says portfolio tests use USD 0.01/share COMBINED commission and slippage and 3-month T-bill cash yield. The 2016 article does not confirm these exact inputs for its Double-7 charts.",
+    "LOCAL_ADAPTATION": "At later authorized test, use ETF-specific observed or conservatively estimated opening spreads, one-way commissions/fees, gap/slippage, market impact, realized dividend and cash-yield accounting. Freeze before market outcome.",
+    "unknowns": [
+      "actual 2016 chart costs and gross/net status",
+      "opening auction access and realized market-order execution",
+      "historical ETF distribution/split adjustments",
+      "historical ETF commissions by venue"
+    ],
+    "funding": "No perpetual funding; no borrowed financing in cash-funded ETF configuration.",
+    "avoid_double_count": "If bid/ask executable quotes are used, do not charge spread again inside generic slippage."
+  },
+  "baseline": {
+    "primary": "For each ETF separately, matched non-Double-7 days where C[t] > SMA200[t], matched chronologically by historical volatility and calendar regime; compare the SAME predeclared next-open-to-3-session-later-next-open signed return window and cost assumptions.",
+    "secondary": [
+      "ETFs held from t+1 open as buy and hold including dividends/cash yield; exposure differs and is not a primary significance test.",
+      "Pure cash/T-bill return during uninvested days for later strategy economics."
+    ],
+    "why": "Disentangle a 7-close extreme bounce from general bullish trend, ETF beta and time-out-of-market artifacts."
+  },
+  "development_evaluation": {
+    "research_phase3": "PLANNED_NOT_RUN",
+    "test_type": "EVENT_SIGNED_RETURN_DIAGNOSTIC; NOT cross-sectional IC; later path-dependent holding/next-open exit requires separate native engine test.",
+    "primary_label": "For qualifying signal at t, gross signed simple price return from executed t+1 opening reference to t+4 eligible-session opening reference, with dividends/corporate actions accounted for separately and same cost assumptions applied to event and control.",
+    "primary_contrast": "Mean event signed 3-session return minus same-clock matched non-event control return, SPY/QQQ treated as two prespecified replications, not an optimized choice.",
+    "independence": "Avoid double-counting overlapping events; block-bootstrap/HAC session-clustered uncertainty; predeclare how adjacent eligible days are collapsed.",
+    "suggested_development": "Use chronological post-publication 2016-2021 data for implementation/calibration ONLY if permitted and provenance-qualified.",
+    "suggested_validation": "Use 2022-2025 development/validation under repo governance; not an authorization to read it now.",
+    "protected": "All repo-protected windows remain sealed; never infer eligibility from dates alone.",
+    "phase4": "FORBIDDEN_IN_DISCOVERY; after a valid phase3 decision and separate authorization, the smallest native event-driven ETF next-open fill-and-exit test could assess path-dependent strategy economics.",
+    "overfitting": "No threshold/timeframe sweep or ETF selection after observing results; register both source history periods, other mean reversion variants and exposed source research as prior trials."
+  },
+  "primary_falsifier": {
+    "statement": "Reject the incremental 7-close-low entry thesis if the 3-session next-open event signed-return contrast against matched above-SMA200 non-event days is not demonstrably positive net of preregistered conservative execution costs on source-qualified chronological data.",
+    "test": "One-sided positive excess return test with predeclared 5% level and block/HAC dependence control; estimate and uncertainty must be reported for SPY and QQQ separately.",
+    "decision": "FAIL for non-positive effect with adequate predeclared sample power; INCONCLUSIVE if data/quotes/independent event count insufficient. Passing is research diagnostic only and does not approve Phase4.",
+    "status": "NOT_EVALUATED"
+  },
+  "acceptance_and_stop_rules": {
+    "admit_only_if": [
+      "Original primary HTTPS link and author-posted 2016 backtest found.",
+      "Original 2008 close-fill rules clearly distinguished from 2016 next-open tests.",
+      "Explicit public post-2008 degradation and contradictory 2017 author comment preserved.",
+      "No claim of source trade ledger, verified source costs or local data access."
+    ],
+    "before_any_phase3": [
+      "Verify repository research permissions and protected boundary.",
+      "Confirm true ETF trade/adjustment data plus opening fill evidence.",
+      "Freeze matching controls, overlap handling, one primary horizon, and cost schedule.",
+      "Verify installed ML4T feature and diagnostic APIs; do not reimplement their built-in functionality."
+    ],
+    "stop_conditions": [
+      "Failure of source or causal timing provenance.",
+      "Strongly non-positive 3-session event contrast with adequate evidence.",
+      "Economic edge below plausible opening execution friction.",
+      "Missing distribution accounting or unauditable sample selection."
+    ],
+    "no_execution_authority": true
+  },
+  "parity_and_causality_tests": [
+    "Confirm 7-close low inclusive versus strict-lower Method 2 on hand-calculated fixture; no silent substitution.",
+    "Confirm 7-close high inclusive interpretation against author's actual code if obtainable.",
+    "200-close simple mean includes current completed close and excludes t+1 open.",
+    "First valid signal after 200 completed sessions, no cross-symbol contamination.",
+    "Future-row-invariance after t, split/dividend ex-date timing and no revised-future adjustment leak.",
+    "US DST transition, Friday-to-Monday next-session, public holiday and half-day tests.",
+    "ETF source adjusted-close signal versus raw opening-fill separation.",
+    "Signals only after t completed close, orders only at t+1 next eligible open.",
+    "Source period 2000-07 and 2008-15 labels kept separate; no source metrics treated as independent verification.",
+    "Native later Phase4 stopless holding until 7-day HIGH; investigate contradictory author 2017 'low' reply before parity signoff."
+  ],
+  "known_adaptations": [
+    {
+      "type": "AUTHOR_2016_REVISION_NOT_LOCAL",
+      "change": "Buy/sell next session open rather than same close; switch points test to portfolio testing; source author explicitly changed this."
+    },
+    {
+      "type": "LOCAL_RESEARCH_DIAGNOSTIC_ONLY",
+      "change": "Choose 3-session signed-return horizon, matched above-SMA200 control, and dependence-adjusted one-sided test. The author did not publish this test."
+    },
+    {
+      "type": "LOCAL_RISK_ACCOUNTING_ONLY",
+      "change": "Require executable opening quotes, calendar, cash-rate/dividends and realistic frictions; no stop added."
+    }
+  ],
+  "verified_facts": [
+    "The primary article is publicly accessible at the cited HTTPS URL and is dated 2016-02-10.",
+    "The article explicitly distinguishes same-close 2008 book rules and next-open 2016 portfolio tests.",
+    "The author describes SPY and QQQ tests separately for 2000-2007 and 2008-2015 and says the latter underperformed buy/hold.",
+    "ATS handoff validator is present on research base branch derived from merge commit 041477be; its invocation and outcome must be captured separately.",
+    "Source article comments include an author response in July 2017 inconsistent with the printed exit HIGH rule; this is not silently corrected."
+  ],
+  "assumptions": [
+    "HYPOTHESIS: seven-close lows while above SMA200 indicate temporary liquidity pressure rather than lasting information.",
+    "INFERENCE: author 2017 comment referring to an exit on a new seven-day LOW may be a typo; printed 2016 rules say HIGH. Require implementation parity decision.",
+    "UNKNOWN: exact source 2016 trade count, cost attribution, opening-fill model, worst five drawdowns, and yearly trade ledger (spreadsheet gated behind form).",
+    "UNKNOWN: current historical ETF data access and fill data quality in VPS; none was opened or tested in this discovery.",
+    "UNKNOWN: independent post-2015 rule-exact results; the 2022 article investigates a DIFFERENT Russell 3000 RSI2 stock strategy."
+  ],
+  "unresolved_blockers": [
+    "Point-in-time ETF daily raw/adjusted data and distribution provenance not verified.",
+    "Independent executable next-open spread/ask/bid/auction evidence not verified.",
+    "Need rule clarification for misleading 2017 author comment and high7 equality on exits.",
+    "No downloadable source ledger, count of source trades, or directly stated strategy-specific chart costs.",
+    "No permission to run Phase3/Phase4 or read protected partitions during discovery.",
+    "2016 author describes strategy as possibly too simple with diminished or absent edge; novelty/economics must survive this known strong negative."
+  ]
+}
