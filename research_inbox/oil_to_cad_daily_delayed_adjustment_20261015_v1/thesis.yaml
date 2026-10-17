@@ -1,0 +1,713 @@
+{
+  "candidate_id": "oil_to_cad_daily_delayed_adjustment_20261015_v1",
+  "selection_family_id": "oil_to_cad_daily_delayed_adjustment",
+  "status": "THESIS_READY_UNVERIFIED",
+  "research_mode": "MVP_RESEARCH_DESIGN_ONLY",
+  "source_references": [
+    {
+      "id": "ferraro_rogoff_rossi_2015",
+      "type": "peer_reviewed_research",
+      "title": "Can Oil Prices Forecast Exchange Rates?",
+      "url": "https://rogoff.scholars.harvard.edu/publications/can-oil-prices-forecast-exchange-rates",
+      "claim_supported": "historical_daily_oil_CAD_link_and_unstable_lagged_predictability",
+      "does_not_establish": "profitability_of_this_rule_or_current_broker_CFD_execution"
+    },
+    {
+      "id": "nber_17998",
+      "type": "working_paper",
+      "url": "https://www.nber.org/papers/w17998",
+      "claim_supported": "short_horizon_oil_CAD_relationship"
+    },
+    {
+      "id": "bank_canada_2016_2",
+      "type": "official_central_bank_research",
+      "url": "https://www.bankofcanada.ca/2016/03/staff-analytical-note-2016-2/",
+      "claim_supported": "commodity_prices_are_contemporaneously_related_to_CAD_but_broad_USD_factor_stronger"
+    },
+    {
+      "id": "bank_canada_2017_1",
+      "type": "official_central_bank_research",
+      "url": "https://www.bankofcanada.ca/2017/02/staff-analytical-note-2017-1/",
+      "claim_supported": "oil_related_currency_exposure_is_a_market_risk_factor"
+    },
+    {
+      "id": "eia_schedule",
+      "type": "official_agency_document",
+      "url": "https://www.eia.gov/petroleum/supply/weekly/schedule.php",
+      "claim_supported": "weekly_oil_inventory_releases_exist_with_actual_nonuniform_release_clocks",
+      "role": "rejected_alternative"
+    },
+    {
+      "id": "carry_trades_currency_crashes",
+      "type": "research",
+      "url": "https://www.nber.org/books-and-chapters/nber-macroeconomics-annual-2008-volume-23/carry-trades-and-currency-crashes",
+      "role": "rejected_alternative"
+    },
+    {
+      "id": "inspected_vps_repo",
+      "type": "read_only_local_inspection",
+      "root": "/home/quant/dev/quant/quant-research",
+      "inspected_revision": "9525f35",
+      "inspected_branch": "local-first-main-sync-20261014",
+      "authoritative_local_over_remote": true,
+      "files_read": [
+        "AGENTS.md",
+        "docs/research_operations.md",
+        "docs/research_sessions.md",
+        "docs/architecture/market_scope_policy.md",
+        "config/research_contract_v1_example.yaml"
+      ],
+      "clean_tree": false,
+      "note": "Many unrelated untracked files; preserved with no mutations."
+    },
+    {
+      "id": "inspected_canonical_store",
+      "type": "read_only_metadata_and_directory_inspection",
+      "root": "/home/quant/dev/quant/ml4t-data/.data/store",
+      "checked_keys": [
+        "commodity_minute_CL",
+        "commodity_daily_OIL",
+        "forex_minute_USDCAD"
+      ]
+    }
+  ],
+  "economic_thesis": {
+    "relationship": "After WTI price changes, CAD trade and portfolio hedge demand can be adjusted slowly enough that USD/CAD retains a predictable next-session response.",
+    "prediction": "WTI up at the 15:00 ET close predicts USD/CAD down over the next matched 24-hour trading-day window, and vice versa.",
+    "direction": "WTI_change_opposes_USDCAD_direction",
+    "status": "HYPOTHESIS",
+    "intended_utility": "distinguish_delayed_cross_asset_information_transfer_from_plain_fx_drift"
+  },
+  "mechanism": {
+    "market_behavior": "currency_terms_of_trade_and_hedging_demand_adjust_after_energy_price_news",
+    "economic_actors": [
+      "Canadian_energy_exporters_and_trade_hedgers",
+      "macro_asset_allocators",
+      "USD_CAD_liquidity_providers"
+    ],
+    "payer": "investors_and_hedgers_seeking_liquidity_or_fast_CAD_exposure_adjustment",
+    "persistence_argument": "heterogeneous_execution_schedules_and_risk_limits_may_slow_hedging",
+    "strongest_counterargument": "arbitrage_and_common_USD_news_may_absorb_the_entire_effect_immediately",
+    "supportive_regimes": [
+      "material_oil_shocks_with_genuine_Canadian_terms_of_trade_implications",
+      "currency_adjustment_delayed_by_hedger_rebalancing"
+    ],
+    "destructive_regimes": [
+      "CAD_returns_driven_by_global_USD_and_rates_instead_of_oil",
+      "oil_shocks_are_demand_collapses_that_hurt_broad_risk_assets",
+      "efficient_instantaneous_oil_to_FX_price_discovery",
+      "high_broker_swaps_and_wide_USDCAD_spreads"
+    ],
+    "differs_from_standard_patterns": "sign_of_another_asset_specific_economic_shock_not_own_price_trend_or_range",
+    "author_original_rule": null,
+    "author_original_rule_note": "research_does_not_publish_this_exact_15_01_rule"
+  },
+  "instruments": {
+    "signal_instrument": {
+      "identity": "CL",
+      "intended_underlying": "WTI_light_sweet_crude_oil_futures",
+      "expected_venue": "CME_NYMEX",
+      "intended_role": "price_reference_only_not_execution",
+      "catalog_key": "commodity_minute_CL",
+      "data_root": "/home/quant/dev/quant/ml4t-data/.data/store/commodity_minute_CL",
+      "source_vendor": "UNKNOWN_REQUIRES_VERIFICATION",
+      "actual_contract_month_identifiers": "UNKNOWN_REQUIRES_VERIFICATION",
+      "roll_rule": "UNKNOWN_REQUIRES_VERIFICATION",
+      "price_adjustment": "UNKNOWN_REQUIRES_VERIFICATION",
+      "source_symbol_and_contract_identity_qualified": false
+    },
+    "trading_instrument": {
+      "economic_pair": "USD/CAD",
+      "side_convention": "positive_units_means_long_USD_short_CAD",
+      "target_product_class": "broker_fx_cfd_or_equivalent_margin_fx",
+      "final_broker": null,
+      "final_broker_symbol": null,
+      "settlement_currency": "CAD",
+      "account_currency": "USD",
+      "broker_product_identity_qualified": false,
+      "research_quote_proxy": {
+        "catalog_key": "forex_minute_USDCAD",
+        "data_root": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_USDCAD",
+        "vendor": "London_Strategic_Edge",
+        "vendor_symbol": "USD/CAD",
+        "timeframe": "1m"
+      },
+      "quantity_unit": "USD_base_currency",
+      "min_lot_and_tick": "UNKNOWN_REQUIRES_VERIFICATION",
+      "note": "Do_not_conflate_proxy_quote_with_tradable_broker_CFD"
+    },
+    "max_concurrent_positions": 1
+  },
+  "data_requirements": {
+    "source_data": {
+      "CL_signal": {
+        "raw_columns_required": [
+          "timestamp",
+          "symbol",
+          "open",
+          "high",
+          "low",
+          "close"
+        ],
+        "additional_provenance_required": [
+          "contract_id_or_verified_point_in_time_continuous_roll_map",
+          "source_venue_and_underlying_instrument",
+          "whether_prices_are_back_adjusted_or_stitched",
+          "bar_start_or_end_timestamp_label",
+          "timezone_and_regular_session_calendar"
+        ],
+        "frequency": "1m",
+        "observed_directory_years": "2013-2026",
+        "actual_date_gap_quality": "NOT_VERIFIED",
+        "avoid_cross_contract_returns": true
+      },
+      "USD_CAD_research_proxy": {
+        "raw_columns_required": [
+          "timestamp",
+          "symbol",
+          "open",
+          "high",
+          "low",
+          "close"
+        ],
+        "required_if_available": [
+          "bid",
+          "ask"
+        ],
+        "frequency": "1m",
+        "vendor": "London_Strategic_Edge",
+        "metadata_observed_start": "2009-09-25T00:00:00Z",
+        "metadata_observed_end": "2026-10-14T21:31:00Z",
+        "metadata_row_count": 6337664,
+        "bar_timestamp_semantics": "REQUIRES_EXPLICIT_VERIFICATION",
+        "actual_date_gap_quality": "NOT_VERIFIED"
+      },
+      "broker_execution": {
+        "raw_columns_required": [
+          "timestamp",
+          "executable_bid",
+          "executable_ask",
+          "bid_ask_effective_timestamp",
+          "per_side_commission",
+          "daily_signed_swap_schedule",
+          "triple_swap_calendar",
+          "quote_currency_conversion_rules",
+          "minimum_trade_size",
+          "broker_trade_breaks"
+        ],
+        "source": "UNKNOWN",
+        "status": "DATA_UNAVAILABLE"
+      }
+    },
+    "historical_coverage": {
+      "proposed_development_start": "2018-01-01T00:00:00Z",
+      "proposed_development_end_exclusive": "2024-01-01T00:00:00Z",
+      "qualified": false,
+      "reason": "source_holidays_rolls_quotes_and_protected_boundaries_not_yet_qualified",
+      "alternative_oil_source_not_substituted": {
+        "key": "commodity_daily_OIL",
+        "vendor": "Dukascopy",
+        "source_symbol": "lightcmdusd",
+        "metadata_observed_start": "2014-01-01T00:00:00Z",
+        "metadata_observed_end": "2026-10-14T00:00:00Z",
+        "note": "requires_separate_thesis_adaptation_and_bar_availability_proof"
+      }
+    },
+    "calendars": {
+      "strategy_timezone": "America/New_York",
+      "source_CL_calendar": "CME_NYMEX_WTI_calendar_to_be_verified",
+      "FX_calendar": "target_broker_FX_calendar_to_be_verified",
+      "dst_rule": "local_IANA_timezone_not_fixed_UTC_offset",
+      "base_eligible_entry_weekdays": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "holiday_rule": "skip_if_previous_or_current_or_next_session_price_not_valid",
+      "bar_timestamp_convention": "expected_bar_start_but_UNVERIFIED"
+    },
+    "gaps": {
+      "do_not_forward_fill_prices": true,
+      "do_not_infer_trading_calendar_from_filled_prices": true,
+      "on_missing_CL_current_or_prior_minute": "SKIP_SESSION_AND_RECORD_REASON",
+      "on_missing_broker_quote_or_cost_inputs": "BLOCKED_DATA",
+      "on_noncausal_contract_roll": "BLOCKED_DATA"
+    }
+  },
+  "feature_contracts": [
+    {
+      "name": "cl_ny_1500_close",
+      "purpose": "last_completed_WTI_price_before_decision",
+      "classification": "EXTENSION_REQUIRED",
+      "expected_provider": "calendar_aware_input_adapter_not_an_indicator",
+      "native_ml4t_api_claim": "none",
+      "formula": "Close of CL bar labeled 15:00 ET, whose interval ends 15:01 ET.",
+      "raw_inputs": [
+        "CL.timestamp",
+        "CL.close",
+        "CL.contract_id"
+      ],
+      "parameters": {
+        "timezone": "America/New_York",
+        "wall_clock": "15:00",
+        "bar_interval": "1m"
+      },
+      "lookback": "1_completed_CL_bar",
+      "warmup": "current_completed_bar",
+      "grouping": "CL_contract_id",
+      "timeframe": "1m",
+      "available_no_earlier_than": "15:01 America/New_York on current day, plus any verified source latency",
+      "parity_tests": [
+        "reject_end_labeled_bar_confused_with_start_labeled_bar",
+        "reject_15_01_bar_not_yet_closed",
+        "test_US_DST_transition",
+        "reject_roll_spanning_incompatible_contract_id"
+      ]
+    },
+    {
+      "name": "cl_prev_calendar_day_ny_1500_close",
+      "purpose": "ex_ante_reference_price_for_daily_change",
+      "classification": "EXTENSION_REQUIRED",
+      "expected_provider": "calendar_aware_past_only_join",
+      "native_ml4t_api_claim": "none",
+      "formula": "CL close from exactly one New York calendar day earlier, at the 15:00-15:01 local interval, using identical instrument identity or a verified point-in-time roll-adjustment process.",
+      "raw_inputs": [
+        "CL.timestamp",
+        "CL.close",
+        "CL.contract_id"
+      ],
+      "parameters": {
+        "day_lag": 1,
+        "timezone": "America/New_York",
+        "local_time": "15:00"
+      },
+      "lookback": "previous_calendar_day_15_00_interval",
+      "warmup": "1_prior_eligible_calendar_day",
+      "grouping": "CL_contract_id",
+      "timeframe": "1m",
+      "available_no_earlier_than": "previous_day_15_01_local",
+      "parity_tests": [
+        "missing_prior_calendar_day_is_not_last_observation_carried_forward",
+        "no_hindsight_roll_adjustment",
+        "skip_holiday_or_market_break"
+      ]
+    },
+    {
+      "name": "oil_change_sign",
+      "purpose": "sign_of_lagged_oil_movement_predicting_CAD",
+      "classification": "NATIVE_UNVERIFIED",
+      "expected_provider": "ml4t.engineer.compute_features_or_certified_extension",
+      "native_ml4t_api_claim": "exact_sign_and_lag_signature_not_inspected",
+      "formula": "sign(P_CL_1500_current - P_CL_1500_prev_calendar_day)",
+      "raw_inputs": [
+        "cl_ny_1500_close",
+        "cl_prev_calendar_day_ny_1500_close"
+      ],
+      "parameters": {
+        "lookback_calendar_days": 1,
+        "sign_of_zero": 0
+      },
+      "lookback": "2_valid_price_observations_24_local_hours_apart",
+      "warmup": "current_plus_prior_calendar_day",
+      "grouping": "signal_CL_instrument_and_contract_identity",
+      "timeframe": "aligned_daily_from_1m",
+      "available_no_earlier_than": "15:01 America/New_York current day plus verified source latency",
+      "parity_tests": [
+        "prices 80->81 produce +1; 81->80 produce -1; equal produce zero",
+        "negative_or_zero_CL_prices_must_not_cause_log_division",
+        "appending_later_history_does_not_change_existing_features",
+        "groups_never_mix_contracts"
+      ]
+    },
+    {
+      "name": "fx_target_direction",
+      "purpose": "contrarian_USDCAD_exposure_to_oil_sign",
+      "classification": "EXTENSION_REQUIRED",
+      "expected_provider": "native_strategy_rule_not_ml_indicator",
+      "native_ml4t_api_claim": "no_native_support_asserted",
+      "formula": "position_sign_USDCAD = -oil_change_sign",
+      "raw_inputs": [
+        "oil_change_sign"
+      ],
+      "parameters": {
+        "long_when_oil_down": true,
+        "short_when_oil_up": true
+      },
+      "lookback": 0,
+      "warmup": "requires_valid_oil_change_sign",
+      "grouping": "USD_CAD",
+      "timeframe": "one_decision_per_eligible_day",
+      "available_no_earlier_than": "oil_change_sign_availability",
+      "parity_tests": [
+        "oil_up_requires_short_USDCAD",
+        "oil_down_requires_long_USDCAD",
+        "zero_requires_flat"
+      ]
+    },
+    {
+      "name": "session_eligibility",
+      "purpose": "prevent_weekends_holidays_missing_clock_prices_and_overlapping_positions",
+      "classification": "EXTENSION_REQUIRED",
+      "expected_provider": "event_driven_session_scheduler",
+      "native_ml4t_api_claim": "must_verify_engine_calendar_API",
+      "formula": "NY weekday in Tue/Wed/Thu AND previous NY calendar day CL 15:00 close exists AND current day close exists AND next calendar day FX tradable at 15:02 AND no forbidden roll/gap.",
+      "raw_inputs": [
+        "CL.timestamp",
+        "CL.contract_id",
+        "FX.timestamp",
+        "market_calendars"
+      ],
+      "parameters": {
+        "entry_weekdays": [
+          "Tuesday",
+          "Wednesday",
+          "Thursday"
+        ],
+        "timezone": "America/New_York"
+      },
+      "lookback": "previous_calendar_day_calendar_check",
+      "warmup": "previous_session_calendar_available",
+      "grouping": "pair_CL_to_USDCAD",
+      "timeframe": "daily_event",
+      "available_no_earlier_than": "15:01 America/New_York current day",
+      "parity_tests": [
+        "Monday_and_Friday_not_eligible",
+        "Tuesday_after_US_holiday_skipped_if_prior_day_missing",
+        "DST_shift_preserves_15_00_local_clock",
+        "no_simultaneous_positions"
+      ]
+    }
+  ],
+  "strategy_rules": {
+    "original": {
+      "thesis_variant": {
+        "label": "cross_asset_oil_to_CAD_delay",
+        "signal_clock_local": "15:01",
+        "entry_clock_local_earliest": "15:02",
+        "exit_clock_local_earliest_next_calendar_day": "15:02",
+        "entry_conditions": [
+          "session_eligibility_true",
+          "CL_same_product_price_change_proven_causal",
+          "oil_change_sign_not_zero",
+          "flat_before_entry"
+        ],
+        "direction": {
+          "when_oil_change_positive": "SELL_USD_CAD",
+          "when_oil_change_negative": "BUY_USD_CAD",
+          "when_oil_change_zero": "FLAT"
+        },
+        "trade_type": "market_or_equivalent_taker_if_broker_quote_available",
+        "exit_policy": "time_exit_next_calendar_day_15_02_local",
+        "stop_loss": "none",
+        "take_profit": "none",
+        "additional_filters": "none",
+        "on_same_day_unexpected_broker_close": "flag_INCONCLUSIVE_or_BLOCKED_unless_predeclared_calendar_skip",
+        "on_unfilled_entry": "do_not_mark_as_filled",
+        "on_unfilled_exit": "use_real_executable_first_later_fill_and_flag_deviation"
+      },
+      "position_state_transitions": [
+        "FLAT_TO_ENTER_PENDING",
+        "ENTER_PENDING_TO_LONG_OR_SHORT_ONLY_IF_FILLED",
+        "OPEN_TO_EXIT_PENDING_ON_NEXT_day_15_01_event",
+        "EXIT_PENDING_TO_FLAT_ONLY_IF_FILLED",
+        "MISSED_OR_INVALID_TO_RECORDED_SKIP"
+      ],
+      "concurrency": "one_trade_max"
+    },
+    "source_exact_rules": null,
+    "source_testing": null,
+    "source_selection_bias": null,
+    "local_adaptation": null,
+    "provenance_extras": {
+      "created_at_utc": "2026-10-15T04:02:40Z",
+      "research_mode": "MVP_RESEARCH_DESIGN_ONLY",
+      "research_authorization": {
+        "preregistered": false,
+        "session_frozen": false,
+        "execution_approved": false,
+        "backtested": false,
+        "holdout_accessed": false,
+        "repository_modified": false
+      },
+      "research_handoff": {
+        "addressed_to": "ChatGPT_Web_research_lead",
+        "immediate_action": "independently_verify_CL_roll_source_USDCAD_broker_and_both_event_clocks_before_session_freeze",
+        "native_ml4t_action": "verify_compute_features_registry_compatibility_then_prepare_event_driven_order_fill_contract",
+        "forbidden_next_actions": [
+          "backtest",
+          "optimize",
+          "open_protected_holdout",
+          "deploy",
+          "trade",
+          "modify_existing_frozen_sessions"
+        ],
+        "next_decisive_question": "can_daily_oil_changes_be_proven_available_and_non_roll_contaminated_before_the_first_executable_FX_quote"
+      }
+    }
+  },
+  "signal_and_execution_clock": {
+    "timezone": "America/New_York",
+    "input_bar_frequency": "1m",
+    "source_time_label": "bar_start_expected_requires_proof",
+    "information_observed": "15:00-15:01 CL bar close",
+    "earliest_feature_available": "15:01 local plus verified feed latency",
+    "decision_time": "15:01 local after complete feed processing",
+    "earliest_fill_time": "15:02 local on next legal FX event, never same CL bar",
+    "exit_decision_time": "15:01 local next calendar day",
+    "earliest_exit_fill_time": "15:02 local next calendar day on legal FX event",
+    "same_bar_fill_permitted": false,
+    "event_sequence_test": "ensure_CL_close_processed_before_order_submission_and_order_fills_after_decision",
+    "latency_policy": "if_source_latency_makes_15_02_impossible_block_and_revise_as_new_predeclared_trial",
+    "next_bar_price_semantics": "broker_bid_for_sell_and_ask_for_buy_not_mid"
+  },
+  "sizing": {
+    "methodology": "fixed_USD_base_notional",
+    "usd_base_notional_per_trade": 10000,
+    "illustrative_book_equity_usd": 100000,
+    "maximum_gross_exposure_to_book": 0.1,
+    "target_leverage": 0.1,
+    "maximum_positions": 1,
+    "reinvestment": "none",
+    "quantity_rounding": "broker_contract_size_to_be_verified",
+    "collateral_margin_liquidation": "broker_terms_must_be_verified",
+    "pnl_currency_accounting": "USD/CAD price is CAD per USD. Compute position PnL initially in CAD from signed USD base units times actual exit-minus-entry exchange rate; convert realized CAD PnL to USD at the actual broker conversion rate."
+  },
+  "cost_assumptions": {
+    "permitted_zero_cost_assumption": false,
+    "estimated_constant_spread_bps": null,
+    "required_components": [
+      "full_bid_ask_quote_for_each_entry_and_exit",
+      "effective_broker_commissions_each_side",
+      "time_and_side_dependent_signed_swap_financing",
+      "Wednesday_triple_rollover_and_holidays",
+      "brokerage_minimum_fee_if_applicable",
+      "slippage_and_execution_latency_stress",
+      "FX_account_currency_conversion_spread"
+    ],
+    "cost_source": "exact_broker_contract_with_historical_effective_dates_REQUIRED",
+    "provisional_constants_used": "none",
+    "native_engine_cost_semantics_verified": false,
+    "qualification": "BLOCKED_DATA"
+  },
+  "baseline": {
+    "name": "unconditional_CAD_long_matched_window",
+    "rule": "always_SELL_USD_CAD_at_same_eligible_entry_and_exit_times",
+    "direction": "short_USD_CAD",
+    "sizing": "identical_fixed_USD_10000_base_notional",
+    "eligibility": "identical_calendar_and_available_quote_filter_to_candidate",
+    "financing": "same_method_with_signed_side_and_actual_applicable_swaps",
+    "benchmark_accounting": "FX_PnL_in_USD_after_all_broker_costs",
+    "reason": "tests_whether_oil_sign_is_better_than_simple_static_CAD_exposure",
+    "number_of_baselines": 1
+  },
+  "development_evaluation": {
+    "proposed_development": {
+      "start": "2018-01-01",
+      "end_exclusive": "2024-01-01",
+      "eligible_only_if_outside_all_protected_holdouts": true,
+      "is_claimed_unseen": false
+    },
+    "research_phase_3": {
+      "preregistered_trial_kind": "diagnostic",
+      "name": "frozen_single_symbol_signed_forward_FX_return_event_study",
+      "signal_outcome": "USD_CAD_15_02_to_next_day_15_02_signed_return",
+      "decision": "PASS_FAIL_INCONCLUSIVE_NOT_APPLICABLE",
+      "must_record_before_native_phase4": true,
+      "proposed_PASS": "positive_gross_candidate_mean_and_cost_feasible_at_documented_broker_friction",
+      "proposed_FAIL": "causal_candidate_signed_forward_mean_non_positive_with_sufficient_effective_sample",
+      "proposed_INCONCLUSIVE": "missing_or_dependence_dominated_evidence"
+    },
+    "phase_4_if_permitted": {
+      "engine": "ml4t.backtest.Engine",
+      "strategy_interface": "ml4t.backtest.Strategy",
+      "native_API_signatures_verified": false,
+      "one_trial_only": true
+    },
+    "economic_null_hypothesis": "candidate_mean_net_advantage_over_unconditional_CAD_long_is_non_positive",
+    "primary_metric": "mean_paired_candidate_minus_baseline_net_USD_return_per_eligible_session",
+    "primary_uncertainty_method": "Newey_West_HAC_95pct_CI_with_lag_5_trading_days",
+    "independent_event_minimum": "600_valid_paired_nonoverlapping_entries",
+    "calendar_years_minimum": 5,
+    "supporting_metrics": [
+      "candidate_mean_net_USD_return_per_trade",
+      "paired_sample_count_and_effective_sample_size",
+      "gross_to_net_cost_attribution",
+      "signed_swap_cost_attribution",
+      "max_drawdown_on_daily_cash_equity",
+      "duration_and_broker_fill_delay",
+      "fraction_of_entries_with_quotes_and_legal_fills",
+      "return_by_calendar_year_without_selection",
+      "correlation_with_unconditional_CAD_and_broad_USD_factor_if_point_in_time_data_available"
+    ],
+    "horizon": "next_calendar_day_same_local_time",
+    "hidden_trials_prohibited": true,
+    "no_parameter_sweep": true,
+    "no_final_holdout_inspection": true
+  },
+  "primary_falsifier": {
+    "statement": "A daily lagged WTI sign cannot earn a positive net USD/CAD return over the matched window or cannot improve on unconditional short USD/CAD after contemporaneous broker costs.",
+    "reject_if_any": [
+      "minimum_coverage_met_and_candidate_net_mean_not_positive",
+      "minimum_coverage_met_and_paired_advantage_95pct_CI_upper_bound_less_than_or_equal_zero"
+    ],
+    "inconclusive_if": [
+      "paired_CI_contains_zero_despite_positive_point_estimate",
+      "sample_smaller_than_minimum_or_effectively_dependent",
+      "some_costs_or_price_mapping_unverified"
+    ]
+  },
+  "acceptance_and_stop_rules": {
+    "accept_for_further_validation_only_if_all": [
+      "source_contracts_calendar_costs_and_fill_semantics_qualified",
+      "research_phase_3_GATE_PASS_or_preapproved_exception_with_specific_reason",
+      "at_least_600_complete_paired_nonoverlapping_trades_across_five_years",
+      "candidate_net_mean_return_strictly_positive",
+      "lower_95pct_HAC_CI_on_paired_advantage_strictly_positive",
+      "no_future_data_or_roll_artifact_contamination"
+    ],
+    "stop_on_valid_failure": "REJECT_NO_RETUNE",
+    "stop_on_missing_required_data": "BLOCKED_DATA",
+    "stop_on_unresolved_uncertainty": "INCONCLUSIVE",
+    "after_success": "VALIDATION_CANDIDATE_ONLY_NOT_PROMOTED",
+    "followup_search_permitted_without_new_trial_registration": false
+  },
+  "parity_and_causality_tests": [
+    {
+      "name": "oil_direction_and_equal_price",
+      "test": "Pprev=70,Pnow=71 -> SELL USD/CAD; 71,70 -> BUY; 70,70 -> FLAT"
+    },
+    {
+      "name": "WTI_negative_price",
+      "test": "Pprev=-5,Pnow=1 -> +6 change; do not use undefined log ratios"
+    },
+    {
+      "name": "nonconsecutive_sessions",
+      "test": "Monday or post-holiday without previous-calendar-day CL price -> skip, not Friday as prior"
+    },
+    {
+      "name": "contract_roll_separation",
+      "test": "different_CL_contract_without_proven_point_in_time_adjustment_must_block"
+    },
+    {
+      "name": "no_same_bar_fill",
+      "test": "feature_available_15_01_must_not_fill_before_15_02"
+    },
+    {
+      "name": "trading_and_DST",
+      "test": "IANA_New_York_local_15_00_maps_to_correct_UTC_on_DST_edges"
+    },
+    {
+      "name": "symbol_isolation",
+      "test": "CL_feature_state_never_uses_USDCAD_price_or_other_contract_history"
+    },
+    {
+      "name": "append_stability",
+      "test": "appending_future_bars_never_changes_past_oil_signals"
+    },
+    {
+      "name": "broker_side_fills",
+      "test": "BUY_at_ask_SELL_at_bid_include_slippage_and_fees"
+    },
+    {
+      "name": "financing",
+      "test": "Wednesday_overnight_and_holiday_rollover_charges_correctly_signed"
+    },
+    {
+      "name": "account_currency",
+      "test": "CAD_PnL_to_USD_conversion_at_actual_exit_broker_rate"
+    },
+    {
+      "name": "matched_baseline",
+      "test": "same_eligible_day_set_and_schedule_for_both_variants"
+    },
+    {
+      "name": "no_forward_fill",
+      "test": "one_missing_CL_signal_bar_causes_skip_not_stale_trade"
+    },
+    {
+      "name": "absent_native_feature",
+      "test": "if_no_exact_registry_proof_mark_EXTENSION_REQUIRED_not_Native_verified"
+    }
+  ],
+  "known_adaptations": [
+    "paper_studies_CAD_oil_predictability_but_does_not_specify_this_fixed_daily_sign_rule",
+    "implementation_uses_one_15_00_ET_observed_WTI_interval_per_session",
+    "swaps_a_published_statistical_regression_horizon_for_one_fixed_event_driven_holding_period",
+    "expected_CL_futures_quote_used_only_as_signal_reference_not_trade_execution",
+    "LSE_USDCAD_quote_is_a_price_proxy_until_actual_FX_CFD_broker_quotes_qualified",
+    "other_Dukascopy_daily_OIL_not_silently_substituted"
+  ],
+  "verified_facts": [
+    {
+      "source": "ferraro_rogoff_rossi_2015",
+      "fact": "research_reports_daily_oil_CAD_relationship_and_warnings_of_ephemeral_lagged_predictability"
+    },
+    {
+      "source": "bank_canada_2016_2",
+      "fact": "commodity_prices_are_contemporaneously_informative_for_CAD_and_USD_factor_is_stronger"
+    },
+    {
+      "source": "VPS_repo_read_only",
+      "fact": "all_five_required_repository_documents_were_inspected"
+    },
+    {
+      "source": "VPS_canonical_store_metadata",
+      "fact": "forex_minute_USDCAD_is_LSE_1m_with_metadata_start_2009_and_end_2026"
+    },
+    {
+      "source": "VPS_canonical_directory",
+      "fact": "commodity_minute_CL_year_partitions_exist_for_2013_through_2026"
+    },
+    {
+      "source": "VPS_canonical_store_metadata",
+      "fact": "commodity_daily_OIL_is_distinct_Dukascopy_lightcmdusd_dataset"
+    }
+  ],
+  "assumptions": [
+    "bar_start_timestamps_are_not_yet_verified",
+    "15_00_completed_CL_price_is_observable_for_15_01_decision_after_latency_check",
+    "oil_change_direction_has_possible_delayed_effect_despite_arbitrage_and_common_USD",
+    "broker_product_can_be_named_and_its_costs_reconstructed_before_phase3",
+    "source_CME_CL_continuous_implementation_can_be_proven_causal_or_replaced_only_by_new_spec",
+    "2018_to_2023_dates_are_proposal_not_verified_free_of_protected_allocation_boundaries"
+  ],
+  "unresolved_blockers": [
+    {
+      "id": "CL_SOURCE_AND_ROLL",
+      "classification": "BLOCKED_DATA",
+      "question": "which_venue_contract_month_roll_rule_adjustments_and_timestamps_underlie_commodity_minute_CL"
+    },
+    {
+      "id": "REALTIME_CL_AVAILABILITY",
+      "classification": "BLOCKED_DATA",
+      "question": "can_15_00_CL_bar_be_used_at_15_01_with_observed_vendor_latency"
+    },
+    {
+      "id": "FX_BROKER_IDENTITY",
+      "classification": "BLOCKED_DATA",
+      "question": "which_exact_USDCAD_OTC_FX_CFD_broker_product_is_intended_for_execution"
+    },
+    {
+      "id": "FX_EXECUTION_COSTS",
+      "classification": "BLOCKED_DATA",
+      "question": "where_are_historical_bid_ask_commissions_swaps_conversions_and_market_breaks"
+    },
+    {
+      "id": "NATIVE_ENGINE_CAPABILITY",
+      "classification": "NATIVE_UNVERIFIED",
+      "question": "exact_installed_compute_features_and_event_driven_scheduling_fill_API_semantics"
+    },
+    {
+      "id": "PROTECTED_BOUNDARIES",
+      "classification": "REQUIRES_VERIFICATION",
+      "question": "is_proposed_2018_2023_dev_window_fully_authorized_and_not_sealed"
+    },
+    {
+      "id": "DATA_GAPS",
+      "classification": "REQUIRES_VERIFICATION",
+      "question": "are_both_minute_datasets_complete_at_matched_NY_15_00_and_15_02_events"
+    }
+  ],
+  "not_execution_approved": true,
+  "not_a_frozen_session": true
+}

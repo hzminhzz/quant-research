@@ -62,6 +62,8 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.ci/trading-connector
         run: uv run --frozen pytest -m "not data and not slow" -q
+      - name: Validate published descriptive research handoffs
+        run: uv run --frozen python scripts/quant.py validate-handoff
 
   full-tests:
     name: Full tests

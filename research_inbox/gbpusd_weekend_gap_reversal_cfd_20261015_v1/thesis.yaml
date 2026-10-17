@@ -1,0 +1,446 @@
+{
+  "candidate_id": "gbpusd_weekend_gap_reversal_cfd_20261015_v1",
+  "selection_family_id": "gbpusd_weekend_gap_reversal_cfd",
+  "status": "THESIS_READY_UNVERIFIED",
+  "research_mode": "MVP_RESEARCH_DESIGN_ONLY",
+  "source_references": [
+    {
+      "id": "dao_mcg_urquhart_2016",
+      "type": "primary_paper_full_postprint",
+      "url": "https://irep.ntu.ac.uk/id/eprint/35555/1/13113_Dao.pdf",
+      "relevance": "original weekend-gap quantile and contrarian weekly rules, historical evidence"
+    },
+    {
+      "id": "dukascopy_historical_export",
+      "type": "official_vendor_document",
+      "url": "https://www.dukascopy.com/api/data/get/historical-data-export",
+      "relevance": "bid and ask available from vendor in principle, local store quote semantics unverified"
+    },
+    {
+      "id": "nyfed_cot_2004",
+      "type": "independent_research_adverse_other_candidate",
+      "url": "https://www.newyorkfed.org/research/epr/04v10n1/0405klit/0405klit.html"
+    },
+    {
+      "id": "cftc_cot_release",
+      "type": "regulator_other_candidate",
+      "url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm"
+    },
+    {
+      "id": "mueller_crypto_seasonality_2024",
+      "type": "independent_research_other_candidate",
+      "url": "https://econpapers.repec.org/article/eeefinlet/v_3a64_3ay_3a2024_3ai_3ac_3as1544612324004598.htm"
+    },
+    {
+      "id": "repo_authorities",
+      "type": "inspected_local_docs",
+      "paths": [
+        "AGENTS.md",
+        "docs/research_operations.md",
+        "docs/research_sessions.md",
+        "docs/architecture/market_scope_policy.md",
+        "config/research_contract_v1_example.yaml"
+      ],
+      "vcs_head": "9525f35"
+    }
+  ],
+  "economic_thesis": {
+    "behavior": "A large Friday-to-Sunday GBP/USD price discontinuity partially reverses before next Friday after an executable CFD entry.",
+    "null": "Mean net event return is not positive after execution and financing; any gap reversal is no greater than on ordinary gap weekends.",
+    "alternative": "Positive after-cost contrarian mean return, with enhanced reversal in predeclared extreme weekend-gap episodes.",
+    "independence_claim": "Mechanism tied to weekend closure and liquidity restoration, not an unconditional price oscillator or scheduled-policy event."
+  },
+  "mechanism": {
+    "verified_prior": "Original 2016 paper documents historical spot FX weekend-gap reversal, using top and bottom 5 percent gaps and one-week holding.",
+    "inference": "Closed-market news and one-sided reopening orders can temporarily overshoot equilibrium prices.",
+    "hypothesis": "Limitations to reopening liquidity produce transient impact that is still present when a real CFD order can execute.",
+    "effective_payers": "Urgent weekend-news order initiators crossing widened spreads and participants whose initial overreaction subsequently reverses.",
+    "favorable_regime": "Transient weekend order imbalance followed by normal weekday liquidity.",
+    "destructive_regime": "Permanent central-bank or geopolitical repricing, abnormally wide spreads, and disrupted broker sessions."
+  },
+  "instruments": {
+    "source_instrument": "GBP/USD spot FX quoted price",
+    "canonical_catalog_key": "forex_minute_GBPUSD",
+    "source_vendor": "Dukascopy_derived_store_unverified_semantics",
+    "source_symbol": "GBPUSD",
+    "tradable_instrument": "GBP/USD rolling FX CFD or margin-FX equivalent",
+    "intended_execution_broker": "UNMAPPED_BROKER_MUST_VERIFY",
+    "product_class": "fx_cfd_or_margin_fx_requires_exact_mapping",
+    "base_currency": "GBP",
+    "quote_and_account_currency": "USD",
+    "source_role": "price_proxy_until_bid_ask_and_broker_mapping_qualified",
+    "short_allowed": "subject_to_broker_verification",
+    "broker_contract_multiplier_and_lot": "UNKNOWN",
+    "max_positions": 1
+  },
+  "data_requirements": {
+    "canonical_store_root": "/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_GBPUSD",
+    "metadata_observed": "Year partition directories 2009 through 2026 exist; event-complete bars are not established.",
+    "frequency": "1m quote-derived bars or timestamped bid-and-ask quotes",
+    "required_columns": [
+      "timestamp_utc",
+      "bid_at_event",
+      "ask_at_event",
+      "source_symbol"
+    ],
+    "needed_source_semantics": [
+      "consistent bid/ask side at bar boundary",
+      "UTC timestamp, precisely defined bar_start_or_end",
+      "historical quote availability and no forward fill across closed sessions",
+      "clean broker opening and closing calendars per year",
+      "spread and independent trade-price/broker-cost evidence"
+    ],
+    "historical_window_proposed": {
+      "warmup_start_inclusive": "2012-01-01",
+      "development_start_inclusive": "2017-01-01",
+      "development_end_exclusive": "2025-01-01",
+      "constraint": "Use only eligible, nonprotected dates after inspection of repository allocation and prior trials."
+    },
+    "missing_data_policy": [
+      "Do not reconstruct a missing Friday or Sunday open price from a later week.",
+      "No forward filling across the closed weekend.",
+      "Skip week if bid or ask, timestamps, or both reference bars are missing or crossed.",
+      "Never use quote observations after the signal decision time to select the gap.",
+      "Require at least 234 valid immediately prior gap weeks among 260 prior calendar-week slots."
+    ],
+    "unavailable_or_unconfirmed": [
+      "exact_local_parquet_columns",
+      "fully_qualified_bid_ask_history",
+      "true_broker_trade_calendar",
+      "broker_swap_history",
+      "instrument_contract_and_lot_size"
+    ]
+  },
+  "feature_contracts": [
+    {
+      "feature_name": "friday_reference_mid",
+      "purpose": "Causal pre-weekend reference from previous FX trading week.",
+      "exact_definition": "mid_f = (bid_f + ask_f)/2 at latest fully completed 1m bar in [Friday 16:45, Friday 16:59) America/New_York.",
+      "raw_input_columns": [
+        "timestamp_utc",
+        "bid",
+        "ask"
+      ],
+      "parameters": {
+        "friday_minute_window": "16:45-16:59",
+        "timezone": "America/New_York"
+      },
+      "grouping": "GBPUSD_only_per_calendar_week",
+      "timeframe": "1m",
+      "warmup": "0 prior bars, provided a valid Friday reference exists",
+      "available_at": "bar_end_of_reference_friday_bar",
+      "causal_alignment": "prior_week_only",
+      "expected_provider": "calendar_quote_selector_local_extension",
+      "classification": "EXTENSION_REQUIRED",
+      "parity_tests": [
+        "known_friday_time_and_dst",
+        "last_valid_completed_bar",
+        "absent_quote_skip",
+        "crossed_bid_ask_skip"
+      ]
+    },
+    {
+      "feature_name": "sunday_reference_mid",
+      "purpose": "First completed executable reopening quote, not the later Monday close.",
+      "exact_definition": "mid_s = (bid_s + ask_s)/2 at first completed 1m quote bar within 60 minutes after broker-verified Sunday weekly opening; signal only after that minute closes.",
+      "raw_input_columns": [
+        "timestamp_utc",
+        "bid",
+        "ask",
+        "broker_session_calendar"
+      ],
+      "parameters": {
+        "max_minutes_after_broker_open": 60,
+        "timezone": "America/New_York"
+      },
+      "grouping": "GBPUSD_only_per_calendar_week",
+      "timeframe": "1m",
+      "warmup": "1 valid 1m bar after Sunday reopen",
+      "available_at": "end_of_first_valid_sunday_open_quote_bar",
+      "causal_alignment": "do_not_trade_during_same_bar",
+      "expected_provider": "broker_calendar_quote_event_extension",
+      "classification": "EXTENSION_REQUIRED",
+      "parity_tests": [
+        "spring_autumn_dst",
+        "sunday_holiday",
+        "missing_opening_bar",
+        "quote_side_consistency"
+      ]
+    },
+    {
+      "feature_name": "weekend_gap_log",
+      "purpose": "Signed nontrading price discontinuity.",
+      "exact_definition": "g_w = ln(sunday_reference_mid_w / friday_reference_mid_w).",
+      "raw_input_columns": [
+        "friday_reference_mid",
+        "sunday_reference_mid"
+      ],
+      "parameters": {
+        "transform": "natural_log_ratio"
+      },
+      "grouping": "GBPUSD_only_per_calendar_week",
+      "timeframe": "weekly_event_derived_from_1m",
+      "warmup": "1 complete weekend pair",
+      "available_at": "same_as_sunday_reference_mid",
+      "causal_alignment": "both reference prices must be already published quotes",
+      "expected_provider": "ml4t.engineer.compute_features_or_approved_event_extension_to_be_verified",
+      "classification": "NATIVE_UNVERIFIED",
+      "parity_tests": [
+        "zero_gap_returns_zero",
+        "known_two_price_log_ratio",
+        "direction_sign",
+        "no_future_prefix_changes"
+      ]
+    },
+    {
+      "feature_name": "trailing_weekend_gap_tail_quantiles",
+      "purpose": "Define exceptionally large gap relative to prior five calendar years.",
+      "exact_definition": "On week w sort valid {g_i: w-260 <= i < w} ascending; with n >=234 set Q(p) by linear interpolation between sorted ranks at h=(n-1)*p; p=0.10 or 0.90.",
+      "raw_input_columns": [
+        "weekend_gap_log",
+        "calendar_week_key"
+      ],
+      "parameters": {
+        "prior_calendar_weeks": 260,
+        "minimum_valid_prior_weeks": 234,
+        "q_low": 0.1,
+        "q_high": 0.9,
+        "interpolation": "linear_type7"
+      },
+      "grouping": "GBPUSD_only_per_calendar_week",
+      "timeframe": "weekly_event",
+      "warmup": "260 prior calendar-week slots, >=234 valid completed gaps",
+      "available_at": "just_before_current_week_sunday_open",
+      "causal_alignment": "exclude_current_week_and_future_events",
+      "expected_provider": "point_in_time_rolling_quantile_event_extension",
+      "classification": "EXTENSION_REQUIRED",
+      "parity_tests": [
+        "synthetic_known_quantile",
+        "sample_boundaries",
+        "current_gap_exclusion",
+        "missing_prior_week_policy",
+        "append_future_no_change"
+      ]
+    },
+    {
+      "feature_name": "weekend_gap_reversal_direction",
+      "purpose": "Return the one trade side or zero.",
+      "exact_definition": "short (-1) if g_w>0 and g_w>=Q90; long (+1) if g_w<0 and g_w<=Q10; otherwise flat (0). At equality the tail rule applies.",
+      "raw_input_columns": [
+        "weekend_gap_log",
+        "trailing_weekend_gap_tail_quantiles"
+      ],
+      "parameters": {
+        "long": 1,
+        "short": -1,
+        "flat": 0
+      },
+      "grouping": "GBPUSD_only_per_calendar_week",
+      "timeframe": "weekly_event",
+      "warmup": "valid_trailing_quantiles_and_current_gap",
+      "available_at": "after_current_first_sunday_quote_bar_completed",
+      "causal_alignment": "first_market_order_event_after_signal_only",
+      "expected_provider": "strategy_calendar_rule_extension",
+      "classification": "EXTENSION_REQUIRED",
+      "parity_tests": [
+        "positive_gap_short",
+        "negative_gap_long",
+        "zero_gap_flat",
+        "equality_boundary",
+        "no_order_on_missing_inputs"
+      ]
+    }
+  ],
+  "strategy_rules": {
+    "original": {
+      "original_author_preserved": {
+        "research_market": "spot FX across developed and emerging currencies, 2002 to May 2014",
+        "gap_formula": "ln(Monday_Australia_open / previous_Friday_US_close)",
+        "large_gap_rule": "bottom_5_percent_or_top_5_percent_of_historical_weekend_gaps",
+        "estimation": "initial_five_year_weekend_sample_then_rolling_or_recursive_history",
+        "entry": "Monday_Australian_session_open",
+        "direction": "contrarian_to_gap",
+        "exit": "Friday_close_after_one_trading_week",
+        "author_selected_after_evaluating": "5_10_15_percent_thresholds_and_one_three_five_day_horizons",
+        "original_financing": "spot_lending_borrowing_interest_rate_model_not_CFD_swap"
+      },
+      "cfd_adaptation_frozen_proposal": {
+        "eligibility": "one_complete_current_weekend_gap_and_260_prior_calendar_week_slots_with_min_234_valid",
+        "direction": "weekend_gap_reversal_direction",
+        "entry_order": "market_order_at_earliest_subsequent_executable_bid_ask_event_after_first_sunday_quote_bar_closes",
+        "exit_order": "send_time_exit_at_Friday_16_45_New_York_and_fill_at_next_legal_quote_before_weekly_close",
+        "stop_loss": "none_in_MVP",
+        "take_profit": "none_in_MVP",
+        "pyramiding": false,
+        "reverse_in_position": false,
+        "carry_through_weekend": false,
+        "position_state_transitions": [
+          "FLAT_TO_LONG",
+          "FLAT_TO_SHORT",
+          "LONG_TO_FLAT",
+          "SHORT_TO_FLAT"
+        ],
+        "no_fill_policy": "skip_or_mark_blocked_execution_never_fabricate_fill",
+        "holiday_policy": "use_verified_broker_sessions_only_else_skip"
+      }
+    },
+    "source_exact_rules": null,
+    "source_testing": null,
+    "source_selection_bias": null,
+    "local_adaptation": null,
+    "provenance_extras": {
+      "candidate_name": "GBP/USD Weekend Gap Overreaction Reversal",
+      "research_timestamp": "2026-10-15T12:08:00+07:00",
+      "research_scope": "thesis_design_only_not_approved_or_frozen"
+    }
+  },
+  "signal_and_execution_clock": {
+    "timezone": "America/New_York",
+    "utc_storage": "mandatory",
+    "dst": "use_IANA_transitions_not_constant_utc_offset",
+    "bar_timestamp_convention": "must_determine_source_then_normalize_to_bar_start",
+    "friday_reference": "last_complete_valid_quote_minute_Friday_16_45_through_before_16_59_NY",
+    "sunday_observation": "first_full_valid_1m_quote_bar_within_60m_after_actual_broker_weekly_reopen",
+    "threshold_availability": "prior_completed_gap_weeks_before_current_Sunday",
+    "signal_decision": "end_of_first_observed_sunday_quote_bar",
+    "first_legal_fill": "first_executable_next_quote_or_subsequent_1m_bar_event_after_decision",
+    "exit_decision": "Friday_16_45_America_New_York",
+    "exit_fill": "next_executable_quote_prior_to_verified_Friday_market_close",
+    "data_timestamp_parity_required": true
+  },
+  "sizing": {
+    "normalized_account_equity_usd": 10000,
+    "target_gross_notional_as_fraction_of_equity": 1,
+    "maximum_leverage": 1,
+    "simultaneous_positions": 1,
+    "minimum_lot_and_rounding": "block_until_exact_broker_spec_verified",
+    "no_rebalance_while_open": true
+  },
+  "cost_assumptions": {
+    "status": "broker_specific_values_not_verified",
+    "entry": "use_actual_ask_if_long_bid_if_short",
+    "exit": "use_actual_bid_if_long_ask_if_short",
+    "commissions": "per_broker_schedule_effective_on_each_trade_date",
+    "slippage": "positive_unfavorable_assumption_verified_against_quote_or_trade_data",
+    "overnight_financing": "charge_actual_side_specific_daily_swap_or_rolling_FX_financing_with_triple_day_rules",
+    "weekend_financing": "no_weekend_position_but_midweek_holding_costs_apply",
+    "impact": "assess_size_vs_available_liquidity_else_capacity_unknown",
+    "price_proxy_costs_are_not_execution_proof": true,
+    "zero_cost_executable_claim_allowed": false
+  },
+  "baseline": {
+    "primary": "cash_no_trade_zero_excess_PnL",
+    "economic_null": "mean_net_event_return_less_than_or_equal_zero",
+    "primary_unit": "event_week_net_return_as_fraction_of_initial_fixed_notional",
+    "secondary_mechanism_placebo": "same_clock_contrarian_return_on_non_extreme_gap_weeks_analyzed_separately_not_as_an_optimized_rule",
+    "author_performance_must_not_be_used_as_modern_result": true
+  },
+  "development_evaluation": {
+    "research_mode": "MVP_Research_pre_execution_design",
+    "dates_proposed": [
+      "2017-01-01",
+      "2025-01-01"
+    ],
+    "historical_warmup_proposed_start": "2012-01-01",
+    "protected_holdout": "do_not_access_check_registry_boundaries_first",
+    "prior_observed_data": "not_claimed_unseen",
+    "diagnostic_phase3": {
+      "kind": "single_instrument_event_signed_forward_outcomes",
+      "metric": "mean_contrarian_next_executable_to_friday_return_vs_zero_plus_event_week_uncertainty",
+      "preregister_before_trial": "required_by_docs_research_operations_md",
+      "phase3_outcome_classes": [
+        "PASS",
+        "FAIL",
+        "INCONCLUSIVE",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "minimum_events": 60,
+    "minimum_distinct_calendar_years": 6,
+    "uncertainty": "one_sided_95_percent_year_block_or_week_block_bootstrap_respecting_event_dependence",
+    "primary_metric": "average_net_return_per_valid_trade_week_with_95_percent_one_sided_lower_confidence_bound",
+    "supporting_metrics": [
+      "event_weeks",
+      "calendar_year_breadth",
+      "standalone_mean_return",
+      "gross_to_net_cost_drag",
+      "max_drawdown",
+      "exposure_time",
+      "signed_gap_to_reversal_relation",
+      "spread_at_open",
+      "skipped_unexecutable_events",
+      "financing_by_side"
+    ],
+    "trial_count": "one_baseline_rule_only_no_sweep",
+    "execution_engine": "ml4t.backtest_event_driven_subject_to_installed_API_proof",
+    "status_as_of_research": "no_trials_or_results_run_in_this_iteration"
+  },
+  "primary_falsifier": {
+    "condition": "With adequate independent events and validated broker-cost execution, mean net contrarian trade-week return <= 0 or its one-sided 95% confidence lower bound <= 0.",
+    "structural_counterfalsifier": "No greater price reversal on qualifying extreme-gap weeks than on nonextreme gap weeks using identical clocks."
+  },
+  "acceptance_and_stop_rules": {
+    "before_trial": "verify_data_mapping_sessions_quote_sides_financing_ML4T_version_and_protected_boundaries",
+    "accept_for_further_validation_only_if": [
+      "sample_gate_met",
+      "mean_net_event_return_positive",
+      "one_sided_95pct_confidence_lower_bound_positive",
+      "no_material_timing_or_execution_leakage",
+      "primary_reversal_consistent_with_extreme_gap_mechanism"
+    ],
+    "REJECT": "causal_data_qualified_and_event_test_fails_predeclared_main_economic_falsifier",
+    "BLOCKED_DATA": "essential_real_bid_ask_or_broker_terms_or_session_timestamp_semantics_missing",
+    "INCONCLUSIVE": "too_few_independent_trades_or_uncertainty_overwhelms_effect_or_cost_bounds_unknown",
+    "stop": "no_parameter_tuning_after_observing_results; log_failures_and_preserve_holdout"
+  },
+  "parity_and_causality_tests": [
+    "verify_price_identity_and_bar_start_end",
+    "prove_friday_reference_and_sunday_first_quote_across_both_DST_transitions",
+    "prevent_future_weekend_gap_in_rolling_quantiles",
+    "verify_10_90_percentile_type7_vs_independent_numerical_oracle",
+    "synthetic_positive_negative_zero_and_boundary_gaps",
+    "compare_bar_level_and_quote_event_quote_side_alignment",
+    "first_entry_after_complete_bar_only_no_same_bar_fill",
+    "no_trade_if_gap_quote_missing_or_broker_session_closed",
+    "future_data_append_does_not_change_past_signals",
+    "execute_exit_only_before_actual_market_weekly_close",
+    "reconcile_bid_ask_execution_costs_and_side_specific_swaps",
+    "count_one_qualifying_event_per_week_not_one_per_bar",
+    "ensure_nonprotected_source_dates_and_all_evaluated_variants_accounted"
+  ],
+  "known_adaptations": [
+    "author_5pct_each_tail_to_single_preregistered_10pct_each_tail_for_adequate_event_count",
+    "published_spot_multi_currency_market_to_GBPUSD_single_symbol_margin_FX_CFD_proxy",
+    "paper_Monday_open_price_to_next_legal_executable_quote_after_sunday_open_bar",
+    "paper_Friday_closing_print_to_pre_close_broker_executable_order",
+    "historical_GMT_session_reference_to_broker_specific_America_New_York_DST_calendar",
+    "paper_interbank_interest_rate_cost_to_broker_spread_commission_swap_and_slippage"
+  ],
+  "verified_facts": [
+    "original_paper_specifies_5pct_gap_tail_contrarian_one_week_rule_and_historical_2002_2014_sample",
+    "required_repository_documents_were_read_for_current_iteration",
+    "canonical_directory_forex_minute_GBPUSD_has_year_partitions_2009_to_2026",
+    "no_weekend_gap_specific_prior_report_identified_in_inspected_docs_audit_filename_scan",
+    "official_dukascopy_historical_export_can_supply_bid_and_ask_data_in_principle"
+  ],
+  "assumptions": [
+    "actual_rolling_FX_CFD_exposure_can_be_mapped_to_Dukascopy_source_without_material_semantic_mismatch",
+    "local_minute_source_has_usable_bid_ask_spreads_or_raw_quotes_are_accessible",
+    "broker_calendar_can_resolve_all_weekly_close_and_open_times_without_future_data",
+    "10pct_each_tail_has_acceptable_sample_count_not_yet_tested",
+    "liquidity_shock_component_can_survive_first_executable_bar_and_multiple_rollovers"
+  ],
+  "unresolved_blockers": [
+    "exact_broker_and_executable_GBPUSD_contract_identity",
+    "local_parquet_quote_columns_and_bid_ask_semantics",
+    "holiday_gap_and_DST_weekly_session_integrity",
+    "quote_spread_series_or_conservative_independently_verified_cost_reconstruction",
+    "side_specific_historical_swaps_and_commission_slippage",
+    "broker_lot_size_and_leverage_limits",
+    "currently_installed_ML4T_feature_binding_and_event_execution_clock",
+    "eligible_development_period_given_prior_trials_and_holdout_allocations",
+    "pretrial_phase3_diagnostic_registered_and_audited_by_research_lead"
+  ],
+  "not_execution_approved": true,
+  "not_a_frozen_session": true
+}

@@ -41,9 +41,17 @@ the pre-backtest signal decision; a Workbench experiment is not factory qualific
 1. Inspect the actual checkout, branch, dirty changes and relevant GitHub state.
    Preserve concurrent work. The original local checkout may be ahead of GitHub.
 2. Read the candidate YAML, source manifest and relevant ADRs. For a research
-   handoff, use `python scripts/quant.py ingest <thesis.yaml> -o <candidate.yaml>`;
-   review any explicit unmapped-choice failure instead of guessing a formula. Specify the
-   economic mechanism, baseline, falsifier, instruments, windows and costs.
+   handoff, first distinguish descriptive research from executable strategy specs.
+   For a new two-file `research_inbox/<candidate_id>/` handoff, validate the staged
+   directory with `python scripts/quant.py validate-handoff <candidate-directory>`
+   before publication; this checks identity and declared provenance only, not
+   source truth or research approval. For a genuinely fully specified cross-
+   sectional executable thesis only, use
+   `python scripts/quant.py ingest <thesis.yaml> -o <candidate.yaml>`, then
+   `validate`. Never force an event or
+   path-dependent thesis into the basket-only `CandidateSpec`, or guess missing
+   formulas or gates merely to pass validation. Specify the economic mechanism,
+   baseline, falsifier, instruments, windows and costs.
    Locate the exact requested source. A similarly named strategy is not a
    replacement. Label any example or assumed formula explicitly.
 3. Load the relevant ML4T skills and inspect installed signatures. Record

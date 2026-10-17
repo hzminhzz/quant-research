@@ -15,6 +15,7 @@ from src.data_vault import PanelBuilder
 from src.data_vault.market_materializer import materialize_price_markets
 from src.engine.common import QuantError
 from src.engine.funnel import ResearchFunnel
+from src.engine.research_handoff import validate_handoff
 from src.engine.spec_parser import CandidateSpec, parse_spec
 from src.engine.thesis_ingest import convert_thesis
 from src.oracle.research_protocols import parse_research_spec
@@ -78,6 +79,8 @@ def main(argv=None) -> int:
                                  help='translate a research thesis into validated executable candidate YAML')
     ingest.add_argument('source')
     ingest.add_argument('-o', '--output', required=True)
+    handoff = commands.add_parser('validate-handoff', help='validate a descriptive, non-executable research inbox handoff')
+    handoff.add_argument('candidate_dir', nargs='?', default=str(ROOT / 'research_inbox'))
     args = parser.parse_args(argv)
     try:
         if args.command == 'schema':
@@ -91,6 +94,15 @@ def main(argv=None) -> int:
             print(json.dumps({'status': 'CONVERTED', 'validation': 'VALID_SPEC',
                               'candidate_id': spec.candidate_id, 'spec_hash': spec.spec_hash,
                               'output': str(Path(args.output))}, sort_keys=True))
+            return 0
+        if args.command == 'validate-handoff':
+            target = Path(args.candidate_dir)
+            candidates = sorted(target.iterdir()) if target.resolve() == (ROOT / 'research_inbox').resolve() else [target]
+            results = [validate_handoff(path) for path in candidates if path.is_dir() and not path.name.startswith('.')]
+            if not results:
+                raise QuantError('INVALID_HANDOFF', 'No candidate directories found')
+            for result in results:
+                print(json.dumps(result, sort_keys=True))
             return 0
         if args.command == 'materialize-markets':
             for group in args.groups:
