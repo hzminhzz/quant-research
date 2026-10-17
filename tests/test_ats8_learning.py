@@ -329,15 +329,16 @@ def test_real_historical_regressions_execute_and_pass():
     """Verify that the regression tests cited in canonical lessons actually run and pass."""
     # 1. Regression for LSN-20261015-OVERSIZE-CASEFILE-STREAM
     import subprocess
+    import sys
     proc1 = subprocess.run(
-        ["pytest", "tests/test_ats_qualification.py", "-k", "test_large_casefile_stream_hash_and_receipts_without_json_decode"],
+        [sys.executable, "-m", "pytest", "-o", "addopts=", "tests/test_ats_qualification.py", "-k", "test_large_casefile_stream_hash_and_receipts_without_json_decode"],
         capture_output=True, text=True, check=False,
     )
     assert proc1.returncode == 0, proc1.stdout + proc1.stderr
 
     # 2. Regression for LSN-20261016-CGROUP-V2-MEMORY-CONTAINMENT
     proc2 = subprocess.run(
-        ["pytest", "tests/test_ats2_resource_limits.py", "-k", "test_unavailable_cgroup_does_not_consume_admission"],
+        [sys.executable, "-m", "pytest", "-o", "addopts=", "tests/test_ats2_resource_limits.py", "-k", "test_unavailable_cgroup_does_not_consume_admission"],
         capture_output=True, text=True, check=False,
     )
     assert proc2.returncode == 0, proc2.stdout + proc2.stderr

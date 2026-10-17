@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261017-FORENSIC-CAUSAL-TIMESTAMP-ALIGNMENT",
+  "knowledge_class": "implementation_recipe",
+  "trigger": "False reconciliation of intent outcomes during forensic audit of order journals",
+  "error_codes": [
+    "FALSE_INTENT_RECONCILIATION",
+    "CAUSAL_TIME_DRIFT"
+  ],
+  "affected_scope": [
+    "src/research_control/ats3_bybit_replay.py"
+  ],
+  "protocol": "ats3_bybit_replay_v1",
+  "version_bounds": {},
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "commit b8a97465 (src/research_control/ats3_bybit_replay.py)",
+  "root_cause": "Matching order parameters (asset, side, qty, price) alone without temporal proximity and 1-to-1 consumption constraints permits later intents to falsely resolve earlier unmatched intents.",
+  "verified_remedy": "Enforce 1-to-1 consumption across submissions and unmatched intents, and require sub-2-second causal timestamp alignment before attributing external intent records; preserve unaligned intents as genuinely UNKNOWN.",
+  "regression_test": "tests/test_ats3_bybit_real_archive.py::test_causal_timestamp_matching_prevents_false_seq7_resolution",
+  "limitations": [
+    "Requires synchronized host clocks between producer and audit journals within 2 seconds."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": null,
+  "invalidated_by": [],
+  "created_at": "2026-10-17T03:30:00Z",
+  "digest": "ae180b33789e64115807403ae34b5d3d981a8f2c17fc0561171edd46b7092345"
+}

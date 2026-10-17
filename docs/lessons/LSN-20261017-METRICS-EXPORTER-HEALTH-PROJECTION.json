@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "lesson_id": "LSN-20261017-METRICS-EXPORTER-HEALTH-PROJECTION",
+  "knowledge_class": "implementation_recipe",
+  "trigger": "Prometheus target UP falsely clearing runtime integrity alerts while trading engine is stopped",
+  "error_codes": [
+    "FALSE_HEALTH_PROJECTION",
+    "STOPPED_RUNTIME_UNALERTED"
+  ],
+  "affected_scope": [
+    "src/research_control/ats3_metrics_service.py"
+  ],
+  "protocol": "prometheus_openmetrics_v1",
+  "version_bounds": {},
+  "bound_code_hashes": {},
+  "bound_data_hashes": {},
+  "evidence_ref": "commit e3170683 (src/research_control/ats3_metrics_service.py)",
+  "root_cause": "Offline metrics exporter projecting historical saved state without checking live engine state (emitting broker_connected=1 and health=ok while the engine is actually stopped).",
+  "verified_remedy": "In stopped/audit mode, emit engine_state stopped, engine_health stopped, broker_connected 0, audit_mode 1, and explicit audit_snapshot_age_seconds, keeping target UP without falsely clearing runtime alerts.",
+  "regression_test": "tests/test_ats3_metrics_service.py",
+  "limitations": [
+    "Monitoring scrape reflects exporter health, not live trading connectivity; stopped mode alerts remain active by design."
+  ],
+  "reviewer": "hzminhzz",
+  "superseded_by": null,
+  "invalidated_by": [],
+  "created_at": "2026-10-17T03:30:00Z",
+  "digest": "3ae9395b819c7d92939f7fe3ee74ff446085fbe4b1056a096f604357a704b960"
+}

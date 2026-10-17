@@ -75,6 +75,26 @@ All entrypoints are strictly read-only and advisory. A lesson retrieval match pr
    - **Root Cause:** Manual permit overrides caused schema drift.
    - **Superseded By:** `LSN-20261015-DUAL-MODE-RUNTIME` (commit `827731d`).
 
+6. **`LSN-20261017-SAFEBROKER-UNRECORDED-EXCEPTION-LIFECYCLE`**
+   - **Trigger:** `INTENT_TERMINAL_REASON_NOT_RECORDED` or missing terminal outcome in SafeBroker journal when submission fails.
+   - **Root Cause:** `SafeBroker._submit_order_unlocked` logs `order_submission_intent`, but when `_broker.submit_order_async` throws an exception, it re-raises without recording a terminal failure event in its journal.
+   - **Verified Remedy:** Wrap with `AuditSafeBroker` runtime hook (`src/research_control/ats3_audit_broker.py`): pre-send rejections record `order_submission_rejected` (`TERMINAL_REJECTION`), post-acceptance persistence errors record `order_accepted_unpersisted` (`ACCEPTED_BUT_UNPERSISTED_DO_NOT_RETRY`), and in-flight transport exceptions default to `order_submission_unknown` (`UNKNOWN_OUTCOME`).
+   - **Evidence Ref:** `commit 37bd51b7` (`src/research_control/ats3_audit_broker.py`).
+   - **Regression Test:** `tests/test_ats3_audit_broker.py`.
+
+7. **`LSN-20261017-FORENSIC-CAUSAL-TIMESTAMP-ALIGNMENT`**
+   - **Trigger:** False reconciliation of intent outcomes during forensic audit of order journals.
+   - **Root Cause:** Naive parameter matching allows later orders (e.g. cancellation drills) to falsely resolve earlier unmatched intents.
+   - **Verified Remedy:** Enforce 1-to-1 consumption across submissions and unmatched intents, and require sub-2-second causal timestamp alignment before attributing external records; preserve unaligned events as genuinely `UNKNOWN`.
+   - **Evidence Ref:** `commit b8a97465` (`src/research_control/ats3_bybit_replay.py`).
+   - **Regression Test:** `tests/test_ats3_bybit_real_archive.py::test_causal_timestamp_matching_prevents_false_seq7_resolution`.
+
+8. **`LSN-20261017-METRICS-EXPORTER-HEALTH-PROJECTION`**
+   - **Trigger:** Prometheus target UP falsely clearing runtime integrity alerts while trading engine is stopped.
+   - **Root Cause:** Offline metrics exporter projecting historical saved state without checking live engine state (emitting `broker_connected=1` and `health=ok` while the engine is stopped).
+   - **Verified Remedy:** In stopped mode, emit `engine_state stopped`, `engine_health stopped`, `broker_connected 0`, `audit_mode 1`, and explicit `audit_snapshot_age_seconds`, keeping target UP without falsely clearing runtime alerts.
+   - **Evidence Ref:** `commit e3170683` (`src/research_control/ats3_metrics_service.py`).
+   - **Regression Test:** `tests/test_ats3_metrics_service.py`.
 ---
 
 ## 4. Operating Benchmark Ablation & Tradeoff Analysis
