@@ -13,10 +13,14 @@ ROOT = Path(__file__).resolve().parents[1]
 INBOX = ROOT / 'research_inbox'
 
 
-def test_all_published_handoffs_validate() -> None:
+def test_published_strict_handoffs_validate() -> None:
+    # The inbox now also retains original thesis archives with a distinct
+    # descriptive schema. Only legacy ATS handoffs are subject to this strict
+    # validator; other original sources are captured, not rejected or rewritten.
     candidates = sorted(p for p in INBOX.iterdir() if p.is_dir() and not p.name.startswith('.'))
-    assert candidates, 'at least one published handoff must be present'
-    assert all(validate_handoff(path)['status'] == 'HANDOFF_VALID_UNVERIFIED' for path in candidates)
+    strict = [p for p in candidates if yaml.safe_load((p / 'thesis.yaml').read_text(encoding='utf-8')).get('status') == 'THESIS_READY_UNVERIFIED']
+    assert strict, 'at least one strict ATS handoff must be present'
+    assert all(validate_handoff(path)['status'] == 'HANDOFF_VALID_UNVERIFIED' for path in strict)
 
 
 @pytest.fixture

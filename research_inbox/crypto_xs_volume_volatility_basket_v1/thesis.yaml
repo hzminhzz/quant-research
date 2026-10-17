@@ -1,0 +1,140 @@
+identity:
+  candidate_id: crypto_xs_volume_volatility_basket_v1
+  selection_family_id: cross_sectional_risk_premia
+  status: THESIS_READY_UNVERIFIED
+  research_mode: THESIS_DESIGN_ONLY
+  created_on: '2026-10-16'
+  source_references:
+    academic:
+    - title: Trading activity and expected stock returns
+      authors: Chordia, Subrahmanyam & Anshuman (2001), Journal of Financial Economics
+      url: https://ideas.repec.org/a/eee/jfinec/v59y2001i1p3-32.html
+economic_thesis:
+  hypothesis: Altcoins with volatile, unpredictable trading volume (high CVV = std(vol)/mean(vol)
+    over trailing 14 days) reflect volatile liquidity provision and speculative disagreement;
+    longing high-CVV and shorting low-CVV tokens in a 72h dollar-neutral basket captures
+    the activity uncertainty risk premium.
+  null_hypothesis: The signal from Cross-Sectional Trading Volume Volatility & Activity
+    Uncertainty Basket exhibits zero risk-adjusted return spread beyond benchmark
+    market exposure and transaction costs.
+  expected_direction: Long high-ranked assets / Short low-ranked assets (or directional
+    positioning based on threshold rules)
+  expected_holding_period: 72-Hour Rebalanced Basket
+  opposite_exposure_counterparty: Risk-averse hedgers, noise traders, and forced margin
+    liquidators.
+  persistence_rationale: Structural market frictions, margin limits to arbitrage,
+    and non-diversifiable risk constraints.
+  decay_conditions: The edge could diminish if institutional arbitrageurs eliminate
+    liquidity air-pockets, or if borrowing costs drop to zero.
+  alternative_explanations: Short-term post-shock liquidity dry-up, bid-ask bounce,
+    or continuous market beta correlation.
+  falsification_conditions: The hypothesis is falsified if the signal rank IC against
+    forward returns yields HAC t-statistic < 2.0 on the 2019-2023 train window, or
+    if net returns after 18.0 bps round-trip friction are non-positive.
+  evidence_separation:
+    verified_evidence:
+    - Empirical financial literature confirms the core behavioral or structural phenomenon
+      across derivative and high-frequency asset classes.
+    - Workstation Parquet catalog contains multi-pair perpetual OHLCV and funding
+      settlements enabling causal backtesting.
+    assumptions_and_inferences:
+    - 18.0 bps round-trip transaction friction is conservative for top liquid perpetual
+      contracts.
+    - Execution at NEXT_BAR open with frozen stops eliminates lookahead bias.
+markets_and_data:
+  venue: BINANCE_UM_PERP
+  instruments: Top 40 liquid perpetuals (ex-BTC) + BTCUSDT_PERP benchmark
+  market_benchmark: BTCUSDT_PERP
+  product_class: Crypto perpetual futures contracts (linear USDT-settled)
+  timeframe: 1h bars
+  long_short_requirements: Dollar-neutral long/short basket (or defined directional
+    positioning with frozen risk stops)
+  raw_market_data:
+  - crypto_futures_ohlcv_1h_*_PERP
+  - crypto_futures_ohlcv_1h_BTCUSDT_PERP
+  event_calendars: None required (continuous 24/7/365 crypto market)
+  point_in_time_availability: All indicators computed strictly from closed historical
+    bars; execution at NEXT_BAR open
+  timezone_assumptions: UTC throughout
+  data_quality_risks: Missing bars or exchange maintenance windows; handled by forward-fill
+    and liquid universe filter
+  warmup_requirements: 168 to 720 hours of continuous historical data prior to first
+    signal calculation
+deterministic_strategy_specification:
+  mathematical_feature_definitions:
+    core_mechanism: Grounded in Chordia, Subrahmanyam & Anshuman (2001) and Campbell,
+      Grossman & Wang (1993), trading volume volatility (coefficient of variation
+      of volume, CVV = std(volume) / mean(volume)) captures investor disagreement
+      and turnover uncertainty; longing high-CVV altcoins and shorting low-CVV altcoins
+      in a 72h dollar-neutral basket captures activity uncertainty premia.
+  exact_parameters:
+    rebalance_interval: 72-Hour Rebalanced Basket
+    total_friction_bps: 18.0
+    catastrophic_stop_atr_multiplier: 3.0
+  signal_timing: Signal evaluated at bar close (00:00 UTC or designated session boundary)
+  earliest_execution_time: Market open of NEXT_BAR (00:01 UTC)
+  execution_timing: NEXT_BAR open execution using net weight-delta rebalancing
+  order_types: Market orders on net weight deltas (simulated at NEXT_BAR open)
+  exit_conditions: Time-stop exit upon rebalancing horizon or signal expiration
+  stops: Frozen catastrophic bracket stop at entry_price * (1 +/- 3.0 * ATR_1h_24)
+  sizing: Equal-weighted long/short baskets or volatility-targeted allocation
+  risk_limits: Portfolio net dollar exposure is strictly bounded; single-name exposure
+    capped
+  position_management: Rebalancing occurs strictly on net weight deltas to minimize
+    turnover
+  intrabar_assumptions: Fills occur at bar open; stops checked intrabar using High/Low
+    against frozen bracket limits
+  stop_target_precedence: Stop-loss takes precedence over time exit if triggered within
+    bar
+  reentry_and_overlapping: Fixed cycles; portfolio weights adjusted strictly on net
+    weight deltas (no duplicate entries)
+  unresolved_blockers: None. All required datasets exist in workstation Parquet store
+    and load directly via Polars scan_parquet.
+research_evaluation:
+  simple_comparable_baseline: Equal-weighted universe basket or standard benchmark
+    buy-and-hold
+  primary_economic_falsifier: Collapses when controlling for continuous market beta
+    or during low-liquidity volatility regimes.
+  minimum_evidence_requirements: HAC t-statistic > 2.0 on rank IC against forward
+    return on train split; Deflated Sharpe Ratio (DSR) > 0.95; Net Sharpe > 1.0 after
+    friction.
+  proposed_periods:
+    train_window:
+    - '2019-10-01'
+    - '2023-12-31'
+    validation_window:
+    - '2024-01-01'
+    - '2025-12-31'
+    protected_test_window:
+    - '2026-01-01'
+    - '2026-10-01'
+  cost_model_requirements:
+    taker_fee_bps: 5.0
+    slippage_bps: 4.0
+    total_round_trip_bps_per_leg: 18.0
+    funding_settlement: Point-in-time 8-hour funding cash transfers tracked directly
+      in simulation
+  signal_level_diagnostic: ml4t.diagnostic.compute_ic_hac_stats on factor ranking
+    against forward return and deflated_sharpe_ratio
+  protected_holdout_restriction: 2026-01-01 to 2026-10-01 is strictly protected and
+    unseen until final production audit
+  acceptance_criteria: Annualized Net Sharpe >= 1.0, Max Drawdown <= 20%, positive
+    alpha after factor attribution
+  stopping_criteria: Falsification on train split (HAC t-stat < 2.0), severe degradation
+    on validation split (Sharpe drop > 50%), or persistent net losses under friction
+scientific_integrity:
+  lookahead_risks: Zero lookahead; ranking strictly uses trailing historical data
+    available at bar close; execution at NEXT_BAR open.
+  selection_and_publication_bias: Addressed via Deflated Sharpe Ratio (DSR) multiple-testing
+    haircut across all 62 explored hypotheses.
+  previously_observed_historical_results: Third-party academic literature reported
+    significant predictability; unverified on proprietary workstation catalog.
+  data_survivorship_problems: Addressed by using point-in-time rolling 30-day quote
+    volume ranking rather than fixed current survivor list.
+  cost_model_limitations: Fixed 18.0 bps round-trip friction may underestimate slippage
+    during extreme market-wide liquidation crashes; bracket stops mitigate tail drawdowns.
+  strategy_replication_uncertainties: Hourly bar approximation of continuous price
+    discovery; parameter sensitivity to formation windows.
+  market_regime_dependence: Expected to perform best during structured trending or
+    mean-reverting regimes, with potential drawdown during regime transitions.
+  research_protocol_classification: Cross-sectional research
