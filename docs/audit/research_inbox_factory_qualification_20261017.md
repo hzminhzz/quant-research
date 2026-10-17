@@ -1,0 +1,103 @@
+# Research Inbox Factory qualification — 2026-10-17
+
+**Decision:** SOFTWARE_READY_FOR_REVIEW, **not** real-strategy or execution qualification.
+
+## Authority and isolation
+
+- Source repository: `hzminhzz/quant-research`.
+- Baseline: `origin/main` at `041477bec24eb4936ed65214c20227b747f3b0c3`.
+- Task branch: `feat/ats-research-inbox-factory-20261017`.
+- Task worktree: `/home/quant/.devspace/worktrees/quant-research-0b051635`.
+- The primary checkout had unrelated dirty work, left untouched.
+- No main merge, paper/live order, broker interaction, or protected holdout read was authorized or attempted.
+
+## What was built and qualified
+
+1. Imported the 7 exact two-file descriptive handoffs from
+   `research/inbox-handoff-20261017` and restored the existing strict
+   `validate-handoff` path. Source Git blob identities were verified identical
+   to that branch. `research/gemini-62-inbox-20261017` points to the same published
+   source commit `2fa13c03`.
+2. Added a thin CLI `scripts/research_inbox_queue.py` with
+   `inspect`, `start`, `resume`, and `report`.
+3. Added source/logic deduplication, event-vs-cross-sectional-vs-path-dependent
+   classification, explicit `BLOCKED_PROTOCOL` details, preserved source
+   references and unresolved prerequisite lists, and idempotent terminal state.
+4. Added fsynced append-only hash-chained per-candidate events, atomic state
+   projection, single owner lock, per-attempt logs, frozen spec/data/source/code
+   identities, native Casefile/receipt/trial ledger verification, and a
+   fail-closed crashed-RUNNING disposition of `BLOCKED_RECOVERY`.
+5. Implemented and tested `quant.py run --development-only`, a native
+   `ResearchFunnel` branch that exits after Stage 3 PASS and cannot claim/read
+   protected Stage 4. Direct development-only event requests are rejected before
+   the frozen event runner. The regular historical `quant.py run` path remains
+   compatible with existing behavior.
+6. Added human runbook at `docs/research_inbox_factory_operations.md`.
+
+## Evidence
+
+- `PYTHONPATH=. python -m pytest -q -n 0`: **36 passed**, three
+  third-party deprecation warnings. Exact scope: `tests/test_research_handoff.py`,
+  `tests/test_research_inbox_queue.py`, `tests/test_research_inbox_dev_guard.py`,
+  and two pre-existing development/falsification regression tests in
+  `tests/test_dual_mode_funnel.py`.
+- After additional event fail-closed and spec-digest checks:
+  **3 targeted tests passed**, 0 failed.
+- Scoped `ruff check`: PASS.
+- `git diff --check`: PASS.
+- Durable local qualification log:
+  `run_log/inbox_factory/qualification_tests.log`.
+- Machine-readable queue evidence:
+  `run_log/inbox_factory/candidates/<candidate_id>/events/*.json` and
+  `state.json`. Files belong to the isolated local worktree; this repository
+  does not treat machine-specific queue runtime state as portable source code.
+- `validate-handoff`: 7/7 `HANDOFF_VALID_UNVERIFIED` (structure/provenance
+  declarations only, not source verification).
+
+## Candidate outcome (seven available published handoffs)
+
+| Category | Count |
+| --- | ---: |
+| Discovered two-file handoffs | 7 |
+| Structurally admitted | 7 |
+| Source/logic duplicates | 0 |
+| Classified single-instrument event | 7 |
+| Classified cross-sectional | 0 |
+| Classified path-dependent | 0 |
+| Executable frozen native specifications | 0 |
+| `BLOCKED_PROTOCOL` | 7 |
+| Native economic falsifications | 0 |
+| Native inconclusives | 0 |
+| Independently verified economic candidates | 0 |
+| Real end-to-end development-strategy backtests | 0 |
+| Protected-holdout reads | 0 |
+| Paper/live orders | 0 |
+
+Every candidate requires a general qualified single-instrument event adapter,
+causal session/next-fill rules, and independent order/fill/cash checks. Their
+distinct, source-declared missing broker/product/price, DST, macro timing,
+transaction cost and carry evidence is retained in the queue as
+`required_adaptations`. None can correctly be forced through the existing
+cross-sectional IC/neutrality factory, and the frozen M8 N8 adapter is not
+a universal event engine.
+
+The full `ats_theses_all_62_cycles.zip` collection was **not present** in
+inspected VPS repo/worktrees, nor in the current container's mounted uploads.
+The other 55 theses were not invented, marked falsified, or counted as ingested.
+
+## Limitations and release gate
+
+- The positive native development-only Stage 3 test uses an openly declared
+  **synthetic DSR stub**, not a real trading strategy or a measured edge.
+- Native trial accounting and Stage 1 leakage checks run on compatible
+  executable specifications, but none of the seven handoffs is currently
+  compatible. Consequently, independent economic validation remains **zero**.
+- Queue verification authenticates native source/spec/receipt hashes and
+  recorded native independent accounting outputs; it is not a separate
+  source-independent reproduction of each possible strategy.
+- Crash recovery fails closed with `BLOCKED_RECOVERY` when worker completion
+  cannot be verified; the remaining candidates continue, while the uncertain
+  attempt requires ledger/process reconciliation rather than unsafe automatic
+  replay.
+- This is a feature branch for review, not a main cutover, ATS protocol
+  generalization, protected-data approval or deployment authorization.
