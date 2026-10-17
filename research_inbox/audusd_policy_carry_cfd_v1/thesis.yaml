@@ -1,0 +1,529 @@
+candidate_id: audusd_policy_carry_cfd_v1
+status: THESIS_READY_UNVERIFIED
+source_references:
+- id: lustig_roussanov_verdelhan_2011
+  type: peer_reviewed_paper
+  title: Common Risk Factors in Currency Markets
+  doi: 10.1093/rfs/hhr068
+  url: https://www.nber.org/papers/w14082
+  relevance: Risk-premium basis for diversified forward-based currency carry; not
+    a single-pair CFD strategy.
+- id: brunnermeier_nagel_pedersen_2009
+  type: academic_research
+  title: Carry Trades and Currency Crashes
+  url: https://www.nber.org/books-and-chapters/nber-macroeconomics-annual-2008-volume-23/carry-trades-and-currency-crashes
+  relevance: Funding-liquidity unwinds and asymmetric downside of carry positions.
+- id: rba_cash_rate_target
+  type: official_central_bank
+  url: https://www.rba.gov.au/statistics/cash-rate/
+  relevance: Historical policy target and decisions; release/effective timestamps
+    need reconstruction.
+- id: fed_funds_target
+  type: official_central_bank
+  url: https://www.federalreserve.gov/monetarypolicy/openmarket.htm
+  relevance: Historical federal-funds target range upper bound and policy changes.
+- id: dukascopy_rollovers
+  type: official_broker_documentation
+  url: https://www.dukascopy.com/wiki/en/forex-cfds/account-management/rollovers/
+  relevance: Actual broker rollover terms depend on interbank rates and broker costs;
+    published swaps are not necessarily applied rates.
+- id: vps_existing_audusd_intake
+  type: inspected_local_evidence
+  relevance: Documents Dukascopy AUDUSD minute quote history and already-observed
+    research context, not broker-executable swaps.
+  local_path: docs/audit/gold_fx_trend_diversification_intake_20261015.md
+economic_thesis:
+  question: Does monthly AUDUSD exposure aligned with the last publicly known RBA-minus-Fed
+    policy-rate differential earn positive net total return on a broker margin-FX/CFD
+    product?
+  expected_effect: Positive after-cost monthly return in USD per fixed 10000 AUD face
+    amount, including actual daily broker swap credits and debits.
+  scope: A single-pair test of whether a published diversified currency-forward risk
+    premium transfers to a retail margin-FX product.
+  thesis_strength: HYPOTHESIS
+  null_hypothesis: Expected after-cost monthly AUDUSD strategy return is less than
+    or equal to zero.
+  distinction: Macro policy-rate risk-premium exposure; not trend-following, a breakout,
+    a Tokyo fix calendar event, or an equity opening premium.
+mechanism:
+  market_behavior: Higher-yielding currency exposures may deliver a premium because
+    capital providers absorb global risk and liquidity-crash exposure.
+  actors: Global FX hedgers, yield-seeking investors, funding-currency borrowers,
+    and intermediaries hedging balance sheets.
+  who_pays: Investors willing to transfer currency crash and funding-liquidity risk;
+    broker financing charges may instead capture the premium.
+  persistence: Risk-bearing constraints and hedging demand can persist, but a single
+    liquid FX pair can be competitively priced.
+  supporting_regimes:
+  - Stable funding liquidity and persistent interest-rate differences.
+  - Avoidance of abrupt funding-market deleveraging; this is a prediction, not a filter.
+  destroying_regimes:
+  - Currency crisis or global deleveraging with carry unwind.
+  - Policy-rate convergence and reversal.
+  - Retail swap charges that exceed theoretical interest income.
+  key_failure_mode: Central-bank target spreads may poorly approximate forwards or
+    executable broker rollovers.
+  causal_claim_status: INFERENCE_FROM_ACADEMIC_EVIDENCE_NOT_PAIR_SPECIFIC_PROOF
+instruments:
+  primary:
+    symbol: AUDUSD
+    base_currency: AUD
+    quote_currency: USD
+    historical_source_vendor: Dukascopy
+    historical_source_product: AUD/USD margin-forex quote-price research proxy
+    intended_broker: Dukascopy Bank SA
+    intended_execution_instrument: AUD/USD leveraged margin FX; confirm exact legal/CFD
+      product and broker terms
+    intended_execution_market: Broker OTC FX market orders; not CME futures or a simulated
+      exchange book
+    product_class_requested: fx_cfd_or_margin_spot_subject_to_mapping_verification
+    broker_product_id: UNKNOWN_VERIFY_BEFORE_BACKTEST
+    lot_step_aud: UNKNOWN_VERIFY_BEFORE_BACKTEST
+    price_tick_usd_per_aud: UNKNOWN_VERIFY_BEFORE_BACKTEST
+    multiplier: UNKNOWN_VERIFY_BEFORE_BACKTEST
+    shorting: Permitted for research only if broker specification confirms actual
+      short availability.
+  position_direction: long_short_or_flat
+  max_concurrent_positions: 1
+  currency_accounting: USD-denominated book; broker conversion and rollover statement
+    semantics require verification.
+data_requirements:
+  development_period_utc:
+  - '2015-01-01T00:00:00Z'
+  - '2025-01-01T00:00:00Z'
+  prior_warmup: 2014-12-01 or earlier official rate decisions, plus a valid previous
+    FX session for the monthly release cutoff
+  future_protected_period: SEALED_NO_ACCESS
+  historical_price_candidate:
+    canonical_repository: /home/quant/dev/quant/ml4t-data/.data/store
+    catalog_key_to_verify: forex_minute_AUDUSD
+    source_vendor_to_verify: Dukascopy
+    frequency: 1m
+    required_fields:
+    - timestamp_utc
+    - open
+    - high
+    - low
+    - close
+    - source_symbol
+    - quote_side_or_mid_semantics
+    preferred_execution_fields:
+    - bid_open
+    - ask_open
+    verified_context: Repository intake documents AUDUSD Dukascopy quote minutes during
+      2013-2024; this task did not scan raw market history.
+    bid_ask_status: UNKNOWN; do not treat BID OHLC as executable mid or ask.
+    timeframe_aggregation: Event engine uses native 1m bars; month calendar rules
+      determine signals.
+    bar_timestamp_convention: Expected UTC interval START, must verify source adapter
+      and DST.
+    price_gaps: No fabricated forward-filled fills. Missing monthly fill, rollover,
+      or valuation moments are data-quality blockers.
+  macro_sources:
+    rba:
+      authoritative_url: https://www.rba.gov.au/statistics/cash-rate/
+      fields:
+      - cash_rate_target_pct
+      - effective_date
+      - announced_at_utc
+      - first_public_at_utc
+      - source_release_id
+      percent_units: percentage_points
+    fed:
+      authoritative_url: https://www.federalreserve.gov/monetarypolicy/openmarket.htm
+      fields:
+      - federal_funds_target_upper_pct
+      - effective_date
+      - announced_at_utc
+      - first_public_at_utc
+      - source_release_id
+      percent_units: percentage_points
+    asof_requirement: Reconstruct official initial announcements and effective levels;
+      no current-value backfill across pre-publication timestamps.
+    availability_cutoff: Only information published no later than 16:00 America/New_York
+      of the PREVIOUS completed FX trading session.
+  financing_source:
+    required: true
+    fields:
+    - rollover_timestamp_utc
+    - instrument_id
+    - direction
+    - swap_pips_or_cash_usd
+    - applicable_value_dates
+    - triple_day_or_holiday_multiplier
+    - broker_fees
+    source: Actual historical broker applied terms or independently reconciled broker
+      records; official current quote is insufficient.
+    status: UNAVAILABLE_IN_INSPECTED_DATA_CONTEXT
+  coverage_gate:
+    eligible_months_min: 96
+    represented_calendar_years_min: 8
+    long_months_min: 12
+    short_months_min: 12
+    gap_policy: No trading simulation if required monthly fill/rollover/valuation
+      input is missing; record BLOCKED_DATA.
+feature_contracts:
+- name: rba_cash_rate_pct_asof
+  purpose: Publicly known AUD short-rate proxy.
+  mathematical_definition: Last RBA cash-rate target percentage value whose announcement
+    timestamp and effective timestamp precede or equal the prior completed FX session
+    cutoff.
+  raw_inputs:
+  - rba_cash_rate_target_pct
+  - announced_at_utc
+  - effective_date
+  - source_release_id
+  parameters:
+    publication_lag_rule: prior_completed_fx_session_1600_new_york
+  lookback: last_valid_policy_release_no_fixed_observation_count
+  symbol_isolation: macro_AUD_global_input_used_only_for_AUDUSD
+  timeframe: first_NY_FX_business_day_of_month
+  warmup: at_least_one_asof_RBA_release
+  earliest_available: official_release_time_then_conservative_previous_session_gate
+  alignment: backward_asof_only_no_future_releases
+  expected_provider: approved_point_in_time_macro_join_extension
+  classification: EXTENSION_REQUIRED
+  tests:
+  - Release dated after cutoff must not change prior monthly value.
+  - Check effective date and announcement date are both satisfied.
+  - Appending future releases must not change earlier outputs.
+  - Independently cross-check hand-selected dates against RBA releases.
+- name: fed_upper_target_pct_asof
+  purpose: Publicly known USD short-rate proxy.
+  mathematical_definition: Last Fed federal-funds target range upper bound whose announcement
+    and effective timestamps are at or before the prior completed FX session cutoff.
+  raw_inputs:
+  - federal_funds_target_upper_pct
+  - announced_at_utc
+  - effective_date
+  - source_release_id
+  parameters:
+    publication_lag_rule: prior_completed_fx_session_1600_new_york
+  lookback: last_valid_policy_release_no_fixed_observation_count
+  symbol_isolation: macro_USD_global_input_used_only_for_AUDUSD
+  timeframe: first_NY_FX_business_day_of_month
+  warmup: at_least_one_asof_Fed_release
+  earliest_available: official_release_time_then_conservative_previous_session_gate
+  alignment: backward_asof_only_no_future_releases
+  expected_provider: approved_point_in_time_macro_join_extension
+  classification: EXTENSION_REQUIRED
+  tests:
+  - Fed decision after prior-session cutoff is unavailable until a later decision
+    date.
+  - Verify upper-bound handling for post-2008 target ranges.
+  - Check percentage-point units and no implicit division by 100.
+  - Appending a future FOMC release must not revise previous signals.
+- name: aud_minus_us_policy_spread_pp
+  purpose: Signed macro carry proxy.
+  mathematical_definition: rba_cash_rate_pct_asof - fed_upper_target_pct_asof, in
+    percentage points.
+  raw_inputs:
+  - rba_cash_rate_pct_asof
+  - fed_upper_target_pct_asof
+  parameters:
+    zero_tolerance_percentage_points: 0.0
+  lookback: one_matched_asof_rate_pair
+  symbol_isolation: AUDUSD_only
+  timeframe: monthly_signal_event
+  warmup: both_rates_known
+  earliest_available: after_both_source_levels_pass_cutoff
+  alignment: computed_at_decision_only_from_prior_public_rates
+  expected_provider: approved_derived_macro_feature_extension_or_native_arithmetic_if_verified
+  classification: EXTENSION_REQUIRED
+  tests:
+  - RBA=4.25 and Fed upper=5.50 must produce -1.25 percentage points.
+  - RBA=5.00 and Fed upper=3.50 must produce +1.50 percentage points.
+  - Identical rates must produce exactly zero and a flat signal.
+  - Shuffling future release rows must leave past monthly signals unchanged.
+- name: ny_monthly_eligible_event
+  purpose: Identify first eligible New York FX trading day of each calendar month.
+  mathematical_definition: Boolean true only at 10:00:00 America/New_York on the first
+    calendar weekday of the month with a verified tradable 09:59-10:00 completed bar
+    and eligible broker session; actual market holiday eligibility must be checked.
+  raw_inputs:
+  - timestamp_utc
+  - venue_session_calendar
+  - fx_business_day_calendar
+  parameters:
+    timezone: America/New_York
+    decision_clock: '10:00:00'
+  lookback: current_session_calendar_only
+  symbol_isolation: AUDUSD_only
+  timeframe: 1m_event_timing
+  warmup: previous_completed_FX_session_required_for_macro_cutoff
+  earliest_available: 10_00_new_york_on_eligible_day
+  alignment: order_must_fill_on_or_after_next_1m_bar_not_at_decision_bar_close
+  expected_provider: calendar_feature_or_strategy_scheduler_subject_to_installed_API_verification
+  classification: NATIVE_UNVERIFIED
+  tests:
+  - New York March and November DST switches retain 10:00 local wall-clock decision.
+  - Weekend or closed broker sessions never produce an order.
+  - No 10:00 bar close or price can affect a hypothetical 10:00 decision.
+- name: historical_actual_rollover_cashflow
+  purpose: Non-signal execution-accounting input required for total return.
+  mathematical_definition: Broker-reported signed swap credit/debit for each held
+    position at each settlement, converted once to USD using documented broker semantics.
+  raw_inputs:
+  - rollover_timestamp_utc
+  - direction
+  - amount_pips_or_cash_usd
+  - broker_adjustment_terms
+  parameters:
+    double_charge_forbidden: true
+  lookback: each_held_broker_rollover
+  symbol_isolation: AUDUSD_only
+  timeframe: daily_broker_rollover
+  warmup: none
+  earliest_available: at_each_historical_rollover_for_accounting_only
+  alignment: PnL_cashflow_not_predictor; future_swaps_never_enter_signal
+  expected_provider: verified_broker_fee_or_financing_adapter
+  classification: DATA_UNAVAILABLE
+  tests:
+  - Check signed debit and credit for long versus short.
+  - Verify Wednesday, holiday, and calendar adjustments against broker value dates.
+  - Reconcile settlement cashflows to broker statements without duplicating a swap
+    in both price and cash.
+strategy_rules:
+  author_source_rule_fidelity:
+    original_claim: Literature examines diversified currency carry portfolios, often
+      using monthly forwards and interest/forward discounts.
+    original_single_audusd_cfd_rule: NONE; all trading rules below are explicitly
+      a proposed adaptation.
+  proposed_cfd_adaptation:
+    decision_schedule: First eligible New York FX trading day each month at 10:00
+      local time.
+    signal_formula: sign(rba_cash_rate_pct_asof - fed_upper_target_pct_asof)
+    long_condition: policy_spread_pp > 0
+    short_condition: policy_spread_pp < 0
+    flat_condition: policy_spread_pp == 0
+    entry_order: Market order at next causally eligible one-minute open, not the signal
+      minute's price.
+    target_position_aud:
+      long: 10000
+      short: -10000
+      flat: 0
+    transition: If unchanged target, maintain existing units and do not rebalance.
+      If sign changes, close previous then enter target at available successive legal
+      execution events; ensure no overlapping positions.
+    exit: At first next monthly signal whose target differs; otherwise at the final
+      eligible development-window close for accounting. No stop, target, volatility
+      gate, or technical filter.
+    partial_fills: Broker event engine must model actual supported market-order size/fill
+      behavior or qualify conservative full-fill assumptions.
+    max_positions: 1
+    missing_rate: BLOCKED_DATA; do not assume stale future policy levels.
+    missing_price_at_event: Postpone at most 30 minutes for the first observed tradable
+      one-minute open; otherwise BLOCKED_DATA for that month, not a fabricated fill.
+    missing_rollover: BLOCKED_DATA for affected interval; no unpriced carry days.
+    session_boundary: Hold across verified overnight broker session boundaries; mark
+      and book rollover cashflows on actual broker value dates.
+    weekend_behavior: Hold over broker closures, with no fabricated weekend candles
+      or trades; apply verified swap/value-date adjustment.
+    leverage: No intentionally financed book leverage beyond one fully margined fixed
+      10000 AUD position per USD 100000 initial book.
+signal_and_execution_clock:
+  timezone: America/New_York
+  raw_timestamp_timezone: UTC
+  bar_timestamp_convention: 1m_bar_start_subject_to_source_verification
+  signal_decision_local: first_eligible_monthly_FX_day_10_00_00
+  macro_asof_cutoff_local: preceding_completed_FX_session_16_00_00
+  earliest_legal_fill_local: 10_01_00_on_signal_day_on_next_bar_open
+  price_inputs_at_signal: only_completed_bars_ending_by_10_00_00; price_signals_not_used
+  partial_bar_leakage: forbidden
+  holiday_broker_calendar: requires_verified_venue_calendar_not_naive_weekday_only
+  monthly_hold: until_next_monthly_event_changes_signal_or_end_of_development
+sizing:
+  initial_book_usd: 100000
+  fixed_aud_units: 10000
+  equity_reference: USD
+  number_of_positions: 1
+  intended_no_leverage: true
+  no_daily_rescaling: true
+  order_size_rounding: confirm_broker_lot_step_before_execution_trial
+  margin_gate: Reject any trade if exact margin/collateral rule fails; do not silently
+    resize.
+cost_assumptions:
+  required_components:
+  - bid_ask
+  - commission
+  - market_order_slippage
+  - broker_swap_long_short
+  - settlement_value_dates
+  - weekend_and_holiday_rollover
+  - currency_conversion_if_any
+  - margin_interest_if_any
+  baseline_cost_status: UNVERIFIED_BLOCKING
+  spread: historical executable quote or independently validated conservative proxy
+    required; BID-only OHLC is not enough.
+  slippage: Use broker-appropriate conservative market-order slippage and verify source
+    and effective date.
+  commission: Apply exact broker commission per filled side; broker contract and lot
+    minimum must be verified.
+  swap: Actual historic day- and direction-dependent signed broker charges or credits
+    required; never infer from policy-rate differential.
+  swap_double_counting: If broker marks settlement adjustments in reopened price,
+    do not also deduct an equivalent cashflow.
+  financing_over_weekends: Apply verified value date and Wednesday/holiday triple-roll
+    semantics, not a hardcoded fixed rate.
+  stress: Document 1x actual validated cost then 2x non-financing spread/slippage;
+    do not optimize from stress outcomes.
+  cost_falsifier: Net mean <= 0 at verified 1x costs rejects the economic candidate.
+baseline:
+  primary: Cash, no AUDUSD exposure or trades, USD flat zero return; use matched monthly
+    sample and fixed book size.
+  contextual_comparator: Always-long AUDUSD 10000 AUD from first valid fill through
+    development end, including same verified broker long-side swap and execution terms.
+  reason: Separate alleged policy-spread timing advantage from a passive AUD beta
+    and document total-return feasibility versus cash.
+  secondary_null: Conditional long/short monthly direction has no incremental net
+    benefit over always-long exposure; report separately, not post hoc selector.
+development_evaluation:
+  program: Exactly one frozen AUDUSD policy-spread MVP, no parameter optimization.
+  period: 2015-01-01 through 2024-12-31 UTC only, subject to existing observed-data
+    review.
+  retrospective_status: REUSED_OBSERVED_DEVELOPMENT_PERIOD_NOT_UNSEEN_OOS
+  historical_selection_warning: Existing Gold/FX trend and FX studies use overlapping
+    history; preserve existing trial ledger and account for broad mechanism selection.
+  warmup: Public rate decisions known before the first 2015 monthly decision; no rolling
+    price indicator.
+  event_coverage: At least 96 fully qualified monthly marks over >=8 distinct calendar
+    years; >=12 eligible months per long and short direction.
+  independence_warning: Monthly returns within one policy-sign regime are not independent
+    trades. Count distinct directional episodes and report effective sample size.
+  minimum_episode_gate: 4 independent signed position episodes with representation
+    from both signs for a positive qualification; otherwise a positive result is INCONCLUSIVE.
+  primary_metric: Mean after-cost monthly net USD PnL per 10000 AUD position, divided
+    by fixed initial USD 100000 equity, minus cash baseline.
+  uncertainty: Moving-block bootstrap of sequential monthly net returns with fixed
+    predeclared six-month blocks; 95 percent two-sided interval on mean; retain autocorrelation
+    and single-regime caveat.
+  supporting_metrics:
+  - active_month_count
+  - signed_episode_count
+  - net_pnl_usd
+  - net_monthly_expectancy
+  - daily_equity_sharpe_when_defined
+  - max_drawdown
+  - calmar_when_defined
+  - long_side_and_short_side_contributions
+  - rollover_drag_usd
+  - spread_and_commission_drag_usd
+  - worst_month
+  - 1x_vs_2x_execution_friction
+  - correlation_with_existing_portfolio_if_qualified
+  evaluation_clock: Month-end marked equity, with broker daily valuation and margin
+    events for risk; daily-equity Sharpe not trade-annualized.
+  trial_budget: one_primary_trial_plus_predeclared_accounting_and_cost_diagnostics_only
+  holdout: PROTECTED_ALLOCATION_FINAL_TEST_SEALED_NOT_REQUESTED
+  execution_engine: native_ml4t.backtest.Engine_event_driven_only_after_capability_and_financing_gate
+  feature_provider: ml4t.engineer.compute_features_for_verified_native_indicators_only;
+    macro_policy_asof_join_requires_approved_extension
+primary_falsifier:
+  description: At complete historical broker spread, commission, fill, and rollover
+    costs, mean monthly net strategy excess return over cash is nonpositive.
+  economic_interpretation: Compensation for currency risk does not survive this specific
+    retail product's holding costs.
+acceptance_and_stop_rules:
+  before_execution:
+  - BLOCKED_DATA if exact broker execution product and multiplier/margin/lot-step
+    mapping cannot be verified.
+  - BLOCKED_DATA if historical directional broker swap debits and credits cannot be
+    reconstructed.
+  - BLOCKED_DATA if either historical policy release chronology or causal price/fill
+    coverage fails.
+  - BLOCKED_CAPABILITY if installed native ML4T engine cannot represent/reconcile
+    the required rollover cashflows without a sanctioned adapter.
+  reject_if:
+  - Properly audited primary mean monthly net return is <=0 after 1x verified actual
+    broker costs and minimum event coverage.
+  - Independent cashflow reconciliation identifies an irreparable execution or accounting
+    flaw; classify INVALID_RESEARCH rather than economic rejection until repaired.
+  inconclusive_if:
+  - Fewer than 96 qualified months or fewer than 12 months in either direction.
+  - Positive mean but 95 percent moving-block bootstrap lower bound <=0.
+  - Positive mean but fewer than four independent directional exposure episodes, even
+    if a naive monthly t-statistic is large.
+  - Missing historical swap charges or broker executable spread; report BLOCKED_DATA
+    before any trial rather than PnL.
+  validate_only_if:
+  - All source, timing, native engine, financing and fill gates pass.
+  - Positive mean monthly net return vs cash and lower 95 percent block-bootstrap
+    bound >0.
+  - At least four independent signed position episodes including both signs.
+  - Positive strategy mean under predeclared 2x non-financing friction stress.
+  - Native cash/fills/positions/equity and swap ledger independently reconcile.
+  after_this_iteration: Stop thesis development and hand off. Do not register/freeze
+    sessions or execute trials as part of discovery.
+parity_and_causality_tests:
+- RBA 4.25 pct and Fed upper 5.50 pct yield -1.25 percentage points and short 10000
+  AUD.
+- RBA 5.00 pct and Fed upper 3.50 pct yield +1.50 percentage points and long 10000
+  AUD.
+- Equality of policy rates yields flat, not lookahead-derived direction.
+- Append later central-bank decisions and prove no earlier signal or PnL changes.
+- Inject a rate surprise 1 minute after macro cutoff and prove it cannot change the
+  current monthly signal.
+- Verify 09:59-10:00 complete bar may be observed at 10:00 but only 10:01+ may fill.
+- Verify NY DST conversion of 10:00 America/New_York into appropriate UTC in March/November.
+- Insert a missing 10:01 bar and require bounded postponement or BLOCKED_DATA; never
+  fill at a missing quoted price.
+- Verify long entry pays ask and short entry receives bid; never fill BID proxy as
+  both sides.
+- Reconcile signed 10000 AUD price PnL in USD and independently accounted broker swap
+  cashflows.
+- Verify broker holiday and Wednesday rollover value-date multiplier on held long
+  and short positions.
+- Run native ML4T library API signature inspection and independent extension feature
+  parity before any market-history feature computation.
+known_adaptations:
+- Original academic research involves diversified currency-forward carry exposures,
+  not a single AUDUSD leveraged CFD/margin spot contract.
+- Policy target difference replaces contract-specific forward discount; it is a proxy
+  and can fail even when diversified carry works.
+- Monthly hold with one fixed AUD position is a proposed high-simplicity trade rule;
+  not attributed to original authors.
+- Exchangeable forward interest return becomes broker-specific overnight swaps and
+  price PnL; financing treatment can reverse net economics.
+- Historical Dukascopy quote prices are a research proxy until bid/ask, lot, account
+  and broker exact mapping are verified.
+verified_facts:
+- Academic literature identifies diversified FX currency carry as exposure to global
+  risk and crash/deleveraging events.
+- RBA and Federal Reserve publish policy-rate decision histories.
+- Dukascopy documents rollover adjustments and expressly warns published swaps need
+  not match applied charges.
+- Inspected VPS intake documents canonical Dukascopy AUDUSD quote-price coverage during
+  2013-2024; no historical applied broker swap schedule was established.
+- Existing 2025-2026 allocation data remain protected; no market data were analyzed
+  in this iteration.
+assumptions:
+- Historical RBA and Fed official policy archives can be aligned by actual announcement
+  and effective timestamps.
+- Intended broker will permit matched-size AUDUSD market trades and overnight holding
+  in both directions.
+- Historical quote data can be qualified for NY-local 10:01 monthly entries and fair
+  mark-to-market at broker rollover times.
+- One central-bank pair policy-rate spread represents a tractable but imperfect proxy
+  of currency forward carry.
+- No portfolio diversification claim can be made before a standalone qualified result.
+unresolved_blockers:
+- Historical AUDUSD broker directional swaps, value dates, and statement reconciliation
+  are not in inspected canonical price records.
+- Exact executable broker contract identity, settlement, multiplier, minimum lot,
+  margin, and commissions unverified.
+- Timestamp and quote-side semantics of the proposed canonical AUDUSD minute store
+  must be audited from actual source metadata.
+- Fed and RBA point-in-time publication chronology has not been materialized or independently
+  verified.
+- Installed ml4t.engineer.compute_features and ml4t.backtest native API capabilities,
+  monthly clock and rollover support not inspected in this iteration.
+- Rate-differential sign may have too few independent regime transitions for the positive
+  acceptance gate; quantify only in authorized development audit.
+- Broker margin-FX versus CFD legal product mapping must be confirmed; no silent substitution.
+- Correlation with existing FX/macro sleeves and full previous trial universe remains
+  unquantified.
+selection_family_id: audusd_policy_carry_cfd
+research_mode: MVP_RESEARCH_DESIGN_ONLY
+not_a_frozen_session: true
+not_execution_approved: true
+created_on: '2026-10-15T02:04:19Z'

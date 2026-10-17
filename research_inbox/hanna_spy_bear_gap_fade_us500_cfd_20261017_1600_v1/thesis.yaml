@@ -1,0 +1,686 @@
+{
+  "candidate_id": "hanna_spy_bear_gap_fade_us500_cfd_20261017_1600_v1",
+  "selection_family_id": "hanna_spy_bear_gap_fade_us500_cfd",
+  "status": "THESIS_READY_UNVERIFIED",
+  "research_mode": "MVP_RESEARCH_DESIGN_ONLY",
+  "created_on": "2026-10-17",
+  "source_references": [
+    {
+      "id": "HANNA_2008_ORIGINAL",
+      "role": "original_tested_strategy",
+      "author": "Rob Hanna",
+      "title": "Large Gaps Lower in Uptrends vs. Downtrends",
+      "publication_date": "2008-01-31",
+      "url": "https://quantifiableedges.com/large-gaps-lower-in-uptrends-vs-downtrends/",
+      "archive_url": "https://quantifiableedges.blogspot.com/2008/01/"
+    },
+    {
+      "id": "HANNA_2008_TREND_CLARIFIER_NEGATIVE_SIZE",
+      "role": "original_practitioner_followup_and_adverse_gap_size",
+      "author": "Rob Hanna",
+      "title": "Mid-Sized Gaps Down",
+      "publication_date": "2008-04-22",
+      "url": "https://quantifiableedges.com/mid-sized-gaps-down/"
+    },
+    {
+      "id": "HANNA_2013_ADVERSE",
+      "role": "author's_postpublication_adverse_weekday_subset",
+      "author": "Rob Hanna",
+      "title": "Big Gaps Down on Mondays",
+      "publication_date": "2013-09-30",
+      "url": "https://quantifiableedges.blogspot.com/2013/"
+    },
+    {
+      "id": "ALVAREZ_2016_ALTERNATIVE",
+      "role": "alternative_reviewed_but_data_incompatible",
+      "author": "Cesar Alvarez",
+      "title": "Using recent returns for Mean Reversion",
+      "publication_date": "2016-12-07",
+      "url": "https://alvarezquanttrading.com/blog/using-recent-returns-for-mean-reversion/"
+    },
+    {
+      "id": "LONGMORE_2025_ALTERNATIVE",
+      "role": "alternative_reviewed_but_existing_trial_overlap",
+      "author": "Kris Longmore",
+      "title": "Hyperliquid Carry Looks Trendy",
+      "publication_date": "2025-09-14",
+      "url": "https://edgealchemy.robotwealth.com/p/hyperliquid-carry-looks-trendy"
+    },
+    {
+      "id": "NYSE_OFFICIAL_HOURS",
+      "role": "reference_cash_session_clock",
+      "publisher": "NYSE",
+      "url": "https://www.nyse.com/trade/hours-calendars"
+    },
+    {
+      "id": "DUKASCOPY_OFFICIAL_HOURS",
+      "role": "reference_current_cfd_product_hours_not_historical_proof",
+      "publisher": "Dukascopy Europe",
+      "url": "https://www.dukascopy.com/europe/english/cfd/range-of-markets/"
+    },
+    {
+      "id": "VPS_RESEARCH_POLICY",
+      "role": "binding_workflow_authority",
+      "local_path": "docs/research_operations.md"
+    },
+    {
+      "id": "VPS_MARKET_POLICY",
+      "role": "binding_cfd_instrument_policy",
+      "local_path": "docs/architecture/market_scope_policy.md"
+    },
+    {
+      "id": "VPS_DATA_CATALOG",
+      "role": "canonical_source_provenance_document",
+      "local_path": "docs/DATA_CATALOG.md"
+    }
+  ],
+  "economic_thesis": {
+    "question": "Do unusually large US500 cash-session opening gaps down in an ex-ante below-SMA200 environment overshoot and recover sufficiently by the same cash-session close to cover conservative executable CFD costs?",
+    "null": "The causally executable after-opening signed conditional return is not economically positive net of a prospectively justified cost hurdle and offers no incremental benefit over unconditional large-gap-down opportunities with the same clocks.",
+    "source_origin": "Rob Hanna's published 2008 SPY RTH opening-gap study.",
+    "scope": "single_asset_intraday_event_not_cross_sectional",
+    "portfolio_redundancy": "UNKNOWN; compare with local US500 rebound/volatility studies before freezing."
+  },
+  "mechanism": {
+    "economic_story": "Forced sales and precautionary bids/asks around a bearish cash-session open may temporarily dislocate the opening price; short covering and liquidity normalization may produce positive intraday mean reversion.",
+    "reason_to_persist": "Panic-driven, time-concentrated inventory and risk-transfer demand at the cash open.",
+    "who_pays": "Forced/liquidity-demanding sellers accepting unfavorable opening execution.",
+    "alternative_explanations": [
+      "Crisis-day market beta and highly variable volatility, not alpha.",
+      "Measurement of opening auction and vendor quote differences.",
+      "Historical multiple-testing selection of gap threshold and trend regime.",
+      "Source backtest profitability concentrated in 1993-2008 severe crises."
+    ],
+    "failure_conditions": [
+      "Gap-day directional continuation rather than rebound.",
+      "Most reversal realized before the first causal CFD order.",
+      "Broker opening spread/slippage consumes conditional move.",
+      "Source-product translation changes which days qualify."
+    ]
+  },
+  "instruments": {
+    "original": {
+      "market": "US_cash_equities",
+      "symbol": "SPY",
+      "product_class": "etf",
+      "trading_currency": "USD"
+    },
+    "adapted": {
+      "intended_broker_or_quote_source": "Dukascopy",
+      "symbol": "USA500.IDX/USD",
+      "source_symbol": "usa500idxusd",
+      "catalog_key": "index_minute_ES",
+      "product_class": "cfd",
+      "source_role": "price_proxy",
+      "quote_currency": "USD",
+      "settlement_and_cash_adjustment_rules": "BROKER_VERIFICATION_REQUIRED",
+      "contract_multiplier_tick_lot_margin": "BROKER_VERIFICATION_REQUIRED",
+      "trading_schedule": "NYSE_RTH_REFERENCE_WITH_SEPARATE_HISTORICAL_BROKER_HOURS_CHECK",
+      "venue_executable": "UNVERIFIED"
+    }
+  },
+  "data_requirements": {
+    "mandatory": [
+      {
+        "dataset": "index_minute_ES",
+        "vendor": "Dukascopy",
+        "product": "cash_index_CFD_bid_only_1min_proxy",
+        "fields": [
+          "timestamp",
+          "symbol",
+          "open",
+          "high",
+          "low",
+          "close"
+        ],
+        "timestamps": "UTC_time_zone_aware_bar_start_to_be_confirmed",
+        "coverage_in_repository_catalog": "2011-10_to_2026-09_documented_not_newly_qualified",
+        "allowed_for_proposed_development": "2013-01-01_to_2022-12-31_subject_to_holdout_permission",
+        "allowed_for_proposed_retro_validation": "2023-01-01_to_2024-12-31_subject_to_holdout_permission",
+        "use_2025_or_later": "FORBIDDEN_UNLESS_SEPARATELY_AUTHORIZED",
+        "volume_required": false,
+        "quote_semantics": "BID_ONLY",
+        "execution_data_verified": false
+      },
+      {
+        "dataset": "NYSE_regular_session_calendar",
+        "provider": "officially_versioned_exchange_calendar_or_verified_equivalent",
+        "fields": [
+          "cash_session_date",
+          "session_open_utc",
+          "session_close_utc",
+          "is_full_session"
+        ],
+        "required_semantics": "historical_DST_holidays_halfdays",
+        "use": "causal_bar_alignment_not_published_indicator"
+      },
+      {
+        "dataset": "broker_USA500_CFD_terms_and_ex_ante_cost_basis",
+        "provider": "broker_effective_dated_primary_documentation",
+        "fields": [
+          "bid_ask_or_conservative_spread",
+          "commission",
+          "slippage_basis",
+          "lot",
+          "multiplier",
+          "historical_hours",
+          "cash_adjustments"
+        ],
+        "availability": "UNVERIFIED"
+      }
+    ],
+    "eligible_session_rules": [
+      "Require a full NYSE cash session; exclude early closes rather than remap.",
+      "Require 200 completed prior valid RTH closes; do not bridge data gaps by forward fill.",
+      "Require previous cash-session reference close and current first 09:30 bar.",
+      "Require first legally available entry quote after completed opening bar and planned 15:59 exit quote.",
+      "Missing quote, stale price or abnormal broker opening results in ineligible event with reason.",
+      "Do not use full-day OHLC hindsight to infer executable fills."
+    ],
+    "relative_timezones": {
+      "exchange_clock": "America/New_York",
+      "archived_timestamp_clock": "UTC",
+      "historical_DST_required": true
+    }
+  },
+  "feature_contracts": [
+    {
+      "id": "prev_rth_close",
+      "type": "deterministic_event_anchor",
+      "capability": "EXTENSION_REQUIRED",
+      "raw_fields": [
+        "close",
+        "timestamp",
+        "symbol"
+      ],
+      "formula": "Prior eligible NYSE full cash session's last validated RTH BID quote close, not 24h CFD close",
+      "frequency": "daily_RTH_anchor_from_1m",
+      "lookback": "1_qualified_cash_session",
+      "warmup": "one_prev_qualified_session",
+      "grouping": "per_symbol_per_session",
+      "availability": "at_prior_session_end_after_quote_received",
+      "provider": "approved_session_event_anchor_extension",
+      "parity_tests": [
+        "previous_session_not_calendar_day",
+        "US_holidays",
+        "NY_DST",
+        "missing_15_59",
+        "future_row_invariance"
+      ]
+    },
+    {
+      "id": "prev_close_sma200",
+      "type": "arithmetic_simple_moving_average",
+      "capability": "NATIVE_UNVERIFIED",
+      "raw_fields": [
+        "completed_RTH_closes",
+        "symbol",
+        "session_date"
+      ],
+      "formula": "sum(previous 200 complete RTH BID closing-reference prices) / 200",
+      "params": {
+        "period": 200,
+        "smoothing": "arithmetic",
+        "closed_window": "prior_completed_sessions_only"
+      },
+      "frequency": "once_per_completed_RTH_session",
+      "warmup": "200_complete_prior_full_cash_sessions",
+      "grouping": "per_symbol_RTH_daily_resample",
+      "availability": "at_prior_session_end_no_current_cash_session",
+      "provider_preference": "ml4t.engineer.compute_features_native_sma_if_signature_and_parity_confirmed",
+      "parity_tests": [
+        "independent_200_item_arithmetic_oracle",
+        "first_valid_bar",
+        "per_symbol_isolation",
+        "future_row_invariance",
+        "leap_year_DST",
+        "partial_sessions"
+      ]
+    },
+    {
+      "id": "prev_bear_regime",
+      "type": "rule_boolean",
+      "capability": "EXTENSION_REQUIRED",
+      "raw_fields": [
+        "prev_rth_close",
+        "prev_close_sma200"
+      ],
+      "formula": "prev_rth_close < prev_close_sma200",
+      "params": {
+        "strict_less_than": true,
+        "equal_is_no_trade": true
+      },
+      "frequency": "once_per_cash_session",
+      "warmup": "200_complete_prior_full_cash_sessions",
+      "grouping": "per_symbol",
+      "availability": "prior_cash_session_after_close",
+      "provider": "approved_session_rule_expression_or_verified_native_equivalent",
+      "parity_tests": [
+        "threshold_equality",
+        "no_current_day_access",
+        "fixture_for_crossing_at_open"
+      ]
+    },
+    {
+      "id": "morning_cash_session_gap",
+      "type": "event_return_ratio_used_as_signal_only",
+      "capability": "EXTENSION_REQUIRED",
+      "raw_fields": [
+        "current_09_30_bar_open",
+        "prev_rth_close",
+        "timestamp",
+        "symbol"
+      ],
+      "formula": "(first_09_30_bar_open / prev_rth_close) - 1.0",
+      "params": {
+        "threshold_inclusive": -0.0075,
+        "reference": "previous_NYSE_cash_session_close"
+      },
+      "frequency": "once_per_full_NYSE_cash_session",
+      "warmup": "prior_RTH_reference_and_200_closes_for_combined_rule",
+      "grouping": "per_symbol_cash_session",
+      "availability": "no_earlier_than_current_09_30_bar_completion_at_09_31_ET",
+      "provider": "approved_calendar_aligned_opening_gap_extension",
+      "parity_tests": [
+        "exact_minus_0p75_boundary",
+        "quote_vs_auction_difference",
+        "overnight_CFD_bar_trap",
+        "future_row_invariance",
+        "first_bar_gap",
+        "NY_DST"
+      ]
+    }
+  ],
+  "strategy_rules": {
+    "rule_set_id": "hanna_rth_bear_gap_down_adapted_single_config_v1",
+    "source_faithful_mechanism": "large_down_gap_below_200_day_trend_conditional_intraday_rebound",
+    "side": "long_only",
+    "entry_conditions_all": [
+      "qualified_full_NYSE_cash_session",
+      "prior_valid_RTH_close_strictly_below_prior_SMA200",
+      "current_opening_gap_less_than_or_equal_minus_0p0075",
+      "first_opening_bar_is_complete_and_order_submitted_at_later_lawful_quote",
+      "no_open_position",
+      "no_prior_trade_on_this_cash_session"
+    ],
+    "entry_order": "market_buy_only_after_signal_is_available",
+    "exit_conditions": [
+      "planned_15_59_cash_session_market_sell",
+      "no_position_carry_across_cash_close"
+    ],
+    "forced_exit_if_unavailable": "INCONCLUSIVE_or_BLOCKED_DATA_do_not_assume_optimistic_close",
+    "stop": "none",
+    "take_profit": "none",
+    "trailing_stop": "none",
+    "pyramiding": "forbidden",
+    "reversal": "forbidden",
+    "reentry": "forbidden_same_session",
+    "max_positions": 1,
+    "missing_data": "fail_closed_no_signal_no_fill_synthesis",
+    "ORIGINAL_AUTHOR_RULES": {
+      "rule_identity": "rob_hanna_2008_spy_gap_down_at_least_0p75_below_sma200_open_to_close",
+      "tested_product": {
+        "instrument": "SPY",
+        "product_class": "exchange_traded_etf",
+        "venue_reference": "US_cash_equity_regular_session",
+        "currency": "USD",
+        "adjustment_and_dividend_handling": "UNDISCLOSED"
+      },
+      "timeframe": "daily_regular_cash_session_open_and_close",
+      "session": {
+        "timezone": "America/New_York",
+        "opening_auction": "09:30:00",
+        "closing_auction": "16:00:00",
+        "holiday_halfday_policy": "UNDISCLOSED"
+      },
+      "setup": {
+        "gap_definition": "(SPY cash-open[t] / SPY previous-cash-close[t-1]) - 1 <= -0.0075",
+        "trend_regime": "SPY trading below its 200-session moving average",
+        "trend_reference_bar_in_original_january_article": "UNDISCLOSED",
+        "clarification_from_author_april_2008": "downtrend defined by completed close below 200-day average",
+        "sma_type": "conventional_simple_arithmetic_average_inferred_from_200_day_moving_average",
+        "precise_adjustment_and_tie_rule": "UNDISCLOSED"
+      },
+      "order": {
+        "side": "buy",
+        "price_assumed": "same_cash_session_open",
+        "fill_model": "ORIGINAL_SOURCE_IDEALIZED_OPEN_NO_ORDER_RECONSTRUCTION",
+        "order_type": "opening_purchase_economics_only"
+      },
+      "exit": {
+        "condition": "same_cash_session_close",
+        "price_assumed": "same_cash_session_close",
+        "stop_loss": "none_disclosed",
+        "profit_target": "none_disclosed",
+        "holding": "within_one_cash_session"
+      },
+      "portfolio": {
+        "number_of_units": "UNDISCLOSED",
+        "concurrency": "one_SPY_position_per_qualifying_day_implied",
+        "leverage": "UNDISCLOSED",
+        "compounding_and_costs": "UNDISCLOSED",
+        "short_orders": "none_in_selected_study"
+      },
+      "data_fields": [
+        "regular_open",
+        "regular_close",
+        "previous_regular_close"
+      ],
+      "absent_rule_warning": "Exact SMA timestamp and original transaction-cost/cash-account handling are not established by first-party code. The proposed local rule uses an expressly labeled causal interpretation, not invented original code."
+    },
+    "SOURCE_TEST_EVIDENCE": {
+      "label": "ORIGINAL_SOURCE_CLAIM_ONLY",
+      "test_start": "1993-11",
+      "test_end": "2008-01",
+      "exact_last_scored_day": "UNKNOWN",
+      "original_source_sample_is_contaminated": true,
+      "gap_events_total": 190,
+      "below_sma200": {
+        "events": 105,
+        "profitable_events": 55,
+        "win_rate_original_claim_percent": 52.4,
+        "reported_aggregate_gain_percent": ">34.8"
+      },
+      "above_sma200": {
+        "events": 85,
+        "profitable_events": 42,
+        "win_rate_original_claim_percent": 49.4,
+        "reported_aggregate_gain_percent_approx": -1.7
+      },
+      "performance_accounting_method": "UNKNOWN",
+      "performance_claim_cannot_be_called_net_executable_pnl": true,
+      "commissions_spread_slippage": "UNKNOWN",
+      "drawdowns_sharpe_prof_factor": "UNKNOWN",
+      "train_validation_split": "UNDISCLOSED",
+      "source_postpublication_all_days_confirmation": "UNDISCLOSED",
+      "source_postpublication_adverse": {
+        "source": "HANNA_2013_ADVERSE",
+        "subset": "Monday_gaps_down_at_least_0p75_in_bear_trends",
+        "finding": "author_describes_weakening_intraday_edge_and_downtrend_adversity",
+        "limitation": "Monday_only_not_full_week_replication"
+      }
+    },
+    "SOURCE_SELECTION_BIAS": {
+      "at_least_observed_analyses": [
+        "above_vs_below_200_session_SMA_regime",
+        "large_vs_mid_sized_gap_thresholds_in_companion_study",
+        "later_Monday_weekday_substudy"
+      ],
+      "number_of_prepublication_trials": "UNKNOWN",
+      "original_gap_size_selection": "non_random_possible_exploration",
+      "potential_cherry_picking": "high",
+      "original_IS_OOS_credibility": "no_reported_chronological_out_of_sample",
+      "publication_decay": "direct_2013_author_negative_Monday_subset",
+      "local_history_is_not_independent_source_evidence": true
+    },
+    "LOCAL_ADAPTATION": {
+      "identity": "dukascopy_usa500_rth_cash_session_gap_rebound_adaptation",
+      "claimed_original_author_reproduction": false,
+      "target": {
+        "instrument_name": "USA500.IDX/USD",
+        "symbol_alias": "usa500idxusd",
+        "catalog_dataset_key": "index_minute_ES",
+        "product_class": "cfd",
+        "source_vendor": "Dukascopy",
+        "role": "price_proxy",
+        "quote_currency": "USD",
+        "asset": "US_500_cash_index_proxy",
+        "not_equivalent_to": [
+          "SPY_ETF",
+          "SPX_cash",
+          "CME_ES_futures"
+        ]
+      },
+      "causal_regime_rule": "previous completed NYSE full-day 15:59 reference close < SMA200 of prior 200 completed qualified RTH closes",
+      "causal_gap_rule": "first 09:30 bar OPEN price / prior qualified RTH closing reference - 1 <= -0.0075",
+      "signal_availability": "first_complete_bar_at_or_after_09_31_new_york",
+      "first_executable_order": "first_actual_broker_market_quote_strictly_after_09_30_bar_available",
+      "exit_rule": "market_sell_at_first_verified_broker_quote_at_or_after_15_59_new_york_before_close",
+      "sizing_change": "fixed_single_unlevered_notional_unit_for_event_return_comparison",
+      "execution_difference": "later_than_etf_09_30_auction_entry_and_earlier_than_etf_16_00_auction_exit",
+      "gap_product_difference": "CFD_broker_session_quotes_do_not_equal_SPY_opening_auction",
+      "source_to_local_parity": "NOT_ESTABLISHED"
+    },
+    "title": "Rob Hanna 2008 SPY large-gap-down bear-regime same-session rebound: proposed Dukascopy US500 CFD adaptation",
+    "source_metadata": {
+      "local_timezone": "Asia/Ho_Chi_Minh",
+      "local_timestamp": "2026-10-17T16:00:00+07:00",
+      "intent": "research_design_only",
+      "freeze_approved": false,
+      "phase3_executed": false,
+      "phase4_executed": false,
+      "broker_orders_authorized": false,
+      "protected_holdout_access_authorized": false,
+      "repository_modified": false,
+      "current_vps_commit": "9525f35667bf439781bff19edd0c9681da0b7080",
+      "relevant_skills_read": [
+        "ml4t-research-operator",
+        "ml4t-backtest-overfitting",
+        "ml4t-transaction-costs",
+        "ml4t-lookahead-bias"
+      ]
+    },
+    "source_extra_fields": {}
+  },
+  "signal_and_execution_clock": {
+    "time_zone": "America/New_York",
+    "DST": "use_official_IANA_historical_rules",
+    "normal_session": [
+      "09:30",
+      "16:00"
+    ],
+    "eligible_sessions": "NYSE_full_cash_sessions_only",
+    "signal_observation": {
+      "session_start": "09:30:00",
+      "first_bar": "09:30:00_to_09:30:59_bar_start_labeled",
+      "first_bar_availability": "09:31:00_or_later_when_provider_confirms_complete",
+      "previous_daily_regime_available": "prior_cash_session_close",
+      "signal_due": "after_opening_bar_complete"
+    },
+    "entry_execution": {
+      "earliest": "first_verified_broker_quote_strictly_after_09_30_complete_bar_event",
+      "instrument_buy_side": "ask_not_bid",
+      "optimistic_same_open_fill": "prohibited"
+    },
+    "exit_execution": {
+      "instruction_time": "at_or_before_15_59_with_no_future_price_information",
+      "earliest_target": "first_verified_15_59_broker_quote",
+      "order_side": "sell_to_close_at_bid",
+      "exit_by": "before_16:00:00_ET_cash_session_end",
+      "absent_quote": "flag_ineligible_never_shift_to_winning_exit"
+    },
+    "allowed_market_data_ordering": "chronological_utc_monotonic",
+    "bars_are_complete_at": "bar_start_plus_60_seconds_subject_to_feed_semantics",
+    "exact_source_cash_open_fill_parity": "impossible_from_one_minute_completed_bars_without_an_auction_feed"
+  },
+  "sizing": {
+    "original_author": "UNSPECIFIED",
+    "local_research_unit": "unlevered_1x_notional_event_return_unit",
+    "risk_budget": "one_position_one_asset_one_cash_session",
+    "maximum_concurrent_positions": 1,
+    "margin_and_min_lot": "must_verify_broker_terms_before_native_execution",
+    "overnight_exposure": "zero_by_design_subject_to_real_order_execution"
+  },
+  "cost_assumptions": {
+    "status": "PROVISIONAL_UNVERIFIED",
+    "fees": "broker_product_account_tier_specific_to_be_sourced",
+    "spread": "contemporaneous_ask_minus_bid_not_present_in_canonical_bid_only_store",
+    "spread_proxy_option": "attributable_conservative_ex_ante_broker_quote_model_with_independent_verification",
+    "opening_spread_stress": "required_due_to_gap_day_panic",
+    "adverse_slippage": "nonzero_ex_ante_stress_required",
+    "funding": "zero_if_proven_flat_before_rollover_otherwise_verify",
+    "dividend_cash_adjustment": "verify_effective_dated_broker_policy_and_intraday_events",
+    "sizing_cost_conversion": "verify_contract_multiplier_lots_and_USD_per_point",
+    "ex_ante_realized_costs_claim": "none",
+    "phase4_without_required_data_or_model_authority": "blocked"
+  },
+  "baseline": {
+    "primary": {
+      "name": "all_large_gap_down_days_unconditional_on_sma200",
+      "rule": "same_minus_0p75_RTH_gap_threshold_no_bear_regime_condition",
+      "instrument_and_clock": "identical_US500_CFD_proxy_entry_after_09_31_exit_by_15_59",
+      "turnover_and_costs": "compare_on_identical_qualification_method"
+    },
+    "secondary_negative_controls": [
+      "above_SMA200_large_down_gap_subset_no_optimizing",
+      "same_bear_regime_non_gap_RTH_days_as_context_not_primary"
+    ],
+    "disallowed_placebos": [
+      "randomly_selected_calendar_control_with_other_execution_clock",
+      "same_open_09_30_fill_after_full_09_30_bar"
+    ],
+    "confound_controls": [
+      "cash_day_returns",
+      "volatility_clusters",
+      "prolonged_downtrend_beta"
+    ]
+  },
+  "development_evaluation": {
+    "mode": "MVP_Research_only_if_independently_approved",
+    "source_tested_dates": "1993-11_to_2008-01_as_reported",
+    "source_results_are_observed": true,
+    "proposed_development": [
+      "2013-01-01",
+      "2022-12-31"
+    ],
+    "proposed_retrospective_validation": [
+      "2023-01-01",
+      "2024-12-31"
+    ],
+    "these_periods_are_guaranteed_clean_OOS": false,
+    "source_to_local_prices_and_trades_equivalent": false,
+    "holdout": {
+      "exclude_2025_plus_without_explicit_authorization": true,
+      "other_existing_repository_protected_boundaries_override_proposal": true,
+      "use_future_sample": "prohibited"
+    },
+    "phase3_protocol": {
+      "status": "PROPOSED_NOT_RUN",
+      "diagnostic": "conditional_signed_RTH_event_returns_with_documented_conservative_roundtrip_cost_hurdle",
+      "NOT_APPLICABLE": false,
+      "reason": "fixed_intraday_event_horizon_is_measurable_without_path_dependent_fills",
+      "primary_metric": "conditional_mean_cost_adjusted_event_return_after_first_lawful_entry_to_planned_exit",
+      "contrast": "conditional_bear_gap_mean_minus_all_gap_days_mean_same_clocks",
+      "uncertainty": "dependence_aware_event_year_or_calendar_block_uncertainty",
+      "event_count_floor": 40,
+      "distinct_calendar_year_floor": 5,
+      "unknown_current_event_count": true,
+      "economic_hurdle_value": "MUST_BE_SET_EX_ANTE_AFTER_COST_QUALIFICATION",
+      "primary_FALSIFIER_must_be_frozen_prior_to_returns": true
+    },
+    "prespecified_risk_and_execution_measures": [
+      "eligible_event_count_and_effective_independent_years",
+      "intraday_left_tail_loss_distribution_and_worst_cash_session",
+      "volatility_crisis_year_concentration_and_cluster_robust_uncertainty",
+      "median_and_high_quantile_broker_opening_spread_if_data_available",
+      "observed_broker_entry_latency_and_market_order_slippage_if_data_available",
+      "missing_09_30_15_59_quote_count_and_rejected_event_count",
+      "position_carry_past_16_00_must_be_zero_after_native_phase4_only",
+      "full_equity_max_drawdown_only_if_native_phase4_is_later_authorized"
+    ],
+    "phase4": {
+      "permitted_in_this_iteration": false,
+      "eligibility": "separate_documented_phase3_PASS_plus_execution_data_and_cost_contract_qualification",
+      "smallest_next_test": "native_Engine_one_config_one_short_development_window_after_authorization",
+      "no_custom_backtest_code": true
+    }
+  },
+  "primary_falsifier": {
+    "hypothesis": "positive_net_conditional_return_and_incremental_value_over_all_gaps",
+    "reject_with_adequate_data_if_any": [
+      "one_sided_95pct_upper_confidence_bound_of_conditional_after_conservative_cost_mean_is_nonpositive",
+      "below_SMA_signal_fails_predeclared_incremental_economic_hurdle_vs_unconditional_gap_baseline"
+    ],
+    "require_declaration_before_data_view": [
+      "specific_cost_per_order_and_roundtrip_definition",
+      "exact_incremental_economic_hurdle",
+      "cluster_method_and_min_effective_sample"
+    ],
+    "stop_if": [
+      "insufficient_events_or_confidence_intervals_wide_means_INCONCLUSIVE",
+      "signal_clock_or_source_identity_invalid_means_BLOCKED_DATA",
+      "structural_opening_auction_to_CFD_delay_negates_causal_executability_means_BLOCKED_DATA"
+    ]
+  },
+  "acceptance_and_stop_rules": {
+    "discovery_outcome": "THESIS_READY_UNVERIFIED",
+    "acceptance_here": "source_published_original_and_one_falsifiable_local_adaptation_only",
+    "no_freeze": true,
+    "no_promotion": true,
+    "no_stage3_or_stage4_authorization": true,
+    "phase3_PASS_needs": "qualified_clock_source_costs_past_session_universe_and_frozen_positive_predeclared_economic_test",
+    "phase3_FAIL": "REJECT_no_phase4_sweep",
+    "phase3_INCONCLUSIVE": "STOP_without_optimization",
+    "BLOCKED_DATA": "STOP_until_required_qualification_not_negative_alpha_conclusion",
+    "material_source_difference": "new_trial_and_explicit_authorization_required",
+    "selection_guard": "prohibit_weekday_VIX_ATR_stops_gap_threshold_or_SMA_parameter_search"
+  },
+  "parity_and_causality_tests": {
+    "planned_only_not_executed": true,
+    "independent_oracle_tests": [
+      "SMA200_exact_previous_200_complete_RTH_closes_formula_and_warmup",
+      "per_symbol_grouping_no_cross_asset_information",
+      "first_opening_bar_not_available_before_09_31",
+      "no_09_30_same_open_buy_from_completed_09_30_bar",
+      "threshold_negative_0p75_inclusive_and_boundary_ties",
+      "preceding_cash_session_instead_of_prior_calendar_day",
+      "200_SMA_regime_from_previous_close_even_if_current_open_crosses",
+      "official_NYSE_holidays_and_early_closes",
+      "NYSE_DST_spring_and_autumn_dates_and_UTC_monotonicity",
+      "missing_open_exit_quote_denied_no_inferred_fills",
+      "independent_market_order_ask_entry_bid_exit_spread_accounting",
+      "future_row_mutation_and_append_cannot_change_prior_event",
+      "commission_and_multiplier_sensitivity_not_hidden_return_optimization"
+    ],
+    "installed_api_snapshot": {
+      "version_ml4t_engineer": "0.1.4",
+      "function": "ml4t.engineer.compute_features",
+      "signature": "(data, features, *, group_col=None, timestamp_col=None, assume_sorted=False)",
+      "native_specific_SMA200": "NATIVE_UNVERIFIED",
+      "session_event_gap": "EXTENSION_REQUIRED",
+      "no_custom_calculators_or_simulators_now": true
+    }
+  },
+  "known_adaptations": [
+    "original_SPY_equity_auction_to_Dukascopy_US500_CFD_bid_quote_price_proxy",
+    "assumed_source_regime_as_prior_cash_close_to_prior_SMA200_from_April_2008_clarifier",
+    "opening_signal_known_after_09_30_one_minute_bar_not_in_09_30_auction",
+    "market_entry_after_09_31_not_at_09_30_source_open",
+    "exit_by_15_59_not_at_16_00_source_close",
+    "fixed_unit_cash_index_CFD_not_original_undisclosed_spy_position_sizing",
+    "broker_based_spread_commission_slippage_vs_original_missing_costs"
+  ],
+  "verified_facts": [
+    "ORIGINAL_SOURCE_2008_01_31_HANNA_SPY_TEST_PUBLISHED_190_EVENTS",
+    "ORIGINAL_SOURCE_CLAIMS_BELOW_SMA_105_EVENTS_55_WINS_OVER_34p8_AGGREGATE_GAIN",
+    "ORIGINAL_SOURCE_CLAIMS_ABOVE_SMA_85_EVENTS_42_WINS_AROUND_MINUS_1p7_AGGREGATE",
+    "HANNA_2008_04_22_MEDIUM_GAP_DOWN_BEAR_CASES_HISTORICALLY_LOST",
+    "HANNA_2013_09_30_MONDAY_BIG_DOWN_GAP_DOWN_TREND_ADVERSE_EVIDENCE",
+    "REPO_DUKASCOPY_INDEX_MINUTE_ES_PRICE_ONLY_CFD_BID_PROXY_NOT_SPY",
+    "REPO_RESEARCHPHASE3_PREBACKTEST_AND_RESEARCHPHASE4_NATIVE_BACKTEST",
+    "CURRENT_VPS_CHECKOUT_READ_ONLY_REVIEWED",
+    "GENERAL_NATIVE_ENGINEER_API_VERSION_SNAPSHOT_DOCUMENTED"
+  ],
+  "assumptions": [
+    "Closing-price regime comparison in the April 2008 companion is applicable to the January experiment.",
+    "Prior completed cash session is the appropriate causal SMA200 reference.",
+    "RTH gap concept remains economically relevant on the CFD broker price proxy despite auction difference.",
+    "Qualified historical 09:30 to 15:59 broker quote paths exist for a sufficient number of bearish gaps.",
+    "Broker-specific conservative costs can be sourced and frozen prospectively.",
+    "The target CFD can actually enter after the 09:30 bar and exit before cash-close for each event."
+  ],
+  "unresolved_blockers": [
+    "Original 2008 system code/actual SMA timestamp and trade ledger not recovered.",
+    "No independent postpublication full-week after-cost SPY replication located.",
+    "Historical SPY auction-to-CFD price gap identity and first minute payoff transfer unknown.",
+    "Exact 09:30 opening and 15:59 exit quote availability for qualified local dates unknown.",
+    "Actual US500 contract, broker entity, multiplier, minimum lot and commission unknown.",
+    "Historical ASK/spread and gap-day slippage not verified; provisional broker-based model requires acceptance.",
+    "Exact source dividend/adjustment conventions and broker cash-adjustment handling unknown.",
+    "Native SMA200 numerical/provider parity unverified; session features require extension qualification.",
+    "Local effective event sample and independent event count uncomputed.",
+    "Prospective economic hurdle and authorized holdout boundary must be declared before any future Stage 3 test."
+  ],
+  "not_execution_approved": true,
+  "not_a_frozen_session": true
+}

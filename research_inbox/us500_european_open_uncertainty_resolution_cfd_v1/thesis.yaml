@@ -1,0 +1,558 @@
+candidate_id: us500_european_open_uncertainty_resolution_cfd_v1
+status: THESIS_READY_UNVERIFIED
+research_mode: MVP_RESEARCH
+created_on: '2026-10-15'
+source_references:
+- id: bondarenko_muravyev_2023
+  kind: peer_reviewed_primary
+  title: 'Market Return Around the Clock: A Puzzle'
+  authors:
+  - Oleg Bondarenko
+  - Dmitriy Muravyev
+  publication: Journal of Financial and Quantitative Analysis 58(3), 939-967 (2023);
+    online 2022-07-25
+  url: https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/abs/market-return-around-the-clock-a-puzzle/089E33AC0B4D3B9A02CBA31EDF6505B3
+  applicability: E-mini S&P 500 futures historical evidence only; not US500 CFD evidence
+- id: source_internet_appendix
+  kind: authors_primary_supplement
+  url: https://static.cambridge.org/content/id/urn:cambridge.org:id:article:S0022109022000783/resource/name/S0022109022000783sup001.pdf
+  applicability: Table IA.4 explicitly defines EU-open 23:30-03:30 US Eastern time;
+    section IA.3 challenges inventory-risk explanation
+- id: dukascopy_product_hours
+  kind: official_broker_documentation
+  url: https://www.dukascopy.com/europe/english/cfd/range-of-markets/
+  applicability: USA500.IDX/USD CFD identity and seasonal GMT hours; effective historical
+    rules must be checked
+- id: repository_market_policy
+  kind: inspected_vps_repository
+  local_path: docs/architecture/market_scope_policy.md
+- id: repository_operating_guide
+  kind: inspected_vps_repository
+  local_path: docs/research_operations.md
+- id: repository_session_policy
+  kind: inspected_vps_repository
+  local_path: docs/research_sessions.md
+- id: repository_agent_rules
+  kind: inspected_vps_repository
+  local_path: AGENTS.md
+- id: repository_contract_example
+  kind: inspected_vps_repository
+  local_path: config/research_contract_v1_example.yaml
+- id: canonical_local_source_reference
+  kind: inspected_vps_repository
+  local_path: src/strategies/independent_seven_data.py
+economic_thesis:
+  claim: The expected USD return of a long US large-cap index position during the
+    four hours around European investor arrival is larger than that of an equally
+    long preceding four-hour Asian/evening window. The premium must remain positive
+    after broker-specific CFD trading costs.
+  horizon: 4 hours per eligible Sunday-Thursday US Eastern night
+  not_claimed: No claim of positive CFD Sharpe, replicated returns, or known causality.
+  distinction_from_existing_strategies: Deterministic time-of-day exposure, not an
+    indicator-conditioned trend, breakout, ORB, RSI, or mean-reversion signal.
+  original_source_design:
+    target_market: CME E-mini S&P 500 futures, ES; no CFD observations in source paper
+    measurement_window: 23:30-03:30 America/New_York, sourced from authors appendix
+      Table IA.4
+    evidence_sample: Main source historical sample 2004-July 2018 (not an unobserved
+      holdout)
+    unprovided_execution_details: Do not attribute this YAML next-minute market order,
+      Dukascopy commission, CFD lot size, or CFD spread assumptions to the authors.
+mechanism:
+  verified_source_interpretation: The authors associate European-open E-mini returns
+    with European market participants processing overnight information and a fall
+    in uncertainty.
+  inference: Global time-zone segmentation and institutional participation may make
+    the timing of compensation for bearing equity risk uneven within the day.
+  hypothetical_payer: Investors demanding liquidity to transfer equity risk as Europe
+    opens, or investors who sold equity exposure earlier at a discount to avoid unresolved
+    uncertainty. Neither payer has been observed in this CFD feed.
+  persistence_argument: Investor schedules and institutional market-open constraints
+    change slowly; publication and arbitrage can erase the effect.
+  supportive_regimes:
+  - Uncertainty accumulated during Asian overnight hours
+  - Liquid, open European and US index futures/CFD sessions
+  destructive_regimes:
+  - Overnight negative global equity shock
+  - Premium competed away
+  - Wider CFD bid-ask or dealer repricing
+  - Broker maintenance/holiday closures
+  alternative_explanations:
+  - Generic equity risk premium
+  - Different overnight spreads/liquidity
+  - US news releases
+  - Historical sample selection
+  - Index proxy/broker price discrepancies
+instruments:
+  target:
+    broker: Dukascopy Bank SA / applicable Dukascopy CFD entity (confirm exact account
+      entity)
+    broker_symbol: USA500.IDX/USD
+    product_class: cfd
+    index_exposure: S&P 500 index price exposure
+    quote_currency: USD
+    account_currency: USD
+    trade_direction: long_only
+    intended_execution_market: Broker OTC CFD, not CME ES futures
+    data_role: Historical price proxy until same-product source mapping is proven
+    contract_multiplier: null
+    lot_step: null
+    minimum_trade_size: null
+    margin_requirements: null
+    restrictions: No trading or simulated executable fills before exact broker terms
+      and timestamps are verified.
+  source_candidate:
+    path: /home/quant/dev/quant/ml4t-data/.data/store/index_minute_ES
+    observed_description: Canonical local one-minute ES/index CFD price-proxy store,
+      referenced in prior native research
+    mapping_to_target_product: UNVERIFIED
+    action: Require vendor, source_symbol, role, source_version and broker-price equivalence
+      proof.
+  disallowed_proxy:
+    path: data/processed/SPX500_USD_15m_2017_2026.parquet
+    reason: LSE manifest documents an approximately 8.5-hour daily session; overnight
+      target-window coverage not established.
+data_requirements:
+  required_columns:
+  - timestamp
+  - open
+  - high
+  - low
+  - close
+  desired_execution_columns:
+  - bid
+  - ask
+  - bid_timestamp
+  - ask_timestamp
+  optional_columns: []
+  minimum_frequency: 1-minute bar-start timestamps plus validated side-specific quotes
+    or quoted-spread history
+  source_semantics:
+    timezone: UTC
+    timestamp_convention: ASSUMED bar_start; verify directly from the source/provider
+      before experiment
+    quote_or_trade: UNVERIFIED
+    prices_adjusted_or_continuous: UNVERIFIED
+    vendor_symbol: UNVERIFIED
+    venue_market_open: Dukascopy USA500.IDX/USD as-of historical summer/winter schedule
+      and exceptions
+    forbid:
+    - Exchange ES trade volume substituted for CFD trade volume
+    - Assumed CFD fills at futures prices
+    - Daily session-label timestamp used as intraday price availability
+  preferred_source_priority:
+  - The canonical local index_minute_ES only if mapped and qualified for the exact
+    CFD price-proxy research role
+  - An existing canonical Dukascopy USA500.IDX/USD quote dataset if verified in the
+    ML4T catalog
+  intended_development:
+  - '2023-01-01T00:00:00Z'
+  - '2026-01-01T00:00:00Z'
+  price_warmup: At least one completed 1-minute bar before first eligible order event;
+    no indicator history
+  minimum_coverage: 400 paired complete eligible nights spread across >=2 distinct
+    calendar years
+  completeness: Prove coverage at 19:29/19:30, 23:29/23:30, 03:29/03:30 US Eastern
+    and continuous bars through each holding period; mark every missing minute and
+    unexplained exchange or broker halt. Do not select days based on future price
+    movements or silently fill missing exit prices.
+  protection: Never read a protected holdout or relabel reviewed 2023-2025 data as
+    unseen.
+feature_contracts:
+- name: eligible_eu_night
+  purpose: Determine scheduled eligibility before an order decision.
+  definition: 1 iff date is Sunday-Thursday US Eastern and the broker as-of calendar
+    schedules trading through both EU target entry and exit.
+  raw_inputs:
+  - timestamp
+  - historically effective broker calendar
+  params:
+    time_zone: America/New_York
+    allowed_local_weekdays:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+  lookback: No price lookback; calendar known before order
+  grouping: Isolate by venue and instrument identifier
+  timeframe: 1m
+  warmup: 0
+  earliest_available: Before the entry decision, given published as-of calendar
+  proposed_provider: Schedule/calendar adapter for the native event-driven ML4T Strategy
+  classification: EXTENSION_REQUIRED
+  tests:
+  - US/EU DST mismatch dates
+  - Sunday evening start and Friday morning end
+  - Holiday and early closure
+  - Unpublished calendar revisions do not backfill
+- name: eu_entry_order_event
+  purpose: Emit a next-bar buy decision before the academic EU-open window.
+  definition: eligible_eu_night AND local_bar_start == 23:29 on Sunday-Thursday
+  raw_inputs:
+  - timestamp
+  - eligible_eu_night
+  params:
+    decision_bar_start_eastern: '23:29'
+    target_fill_eastern: '23:30'
+  lookback: One completed minute bar for native callback ordering; no numerical smoothing
+  grouping: By instrument and local US Eastern session date
+  timeframe: 1m
+  warmup: 1 complete minute
+  earliest_available: 23:30 US Eastern, after the 23:29 bar completes
+  proposed_provider: Calendar-order callback extension; ml4t.engineer.compute_features
+    if a compatible registry capability is verified
+  classification: EXTENSION_REQUIRED
+  tests:
+  - Entry signal cannot see [23:30,23:31) OHLC
+  - No event on holiday
+  - Exactly one order per night
+  - Bar-start versus bar-end contract
+- name: eu_exit_order_event
+  purpose: Emit a next-bar sell decision at end of academic EU-open window.
+  definition: open_candidate_position AND local_bar_start == 03:29 on Monday-Friday
+  raw_inputs:
+  - timestamp
+  - position_state
+  params:
+    decision_bar_start_eastern: 03:29
+    target_fill_eastern: 03:30
+  lookback: No indicator lookback
+  grouping: By venue/instrument/position and next US Eastern calendar date
+  timeframe: 1m
+  warmup: 1 complete minute
+  earliest_available: 03:30 US Eastern, after the 03:29 bar completes
+  proposed_provider: Native Strategy callback and position state; not a named technical
+    indicator
+  classification: EXTENSION_REQUIRED
+  tests:
+  - Closed only after entry
+  - No same-bar exit at observed close
+  - No duplicate exits
+  - Unexpected exit-bar gap must halt eligibility
+- name: control_entry_order_event
+  purpose: Place an equal-duration earlier-session control position.
+  definition: eligible_eu_night AND local_bar_start == 19:29 on Sunday-Thursday
+  raw_inputs:
+  - timestamp
+  - eligible_eu_night
+  params:
+    decision_bar_start_eastern: '19:29'
+    target_fill_eastern: '19:30'
+  lookback: 1 complete minute
+  grouping: By instrument and US Eastern session date; independent shadow book
+  timeframe: 1m
+  warmup: 1 complete minute
+  earliest_available: 19:30 US Eastern after preceding bar completes
+  proposed_provider: Schedule/order adapter around native event-driven ML4T Strategy
+  classification: EXTENSION_REQUIRED
+  tests:
+  - 19:30 broker open
+  - No after-the-fact eligibility
+  - Same nominal exposure as target
+- name: control_exit_order_event
+  purpose: Close the control before the EU candidate position begins.
+  definition: open_control_position AND local_bar_start == 23:29 on Sunday-Thursday
+  raw_inputs:
+  - timestamp
+  - position_state
+  params:
+    decision_bar_start_eastern: '23:29'
+    target_fill_eastern: '23:30'
+  lookback: No indicator lookback
+  grouping: Independent control shadow book
+  timeframe: 1m
+  warmup: 1 complete minute
+  earliest_available: 23:30 US Eastern after 23:29 minute completes
+  proposed_provider: Native Strategy callback; same decision/fill validation as candidate
+  classification: EXTENSION_REQUIRED
+  tests:
+  - Control position fully closed
+  - No implicit netting with candidate order at 23:30
+- name: broker_execution_price
+  purpose: Charge realistic side-specific entry and exit prices.
+  definition: Long buy fills at ask and long sell fills at bid, plus explicit commission
+    and slippage; never use mid or close as an executable quote.
+  raw_inputs:
+  - historical effective bid/ask quotes
+  - broker cost schedule
+  params:
+    fill_model: next_bar_open_or_qualified_quote
+  lookback: Last valid quote prior to fill subject to maximum staleness declared before
+    test
+  grouping: By exact CFD product, venue, side and timestamp
+  timeframe: At least 1m; tick quotes preferred
+  warmup: Executable quote before each order
+  earliest_available: At simulated legal fill, never before decision
+  proposed_provider: ml4t.backtest native broker execution with qualified quote/cost
+    adapter
+  classification: DATA_UNAVAILABLE
+  tests:
+  - Bid <= ask
+  - No stale fill
+  - Round-trip cost reconciles
+  - No historical ask inferred from future data
+strategy_rules:
+  mode: Two predeclared, independently accounted native ML4T simulation arms in one
+    registered baseline trial; not two tuned strategies.
+  target:
+    opening_state: FLAT
+    entry: At close of 23:29-23:30 Eastern minute, submit market buy for earliest
+      legal 23:30 bar open.
+    exit: At close of 03:29-03:30 Eastern minute, submit market sell for earliest
+      legal 03:30 bar open.
+    no_filters: No price, VIX, weekday performance, volume, volatility, RSI, trend,
+      or breakout filters.
+  matched_control:
+    opening_state: FLAT
+    entry: At close of 19:29-19:30 Eastern minute, next-bar market buy at 19:30.
+    exit: At close of 23:29-23:30 Eastern minute, next-bar market sell at 23:30.
+    design: Same instrument, direction, nominal capital and one completed holding
+      episode per night.
+  position_state: FLAT -> PENDING_BUY -> LONG -> PENDING_SELL -> FLAT; one order per
+    state transition.
+  no_signal_if:
+  - Unverified as-of session schedule
+  - Known pre-entry session closure
+  - Warmup/decision minute missing
+  - Pending order remains unresolved
+  unexpected_market_data_failure: Record as execution/data failure and stop or mark
+    BLOCKED_DATA; never retroactively remove the night because its future return was
+    unfavorable.
+  end_of_dataset: Do not enter unless the declared development interval can contain
+    the scheduled exit; no synthetic liquidation using a future missing bar.
+  max_concurrent_positions: 1
+  handling_of_session_roll: Intraday position crosses midnight calendar label, not
+    broker daily maintenance according to provisional schedule; verify.
+  original_paper_rules_are_not_cfd_execution_rules: true
+signal_and_execution_clock:
+  native_execution_model: ml4t.backtest Engine NEXT_BAR only after installed signature
+    and fill semantics are independently verified
+  target_eastern:
+    entry_decision: Sunday-Thursday 23:30, triggered by completed 23:29 bar
+    earliest_entry_fill: Sunday-Thursday 23:30 open of [23:30,23:31) bar
+    exit_decision: Monday-Friday 03:30, triggered by completed 03:29 bar
+    earliest_exit_fill: Monday-Friday 03:30 open of [03:30,03:31) bar
+  control_eastern:
+    entry_decision: Sunday-Thursday 19:30, triggered by completed 19:29 bar
+    earliest_entry_fill: Sunday-Thursday 19:30 open of [19:30,19:31) bar
+    exit_decision: Sunday-Thursday 23:30, triggered by completed 23:29 bar
+    earliest_exit_fill: Sunday-Thursday 23:30 open of [23:30,23:31) bar
+  race_condition: If the installed engine cannot submit after a bar completion for
+    next-minute open, postpone each fill to the next proven legal event consistently
+    for both arms; revise draft BEFORE freezing a session.
+  test: Neither strategy sees high/low/close of the minute in which it fills before
+    the fill event.
+  source_session_calendar:
+    decision_zone: America/New_York
+    storage_zone: UTC
+    event_definition: Sunday night through Thursday night, US Eastern local date;
+      paired positions exit during the following US trading date.
+    holiday_rule: Use known-as-of official historical broker session calendars and
+      closures. Do not infer tradability merely from weekday or a continuous proxy
+      series.
+    dst_rule: Convert each event date with IANA America/New_York; never hardcode a
+      UTC offset. Keep 23:30-03:30 in US Eastern time, including mismatched US/European
+      DST weeks, for the primary source-faithful window.
+    bar_clock: At timestamp t the bar covers [t,t+1 minute); close at t+1 minute is
+      not available before t+1 minute.
+sizing:
+  target_gross_notional_fraction_of_equity: 1.0
+  control_gross_notional_fraction_of_equity: 1.0
+  intended_leverage_max: 1.0
+  equity_reference: Independent $100,000 USD hypothetical research ledger per arm
+  open_positions_per_arm: 1
+  shorting: false
+  lot_rounding: Round down to the broker-supported contract/lot increment; reject
+    zero-size orders.
+  margin_and_multiplier: Broker contract size, margin and min tick must be independently
+    sourced before native execution.
+  portfolio_rebalancing: None intratrade; target exposure sized on each new entry
+    from preceding equity.
+cost_assumptions:
+  required:
+  - Historical or conservative documented ask-bid spread at both fill times
+  - Broker commission/minimum fee
+  - Market order slippage
+  - Lot and multiplier
+  - Effective overnight/swap/financing and credit charges if any
+  - Session specific quote staleness
+  - Liquidity or impact capacity bound
+  assumptions_not_validated:
+  - No current 2bps+1bps placeholder counts as validated cost
+  - Broker published trading hours do not validate historical spreads
+  all_in_accounting: Candidate and control each incur two market-order fills at broker-side
+    prices, commission and slippage. Use actual account currency conversion if non-USD
+    costs arise. Finance/swap charges cannot be omitted merely because the trade lasts
+    four hours and crosses local midnight.
+  acceptance_gate: BLOCKED_COST until broker effective-date schedule and executable
+    quote/spread assumptions can be audited.
+baseline:
+  primary: Paired, same-night earlier 19:30-23:30 Eastern long CFD control, matched
+    to target 23:30-03:30 long CFD.
+  secondary_null: Cash flat/no trade; target net mean return must exceed zero.
+  paired_design_reason: Test concentration of the equity premium in the European opening
+    window rather than merely positive equity beta.
+  one_trial_count: 1
+  no_parameter_search: true
+development_evaluation:
+  interval_utc_half_open:
+  - '2023-01-01T00:00:00Z'
+  - '2026-01-01T00:00:00Z'
+  selected_before_this_trial: true
+  observed_data_status: EXPLORATORY historical development only; other index returns
+    from this window were previously examined in repository work.
+  primary_metric: Mean over eligible, paired trading nights of (EU-arm net USD return
+    on capital - pre-EU control-arm net USD return on capital).
+  uncertainty: Two-sided 95% HAC/Newey-West confidence interval over paired night
+    differences, predeclared lag 5 trading sessions.
+  secondary_metrics:
+  - EU-arm mean net return relative to flat
+  - Paired night count
+  - Fraction of profitable nights
+  - Full-period and annual net equity return
+  - Max equity drawdown
+  - Daily-equity Sharpe (correct annualization)
+  - Gross-to-net cost decomposition
+  - Execution failures and gap counts
+  - Exposure-conditional correlation with existing ES/index sleeves when eligible
+  candidate_result_interpretation: Only post-cost, paired excess return is the central
+    result; annualized index paper estimates are not imported.
+  minimum_independent_pairs: 400
+  minimum_distinct_years: 2
+  exposure_normalization: One 4-hour episode per arm per eligible night with the same
+    time-at-risk; comparable notional and independent ledgers.
+  protected_data_rule: Never inspect any protected holdout, including explicitly reserved
+    intervals from other sessions.
+primary_falsifier:
+  null_hypothesis: E[EU_net - earlier_window_net] <= 0, or E[EU_net] <= 0 under verified
+    CFD execution costs.
+  no_economic_edge: Both target mean net return <= 0 or paired advantage <= 0 in sufficiently
+    complete, qualified development data.
+  mechanism_challenge: Any gross edge attributable exclusively to a price-proxy mismatch,
+    US/European DST coding, missing minutes, or spread omission invalidates the explanation.
+acceptance_and_stop_rules:
+  prerequisite: Resolve exact target mapping, historical window coverage, clock, installed
+    native engine behavior and complete cost source before simulation.
+  proceed_to_validation_only_if:
+  - All data/time/execution parity gates pass and at least 400 pairs from at least
+    2 years survive predeclared eligibility.
+  - EU-arm net mean per night > 0 under documented full costs.
+  - Lower bound of the paired excess-return 95% HAC confidence interval > 0.
+  - Independent execution/cash/equity audit passes; no protected dates observed.
+  reject_if:
+  - With qualified sufficient sample, EU-arm net mean <= 0 or paired excess net mean
+    <= 0; no tweaks under this trial.
+  - Broker costs alone exceed gross EU-edge even under a qualified conservative model.
+  inconclusive_if:
+  - Insufficient independent nights or paired CI includes zero despite positive net
+    means.
+  - Large uncertainty or concentration prevents differentiation from ordinary equity
+    exposure.
+  blocked_data_if:
+  - Source/CFD identity, overnight bars, bid/ask price basis, contract terms or time-of-day
+    costs cannot be verified.
+  - Unexpected bars or quote gaps prevent a verifiable executable 19:30/23:30/03:30
+    path.
+  forbidden_next_steps:
+  - No optimize-after-seeing-results
+  - No new broker execution/trading
+  - No holdout opening
+  - No session freeze based solely on this YAML
+parity_and_causality_tests:
+  native_feature_requirements:
+    prefer_entrypoint: ml4t.engineer.compute_features
+    support_status: Installed feature registry for clock calendars NOT INSPECTED;
+      extension classification is provisional.
+    engine: ml4t.backtest.Strategy plus ml4t.backtest.Engine; implementation/version/next-bar
+      semantics require independent live-code inspection.
+    version: Previously audited native backtest artifacts mention ml4t-backtest==0.1.7;
+      not a claim about currently installed API.
+  tests:
+  - 'As-of prefix test: append later bars and check decisions/feature values before
+    appended boundary unchanged.'
+  - 'Signal clock reference: explicit hand-calculated IANA conversions on US DST switch,
+    EU DST switch, and mismatch weeks.'
+  - 'Bar timestamps: prove one-minute open versus close semantics using vendor documentation
+    and sample event order.'
+  - 'One-minute time shift: reject same-bar close fills and premature observations.'
+  - 'Calendar weekends: Sunday night decision, Monday early exit, Friday morning last
+    exit, no Friday night entry.'
+  - 'Data quality: duplicates, reversed OHLC, zero/negative prices, out-of-order UTC
+    timestamps, missing 1m coverage and stale bid/ask.'
+  - 'Independent manual two-event fixture: verify broker-side buy/sell quotes and
+    commissions match native ledger exactly.'
+  - 'Unfavorable-gap fixture: ensure a missing future exit is not retrospectively
+    excluded or replaced with next known profitable bar.'
+  - 'Broker maintenance/DST fixture: no orders during historical closure even if index
+    reference prices continue.'
+  - 'PIT source provenance: broker identity and candle availability precede each decision/fill.'
+  - 'Exposure control: same notional, cash and treatment of commission/financing in
+    both arms; audit any overlapping timestamp transitions.'
+  - Stress/fault fixtures are correctness tests, not market-history parameter trials.
+known_adaptations:
+- Futures source study becomes broker USA500.IDX/USD CFD market orders; broker prices/spreads/multiplier
+  replace CME futures execution.
+- Price proxy may not capture CFD transaction execution or broker quote formation;
+  keep the research and live-product identities separate.
+- The fixed New York clock follows source appendix; do not shift clock to Europe/DST
+  based on development profitability.
+- Added an explicit earlier-session control and next-minute execution proof not specified
+  as broker order rules in the academic source.
+verified_facts:
+- The paper documents a historical CME ES European-opening 4-hour return concentration,
+  not validated US500 CFD PnL.
+- Its appendix Table IA.4 uses 23:30-03:30 Eastern time.
+- The official Dukascopy market table lists USA500.IDX/USD and winter/summer hours.
+- Local repo research policy targets CFD/perpetual markets and forbids silent futures-to-CFD
+  equivalence.
+- Local strategy source code references the canonical index_minute_ES store as an
+  ES-price proxy.
+- Local prior audits used 2019-2026 index/CFD proxies and already inspected some 2023-2025
+  results; those years are not protected unseen data.
+assumptions:
+- The historical benchmark premium may survive the original source sample and competition
+  since publication.
+- USA500 broker exposure reflects the direction of ES futures over the relevant hours
+  closely enough to test a separately registered adaptation.
+- A distinct earlier Asia window is an informative but imperfect control for time-of-day
+  concentration, with unequal news and liquidity exposure.
+- Qualified 1m bars and cost source may exist within the canonical ML4T store; directory
+  existence alone is insufficient.
+unresolved_blockers:
+- id: product_mapping
+  severity: BLOCKED_DATA
+  question: Does canonical index_minute_ES map to the same historical Dukascopy USA500.IDX/USD
+    tradable CFD, or is it a different broker/index price proxy?
+- id: overnight_coverage
+  severity: BLOCKED_DATA
+  question: Are complete minute and contemporaneous quote observations available at
+    19:30, 23:30 and 03:30 Eastern throughout development, including DST and broker
+    maintenance?
+- id: execution_costs
+  severity: BLOCKED_COST
+  question: Which exact CFD spread, commission, contract value, min lot, swap/financing,
+    and slippage schedule applied historically at these times?
+- id: broker_calendar
+  severity: BLOCKED_DATA
+  question: What is the as-of broker entity holiday/exception schedule for USA500.IDX/USD?
+- id: candle_semantics
+  severity: BLOCKED_DATA
+  question: Are minute timestamps bar-start or bar-end, quote or trade, and how did
+    the provider construct OHLC?
+- id: native_engine_semantics
+  severity: UNVERIFIED
+  question: Can the installed native ML4T Engine model an after-close decision and
+    next-minute broker-side open fill at the required event time without same-bar
+    leakage?
+- id: paired_trial_accounting
+  severity: UNVERIFIED
+  question: Can two independent native Strategy ledgers be recorded as one preregistered
+    matched-control trial without netting at 23:30?
+- id: historical_premium_transfer
+  severity: HYPOTHESIS
+  question: Is the originally published ES return timing effect still detectable on
+    a post-publication CFD proxy, net of the broker spread and cash costs?
+selection_family_id: us500_european_open_uncertainty_resolution_cfd
+not_a_frozen_session: true
+not_execution_approved: true

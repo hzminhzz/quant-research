@@ -121,9 +121,14 @@ class ResearchFunnel:
         self.run_log = Path(run_log).resolve()
         self.isolate = isolate
 
-    def run(self, specification: CandidateSpec | str | Path) -> dict[str, Any]:
+    def run(self, specification: CandidateSpec | str | Path, *, development_only: bool = False) -> dict[str, Any]:
+        if type(development_only) is not bool:
+            raise QuantError('INVALID_SPEC', 'development_only must be an explicit boolean')
         spec = parse_research_spec(specification)
         protocol = describe_research_protocol(spec)
+        if development_only and protocol.protocol != 'cross_sectional':
+            raise QuantError('BLOCKED_PROTOCOL',
+                             'Development-only mode currently supports only the native cross-sectional protocol')
         if protocol.protocol == 'event':
             return self._run_event(spec)
         if protocol.protocol != 'cross_sectional' or not isinstance(spec, CandidateSpec):
@@ -141,6 +146,7 @@ class ResearchFunnel:
                                    'source_spec_status': spec.source_spec_status})
         case = {**identity, 'source_spec_status': spec.source_spec_status,
                 'status': 'RUNNING', 'stages': {}, 'holdout_access': False,
+                'development_only': development_only,
                 'live_order_authority': False, 'assumptions': spec.assumptions,
                 'worker_isolation': 'bubblewrap/no host data or network' if self.isolate else 'trusted in-process',
                 'output_path': str(output)}
@@ -220,6 +226,11 @@ class ResearchFunnel:
                 return self._finish(output, case, daily_artifacts)
             if runtime_identity() != code:
                 raise QuantError('INVALID_EVIDENCE', 'Runtime code changed during the frozen run')
+            if development_only:
+                case['status'] = 'DEVELOPMENT_QUALIFIED'
+                case['reason'] = 'Development-only run completed through Stage 3; Stage 4 is forbidden'
+                case['holdout_access'] = False
+                return self._finish(output, case, daily_artifacts)
             claim = vault.unlock_holdout(spec.candidate_id, spec.spec_hash)
             case['holdout_claim'] = claim['claim_id']
             try:

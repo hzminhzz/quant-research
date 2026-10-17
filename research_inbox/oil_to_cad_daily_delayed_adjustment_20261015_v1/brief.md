@@ -1,0 +1,69 @@
+# Research handoff: oil_to_cad_daily_delayed_adjustment_20261015_v1
+
+Candidate ID: `oil_to_cad_daily_delayed_adjustment_20261015_v1`. Status: THESIS_READY_UNVERIFIED. No implementation, backtesting, or trading approval.
+
+This descriptive thesis is NOT an executable ATS CandidateSpec. The original product and proposed CFD/perpetual adaptation must be independently reconciled. Missing original-source details remain blockers.
+
+## Source 1: research_brief.md
+
+# Hourly economic-thesis discovery — 2026-10-15T04:02:40Z
+
+**Candidate:** `oil_to_cad_daily_delayed_adjustment_20261015_v1`
+**Research status:** `THESIS_READY_UNVERIFIED` (design only; not frozen, approved, or backtested).
+
+## A. Comparison and independent evidence
+
+| Candidate | Mechanism and payer | Evidence | Critical objection | Decision |
+|---|---|---|---|---|
+| 1. Oil-price shocks -> delayed CAD repricing | Higher oil prices can improve Canadian expected export income and terms of trade. Currency investors, trade hedgers, and funding-constrained intermediaries may adjust CAD exposure after oil price discovery; a delayed buyer/seller of USD/CAD bears residual information and currency risk. | Ferraro, Rogoff & Rossi (2015) found an unstable, short-horizon daily oil/CAD link, including some lagged predictability. Bank of Canada (2016) finds energy and non-energy commodity prices explain contemporaneous CAD but broad USD strength is a stronger predictor. | The lagged effect may already be arbitraged, unstable, or fully absorbed by FX before the oil bar closes. Continuous CL roll jumps can create spurious signs; the USD factor can create spurious correlation. | **SELECT FOR ONE FALSIFIABLE MVP**, not an alpha claim. |
+| 2. EIA inventory announcement -> WTI repricing | Supply-demand news forces oil hedgers and speculators to reprice; the counterparty providing immediacy bears inventory and adverse-selection risk. | EIA's official weekly release calendar supplies point-in-time release events. | The economically relevant variable is an *unexpected* change against contemporaneous consensus. A complete point-in-time forecast/vintage dataset is not verified, and price adjustment may finish within seconds. | **DEFER / BLOCKED_DATA**. |
+| 3. Equity selloff -> JPY carry unwind | Leveraged carry investors sell risk assets and buy funding currency JPY to close positions, potentially propagating risk-off moves into USD/JPY. | Brunnermeier, Nagel & Pedersen (2009) provide independent crash-risk and funding-liquidity evidence. | Equity and FX usually react together. Their paper does not establish an executable *lagged* USD/JPY signal. EUR/USD common-dollar exposure and existing FX experiments may confound independence. | **REJECT FOR THIS RUN**: extra driver and threshold assumptions. |
+
+**Direct sources**: [Ferraro, Rogoff & Rossi, Journal of International Money and Finance (2015), Harvard](https://rogoff.scholars.harvard.edu/publications/can-oil-prices-forecast-exchange-rates); [NBER working paper](https://www.nber.org/papers/w17998); [Bank of Canada staff analytical note 2016-2](https://www.bankofcanada.ca/2016/03/staff-analytical-note-2016-2/); [Bank of Canada oil-factor note, 2017](https://www.bankofcanada.ca/2017/02/staff-analytical-note-2017-1/); [EIA release schedule](https://www.eia.gov/petroleum/supply/weekly/schedule.php); [Brunnermeier et al. 2009](https://www.nber.org/books-and-chapters/nber-macroeconomics-annual-2008-volume-23/carry-trades-and-currency-crashes).
+
+## B. Economic identification and falsifiers
+
+- **VERIFIED — literature:** A short-horizon oil/CAD association exists in prior research. The lagged predictive component is explicitly described as ephemeral. Bank of Canada also finds a substantial common-USD influence. These are *not* empirical findings for this strategy or this period.
+- **VERIFIED — inspected VPS checkout:** `/home/quant/dev/quant/quant-research` at `9525f35`, branch `local-first-main-sync-20261014`, has numerous unrelated dirty/untracked files; none were changed. Read `AGENTS.md`, `docs/research_operations.md`, `docs/research_sessions.md`, `docs/architecture/market_scope_policy.md`, and `config/research_contract_v1_example.yaml`. Relevant earlier funding and Tokyo-fix experiments are present, so this run does not repeat them.
+- **VERIFIED — catalog metadata and paths only:** `/home/quant/dev/quant/ml4t-data/.data/store/forex_minute_USDCAD` exists. Its LSE metadata gives `USD/CAD`, 1-minute bars, observed 2009-09-25 to 2026-10-14, with 6,337,664 recorded rows; these counts do not prove completeness or execution-quality prices. `/home/quant/dev/quant/ml4t-data/.data/store/commodity_minute_CL` has calendar-year partitions 2013–2026, but no top-level metadata sidecar was located. `/home/quant/dev/quant/ml4t-data/.data/store/commodity_daily_OIL` exists with Dukascopy `lightcmdusd` identity and 2014–2026 metadata coverage; this is a different candidate oil proxy and is **not** silently substituted for CL.
+- **INFERENCE:** Commodity-linked trade and portfolio hedgers could adjust CAD exposure more slowly than the oil price. The seller of immediate CAD liquidity, rather than the broker, is the economically relevant counterparty paying a possible premium for that execution timing.
+- **HYPOTHESIS:** A sign-only, next-minute USD/CAD position keyed to the *previous 24-hour WTI change* has positive next-session net returns and exceeds a matched unconditional short-USD/CAD comparator.
+- **UNKNOWN:** Whether the oil data are raw front-month CL, a back-adjusted roll series, CFDs, or another construction; roll maps and actual close availability; clean aligned minute prices; broker-executable FX spread, commissions, swaps and margin rules; available unprotected development period; installed native ML4T feature API parity.
+
+**Falsification:** On at least 600 complete non-overlapping paired trade days from at least five calendar years, reject the economic trade if its mean net USD return is non-positive or its paired advantage over the unconditional CAD-long control has a 95% dependence-aware confidence interval with upper bound at or below zero. If confidence spans zero, mark **INCONCLUSIVE**, not success. A seemingly positive result driven by CL roll jumps or price-proxy timing is **BLOCKED_DATA**, not evidence.
+
+## C. One frozen-candidate experiment proposed, not run
+
+- Signal clock: Tuesday–Thursday at **15:01 America/New_York**, after the oil `15:00`–`15:01` minute closes. Compare CL last valid completed-minute **close** to the close from precisely the prior calendar day at the same New York wall-clock. If same contract identity cannot be proved, stop with `BLOCKED_DATA` before any test.
+- Position: WTI up -> short USD/CAD; WTI down -> long USD/CAD; equal -> flat. FX order may fill no earlier than **15:02 New York**, at executable broker prices; exit the next calendar day, submitted 15:01 and executable no earlier than 15:02. Only trade when both sessions have valid source and FX calendars. Do not silently forward-fill.
+- Sizing: fixed **USD 10,000 base currency** notional per entry, 1 open trade maximum, assumed USD 100,000 test book, gross 0.10x; account for quantity granularity, conversion and margin when broker is resolved. No stops, leverage optimization, filters or learning.
+- Baseline: same schedule and notional **always short USD/CAD** (unconditional CAD-long), priced and financed identically. One paired trial; do not optimize an alternate lookback or horizon.
+- Phase 3 signal screen: one preregistered, point-in-time signed next-session forward-return diagnostic, with an explicit `PASS`, `FAIL`, `INCONCLUSIVE` or `NOT_APPLICABLE` decision before Phase 4. This is not a backtest or executable return claim.
+- Phase 4 (only after qualified signal, data and costs): native ML4T event-driven strategy with first legal post-decision fill. Principal outcome: HAC (Newey-West, 5-trading-day lag) 95% confidence interval of average *paired net USD return difference* per eligible window. Require mean candidate net > 0 and lower paired confidence bound > 0 for MVP survival; no promotion follows automatically.
+- Development proposal: 2018-01-01 through 2023-12-31, **conditional** on these dates being wholly outside all sealed allocation holdouts and acceptable under the repo ledger. Do not inspect protected periods. Require 600 valid paired windows, >=5 calendar years, and no unverified gaps, rolls, broker days, or hidden charges. If insufficient, **INCONCLUSIVE** without extending into a holdout.
+
+## D. Adversarial review and decisive blockers
+
+1. **Common-USD confounding:** Rising USD can depress USD-priced crude and lift USD/CAD together, creating a correlation without delayed CAD response. Test only *after* close-to-close causal alignment and avoid interpreting correlation as causal identification. A positive MVP is hypothesis-support, not proof of mechanism.
+2. **Weak or extinct lag:** The cited academic evidence itself cautions that oil's lagged predictive ability is ephemeral. A properly powered non-positive result stops the candidate rather than prompting parameter tuning.
+3. **Continuous futures artifacts:** `commodity_minute_CL` lacks independently verified contract IDs/roll method; exclude cross-contract change only with a documented predecision roll calendar, not hindsight gap detection. Otherwise BLOCKED_DATA. Do not use crude CFD/spot prices as identical contracts.
+4. **Clock risk:** Data bar labels, NY DST, publication delay, overnight roll, exchange halts and holidays must be verified. A price observed after 15:01 cannot inform the 15:01 decision. Same-bar fills are forbidden.
+5. **Execution:** LSE minute USD/CAD prices are a research proxy; no historical executable broker bid/ask, financing schedule, rollover/triple-day charges or timestamp-matched fills were established. Block approval until verified.
+6. **Power and independence:** Three opportunities per regular week, non-overlapping holdings. Apply serial-dependence correction and report subperiods without selecting winners.
+7. **Prior-return overlap:** The history contains many earlier experiments. The proposed window is NOT claimed unseen; protected holdout boundaries must be checked without opening them.
+
+**Decision:** Prepare for independent dataset/contract qualification. The thesis is research-design ready, but **execution-data qualification is blocked** until product identities and source semantics are established. No test, optimization, feature computation on market history, session freeze, repo edit, or trade was performed.
+
+## Source 2: research_handoff.md
+
+# C. Handoff to ChatGPT Web research lead — 2026-10-15T04:02:40Z
+
+Selected **oil_to_cad_daily_delayed_adjustment_20261015_v1**. Ferraro/Rogoff/Rossi (2015) provide direct but unstable evidence of daily oil-to-CAD predictability. Bank of Canada (2016) confirms commodity/CAD co-movement but warns that common-USD moves are a stronger explanation. Treat the proposed post-15:01 ET WTI-sign FX exposure as a *new* causal hypothesis, not an author's published rule and not a profitable finding.
+
+The VPS read-only check found `commodity_minute_CL` year partitions (2013–2026), `forex_minute_USDCAD` LSE metadata (2009–2026), and an alternative `commodity_daily_OIL` Dukascopy feed. The project checkout had extensive unrelated work; preserve all changes. Repo guidance requires a Phase 3 pre-backtest decision, native ML4T features/backtesting, source contracts, and sealed holdouts.
+
+**Independent verification sequence:** Resolve exact CL venue/feed provenance and roll construction; establish minute open/close semantics and material calendar gaps; map quote/reference USD/CAD to one explicit CFD/FX broker product; obtain timestamp-effective historical bid/ask, commissions, and rollover/swap schedule including Wednesday triples; identify development/holdout boundaries and prior trials. Only then verify `compute_features` support for lagged single-symbol close changes and check whether a certified feature extension is necessary. Schedule signals and next-minute fills inside native `ml4t.backtest`, with a single fixed baseline. Preregister ResearchPhase 3 first; do not open Phase 4 without its proper gate and data qualification. Do not create a session from this design until authorized by the research lead.
+
+**Trade-changing questions:** (1) Is `commodity_minute_CL` a raw tradable CL contract, continuous back-adjusted synthetic, or other source? (2) Which current/previous contract identities are available causally at 15:01 ET? (3) Do both data feeds label minute *start* and close as assumed? (4) Are 15:00–15:01 oil prices final and already observable at decision? (5) Are there systematic missing quote minutes or timezone/DST defects? (6) Which exact OTC FX/FX CFD broker, USD/CAD symbol, minimum size, leverage, account currency and trading calendar are the intended execution target? (7) Can historical bid/ask, market impact/slippage, per-side fees and signed swap rates be reconstructed, including Wednesday triple? (8) Does the 15:02 fill represent a legal next-minute event in installed native ML4T? (9) Is any proposed 2018–2023 window already protected or previously selected? (10) Does installed `ml4t.engineer.compute_features` support the exact lagged close-difference contract without extension? (11) Which US holiday and rollover sessions require predeclared skips? (12) Is the primary paired uncertainty method implemented consistently with non-overlapping but autocorrelated day returns?
+
+**Status:** `THESIS_READY_UNVERIFIED`; blocked pending source/product/cost qualification; no code, historical data calculation, backtest, optimization, repository modification, live order, or holdout access.

@@ -68,6 +68,8 @@ def main(argv=None) -> int:
                           help='trusted ingestion only: separate 2026 protected partitions, never Workbench access')
     run = commands.add_parser('run', help='execute frozen Stage 1..4, stopping normally on falsification')
     run.add_argument('spec')
+    run.add_argument('--development-only', action='store_true',
+                     help='stop after development Stage 3; never open or claim protected data')
     run.add_argument('--run-log', default=str(ROOT / 'run_log'))
     run.add_argument('--store', default=STORE)
     run.add_argument('--build-if-missing', action='store_true',
@@ -155,12 +157,14 @@ def main(argv=None) -> int:
                 start=spec.windows.train.start - warmup, end=spec.windows.validation.end,
                 bar_seconds=spec.bar_seconds, spread_bps=spec.costs.spread_bps,
                 spread_assumption='Frozen candidate cost model; not a measured historical spread')
-        report = ResearchFunnel(run_log=args.run_log, isolate=True).run(spec)
+        funnel = ResearchFunnel(run_log=args.run_log, isolate=True)
+        report = (funnel.run(spec, development_only=True)
+                  if args.development_only else funnel.run(spec))
         print(json.dumps({'status': report['status'], 'candidate_id': report['candidate_id'],
                           'casefile': str(Path(report['output_path']) / 'casefile.json'),
                           'holdout_access': report['holdout_access'], 'reason': report.get('reason'),
                           'stages': {k: v['status'] for k, v in report['stages'].items()}}, sort_keys=True))
-        if report['status'].startswith('FALSIFIED_') or report['status'] == 'HOLDOUT_EVALUATED':
+        if report['status'].startswith('FALSIFIED_') or report['status'] in ('HOLDOUT_EVALUATED', 'DEVELOPMENT_QUALIFIED'):
             return 0
         if report['status'] == 'PARTIALLY_QUALIFIED' or report['status'].startswith(('INCONCLUSIVE', 'BLOCKED', 'HOLDOUT_')):
             return 3
