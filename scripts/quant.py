@@ -83,6 +83,13 @@ def main(argv=None) -> int:
     ingest.add_argument('-o', '--output', required=True)
     handoff = commands.add_parser('validate-handoff', help='validate descriptive research inbox handoffs')
     handoff.add_argument('candidate_dir', nargs='?', default=str(ROOT / 'research_inbox'))
+    train_remote = commands.add_parser('train-remote', help='train an ML model artifact remotely on Google Colab GPU')
+    train_remote.add_argument('spec', help='template CandidateSpec YAML or thesis specification')
+    train_remote.add_argument('--training-script', default=None, help='optional custom Python training script')
+    train_remote.add_argument('--gpu', choices=['T4', 'L4', 'A100'], default='T4', help='Colab accelerator')
+    train_remote.add_argument('--timeout', type=int, default=3600, help='remote execution timeout in seconds')
+    train_remote.add_argument('--run-log', default=str(ROOT / 'run_log'))
+    train_remote.add_argument('-o', '--output', required=True, help='destination path for updated CandidateSpec YAML')
     args = parser.parse_args(argv)
     try:
         if args.command == 'schema':
@@ -105,6 +112,24 @@ def main(argv=None) -> int:
                 raise QuantError('INVALID_HANDOFF', 'No candidate directories found')
             for result in results:
                 print(json.dumps(result, sort_keys=True))
+            return 0
+        if args.command == 'train-remote':
+            from src.engine.colab_trainer import ColabTrainer
+
+            trainer = ColabTrainer(args.spec, run_log=args.run_log)
+            artifact, updated_spec = trainer.train(
+                training_script=args.training_script,
+                gpu=args.gpu,
+                timeout=args.timeout,
+                output_candidate_path=args.output,
+            )
+            print(json.dumps({
+                'status': 'TRAINED_REMOTE',
+                'candidate_id': updated_spec.candidate_id,
+                'artifact_path': artifact.path,
+                'artifact_sha256': artifact.sha256,
+                'output': str(Path(args.output).resolve()),
+            }, sort_keys=True, indent=2))
             return 0
         if args.command == 'materialize-markets':
             for group in args.groups:
