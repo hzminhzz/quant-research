@@ -26,7 +26,7 @@ UNIT_MULTIPLIER = 1.0
 COST_MULTIPLIERS = (1, 2, 3)
 
 REPOSITORY = Path(__file__).resolve().parents[2]
-SOURCE = Path('/home/quant/.devspace/worktrees/quant-research-c0f474ba/data/research_sessions/m8_n8_dukascopy_nas100_cfd_30m_v1/prices_30m.parquet')
+SOURCE = Path('/home/quant/dev/quant/research_artifacts/ats4/20261016/source/prices_30m.parquet')
 SOURCE_SHA256 = '36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8'
 CONFIG = REPOSITORY / 'config/research_contract_m8_n8_cash_v7.yaml'
 CONFIG_SHA256 = '3f595848a8dd1b02ff7293ce3ee72fe848548f1ff80a66c73445b3c5d10ccb53'

@@ -6,6 +6,7 @@ import polars as pl
 import pytest
 
 from src.engine.event_protocol import (
+    SOURCE,
     SOURCE_SHA256,
     _development_data,
     independent_signal_oracle,
@@ -31,14 +32,19 @@ def test_independent_oracle_uses_strict_completed_prior_50_high(monkeypatch):
     assert independent_signal_oracle(data) == [start + timedelta(minutes=30 * 51)]
 
 
-def test_source_authority_mismatch_fails_before_parquet_decode(monkeypatch):
+def test_source_size_mismatch_fails_before_parquet_decode(monkeypatch, tmp_path):
     import src.engine.event_protocol as protocol
 
+    untrusted_source = tmp_path / 'not_parquet.parquet'
+    untrusted_source.write_bytes(b'not a valid parquet file')
+    monkeypatch.setattr(protocol, 'SOURCE', untrusted_source)
     monkeypatch.setattr(protocol, 'SOURCE_SHA256', '0' * 64)
-    with pytest.raises(ValueError, match='frozen authority changed'):
+    with pytest.raises(ValueError, match='frozen M8 development source identity changed'):
         _development_data()
 
 
+@pytest.mark.data
+@pytest.mark.skipif(not SOURCE.is_file(), reason='frozen M8 native replay source not provisioned')
 def test_event_factory_skips_all_cross_sectional_gates_and_reconciles_history(tmp_path, monkeypatch):
     import src.engine.funnel as funnel_module
     import src.engine.signal_allocator as allocator_module
@@ -110,6 +116,8 @@ def test_workbench_rejects_ic_for_event_without_loading_source(tmp_path, monkeyp
         workbench.ic()
 
 
+@pytest.mark.data
+@pytest.mark.skipif(not SOURCE.is_file(), reason='frozen M8 native replay source not provisioned')
 def test_workbench_load_features_and_export_share_typed_protocol(tmp_path):
     from src.workbench import Workbench
 

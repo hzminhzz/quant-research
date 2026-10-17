@@ -117,6 +117,18 @@ cannot call order endpoints. Pure research progress is not gated on credentials.
 
 ### ATS-4 — Scientific protocol seam and portfolio evidence
 
+**Implementation/native-parity acceptance (2026-10-17): PASS in the isolated
+governed-core integration.** The existing cross-sectional route is preserved;
+the frozen M8 N8 event protocol replays natively and reconciles independently.
+Daily fixed-budget sleeve/cash comparisons retain known trial history and
+explicit incomplete-selection and cost status. **Overall scientific
+qualification remains `PARTIALLY_QUALIFIED`**, not profitable, broker-executable,
+new OOS, intraday-barrier qualified, or trade-authorized. See
+[the original audit](../audit/ats4_qualification_20261016.md) and
+[the integration release record](../audit/ats4_release_20261017.md).
+Governed-core acceptance is not a claim that the divergent GitHub `main`
+implementation has been reconciled or deployed.
+
 First type the current cross-sectional protocol and qualify one selected event or
 path-dependent protocol only when a real strategy requires it. Reuse existing
 features, vault, native engine and accounting checks. Add a sleeve evidence

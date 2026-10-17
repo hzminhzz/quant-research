@@ -39,7 +39,20 @@ The source bridge is deliberately narrow: it checks Parquet footer bounds and
 row count before decoding, validates the frozen source SHA-256 and schema, then
 loads only the already-observed 2019 warmup through 2024 development data. It
 binds to the frozen v7 session, feature contract, cost assumptions, calendar,
-and historical result manifest. Native ML4T Backtest runs all three frozen cost
+and historical result manifest.
+
+The integration source authority is a preserved, read-only copy outside Git
+worktrees at
+`/home/quant/dev/quant/research_artifacts/ats4/20261016/source/prices_30m.parquet`,
+SHA-256 `36e6a5dd5e16feb21ba5828ed306dc32c703d74143692dce1019322a52d159c8`.
+The historical 2026-10-16 report retains the original worktree source path as
+historical provenance; current execution no longer depends on that worktree.
+The untracked qualification artifacts are copied to the sibling
+`evidence/` directory (38 retained files, including both JUnit reports).
+Provision this same authenticated source at the documented read-only path on
+another host before running real replay; never substitute a different panel
+or bypass the strict frozen-source hash check. Source data and bulk evidence
+are intentionally excluded from source commits. Native ML4T Backtest runs all three frozen cost
 scenarios. The independent oracle checks every expected and executed signal.
 `reconcile_m8_n8` checks native submitted orders, fills, rejection/pending state,
 portfolio cash/exposure/open positions, and every source-row portfolio/equity
