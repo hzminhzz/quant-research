@@ -100,6 +100,12 @@ The separate merge review expanded verification beyond the original delivery:
 - Added tests for invalid directory containment, concurrent source mutation,
   false deduplication across research windows/cost-related prerequisites, and
   fixture independence. A fresh post-fix queue suite passed **19 tests**.
+- The first required GitHub CI pass found a real ATS-4 compatibility regression:
+  the ordinary `quant.py run` path had begun passing a new optional keyword
+  to historical caller stubs. The CLI now preserves its original one-argument
+  factory invocation by default and passes `development_only=True` only on
+  explicit development-only requests. The affected ATS-4 and development-only
+  regressions passed **6 tests** after this correction.
 - Scoped Ruff and staged diff checks passed. These tests do not promote the
   seven unsupported event theses or claim a genuine real-market backtest.
 - Merge authorization and protected GitHub CI are separate release gates;

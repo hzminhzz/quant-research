@@ -169,8 +169,11 @@ def main(argv=None) -> int:
                 start=spec.windows.train.start - warmup, end=spec.windows.validation.end,
                 bar_seconds=spec.bar_seconds, spread_bps=spec.costs.spread_bps,
                 spread_assumption='Frozen candidate cost model; not a measured historical spread')
-        report = ResearchFunnel(run_log=args.run_log, isolate=True).run(
-            spec, development_only=args.development_only)
+        funnel = ResearchFunnel(run_log=args.run_log, isolate=True)
+        # Preserve the historical one-argument runner invocation for existing
+        # ATS callers. The holdout-prohibited mode must be explicitly requested.
+        report = (funnel.run(spec, development_only=True)
+                  if args.development_only else funnel.run(spec))
         print(json.dumps({'status': report['status'], 'candidate_id': report['candidate_id'],
                           'casefile': str(Path(report['output_path']) / 'casefile.json'),
                           'holdout_access': report['holdout_access'], 'reason': report.get('reason'),
