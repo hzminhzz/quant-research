@@ -38,9 +38,12 @@
 
 To prevent future unrecorded terminal outcomes:
 1. `BybitIntentJournal.mark_rejected(intent_id, reason)` added to persist explicit rejection states and audit events.
-2. `BybitLiveBroker.submit_order_async` updated to distinguish clear rejections (insufficient funds, invalid parameters, permission errors) from ambiguous network drops. It now calls `mark_rejected` immediately rather than leaving intents hanging in an unrecorded state.
-3. SafeBroker lifecycle failure modes regression tests implemented in `tests/test_ats3_failure_modes.py` and `tests/test_ats3_bybit_real_archive.py`.
-
+2. `BybitLiveBroker.submit_order_async` updated to distinguish clear rejections (insufficient funds, invalid parameters, permission errors) from ambiguous network drops. It calls `mark_rejected` immediately rather than leaving intents hanging in an unrecorded state.
+3. `AuditSafeBroker` runtime integration hook implemented in `src/research_control/ats3_audit_broker.py` and wired into `src/bybit_paper_runtime.py`:
+   - Pre-send risk and validation errors classified as `TERMINAL_REJECTION`.
+   - Venue acceptance with persistence confirmation failure (`AcceptedOrderPersistenceError`) classified as `ACCEPTED_BUT_UNPERSISTED_DO_NOT_RETRY`.
+   - Transport timeouts, in-flight exceptions, and task cancellations default strictly to `UNKNOWN_OUTCOME` (as orders may have executed on venue).
+4. Verified by dedicated test suite `tests/test_ats3_audit_broker.py` (5 passing tests).
 ---
 
 ## 4. Causal Proximity & Historical Incident Accounting
