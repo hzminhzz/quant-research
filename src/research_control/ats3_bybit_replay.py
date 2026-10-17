@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import json
 import os
+import sqlite3
 from collections import defaultdict
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
@@ -44,8 +45,8 @@ def _source(folder: Path, meta: dict[str, Any], name: str) -> Any:
     return obj
 
 
-def _unique(rows: list[dict], key: str, name: str) -> tuple[list[dict], int]:
-    seen: dict[str, dict] = {}
+def _unique(rows: list[dict[str, Any]], key: str, name: str) -> tuple[list[dict[str, Any]], int]:
+    seen: dict[str, dict[str, Any]] = {}
     repeat = 0
     for row in rows:
         identity = str(row.get(key) or "")
@@ -66,7 +67,10 @@ def _approx(actual: Decimal, expected: Decimal, label: str, tolerance=Decimal("0
 
 
 def _local_journal(path: Path, account_uid: str, provider_orders: set[str],
-                   window_start: str, window_end: str) -> dict[str, Any]:
+                   window_start: str, window_end: str, *,
+                   sqlite_journal: Path | None = None,
+                   drill_evidence: Path | None = None,
+                   waive_read_only_key: bool = False) -> dict[str, Any]:
     """Validate existing native SafeBroker hash-linked intent/route evidence."""
     expected = "bybit-demo-account-" + account_uid + "-journal.jsonl"
     if path.is_symlink() or path.name != expected or not path.is_file():
@@ -82,8 +86,34 @@ def _local_journal(path: Path, account_uid: str, provider_orders: set[str],
     previous_hash = "0" * 64
     hashes: dict[int, str] = {}
     intent_count = submitted = provider_linked = cancelled = 0
-    unmatched: list[dict] = []
+    unmatched: list[dict[str, Any]] = []
+    consumed: set[str] = set()
+    reconciled_intents: list[dict[str, Any]] = []
     unknowns: set[str] = set()
+    base = Path.home() / ".local" / "state" / "quant-research"
+    if path.resolve().is_relative_to(base.resolve()):
+        sqlite_journal = sqlite_journal or base / f"bybit-demo-account-{account_uid}-intents.sqlite"
+        drill_evidence = drill_evidence or base / "bybit-demo-order-lifecycle-drill-evidence.json"
+    sqlite_rows: list[dict[str, Any]] = []
+    if sqlite_journal is not None and sqlite_journal.is_file() and not sqlite_journal.is_symlink():
+        with sqlite3.connect(f"file:{sqlite_journal}?mode=ro", uri=True) as db:
+            columns = [row[1] for row in db.execute("PRAGMA table_info(intents)")]
+            sqlite_rows = [dict(zip(columns, row)) for row in db.execute("SELECT * FROM intents")]
+            audit_columns = [row[1] for row in db.execute("PRAGMA table_info(audit)")]
+            audit_rows = [dict(zip(audit_columns, row)) for row in db.execute("SELECT * FROM audit")]
+    else:
+        audit_rows = []
+    drill_orders: set[str] = set()
+    if drill_evidence is not None and drill_evidence.is_file() and not drill_evidence.is_symlink():
+        drill = json.loads(drill_evidence.read_text(encoding="utf-8"))
+        lifecycle = drill.get("lifecycle_drill", {}) if isinstance(drill, dict) else {}
+        entries = (drill if isinstance(drill, list) else
+                   [lifecycle, *drill.get("records", drill.get("drills", []))])
+        drill_orders = {str(entry.get("order_id") or entry.get("exchange_order_id"))
+                        for entry in entries if isinstance(entry, dict)
+                        and entry.get("drill_type") == "scripted_order_cancel_reconcile"
+                        and entry.get("cancelled_confirmed") is True
+                        and (entry.get("order_id") or entry.get("exchange_order_id"))}
     start = datetime.fromisoformat(window_start)
     end = datetime.fromisoformat(window_end)
     for row in rows:
@@ -111,14 +141,21 @@ def _local_journal(path: Path, account_uid: str, provider_orders: set[str],
         payload = row.get("payload") or {}
         if kind == "order_submission_intent":
             intent_count += 1
-            unmatched.append({"payload": payload, "seq": seq})
+            unmatched.append({"payload": payload, "seq": seq, "timestamp": timestamp})
         elif kind == "order_submitted":
             submitted += 1
             order_id = str(payload.get("order_id") or "")
             if order_id in provider_orders:
                 provider_linked += 1
+            elif order_id in drill_orders:
+                reconciled_intents.append({"order_id": order_id, "disposition": "DRILL_ORDER_CANCELLED",
+                                           "evidence": "scripted_order_cancel_reconcile"})
             else:
                 unknowns.add("SUBMITTED_ORDER_NOT_IN_CURRENT_PROVIDER_HISTORY")
+            if order_id:
+                for rec in sqlite_rows:
+                    if str(rec.get("exchange_order_id") or "") == order_id:
+                        consumed.add(str(rec.get("id")))
             matched = False
             for ix in range(len(unmatched) - 1, -1, -1):
                 old = unmatched[ix]["payload"]
@@ -144,6 +181,53 @@ def _local_journal(path: Path, account_uid: str, provider_orders: set[str],
     if (head.get("schema_version") != 1 or head.get("checksum") != expected_head
             or head.get("head_hash") != hashes.get(head.get("sequence"))):
         raise ValueError("JOURNAL_HEAD_CHECKSUM_OR_CURSOR_INVALID")
+    for item in list(unmatched):
+        payload = item["payload"]
+        item_dt = item.get("timestamp")
+        candidates = []
+        for record in sqlite_rows:
+            rec_id = str(record.get("id"))
+            if rec_id in consumed:
+                continue
+            if str(record.get("asset", "")).upper() != str(payload.get("asset", "")).upper():
+                continue
+            if str(record.get("side", "")).lower() != str(payload.get("side", "")).lower():
+                continue
+            if str(record.get("quantity")) != str(payload.get("quantity")):
+                continue
+            if str(record.get("limit_price")) != str(payload.get("limit_price")):
+                continue
+            # Require causal timestamp proximity (within 2 seconds)
+            rec_created = float(record.get("created_at") or 0)
+            if item_dt is not None and rec_created > 0:
+                rec_dt = datetime.fromtimestamp(rec_created, tz=item_dt.tzinfo)
+                if abs((item_dt - rec_dt).total_seconds()) > 2.0:
+                    continue
+            candidates.append(record)
+
+        for record in candidates:
+            exchange_id = str(record.get("exchange_order_id") or "")
+            audit_match = [row for row in audit_rows
+                           if str(record.get("id")) in row.get("detail", "")
+                           or (exchange_id and exchange_id in row.get("detail", ""))]
+            state = str(record.get("state", "")).lower()
+            if state == "rejected" or (
+                    state in ("cancelled", "canceled", "submitted")
+                    and audit_match and any(
+                        "cancel" in row.get("detail", "").lower()
+                        for row in audit_match)):
+                break
+        else:
+            continue
+        disposition = str(record["state"]).upper()
+        if disposition == "SUBMITTED":
+            disposition = "CANCELLED_ON_PROVIDER"
+        reconciled_intents.append({
+            "intent_id": record.get("id"), "disposition": disposition,
+            "reason": record.get("detail"),
+            "evidence": "sqlite_intents_and_audit" if audit_match else "sqlite_intents"})
+        consumed.add(str(record.get("id")))
+        unmatched.remove(item)
     if unmatched:
         unknowns.add("INTENT_TERMINAL_REASON_NOT_RECORDED")
     return {
@@ -155,12 +239,17 @@ def _local_journal(path: Path, account_uid: str, provider_orders: set[str],
         "linked_to_provider_orders": provider_linked,
         "cancel_confirmations_local": cancelled,
         "unmatched_intent_count": len(unmatched),
+        "reconciled_intents": reconciled_intents,
         "unknowns": sorted(unknowns),
+        "least_privilege_audit_credential": "WAIVED_BY_OPERATOR" if waive_read_only_key else None,
         "scope": "Native SafeBroker local journal; provider/history retention independently evaluated",
     }
 
 
-def reconcile_archive(folder: Path, journal: Path | None = None) -> dict[str, Any]:
+def reconcile_archive(folder: Path, journal: Path | None = None, *,
+                      sqlite_journal: Path | None = None,
+                      drill_evidence: Path | None = None,
+                      waive_read_only_key: bool = False) -> dict[str, Any]:
     folder = folder.resolve(strict=True)
     manifest_path = folder / "manifest.json"
     if manifest_path.is_symlink():
@@ -308,7 +397,8 @@ def reconcile_archive(folder: Path, journal: Path | None = None) -> dict[str, An
         unknowns.append("MULTICURRENCY_ACCOUNT_WALLET_UNSUPPORTED")
     else:
         coin = coins[0]
-        _approx(cash, _dec(coin["walletBalance"], "walletBalance"), "USDT_WALLET_BALANCE")
+        if cash is not None:
+            _approx(cash, _dec(coin["walletBalance"], "walletBalance"), "USDT_WALLET_BALANCE")
         _approx(_dec(coin["walletBalance"], "walletBalance") +
                 _dec(coin["unrealisedPnl"], "coin_unrealisedPnl"),
                 _dec(coin["equity"], "coin_equity"), "USDT_EQUITY", Decimal("0.001"))
@@ -332,13 +422,18 @@ def reconcile_archive(folder: Path, journal: Path | None = None) -> dict[str, An
 
     economic_unknowns = set(unknowns)
     local_audit = (_local_journal(journal, manifest["account_uid_private"], set(order_map),
-                                  start, end) if journal is not None else None)
+                                  start, end, sqlite_journal=sqlite_journal,
+                                  drill_evidence=drill_evidence,
+                                  waive_read_only_key=waive_read_only_key)
+                   if journal is not None else None)
     if local_audit is None:
         unknowns.append("INTENT_ROUTING_JOURNAL_NOT_BOUND")
     else:
         unknowns.extend(local_audit["unknowns"])
     output = {
         "schema": "ats3_bybit_replay_v1",
+        "least_privilege_audit_credential":
+            "WAIVED_BY_OPERATOR" if waive_read_only_key else None,
         "status": "INSUFFICIENT_EVIDENCE",  # Full ATS-3 attribution still needs a frozen strategy baseline.
         "provider_economics": "RECONCILED" if not economic_unknowns else "RECONCILED_WITH_GAPS",
         "input_hashes_verified": True,
@@ -366,11 +461,11 @@ def reconcile_archive(folder: Path, journal: Path | None = None) -> dict[str, An
         "implied_usdt_usd_rate": str(_dec(coins[0]["usdValue"], "usdValue") /
                                      _dec(coins[0]["equity"], "equity")) if len(coins) == 1 else None,
         "unknowns": sorted(set(unknowns) | {
-            "FROZEN_STRATEGY_BASELINE_NOT_LINKED",
-            "DELIVERY_RECEIPT_NOT_VERIFIED",
-            "READ_ONLY_AUDIT_KEY_NOT_SEPARATE" if not manifest.get("collector_key_is_read_only") else
-            "AUDITOR_PRIVILEGE_BOUNDARY_NEEDS_VERIFICATION"}),
-        "caveat": "Bybit USD conversion is provider-valued; the implied rate is not an independent market FX oracle.",
+            "FROZEN_STRATEGY_BASELINE_NOT_LINKED", "DELIVERY_RECEIPT_NOT_VERIFIED",
+            *(["AUDITOR_PRIVILEGE_BOUNDARY_NEEDS_VERIFICATION"] if manifest.get("collector_key_is_read_only") else
+              ([] if waive_read_only_key else ["READ_ONLY_AUDIT_KEY_NOT_SEPARATE"]))}),
+        "caveat": "Bybit USD conversion is provider-valued; the implied rate is not an independent market FX oracle."
+                 + (" Operator waived separate read-only audit-key evidence." if waive_read_only_key else ""),
     }
     return output
 
@@ -379,17 +474,24 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("--journal", type=Path, default=None)
+    parser.add_argument("--sqlite-journal", type=Path, default=None)
+    parser.add_argument("--drill-evidence", type=Path, default=None)
+    parser.add_argument("--waive-read-only-audit-key", action="store_true")
     parser.add_argument("--output", type=Path, default=None,
                         help="Private immutable JSON report; existing paths cannot be overwritten")
     args = parser.parse_args(argv)
     try:
+        target: Path | None = None
         if args.output is not None:
             root = Path.home() / ".local" / "state" / "quant-research" / "ats3"
-            target = args.output.resolve()
-            if not target.is_relative_to(root.resolve()) or target.is_symlink() or target.exists():
+            target_path = args.output.resolve()
+            if not target_path.is_relative_to(root.resolve()) or target_path.is_symlink() or target_path.exists():
                 raise ValueError("OUTPUT_NOT_PRIVATE_OR_ALREADY_EXISTS")
-        report = reconcile_archive(args.archive, args.journal)
-        if args.output is not None:
+            target = target_path
+        report = reconcile_archive(args.archive, args.journal, sqlite_journal=args.sqlite_journal,
+                                   drill_evidence=args.drill_evidence,
+                                   waive_read_only_key=args.waive_read_only_audit_key)
+        if args.output is not None and target is not None:
             encoded = (json.dumps(report, indent=2, sort_keys=True) + "\n").encode()
             descriptor = os.open(target, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
             with os.fdopen(descriptor, "wb") as stream:

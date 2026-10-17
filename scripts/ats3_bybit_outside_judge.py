@@ -26,11 +26,34 @@ def require(condition: bool, reason: str) -> None:
         raise ValueError(reason)
 
 
-def judge(directory: Path) -> dict:
+def _intents_reconciled(path: Path | None) -> bool:
+    if path is None or path.is_symlink() or not path.is_file():
+        return False
+    evidence = json.loads(path.read_text(encoding="utf-8"))
+    local = evidence.get("local_intent_evidence", {})
+    outcomes = local.get("reconciled_intents", [])
+    documented = len(outcomes) + local.get("submitted_count", 0)
+    return (local.get("intent_count") == 9 and documented == 9
+            and local.get("unmatched_intent_count") == 0
+            and not local.get("unknowns"))
+
+
+def judge(directory: Path, *, waive_read_only_key: bool = False,
+          intent_evidence: Path | None = None) -> dict:
     manifest_path = directory / "manifest.json"
     manifest = json.loads(manifest_path.read_text())
     require(manifest["environment"] == "demo" and manifest["status"] == "ARCHIVE_COMPLETE",
             "INVALID_DEMO_ARCHIVE")
+    if waive_read_only_key:
+        require(manifest.get("read_only_collector") is True,
+                "COLLECTOR_NOT_STRICTLY_READ_ONLY")
+        require(manifest.get("provider_host") == "api-demo.bybit.com",
+                "WRONG_DEMO_ENDPOINT")
+        require(str(manifest.get("account_uid_private")) == "593641111",
+                "WRONG_DEMO_ACCOUNT")
+        required_reads = {"orders", "executions", "transactions", "closed_pnl"}
+        require(required_reads <= set(manifest.get("files", {})),
+                "READ_ONLY_ENDPOINT_SET_INCOMPLETE")
     raw = {}
     for name in ("orders", "executions", "transactions", "snapshot"):
         info = manifest["files"][name]
@@ -146,6 +169,9 @@ def judge(directory: Path) -> dict:
         "open_position_btc": str(position),
         "unrealized_pnl_usdt": str(upl),
         "provider_equity_usd": str(wallet["totalEquity"]),
+        "audit_credential_status": "WAIVED_BY_OPERATOR" if waive_read_only_key else
+                                   ("READ_ONLY" if manifest.get("collector_key_is_read_only") else "UNVERIFIED"),
+        "intent_dispositions_reconciled": _intents_reconciled(intent_evidence),
         "caveat": "Provider USD collateral valuation is checked for arithmetic, not externally priced.",
     }
 
@@ -154,9 +180,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("--output", type=Path, default=None)
+    parser.add_argument("--waive-read-only-audit-key", action="store_true")
+    parser.add_argument("--intent-evidence", type=Path, default=None)
     args = parser.parse_args()
     try:
-        result = judge(args.archive.resolve(strict=True))
+        result = judge(args.archive.resolve(strict=True),
+                       waive_read_only_key=args.waive_read_only_audit_key,
+                       intent_evidence=args.intent_evidence)
         if args.output:
             target = args.output.resolve()
             if target.exists() or not target.parent.is_dir():

@@ -125,10 +125,11 @@ def _journal() -> Path:
     return Path("/home/quant/.local/state/quant-research") / f"bybit-demo-account-{uid}-journal.jsonl"
 
 
-def test_native_journal_replay_binds_real_orders_without_hiding_missing_intents():
+def test_isolated_journal_without_sqlite_or_drill_reports_all_missing_intents():
     if not SAMPLE.is_dir() or not _journal().is_file():
         pytest.skip("Real Demo journal is not present on this machine")
-    result = reconcile_archive(SAMPLE, _journal())
+    empty = Path("/dev/null/nonexistent")
+    result = reconcile_archive(SAMPLE, _journal(), sqlite_journal=empty, drill_evidence=empty)
     assert result["provider_economics"] == "RECONCILED"
     source = result["local_intent_evidence"]
     assert source["event_count"] == 115
@@ -140,6 +141,35 @@ def test_native_journal_replay_binds_real_orders_without_hiding_missing_intents(
     assert "INTENT_TERMINAL_REASON_NOT_RECORDED" in result["unknowns"]
     assert "SUBMITTED_ORDER_NOT_IN_CURRENT_PROVIDER_HISTORY" in result["unknowns"]
 
+
+def test_sqlite_correlation_reconciles_intents_and_drill_leaving_seq7_unknown():
+    if not SAMPLE.is_dir() or not _journal().is_file():
+        pytest.skip("Real Demo journal is not present on this machine")
+    result = reconcile_archive(SAMPLE, _journal(), waive_read_only_key=True)
+    assert result["provider_economics"] == "RECONCILED"
+    source = result["local_intent_evidence"]
+    assert source["event_count"] == 115
+    assert source["intent_count"] == 9
+    assert source["submitted_count"] == 5
+    assert source["linked_to_provider_orders"] == 4
+    # 3 intents + 1 drill order reconciled, seq7 left unknown
+    assert source["unmatched_intent_count"] == 1
+    assert len(source["reconciled_intents"]) == 4
+    assert "INTENT_TERMINAL_REASON_NOT_RECORDED" in result["unknowns"]
+    assert "SUBMITTED_ORDER_NOT_IN_CURRENT_PROVIDER_HISTORY" not in result["unknowns"]
+    assert result["least_privilege_audit_credential"] == "WAIVED_BY_OPERATOR"
+
+
+def test_causal_timestamp_matching_prevents_false_seq7_resolution():
+    """Advisory regression: seq7 (06:16:46) must never match 06:25:35 drill intent."""
+    if not SAMPLE.is_dir() or not _journal().is_file():
+        pytest.skip("Real Demo journal is not present on this machine")
+    result = reconcile_archive(SAMPLE, _journal())
+    reconciled_ids = {r.get("intent_id") for r in result["local_intent_evidence"]["reconciled_intents"]}
+    # SQLite intent for drill is 01M4Z3SK... at 06:25:35; it must be consumed by submission, not unmatched
+    assert "01M4Z3SKVP4KVQBRZFMM3AZY8K" not in reconciled_ids
+    # seq 7 must remain unmatched
+    assert result["local_intent_evidence"]["unmatched_intent_count"] == 1
 
 def test_corrupted_journal_event_hash_rejected(tmp_path):
     folder = _private_copy(tmp_path)

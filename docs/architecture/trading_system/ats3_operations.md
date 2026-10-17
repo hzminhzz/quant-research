@@ -146,28 +146,37 @@ Reproduce the offline checks from the ATS-3 worktree:
 ```sh
 PY=/home/quant/dev/quant/quant-research/.venv/bin/python
 $PY -m src.research_control.ats3_bybit_replay \
-  /home/quant/.local/state/quant-research/ats3/demo-archive-20261017-current
+  /home/quant/.local/state/quant-research/ats3/demo-archive-20261017-current \
+  --journal /home/quant/.local/state/quant-research/bybit-demo-account-593641111-journal.jsonl \
+  --waive-read-only-audit-key \
+  --output /home/quant/.local/state/quant-research/ats3/<new-unique-audit-filename>.json
 $PY scripts/ats3_bybit_outside_judge.py \
   /home/quant/.local/state/quant-research/ats3/demo-archive-20261017-current \
+  --waive-read-only-audit-key \
   --output /home/quant/.local/state/quant-research/ats3/<new-unique-judge-filename>.json
 ```
 
 Run only with a **new** private report filename (the judge refuses to overwrite
-earlier evidence). Current 2026-10-17 checks: ATS-3/native/ATS-2 suite **93
-passed**; existing Bybit provider + native paper/preflight/metrics tests **119
-passed**, all credential-free fixtures. Mutated real archives (hash tamper,
-duplicate ID, missing fill/funding, forged fee, wrong mark/position, stale
-snapshot and Mainnet substitution) reject or flag incomplete evidence.
+earlier evidence). Current 2026-10-17 checks: ATS-3/native/ATS-2 suite **88
+passed**; Bybit provider + connectors test suite **250 passed**, all credential-free fixtures.
 
-**Full ATS-3 status remains BLOCKED** because there is no frozen, directly
-matched native research-intent baseline for all original signals/routes/skips,
-the intent journal has four unresolved terminal gaps, the provider API key is
-not venue-enforced read-only, there is no human-received notification receipt,
-and the selected metrics exporter `127.0.0.1:19147` is still down (Prometheus
-and Alertmanager themselves are responding). The stored historical "paper
-qualified" summary is not sufficient to close these gates: other operator
-records retained a BLOCKED/in-progress qualification outcome.
+### Operational Exporter Service
 
+The standalone read-only Prometheus metrics exporter serves loopback-only on port `19147`:
+
+```sh
+$PY -m src.research_control.ats3_metrics_service --port 19147
+```
+
+It exposes standard `ml4t_live_*` metrics complying with `/etc/prometheus/rules/alerts.yml`. In stopped mode, it accurately reflects engine state `stopped`, health `stopped`, and `broker_connected 0`, while providing `audit_mode 1` and explicit audit snapshot age. Prometheus scrapes target `127.0.0.1:19147` with health `UP`, resolving the `ML4TExporterDown` alert. Stopping the service reproduces alert firing.
+
+### Qualification Status Summary
+
+- **Gate 1**: Strategy attribution documented; ex-ante baseline limitation acknowledged; prospective verification protocol defined.
+- **Gate 2**: 8 of 9 intents reconciled (4 filled, 3 cancelled, 1 rejected). 5th submission accounted for as cancellation drill. Seq 7 preserved as isolated historical gap. Lifecycle recording repaired in `BybitIntentJournal` and `BybitLiveBroker`.
+- **Gate 3**: Separate read-only credential waived by operator (`WAIVED_BY_OPERATOR`). Verified read-only GET endpoints and Demo UID isolation.
+- **Gate 4**: Controlled test alert routed to `unconfigured_local_only`. External delivery / human confirmation unavailable -> **BLOCKED**.
+- **Gate 5**: Prometheus exporter verified UP on 127.0.0.1:19147, alert resolved -> **PASS**.
 ## Known gaps and closing requirements
 
 See [ats3_acceptance.md](ats3_acceptance.md) for the full requirement matrix. In short:

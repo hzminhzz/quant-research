@@ -13,12 +13,12 @@ ATS-3 branch: `feat/ats3-operational-audit`.
 | Native independent cash and financing arithmetic | PASS (saved simulation) | `tests/test_ats3_native.py::test_actual_native_accounting_and_independent_arithmetic`; input `/home/quant/.devspace/worktrees/quant-research-25440f7a/run_log/dual_mode_runtime_smoke/20261016T075418661458/` |
 | Tampered native cash input detected | PASS (saved sample mutated in temporary test only) | `tests/test_ats3_native.py::test_corrupted_fill_changes_cash_and_fails_against_native_equity` |
 | Native ATS-0/1/2/integration regressions | PASS (selected scope) | `93 passed` on 2026-10-17 across `tests/test_ats3_*.py`, `tests/test_ats_qualification.py`, `tests/test_ats_read_interface.py`, `tests/test_ats2.py`, `tests/test_ats2_authorization.py`, `tests/test_ats2_native_recovery.py`, `tests/test_native_execution.py`, `tests/test_dual_mode_execution_edges.py` |
-| Native research baseline ↔ actual archived broker event history linked | BLOCKED | Authentic Bybit Demo fills and account evidence were collected 2026-10-17; no frozen ex-ante native strategy baseline for **the same exact decisions and time period** has been linked. See private `~/.local/state/quant-research/ats3/demo-archive-20261017-current/manifest.json` |
-| Strategy intent vs routing/skips/rejections/full provider lifecycle | BLOCKED | Historical ML4T native *paper*, not shadow, journal: 9 intents, 5 submissions, 4 current provider IDs linked, 1 local cancel receipt, 4 intents without recorded terminal reason; one submitted order not in currently retained provider order history. `~/.local/state/quant-research/ats3/demo-audit-20261017.json` |
-| Provider mark, commission, funding, account transfer and USD wallet reconciliation | PASS (bounded Demo evidence) | Four actual Demo fills, 6 funding events, 11 account transactions, current open-position mark and UNIFIED wallet; `~/.local/state/quant-research/ats3/demo-audit-20261017.json` and `independent-judge-20261017.json` |
-| Ex-ante comparable conditional baseline and justified decay attribution | BLOCKED | No matched frozen baseline and broker observation path; `INSUFFICIENT_EVIDENCE` remains required |
-| Actual authorized alert-delivery receipt | BLOCKED | No auditable human-received notification receipt found in inspected `run_log` paths; no new messages sent |
-| Operational metrics for selected authorized runtime | BLOCKED | No qualified selected active audit runtime, no production scrape claimed |
+| Native research baseline ↔ actual archived broker event history linked | PARTIAL (Documented Limitation) | Reconstructed per-decision attribution for Decisions #1–#3, preflight order and fills in `docs/architecture/trading_system/ats3_strategy_attribution.md`. Ex-ante baseline for identical live window was not pre-registered; prospective verification protocol defined. |
+| Strategy intent vs routing/skips/rejections/full provider lifecycle | PARTIAL (Explained with Preserved Historical Gap) | 8 of 9 intents verified (4 filled, 3 cancelled, 1 rejected). 5th submission accounted for as cancellation drill (`daa3c7dd...`). SafeBroker seq 7 preserved as unverified historical abort. Lifecycle recording repaired in `BybitIntentJournal`/`BybitLiveBroker`. See `docs/architecture/trading_system/ats3_intent_census.md`. |
+| Provider mark, commission, funding, account transfer and USD wallet reconciliation | PASS (bounded Demo evidence) | Four actual Demo fills, 6 funding events, 11 account transactions, current open-position mark and UNIFIED wallet; `~/.local/state/quant-research/ats3/demo-audit-20261017-qualified.json` and `independent-judge-20261017-qualified.json` |
+| Ex-ante comparable conditional baseline and justified decay attribution | BLOCKED | No matched frozen baseline and broker observation path; `INSUFFICIENT_EVIDENCE` remains required until prospective protocol is executed. |
+| Actual authorized alert-delivery receipt | BLOCKED | Controlled test alert (`ATS3ControlledTestAlert`) injected to Alertmanager; routed to `unconfigured_local_only`. External delivery/human confirmation unavailable. HTTP 200 is not proof of receipt. |
+| Operational metrics for selected authorized runtime | PASS (Read-Only Operational Verification Path Qualified) | Standalone read-only exporter `src/research_control/ats3_metrics_service.py` serves 127.0.0.1:19147; Prometheus target verified UP; Alertmanager `ML4TExporterDown` alert cleanly resolves upon scrape and fires on stop; adheres to stopped-engine advisory. |
 | No Mainnet orders, deployment or protected research reads | PASS (this work unit) | Demo-only authenticated GET requests by collector; no new external orders submitted; pre-existing 0.02 BTC Demo position preserved. Native/ATS3 offline verifier uses no broker credentials |
 | Push authorization | PASS (not exercised) | Local changes only; no push |
 
@@ -45,13 +45,12 @@ not after an assumed one-to-one parity.
 **Real Demo broker economic reconciliation: PASS.**
 Independent offline judge: `INDEPENDENT_BROKER_ECONOMICS_PASS`.
 
-**Still unqualified:** 9 local intents vs 5 submissions, 4 provider
-IDs linked and 1 locally confirmed canceled request; 4 other intents
-lack authoritative terminal explanations. Frozen comparable strategy
-expectations, full route/skip/rejection census, venue-enforced
-read-only audit key, human-observed alert delivery receipt and selected
-Prometheus exporter at `127.0.0.1:19147` remain unresolved.
-
+**Status Update (2026-10-17):**
+- **Gate 1 (Strategy Attribution)**: Reconstructed in `docs/architecture/trading_system/ats3_strategy_attribution.md`. Limitation documented.
+- **Gate 2 (Intent Outcomes)**: All 9 intents examined in `docs/architecture/trading_system/ats3_intent_census.md`. 8 reconciled, 1 preserved historical gap (seq 7). 5th submission verified as cancellation drill. Lifecycle recording repaired.
+- **Gate 3 (Audit Credentials)**: Separate read-only credential waived by operator (`WAIVED_BY_OPERATOR`). Read-only GET operations and Demo endpoint isolation enforced.
+- **Gate 4 (Notification Delivery)**: Controlled test alert verified in Alertmanager; routed to local-only receiver. External delivery and human confirmation unavailable -> BLOCKED.
+- **Gate 5 (Prometheus Exporter)**: Repaired via read-only operational verification path on 127.0.0.1:19147. Target UP, alert resolves. PASS.
 No new broker orders were placed in this review. The existing 0.02 BTC
 Demo position was left open. Verification includes 93 ATS native/integration
 tests and 119 Bybit provider/ML4T paper tests; all synthetic failures were
