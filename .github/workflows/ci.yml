@@ -37,6 +37,15 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      # ATS-3/7 test imports live in a separately released public repository.
+      # Pin its exact source identity; do not follow moving main or use credentials.
+      - name: Checkout pinned public connector for ATS tests
+        uses: actions/checkout@v4
+        with:
+          repository: hzminhzz/trading-connector
+          ref: 8b82d597e36e9f95dba2446b7d0d43c6819207ab
+          path: .ci/trading-connector
+          persist-credentials: false
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
@@ -50,6 +59,8 @@ jobs:
       - name: Install locked dependencies
         run: uv sync --locked
       - name: Run data-free unit tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.ci/trading-connector
         run: uv run --frozen pytest -m "not data and not slow" -q
 
   full-tests:
@@ -58,6 +69,13 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout pinned public connector for ATS tests
+        uses: actions/checkout@v4
+        with:
+          repository: hzminhzz/trading-connector
+          ref: 8b82d597e36e9f95dba2446b7d0d43c6819207ab
+          path: .ci/trading-connector
+          persist-credentials: false
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
@@ -71,6 +89,8 @@ jobs:
       - name: Install locked dependencies
         run: uv sync --locked
       - name: Run full suite (data tests skip when artifacts are absent)
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.ci/trading-connector
         run: uv run --frozen pytest -q -rs
       - name: Check Marimo reactive DAG
         run: uv run --frozen marimo check notebooks/quantified_strategies_engulfing.py
