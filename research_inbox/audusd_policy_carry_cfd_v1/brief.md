@@ -9,8 +9,8 @@ This remains a descriptive research design. It is not an executable CandidateSpe
 
 # Hourly economic thesis research — 2026-10-15T02:04:19Z
 
-**Selected:** `AUDUSD_POLICY_CARRY_CFD_V1`  
-**Status:** `THESIS_READY_UNVERIFIED` — design ready for independent qualification, **not** data-qualified, execution-approved, repository-frozen, or profitable.  
+**Selected:** `AUDUSD_POLICY_CARRY_CFD_V1`
+**Status:** `THESIS_READY_UNVERIFIED` — design ready for independent qualification, **not** data-qualified, execution-approved, repository-frozen, or profitable.
 **Work performed:** Source and VPS-document inspection only. No feature computations, market-history queries, optimization, registered trial, backtest, holdout access, repository write, or orders.
 
 ## A. Research brief

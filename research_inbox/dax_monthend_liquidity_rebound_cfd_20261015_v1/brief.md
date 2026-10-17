@@ -9,8 +9,8 @@ This remains a descriptive research design. It is not an executable CandidateSpe
 
 # Economic thesis discovery — 2026-10-15 10:00 ICT
 
-**Candidate:** `dax_monthend_liquidity_rebound_cfd_20261015_v1`  
-**Status:** `THESIS_READY_UNVERIFIED` — not frozen, not executable or live approved.  
+**Candidate:** `dax_monthend_liquidity_rebound_cfd_20261015_v1`
+**Status:** `THESIS_READY_UNVERIFIED` — not frozen, not executable or live approved.
 **Previous candidates excluded:** European-opening S&P 500 return concentration; S&P 500 pre-FOMC overnight premium; AUD/USD policy-rate carry.
 
 ## A. Research brief

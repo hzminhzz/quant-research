@@ -9,8 +9,8 @@ This remains a descriptive research design. It is not an executable CandidateSpe
 
 # Hourly economic thesis discovery — 2026-10-15
 
-**Candidate:** `fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1`  
-**Decision:** `THESIS_READY_UNVERIFIED` — one research-design candidate, no executed trial.  
+**Candidate:** `fomc_overnight_uncertainty_premium_us500_cfd_20261015_v1`
+**Decision:** `THESIS_READY_UNVERIFIED` — one research-design candidate, no executed trial.
 **Authority:** VPS `/home/quant/dev/quant/quant-research`, not public GitHub where they differ. This report is not a registered, frozen or approved research session.
 
 ## A. Research brief
