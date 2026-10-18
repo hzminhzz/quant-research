@@ -60,6 +60,18 @@ Two defensible exemplars were evaluated through the native runtime without simul
   - Baseline 72h Momentum: Mean IC = `-0.04654`, HAC SE = `0.02150`, HAC t-stat = `-2.1645` ($p = 0.0305$).
 - **Ledger Record**: Registered and completed trial appended to `run_log/trial_ledger.jsonl`. Holdout partition remained strictly sealed (`holdout_access: false`).
 
+### C. Cross-Sectional Factor Exemplar: `ats_crypto_xs_funding_velocity_local_adaptation_20261018`
+- **Spec**: `config/candidates/ats_crypto_xs_funding_velocity_local_adaptation_20261018.yaml` (`CandidateSpec`, `source_spec_status: local_adaptation`).
+- **Data**: Binance hourly perpetual development panel (`[2020-04-01, 2026-01-01)`), 1,136,320 eligible rows, 28,360 periods across 484 symbols.
+- **Execution**: `scripts/quant.py run config/candidates/ats_crypto_xs_funding_velocity_local_adaptation_20261018.yaml --development-only`.
+- **Stages Evaluated**:
+  - Stage 1 (Prefix Invariance / Causal Truncation): **PASS**.
+  - Stage 2 (Cross-Sectional IC & Diagnostic HAC): **`FALSIFIED_STAGE_2`** (Exit Code 0).
+- **Diagnostic Metrics**:
+  - Candidate Funding Velocity Reversal: Mean IC = `+0.00487`, HAC SE = `0.00377`, HAC t-stat = `1.2917` ($p = 0.1965$). Fails minimum $t \ge 2.0$ gate and fails baseline increment.
+  - Baseline Static Funding Carry: Mean IC = `+0.02230`, HAC SE = `0.00572`, HAC t-stat = `3.8983` ($p = 0.000097$).
+- **Ledger Record**: Registered and completed trial appended to `run_log/trial_ledger.jsonl`. Holdout partition remained strictly sealed (`holdout_access: false`).
+
 ---
 
 ## 4. Benchmark Performance vs. Baseline
