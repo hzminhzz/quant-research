@@ -1,0 +1,77 @@
+candidate_id: crypto_ml_xue_zhou_vision_chart_xs_2026_v1
+selection_family_id: crypto_ml_cross_sectional_image_price_volume_ranking
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_CAPTURE_ONLY_DESCRIPTIVE_NO_MODEL_TRAINING
+created_on: "2026-10-18"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: xue_zhou_jbf_2026_original
+    url: https://doi.org/10.1016/j.jbankfin.2026.107750
+    authors: "Weijia Xue; Chunyang Zhou"
+    title: "Predicting cryptocurrency returns with vision transformers: A look-ahead bias-free approach"
+    journal: "Journal of Banking and Finance, volume 190, article 107750, 2026"
+    verification: "SOURCE_FACT journal identity via bibliographic index; publisher full text NOT independently inspected"
+  - id: xue_zhou_repec_indexed_abstract
+    url: https://econpapers.repec.org/article/eeejbfina/v_3a190_3ay_3a2026_3ai_3ac_3as037842662600124x.htm
+    verification: "SOURCE_FACT indexed abstract consulted; author-reported empirical metrics unverified"
+economic_thesis:
+  source_fact: "Authors predict cross-sectional cryptocurrency returns from algorithmically produced historical OHLCV-like images using ImageNet-pretrained vision transformers, forming a value-weighted long-short portfolio."
+  local_inference: "Visual nonlinear interactions among short-term momentum, size and price-volume patterns might contain information beyond simple fixed momentum and size rankings."
+  incremental_ml_claim: "Authors report improvement over both CNN and conventional characteristic-sorted portfolios; significance and tradability were not independently checked."
+  funding_boundary: "Source abstract describes OHLCV-like chart inputs, not funding, carry or basis features. Full source-feature whitelist remains to be verified."
+mechanism:
+  source_fact: "Study attributes predictive signal to learned nonlinear short-term momentum and size effects in cryptocurrency cross-sections."
+  local_inference: "Joint image patterns may condition continuation versus reversal differently than a single return lookback; this interpretation is a hypothesis, not an author-identified causal channel."
+  economic_null: "A point-in-time nonlinear image model offers no after-cost incremental predictive value over transparent momentum and size features."
+instruments:
+  original: "Cross-section of cryptocurrencies; source-indexed abstract does not disclose exact tickers, exchange, spot versus derivatives, delisting coverage, short financing or broker."
+  portfolio: "Author reports value-weighted long-short cryptocurrency sorts, not a certified ATS dollar-neutral or prop-firm strategy."
+  prop_firm: "UNKNOWN product availability, simultaneous long-short permissions, leverage, borrow, mark/settlement and directional financing costs."
+data_requirements:
+  original: "OHLCV-like historical chart inputs, point-in-time asset membership, source-specific model/forecast labels and original portfolio price and volume vintages."
+  availability: "Exact image window length, candle construction, asset list, time period, venue and release/fill lag UNKNOWN from inspected abstract."
+  local: "Existing crypto OHLCV data may support a later independent proposal, but no instrument-level local data availability was inspected or qualified here."
+feature_contracts:
+  source_fact: "Images are algorithmically generated from OHLCV-like inputs; source uses vision transformer models pre-trained on ImageNet prior to the financial study data period."
+  inferred_information_set: "Historical prices and volume only; complete feature code not available in the consulted indexed abstract."
+  complexity: "Vision transformer pretraining and image generation are materially more complex than a numeric momentum/size factor; original fine-tuning and retraining policy UNKNOWN."
+  excluded_signals: "No funding/basis/carry alpha proposed; full paper/code must establish exact source input provenance."
+strategy_rules:
+  source_original: "Forecast cross-sectional cryptocurrency returns from historical OHLCV-like images; evaluate a value-weighted long-short cryptocurrency portfolio."
+  unknown: "Original universe, rank thresholds, weight formula, gross/net exposure, forecast-label definition, exact target horizon and rebalancing implementation UNKNOWN without full study."
+  no_adaptation_smuggling: "Any 1h or 15m crypto-perpetual long-short basket, specific ViT implementation, position count or forecast target is a PROPOSED_ADAPTATION and is NOT claimed as an original rule."
+signal_and_execution_clock:
+  original: "Source reports weekly long-short portfolio results; image cutoff, future-return label boundaries, rebalance-to-fill timestamp and settlement treatment UNKNOWN."
+  future_requirement: "Images must contain fully closed candles available before a separately timestamped forecast; predictions must be strictly out of fitting-sample and mapped to the next eligible trade."
+sizing:
+  author: "Value-weighted long-short portfolios per indexed abstract; exact portfolio normalization, caps and leverage UNKNOWN."
+  ats_gap: "Native equal-weight dollar-neutral basket is not assumed equivalent to source value-weighted portfolio."
+cost_assumptions:
+  original: "SOURCE_UNKNOWN: exact author transaction costs, spread, impact, rebalances, borrow and financing cannot be confirmed from accessible abstract."
+  future: "Require same-position identical-cost comparison with baseline, short borrow or perp financing and appropriate venue/prop eligibility."
+baseline:
+  author_reported: "Benchmark CNN and traditional characteristic-sorted portfolios; only relative outperformance reported in indexed abstract."
+  proposed_simple_control: "Point-in-time momentum and size sorts with the same universe, long/short weights, horizons and estimated costs; frozen linear return-volume interaction is a second comparator."
+development_evaluation:
+  status: NOT_RUN
+  author_test_unverified: "Indexed abstract reports value-weighted long-short average weekly excess return 2.24 percent and annualized Sharpe 1.89, exceeding CNN and characteristic portfolios."
+  limitations: "These are SOURCE_REPORTED_TEST not independently reproduced ATS results. No exact comparison table, net-cost decomposition, variance estimate or return dispersion was available."
+  model_data_gap: "ImageNet pretraining date being outside finance is not proof of leakage-free financial fitting, universal point-in-time universe, or chronological out-of-fold forecasts."
+primary_falsifier:
+  future_test: "Correctly embargoed walk-forward ViT signals fail to improve cross-sectional ranking and executed portfolio economics over matched momentum/size ranks at the same tradable subset and costs."
+acceptance_and_stop_rules:
+  current: "HANDOFF_ONLY if structural validator passes; zero ML model training/backtests; no executable CandidateSpec or native ATS qualification."
+  future_preconditions: "Original full text/code and original clock; PIT universe including delistings; immutable training and image preprocessing provenance; purged label-overlap windows; OOF or walk-forward predictions; matched cost and borrowing sensitivity."
+parity_and_causality_tests:
+  future: "Confirm no chart pixels from target period, train-only scaling/image encodings, pretraining/fine-tuning cutoff, time-series purge, versioned predictors, original value-weighted portfolio parity and realistic fill timing."
+verified_facts:
+  - "2026-10-18 research screening checked DOI bibliographic identity and indexed abstract, not authors' raw observations or fitted weights."
+known_adaptations:
+  - "Mapping weekly source to 5m/15m/1h prop crypto would be a new adaptation requiring separate approval and source-faithful distinction."
+  - "Current ATS cross-sectional IC/HAC capability does not train ViT or establish OOF provenance."
+unresolved_blockers:
+  - "REQUIRES_TRAINING_WORKFLOW; no fitted model and no source-authenticated OOF prediction artifact."
+  - "BLOCKED_DATA: exact products, image clock, feature preprocessing, historical membership and origin dates UNKNOWN."
+  - "BLOCKED_PROTOCOL for a faithful value-weighted source portfolio unless native execution, borrowing and weights match."
+  - "Original full text and transaction-cost design were not accessible in this screening; source details remain UNKNOWN."
