@@ -31,7 +31,7 @@ from .common import (
 from .feature_compiler import compile_and_verify
 from .isolation import feature_function, isolated_features
 from .signal_allocator import allocate
-from .spec_parser import CandidateSpec
+from .spec_parser import CandidateSpec, parse_spec
 
 
 def _save_run(run: NativeRun, root: Path, name: str) -> dict[str, str]:
@@ -116,6 +116,46 @@ def _historical_trial_count(run_log: Path, spec: CandidateSpec, *, current_attem
     return len(attempts)
 
 
+INBOX = Path(__file__).resolve().parents[2] / 'research_inbox'
+
+
+def verify_provenance(spec: CandidateSpec, *, run_log: str | Path,
+                      inbox: str | Path | None = None) -> None:
+    """Refuse an `exact` claim for an inbox-derived spec unless the converter made it.
+
+    The inbox queue *earns* `source_spec_status == 'exact'` by running
+    ``convert_thesis`` and comparing the produced specification. A hand-authored
+    YAML can only *assert* it. This makes the assertion checkable for candidates
+    whose identity matches an inbox directory; standalone and event-protocol
+    candidates are unaffected, so no existing frozen spec changes meaning.
+    """
+    root = Path(inbox).resolve() if inbox is not None else INBOX
+    if not root.is_dir():
+        return
+    ids = {path.name for path in root.iterdir() if path.is_dir() and not path.name.startswith('.')}
+    if spec.candidate_id not in ids and spec.selection_family_id not in ids:
+        return
+    if spec.source_spec_status != 'exact':
+        return
+    receipt = (Path(run_log).resolve() / 'inbox_factory' / 'candidates'
+               / spec.candidate_id / 'frozen_candidate.yaml')
+    if not receipt.is_file():
+        raise QuantError(
+            'INVALID_PROVENANCE',
+            f'{spec.candidate_id}: claims exact provenance from research_inbox/'
+            f'{spec.candidate_id} but no convert_thesis receipt exists. Hand-authored or '
+            'adapted specifications must declare a non-exact source_spec_status '
+            '(prompt_derived_example, local_adaptation or synthetic_test).')
+    produced = parse_spec(receipt)
+    if produced.spec_hash != spec.spec_hash:
+        raise QuantError(
+            'INVALID_PROVENANCE',
+            f'{spec.candidate_id}: conversion receipt spec_hash '
+            f'{produced.spec_hash[:16]} does not match the frozen spec_hash '
+            f'{spec.spec_hash[:16]}; the executable specification was modified after '
+            'conversion and is no longer an exact transcription.')
+
+
 class ResearchFunnel:
     def __init__(self, *, run_log: str | Path = 'run_log', isolate: bool = True):
         self.run_log = Path(run_log).resolve()
@@ -136,6 +176,7 @@ class ResearchFunnel:
             return self._run_event(spec)
         if protocol.protocol != 'cross_sectional' or not isinstance(spec, CandidateSpec):
             raise QuantError('INVALID_SPEC', f'Unsupported research protocol: {protocol.protocol}')
+        verify_provenance(spec, run_log=self.run_log)
         attempt = datetime.now(UTC).strftime('%Y%m%dT%H%M%S') + '-' + uuid4().hex[:10]
         output = self.run_log / 'dual_mode' / spec.candidate_id / attempt
         output.mkdir(parents=True, exist_ok=False)
