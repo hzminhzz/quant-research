@@ -8,6 +8,9 @@ import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
 
+from src.connectors_bootstrap import ensure_connectors
+
+ensure_connectors()
 from scripts.ats7_paper import save
 from src.release_contracts import ReleaseManifest
 from src.research_control.action_authorization import sha256_json

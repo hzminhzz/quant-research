@@ -1,0 +1,57 @@
+{
+  "cases": [
+    {
+      "candidate_id": "crypto_xs_funding_velocity_dislocation_basket_v1",
+      "casefile": "/home/quant/dev/quant/quant-research/run_log/dual_mode/ats_crypto_xs_funding_velocity_local_adaptation_20261018/20261018T070027-f5500f3ce1/casefile.json",
+      "casefile_sha256": "f3065b8160146575700f47be56571120ef3fa0b3807f63ed283a6bf618960bc4",
+      "code_hash": "3b8d3440c34d5e77cce12b9a49101cf7aced5e3223d88fb2c6a784c1fc83401d",
+      "code_identity_is_current_runtime": false,
+      "data_manifest_sha256": "d9f4a993e878f663988ef52dca0a4674cc81809ded6fcf2c4ecc23158e6a17bd",
+      "holdout_access": false,
+      "inbox_status": "FALSIFIED",
+      "native_attempt_id": "20261018T070027-f5500f3ce1",
+      "native_status": "FALSIFIED_STAGE_2",
+      "panel_hash": "e77f793b45527cb4f62c2fe7c0cfcebd62213f0aa0e97e021a2d05743341ecf0",
+      "receipt_sha256": {
+        "1": "0ebebda45bbd1d455ba4086552bef1d57f2505791b94b6d83c215646329d5594",
+        "2": "b9ec263b8dd000320e96642af682793b32ab8bdb8ad80cd0d877ab36bd48b289"
+      },
+      "recomputed_stage2": {
+        "static_funding_level_basket": {
+          "hac_se": 0.005728087396494492,
+          "mean_ic": 0.02177289868376304,
+          "reported_mean_ic": 0.02177289868376304,
+          "reported_t_stat": 3.8010765508025717,
+          "t_stat": 3.8010765508025846
+        },
+        "velocity_reversal_score": {
+          "hac_se": 0.0037741570048168164,
+          "mean_ic": 0.004874944353530521,
+          "reported_mean_ic": 0.004874944353530521,
+          "reported_t_stat": 1.291664429251033,
+          "t_stat": 1.2916644292510382
+        }
+      },
+      "source_files_sha256": {
+        "brief.md": "504cff2cabea7d2f7cbee5bec0b8d7b5c42e7c38757b4b2e0ab926de351b1750",
+        "thesis.yaml": "13c1579965747ff187e772122de67fae88ba36b6a6bd356ea01fa1a55582ccdd"
+      },
+      "spec_candidate_id": "ats_crypto_xs_funding_velocity_local_adaptation_20261018",
+      "spec_hash": "d72a053d93894eb62942bae7c4cd4f1953324dc672b6fb3240afe08f532fc0b0",
+      "stage1_status": "PASS",
+      "stage2_status": "FALSIFIED_STAGE_2"
+    }
+  ],
+  "inbox_state_root": "/home/quant/dev/quant/quant-research/run_log/inbox_factory",
+  "ledger_records": 55,
+  "schema_version": 1,
+  "scope": "READ_ONLY_NO_EXECUTION_NO_PROTECTED_NO_ORDERS",
+  "unverifiable": [
+    {
+      "candidate_id": "crypto_xs_90d_high_anchoring_basket_v1",
+      "error": "crypto_xs_90d_high_anchoring_basket_v1: Stage 1 artifact path escapes the attempt directory"
+    }
+  ],
+  "unverifiable_count": 1,
+  "verified_count": 1
+}

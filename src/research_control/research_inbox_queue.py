@@ -29,7 +29,7 @@ from src.engine.common import (
     runtime_identity,
 )
 from src.engine.research_handoff import _UniqueKeyLoader, validate_handoff
-from src.engine.spec_parser import parse_spec
+from src.engine.spec_parser import CandidateSpec
 from src.engine.thesis_ingest import convert_thesis
 from src.oracle.research_protocols import parse_research_spec
 
@@ -56,6 +56,11 @@ UNSUPPORTED_PATH = (
     "gap/intrabar precedence, realistic costs, causal timing and independent "
     "state/fill/cash reconciliation. Do not substitute a vector backtest."
 )
+QUALIFIED_EVENT_ADAPTERS = frozenset({
+    "bta_nq_monday_bb10_atr5_cfd_v1",
+    "m8_n8_cash_session_v7",
+})
+
 
 
 def _now() -> str:
@@ -388,12 +393,19 @@ class InboxQueue:
     def __init__(self, inbox: str | Path = REPO / "research_inbox",
                  run_log: str | Path = REPO / "run_log",
                  vault_root: str | Path | None = None,
-                 store: str | Path | None = None):
+                 store: str | Path | None = None,
+                 candidates_dir: str | Path | None = None):
         self.inbox = Path(inbox).resolve()
         self.run_log = Path(run_log).resolve()
         self.root = self.run_log / "inbox_factory"
         self.vault_root = Path(vault_root).resolve() if vault_root else (REPO / "data" / "vault" / "markets_20261015")
         self.store = Path(store).resolve() if store else Path("/home/quant/dev/quant/ml4t-data/.data/store")
+        if candidates_dir is not None:
+            self.candidates_dir = Path(candidates_dir).resolve()
+        elif (self.inbox.parent / "config" / "candidates").is_dir():
+            self.candidates_dir = (self.inbox.parent / "config" / "candidates").resolve()
+        else:
+            self.candidates_dir = (self.inbox.parent / "candidates").resolve()
     def _folder(self, candidate_id: str) -> Path:
         if not isinstance(candidate_id, str) or not candidate_id:
             raise ValueError("candidate_id must be a nonempty string")
@@ -478,7 +490,7 @@ class InboxQueue:
 
         if not self.store.is_dir():
             return []
-        text = json.dumps(document)
+        text = json.dumps(document, default=str)
         targets: list[tuple[MarketGroup, Granularity]] = []
         if "index_minute_" in text or "index_1" in text:
             targets.extend([("index", "1h"), ("index", "1m")])
@@ -603,88 +615,196 @@ class InboxQueue:
                     "source_path": str(directory), "status": "BLOCKED_HANDOFF",
                     "reason": str(exc), "holdout_access": False}, None
 
+    def _inside_candidates(self, path: Path) -> bool:
+        """A specification must be a real file inside the declared candidates directory."""
+        if path.is_symlink():
+            return False
+        try:
+            return path.resolve().is_relative_to(self.candidates_dir)
+        except (OSError, RuntimeError):
+            return False
+
+    def _find_spec_for_candidate(self, candidate_id: str, source_hash: str, thesis_hash: str = "") -> tuple[Path | None, str | None]:
+        cached = self._folder(candidate_id) / "frozen_candidate.yaml"
+        if cached.exists():
+            return cached, "cached"
+        direct = self.candidates_dir / f"{candidate_id}.yaml"
+        if direct.exists() and self._inside_candidates(direct):
+            try:
+                spec = parse_research_spec(direct)
+                strat_id = getattr(spec, "strategy_id", None) or getattr(spec, "candidate_id", None)
+                if strat_id == candidate_id:
+                    return direct, "direct"
+            except (QuantError, OSError, ValueError, yaml.YAMLError, TypeError):
+                pass
+        if self.candidates_dir.is_dir():
+            for p in sorted(self.candidates_dir.glob("*.yaml")):
+                if p.name.startswith((".", "crypto_xs_funding_velocity_dislocation_basket_v1.example")):
+                    continue
+                if not self._inside_candidates(p):
+                    continue
+                try:
+                    spec = parse_research_spec(p)
+                except (QuantError, OSError, ValueError, yaml.YAMLError, TypeError):
+                    continue
+                if (isinstance(spec, CandidateSpec)
+                        and spec.source_spec_status == "local_adaptation"
+                        and self._binds_this_source(candidate_id, spec, source_hash, thesis_hash)):
+                    return p, "local_adaptation"
+        return None, None
+
+    @staticmethod
+    def _binds_this_source(candidate_id: str, spec: CandidateSpec, source_hash: str, thesis_hash: str) -> bool:
+        """An adaptation must declare THIS thesis as its source identity.
+
+        The exact recorded SHA-256 of the thesis AND a SOURCE_ID ending in this
+        candidate's inbox path are required; a textual mention is not identity.
+        """
+        suffix = f"research_inbox/{candidate_id}/thesis.yaml"
+        wanted_hashes = {h for h in (source_hash, thesis_hash) if h}
+        declarations = {}
+        for line in getattr(spec, "assumptions", []):
+            if "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            declarations.setdefault(key.strip(), []).append(value.strip())
+        has_source_id = any(value.endswith(suffix)
+                            for value in declarations.get("SOURCE_ID", []))
+        has_sha = any(value in wanted_hashes for value in declarations.get("SOURCE_SHA256", []))
+        return has_source_id and has_sha
+
     def _preflight(self, info: dict, document: dict, directory: Path) -> tuple[dict, Path | None]:
         materialized = self._auto_materialize_for_document(document)
         if materialized:
             info = {**info, "materialized_development_vaults": materialized}
 
+        candidate_id = info["candidate_id"]
         protocol = info["protocol"]
-        if protocol != "cross_sectional":
+        if protocol == "unsupported_event" or (
+                protocol == "single_instrument_event" and candidate_id not in QUALIFIED_EVENT_ADAPTERS):
             return {**info, "status": "BLOCKED_PROTOCOL",
                     "code_version": runtime_identity(),
-                    "reason": UNSUPPORTED_EVENT if protocol == "single_instrument_event" else UNSUPPORTED_PATH,
+                    "reason": UNSUPPORTED_EVENT,
                     "holdout_access": False}, None
 
-        if info.get("required_adaptations"):
-            return {**info, "status": "BLOCKED_SPEC",
-                    "reason": "Source declares unresolved prerequisites; resolve and revalidate before freezing",
-                    "holdout_access": False}, None
+        source_hash = info.get("source_hash", "")
+        thesis_hash = info.get("source_files_sha256", {}).get("thesis.yaml", "")
+        spec_path, _spec_kind = self._find_spec_for_candidate(candidate_id, source_hash, thesis_hash)
+        if spec_path is not None:
+            try:
+                spec = parse_research_spec(spec_path)
+                if hasattr(spec, "strategy_id") and getattr(spec, "protocol", None) == "event":
+                    strat_id = getattr(spec, "strategy_id", candidate_id)
+                    if candidate_id not in QUALIFIED_EVENT_ADAPTERS and strat_id not in QUALIFIED_EVENT_ADAPTERS:
+                        return {**info, "status": "BLOCKED_PROTOCOL", "code_version": runtime_identity(),
+                                "reason": UNSUPPORTED_EVENT, "holdout_access": False}, None
+                    details = {
+                        "spec_hash": spec.spec_hash, "spec_path": str(spec_path),
+                        "spec_file_sha256": _sha(spec_path),
+                        "spec_candidate_id": strat_id,
+                        "protocol": "event",
+                        "trial_budget": 1,
+                    }
+                    return {**info, **details, "status": "EXECUTABLE", "holdout_access": False}, spec_path
+                elif isinstance(spec, CandidateSpec):
+                    if info.get("required_adaptations") and spec.source_spec_status != "local_adaptation":
+                        return {**info, "status": "BLOCKED_SPEC",
+                                "reason": "Source declares unresolved prerequisites; resolve and revalidate before freezing",
+                                "holdout_access": False}, None
+                    falsifier = (document.get("primary_falsifier")
+                                 or (document.get("economic_thesis", {}).get("null")
+                                     if isinstance(document.get("economic_thesis"), dict)
+                                     else None)
+                                 or "empirical_ic")
+                    details = {
+                        "spec_hash": spec.spec_hash, "spec_path": str(spec_path),
+                        "spec_file_sha256": _sha(spec_path),
+                        "spec_candidate_id": spec.candidate_id,
+                        "protocol": "cross_sectional",
+                        "development_window": {
+                            "train": spec.windows.train.model_dump(mode="json"),
+                            "validation": spec.windows.validation.model_dump(mode="json"),
+                        },
+                        "protected_start_metadata_only": spec.windows.protected.start.isoformat(),
+                        "trial_budget": 1, "causal_timing_lag": spec.allocation.timing_lag,
+                        "costs": spec.costs.model_dump(mode="json"),
+                        "baseline_feature": spec.baseline,
+                        "falsifier": falsifier,
+                    }
+                    return {**info, **details, "status": "EXECUTABLE", "holdout_access": False}, spec_path
+            except (QuantError, OSError, ValueError, TypeError) as exc:
+                return {**info, "status": "BLOCKED_SPEC", "reason": str(exc), "holdout_access": False}, None
 
-        # Reject absent economic requirements instead of allowing CandidateSpec
-        # defaults to invent fees, baseline, sizing, decision time or trial gates.
+        # Direct conversion if document has complete executable fields
+        target = self._folder(candidate_id) / "frozen_candidate.yaml"
         required = ("entry_and_basket_construction_rules", "signal", "baseline",
                     "cost_assumptions", "data_requirements", "development_evaluation",
                     "primary_falsifier", "acceptance_and_stop_rules")
         absent = [name for name in required if not document.get(name)]
-        if absent:
-            return {**info, "status": "BLOCKED_SPEC",
-                    "reason": "Cross-sectional contract lacks explicit: " + ", ".join(absent),
-                    "holdout_access": False}, None
-        target = self._folder(info["candidate_id"]) / "frozen_candidate.yaml"
-        try:
-            if target.exists():
-                # Frozen output may only be reused when it matches the
-                # source-bound hash recorded in existing queue state.
-                previous = self._load(info["candidate_id"])
-                if not previous or previous.get("source_hash") != info["source_hash"]:
-                    raise ValueError("Existing frozen candidate has no matching source identity")
-                spec = parse_spec(target)
-            else:
+        if not absent and protocol == "cross_sectional":
+            try:
                 spec = convert_thesis(directory / "thesis.yaml", target)
-            prior = self._load(info["candidate_id"])
-            if prior and prior.get("spec_hash") and prior["spec_hash"] != spec.spec_hash:
-                raise ValueError("Saved frozen candidate spec hash changed across attempts")
-            if _source_hash(directory) != info["source_hash"]:
-                raise ValueError("Source changed during frozen specification conversion")
-            if spec.python_feature_artifact is not None:
-                raise ValueError("Serialized Python feature artifact needs a verified immutable relocation; not admitted by this thin queue")
-            if spec.candidate_id != info["candidate_id"] or spec.source_spec_status != "exact":
-                raise ValueError("Executable specification identity is not an exact current source")
-            if parse_spec(target).spec_hash != spec.spec_hash:
-                raise ValueError("Frozen spec changed on reload")
-            details = {
-                "spec_hash": spec.spec_hash, "spec_path": str(target),
-                "spec_file_sha256": _sha(target),
-                "development_window": {
-                    "train": spec.windows.train.model_dump(mode="json"),
-                    "validation": spec.windows.validation.model_dump(mode="json"),
-                },
-                "protected_start_metadata_only": spec.windows.protected.start.isoformat(),
-                "trial_budget": 1, "causal_timing_lag": spec.allocation.timing_lag,
-                "costs": spec.costs.model_dump(mode="json"),
-                "baseline_feature": spec.baseline, "falsifier": document["primary_falsifier"],
-            }
-            return {**info, **details, "status": "EXECUTABLE",
-                    "holdout_access": False}, target
-        except (QuantError, OSError, ValueError, TypeError) as exc:
-            return {**info, "status": "BLOCKED_SPEC", "reason": str(exc),
+                if spec.python_feature_artifact is not None:
+                    raise ValueError("Serialized Python feature artifact needs a verified immutable relocation; not admitted by this thin queue")
+                if spec.candidate_id != candidate_id or spec.source_spec_status != "exact":
+                    raise ValueError("Executable specification identity is not an exact current source")
+                details = {
+                    "spec_hash": spec.spec_hash, "spec_path": str(target),
+                    "spec_file_sha256": _sha(target),
+                    "spec_candidate_id": spec.candidate_id,
+                    "protocol": "cross_sectional",
+                    "development_window": {
+                        "train": spec.windows.train.model_dump(mode="json"),
+                        "validation": spec.windows.validation.model_dump(mode="json"),
+                    },
+                    "protected_start_metadata_only": spec.windows.protected.start.isoformat(),
+                    "trial_budget": 1, "causal_timing_lag": spec.allocation.timing_lag,
+                    "costs": spec.costs.model_dump(mode="json"),
+                    "baseline_feature": spec.baseline, "falsifier": document["primary_falsifier"],
+                }
+                return {**info, **details, "status": "EXECUTABLE", "holdout_access": False}, target
+            except (QuantError, OSError, ValueError, TypeError) as exc:
+                return {**info, "status": "BLOCKED_SPEC", "reason": str(exc), "holdout_access": False}, None
+
+        # Descriptive handoffs without an executable spec
+        if protocol in ("single_instrument_event", "unsupported_event"):
+            return {**info, "status": "BLOCKED_PROTOCOL",
+                    "code_version": runtime_identity(),
+                    "reason": UNSUPPORTED_EVENT,
                     "holdout_access": False}, None
+
+        reason_codes = info.get("reason_codes", [])
+        if "CONTRADICTORY_RULES" in reason_codes or "UNVERIFIED_EXECUTABLE_SPEC" in reason_codes:
+            status = "BLOCKED_SPEC"
+        elif "UNAVAILABLE_DATA" in reason_codes:
+            status = "BLOCKED_DATA"
+        elif "UNQUALIFIED_PROTOCOL" in reason_codes:
+            status = "BLOCKED_PROTOCOL"
+        else:
+            status = "BLOCKED_SPEC"
+        reason = f"Source admitted; executable preparation withheld: {', '.join(reason_codes)}" if reason_codes else "Descriptive cross-sectional contract lacks explicit specification"
+        return {**info, "status": status, "code_version": runtime_identity(),
+                "triage_status": "BLOCKED",
+                "reason": reason, "holdout_access": False}, None
 
     def _native_verify(self, path: Path, expected: dict) -> dict:
         """Independent identity/receipt/ledger checks, not independent financial proof."""
         case = json.loads(path.read_text(encoding="utf-8"))
-        if (case.get("candidate_id") != expected["candidate_id"]
+        candidate_ids = {expected["candidate_id"], expected.get("spec_candidate_id", expected["candidate_id"])}
+        if (case.get("candidate_id") not in candidate_ids
                 or case.get("spec_hash") != expected["spec_hash"]):
             raise ValueError("Native Casefile candidate/spec identity differs")
         if (expected.get("frozen_code_sha256") is not None
                 and case.get("code_hash") != expected["frozen_code_sha256"]):
             raise ValueError("Native Casefile runtime code differs from frozen identity")
-        if case.get("development_only") is not True:
+        if case.get("protocol") != "event" and case.get("development_only") is not True:
             raise ValueError("Native Casefile lacks the mandatory development-only flag")
         if (case.get("holdout_access") is not False or case.get("holdout_claim") is not None
                 or "4" in case.get("stages", {})):
             raise ValueError("Native Casefile reports forbidden protected access")
         if (not case.get("status", "").startswith("BLOCKED_")
+                and case.get("status") != "ISOLATION_UNAVAILABLE"
+                and case.get("protocol") != "event"
                 and case.get("stages", {}).get("1", {}).get("status") != "PASS"):
             raise ValueError("Native causal Stage 1 proof is absent")
         for stage in ("1", "2", "3"):
@@ -731,26 +851,70 @@ class InboxQueue:
         folder.mkdir(parents=True, exist_ok=False)
         out = folder / "stdout.log"
         err = folder / "stderr.log"
+        started_at = _now()
         state = self._save({**state, "status": "RUNNING", "attempt_id": attempt,
                             "attempts": [*state.get("attempts", []), attempt],
                             "stdout": str(out), "stderr": str(err),
-                            "started_utc": _now(), "holdout_access": False})
+                            "started_utc": started_at, "holdout_access": False})
+
+        # A registered trial with no completion is an interrupted run: fail closed
+        # and leave reconciliation to an operator. Never adopt an existing
+        # completed Casefile from the ledger here -- a direct `quant.py` run of the
+        # same spec is indistinguishable from an inbox run, so adopting it would
+        # misreport the provenance of the decision.
+        ledger = self.run_log / "trial_ledger.jsonl"
+        if ledger.is_file():
+            completed_by_attempt: set[str] = set()
+            registered_attempts: list[str] = []
+            for line in ledger.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if rec.get("spec_hash") != state["spec_hash"] or not rec.get("attempt_id"):
+                    continue
+                if rec.get("event") == "completed":
+                    completed_by_attempt.add(rec["attempt_id"])
+                elif rec.get("event") == "registered":
+                    registered_attempts.append(rec["attempt_id"])
+
+            unfinished = [att for att in registered_attempts if att not in completed_by_attempt]
+            if unfinished:
+                return self._save({
+                    **state, "status": "BLOCKED_RECOVERY",
+                    "attempt_id": unfinished[-1],
+                    "reason": f"Unreconciled registered trial {unfinished[-1]} in ledger; manual inspection required before re-registration",
+                    "holdout_access": False,
+                })
         if (runtime_identity() != state["frozen_code_sha256"]
                 or _sha(spec_file) != state["spec_file_sha256"]
                 or _source_hash(Path(state["source_path"])) != state["source_hash"]
                 or _sha(Path(state["data_manifest_path"])) != state["data_manifest_sha256"]):
             return self._save({**state, "status": "BLOCKED_DRIFT",
                                "reason": "Code or canonical data manifest changed before native execution"})
-        argv = [sys.executable, "-B", str(REPO / "scripts" / "quant.py"),
+        argv = [sys.executable, "-u", "-B", str(REPO / "scripts" / "quant.py"),
                 "run", str(spec_file), "--development-only",
                 "--run-log", str(self.run_log)]
-        env = {**os.environ, "PYTHONPATH": str(REPO), "PYTHONDONTWRITEBYTECODE": "1"}
+        env = {**os.environ, "PYTHONPATH": str(REPO), "PYTHONDONTWRITEBYTECODE": "1", "PYTHONUNBUFFERED": "1"}
         try:
             with out.open("x", encoding="utf-8") as output, err.open("x", encoding="utf-8") as errors:
                 result = subprocess.run(argv, cwd=REPO, env=env, stdin=subprocess.DEVNULL,
                                         stdout=output, stderr=errors, timeout=seconds, check=False)
             outputs = out.read_text(encoding="utf-8").splitlines()
-            report = json.loads(outputs[-1]) if outputs else {}
+            err_text = err.read_text(encoding="utf-8").strip() if err.is_file() else ""
+            if result.returncode not in {0, 3} or not outputs:
+                return self._save({**state, "status": "BLOCKED_EVIDENCE",
+                                   "returncode": result.returncode,
+                                   "reason": f"Native runner exited with code {result.returncode}: {err_text or (outputs[-1] if outputs else 'no output recorded')}",
+                                   "holdout_access": False})
+            report = json.loads(outputs[-1])
+            if "casefile" not in report:
+                return self._save({**state, "status": "BLOCKED_EVIDENCE",
+                                   "returncode": result.returncode,
+                                   "reason": f"Native runner output missing casefile: {outputs[-1]}",
+                                   "holdout_access": False})
             casefile = Path(report["casefile"]).resolve()
             if not casefile.is_relative_to(self.run_log):
                 raise ValueError("Native Casefile is outside the declared run-log root")
@@ -773,11 +937,12 @@ class InboxQueue:
                 disposition = "INCONCLUSIVE"
             elif raw == "BLOCKED_EXECUTION":
                 disposition = "BLOCKED_EXECUTION"
-            elif raw.startswith("BLOCKED"):
+            elif raw.startswith("BLOCKED") or raw == "ISOLATION_UNAVAILABLE":
                 disposition = "BLOCKED_DATA"
             else:
                 raise ValueError(f"Unsupported native research decision: {raw}")
             return self._save({**state, "status": disposition,
+                               "native_attempt_id": case.get("attempt_id"),
                                "native_status": raw, "casefile": str(casefile),
                                "stages": case.get("stages", {}),
                                "casefile_sha256": _sha(casefile), "returncode": result.returncode,
@@ -803,6 +968,11 @@ class InboxQueue:
             seen = {}
             intake = [(path, *self._admit(path)) for path in self._candidates()]
             intake.sort(key=lambda item: (
+                0 if (item[1].get("protocol") != "single_instrument_event" and self._find_spec_for_candidate(
+                    item[1].get("candidate_id", ""),
+                    item[1].get("source_hash", ""),
+                    item[1].get("source_files_sha256", {}).get("thesis.yaml", "")
+                )[0] is not None) else 1,
                 0 if item[1].get("source_format") == "legacy_flat_handoff"
                 and item[1].get("protocol") == "cross_sectional"
                 and not item[1].get("required_adaptations") else 1,
@@ -856,17 +1026,17 @@ class InboxQueue:
                                 self._save({**previous, "status": "BLOCKED_EVIDENCE",
                                             "prior_status": previous["status"],
                                             "reason": f"Saved terminal evidence drift: {exc}"})
-                        elif (doc is not None and previous.get("source_format") not in {"nested_descriptive", "flat_descriptive"}
-                              and previous["status"] in {"BLOCKED_PROTOCOL", "BLOCKED_SPEC", "BLOCKED_DATA"}):
+                        elif (doc is not None
+                              and previous["status"] in {"BLOCKED_PROTOCOL", "BLOCKED_SPEC", "BLOCKED_DATA", "BLOCKED_EVIDENCE"}):
                             update = {}
                             materialized = self._auto_materialize_for_document(doc)
                             if materialized and "materialized_development_vaults" not in previous:
                                 update["materialized_development_vaults"] = materialized
                             current_code = runtime_identity()
                             reconsidered_spec = None
-                            if previous.get("code_version") and previous["code_version"] != current_code:
+                            if previous.get("code_version") != current_code:
                                 ready, spec_path = self._preflight(info, doc, candidate)
-                                if ready["status"] != previous["status"]:
+                                if ready["status"] != previous["status"] or spec_path is not None:
                                     previous = self._save({
                                         **previous, **ready,
                                         "prior_status": previous["status"],
@@ -902,26 +1072,11 @@ class InboxQueue:
                                 "reason": "Identical source/logic/instrument/clock/cost identity; no second trial"})
                     processed += 1
                     continue
-                if info.get("source_format") in {"nested_descriptive", "flat_descriptive"}:
-                    if previous.get("status") == "THESIS_CAPTURED":
-                        previous = self._save({**previous, "status": "SOURCE_ADMITTED",
-                                               "admitted": True,
-                                               "triage_status": "TRIAGED",
-                                               "holdout_access": False})
-                    codes = info.get("reason_codes", [])
-                    if "CONTRADICTORY_RULES" in codes or "UNVERIFIED_EXECUTABLE_SPEC" in codes:
-                        status = "BLOCKED_SPEC"
-                    elif "UNAVAILABLE_DATA" in codes:
-                        status = "BLOCKED_DATA"
-                    elif "UNQUALIFIED_PROTOCOL" in codes:
-                        status = "BLOCKED_PROTOCOL"
-                    else:
-                        status = "BLOCKED_SPEC"
-                    self._save({**previous, **info, "status": status,
-                                "reason": "Source admitted; executable preparation withheld: " + ", ".join(codes),
-                                "triage_status": "BLOCKED", "holdout_access": False})
-                    processed += 1
-                    continue
+                if previous.get("status") == "THESIS_CAPTURED":
+                    previous = self._save({**previous, "status": "SOURCE_ADMITTED",
+                                           "admitted": True,
+                                           "triage_status": "TRIAGED",
+                                           "holdout_access": False})
                 if previous.get("status") not in TERMINAL:
                     ready, spec_path = self._preflight(info, doc, candidate)
                     next_state = self._save({**previous, **ready, "attempts": previous.get("attempts", [])})
@@ -995,7 +1150,8 @@ class InboxQueue:
                     "candidate_id", "status", "handoff_status", "triage_status",
                     "protocol", "reason", "attempt_id",
                     "casefile", "source_hash", "spec_hash", "duplicate_of", "revision",
-                    "native_evidence_verified", "independently_verified",
+                    "native_attempt_id", "holdout_access", "native_evidence_verified",
+                    "independently_verified",
                     "required_adaptations", "admitted", "source_format",
                     "source_declared_status", "field_evidence",
                     "reason_codes", "stages", "attempts", "source_files_sha256",

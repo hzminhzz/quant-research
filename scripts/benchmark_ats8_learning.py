@@ -254,10 +254,9 @@ def _managed_with_learning_operator(
     stale_opportunities_seen = 0
     incompatible_opportunities_seen = 0
 
-    # Query LessonStore based strictly on real observed tool errors
-    for err in observed_errors:
+    # Query LessonStore uniquely per observed error code
+    for err in sorted(set(observed_errors)):
         tool_calls += 1
-
         if mutant_disable_filtering:
             matches = store.query(
                 error_code=err,
@@ -599,6 +598,12 @@ def benchmark_corpus(
         "effects": ["SYNTHETIC_TEMP_FILES_ONLY"],
         "cases": cases_results,
         "summary": {
+            "managed_learning_total_tool_calls": sum(c["managed_with_learning"]["tool_calls"] for c in cases_results),
+            "managed_no_learning_total_tool_calls": sum(c["managed_no_learning"]["tool_calls"] for c in cases_results),
+            "baseline_raw_total_tool_calls": sum(c["baseline_raw"]["tool_calls"] for c in cases_results),
+            "managed_learning_median_per_case_tool_calls": int(statistics.median([c["managed_with_learning"]["tool_calls"] for c in cases_results])),
+            "managed_no_learning_median_per_case_tool_calls": int(statistics.median([c["managed_no_learning"]["tool_calls"] for c in cases_results])),
+            "baseline_raw_median_per_case_tool_calls": int(statistics.median([c["baseline_raw"]["tool_calls"] for c in cases_results])),
             "managed_learning_median_tool_calls": sum(c["managed_with_learning"]["tool_calls"] for c in cases_results),
             "managed_no_learning_median_tool_calls": sum(c["managed_no_learning"]["tool_calls"] for c in cases_results),
             "baseline_raw_median_tool_calls": sum(c["baseline_raw"]["tool_calls"] for c in cases_results),

@@ -599,3 +599,165 @@ def test_unsupported_event_protocol_remains_blocked(tmp_path):
     assert spec_path is None
     assert ready["status"] == "BLOCKED_PROTOCOL"
     assert "General single-instrument event execution is not a qualified ATS-4 factory protocol" in ready["reason"]
+
+
+def test_interrupted_registration_in_ledger_blocks_duplicate_runs(tmp_path, monkeypatch):
+    inbox = tmp_path / "inbox"
+    target = inbox / "test_interrupted_candidate"
+    target.mkdir(parents=True)
+    (target / "thesis.yaml").write_text("candidate_id: test_interrupted_candidate\n")
+    (target / "brief.md").write_text("# Interrupted\nCandidate: `test_interrupted_candidate`\nhttps://example.com/test\n")
+
+    log_dir = tmp_path / "log"
+    log_dir.mkdir(parents=True)
+    vault_dir = tmp_path / "vaults"
+    vault_dir.mkdir()
+    (vault_dir / "manifest.json").write_text(json.dumps({"schema_version": 1}))
+
+    spec_hash = "f" * 64
+    attempt_id = "20261018T053000-deadbeef12"
+    # Ledger records an interrupted attempt in RUNNING status without completion
+    ledger_file = log_dir / "trial_ledger.jsonl"
+    ledger_file.write_text(json.dumps({
+        "event": "registered",
+        "attempt_id": attempt_id,
+        "candidate_id": "test_interrupted_candidate",
+        "spec_hash": spec_hash,
+        "status": "RUNNING",
+    }) + "\n")
+
+    queue = InboxQueue(inbox, log_dir, vault_root=vault_dir, store=tmp_path / "store")
+    dummy_spec = target / "dummy_spec.yaml"
+    dummy_spec.write_text("dummy: true\n")
+
+    import src.research_control.research_inbox_queue as riq
+    monkeypatch.setattr(queue, "_admit", lambda _: ({"candidate_id": "test_interrupted_candidate", "admitted": True, "source_hash": "a" * 64, "protocol": "cross_sectional", "source_files_sha256": {"thesis.yaml": "a" * 64}, "semantic_id": "test_interrupted_candidate", "source_format": "nested_descriptive"}, {"thesis": "test"}))
+    monkeypatch.setattr(queue, "_find_spec_for_candidate", lambda *a, **k: (dummy_spec, "direct"))
+    monkeypatch.setattr(riq, "_sha", lambda _: "a" * 64)
+    monkeypatch.setattr(riq, "runtime_identity", lambda: "code123")
+
+    class MockSpec:
+        spec_hash = "f" * 64
+        candidate_id = "test_interrupted_candidate"
+        panel_root = str(vault_dir)
+
+    monkeypatch.setattr(riq, "parse_research_spec", lambda _: MockSpec())
+    monkeypatch.setattr(queue, "_preflight", lambda *a, **k: ({"status": "EXECUTABLE", "spec_hash": spec_hash, "spec_file_sha256": "a" * 64, "spec_candidate_id": "test_interrupted_candidate"}, dummy_spec))
+
+    # Runner should NOT execute; it must halt closed in BLOCKED_RECOVERY
+    report = queue.run()
+    case = report["cases"][0]
+    assert case["status"] == "BLOCKED_RECOVERY"
+    assert attempt_id in case["reason"]
+    assert "Unreconciled registered trial" in case["reason"]
+
+
+def test_adaptation_must_declare_the_matching_source_identity(tmp_path):
+    """A spec that merely mentions another thesis is not an adaptation of it."""
+    inbox = tmp_path / "inbox"
+    (inbox / "thesis_a_v1").mkdir(parents=True)
+    (inbox / "thesis_b_v1").mkdir(parents=True)
+    candidates = tmp_path / "candidates"
+    candidates.mkdir()
+    source_a = "a" * 64
+    source_b = "b" * 64
+
+    def adaptation(name, *, source_id, sha):
+        (candidates / name).write_text(yaml.safe_dump({
+            "candidate_id": f"adapt_{name.removesuffix('.yaml')}",
+            "selection_family_id": "family",
+            "thesis": "adaptation",
+            "source_spec_status": "local_adaptation",
+            "panel_root": str(tmp_path / "vault"),
+            "bar_seconds": 3600,
+            "label_horizon_bars": 1,
+            "windows": {
+                "train": {"start": "2023-01-01T00:00:00Z", "end": "2023-02-01T00:00:00Z"},
+                "validation": {"start": "2023-02-01T00:00:00Z", "end": "2023-03-01T00:00:00Z"},
+                "protected": {"start": "2026-01-01T00:00:00Z", "end": "2026-03-01T00:00:00Z"},
+            },
+            "features": [
+                {"name": "carry", "native": "atr", "params": {"period": 12}},
+                {"name": "carry_baseline", "native": "atr", "params": {"period": 24}},
+            ],
+            "signal": "carry",
+            "baseline": "carry_baseline",
+            "allocation": {"atr_feature": "carry", "rebalance_bars": 12},
+            "assumptions": [f"SOURCE_ID={source_id}", f"SOURCE_SHA256={sha}"],
+        }), encoding="utf-8")
+
+    adaptation("bexact.yaml", source_id="repo:research_inbox/thesis_b_v1/thesis.yaml", sha=source_b)
+    adaptation("bwrongpath.yaml", source_id="repo:research_inbox/thesis_a_v1/thesis.yaml", sha=source_b)
+    adaptation("bshaonly.yaml", source_id="repo:research_inbox/thesis_b_v1/thesis.yaml", sha=source_a)
+
+    queue = InboxQueue(inbox, tmp_path / "log", candidates_dir=candidates)
+    found, kind = queue._find_spec_for_candidate("thesis_b_v1", source_b, source_b)
+    assert found is not None and kind == "local_adaptation"
+    assert found.name == "bexact.yaml"
+    # A different candidate must not inherit thesis_b's adaptation.
+    other, _ = queue._find_spec_for_candidate("thesis_a_v1", source_a, source_a)
+    assert other is None
+
+
+def test_adaptation_symlink_escaping_candidates_dir_is_rejected(tmp_path):
+    inbox = tmp_path / "inbox"
+    (inbox / "thesis_c_v1").mkdir(parents=True)
+    candidates = tmp_path / "candidates"
+    candidates.mkdir()
+    outside = tmp_path / "outside.yaml"
+    outside.write_text("candidate_id: thesis_c_v1\n", encoding="utf-8")
+    (candidates / "thesis_c_v1.yaml").symlink_to(outside)
+    queue = InboxQueue(inbox, tmp_path / "log", candidates_dir=candidates)
+    found, _ = queue._find_spec_for_candidate("thesis_c_v1", "c" * 64, "c" * 64)
+    assert found is None
+
+
+def test_completed_direct_run_evidence_is_never_adopted_as_an_inbox_result(tmp_path, monkeypatch):
+    """A direct `quant.py` run is indistinguishable from an inbox run, so the
+    queue must never adopt an existing completed trial; it launches its own."""
+    inbox = tmp_path / "inbox"
+    (inbox / "cand_v1").mkdir(parents=True)
+    (inbox / "cand_v1" / "thesis.yaml").write_text("candidate_id: cand_v1\n", encoding="utf-8")
+    (inbox / "cand_v1" / "brief.md").write_text("# cand_v1\n", encoding="utf-8")
+    log_dir = tmp_path / "log"
+    vault_dir = tmp_path / "vault"
+    vault_dir.mkdir()
+    (vault_dir / "manifest.json").write_text(json.dumps({"schema_version": 1}), encoding="utf-8")
+
+    spec_file = tmp_path / "cand_v1_spec.yaml"
+    spec_file.write_text("candidate_id: cand_v1\n", encoding="utf-8")
+    spec_hash = "e" * 64
+    log_dir.mkdir(parents=True, exist_ok=True)
+    casefile = tmp_path / "direct-run-casefile.json"
+    casefile.write_text(json.dumps({"candidate_id": "cand_v1", "spec_hash": spec_hash,
+                                    "status": "FALSIFIED_STAGE_2"}), encoding="utf-8")
+    import hashlib
+    case_sha = hashlib.sha256(casefile.read_bytes()).hexdigest()
+
+    queue = InboxQueue(inbox, log_dir, vault_root=vault_dir, store=tmp_path / "store")
+    import src.research_control.research_inbox_queue as riq
+    (log_dir / "trial_ledger.jsonl").write_text(json.dumps({
+        "event": "completed", "attempt_id": "direct-run-attempt",
+        "spec_hash": spec_hash, "code_hash": riq.runtime_identity(), "holdout_access": False,
+        "casefile": {"path": str(casefile.relative_to(tmp_path)), "sha256": case_sha},
+    }) + "\n", encoding="utf-8")
+
+    state = {"candidate_id": "cand_v1", "spec_hash": spec_hash, "spec_candidate_id": "cand_v1",
+             "spec_path": str(spec_file), "spec_file_sha256": riq._sha(spec_file),
+             "source_path": str(inbox / "cand_v1"), "source_hash": riq._source_hash(inbox / "cand_v1"),
+             "data_manifest_path": str(vault_dir / "manifest.json"),
+             "data_manifest_sha256": riq._sha(vault_dir / "manifest.json"),
+             "frozen_code_sha256": riq.runtime_identity(),
+             "attempts": [], "holdout_access": False}
+    launched = {}
+
+    def _record_launch(*args, **kwargs):
+        launched["called"] = True
+        raise OSError("launch attempted")
+
+    monkeypatch.setattr(riq.subprocess, "run", _record_launch)
+    result = queue._execute(state, spec_file, 5)
+    assert launched.get("called") is True
+    # It recorded the launch failure honestly instead of adopting the direct run.
+    assert result["status"] == "BLOCKED_EVIDENCE"
+    assert "casefile" not in result
