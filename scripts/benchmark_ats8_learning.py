@@ -105,6 +105,11 @@ CASES: dict[str, dict[str, Any]] = {
         "description": "Event strategy protocol mismatch rejected; no fabricated IC approval",
         "expected_remedy": None,
     },
+    "remedy_eligible_isolation_unavailable": {
+        "expected_action": "inspect_evidence",
+        "description": "ISOLATION_UNAVAILABLE error with verified environment remedy discovered",
+        "expected_remedy": "LSN-20261016-ISOLATION-UNAVAILABLE-REMEDY",
+    },
 }
 
 
@@ -189,6 +194,24 @@ def _populate_lessons(root: Path) -> LessonStore:
         created_at="2026-10-16T12:00:00Z",
     )
     store.save(l4)
+
+    # 5. Verified Remedy Lesson: Bubblewrap isolation unavailable
+    l5 = create_lesson(
+        lesson_id="LSN-20261016-ISOLATION-UNAVAILABLE-REMEDY",
+        knowledge_class="implementation_recipe",
+        trigger="Bubblewrap unprivileged user namespace unavailable in worker environment",
+        error_codes=("ISOLATION_UNAVAILABLE",),
+        affected_scope=("src/engine/isolation.py",),
+        protocol="dual_mode_v1",
+        version_bounds={"ml4t-engineer": "0.1.4"},
+        evidence_ref="docs/audit/ats_native_inbox_admission_20261018.md",
+        root_cause="Container runtime restricts unshare(CLONE_NEWUSER) syscall.",
+        verified_remedy="Run worker with host user namespace or configure kernel.unprivileged_userns_clone=1.",
+        regression_test="tests/test_dual_mode_isolation.py",
+        reviewer="hzminhzz",
+        created_at="2026-10-16T10:00:00Z",
+    )
+    store.save(l5)
 
     return store
 
@@ -403,6 +426,20 @@ def _make_ats8_fixture(root: Path, name: str) -> dict[str, Any]:
         append_trial(root / "run_log", {
             "candidate_id": "candidate-ats", "attempt_id": "attempt-ats-proto",
             "event": "completed", "status": status_code,
+            "spec_hash": "a" * 64, "code_hash": "b" * 64,
+            "casefile": {"path": "dual_mode/candidate-ats/attempt-ats/casefile.json", "sha256": "missing"},
+        })
+        return jobs
+    if name == "remedy_eligible_isolation_unavailable":
+        jobs = _make_fixture(root, "clean_rejection")
+        append_trial(root / "run_log", {
+            "candidate_id": "candidate-ats", "attempt_id": "attempt-ats-iso-rem",
+            "event": "registered", "status": "RUNNING",
+            "spec_hash": "a" * 64, "code_hash": "b" * 64,
+        })
+        append_trial(root / "run_log", {
+            "candidate_id": "candidate-ats", "attempt_id": "attempt-ats-iso-rem",
+            "event": "completed", "status": "ISOLATION_UNAVAILABLE",
             "spec_hash": "a" * 64, "code_hash": "b" * 64,
             "casefile": {"path": "dual_mode/candidate-ats/attempt-ats/casefile.json", "sha256": "missing"},
         })

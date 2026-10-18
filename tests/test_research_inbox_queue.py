@@ -503,3 +503,99 @@ def test_blocked_execution_is_terminal_and_ledger_verified(tmp_path):
                  "admitted": True, "attempts": ["att-1"], "holdout_access": False})
     report = queue.report()
     assert report["counts"]["blocked_execution"] == 1
+
+
+def test_requalification_advances_previously_blocked_candidate_through_one_execution(tmp_path, monkeypatch):
+    inbox = tmp_path / "inbox"
+    target = inbox / "test_requal_candidate"
+    target.mkdir(parents=True)
+    (target / "thesis.yaml").write_text("candidate_id: test_requal_candidate\n")
+    (target / "brief.md").write_text("# Test Requal\nCandidate: `test_requal_candidate`\nhttps://example.com/test\n")
+
+    log_dir = tmp_path / "log"
+    vault_dir = tmp_path / "vaults"
+    vault_dir.mkdir()
+    queue = InboxQueue(inbox, log_dir, vault_root=vault_dir, store=tmp_path / "store")
+
+    # Save a prior BLOCKED_DATA state with stale code version
+    queue._save({
+        "candidate_id": "test_requal_candidate",
+        "status": "BLOCKED_DATA",
+        "code_version": "stale_code_000000",
+        "source_hash": "mock_source_hash",
+        "source_format": "legacy_flat_handoff",
+        "attempts": [],
+        "holdout_access": False,
+    })
+
+    fake_spec_file = tmp_path / "spec.yaml"
+    fake_spec_file.write_text("spec_hash: 123\n")
+
+    manifest_file = vault_dir / "index_1h" / "manifest.json"
+    manifest_file.parent.mkdir(parents=True, exist_ok=True)
+    manifest_file.write_text('{"status": "MOCK"}')
+
+    execute_calls = []
+
+    def fake_admit(directory):
+        return ({"candidate_id": directory.name, "source_hash": "mock_source_hash",
+                 "semantic_id": directory.name, "admitted": True,
+                 "source_format": "legacy_flat_handoff", "protocol": "cross_sectional",
+                 "required_adaptations": [], "holdout_access": False},
+                {"candidate_id": directory.name})
+
+    def fake_preflight(info, doc, directory):
+        return ({**info, "status": "EXECUTABLE", "spec_hash": "a" * 64,
+                 "spec_file_sha256": "b" * 64, "frozen_code_sha256": "c" * 64},
+                fake_spec_file)
+
+    def fake_execute(state, spec_path, seconds):
+        execute_calls.append(state["candidate_id"])
+        return queue._save({
+            **state,
+            "status": "DEVELOPMENT_QUALIFIED",
+            "casefile": str(tmp_path / "mock_casefile.json"),
+            "casefile_sha256": "d" * 64,
+            "native_evidence_verified": True,
+            "holdout_access": False,
+        })
+
+    class MockSpec:
+        panel_root = str(vault_dir / "index_1h")
+
+    monkeypatch.setattr(queue, "_admit", fake_admit)
+    monkeypatch.setattr(queue, "_preflight", fake_preflight)
+    monkeypatch.setattr(queue, "_execute", fake_execute)
+    import src.research_control.research_inbox_queue as riq
+    monkeypatch.setattr(riq, "parse_research_spec", lambda _: MockSpec())
+
+    # First run: advances previously blocked candidate through execution
+    report1 = queue.run()
+    assert report1["counts"]["native_runs"] == 1
+    assert len(execute_calls) == 1
+    state1 = queue._load("test_requal_candidate")
+    assert state1["status"] == "DEVELOPMENT_QUALIFIED"
+    assert state1["prior_status"] == "BLOCKED_DATA"
+
+    # Second run (idempotency): does NOT re-execute
+    monkeypatch.setattr(queue, "_native_verify", lambda *a, **k: {})
+    monkeypatch.setattr(riq, "_sha", lambda _: "d" * 64)
+    report2 = queue.run()
+    assert report2["counts"]["native_runs"] == 1
+    assert len(execute_calls) == 1  # exactly one execution, never duplicated
+
+
+def test_unsupported_event_protocol_remains_blocked(tmp_path):
+    inbox = tmp_path / "inbox"
+    target = inbox / "audusd_policy_carry_cfd_v1"
+    target.mkdir(parents=True)
+    (target / "thesis.yaml").write_text("candidate_id: audusd_policy_carry_cfd_v1\n")
+    (target / "brief.md").write_text("# AUDUSD\nCandidate: `audusd_policy_carry_cfd_v1`\nhttps://example.com\n")
+
+    queue = InboxQueue(inbox, tmp_path / "log")
+    info = {"candidate_id": "audusd_policy_carry_cfd_v1", "protocol": "single_instrument_event",
+            "source_path": str(target), "source_hash": "a" * 64, "required_adaptations": []}
+    ready, spec_path = queue._preflight(info, {}, target)
+    assert spec_path is None
+    assert ready["status"] == "BLOCKED_PROTOCOL"
+    assert "General single-instrument event execution is not a qualified ATS-4 factory protocol" in ready["reason"]

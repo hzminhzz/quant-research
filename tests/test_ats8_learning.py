@@ -346,13 +346,12 @@ def test_real_historical_regressions_execute_and_pass():
 
 def test_benchmark_ats8_runs_and_passes(tmp_path: Path):
     """Test full execution of the independent ATS-8 benchmark harness with trace persistence."""
+    from scripts.benchmark_ats8_learning import CASES
     result = benchmark_corpus(samples=1, output_dir=tmp_path / "bench_run")
-    assert result["fixture_count"] == 14
+    assert result["fixture_count"] == len(CASES)
     assert result["all_critical_correct"] is True
-    # Correctly choosing "inspect" is not a successfully applied remedy.
-    # This corpus has no remedy-positive fixture, so 14/14 would be misleading.
-    assert result["summary"]["remedy_eligible_fixture_count"] == 0
-    assert result["summary"]["remedy_success_rate"] == "NOT_EXERCISED (0/0)"
+    assert result["summary"]["remedy_eligible_fixture_count"] == 1
+    assert result["summary"]["remedy_success_rate"] == "1/1"
     assert (tmp_path / "bench_run/report.json").is_file()
 
     # CLI main execution

@@ -74,30 +74,32 @@ Two defensible exemplars were evaluated through the native runtime without simul
 
 ---
 
-## 4. Benchmark Performance vs. Baseline
+## 4. Benchmark Performance vs. Baseline (ATS-8)
 
-Ran `scripts/benchmark_ats8_learning.py` against 14 standard test fixtures (3 samples each = 42 total executions):
+Ran `scripts/benchmark_ats8_learning.py` against 15 test fixtures (3 samples each = 45 total executions), including the remedy-eligible `remedy_eligible_isolation_unavailable` fixture and verified lesson `LSN-20261016-ISOLATION-UNAVAILABLE-REMEDY`:
 
 | Metric | Baseline Raw | Managed No-Learning | Managed With Learning |
 | :--- | :---: | :---: | :---: |
-| **All Critical Correct** | True | True | **True (14/14)** |
-| **Median Tool Calls** | 107 | 18 | **33** |
-| **Median Context Bytes** | 390,652 B | 56,489 B | **56,489 B** |
+| **All Critical Correct** | True | True | **True (15/15)** |
+| **Median Tool Calls** | 116 | 19 | **37** |
+| **Median Context Bytes** | 395,712 B | 61,019 B | **61,915 B** |
+| **Remedy-Eligible Coverage** | 0/0 | 0/0 | **100.0% (1/1)** |
 | **Stale Advice Rejection** | N/A | N/A | **100.0% (6/6)** |
 | **Incompatible Version Rejection** | N/A | N/A | **100.0% (6/6)** |
+| **Trace Artifact** | — | — | `run_log/ats8/benchmark/20261018T042056Z-de2ad692/report.json` |
 
 ---
 
 ## 5. Unresolved Scientific & External Dependencies
 
 1. **Intraday CFD Stop Qualification**: Native `ml4t-backtest==0.1.7` requires an intrabar quote-depth and gap-execution adapter before single-instrument hourly stop breakout strategies (such as BTA NQ) can execute Stage 3.
-2. **28-Day Paper Observation**: Background service `ats7-local-paper@observation-v1.service` (PID 300960) has run ~19 hours of its mandatory 28-day window (started 2026-10-17 06:38 UTC; earliest elapsed completion 2026-11-14 06:38 UTC).
+2. **ATS-7 Operational Incident & Observation Reset**: As audited in `docs/audit/ats7_incident_20261018.md`, `ats7-local-paper@observation-v1.service` suffered a cgroup OOM kill (status 137) and burst restart loop under host memory pressure at 05:06 CEST, latching the kill switch. Total accepted observation was 77,782.79 s (~21.6 hours) across 1,229 completed bars (94.83% coverage). The unbroken 28-day window is **NOT SATISFIED** and requires an observation clock reset to `observation-v2` after swap/cgroup memory remediation.
 3. **External Broker Authority**: Live trading, live account purchases, and mutating live order endpoints remain strictly barred.
 
 ---
 
 ## 6. Qualification Verdict
 
-- **Research Qualification**: **QUALIFIED** (Four-stage factory, development-only holdout sealing, causal truncation, native diagnostic evaluation, and trial ledger append-only accounting function end-to-end).
-- **Paper Qualification**: **PARTIALLY_QUALIFIED** (Local synthetic paper lifecycle qualified; external provider demo execution awaiting release authorization; 28-day continuous observation in progress).
-- **Live Qualification**: **UNQUALIFIED / BLOCKED** (No live authority granted, no completed 28-day paper observation, no live broker order approval).
+- **Research Qualification**: **QUALIFIED** (Four-stage factory, development-only holdout sealing, causal truncation, native diagnostic evaluation, and trial ledger append-only accounting function end-to-end; 774/774 unit regressions pass).
+- **Paper Qualification**: **INTERRUPTED / RESET REQUIRED** (Local synthetic paper lifecycle qualified; 28-day continuous observation interrupted by cgroup OOM kill at ~21.6 hours; observation reset required; external provider demo execution awaiting release authorization).
+- **Live Qualification**: **UNQUALIFIED / BLOCKED** (No live authority granted, 28-day paper observation broken, no live broker order approval).

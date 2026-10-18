@@ -332,8 +332,8 @@ class LessonStore:
         include_superseded: bool = False,
         include_invalid: bool = False,
     ) -> list[LessonQueryResult]:
-        """Deterministic query for lessons strictly conditional on an observed failure error code."""
-        if not error_code or not error_code.strip():
+        """Deterministic query for lessons relevant to an error, scope, or protocol."""
+        if not any((error_code, scope_path, protocol)):
             return []
         results: list[LessonQueryResult] = []
 
@@ -349,12 +349,14 @@ class LessonStore:
             )
 
             score = 0
-            # Match on error code
+            # Match on error code (if error_code supplied, it must match)
             if error_code:
                 if error_code in lesson.error_codes:
                     score += 5
                 elif any(error_code.lower() in ec.lower() for ec in lesson.error_codes):
                     score += 2
+                else:
+                    continue
 
             # Match on affected scope
             if scope_path:

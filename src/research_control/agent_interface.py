@@ -23,9 +23,9 @@ from src.research_control.job_inspector import observe_jobs
 SCHEMA = "ats-read-v1"
 _HEX = re.compile(r"^[0-9a-f]{64}$")
 _TERMINAL = {"FALSIFIED_STAGE_2", "FALSIFIED_STAGE_3", "HOLDOUT_EVALUATED",
-             "ENGINEERING_ERROR", "BLOCKED_DATA", "INCONCLUSIVE_STAGE_3",
-             "INVALID_EVIDENCE", "INVALID_SPEC", "INVALID_ALLOCATION",
-             "ISOLATION_UNAVAILABLE", "HOLDOUT_DENIED"}
+             "ENGINEERING_ERROR", "BLOCKED_DATA", "BLOCKED_EXECUTION",
+             "INCONCLUSIVE_STAGE_3", "INVALID_EVIDENCE", "INVALID_SPEC",
+             "INVALID_ALLOCATION", "ISOLATION_UNAVAILABLE", "HOLDOUT_DENIED"}
 _EXPECTED_STAGE = {"FALSIFIED_STAGE_2": 2, "FALSIFIED_STAGE_3": 3,
                    "HOLDOUT_EVALUATED": 3}
 _MAX_ARTIFACT = 64 * 1024 * 1024
@@ -372,9 +372,10 @@ def inspect_case(
                          "authority": "trial_ledger.jsonl"})
     engineering_blockers = sorted({v["status"] for v in observations
                                    if v["status"] in {"ENGINEERING_ERROR", "BLOCKED_DATA",
-                                                       "INCONCLUSIVE_STAGE_3", "INVALID_EVIDENCE",
-                                                       "INVALID_SPEC", "INVALID_ALLOCATION",
-                                                       "ISOLATION_UNAVAILABLE", "HOLDOUT_DENIED"}})
+                                                       "BLOCKED_EXECUTION", "INCONCLUSIVE_STAGE_3",
+                                                       "INVALID_EVIDENCE", "INVALID_SPEC",
+                                                       "INVALID_ALLOCATION", "ISOLATION_UNAVAILABLE",
+                                                       "HOLDOUT_DENIED"}})
     if engineering_blockers:
         unknowns.append({"reason_code": "ENGINEERING_OR_DATA_BLOCKER",
                          "statuses": engineering_blockers,

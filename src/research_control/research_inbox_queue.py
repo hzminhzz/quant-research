@@ -812,6 +812,7 @@ class InboxQueue:
                 if max_candidates is not None and processed >= max_candidates:
                     break
                 name = info["candidate_id"]
+                reconsidered_spec: Path | None = None
                 try:
                     previous = self._load(name)
                 except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
@@ -862,6 +863,7 @@ class InboxQueue:
                             if materialized and "materialized_development_vaults" not in previous:
                                 update["materialized_development_vaults"] = materialized
                             current_code = runtime_identity()
+                            reconsidered_spec = None
                             if previous.get("code_version") and previous["code_version"] != current_code:
                                 ready, spec_path = self._preflight(info, doc, candidate)
                                 if ready["status"] != previous["status"]:
@@ -872,15 +874,24 @@ class InboxQueue:
                                         "reconsidered_utc": _now(),
                                     })
                                     if spec_path is not None:
-                                        pass
+                                        reconsidered_spec = spec_path
+                                        next_state = previous
                                     else:
                                         continue
-                            if update:
-                                self._save({**previous, **update})
-                            continue
+                                else:
+                                    if update:
+                                        self._save({**previous, **update, "code_version": current_code, "reconsidered_utc": _now()})
+                                    continue
+                            else:
+                                if update:
+                                    self._save({**previous, **update})
+                                continue
+                            if reconsidered_spec is None:
+                                continue
                         else:
                             continue
                 else:
+                    reconsidered_spec = None
                     previous = self._save({**info, "status": "THESIS_CAPTURED" if info.get("source_format") in {"nested_descriptive", "flat_descriptive"} else "ADMITTED" if doc else "BLOCKED_HANDOFF",
                                            "attempts": [], "holdout_access": False})
                 if doc is None:
@@ -911,11 +922,17 @@ class InboxQueue:
                                 "triage_status": "BLOCKED", "holdout_access": False})
                     processed += 1
                     continue
-                ready, spec_path = self._preflight(info, doc, candidate)
-                next_state = self._save({**previous, **ready, "attempts": previous.get("attempts", [])})
-                if spec_path is None:
-                    processed += 1
-                    continue
+                if previous.get("status") not in TERMINAL:
+                    ready, spec_path = self._preflight(info, doc, candidate)
+                    next_state = self._save({**previous, **ready, "attempts": previous.get("attempts", [])})
+                    if spec_path is None:
+                        processed += 1
+                        continue
+                else:
+                    if reconsidered_spec is None:
+                        continue
+                    spec_path = reconsidered_spec
+                    next_state = previous
                 spec = parse_research_spec(spec_path)
                 panel_root = Path(getattr(spec, "panel_root", REPO / "data/vault/markets_20261015/index_1h"))
                 manifest = panel_root / "manifest.json"
