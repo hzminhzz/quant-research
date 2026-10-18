@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "candidate_id": "donchian_btc:BINANCE_BTCUSDT_PERP_DAILY_V1",
+  "frozen_before_new_outcome_review": true,
+  "source_files": [
+    {"path": "promote/donchian_btc/README.md", "sha256": "d2e6d74b2c21c9fba08adaf0d7b74763cd675b0e4da313677303bcfb815f47c8"},
+    {"path": "promote/donchian_btc/STATUS.md", "sha256": "10fdd54ed14b5d7f861a8989f925bbe820a782fd13737409fde2eff57762055a"},
+    {"path": "promote/donchian_btc/strategy.yaml", "sha256": "bc5e0bf4f070a21eba3be0d2dd839bcb895e36a7047f3fd8d468a368bbc4be4e"},
+    {"path": "promote/donchian_btc/audits/evidence.md", "sha256": "8a69ef5a5bb6f8344623ada931a421dff8e5389e3f7ba9b1579276ea336fe51d"},
+    {"path": "promote/donchian_btc/provenance/data_manifest.json", "sha256": "0ef142e8281a77be21035c31b47451372af725bb671bd3059e8ed6b0dafef985"},
+    {"path": "promote/donchian_btc/provenance/manifest.json", "sha256": "63771983d3f111200e26e801016ca092aa8708f76b7c19e8ce5343dd2b0be9e6"},
+    {"path": "promote/donchian_btc/reports/native_summary.json", "sha256": "c6fb4f24d4cdeaa0e218935a142221c441f93fe83b41fad3bc510c6f8d488a13"},
+    {"path": "promote/donchian_btc/reports/cost_stress.json", "sha256": "7992d7c35dd3bfe9d4363d08ae6967752a744d646d00e05fc8de2e839cd708da"},
+    {"path": "docs/audit/allocation_btc_funding_resolve_20261014.md", "sha256": "32d58085c59c6836c5cad2f25bd0b852f2f7b110eabf0db6b684a15de0dec9e5"},
+    {"path": "run_log/allocation_prerequisites_20261014/btc/funding_repair_summary.json", "sha256": "3a78c959a6d475aa4b904d280f17dfe3e0ac9f3bfdea045b0a73d7dfab5c92c7"},
+    {"path": "run_log/allocation_prerequisites_20261014/btc/funding_repair_independent_verification.json", "sha256": "f7ce49b6dacd3a7e5ff45a3aac8194c71e83388bd3b8037a4d7c01ba0ad869fe"}
+  ],
+  "verdict": "INCONCLUSIVE_MARGIN_LIQUIDATION_AND_EXACT_FUNDING",
+  "archival_native_evidence": {
+    "status": "VERIFIED_ARCHIVE_NOT_NEW_RESULT",
+    "period": ["2019-09-09", "2026-10-11"],
+    "total_return_pct": "208.17764652769247",
+    "sharpe_252": "0.6826125485292357",
+    "max_drawdown_pct": "-25.06819822071595",
+    "fills": 2506,
+    "closed_rebalance_events": 1102,
+    "selection_family_known_trials": 7,
+    "author_trial_count": "UNKNOWN"
+  },
+  "funding_overlay": {
+    "status": "VERIFIED_EXPLORATORY_FIXED_FILL_OVERLAY_NOT_NATIVE_INTEGRATED",
+    "period": ["2019-09-09", "2024-12-31"],
+    "formula": "-signed_position_btc * settlement_or_proxy_mark_usdt * funding_rate",
+    "position_clock": "strictly_before_scheduled_settlement_excludes_same_slot_fills",
+    "events": 5819,
+    "exact_settlement_marks": 1283,
+    "eight_hour_mark_close_proxies": 4223,
+    "local_perpetual_minute_proxies": 313,
+    "total_cashflow_usdt": "-47096.83",
+    "booked_by_final_native_snapshot_usdt": "-47090.99",
+    "funding_adjusted_final_equity_usdt": "268587.50",
+    "exact_2025_2026": false
+  },
+  "annualization": {
+    "native_archive_periods_per_year": 252,
+    "continuous_crypto_comparison_periods_per_year": 365,
+    "requires_continuous_daily_net_equity_returns": true
+  },
+  "predeclared_reduced_risk_scenario": {
+    "name": "HALF_ORIGINAL_TARGET_AND_LEVERAGE_CAP",
+    "volatility_target_annual": "0.125",
+    "max_target_leverage": "1.0",
+    "status": "NOT_EXECUTED_NO_FUNDING_INTEGRATED_LIQUIDATION_QUALIFIED_ENGINE",
+    "not_a_search": true
+  },
+  "barriers": [
+    "FUNDING_OVERLAY_DOES_NOT_FEED_BACK_TO_SIZING_OR_FILLS",
+    "EXACT_SETTLEMENT_MARKS_UNAVAILABLE_FOR_4536_DEVELOPMENT_EVENTS",
+    "NO_EXACT_2025_2026_FUNDING_QUALIFICATION",
+    "NO_MAINTENANCE_MARGIN_OR_LIQUIDATION_MODEL",
+    "NO_QUALIFIED_SPREAD_OR_MARKET_IMPACT",
+    "HISTORY_THROUGH_2026_ALREADY_EXPOSED",
+    "LINEAR_RISK_RESCALING_CANNOT_PROVE_ACCOUNT_SURVIVAL"
+  ]
+}
