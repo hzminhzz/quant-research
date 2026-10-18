@@ -1,0 +1,40 @@
+identity:
+  candidate_id: crypto_xs_adaptivetrend_6h_sharpe_7030_20261018_v1
+  selection_family_id: adaptive_6h_trend_with_monthly_sharpe_asset_gates
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Systematic Trend-Following with Adaptive Portfolio Construction: Enhancing Risk-Adjusted Alpha in Cryptocurrency Markets"
+      authors: Duc Bui and Thanh Nguyen
+      publication_date: "2026-02-12"
+      url: https://arxiv.org/html/2602.11708
+      evidence_scope: Full author methodology HTML Sections 3-6
+economic_thesis:
+  mechanism: H6 momentum persistence controlled by realized-range trailing stops, combined with monthly trailing strategy-Sharpe asset filtering and asymmetric long-short investment.
+  source_claimed_strategy: "At each 6h close use return from L candles to enter long on positive threshold or short on negative threshold; manage trailing ATR stop. At month start select from top-15 market-cap coins for longs and bottom-K_S for shorts; tune entry, stop and lookback on preceding month, admit long asset if in-sample Sharpe >= 1.3 and short if >= 1.7. Allocate 70 percent long and 30 percent short, equal weight within each leg."
+markets_and_data:
+  instruments: "Binance Futures perpetual swaps, author's 150+ pairs; CoinGecko daily market capitalization"
+  timeframe: "6h signal decisions, monthly selection, multiple H6 bars position hold"
+  data_requirements: "PIT CoinGecko market-cap historical vintages, delisted contracts, Binance 6h bars, orderbook/5m volumes for author-specific slippage calibration"
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  long_selection: "Top K_L=15 by monthly market cap; filter preceding-month optimized per-coin Sharpe >= 1.3; enter on MOM=(P_t-P_t-L)/P_t-L > theta_entry"
+  short_selection: "Bottom K_S by monthly market cap (K_S numeric value UNKNOWN); filter preceding-month optimized per-coin Sharpe >= 1.7; enter on MOM < -theta_entry_short"
+  basket_construction: "70 percent long, 30 percent short; equal capital weights within each selected side; this is NET-LONG, not dollar neutral."
+  risk_management: "Long trailing stop max(previous_stop, close-alpha*ATR_k); mirrored short-side stop operation requires exact source verification; monthly grid selection."
+  signal_and_execution_clock: "Source algorithm says open at signal close P_t; potential same-bar fill/lookahead ambiguity UNRESOLVED."
+  exits_sizing_costs: "6h close/trailing stop; author models 4-bp taker commission, volume-dependent slippage and observed 8h funding cashflow as COST, not alpha. Exact short stop logic, K_S, grid and margin still UNKNOWN."
+  unresolved_blockers: "Cross-sectional spot-on-time cap history, shorts on thin low-cap futures, optimizer leakage, same-close order assumption, short stop exact formula and future available-data dates need scrutiny. Source Figure 1 mentions through October 2025 despite declared OOS ending December 2024."
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: 2022-2024 OOS Sharpe 2.41, maximum drawdown -12.7 percent, 150+ contracts; claims not independently reproduced."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "As-of universe and next-event trading invalidate net risk-adjusted advantage after realistic crypto perp commissions, spread, slippage and financing."
+scientific_integrity:
+  contrary_evidence: "Fieberg et al. (2024) report momentum alpha concentrates in short legs and loses 26-53 percent to costs; https://doi.org/10.1016/j.irfa.2024.103218"
+  novelty: "Monthly strategy-Sharpe conditional entry screening coupled with H6 volatility trailing stops and explicit 70/30 allocation differs from generic single-factor momentum or 1h trend."
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

@@ -1,0 +1,44 @@
+identity:
+  candidate_id: crypto_xs_predictability_sort_guidolin_ionta_20261018_v1
+  selection_family_id: historical_factor_predictability_rank_not_raw_factor_rank
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Predictive sorting of cryptocurrencies based on fundamentals and sentiment"
+      authors: "Massimo Guidolin; Serena Ionta"
+      publication_date: "2026-03"
+      journal: "Journal of International Financial Markets, Institutions and Money, volume 107, article 102285"
+      url: https://doi.org/10.1016/j.intfin.2026.102285
+      evidence_scope: "Original open access publisher full-text abstract and sections 4.3, Table 5 and Table 10, plus Bocconi institutional metadata; author estimates unreplicated"
+economic_thesis:
+  mechanism: "The historical forecastability of one coin's returns from shared blockchain network-activity, computing-intensity and attention factors differs across coins and persists long enough for a cross-sectional selection of forecastable versus less-forecastable coins. A portfolio is sorted on PAST measured forecasting success, not today's raw factor level or generic momentum."
+  source_claimed_strategy: "Paper forms weekly factor-mimicking portfolios from blockchain Users, Hashrate and Google Trends sentiment (and ex-BTC alternatives), estimates sequential out-of-sample forecasting success per coin via R2_OOS and certainty-equivalent returns (CER), and each month ranks the 40 crypto coins on cumulative earlier historical predictability for each predictor. Original long top 20 coins above median predictive accuracy and short bottom 20, reconstitute monthly; source enumerates 8 predictor definitions x 2 scoring criteria = 16 separate portfolio sequences, not one selected combined signal."
+markets_and_data:
+  product_venue: "Crypto spot/reference return universe including major PoW and non-PoW assets; executable derivative venue and broker/prop coin symbols NOT SPECIFIED."
+  timeframe: "Source fundamental factor returns and predictions measured weekly; relative predictability rank updated monthly. No source 5m/15m/1h execution rule."
+  sample: "Initial five PoW (BTC, ETH, LTC, XMR, DASH) Aug 2015-Apr 2025, expanded panel 40 cryptocurrencies; paper reports weekly 2018-Apr 2025 panel with coin-specific availability exceptions."
+  data_requirements: "Historical as-of per-chain active-user counts, hashrate, Google Trends search series and revised-release/vintage flags; factor-mimicking portfolios including ex-BTC variant; per-symbol weekly historical returns and prior expanding/rolling OOS forecast errors; full available coin universe and delisting rules."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  source_predictors: "Three common factor-mimicking predictors: network users, hashing power, Google-search attention, built from blockchain/social data; also ex-BTC versions; Bitcoin standalone and Momentum standalone, eight separate predictor sources in total."
+  ranking_metric: "For EACH source predictor independently, evaluate per-coin predictive success across the past chronological OOS forecast history: cumulative out-of-sample R-squared R2_OOS OR certainty equivalent returns (CER), updated through prior month only."
+  long_selection: "Original long the 20 of 40 crypto assets ABOVE median realized prior OOS predictor success for a given score and predictor."
+  short_selection: "Original short the 20 of 40 BELOW median predictor success, not the 20 worst contemporaneous returns."
+  basket_construction: "Source median split of 40 coins 20/20, long-short return spread, reconstituted monthly based on accumulated PAST predictability; no explicit broker leverage/margin/drawdown restrictions or execution fill proof."
+  signal_and_execution_clock: "Weekly return prediction and sequential OOS score; monthly ranking at month boundary based on completed earlier predictions; exact next tradable venue event, orders and settlement UNKNOWN."
+  original_variant_family: "Sixteen source sort portfolio variations: 8 predictors x 2 scores (R2_OOS or CER); author publication itself exposes model-selection and multiple-comparison dependence. Combined forecasts studied separately; must not conflate with a single source strategy."
+  cost_assumptions: "Historical short availability, spreads, slippage, swap/financing, capacity and turnover-adjusted net return for prop derivatives UNKNOWN."
+  unresolved_blockers: "No source-equivalent archival Google Trends/chain activity/hashrate vintage; 40-coin historical portfolio completeness and coin-level leverage permissions unknown; rolling OOS prediction ordering/selection and exact executable next-event fill need replication."
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: author reports positive weekly alpha for selected predictor/score baskets; Table 10 combined-factor R2_OOS-sorted weekly alpha 0.67% (p-value 0.00) with momentum R2_OOS-sorted -0.14% (p=0.44). The selected comparison is in-sample to the publication's method selection and is NOT independent local after-cost Sharpe."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "When real as-of blockchain/Google vintages, sequential historical OOS score computation and shortable PIT instruments are required, predictability ranks are unstable or resulting net basket returns cannot survive realistic turnover/fees/financing."
+scientific_integrity:
+  contrary_evidence: "Predictive score selection is nested OOS-history reuse: ranking on what previously forecast well can overfit forecasters; 16 published variations magnify selection risk. Hashrate may not map to PoS and Google Trends backfilled/revised normalization may violate PIT."
+  novelty: "Meta-cross-sectional selection by prior PER-COIN FACTOR FORECASTABILITY, not raw momentum, residual beta, sentiment attention rank or generic supervised score; check against general ML HMM/FactorVAE sources before later executable handoff."
+  adaptation_proposal: "Future 1h/perpetual strategy would be DISTINCT UNTESTED adaptation; do not claim original paper traded 1h derivatives or a prop-account compatible broker basket."
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

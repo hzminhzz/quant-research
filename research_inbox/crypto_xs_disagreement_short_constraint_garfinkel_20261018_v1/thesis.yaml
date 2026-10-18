@@ -1,0 +1,45 @@
+identity:
+  candidate_id: crypto_xs_disagreement_short_constraint_garfinkel_20261018_v1
+  selection_family_id: short_sale_constrained_abnormal_turnover_disagreement
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Disagreement and returns: The case of cryptocurrencies"
+      authors: "Jon A. Garfinkel; Lawrence Hsiao; Danqi Hu"
+      first_publication_date: "2025-01-09"
+      publication: "Financial Management 54(3), pages 633-672"
+      url: https://doi.org/10.1111/fima.12491
+      evidence_scope: "Open original Wiley full text, data/methods sections 2.1-2.2, portfolio section 3.1 Table 2, constraint section 3.6 and conclusion; no local replication"
+economic_thesis:
+  mechanism: "When bearish disagreement cannot enter the price because short sales are constrained, a sudden asset-local turnover spike proxies disagreement-driven overpricing, which resolves through weaker subsequent buying and lower future return; effect should vanish once spot margin shorting becomes available."
+  source_claimed_strategy: "SOURCE PORTFOLIO STUDY, NOT VERIFIED EXECUTABLE TRADE: each UTC day rank contemporaneous eligible coins by previous-day standardized abnormal spot turnover DISAGREE; form equal-weight quintiles Q1 lowest to Q5 highest; report following-day excess return of each and Q5 minus Q1. The paper finds Q5 minus Q1 negative under binding short-sale constraints; it does not document that Q5 can actually be borrowed or shorted. Inverting the reported Q5-Q1 research spread would be a DISTINCT hypothetical long-low/short-high implementation, not an originally feasible source trade."
+markets_and_data:
+  product_venue: "Binance.com spot BTC-quoted pairs (converted to USD using BTCUSD), historical trade/price from CoinAPI; NOT Binance USDT perpetuals."
+  timeframe: "Hourly raw prices aggregated to UTC daily; daily signal and next-day cross-sectional analysis. No original 5m/15m/1h long-short execution."
+  sample: "July 1 2018-Dec 31 2021 source data, eligible analysis Aug 1 2018-Dec 31 2021, 356 different base coins over full sample; cross-section grows over time."
+  universe_eligibility: "At least one month after Binance spot listing, exclude levered tokens and missing OHLC/volume, market cap >= USD 1m at end of PREVIOUS month; each base coin included once via BTC-quoted pair."
+  data_requirements: "Per-coin as-of circulating supply and past-month market cap from CoinMarketCap, daily Binance BTC-quote spot volume with exact base-unit convention, full listing/removal history, historical coin-by-coin Binance spot margin activation dates and short feasibility."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  source_signal: "Turnover_i,t=daily base-asset trading volume_i,t / circulating_supply_i,t. DISAGREE_i,t=[Turnover_i,t - mean(Turnover_i,t-30:t-1)] / std(Turnover_i,t-30:t-1). Use information as of prior completed UTC day for next-day portfolio sorts."
+  source_basket: "Equal-weight quintiles sorted daily on preceding-day DISAGREE; source long-minus-short displayed as Q5 minus Q1 return DIFFERENCE, reported as an empirical anomaly, not an executable shorted basket."
+  long_selection: "Source Q1 group is bottom 20 percent of DISAGREE (a measurement portfolio). Hypothetical buy-low/short-high implementation is not claimed original."
+  short_selection: "Source Q5 group is top 20 percent of DISAGREE (a measurement portfolio); paper says this side was especially constrained from spot shorting. Do not infer executable short eligibility."
+  holding_clock: "Prior-day finished DISAGREE sort, study next-day excess return. No source exchange order type, future bar fill, borrow availability or daily risk limits."
+  costs_and_position_limits: "Source portfolio sort is not a documented fee/slippage/borrow/financing/prop-account-ready strategy. No made-up bps, leverage or stops."
+  original_constraint_test: "The abnormal-volume/next-day-return relationship weakens or disappears following the particular coin's Binance margin-trading activation; asset-level short-sale constraint is explanatory, not a financing alpha."
+  unresolved_blockers: "Per-asset short inventory and changing margin eligibility; as-of supply/vintage and delisted tokens; 2018-2021 BTC-pair volume identity; no equivalent prop-firm instrument universe; unknown fill/borrow/fees."
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: Q1 mean 0.542 percent/day, Q5 0.044 percent/day, Q5-Q1 -0.498 percent/day (Table 2); controlled regression -0.319 percent next-day per one-sigma DISAGREE when short-sale constraints bind; effect disappears after margin activation. These are not net live profits, not local OOS or Sharpe."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "Under contemporary shortable derivatives and next-day execution, disagreement rank effect vanishes as predicted by the original spot-market short-sale constraint explanation."
+scientific_integrity:
+  contradiction_to_tradability: "THE KEY EFFECT IS PRESENT WHEN SHORTING THE OVERPRICED COIN IS CONSTRAINED; the study's negative high-minus-low return spread is not automatically capturable by a long-short prop account."
+  known_adverse: "Spot study period 2018-2021 may not generalize to mature perpetual venues. Circulating supply is needed to distinguish normalized turnover from plain OHLCV volume. Historical listing and margin availability events need point-in-time validation."
+  novelty: "Interaction of within-coin abnormal turnover with asset-specific historical short-sale constraints, unlike existing generic coin-volume/illiquidity/volatility ranks."
+  adaptation_proposal: "DISTINCT UNTESTED PROPOSAL ONLY: explore a shortable perpetual long-low/short-high basket after testing that the mechanism survives removal of original short-sale barriers; NOT a source-verified executable strategy."
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0
