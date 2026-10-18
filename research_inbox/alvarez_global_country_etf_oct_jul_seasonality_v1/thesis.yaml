@@ -1,0 +1,76 @@
+candidate_id: alvarez_global_country_etf_oct_jul_seasonality_v1
+selection_family_id: global_equity_country_etf_calendar_seasonality
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: alvarez_2024_sell_in_august
+    author: Cesar Alvarez
+    publication_date: "2024-06-12"
+    title: "Sell in August and Go Away"
+    primary_https_url: "https://alvarezquanttrading.com/blog/sell-in-august-and-go-away/"
+    cited_sections: "Rules; 1997-2011 Results; 2012-2023 Results; Final Thoughts"
+    original_context: "Re-examination of Jay Kaeppel's global equity seasonality idea in Technical Analysis of Stocks & Commodities, November 2019; original Kaeppel article was not independently read."
+economic_thesis:
+  local_hypothesis: "Country-equity ETF seasonality may have changed its effective exit month across macro regimes; the historical shift from an April to a July exit might reflect changing seasonal risk premia, but this is unverified."
+  economic_null: "After correcting for market beta, selection across entry/holding-month combinations, changing ETF availability, and executable costs, no persistent out-of-sample benefit remains."
+mechanism:
+  source_observation: "The author found different month-exit rankings in two historical periods and speculated that shorter bear markets or Federal Reserve policy might explain the difference."
+  causal_counterparty: "UNKNOWN; the author did not identify an observable paying flow or establish causality."
+instruments:
+  original_product: "Country equity ETFs: EWA, EWC, EWD, EWG, EWH, EWI, EWJ, EWK, EWL, EWM, EWN, EWO, EWP, EWQ, EWS, EWU, EWW; plus SPY comparator."
+  market: "US-listed country equity ETFs and SPY, as directly studied"
+  adaptations: "NONE; not mapped to CFD, futures or crypto"
+data_requirements:
+  required: "As-of historically available ETF prices, dividend/split treatment, actual exchange last trading day and close, delisting/inception history, executable bid/ask and fees."
+  availability: "UNKNOWN for local system"
+feature_contracts:
+  source_observed_inputs:
+    - "Calendar entry month X, evaluated from 1 through 12."
+    - "Holding months Y, evaluated at 3, 6 and 9 in public tables; downloadable spreadsheet discussed for Y=1 through 11."
+  free_parameters: "Not selected or optimized by this capture."
+strategy_rules:
+  source_original_rules:
+    - "For each listed ETF, buy at the CLOSE on the last trading day of entry month X."
+    - "Sell at the CLOSE on the last trading day of the month after Y elapsed calendar months."
+    - "Compared October-close entry with April-close exit (6-month holding) versus October-close entry with July-close exit (9-month holding), versus buy and hold."
+  selection_warning: "July exit is a source-reported historical winner for 2012-2023, not an independently preregistered alpha rule."
+  position_sizing: "UNKNOWN. Author reports per-ETF comparisons, not a specified multi-ETF portfolio."
+  missing_execution: "Same-close order cutoff, time-in-cash returns, dividend convention, fees, spread and impact UNKNOWN."
+signal_and_execution_clock:
+  original: "Calendar-defined last exchange-trading-day closing price for entry and exit. Order placement feasibility at that exact close not established."
+  safe_future_test: "A later ATS spec must state the earliest executable fill after calendar information and pricing become known; no such fill model is invented here."
+sizing:
+  original: "UNKNOWN; descriptive per-ETF strategy comparison."
+cost_assumptions:
+  source: "Author's publicly readable article does not enumerate executable fees, spreads, slippage, taxes or idle cash interest."
+  adaptation: "NONE"
+baseline:
+  author_comparators: "Buy and hold for each ETF; October-April versus October-July exits, and best combinations chosen after search."
+development_evaluation:
+  author_reported_unverified:
+    - "For 1997-2011, October-April won the displayed comparison in 13 ETFs, October-July in 4, and buy-and-hold in 1."
+    - "For 2012-2023, October-April led in 4, October-July in 12, and buy-and-hold in 2."
+    - "The published article describes AmiBroker tests using Norgate Data and mentions additional results in an access-controlled spreadsheet, which was not accessed."
+  local_empirical_tests: "NONE"
+primary_falsifier:
+  future_only: "A preregistered timing rule fails to add stable after-cost value over buy-and-hold and a fixed calendar comparator on untouched later periods, after accounting for selection across 12 entry months, multiple holding periods, highly correlated ETFs and ETF inception differences."
+acceptance_and_stop_rules:
+  descriptive_only: "Source capture is permitted; no research-ready, executable or profitability claim."
+  prohibitions: "No backtests, market returns, parameter tuning, holdout reads, orders or deployments performed."
+parity_and_causality_tests:
+  required_later: "Author rule/clock reconciliation, last-trading-day availability, source price adjustments, correct ETF listing membership, executable close order timing and independent costs."
+known_adaptations:
+  - "NONE; no synthetic calendar, stop rule or size invented."
+verified_facts:
+  - "The public primary article was inspected; exact source title, publication date, rules and comparison counts were read from named sections. The author's calculations have not been reproduced."
+assumptions:
+  - "A regime explanation is a hypothesis only, not established causal evidence."
+  - "Seasonal equity beta overlap likely dominates apparent diversification; not measured."
+unresolved_blockers:
+  - "Causal reason for timing shift; author offers speculation, not demonstration."
+  - "Data start/inception of individual country ETFs, sample-specific survivorship and underlying currency exposure."
+  - "Dividend/reinvestment, borrow, costs, and idle-cash treatment in source."
+  - "Order cutoff feasibility for same-day closing transactions."
+  - "Many original month/hold combinations and post-hoc calendar selection make forward extrapolation uncertain."
