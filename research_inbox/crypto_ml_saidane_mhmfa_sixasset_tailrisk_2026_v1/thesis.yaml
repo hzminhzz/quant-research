@@ -1,0 +1,75 @@
+candidate_id: crypto_ml_saidane_mhmfa_sixasset_tailrisk_2026_v1
+selection_family_id: crypto_ml_regime_conditional_portfolio_tailrisk_2026
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: saidane_benmohamed_jforecast_2026
+    url: https://doi.org/10.1002/for.70159
+    title: Forecasting Regime-Dependent Tail Risk in Digital Asset Portfolios With a Mixture of Hidden Markov Factor Analyzers
+    authors: Mohamed Saidane; Ezzeddine Ben Mohamed
+    journal: Journal of Forecasting, volume 45, issue 6, pages 2735-2759 (2026); first published 2026-04-16
+    evidence_class: SOURCE_FACT_BIBLIOGRAPHY_AND_PUBLISHED_ABSTRACT
+economic_thesis:
+  source_fact: The paper estimates joint VaR and expected shortfall for a six-cryptocurrency portfolio using latent regime and factor mixtures, rather than directly predicting relative forward returns.
+  local_inference: Regime-changing dependence and asymmetric losses can make one unconditional covariance or a static risk limit inadequate for crypto portfolio risk.
+  critical_scope: This is a conditional RISK forecast and possible risk-allocation mechanism, not established cross-sectional alpha.
+mechanism:
+  source_fact: A hidden Markov chain models changing regimes, latent factors model systematic cryptocurrency co-movements, and regime-specific Gaussian mixtures model non-Gaussian common and idiosyncratic components.
+  incremental_ml_hypothesis: Hidden regimes and mixture tails may better estimate joint downside risk than a fixed covariance matrix or historical risk quantile.
+  not_a_return_signal: Better VaR or ES loss does not imply profitable long/short return ranking.
+instruments:
+  source_original: Portfolio of six cryptocurrencies; exact symbols and original spot/perpetual venue are UNKNOWN in the inspected abstract.
+  product_identity: UNKNOWN; no translation to derivatives, CFD or a prop-firm contract is source-authorized.
+  long_short: Original portfolio shorting permissions and short-leg mechanics UNKNOWN.
+data_requirements:
+  source_claim: Historical cryptocurrency portfolio return inputs and time-aligned regime observations; exact data providers, dates, historical constituent selection and event availability UNKNOWN from abstract. Publisher states underlying study data are available from corresponding author upon reasonable request.
+  local_feasibility: No attempt made to inspect real returns or protected panels; six-symbol historical source parity is unverified.
+feature_contracts:
+  source: Historical return co-movement and factor components used by the mixture of hidden Markov factor analyzers.
+  feature_availability: Feature release clocks, publication lags, missing-source conventions and latent factor fitting split must be confirmed from full paper and code.
+  label: Joint portfolio VaR and expected shortfall tail-risk target; alpha 2.5 percent is reported in abstract, not a confirmed trade forecast horizon.
+  model_class: Mixture of hidden Markov factor analyzers estimated by expectation-maximization, with probabilistic soft assignment and Monte Carlo risk forecasts.
+  complexity_and_retraining: Number of states, factors, distributions, fit window and retraining cadence UNKNOWN from inspected public abstract.
+strategy_rules:
+  source_original: Authors evaluate VaR and ES forecasts for six-crypto portfolios and report an associated risk-averse portfolio strategy. Exact trading, optimization and rebalance rules UNKNOWN from abstract.
+  proposed_adaptation: Use strictly time-available risk forecasts only as a conditional sizing or risk-budget overlay on an INDEPENDENT already-defined return strategy, after separately confirming source details.
+  excluded: No funding, basis, carry alpha or substituted return-ranking rules.
+signal_and_execution_clock:
+  source: Forecast origin, target-tail observation window and execution clock not established in accessible abstract.
+  future_requirement: Confirm fitted regime state and every risk input predate the portfolio decision; retrain with walk-forward fits and overlapping tail labels governed correctly.
+sizing:
+  source_original: Risk-averse portfolio strategy mentioned, but optimization mapping and constraints not provided in accessible abstract.
+  proposed_adaptation: Risk sizing would require a separate typed portfolio-risk protocol and verified inventory/weight logic; not an ATS cross-sectional alpha signal.
+cost_assumptions:
+  author_test_unverified: Abstract reports robust risk-averse allocation after transaction costs, without reproducible fee levels or short financing schedules.
+  unknown: Spread, execution delay, leverage, venue, derivatives funding as a REAL COST (not as alpha), and prop-firm daily limits.
+baseline:
+  source: Authors compare multiple risk-forecasting models under a joint VaR-ES scoring criterion, but exact comparator configurations are UNKNOWN from the inspected abstract.
+  proposed_simple_benchmark: Rolling empirical VaR/ES and static-covariance Gaussian portfolio risk estimator on identical training information, dates, allocations, and costs.
+development_evaluation:
+  status: NOT_RUN
+  author_test_unverified: Abstract claims superior joint VaR-ES Patton-Ziegel-Chen loss, Basel III compliance at alpha 2.5 percent, and risk-averse allocation performance after transaction costs.
+  independent_replication: NONE in this capture; no absolute Sharpe, costs, VaR figure, or sample period inferred.
+primary_falsifier:
+  future_test: A chronologically refitted MHMFA risk signal fails to improve calibrated out-of-sample joint VaR-ES loss, or its risk-averse portfolio cannot improve net risk-adjusted utility versus the same-cost simple risk estimator.
+acceptance_and_stop_rules:
+  descriptive_gate: SOURCE_ONLY, REQUIRES_TRAINING_WORKFLOW and BLOCKED_PROTOCOL. No ATS runner submission or automatic tradability.
+  science_gate: Do not interpret statistical tail-risk improvements as return-ranking IC; require independent risk protocol, provenance and realistic costs.
+parity_and_causality_tests:
+  future:
+    - Verify paper details including six exact symbols, product venue, forecast horizon, target timestamps, original train/test chronology and actual traded-risk mapping.
+    - Require fold-local EM/regime and factor fits with walk-forward OOF predictions and all revision/time-overlap controls.
+    - Compare a simple fixed risk estimator and MHMFA under matched costs, sizing constraints, and tail scoring; explicitly account for prop daily and aggregate drawdown rules.
+    - Confirm forecast-only as-of inputs; exclude use of funding/basis as alpha but do not treat real financing as zero cost.
+verified_facts:
+  - Journal of Forecasting 2026 bibliographic metadata and published abstract inspected; full text, code, supplementary tables and raw markets not examined.
+  - Different model purpose from the existing HMM-conditioned return-ranking ensemble, even if both feature latent states.
+known_adaptations:
+  - Proposed sizing overlay is LOCAL adaptation; it was NOT tested or explicitly specified by the cited abstract.
+  - No fabricated hourly/15-minute return target is attached to a daily or unknown-horizon risk study.
+unresolved_blockers:
+  - BLOCKED_PROTOCOL: current ATS cross-sectional IC/HAC and fixed top/bottom return-ranking protocol cannot scientifically evaluate joint VaR/ES forecasts or conditional risk overlays.
+  - REQUIRES_TRAINING_WORKFLOW: no trained MHMFA artifact, chronological OOF predictions, signed model hashes or preprocessing provenance exist.
+  - BLOCKED_DATA: exact six-asset identity, historical market availability, original risk clocks and costs unverified.
