@@ -1,0 +1,94 @@
+candidate_id: crypto_ml_fischer_krauss_deinert_rf_120m_2019_v1
+selection_family_id: crypto_ml_intraday_median_outperformance_rf
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_DISCOVERY_ONLY_NO_TRAINING_NO_BACKTEST
+created_on: '2026-10-18'
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: fischer_krauss_deinert_2019_primary
+    role: SOURCE_FACT_AND_AUTHOR_TEST_UNVERIFIED
+    authors: Thomas Guenter Fischer; Christopher Krauss; Alexander Deinert
+    title: Statistical Arbitrage in Cryptocurrency Markets
+    publisher: Journal of Risk and Financial Management
+    publication_date: '2019-02-12'
+    doi: 10.3390/jrfm12010031
+    url: https://www.mdpi.com/1911-8074/12/1/31
+  - id: thorn_tauro_2026_replication
+    role: INDEPENDENT_PRACTITIONER_ADVERSE_EVIDENCE_SELF_REPORTED
+    author: Jackson Thorn
+    publication_context: 2021 development and 2024 research revisit, website copyright 2026
+    url: https://www.thornlabs.io/crypto-arbitrage
+  - id: ats_local_handoff_contract
+    role: LOCAL_SCHEMA_ONLY
+    local_path: docs/research_inbox_operations.md
+economic_thesis:
+  SOURCE_FACT: The authors examine whether a learned cross-sectional classification of next-two-hour relative coin performance can support short-horizon cryptocurrency statistical arbitrage.
+  LOCAL_INFERENCE: Nonlinear interactions in lagged multi-horizon returns may help select the extreme relative winners and losers beyond a linear classifier.
+  future_null: On the exact tradable product panel, the Random Forest has no incremental net basket benefit over logistic regression or simple reversal ranks at identical execution clocks and costs.
+mechanism:
+  SOURCE_FACT: Lagged cryptocurrency returns are used to forecast which coins outperform the contemporaneous cross-sectional median, rather than to predict absolute appreciation.
+  SOURCE_FACT_model: The primary study compares random forest classification and logistic regression.
+  AUTHOR_TEST_UNVERIFIED: In the authors' June-to-September 2018 out-of-sample period, the RF portfolio has 7.1 basis points average daily return versus 4.9 for logistic regression after assumed transaction costs; the authors discuss liquidity/capacity restrictions.
+  LOCAL_INFERENCE: Fast-moving relative repricing and transient liquidity imbalances are potential explanations; they are not established causal mechanisms.
+instruments:
+  original: 40 historical cryptocurrency coins using minute-aggregated market data, not a verified modern Binance perpetuals basket.
+  venue: Original historical exchange/product membership and whether each short was practically borrowable or derivative-enabled require independent requalification.
+  local_data: Availability of matching 2018 minute products, as-of membership, shortability and prop-account permissions UNKNOWN.
+data_requirements:
+  original: Contemporaneous 40-coin minute prices/returns and minute trading volumes with historically accurate constituents.
+  expected_features: Historical lagged return windows on the source minute clock; no funding, carry, or basis predictors.
+  availability: Exchange and consolidated-source timestamps, delistings, volume and short availability need a separate data provenance audit.
+feature_contracts:
+  SOURCE_FACT: Multi-horizon trailing coin returns, with 60-minute returns identified among important predictors; RF nonlinearity versus LR is the claimed incremental model comparison.
+  UNKNOWN: Exact source-data identities and treatment of all minute gaps and cross-exchange bar availability have not been independently reproduced.
+  future_governance: Require previous-bar-only information, as-of universe, fold-local transforms, matured labels, embargo and purged walk-forward out-of-fold model predictions.
+strategy_rules:
+  SOURCE_FACT_target: Binary next-120-minute relative outperformance against the 40-coin cross-sectional median, following a one-minute signal/execution gap.
+  SOURCE_FACT_allocation: Rank model outperformance probabilities; buy top three and short bottom three; close each cohort after 120 minutes.
+  SOURCE_FACT_approach: Authors form a new portfolio every minute with overlapping 120-minute cohorts, not simply one rebalance every two hours.
+  PROPOSED_ADAPTATION: Any non-overlapping 1h/2h ATS basket would be a separate research variant and must not inherit the published results.
+signal_and_execution_clock:
+  source: Minute-t completed return history; future return label begins after the one-minute signal-to-trade delay.
+  SOURCE_FACT_implementation: One-minute execution delay and 120-minute holding period; minute-wise overlapping portfolio cohorts in the published design.
+  future_requirement: Confirm precise minute-close-to-fill ordering and verify that no label with an unfinished end timestamp enters model fitting.
+sizing:
+  source: Top-three long and bottom-three short relative portfolio with overlapping cohorts; exact institutional account capacity is unverified.
+  restrictions: Volume-dependent skipped orders and practical short borrow/derivatives, gross leverage, margin and prop rules require requalification.
+cost_assumptions:
+  AUTHOR_TEST_UNVERIFIED: Study deducts 15 basis points per half-turn (30 basis points round trip).
+  adverse_evidence: Practitioner replication using different market data and retail-style fees reports negative net profitability in 2024; not an exact independent reproduction.
+  LOCAL_INFERENCE: Missing actual spreads, slippage, borrow costs, financing, queue access and margin may overwhelm the transient signal.
+baseline:
+  original: Same long-three/short-three basket built from logistic regression probabilities; authors also show BTC and equal-weight market comparisons.
+  proposed: Simple rank of trailing returns/short-term reversal with identical historical universe, overlapping cohorts, notional and execution-cost clock.
+development_evaluation:
+  AUTHOR_TEST_UNVERIFIED: Authors report in-sample two-thirds and out-of-sample one-third chronological split, with published OOS during June to September 2018; some author-facing date summaries disagree on the precise September end date.
+  NOT_RUN: No local historical return, prediction, model-fitting or portfolio test in this source-only capture.
+  future_requirement: Chronological purged OOF predictions, fold-local training and calibration, label-maturity timestamps, no protected holdout use in discovery.
+primary_falsifier:
+  proposal: Compare RF to matched logistic regression and simple lagged-return ranks under the same market clock, execution delay, capitalization, short constraints and realistic fees; reject incremental ML alpha if cost-adjusted improvement disappears.
+  null_evidence: Practitioner reports failure in 2024 bull market, with long leg profitable but short leg and friction overwhelming gains, and the source highlights extreme execution-latency decay.
+acceptance_and_stop_rules:
+  admission: Descriptive capture only; a valid handoff is not a model, scientific success, executable specification, or trading authorization.
+  stop: No training, model inference, Stage 1-4, empirical tests, research runner, protected data reads or orders in this workflow.
+parity_and_causality_tests:
+  - Verify 40-coin PIT membership and exact venue/consolidation identity; never use future market cap to form historical universe.
+  - Require label maturity across overlapping 120-minute outcomes and purging across adjacent folds before future model training.
+  - Verify per-minute t-to-t+1 signal/fill and overlapping cohort accounting, including skipped trades for absent volume.
+  - Compare short availability and observed fee/slippage/financing against source approximations; report any unqualified gap.
+  - Independently reproduce future RF-versus-LR comparison before claiming incremental nonlinear predictive value.
+known_adaptations:
+  - SOURCE_FACT original minute-frequency source is not identical to ATS current native synchronized hourly baskets.
+  - PROPOSED_ADAPTATION modern venue-perpetual minute or 1h version is separate and requires a new data and model protocol.
+verified_facts:
+  - Primary article DOI, authors, published methodological claim and source-reported numerical comparison inspected from publisher search results on 2026-10-18.
+  - Independent practitioner source with explicit deviations and negative 2024 outcome inspected from its author-owned website on 2026-10-18.
+assumptions:
+  - No financing-free inference follows from excluding funding alpha signals; eventual shorts can incur financing/borrow costs.
+  - Neither author nor practitioner report is independent evidence of current prop-firm feasibility.
+unresolved_blockers:
+  - REQUIRES_TRAINING_WORKFLOW; no frozen Random Forest artifact, model training provenance or chronological OOF predictions.
+  - BLOCKED_DATA; exact 40-coin historical universe, venue, market identity and true execution cost not qualified.
+  - BLOCKED_PROTOCOL; native ATS overlapping one-minute cohort execution and classifier training not qualified.
+  - Adverse independent practitioner experience; time-delay edge may decay before a realistic fill.
