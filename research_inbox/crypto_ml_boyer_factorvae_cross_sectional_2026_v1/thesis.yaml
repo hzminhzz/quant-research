@@ -1,0 +1,66 @@
+candidate_id: crypto_ml_boyer_factorvae_cross_sectional_2026_v1
+selection_family_id: crypto_ml_latent_factorvae_relative_return
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: boyer_2026_ssrn_6860920_abstract
+    url: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6860920
+    accessible_abstract: https://www.researchgate.net/publication/410972739_Cross-Sectional_Return_Prediction_in_Cryptocurrency_Markets_Using_Variational_Latent_Factor_Models
+    title: Cross-Sectional Return Prediction in Cryptocurrency Markets Using Variational Latent Factor Models
+    authors: Sacha Boyer
+    publication: January 2026 SSRN working paper, DOI 10.2139/ssrn.6860920
+    source_role: THIRD_PARTY_DISPLAYED_ABSTRACT; SSRN full text bot-blocked, no full methods inspected
+economic_thesis:
+  source_claim: Learned variational latent factors from price/volume history may reveal cross-coin return relationships that yield cross-sectional trading opportunities.
+  status: AUTHOR_ABSTRACT_UNVERIFIED
+mechanism:
+  proposed_explanation: Shared market factors and changing relative risk exposures may help explain differences in later coin returns.
+  economic_counterparty: UNKNOWN; the abstract does not prove exploitable price inefficiency or incremental value over simple momentum.
+instruments:
+  original: Fifty major cryptocurrencies, exact historical membership and venue/spot-versus-perpetual contract type UNKNOWN.
+  prop_firm_fit: Conditional on short availability, actual eligible pairs and leverage/account drawdown rules.
+data_requirements:
+  original: Price and volume-derived technical indicators for 50 major cryptoassets, 2019-2024 data and reported 2024 out-of-sample.
+  local: Crypto price/volume panel may support a proxy; 2019 membership, listing and delisting coverage require PIT verification.
+feature_contracts:
+  source: Adapt FactorVAE latent factor structure from equity forecasting to cryptocurrency cross-sectional prediction.
+  adaptation: Temporal regularization of latent factors is studied for improved stability and interpretability, per abstract.
+  target: Cross-sectional predictive model outputs; precise training label, prediction horizon, factor dimension and loss are UNKNOWN.
+strategy_rules:
+  source_original:
+    - Train a FactorVAE-type latent factor model on historical cryptocurrency technical indicators.
+    - Derive cross-sectional predictions for a 50-asset universe.
+    - Evaluate seven reported trading strategies, including directional, market-neutral, volatility-adjusted and momentum-filtered approaches.
+  not_source: The abstract does not state exact buy/sell thresholds, equal-weight counts, leverage, rebalance schedule or stop prices.
+signal_and_execution_clock:
+  original: Decision interval and earliest executable fill not established by accessible abstract.
+  future: Label maturation, embargo, rolling training and prediction-time artifacts must be independently specified from full source.
+sizing:
+  original: Multiple author strategy variants; exact weights and gross/net limits UNKNOWN. Do not merge them into a fictional universal rule.
+cost_assumptions:
+  source: Not available in inspected abstract; no validated fees/spreads/financing or slippage.
+  prop: Real costs and allowed instruments UNKNOWN; no funding-derived alpha signal.
+baseline:
+  future_independent_proposal: PIT asset ranks using directly observable lagged momentum and/or PCA factor residuals, matched universe and risk.
+development_evaluation:
+  status: NOT_RUN
+  source_claim: Six of seven author-tested variants positive Sharpe above one; momentum-filter variant reported 269.8% return and Sharpe 2.12, sample reported 2024; claims not independently verified.
+primary_falsifier:
+  future_test: Variational latent factors do not provide genuine chronological OOF incremental return ranking or after-cost basket improvement over simple observed factor/momentum benchmarks.
+acceptance_and_stop_rules:
+  capture_only: Original abstract is sufficient for descriptive capture, NOT executable validation.
+  stop: BLOCKED_SPEC until author full method, instrument mapping, time clock and risk weights obtained; do not invent them.
+parity_and_causality_tests:
+  future: Fit latent encoder/scaler on train-only histories, verify ranking causality and PIT universe, preserve model artifact and OOF provenance, benchmark momentum filter separately.
+known_adaptations:
+  - Converting one paper market-neutral variant into the native equal-weight top/bottom basket requires exact source rules and approval, not abstract-to-code guessing.
+verified_facts:
+  - ResearchGate-hosted abstract of a claimed SSRN preprint viewed 2026-10-18; SSRN URL and reported DOI could not be directly fetched.
+assumptions:
+  - Source may share general cross-sectional predictability with existing factor models, but learned variational latent representation is the claimed distinct mechanism.
+unresolved_blockers:
+  - Original SSRN full text inaccessible in this discovery run and paper is not confirmed peer-reviewed.
+  - Model loss, features, sector/asset list, prediction label, decision clock, costs and portfolio weight maps unresolved.
+  - No fitted weights, chronological OOF predictions, or native ATS executable artifact.

@@ -41,7 +41,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-pythonpath = ["."]
+pythonpath = [".", "../../trading-connector", "../trading-connector", ".ci/trading-connector"]
 testpaths = ["tests"]
 markers = [
     "data: requires the external, gitignored ml4t-data store",

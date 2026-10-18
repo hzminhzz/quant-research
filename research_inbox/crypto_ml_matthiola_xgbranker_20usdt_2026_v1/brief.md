@@ -1,0 +1,12 @@
+# Matthiola0: cross-sectional XGB ranker with reported 20-coin crypto robustness
+
+**SOURCE_CAPTURE_ONLY · THESIS_CAPTURED.** Primary author-owned source: https://github.com/matthiola0/ml-cross-sectional and [crypto robustness notebook 05](https://github.com/matthiola0/ml-cross-sectional/blob/main/notebooks/05_robustness_tw_btc.ipynb). GitHub README read 2026-10-18; source experiment not rerun, notebook cells not audited fully. Date in ID is capture year, not a proven publication year.
+
+## Source-original strategy and crypto sub-study
+Author's primary method compares XGBRanker/LGBMRanker with simple linear and equally weighted factors using twelve lagged price/volume features to rank next-21-day *equity* return cross-sections. Annual expanding walk-forward forecasts feed a monthly equal-weight long-top-quintile/short-bottom-quintile dollar-neutral portfolio. Author also reports retraining identical XGB features on a hard-coded 20-asset Binance USDT crypto sample, with 2018–2025 data and 2022–2024 OOS. Author-reported crypto XGB net Sharpe is **0.74** versus handcrafted baseline **-0.22**. These are **not independently verified** and exact crypto fill/cost/symbol rules require inspection of notebook 05.
+
+## Why this is distinct and what can fail
+The claimed economic advantage is *conditional feature interactions*: a nonlinear model can learn different return/volatility/size relationships that a fixed positive-sign composite gets wrong when transferred to crypto. This differs from the previously captured generic Yicheng regression-to-decile forecast: the original XGB objective learns relative ranks, discloses matched handcrafted and linear baselines, and includes a separate empirical cross-market transfer. Author explicitly reports no purging despite overlapping forward 21-day returns, and a fixed universe/hindsight constituent problem. Prop crypto shortability, swaps, daily-loss rules, and tradable product mapping are UNKNOWN.
+
+## Scientific boundary
+No independent local fit, score, IC, cost, or native simulation was run. A future proposal would require verifying code-level crypto timing and pairs first, PIT eligible universe and 21-day label maturity, fold-local training, reproducible causal model artifacts and fee/financing parity before any ATS CandidateSpec. Baseline: lagged factor-only rank on the same universe/cadence with costs. Unsupported details stay UNKNOWN; do not claim this captured description is an executable frozen model. No funding-based signal.

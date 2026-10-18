@@ -1,0 +1,57 @@
+candidate_id: crypto_ml_tsoku_dynamic_coint_dwe_pairs_2026_v1
+selection_family_id: crypto_ml_dynamic_cointegration_spread_ensemble
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: tsoku_makatjane_frontiers_2026_dynamic_coint_dwe
+    url: https://doi.org/10.3389/fams.2026.1749337
+    title: "Deep learning-based pairs trading: real-time forecasting of co-integrated cryptocurrency pairs"
+    authors: Johannes Tshepiso Tsoku; Katleho Makatjane
+    publication: Frontiers in Applied Mathematics and Statistics, 30 January 2026
+    source_role: ORIGINAL_OPEN_ACCESS_JOURNAL_ARTICLE
+    inspection_scope: Publisher full text, methods, limitations, original strategy; no local model fit.
+economic_thesis:
+  source_claim: Time-varying equilibrium relationships among major crypto coins may produce spread reversion opportunities, and adaptively combining DNN and LSTM spread forecasts may outperform static models.
+  status: SOURCE_REPORTED_UNVERIFIED
+  mechanism: Temporary spread deviation from dynamically estimated co-integrating relation corrects toward the equilibrium; heterogeneous short-term/temporal dependence may be modeled by complementary nonlinear models.
+  why_ml: DNN learns nonlinear spread features, LSTM learns lagged temporal structure, dynamic forecast-error weighting changes the combination as model relevance shifts.
+source_original:
+  input_dataset: Daily cryptocurrency historical prices from Yahoo Finance/yfinance; author states 2018-01-02 to 2025-10-31, 2842 observations; local Binance perp OHLCV is not source-equivalent.
+  assets: Paper introduction mentions BNB ETH LTC XRP and USDT, while methodology actually evaluates six pair combinations among BTC ETH LTC XRP. Preserve this internal source inconsistency; do not assume USDT is a valid shortable risk asset.
+  universe: Six named BTC-ETH, BTC-LTC, BTC-XRP, ETH-LTC, ETH-XRP, LTC-XRP pair candidates, selected through dynamic Johansen cointegration, not rolling top-N volume coin universe.
+  forecasting: Dynamic Johansen co-integrating vectors produce spreads; separate DNN and LSTM forecast spread trajectories; dynamic weighted ensemble gives forecasts and interval estimates.
+  signal_rules: Enter offsetting pair long/short around forecasted spread convergence; precise standardized thresholds, hedge ratio timing, stop and contract sizing must be extracted from exact methods before executable conversion.
+  validation: Author describes rolling chronological train/validation/forecast steps; full training vintage/fold cutoff and any reevaluation are not independently verified here.
+  original_performance: Publisher reports ensemble forecast superiority and trade signal examples, but explicitly states transaction costs and execution frictions are NOT modeled.
+  funding_signal: None; depends on price-spread equilibrium and model prediction, not funding/carry.
+simple_baseline:
+  - Rolling Johansen cointegration with classical spread z-score mean reversion, same pair selection, hedge ratios and next-open execution.
+  - Static equal-weight ensemble and each DNN/LSTM arm, same source data and realized pricing.
+author_claims_unverified:
+  - The dynamic weighted ensemble reportedly improves spread prediction accuracy and trade signal stability against static ensembles.
+  - Publisher uses HPC/cloud execution language, but local cloud/live deployment, latency, and broker performance are not demonstrated by this intake.
+data_and_ats_fit:
+  product: Yahoo price series do not certify market tradeable perpetual pairs, signed swaps, broker spread or margin.
+  scientific_protocol: BLOCKED_PROTOCOL — pair-specific hedge ratios, stateful position triggers and dynamic learned ensemble fitting do not fit native ATS scalar independent coin rank/5x5 equal-weight rebalance.
+  data_status: BLOCKED_DATA until exact historical venue/clock/product data and source training boundaries are established.
+  source_timeframe: Daily, outside preferred 1h/15m/5m; a shorter timeframe is a separate adaptation.
+  prop_fit: Poor/UNKNOWN — financing, simultaneous shorting, dynamic hedge ratios, daily loss and maximum drawdown rules unverified; transaction costs omitted by authors.
+leakage_and_adverse_evidence:
+  - Rolling Johansen pair selection and hedge-ratio recomputation must use only predecision prices; any full-sample fitting leaks.
+  - Adaptive combination weights from error history require outcomes matured before each decision; train-only transforms and independent OOF/forward snapshots needed.
+  - The study states transaction costs are not modeled; author forecasts are not after-cost profit evidence.
+  - The article names varying asset sets between abstract and methodology, requiring human-source reconciliation before faithful executable specification.
+  - Pair strategy is not equivalent to two independently scored long/short crypto assets.
+primary_falsifier:
+  future_test: Properly chronological adaptive DNN/LSTM forecasting fails to improve net pair mean reversion versus simple rolling Johansen z-score signal after realistic two-leg spread, turnover, financing and hedge-ratio costs.
+acceptance_and_stop_rules:
+  descriptive: THESIS_CAPTURED; no training/backtests/model artifacts/ATS run.
+  executable: BLOCKED_PROTOCOL, BLOCKED_SPEC and BLOCKED_DATA until exact pair logic, model fit, observed costs, source contract and specialized scientific execution adapter proven.
+unresolved_blockers:
+  - No qualified ATS native stateful pair-hedged trading protocol.
+  - Source original transaction costs omitted; broker parity and financing unverified.
+  - Source methods refer to inconsistent asset lists, and detailed executed threshold/stop/clock parity has not been frozen.
+verified_facts:
+  - Journal full text read on 2026-10-18. All reported benefits are author statements, no local reproduction.

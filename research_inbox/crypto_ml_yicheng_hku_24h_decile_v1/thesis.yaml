@@ -1,0 +1,71 @@
+candidate_id: crypto_ml_yicheng_hku_24h_decile_v1
+selection_family_id: crypto_ml_avenir_hku_lgb_24h_decile
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: yichengyang_ethan_kaggle_avenir_hku_web3_24h
+    url: https://github.com/YichengYang-Ethan/crypto-return-prediction-kaggle
+    notebook_url: https://github.com/YichengYang-Ethan/crypto-return-prediction-kaggle/blob/main/crypto_return_prediction.ipynb
+    title: Cryptocurrency 24-Hour Return Prediction
+    authors: YichengYang-Ethan (GitHub repository owner)
+    publication: Public MIT-licensed GitHub project with notebook, original README, competition-relative experiment
+    source_role: AUTHOR_OWNED_GITHUB_README_AND_NOTEBOOK_FILE_DISCOVERY
+economic_thesis:
+  source_claim: A regularized LightGBM ensemble of lagged technical/price-volume features may rank next-24-hour returns across a broad cryptocurrency universe more usefully than a zero-return predictor or previous-return persistence.
+  status: SOURCE_REPORTED_UNVERIFIED
+mechanism:
+  source: Momentum, volatility, volume and recent return dependence have a nonlinear joint relation to future relative coin returns.
+  economic_explanation: Author demonstrates model task and a simulation, not a separately established price-formation causal mechanism.
+instruments:
+  original: Avenir HKU Web3 Quant Competition dataset, reported 355 cryptocurrencies; venue, tradeable spot/perpetual contracts and historical delistings NOT established by README.
+  local_product: Local Binance USD-M perp panel is NOT source-equivalent and contract substitution needs independent specification.
+data_requirements:
+  source: Proprietary/not-redistributed competition kline_data and submission_id.csv; contemporaneous multi-coin price and volume input features.
+  risk: Contest dataset historical membership, coin re-listings and trade feasibility are UNKNOWN; do not treat static competition list as PIT.
+feature_contracts:
+  source: Wilder RSI, MACD, rate of change, Bollinger bands, ATR, OBV, rolling mean/std over 10/30/60 periods and returns lagged 1-5.
+  model: LightGBM regressor with L1 regression objective, TimeSeriesSplit five folds and final average of fold-model predictions.
+  label: Next 24-hour forward return per crypto; exact bar alignment and input sampling cadence require notebook code review.
+  validation_warning: Five fold ensembling is not automatically leakage-safe OOF prediction for all earlier timestamps; each forecast must be tagged with actual model fitting cutoff.
+strategy_rules:
+  source_original:
+    - Prepare the competition coin panel and author-engineered price/volume technical features.
+    - Train five chronological LightGBM regressors on their respective train-side folds and ensemble model outputs for future return forecasting.
+    - Simulate a cross-sectional long top forecast decile and short bottom forecast decile with equal weights.
+    - Compare return-forecast MAE to zero forecast and persistence baselines.
+  not_source: Universal 5 longs/5 shorts, exact perpetual settlement costs, prop-firm daily loss overlay or independent tested execution parity.
+signal_and_execution_clock:
+  source: Twenty-four-hour future-return prediction, exact feature bar frequency and earliest executable next-open fill are not specified in README and require code/competition clock inspection.
+  future: PIT snapshot of all cross-coin features and per-fold train-only transforms must be timestamped before each decision.
+sizing:
+  source: Equal weight within top and bottom forecast deciles in an illustrative strategy simulation.
+  original_leverage: UNKNOWN; presence of deciles is not evidence of qualified broker shorting or zero market beta.
+cost_assumptions:
+  source: README long/short simulation reports cumulative returns, Sharpe and drawdown; verified realistic fees, spread, slippage, short borrow and product conventions are NOT established.
+  future: Prop-firm instrument access, margin, leverage, overnight swaps and short permission are UNKNOWN.
+baseline:
+  source_prediction: Predict zero and prior return persistence, compared on last fold via MAE.
+  future_economic_null: Matched unlearned rank from lagged previous 24-hour return, traded under same selected cross-section, cadence and costs.
+development_evaluation:
+  status: NOT_RUN
+  source_report: README claims lower validation MAE than zero and persistence baselines; exact metrics generated from competition dataset at notebook runtime rather than publicly reported.
+  metrics_caution: MAE improvement is NOT a verified portfolio alpha result; no local backtest or ATS run.
+primary_falsifier:
+  future_test: Historical PIT coin eligibility and correctly timed OOF LightGBM outputs do not improve positive net decile long/short spread after costs against naive momentum rank.
+acceptance_and_stop_rules:
+  capture_only: Original source-described long/short simulation preserved; no invented ATS compatibility or fitted model.
+  status: BLOCKED_SPEC until source clock, actual data/provenance, completed parameter/label contract and realistic costs are known.
+parity_and_causality_tests:
+  future: Dataset availability, labels mature before each fit, time-fold model snapshots, no validation reuse or post-test model mixing, historical PIT universe, execution next-open timing, transaction-cost ledger and futures/CFD transfer.
+known_adaptations:
+  - Replacing nonredistributable competition data with a local Binance 1h panel is a separately registered replication with different economics and requires new approval.
+verified_facts:
+  - Original README and GitHub source directory listing inspected 2026-10-18; notebook blob existence verified, but notebook computational cells and original competition data NOT audited in this capture.
+assumptions:
+  - The high-dimensional shared learning setting could leverage cross-coin information but is not independently established by publicly supplied reproducible results.
+unresolved_blockers:
+  - Competition source data and actual symbol/PIT mapping unavailable in current task.
+  - Model weights and chronological OOF prediction provenance absent, no exact original fill/fee specification.
+  - Author compares ML forecast accuracy, not an independently verified after-cost prop-firm trading return.

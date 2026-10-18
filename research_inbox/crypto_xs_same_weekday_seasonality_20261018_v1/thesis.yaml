@@ -1,0 +1,42 @@
+identity:
+  candidate_id: crypto_xs_same_weekday_seasonality_20261018_v1
+  selection_family_id: cross_sectional_calendar_memory
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Same-weekday cross-sectional cryptocurrency return seasonality"
+      authors: "Huaigang Long, Adam Zaremba, Ender Demir, Jan Jakub Szczygielski, Mikhail Vasenin"
+      publication_date: "2020"
+      url: "https://repository.up.ac.za/items/14b5a5b0-4d67-43d7-b0e0-b3735b317211"
+economic_thesis:
+  mechanism: "Relative performance on a specific weekday may persist for the same token on subsequent occurrences of that weekday, rather than general weekly momentum."
+  source_claimed_strategy: "Authors study same-day-of-week past and future token returns across a cross-section and evaluate portfolio sorting and regressions; actual portfolio formation/exits/weights NOT independently extracted."
+markets_and_data:
+  instruments: "About 151 cryptocurrencies over 2016-2019; PIT membership and venue identity UNKNOWN."
+  timeframe: "Daily day-of-week effect, not a sourced 1h/5m rule."
+  data_requirements: "Historical UTC-consistent daily closes, delisted asset coverage and PIT universe. Do not assume exchange-local trading-day boundaries."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  strategy_rules: "Authors study same-day-of-week past and future token returns across a cross-section and evaluate portfolio sorting and regressions; actual portfolio formation/exits/weights NOT independently extracted."
+  original_long_selection: "UNKNOWN; cannot assert source-defined cross-sectional long rankings or cutoffs."
+  original_short_selection: "UNKNOWN; cannot assert source-defined short rankings or cutoffs."
+  basket_construction: "Cross-sectional historical same-weekday score analysis; executable long/short design UNKNOWN."
+  signal_and_execution_clock: UNKNOWN
+  sizing_and_cost_assumptions: UNKNOWN
+  exits_and_stops: UNKNOWN
+  unresolved_blockers: "Original exact data availability, timing, portfolio semantics, fees and execution not independently compiled"
+research_evaluation:
+  baseline: UNKNOWN
+  development_evaluation: NOT_PERFORMED
+  source_reported_tests: UNVERIFIED
+  primary_falsifier: "Same-weekday return rank effect is unstable on newer coins or after a realistic roundtrip and universe changes."
+scientific_integrity:
+  contrary_evidence_and_limitations: "Lukas Müller (2024), Revisiting seasonality in cryptocurrencies, finds cryptocurrency seasonality not robust in newer/broader samples: https://econpapers.repec.org/article/eeefinlet/v_3a64_3ay_3a2024_3ai_3ac_3as1544612324004598.htm"
+  novelty: "Per-token cross-sectional recurring WEEKDAY memory differs from generic session drift or aggregate global calendar return."
+  adaptation_proposal_not_source_fact: "A specific long/short basket, prediction lookback or intraday session adaptation would be NEW research not author fact."
+  parity_and_causality_tests: NOT_PERFORMED
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

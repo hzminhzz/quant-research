@@ -1,0 +1,9 @@
+# Areeb Arshad: walk-forward cross-sector LightGBM directional forecasting
+
+**THESIS_CAPTURED · SOURCE_CAPTURE_ONLY.** [Author-owned repository and methodology](https://github.com/areebarshad/systematic-sector-alpha), reviewed 2026-10-18. Original is **daily U.S. sector ETF research**, not crypto, and not an ATS-verified trained artifact.
+
+Original hypothesis: condition sector direction forecasts on lagged **peer-sector return spreads, beta/correlation to SPY, volatility/drawdowns, VIX and U.S. 10-year Treasury-rate regimes**. A shared LightGBM classifier estimates positive five-day forward average return probabilities, maps the probabilities to signed scores, and constructs either proportional signed positions or top-three long/short sector baskets. Source describes five expanding chronological CV folds, train-only scaler/PCA decisions, and aggregated OOF forecasts; full overlap-purge and clock parity require separate audit.
+
+**Adverse source-reported results:** mean AUC near **0.520**; proportional portfolio Sharpe **0.66**, top-3 long/short Sharpe **0.28**, SPY Sharpe **0.69** in the author's 2008–2025 evaluation; top-3 maximum drawdown reported **−36.4%**. The probability-to-return heuristic has a strongly negative mapped R-squared. These figures are not independent ATS performance evidence, and actual ETF trading frictions are not fully source-qualified.
+
+This is a differentiated noncrypto ML method because it learns conditional **cross-sector spread interactions** rather than univariate return classification or a crypto graph model. Fair null: simple lagged relative-strength rankings on same live-eligible nine sectors, with identical execution/cost/short constraints. Native ATS could only approximate the top-three mode after a true instrument/cost adapter and trustworthy historical sector universe are available; current status **BLOCKED_DATA**, not EXECUTABLE_SPEC_VALID. No funding-based alpha.

@@ -1,0 +1,40 @@
+identity:
+  candidate_id: crypto_xs_downside_risk_premium_zhang_20261018_v1
+  selection_family_id: cryptocurrency_asset_specific_downside_risk_premium
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: Downside risk and the cross-section of cryptocurrency returns
+      authors: Wei Zhang, Yi Li, Xiong Xiong and Pengfei Wang
+      publication_date: "2021"
+      url: https://doi.org/10.1016/j.jbankfin.2021.106246
+      evidence_scope: Original publisher bibliographic abstract via RePEc; formula and portfolio construction not available
+economic_thesis:
+  mechanism: Investors may demand an ex ante premium for owning cryptoassets carrying more standalone downside tail risk, not simply loading on broad BTC downside beta.
+  source_claimed_strategy: "Study portfolio-sorted and regression relationships between downside risk of cryptocurrencies and future returns, finding a positive association. Exact downside measure, formation horizons, long-short positions, weighting, cost calculations and venue UNKNOWN from available abstract."
+markets_and_data:
+  instruments: "Cryptoasset cross-section; particular exchange, product and eligibility UNKNOWN"
+  timeframe: "Forward return relation; formation and holding lengths UNKNOWN"
+  data_requirements: "Historical asset returns including downside events, PIT listing/universe metadata; downside-risk definition only from full source"
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  original_signal: "Asset-specific downside risk (source does not reveal exact statistic in available abstract)."
+  long_selection: "Empirical positive downside-risk versus next-return relationship; exact author long basket UNKNOWN"
+  short_selection: "UNKNOWN; do not equate author association to an explicit high-risk-long/low-risk-short executable book"
+  basket_construction: UNKNOWN
+  clock_horizon: UNKNOWN
+  costs_execution: UNKNOWN
+  unresolved_blockers: "Obtain full source tables and definitions, distinguish downside semivariance from systematic downside beta, PIT exclusions and shortable asset coverage."
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: positive downside-risk and next-return relation in portfolio sorts and cross-sectional regressions; no Sharpe claimed."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "Return spread reflects untradeable microcap premia or overlaps existing downside-beta signals and vanishes with contemporary liquid futures and costs."
+scientific_integrity:
+  contrary_evidence: "Fieberg, Liedtke and Zaremba 2024 report anomalies concentrated in hard-to-trade small assets, degraded by costs or recent years; https://doi.org/10.1016/j.irfa.2024.103218"
+  novelty: "Asset-specific downside risk compensation as distinct from existing relative downside beta and downside correlation asymmetry; requires full-text exact feature comparison."
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

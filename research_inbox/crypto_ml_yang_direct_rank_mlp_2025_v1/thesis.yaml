@@ -1,0 +1,70 @@
+candidate_id: crypto_ml_yang_direct_rank_mlp_2025_v1
+selection_family_id: crypto_ml_direct_relative_return_rank
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: yang_2025_rank_neural_crypto_paper
+    url: https://arxiv.org/abs/2512.08124
+    title: 'Long-only cryptocurrency portfolio management by ranking the assets: a neural network approach'
+    authors: Zijiang Yang
+    published_online: 2025-12-09
+    publication: arXiv 2512.08124; authors also list IJCNN 2025
+    source_role: PRIMARY_AUTHOR_ARXIV_HTML
+economic_thesis:
+  source_hypothesis: Predicting next-period rank of coin returns is a more tractable target than absolute coin returns when assets exhibit strong shared volatility and relative market dynamics.
+  local_hypothesis: A cross-section-aware rank predictor could improve coin ordering over simple past-return/relative-strength ranks if it generalizes outside the fixed historical universe.
+  status: SOURCE_CLAIM_UNVERIFIED
+mechanism:
+  author_rationale: Relative strength among coins is the allocation-relevant prediction target and avoids noisy absolute return scales.
+  economic_counterparty: UNKNOWN; predictive target engineering is not itself a demonstrated price inefficiency.
+instruments:
+  source: Ten largest market-cap cryptocurrencies AS OF 2023-11-01, historical daily CoinGecko bars from 2020-05-01 to 2023-11-01.
+  source_portfolio: Long-only multi-coin allocation; NO short leg or dollar neutrality.
+  known_bias: Using final-2023 membership for a backtest starting 2020 is explicit ex-post universe selection, NOT a point-in-time universe.
+data_requirements:
+  source: Daily price/returns for BTC ETH EOS ETC BCH TRX ADA XRP LINK BNB, and history-derived model inputs.
+  local: Local Binance perp historical availability for those coins and historical delistings unverified; source CoinGecko spot/index close is different product.
+feature_contracts:
+  source_inputs: Prior-period return, training-window volatility, Sharpe ratio, and return-rank correlation/trend on the selected asset basket.
+  prediction_target: Next-day cross-sectional relative return rank; authors also test power-transformed ranks with exponents 2, 3, 4.
+  models: MLP, k-nearest-neighbor, Random Forest and XGBoost variants; central method is a 20-by-20-hidden-layer MLP.
+  training_clock: Algorithm 1 lists an 80-day trailing feature/model window and refits MLP every 10 steps; exact interpretation of label maturity needs source-code parity.
+strategy_rules:
+  source_original:
+    - Fit the MLP with rolling historical features and next-day return rank targets within the fixed ten-coin set.
+    - Produce per-asset scores, normalize model outputs into portfolio allocation weights, and hold a long-only crypto portfolio.
+    - Smooth recent weights with decay; source example uses alpha 0.7 and lag length 1.
+  not_source: Neither short selection nor an ATS top/bottom equal-weight basket appears in this study.
+signal_and_execution_clock:
+  source: Daily prediction and normalized allocation; paper algorithm's label-index and executable fill chronology require independent detailed review before treating results as causal.
+  future: Every prediction must use only labels matured before the decision timestamp; train-fold scaler/model fits cannot incorporate later returns.
+sizing:
+  source: Model-produced normalized long-only portfolio weights with weight decay; outputs should be checked for nonnegativity and sum-to-one constraints.
+cost_assumptions:
+  source: Author reports resistance to tested fee increases; specific execution/spread/overnight charges are not source-qualified here.
+  prop_firm: Actual crypto CFDs/perps, allowed positions, daily loss and financing remain UNKNOWN.
+baseline:
+  source: Uniform constant rebalanced and market-following/mean-reverting online allocation comparisons.
+  local_future: Previous-day relative rank and equally weighted top-ranked liquid coin basket with same investable set and rebalance clock.
+development_evaluation:
+  completed_locally: false
+  source_claims: Sharpe 1.01 and annualized return 64.26% on 2020-2023 daily paper simulation; not independently replicated, and final-date coin membership is a serious survivorship caveat.
+primary_falsifier:
+  future_test: Direct-rank NN does not improve real investable next-day ranking after PIT universe reconstruction, matched turnover/costs, and simplified ranking baselines.
+acceptance_and_stop_rules:
+  source: Long-only fixed-universe algorithm preserved as reported.
+  stop: Original portfolio cannot be called native ATS-executable without explicit long-only protocol; cannot call final-date 10-coin panel survivorship-safe.
+parity_and_causality_tests:
+  required: Dynamic historically eligible universe, model shape versus varying coin set, label maturity check, chrono OOF refit schedule, nonsigned allocation, next-fill timing and account losses.
+known_adaptations:
+  - A 1h or dollar-neutral long/short model would be materially new and requires separately specified source-independent hypotheses.
+verified_facts:
+  - Original author arXiv HTML including Section III/IV and its algorithm/table directly read 2026-10-18.
+assumptions:
+  - Model improvement might stem from exploiting a fixed selected set of strong surviving coins rather than cross-sectional skill; must falsify.
+unresolved_blockers:
+  - Severe ex-post universe bias: historical test universe selected at 2023-11-01.
+  - Current ATS allocation only has dollar-neutral long/short rule; original long-only weights require different qualified protocol.
+  - No trained weights or frozen replay artifact and no OOF proof against train-label leakage.

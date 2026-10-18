@@ -1,0 +1,41 @@
+identity:
+  candidate_id: crypto_pairs_hurst_antipersistence_20261018_v1
+  selection_family_id: anti_persistent_spread_hurst_pair_timing
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Anti-Persistent Values of the Hurst Exponent Anticipate Mean Reversion in Pairs Trading: The Cryptocurrencies Market as a Case Study"
+      authors: Mar Grande, Florentino Borondo, Juan Carlos Losada, Javier Borondo
+      publication_date: "2024-09"
+      url: https://doi.org/10.3390/math12182911
+      evidence_scope: Publisher and RePEc original abstract
+economic_thesis:
+  mechanism: A local Hurst exponent below 0.5 identifies anti-persistent pair spreads that tend to revert faster than unconditioned spreads, potentially reducing costly duration.
+  source_claimed_strategy: Researchers use local Hurst of cryptocurrency-pair spreads as an additional pair-entry filter and report comparative pair trading strategies with H below 0.5.
+markets_and_data:
+  instruments: Top 20 coins by market capitalization as of 2024-06-06 (retrospective sampling risk); 1h Binance API prices 2019-01-01 to 2024-06-05; exact tradable product and pair names UNKNOWN
+  timeframe: 1h Binance observations; source holds no longer than 72 hours in the quoted sample trading strategy
+  data_requirements: 1h pair log-prices; log-price spread s=log(P_A)-b*log(P_B), b=preceding 30d (720-bar) log-return volatility ratio; H from rolling 24-672h windows ending one hour before decision; historically eligible symbol list
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  pair_filter: Source paper local Hurst of pair spread less than 0.5
+  long_selection: When H<0.5 and pair spread is between 1 and 2 rolling standard deviations BELOW its rolling mean, buy A and sell B (source pair convention; actual executable hedge-notional translation UNKNOWN)
+  short_selection: When H<0.5 and pair spread is between 1 and 2 rolling standard deviations ABOVE its rolling mean, sell A and buy B (source pair convention)
+  basket_construction: One long and one short in a selected pair; exact hedge ratio and portfolio aggregation UNKNOWN
+  signal_and_execution_clock: UNKNOWN
+  sizing: UNKNOWN
+  costs_and_exits: Close on spread returning to mean, crossing 2-standard-deviation adverse barrier, or 72-hour timeout in sampled strategy; exact fee/slippage and hedge-quantity accounting UNKNOWN
+  unresolved_blockers: Exact tested Hurst window/portfolio variant, selection from hindsight top-20 list, sizing/hedge-unit translation, source fees, instrument identity and executable prop-firm rules remain unresolved
+research_evaluation:
+  original_author_results: SOURCE_REPORTED_UNVERIFIED
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: Local anti-persistence does not meaningfully shorten duration of ex-ante selected tradable spread trades or fails after costs
+scientific_integrity:
+  adverse_evidence: Local Hurst is estimator/noise sensitive; anti-persistence may be a statistical observation but not tradeable after fees and re-hedging
+  novelty: Hurst conditional entry timing differs from copula conditional dependence and generic correlation-based pair selection
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

@@ -6,9 +6,11 @@ import os
 import sys
 from pathlib import Path
 
+from src.connectors_bootstrap import ensure_connectors
+
 ROOT = Path(__file__).resolve().parents[1]
-CONNECTOR = Path("/home/quant/.devspace/worktrees/trading-connector-d0370150")
-PYTHON = Path("/home/quant/.devspace/worktrees/quant-research-25440f7a/.venv/bin/python")
+CONNECTOR = ensure_connectors() or ROOT.parent / "trading-connector"
+PYTHON = Path(sys.executable)
 VENV = PYTHON.parent.parent
 
 

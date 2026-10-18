@@ -13,6 +13,9 @@ import time
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+from src.connectors_bootstrap import ensure_connectors
+
+ensure_connectors()
 from connectors.bybit.feed import BybitKlineFeed
 
 from scripts.ats7_fixtures import local_manifest

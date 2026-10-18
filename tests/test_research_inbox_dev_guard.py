@@ -71,6 +71,24 @@ def test_quant_cli_dev_only_falsification_never_approaches_stage4(tmp_path):
     assert not (runlog / "_holdout_claims").exists()
 
 
+def test_native_stage2_falsification_dev_only_never_approaches_stage4(tmp_path):
+    out = tmp_path / "vault"
+    PanelBuilder(tmp_path / "raw", out).publish(
+        make_panel(hours=240, dynamic=True),
+        provenance={"source_spec_status": "synthetic_test"})
+    values = synthetic_spec(out).model_dump(mode="json")
+    values["gates"]["minimum_ic"] = 1.0
+    spec = CandidateSpec.model_validate(values)
+    runlog = tmp_path / "logs"
+    report = ResearchFunnel(run_log=runlog, isolate=False).run(spec, development_only=True)
+    assert report["status"] == "FALSIFIED_STAGE_2"
+    assert report["holdout_access"] is False
+    assert report["stages"]["1"]["status"] == "PASS"
+    assert report["stages"]["2"]["status"] == "FALSIFIED_STAGE_2"
+    assert "3" not in report["stages"] and "4" not in report["stages"]
+    assert not (runlog / "_holdout_claims").exists()
+
+
 def test_dev_only_rejects_frozen_event_before_runner(tmp_path, monkeypatch):
     from src.engine import funnel
     from src.engine.event_protocol import M8N8EventSpec

@@ -323,7 +323,7 @@ class ResearchFunnel:
                     'attempt_id': attempt, 'run_path': str(output.relative_to(self.run_log))}
         append_trial(self.run_log, {**identity, 'event': 'registered', 'status': 'RUNNING'})
         case = {**identity, 'status': 'RUNNING', 'output_path': str(output), 'holdout_access': False,
-                'live_order_authority': False, 'stages': {}}
+                'development_only': True, 'live_order_authority': False, 'stages': {}}
         failure = None
         report = None
         try:

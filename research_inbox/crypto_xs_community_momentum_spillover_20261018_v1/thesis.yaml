@@ -1,0 +1,42 @@
+identity:
+  candidate_id: crypto_xs_community_momentum_spillover_20261018_v1
+  selection_family_id: technology_community_return_propagation
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Crypto technology-community peer-return momentum"
+      authors: "Li Guo, Wolfgang Karl Härdle, Yubo Tao"
+      publication_date: "2021"
+      url: "https://arxiv.org/abs/2108.11921"
+economic_thesis:
+  mechanism: "Lagged returns of OTHER coins in dynamically clustered technology-related cryptocurrency communities may predict a coin's next relative return."
+  source_claimed_strategy: "Authors build a time-varying cross-crypto network using return relations and technical/consensus characteristics and use lagged peer-community average returns to predict individual token returns; sort by expected returns."
+markets_and_data:
+  instruments: "Paper uses about 182 cryptocurrencies in a historical 2016-2018 sample; selection as of December 2018 may contaminate back-historical membership."
+  timeframe: "Daily predictive horizon; exact formation/lookback and rebalance UNKNOWN here."
+  data_requirements: "PIT token technology/consensus labels, historical membership, timestamps, daily returns; Binance price-only 1h dataset insufficient to replicate source method."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  strategy_rules: "Authors build a time-varying cross-crypto network using return relations and technical/consensus characteristics and use lagged peer-community average returns to predict individual token returns; sort by expected returns."
+  original_long_selection: "Source portfolio takes top predicted-return quartile."
+  original_short_selection: "Source portfolio shorts bottom predicted-return quartile."
+  basket_construction: "Cross-sectional top/bottom forecast quartiles; precise weights, gross exposure and costs UNKNOWN."
+  signal_and_execution_clock: UNKNOWN
+  sizing_and_cost_assumptions: UNKNOWN
+  exits_and_stops: UNKNOWN
+  unresolved_blockers: "Original exact data availability, timing, portfolio semantics, fees and execution not independently compiled"
+research_evaluation:
+  baseline: UNKNOWN
+  development_evaluation: NOT_PERFORMED
+  source_reported_tests: UNVERIFIED
+  primary_falsifier: "Peer predictive ordering vanishes with as-of constituents and as-of tech attributes or source clustering cannot be causally reproduced."
+scientific_integrity:
+  contrary_evidence_and_limitations: "Original sample chosen using later market-cap ranks may be survivor-biased; clustering and the coin technical-feature information clock may be noncausal."
+  novelty: "Other-token within-network lagged peers from time-varying technology-assisted clusters differs from simple BTC beta, whole-market momentum, static pairwise correlation or an OHLCV-only industry proxy."
+  adaptation_proposal_not_source_fact: "A pure return-correlation cluster basket would NOT reproduce source CASC clusters."
+  parity_and_causality_tests: NOT_PERFORMED
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

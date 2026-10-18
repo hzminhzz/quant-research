@@ -1,0 +1,72 @@
+candidate_id: crypto_ml_matthiola_xgbranker_20usdt_2026_v1
+selection_family_id: crypto_ml_walkforward_pairwise_rank_xgb
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: matthiola0_ml_cross_sectional_crypto_robustness
+    url: https://github.com/matthiola0/ml-cross-sectional
+    notebook_url: https://github.com/matthiola0/ml-cross-sectional/blob/main/notebooks/05_robustness_tw_btc.ipynb
+    title: ml-cross-sectional; crypto 20-name robustness experiment
+    authors: matthiola0 (GitHub repository owner)
+    publication: Author-owned open source README/notebooks, date of authorship NOT VERIFIED
+    source_role: AUTHOR_GITHUB_README_AND_DISCLOSED_METHODS
+economic_thesis:
+  source_claim: An XGBRanker trained on multiple lagged price/volume features can rank relative forward returns better than a hand-picked equal-weight factor composite, including in a 20-coin Binance USDT robustness exercise.
+  evidence_class: SOURCE_REPORTED_UNREPLICATED
+mechanism:
+  source: Nonlinear interaction of return horizons, liquidity/size and volatility can change the sign of predictive effects across markets, making conditional tree splits more useful than fixed signs and weights.
+  qualification: This explanation comes from author's stated SHAP/benchmark narrative and is not independently verified causal alpha.
+instruments:
+  original_primary: Current S&P 500 constituent equity universe, with a separately reported hard-coded 20 liquid USDT-pair Binance cryptocurrency robustness exercise.
+  crypto_source: Author says 20-name Binance USDT universe, 2018-2025 data and OOS 2022-2024; spot/perp status, listing/de-listing membership and exact contract IDs NOT independently confirmed.
+  prop_firm: Which pairs can be shorted or hedged and permitted overnight exposure are UNKNOWN.
+data_requirements:
+  source: Historical OHLCV for the 20-name Binance sample, 12 engineered price/volume factors and matching index membership/rank labels.
+  local: Local Binance crypto panel may share OHLCV-type fields; source original pair list, venue product, liquidity ranks, dates, and protocol parity require checks.
+  major_bias: Author explicitly discloses static/hindsight universe selection and lack of PIT membership in the primary equity case; crypto 20-name universe is also hard-coded and may induce survivor bias.
+feature_contracts:
+  source: Twelve technical and classic price-volume predictors including cross-sectional size/ADV, realized volatility, return horizons, 12-1 momentum, RSI, MACD and volume z-scores.
+  model: XGBoost XGBRanker and LightGBM LGBMRanker with linear Ridge/Lasso and handcrafted equal-weight baselines.
+  target: Forward 21-day cross-sectional return rank in the documented primary equity experiment; crypto notebook's exact target/clock/aggregation requires code verification.
+  validation: Expanding annual walk-forward, no purge according to author; 21-day overlapping labels need boundary purging/embargo audit before causal qualification.
+strategy_rules:
+  source_original:
+    - Compute lagged technical price-volume features for a fixed historical instrument collection.
+    - Refit ranking models using the documented expanding walk-forward process and predict next-period cross-sectional ranks.
+    - Sort predicted ranks into long top-quintile and short bottom-quintile equal-weight baskets with monthly rebalancing in the primary test.
+    - Assess the 20-name Binance USDT cross-market robustness experiment in notebook 05 using the same feature/model family.
+  unresolved_crypto_specific: Exact crypto quintile counts, turnover, cost rate, train dates, and source instrument symbols should be read from notebook before claiming a precise crypto replication.
+signal_and_execution_clock:
+  source_primary: Monthly quintile rebalance; 21-day rank forecast and annual model refit.
+  crypto_original: 20-name Binance robustness OOS 2022-2024; exact earliest fill clock, bar offset and feature release are not independently checked.
+  future_need: Timestamp training snapshot for each forecast, correct purging of overlapping 21-day outcomes and execute after completed input bar.
+sizing:
+  primary: Dollar-neutral equal-weight long and short quintiles, gross/net absolute sizing and broker margin constraints not independently qualified for crypto.
+  portfolio_adaptation: ATS's fixed top/bottom equal-weight allocator would require explicit eligible counts and cadence; do not silently assume source equivalence.
+cost_assumptions:
+  primary_equity_source: Author states US-equity modeled one-way costs of 5 bps (1 bp commissions + 4 bp slippage), not portable to crypto perps/prop CFDs.
+  crypto: Crypto experiment author-reported net Sharpe 0.74 but exact venue cost convention and financing/borrow are not source-confirmed.
+baseline:
+  source: Handcrafted equal-weight combination of three positive-IC-IR factors, Ridge, Lasso, LightGBM, and factor-controlled scores.
+  future_null: Identical forecast horizon/eligible crypto universe and modeled costs with a train-only equal-weight momentum-volatility ranking baseline.
+development_evaluation:
+  status: NOT_RUN
+  source_report: Author claims 20-pair crypto XGBRanker net Sharpe 0.74 versus naive EW -0.22 in OOS 2022-2024; these are self-reported, not independently replicated.
+  adverse: Author admits 21-day label walk-forward with no purge, fixed survivor universe, modest regime-specific performance and the 20-pair crypto benchmark sign reversal.
+primary_falsifier:
+  future_test: Chronological-purged PIT XGB rank predictions do not improve IC and after-cost long/short spread over the same simple frozen factor baseline in currently eligible liquid crypto contracts.
+acceptance_and_stop_rules:
+  source_only: Preserve the 20-name crypto robustness as a reported experiment, not a verified ATS execution or interchangeable 1h signal.
+  stop: No model fitting or native ATS stage until original notebook clock, data rights, PIT universe and return label maturity are independently qualified.
+parity_and_causality_tests:
+  future: Verify GitHub code/files; source symbol identity, spot-versus-perp semantics, universe membership, true causal retrains, purging and OOF prediction identity, shortability and fee parity.
+verified_facts:
+  - Author GitHub README directly inspected 2026-10-18; notebook 05 referenced from author README but cells not executed or fully audited.
+known_adaptations:
+  - Any 1h crypto-perp or CFD version would be a NEW registered replication, not exact paper/source strategy.
+unresolved_blockers:
+  - Exact original crypto notebook rules, cost assumption, and causally trainable model snapshot unresolved.
+  - No verified PIT listing/delisting universe or OOF predictions.
+  - Prop-firm pair availability and broker shorting, swap, margin and daily loss restrictions unknown.

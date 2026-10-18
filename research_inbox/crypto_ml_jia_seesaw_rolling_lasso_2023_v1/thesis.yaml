@@ -1,0 +1,69 @@
+candidate_id: crypto_ml_jia_seesaw_rolling_lasso_2023_v1
+selection_family_id: crypto_ml_negative_large_small_spillover
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: jia_wu_yan_liu_seesaw_2023
+    url: https://doi.org/10.1016/j.jempfin.2023.101428
+    title: 'A seesaw effect in the cryptocurrency market: Understanding the return cross predictability of cryptocurrencies'
+    authors: Yuecheng Jia; Yangru Wu; Shu Yan; Yuzheng Liu
+    publication: Journal of Empirical Finance 2023, article 101428
+    source_role: PRIMARY_PUBLISHER_READABLE_ARTICLE_EXCERPTS
+economic_thesis:
+  source_claim: In intraday crypto, large-coin shocks negatively predict the next returns of smaller coins; a rolling LASSO forecast ranks coins to trade the resulting cross-asset seesaw.
+  distinguish_from_positive_delay: The reported large-to-small forecast SIGN is NEGATIVE (flight to hot large coins), not the positive catch-up effect postulated by a separate existing information-delay basket.
+  local_null: No out-of-time, after-cost relative-return spread survives on the exact local tradable product set.
+mechanism:
+  source_interpretation: Investor money reallocates into shocked/hot large coins and out of others; limits to arbitrage and money-flow frictions permit short-lived predictable cross-coin returns.
+  causal_certainty: Mechanism attribution remains an author interpretation, not independently established by this source-only task.
+instruments:
+  original: Intraday transactions from BITFINEX and HUOBI; BTC ETH XRP LTC EOS among historically largest coins.
+  original_product_details: Exchange spot and futures implementation considered; exact original fee/product parameters require article tables.
+  local_prop_firm_fit: Weak without a firm allowing 5-minute multi-coin baskets, precise shorts, fee budget and rapid rebalances.
+data_requirements:
+  source: Contemporaneous coin transaction-return panel, historical liquid coin membership, rolling estimation windows.
+  author_sample: Article snippets say BITFINEX/HUOBI 2018-01-01 through 2021-07-30.
+  local_proxy: Binance venue is NOT the authors' data; broad synchronized 5-minute venue-specific historical coverage unverified.
+feature_contracts:
+  source: Lagged cross-coin returns into a rolling LASSO next-period return forecaster; sparse coefficients retain relevant leaders.
+  exact_parameters: LASSO window sizes and penalty fit procedure not reproduced in inspected article excerpt.
+  ml_requirement: Window-fitted coefficients must only use labels matured before prediction time; train-only transforms and time-ordered prediction evidence.
+strategy_rules:
+  source_original:
+    - Fit rolling LASSO to forecast each coin next-period return from historical other-coin returns.
+    - At each five-minute portfolio formation, sort by the LASSO forecast/spillover measure (SO).
+    - Buy top quintile and short bottom quintile (SO Q5 minus Q1).
+  forbidden_drift: Do not reinterpret as 1h positive BTC residual momentum or a fixed 48h lagged-OLS basket.
+signal_and_execution_clock:
+  source: Five-minute intraday forecasting and portfolio formation; event timestamps and exact executable fill latency UNKNOWN from inspected excerpts.
+  future_requirement: Point-in-time rolling fit; 5m bar closes, next tradable fill, missing-bar and exchange clock verification.
+sizing:
+  original: Long-high SO quintile/short-low SO quintile; exact within-quintile notional and net weights UNKNOWN from article excerpt.
+cost_assumptions:
+  source_claim: Authors report results after treatment of realistic trading frictions in spot/futures; specific fee table not source-verified here.
+  caution: Source reports gross five-minute Q5-Q1 mean returns above 5bps on BITFINEX and above 6bps on HUOBI; this is NOT a local after-cost forecast.
+  local: No transferable prop-firm commissions, spread, latency, swaps or account limits qualified.
+baseline:
+  independent_local_proposal: Cross-sectional rank using only the current leading-coin negative-return shock, without learned multivariate LASSO, with identical 5m clock.
+development_evaluation:
+  status: NOT_RUN
+  author_study_results: Significant cross-coin Q5-Q1 returns and transaction-cost-adjusted profitability are SOURCE_REPORTED only.
+primary_falsifier:
+  future_test: Rolling LASSO conditional negative spillovers do not outperform a simple negative big-coin leader baseline after local 5m spreads, turnover and prop-firm restrictions.
+acceptance_and_stop_rules:
+  source_capture: Preserve the observed negative sign and exact 5-minute target, even if local ATS prefers 1h.
+  stop: Mark BLOCKED_DATA_OR_PRODUCT if synchronized true 5m multi-symbol source/venue/product/costs unavailable; no forced 1h substitution.
+parity_and_causality_tests:
+  required: Rolling cross-asset fit/label maturity, synchronized sampled universe, retrospective exchange delisting, observable next-fill and half-spread latency, OOF artifact freezing.
+known_adaptations:
+  - Porting 5m HUOBI/BITFINEX study to Binance or CFD prop accounts is a new experiment, not exact source replication.
+verified_facts:
+  - Original publisher abstract and accessible substantive strategy text inspected 2026-10-18.
+assumptions:
+  - The negative seesaw need not coexist with the positive information-delay basket's conjectured catch-up over longer bars.
+unresolved_blockers:
+  - No original tick/transaction dataset identified on local source venue and no qualified 5m cross-asset portfolio adapter parity.
+  - Exact LASSO hyperparameters, fit clock, coin eligibility, two-leg netting, cost tables and contract type unresolved.
+  - No trained model, validated OOF predictions or ATS executable artifact.

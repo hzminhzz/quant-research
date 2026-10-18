@@ -1,0 +1,71 @@
+candidate_id: crypto_ml_alessandretti_pooled_xgboost_2018_v1
+selection_family_id: crypto_ml_pooled_cross_coin_return_forecast
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: alessandretti_elbahrawy_aiello_baronchelli_2018_method1
+    url: https://onlinelibrary.wiley.com/doi/10.1155/2018/8983590
+    title: Anticipating Cryptocurrency Prices Using Machine Learning
+    authors: Laura Alessandretti; Abeer ElBahrawy; Luca Maria Aiello; Andrea Baronchelli
+    publication_date: 2018-11-04
+    journal: Complexity 2018, article 8983590
+    source_role: PRIMARY_PUBLISHER_FULL_TEXT_HTML
+economic_thesis:
+  original_research: Pooled gradient-boosted tree regression across many coins may predict future *relative-to-BTC* ROI from recent observable coin attributes, allowing selection of favorable names for a long-only portfolio.
+  novel_ml_target: Single global cross-sectional model shared across assets; coin-specific models and LSTMs are separate author methods and NOT this capture.
+  local_hypothesis: Pooled nonlinear interactions in lagged price, trading volume and coin characteristics may improve relative-coin ranking over a simple moving-average benchmark.
+mechanism:
+  authors_interpretation: Market inefficiencies and short-term dependencies in coin price and returns permit aggregate cross-coin statistical learning; source does not isolate a proved behavioral cause.
+  counterparty: UNKNOWN
+instruments:
+  original: CoinMarketCap aggregation across about 300 venues, 1681 cryptocurrencies, 2015-11 through 2018-04.
+  original_strategy: DAILY long-only, selecting top n coins predicted to have positive relative BTC-denominated ROI; source does not short losers.
+  local_prop_transfer: Requires entirely new product universe/margin/basket rules; daily historical retail CoinMarketCap coins not equivalent to modern perp contracts.
+data_requirements:
+  source: Daily USD cryptocurrency price, market cap, relative market share, capitalization rank, volume and return; price converts to BTC units for reported strategies.
+  source_filter: Only coins with daily trading volume above USD 100000 are considered investable at a given date.
+  local_status: Current ATS 1h OHLCV alone does NOT establish market cap or shares; CoinMarketCap historical constituent/product adaptation not verified.
+feature_contracts:
+  source_original_method1: Pooled XGBoost tree regression; for each coin and past window use average, standard deviation, median, last observation and trend of its price, capitalization, share, rank, volume and ROI.
+  source_window_selection: Paper considers short input windows around 5/10 daily steps for boosted models, adjusted through historical performance; fixed exact deployed window for a future study is not preregistered here.
+  required_ml_control: Train on past matured labels only; rolling retraining/split schedule and model artifact must reproduce original source semantics.
+strategy_rules:
+  author_original:
+    - Use one shared XGBoost regressor to forecast per-coin next-day ROI from prior observable histories.
+    - Select top n predictions with positive expected next-day ROI; split capital equally among these names.
+    - Rebalance/score daily; evaluate wealth relative to BTC and a moving-average predictive benchmark.
+  not_source: Shorting bottom-ranked coins or switching to hourly perps is NOT the original rule.
+signal_and_execution_clock:
+  original: Use features through previous day (t-1) to forecast day t; original live fill mechanism and historic price execution feasibility are NOT fully qualified.
+  execution_adaptation: Futures or CFD next-bar orders need independent prices, cost data and time alignment.
+sizing:
+  original: Equal allocations among selected top n positive-return forecasts, long-only; daily n chosen/optimized in the authors' experiments.
+cost_assumptions:
+  source_claim: Comparative sensitivity evaluated across hypothetical trading fees from 0.1% to 1%; full market impact is not represented.
+  unmodeled: Real borrow or short for any local long/short adaptation, broker spreads and settlement financing UNKNOWN.
+baseline:
+  authors_comparator: Simple moving-average prediction method.
+  proposed_rigorous_control: Comparable pooled linear model or same-feature linear rank before justifying XGBoost complexity.
+development_evaluation:
+  task_status: NOT_RUN
+  source_reported: Three source model designs were evaluated, source claims positive BTC-denominated returns versus baseline over 2016–2018 using short formation windows.
+  caveats: Backtest uses daily aggregate prices, on-the-fly historical optimization, volume filter and assumed unlimited BTC supply with no market impact.
+primary_falsifier:
+  test: Pooled gradient boosting fails to beat simple lagged-return/moving-average predictor after true tradable-universe constraints and modern realistic trading costs.
+acceptance_and_stop_rules:
+  source_capture: Preserve original long-only BTC-denominated return target.
+  stop: Any exact replication claim needs source-specific execution clock and CoinMarketCap historical universe; no blind conversion to short basket.
+parity_and_causality_tests:
+  required: Coin-level PIT historical availability and delistings, label maturity, per-fold training window, feature conditioning, frozen inference parity and after-cost tradable basket model.
+known_adaptations:
+  - An ATS dollar-neutral long/short perp version would be a new thesis needing explicit approval; NOT inferred from the author long-only top-n design.
+verified_facts:
+  - Original Wiley/Complexity HTML paper read directly 2026-10-18 including Method 1 design, selection, cost limits.
+assumptions:
+  - Source 2015–2018 regime may be unrepresentative of current large cap liquid prop symbols; no transfer alpha assumed.
+unresolved_blockers:
+  - Historic market cap, market share and rank source identity absent in standard local OHLCV only panel.
+  - No long-only target in current dollar-neutral cross-sectional ATS allocator; BLOCKED_PROTOCOL for literal replication.
+  - No trained model, chronological OOF evidence, data/clock/cost parity or frozen ATS CandidateSpec.

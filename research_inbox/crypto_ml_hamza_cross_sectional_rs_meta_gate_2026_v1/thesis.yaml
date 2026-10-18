@@ -1,0 +1,76 @@
+candidate_id: crypto_ml_hamza_cross_sectional_rs_meta_gate_2026_v1
+selection_family_id: crypto_ml_crosssectional_rs_meta_label_gate
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: hamzaalisayeed_quant_algo2_cross_sectional_rs
+    url: https://github.com/hamzaalisayeed-eng/QuantAlgo2
+    strategy_config: https://github.com/hamzaalisayeed-eng/QuantAlgo2/blob/main/config/strategies/cross_sectional_rs.yaml
+    model_config: https://github.com/hamzaalisayeed-eng/QuantAlgo2/blob/main/config/meta_model.yaml
+    research_note: https://github.com/hamzaalisayeed-eng/QuantAlgo2/blob/main/docs/STRATEGY_RESEARCH.md
+    authors: hamzaalisayeed-eng (repository owner)
+    source_role: AUTHOR_OWNED_REPOSITORY_CONFIG_AND_RESEARCH_NOTE
+    source_date: "2026-08 research note; original publication date UNKNOWN"
+economic_thesis:
+  source_claim: A conditional LightGBM meta-classifier can reject low-quality weekly cross-sectional relative-strength trades while leaving a deterministic price-momentum rank rule responsible for direction.
+  evidence_class: SOURCE_REPORTED_UNREPLICATED
+mechanism:
+  source: Relative strength can be conditional on market regime, volatility, session and signal-specific context; the learned P(win given primary signal) may improve selectivity over taking all weekly rank rotations.
+  uncertainty: The author's reported advantage is based on an experimental educational paper-only research stack and a largely in-sample historical comparison, not independently qualified portable alpha.
+instruments:
+  original: BTC, ETH, SOL, XRP and DOGE on author-described binanceus spot-major OHLCV.
+  source_config: Strategy defines a top-1 long / bottom-1 short theoretical rank basket; author's operating portfolio is long-only spot and drops shorts, so realized exposure differs from rank specification.
+  prop_firm: Availability of all five products, two-sided execution, margin and overlapping positions is UNKNOWN.
+data_requirements:
+  source: 1h OHLCV for five original named crypto majors; historical event bar-close timing and completed ATR/volatility/regime features.
+  local: Existing crypto 1h OHLCV panels are potentially compatible at field level, not a certified binanceus product/calendar or source universe replication.
+feature_contracts:
+  primary: Trailing 168 1h bars of relative strength; rebalance every 168 bars, with optional cross-sectional dispersion condition configured at zero.
+  model: Per-primary-strategy LightGBM classifier of trade success, 400 estimators, learning rate 0.03, max depth 5, isotonic probability calibration in source configuration.
+  labels: Triple barrier for RS events with PT=12 ATR, SL=12 ATR and maximum 168 1h bars; this differs from the generic 2 ATR / 1.5 ATR / 24-bar default.
+  training: Configuration specifies six purged/embargoed walk-forward splits, 24-bar default embargo and weekly retraining; whether 24-bar default is adequate for RS 168-bar labels requires actual implementation audit.
+  infer: P(win|directional event); score is NOT a direct relative forward-return predictor.
+strategy_rules:
+  source_original:
+    - At weekly 1h-bar rebalance points, calculate each of the five assets' trailing 168-bar relative strength rank.
+    - Primary strategy selects top one long and bottom one short in the configuration.
+    - Use the configured LightGBM meta-model (use_meta true) to filter each triggered trade event without changing the primary direction.
+    - RS labeling deliberately uses 12 ATR upside/downside barriers to favor the 168-hour vertical exit, rather than tight stops.
+    - In author's long-only spot operation short proposals can be dropped, so do not assert a live market-neutral result.
+  source_specific_unknown: Exact production meta probability threshold after calibration, order fills, holding behavior of dropped shorts, and per-asset event-time feature availability need code/ledger review.
+signal_and_execution_clock:
+  source: 1h input bars, weekly 168-hour rebalance, event meta-gating and up to 168-bar holding.
+  needed: Confirm inference after completed 1h bar and earliest broker fill with no same-bar data read; align purge length with event label maturity and retrain cutoffs.
+sizing:
+  source: Configured top one / bottom one rank legs; meta-model can filter or probability-scale using risk-parity position multiplier and min/max dollar caps in model configuration.
+  mismatch: Filtering legs independently need not retain dollar neutrality; author long-only paper mode additionally removes shorts.
+cost_assumptions:
+  source: Author's research notes specify an approximately 0.30% round-trip cost hurdle for long-only spot majors; execution mode and instrument basis differ from prop CFDs/perps.
+  future: Independently estimate one-way venue-specific fees/spread/slippage, borrow or financing/swaps and turnover; never assume zero costs.
+baseline:
+  source: Same raw cross-sectional RS ranking without the meta classifier (source uses raw-versus-meta framing).
+  future_null: Identical eligible assets, event clocks, barrier exits, cost assumptions and short-permission rules without learned filtering.
+development_evaluation:
+  status: NOT_RUN
+  source_report: Author says meta-labeling strongly helps cross-sectional RS, but warns project numbers are in-sample single-historical-period educational artifacts and not OOS forecasts.
+  adverse: Research note states high-frequency candidate strategies fail a 0.30% round-trip cost test; trend-following filters can suppress rare major winners.
+primary_falsifier:
+  future_test: Purged chronological OOF meta-filtered RS does not improve truly cost-adjusted incremental returns or drawdown relative to original raw RS with the same event execution, after accounting for missed upside and conditional leg imbalance.
+acceptance_and_stop_rules:
+  only_descriptive: Preserve author-original relative-strength signal and its meta-gating architecture; do not infer causal superiority from source result claims.
+  protocol: BLOCKED_PROTOCOL because native ATS cross-sectional top/bottom IC+fixed allocator is not a general trade-event meta-labeling and conditional leg sizing engine.
+parity_and_causality_tests:
+  future:
+    - Audit exact rule-code parity for top/bottom selection, short drop and same-bar exposure.
+    - Verify training-sample purge and embargo against RS 168-bar event outcomes, not just generic 24-bar labels.
+    - Require OOF sample IDs, fold-local calibration/scalers, model hash and feature-name order; preserve protected time boundary.
+    - Compare raw versus meta on identical chronological events and net costs without automatic ATS runner interaction.
+known_adaptations:
+  - Two-sided prop-firm market-neutral implementation is NEW adaptation; original source's long-only execution cannot be relabeled neutral.
+  - Exclude the unrelated source repository's separate funding_carry module entirely; funding rates are NOT candidate signal inputs.
+unresolved_blockers:
+  - Original paper-mode execution/short-leg behavior and effective per-strategy gate threshold unverified.
+  - Meta-gated path requires an authorized event-specific scientific protocol, not generic cross-sectional IC.
+  - No local trained artifact, causal OOF evidence or prop account rulebook.

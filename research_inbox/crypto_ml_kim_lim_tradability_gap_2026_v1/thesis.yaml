@@ -1,0 +1,68 @@
+candidate_id: crypto_ml_kim_lim_tradability_gap_2026_v1
+selection_family_id: crypto_ml_sequence_image_cross_sectional_tradability
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: kim_lim_ssrn_7115197
+    url: https://ssrn.com/abstract=7115197
+    title: "From Predictability to Tradability: Machine-Learning Signals and Trading Frictions in Cryptocurrency Markets"
+    authors: Kyeong Hun Kim; Byung Hwa Lim
+    date_written: UNKNOWN
+    posted: "2026-07-14 (SSRN search metadata; not independently re-fetched from restricted full text)"
+    source_role: ORIGINAL_AUTHOR_MANUSCRIPT_ABSTRACT_INDEXED_BY_SSRN
+economic_thesis:
+  source_claim: Sequence- and image-based deep learning can generate cross-sectional cryptocurrency ranking information, but the ability to convert weak forecasts to excess after-cost long/short returns is limited by timing, frictions, regimes and benchmark competition.
+  evidence_class: AUTHOR_ABSTRACT_ONLY_UNREPLICATED
+mechanism:
+  source: Predictive price path structures may generate relative-return ranking information, but small IC can be overwhelmed by turnover/cost and benchmark exposures.
+  distinction: A cost/fill-conditioned ML alpha falsification study, not a claimed friction-free model or a new high Sharpe guarantee.
+instruments:
+  original: Cryptocurrency daily OHLCV panel over 2018-2024; exact universe size, symbols, venue and spot/perp status UNKNOWN in accessible abstract.
+  local: Local Binance perpetual OHLCV is a separate product and cannot be presumed source-parity.
+  prop_firm: Long and short eligibility, hedging, trading days, margin and drawdown limits depend on account rules and are UNKNOWN.
+data_requirements:
+  source: Daily OHLCV across multiple cryptocurrencies; five rolling out-of-sample study periods.
+  local: Crypto OHLCV-type fields may exist but daily aggregation and historical PIT symbol coverage require verification.
+feature_contracts:
+  source: Representative sequence- and image-based neural model families on matched information sets.
+  specific_models: Exact architecture, transformation, input depth, feature vintages, scaling and fitting hyperparameters NOT available in inspected abstract.
+  label: Forward-return cross-sectional ranking over horizons matched to model and portfolio formation; exact horizon list UNKNOWN.
+  validation: Five rolling OOS periods and sensitivity to timing/benchmarks described by author; no proof of per-fold train-only input preprocessing from abstract.
+strategy_rules:
+  source_original:
+    - Construct a common crypto OHLCV information set and compare selected sequence and image neural return predictors under matching information/horizons.
+    - Convert predicted relative returns to long/short portfolio evaluations.
+    - Compare ranking quality, net tradability, implementation timing, transaction costs and economic benchmark competition across five rolling OOS periods.
+  missing: Exact eligible universe, top/bottom counts, rebalance and allocation formula NOT disclosed by indexed abstract.
+signal_and_execution_clock:
+  source: Daily data and horizon-matched portfolio evaluation; exact decision/fill timestamp convention UNKNOWN.
+  future: Completed-bar features, forecast snapshot, next-open order timing, label maturity and PIT universe must be independently reconstructed.
+sizing:
+  original: Long-short portfolios assessed; gross/net weights, neutralization and account leverage NOT known from accessible abstract.
+cost_assumptions:
+  source: Transaction costs and implementation timing explicitly considered, but numerical broker fees/spread/slippage values UNKNOWN from indexed abstract.
+  future: Match actual prop CFD/perp contract financing as costs, not as alpha.
+baseline:
+  source: Competing benchmark portfolios and horizon-matched evaluation; exact named benchmarks UNKNOWN from abstract.
+  future_null: Equal-weight simple momentum or reversal rank on identical decision dates, labels, instruments and fill/cost assumptions.
+development_evaluation:
+  status: NOT_RUN
+  source_report: Authors report weak but statistically detectable ranking signals and narrow survival of economic alpha; no local replicability/Sharpe claim.
+  methodological_warning: Ranking IC significance does not imply profitable or broker-transferable long/short excess return.
+primary_falsifier:
+  future_test: Model-ranked long/short results cannot beat simple rank baseline after matched practical frictions and selection adjustments, despite positive IC.
+acceptance_and_stop_rules:
+  capture_only: The study is economically useful negative evidence, not authorization to choose architecture or train a predictor from this abstract.
+  stop: Full methods/portfolio mappings unavailable; preserve descriptive thesis and mark BLOCKED_SPEC, not executability.
+parity_and_causality_tests:
+  future: Exact author modeling/feature clocks, five OOS splits, all model trials, PIT universe, prices versus products, brokerage fees, OOF inference, baseline and factor exposures.
+verified_facts:
+  - SSRN indexed author/title/abstract and paper date metadata inspected by web search on 2026-10-18; SSRN full text access was rejected with HTTP 403.
+known_adaptations:
+  - Any 1h LightGBM implementation would be NEW; source compares representative sequence- and image-based deep-learning models on daily data.
+unresolved_blockers:
+  - Full methodology, exact neural architecture and hyperparameter/label specifications unavailable from accessible abstract.
+  - Source universe, portfolio weights, matched cost rates and tradable instruments unverified.
+  - Training snapshots/OOF predictions/frozen model artifact absent.

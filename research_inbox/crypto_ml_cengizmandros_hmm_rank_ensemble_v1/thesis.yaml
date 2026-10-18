@@ -1,0 +1,74 @@
+candidate_id: crypto_ml_cengizmandros_hmm_rank_ensemble_v1
+selection_family_id: crypto_ml_pit_cross_sectional_ensemble_avoidance
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: cengizmandros_crypto_ml_trading_research_github
+    url: https://github.com/cengizmandros/crypto-ml-trading-research
+    title: Crypto ML Trading Research
+    authors: cengizmandros (GitHub repository owner, personal name not independently verified)
+    publication: Public practitioner research repository, original README and source tree
+    source_role: AUTHOR_OWNED_GITHUB_README_SOURCE_REPORTED
+economic_thesis:
+  source_claim: Cross-sectional ML return scores combined with a causally filtered market regime can select preferable coins and avoid especially weak/high-volatility coins, potentially improving risk-adjusted outcomes relative to simple crypto momentum.
+  status: SOURCE_REPORTED_UNVERIFIED
+  not_a_sharpe_claim: Model-derived cross-sectional IC does not itself establish an economically profitable market-neutral strategy.
+mechanism:
+  source_interpretation: Shared coin characteristics, lagged price-volume conditions and market regimes are informative for relative return ranking; author attributes much of ranking power to avoiding volatile lottery coins.
+  counterparty_economic_mechanism: UNKNOWN; this is a conditional forecasting approach, not independently demonstrated mispricing.
+instruments:
+  source: Binance USDT spot, daily long-only multiasset top-20 universe.
+  source_short_leg: NONE. Never claim source performed dollar-neutral multi-leg long/short trading.
+  local_prop_firm_fit: Weak original transfer to CFD/perpetual prop products; tradable contract overlap, simultaneous positions and long-only versus allowed shorting UNKNOWN.
+data_requirements:
+  source_universe: Monthly top-20 by lagged trailing 30-day dollar volume, minimum 90-day price history; author says delistings retained and LUNA ticker reuse handled.
+  source_features: Fifty-eight engineered price/volume/volatility/relative-strength attributes from daily and hourly bars, including taker-buy ratios and market-relative quantities.
+  local_proxy: Local Binance perpetual OHLCV products are NOT source Binance spot; taker-buy and historical delisting coverage must be checked before new executable work.
+feature_contracts:
+  source: Cross-sectionally ranked momentum, volatility, distribution, volume, Amihud liquidity, market beta, breadth and dispersion; HMM forward-filtered regime probabilities.
+  trained_models: LightGBM, XGBoost and small Transformer, rank-average ensemble weighted by train-side inner-validation IC.
+  model_selection: Author documents nested tuning using Optuna with hundreds of trials, not a license to run optimization inside ATS.
+  causality: Source README documents train-only normalization and forward-filtered rather than smoothed HMM state.
+  proposed_future_oof_requirement: Restore immutable chronological fold predictions and versioned model/preprocessor state before any new ATS Stage 2 usage; this source-only capture does not provide model weights or certify training boundaries.
+strategy_rules:
+  source_original:
+    - Construct the lagged monthly PIT top-20 spot universe with 90-day history minimum.
+    - Build model ensemble cross-sectional scores using historical feature panel and forward-filtered regime inference.
+    - Select and risk-weight allowed long spot positions with volatility, concentration, ATR, drawdown and correlation constraints.
+    - Rebalance daily with author-explained subsequent-hour approximate execution and price/spread/slippage/impact costs.
+  not_source: Short the model's bottom-ranked coins, remove regime gating, or interpret the model as a native ATS neutral 5 long/5 short signal.
+signal_and_execution_clock:
+  source: Daily close signal; next day's first-hour typical-price proxy for simulated fill.
+  future: Verify original UTC close and next open with actual local venue's price/contract timestamps, without using future close for the fill.
+sizing:
+  source: Long-only volatility targeting, source-reported 20% asset concentration ceiling and correlated cluster control; exact mode depends on regime overlay.
+  conversion: Generic ATS equal-count dollar-neutral long/short allocation would change original source and needs independently stated research adaptation.
+cost_assumptions:
+  source: Author claims fee 0.10% plus spread, slippage and impact, including stress at 2x and 3x.
+  financing: Spot original has no funding-alpha source; derivatives or CFD port requires valid financing and short costs.
+baseline:
+  source: BTC buy-and-hold; scaled BTC; BTC trend; equal-weight top-20; simple cross-sectional momentum and random-selection portfolios.
+development_evaluation:
+  status: NOT_RUN_LOCALLY
+  source_reports: Author README claims OOF cross-sectional rank IC 0.14 vs simple momentum 0.014, 2021-2025 selected walk-forward Sharpe 0.90 vs BTC buy-hold 0.78 but CAGR 24.6% vs BTC 33.2%; DSR 0.82 when accounting for 425 trials, below 0.95 convention.
+  source_holdout_report: Author claims final 2025-10 to 2026-10 holdout return -8.7%, not a profitable holdout; not replicated and must not be reused as the local ATS protected holdout.
+  caution: Author reports a previous 91% win rate bug corrected to approximately 51%, and fixed preprocessing leakage. All figures and fixes are author source claims only.
+primary_falsifier:
+  future_test: Causally trained and separately replayed conditional ML ranks fail to improve net cross-sectional selection/portfolio outcomes relative to simple lagged momentum and matched risk policy on a point-in-time product set.
+acceptance_and_stop_rules:
+  capture_only: Descriptive source evidence is not a trained ATS model or scientific validation.
+  protocol: BLOCKED_PROTOCOL for faithful original long-only risk/allocator semantics in current generic dollar-neutral XS protocol.
+parity_and_causality_tests:
+  future: Historical delisting/renaming, monthly availability, fold-only transforms/tuning, HMM filtering, immutable OOF model versions, no learned future ranks, matched costs and BTC/naive baselines.
+known_adaptations:
+  - The new idea to SHORT poorly forecast coins is a separate adaptation, not a source-reported tested rule, and would require fresh governed research and prop-firm shortability.
+verified_facts:
+  - Original public GitHub README inspected 2026-10-18, and repository source entries existence checked; headline numbers are not independently replicated.
+assumptions:
+  - An avoidance-based model may be more useful for short selection than source long-only behavior, but no such short book was tested here.
+unresolved_blockers:
+  - No original machine-learning model artifact, archived OOF predictions or reproducible local source dataset frozen for ATS.
+  - Source original long-only regime-weighted policy is not native ATS scalar neutral basket semantics.
+  - Author's own selection-adjusted DSR fails the usual 0.95 threshold and held-out book lost money.

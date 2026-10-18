@@ -1,0 +1,42 @@
+identity:
+  candidate_id: crypto_xs_crosschain_attention_substitution_20261018_v1
+  selection_family_id: cross_chain_user_flow_substitution
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Cross-chain user-activity substitution and negative token spillovers"
+      authors: "Mengzhong Ma, Te Bao, Yonggang Wen"
+      publication_date: "2026-02-27"
+      url: "https://arxiv.org/abs/2602.23762"
+economic_thesis:
+  mechanism: "Attention and activity gains in one blockchain ecosystem may divert user demand and associated pricing power from competing chains, causing negative cross-chain spillovers."
+  source_claimed_strategy: "The 2026 paper empirically examines negative return/activity spillovers between ecosystems including Ethereum, Solana, BNB Smart Chain, Arbitrum and Avalanche using on-chain activity across 2022-2025; no independently verified executable exchange-futures basket in the source extract."
+markets_and_data:
+  instruments: "Selected chains ETH/SOL/BNB Smart Chain/Arbitrum/Avalanche; chain to executable token futures mapping not defined."
+  timeframe: "On-chain timestamped events; exchange bar interval and holding horizon UNKNOWN."
+  data_requirements: "Point-in-time and finality-aware multi-chain activities, contemporaneous exchange tradability and token/chain identifiers; OHLCV alone insufficient."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  strategy_rules: "The 2026 paper empirically examines negative return/activity spillovers between ecosystems including Ethereum, Solana, BNB Smart Chain, Arbitrum and Avalanche using on-chain activity across 2022-2025; no independently verified executable exchange-futures basket in the source extract."
+  original_long_selection: "UNKNOWN; source is observational and does not define a long leg."
+  original_short_selection: "UNKNOWN; source is observational and does not define a short leg."
+  basket_construction: "No verified source position weights, neutrality, execution or exits."
+  signal_and_execution_clock: UNKNOWN
+  sizing_and_cost_assumptions: UNKNOWN
+  exits_and_stops: UNKNOWN
+  unresolved_blockers: "Exact causal observable availability, original portfolio rules and execution cannot be inferred from observational studies"
+research_evaluation:
+  baseline: UNKNOWN
+  development_evaluation: NOT_PERFORMED
+  source_reported_tests: UNVERIFIED
+  primary_falsifier: "Any claimed negative leading activity effect disappears after event availability/finality lag and controls for marketwide crypto shocks."
+scientific_integrity:
+  contrary_evidence_and_limitations: "On-chain activity may be price-endogenous or caused by gas fees; competitor chains are not perfect substitutes and token prices do not track platform revenues directly."
+  novelty: "Cross-chain *activity* substitution rather than generic price-only seesaw spillovers or lagged return networks."
+  adaptation_proposal_not_source_fact: "Portfolio long supposedly losing-attention chain versus short gaining-attention chain is NOT author-defined and may even oppose source economic direction; must be separately conceived and challenged."
+  parity_and_causality_tests: NOT_PERFORMED
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

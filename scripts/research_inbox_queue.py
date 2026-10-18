@@ -18,12 +18,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("command", choices=["inspect", "start", "resume", "report"])
     parser.add_argument("--inbox", default=str(ROOT / "research_inbox"))
     parser.add_argument("--run-log", default=str(ROOT / "run_log"))
+    parser.add_argument("--candidates-dir", default=str(ROOT / "config/candidates"),
+                        help="directory containing CandidateSpec and adaptation specifications")
     parser.add_argument("--max-runtime-seconds", type=int, default=3600,
                         help="bound each qualified native development trial")
     parser.add_argument("--max-candidates", type=int, default=None,
                         help="optional bounded intake per call; resumes on later invocation")
     args = parser.parse_args(argv)
-    queue = InboxQueue(args.inbox, args.run_log)
+    queue = InboxQueue(args.inbox, args.run_log, candidates_dir=args.candidates_dir)
     try:
         result = (queue.run(max_runtime_seconds=args.max_runtime_seconds,
                             max_candidates=args.max_candidates)

@@ -1,0 +1,70 @@
+candidate_id: "alvarez_sp500_ibs_filtered_oversold_v1"
+selection_family_id: "equity_oversold_reversal_quality_filters"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    source_id: "alvarez_sp500_ibs_filtered_oversold_primary"
+    url: "https://alvarezquanttrading.com/blog/internal-bar-strength-for-mean-reversion/"
+    title: "Internal Bar Strength for Mean Reversion"
+    author: "Cesar Alvarez"
+    publication_date: "2022-02-16"
+    source_role: "PRIMARY_AUTHOR_WEB_ARTICLE"
+economic_thesis:
+  hypothesis: "Among heavily oversold constituents within a rising market, a close near the daily low may identify temporary selling pressure with stronger subsequent rebound than otherwise eligible RSI oversold signals."
+  null_hypothesis: "The asserted incremental conditional opportunity has zero economic benefit after appropriate matched baseline and friction."
+  claim_class: "LOCAL_HYPOTHESIS_NOT_INDEPENDENTLY_VALIDATED"
+mechanism:
+  causal_hypothesis: "A lower intraday closing location measures late-session selling intensity conditional on already-extreme RSI; liquidity demand may mean revert."
+  counterparty: "UNKNOWN; directional mechanism alone does not identify a specific losing counterparty."
+instruments:
+  original_product: "S&P 500 constituent common stocks (not SPY ETF)"
+  original_horizon: "Daily close signal / next open trade; exit on RSI(2)>50"
+  local_product_adaptation: "NONE_PROPOSED"
+data_requirements:
+  original: "Original venue-matched, point-in-time prices and the article's causal inputs; access NOT VERIFIED"
+  data_qualified: false
+feature_contracts:
+  original_features: "IBS=100*(close-low)/(high-low); Wilder or other RSI(2) smoothing UNKNOWN; SMA200, SPX 126-day return."
+  availability: "Only known after specified full source observation; implementation parity UNKNOWN"
+strategy_rules:
+  original_author_rules:
+    - "S&P 500 historical constituent; RSI(2) crosses below 2.5; stock close greater than SMA(200); SPX 126-day return positive."
+    - "Buy one share at next session's open; after RSI(2) closes above 50, exit at next session open."
+    - "IBS=(close-low)/(high-low); author scales to 0..100, tests ten buckets, and considers IBS<10 and IBS<25 examples."
+  not_disclosed: "Unpublished fields remain UNKNOWN; this descriptive capture is not executable."
+signal_and_execution_clock:
+  original_or_inferred: "IBS and RSI computed after full daily close; earliest claimed fill is next exchange session open."
+  dst_and_holiday: "UNKNOWN until instrument calendar and source timezone qualified"
+sizing:
+  original: "Author uses one share per trade in all-trades diagnostic; no portfolio limits specified."
+cost_assumptions:
+  original: "Original article does not provide execution fees/spreads/slippage; UNKNOWN."
+  local_assumption: "NONE; costs must be obtained before a trial"
+baseline:
+  predeclared_design: "Exact same RSI2/SMA200/SPX trend entry and exit rules without IBS filter."
+development_evaluation:
+  phase: "DESIGN_ONLY_NO_BACKTEST"
+  method: "Event-conditioned / fill-aware matching selected by original strategy mechanics; no empirical tests performed."
+  source_reported_results:
+    - "Author reports IBS<10 subset is ~34% of base trades with 58% higher average percent profit per trade."
+    - "Author reports IBS<25 retains ~63% of base trades with ~21% higher average percent P/L; ten-bucket winner rate trends 71% to 57% from low to high IBS."
+primary_falsifier:
+  hypothesis_test: "IBS<25 produces no positive incremental post-cost per-signal expectancy relative to the identical oversold universe without IBS, after accounting for conditional coverage."
+acceptance_and_stop_rules:
+  research_capture: "Store only source-faithful text; any research-ready/executable status is separate"
+  stop: "Reject if source semantics or provenance mismatch; no market data access authorized"
+parity_and_causality_tests:
+  required: "Point-in-time signal and next eligible executable fill chronology; original product and session; instrument-level costs."
+known_adaptations:
+  - "NONE; source claims remain distinct from any future executable translation"
+verified_facts:
+  - "Primary article was directly read in this run, and its original rules are paraphrased in brief.md. No independently confirmed alpha or data access."
+assumptions:
+  - "Economic interpretation is a hypothesis rather than the author's demonstrated causal explanation."
+unresolved_blockers:
+  - "Historical constituent point-in-time mapping and source dates/trade counts"
+  - "RSI smoothing, same-bar crossing equality, RSI>=50 vs >50 tie behavior, zero-range IBS policy"
+  - "All-trades overlap control, fill slippage/spread/fees and corporate-action adjustment"

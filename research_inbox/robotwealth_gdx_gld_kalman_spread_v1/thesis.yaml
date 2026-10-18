@@ -1,0 +1,70 @@
+candidate_id: "robotwealth_gdx_gld_kalman_spread_v1"
+selection_family_id: "etf_relative_value_dynamic_hedge"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    source_id: "robotwealth_gdx_gld_kalman_spread_primary"
+    url: "https://robotwealth.com/kalman-filter-pairs-trading-with-zorro-and-r/"
+    title: "Kalman Filter Pairs Trading with Zorro and R"
+    author: "Kris Longmore / Robot Wealth"
+    publication_date: "2019-10-16"
+    source_role: "PRIMARY_AUTHOR_WEB_ARTICLE"
+economic_thesis:
+  hypothesis: "An adaptive hedge ratio between GDX and GLD can isolate temporary price divergence between gold-mining equities and physical-gold exposure, with the residual expected to mean revert."
+  null_hypothesis: "The asserted incremental conditional opportunity has zero economic benefit after appropriate matched baseline and friction."
+  claim_class: "LOCAL_HYPOTHESIS_NOT_INDEPENDENTLY_VALIDATED"
+mechanism:
+  causal_hypothesis: "A latent linear relationship drifts; Kalman innovations identify relative-price deviations from an updated hedge ratio. Gold mining equities also embed operational/equity risks."
+  counterparty: "UNKNOWN; directional mechanism alone does not identify a specific losing counterparty."
+instruments:
+  original_product: "GDX and GLD exchange-traded funds (not gold futures or CFDs)"
+  original_horizon: "Daily 1440-minute Zorro bars; reverse at ± one predicted-error standard deviation"
+  local_product_adaptation: "NONE_PROPOSED"
+data_requirements:
+  original: "Original venue-matched, point-in-time prices and the article's causal inputs; access NOT VERIFIED"
+  data_qualified: false
+feature_contracts:
+  original_features: "Innovation e=GDX_close-(beta*GLD_close+intercept), Q innovation variance; delta=.0001, observation variance Ve=.01 from published R routine."
+  availability: "Only known after specified full source observation; implementation parity UNKNOWN"
+strategy_rules:
+  original_author_rules:
+    - "Original executable Zorro script Asset1 GDX, Asset2 GLD, StartDate 20060525, EndDate 2019, BarPeriod 1440."
+    - "State-space R routine with delta=0.0001, Ve=0.01; calculated predicted error e and variance Q; single level MaxTrades=1, Spacing=1."
+    - "On e crossing under -sqrt(Q), long GDX and short beta-adjusted GLD; on e crossing above +sqrt(Q), reverse direction; units 1000 in sample."
+    - "Original sample disables spread, commission, and slippage unless COSTS macro is enabled."
+  not_disclosed: "Unpublished fields remain UNKNOWN; this descriptive capture is not executable."
+signal_and_execution_clock:
+  original_or_inferred: "Zorro 1440-minute bars using priceClose; signal is based on current observed price; earliest feasible fill depends on broker/event engine and must be validated, not assumed close."
+  dst_and_holiday: "UNKNOWN until instrument calendar and source timezone qualified"
+sizing:
+  original: "Original 1000 portfolio units of GDX vs 1000*Kalman beta units GLD; short locate/margin not stated."
+cost_assumptions:
+  original: "Source code uses zero spread/commission/slippage by default; realistic two-leg fees, spread, borrow and dividends remain unqualified."
+  local_assumption: "NONE; costs must be obtained before a trial"
+baseline:
+  predeclared_design: "Static lagged regression-hedged GDX/GLD spread with the same transition/hold policy."
+development_evaluation:
+  phase: "DESIGN_ONLY_NO_BACKTEST"
+  method: "Event-conditioned / fill-aware matching selected by original strategy mechanics; no empirical tests performed."
+  source_reported_results:
+    - "Article shows Zorro event-driven and earlier vectorized R implementations producing similar hedge ratios, positions and equity curve shapes; does not give net-after-cost returns in readable text."
+primary_falsifier:
+  hypothesis_test: "Adaptive Kalman spread reversals do not outperform an exposure-matched static hedge / neutral residual benchmark after two-leg trading frictions and borrow."
+acceptance_and_stop_rules:
+  research_capture: "Store only source-faithful text; any research-ready/executable status is separate"
+  stop: "Reject if source semantics or provenance mismatch; no market data access authorized"
+parity_and_causality_tests:
+  required: "Point-in-time signal and next eligible executable fill chronology; original product and session; instrument-level costs."
+known_adaptations:
+  - "NONE; source claims remain distinct from any future executable translation"
+verified_facts:
+  - "Primary article was directly read in this run, and its original rules are paraphrased in brief.md. No independently confirmed alpha or data access."
+assumptions:
+  - "Economic interpretation is a hypothesis rather than the author's demonstrated causal explanation."
+unresolved_blockers:
+  - "Original data adjustment conventions from Alpha Vantage; normalized dividend/split prices"
+  - "Kalman warm-start and C++/R update parity; timing of fill vs signal close"
+  - "Broker ETF borrow, dividend payments, execution costs and point-in-time availability"

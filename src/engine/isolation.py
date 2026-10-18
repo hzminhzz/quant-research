@@ -56,7 +56,7 @@ def isolated_features(panel: pl.DataFrame, feature_fn: Callable[[pl.DataFrame], 
         (input_dir / 'callback.pkl').write_bytes(cloudpickle.dumps(feature_fn))
         command = ['bwrap', '--unshare-all', '--die-with-parent', '--new-session',
                    '--clearenv', '--proc', '/proc', '--dev', '/dev', '--tmpfs', '/tmp']
-        for system in ('/usr', '/lib', '/lib64'):
+        for system in ('/usr', '/lib', '/lib64', '/etc'):
             if Path(system).exists():
                 command += ['--ro-bind', system, system]
         # Bind only the runtime, not home/project parents or the raw data root.
@@ -70,7 +70,7 @@ def isolated_features(panel: pl.DataFrame, feature_fn: Callable[[pl.DataFrame], 
         command += ['--dir', '/workspace', '--ro-bind', str(source), '/workspace/src',
                     '--ro-bind', str(input_dir), '/input', '--bind', str(output_dir), '/output',
                     '--setenv', 'PYTHONPATH', python_path, '--setenv', 'PYTHONDONTWRITEBYTECODE', '1',
-                    '--setenv', 'POLARS_MAX_THREADS', '4', '--setenv', 'OPENBLAS_NUM_THREADS', '1',
+                    '--setenv', 'POLARS_MAX_THREADS', '2', '--setenv', 'OPENBLAS_NUM_THREADS', '1',
                     '--setenv', 'HOME', '/tmp', '--setenv', 'XDG_CONFIG_HOME', '/tmp', '--setenv', 'MPLCONFIGDIR', '/tmp',
                     '--chdir', '/workspace', str(executable), '-B', '-m', 'src.engine.isolated_worker']
         try:
@@ -79,7 +79,9 @@ def isolated_features(panel: pl.DataFrame, feature_fn: Callable[[pl.DataFrame], 
             raise QuantError('INVALID_FEATURE', 'Isolated feature deadline exceeded') from exc
         status_file = output_dir / 'status.json'
         if not status_file.exists():
-            raise QuantError('ISOLATION_UNAVAILABLE', f'Worker failed before evidence: {run.stderr[-2000:]}')
+            sig = f" (SIG{abs(run.returncode)})" if run.returncode < 0 else f" (exit={run.returncode})"
+            msg = run.stderr[-2000:].strip() or run.stdout[-2000:].strip() or "process terminated before status written (OOM/killed)"
+            raise QuantError('ISOLATION_UNAVAILABLE', f'Worker failed before evidence{sig}: {msg}')
         status = json.loads(status_file.read_text())
         if status.get('status') != 'PASS' or run.returncode != 0:
             raise QuantError('INVALID_FEATURE', f"Isolated callback: {status.get('error', run.stderr[-1000:])}")

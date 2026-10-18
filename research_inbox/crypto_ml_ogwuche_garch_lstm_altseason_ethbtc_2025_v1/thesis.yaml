@@ -1,0 +1,64 @@
+candidate_id: crypto_ml_ogwuche_garch_lstm_altseason_ethbtc_2025_v1
+selection_family_id: crypto_ml_garch_attention_lstm_regime_pairs
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: ogwuche_liew_yee_ssrn_6554918
+    url: https://ssrn.com/abstract=6554918
+    title: GARCH-LSTM Long/Short Pair Trading Strategies on ETH/BTC pair
+    authors: Joseph Ogwuche; Debbie Liew Zi Qing; Zhe YLim ee
+    date_written: "2025-06-30"
+    posted: "2026-04-20 (SSRN search metadata)"
+    source_role: AUTHOR_ORIGINAL_SSRN_ABSTRACT_AND_INDEXED_PAPER_METADATA
+economic_thesis:
+  source_claim: Nonlinear time-varying relations between ETH and BTC might support a long/short relative-value pairs strategy when GARCH-type volatility dynamics and attention-LSTM conditional forecasts are filtered by the Altcoin Season Index.
+  evidence_class: SOURCE_STATED_RESEARCH_PROPOSAL_NOT_A_VERIFIED_ALPHA_RESULT
+mechanism:
+  source: Static correlation and mean-reversion assumptions may fail as crypto regimes shift; conditional volatility forecasts and sequence dependence/regime state may adjust entries.
+  uncertainty: Source abstract does NOT establish that the proposed strategy actually outperformed a causal matched baseline after brokerage costs.
+instruments:
+  original: ETH/BTC relationship (whether cross conversion, ETHUSD versus BTCUSD two legs, or spot versus perp is not specified in indexed abstract).
+  local: Binance crypto OHLCV may cover ETH/BTC legs; direct ETHBTC pair and shortable prop products require exact mapping.
+data_requirements:
+  source: ETH/BTC price history sufficient for GARCH/EGARCH and LSTM; Altcoin Season Index historical values and publication-time availability.
+  local: OHLCV may exist for legs; historical as-of Altcoin Season Index series and formation/revision methodology not verified.
+feature_contracts:
+  source: GARCH/EGARCH conditional volatility, attention mechanism with LSTM and Altcoin Season Index regime gate.
+  labels: Exact spread forecast target, data frequency, training window, volatility model inputs, fitting intervals and label availability UNKNOWN.
+strategy_rules:
+  original:
+    - Model volatility and relative ETH/BTC relations with GARCH-family and attention-based LSTM components.
+    - Condition long/short pair-trading decisions on an Altcoin Season Index regime-switching filter.
+    - Benchmark proposed results against conventional statistical pairs methods when complete rulebook is available.
+  exact_entries: UNKNOWN; source abstract does not specify spread threshold, hedge ratio, stop/exit policy, sizing or target.
+signal_and_execution_clock:
+  source: Source abstract does not reveal bar duration, index timestamp, decision/fill lag or trade horizon.
+  future_need: Model and regime filter as-of timestamps, causal pair entry/exit and two independent execution costs/marks.
+sizing:
+  source: Long/short ETH/BTC pair approach; hedge ratio, risk balance and margin/net exposure UNKNOWN.
+cost_assumptions:
+  original: Transaction costs and financing rates are not established by available abstract; no zero-cost claim is justified.
+  prop: Pairs may require simultaneous short and long permissions with broker leverage and daily loss conditions.
+baseline:
+  source: Conventional statistical/correlation-based pairs trading as stated comparator; precise baseline hyperparameters UNKNOWN.
+  future_null: Causal rolling ETH/BTC ratio or residual z-score with identical paired fills and cost assumptions.
+development_evaluation:
+  status: NOT_RUN
+  source_report: Abstract states intention to develop, backtest and evaluate; it does not supply verified statistical profits/IC/Sharpe.
+primary_falsifier:
+  future_test: Regime-conditioned GARCH-attention-LSTM pair selections cannot outperform a simple rolling mean-reversion spread or volatility-scaled pair after full two-leg costs and preserved conditional clocks.
+acceptance_and_stop_rules:
+  capture_only: Original proposal retained, no invented hedge rules or fitted model.
+  protocol: BLOCKED_PROTOCOL for generic ATS cross-sectional return-IC/neutral rank executor; exact pair state/hedges require qualified separate protocol.
+parity_and_causality_tests:
+  future: Altcoin Season Index point-in-time archive, ETH/BTC tradable symbols, fold-local volatility and sequence fits, overlapping labels, two-leg position accounting and liquidation/fee stress.
+verified_facts:
+  - SSRN indexed title/authors/date and abstract inspected 2026-10-18; full 16-page paper was not text-verified. ResearchGate abstract corroborated main description.
+known_adaptations:
+  - Translating ETH/BTC two-leg stateful relative value into a cross-sectional top/bottom basket would NOT replicate the original thesis.
+unresolved_blockers:
+  - Exact pair-trading formula, hedge weights and data-clock rules unknown from abstract.
+  - Regime index historical vintages and train-only neural/volatility model lifecycle unknown.
+  - Prop account instrument/shorting/netting permissions and source PnL tests unverified.

@@ -1,0 +1,69 @@
+candidate_id: "robotwealth_spy_overnight_risk_premium_v1"
+selection_family_id: "us_equity_overnight_vs_intraday_risk_premium"
+status: "DRAFT_UNVERIFIED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: "robotwealth_longmore_spy_overnight_2024"
+    author: "Kris Longmore, Robot Wealth"
+    publication_date: "2024-05-31"
+    title: "Revisiting Overnight vs Intraday Equity Returns"
+    primary_https_url: "https://robotwealth.com/revisiting-overnight-vs-intraday-equity-returns/"
+economic_thesis:
+  local_hypothesis: "US equity overnight exposure may earn compensation for unhedgeable closure-gap risk, distinct from daytime equity exposure."
+  null_hypothesis: "Holding SPY across the cash-market close/open produces no persistent positive net excess compensation for gap risk once matched capital exposure, costs, taxes and overnight tail risk are recognized."
+mechanism:
+  plausible_economic_process: "Investors bear news and liquidity risk while cash trading is closed; counterparties may demand an overnight risk premium."
+  counterparty: "UNKNOWN; hypothesized risk transfer rather than proven source of alpha."
+instruments:
+  original_product: "SPY US-listed ETF in US cash equity sessions, not ES futures or US500 CFD."
+  product_substitution: "NONE"
+data_requirements:
+  needed: "Survivorship-irrelevant single ticker SPY adjusted and raw daily close/open, distributions/corporate actions, cash session calendar with DST, actual closing and opening auction quotes, financing/commission/spread estimates."
+  verified_availability: false
+feature_contracts:
+  source_conditions:
+    - "The author's retrospective diagnostic decomposes each daily return into intraday Close/Open - 1 and overnight Open/current divided by preceding Close - 1."
+    - "In the adjusted comparison, Open is scaled using that same day's Adj.Close/Close factor before overnight/intraday decomposition."
+    - "No source-specified conditional entry threshold or regime filter."
+  availability_note: "Close known only after closing auction; model cannot assume a completed closing price is used to secure that same closing auction fill."
+strategy_rules:
+  original_author_rules:
+    - "Hypothetical overnight leg: buy SPY at each day's close, sell at following eligible cash-session open."
+    - "Hypothetical intraday comparator: buy at each cash-session open, sell at same day's close."
+    - "This is a source-reported decomposition/illustrative strategy, not a fully specified execution system; fees, slippage, sizing, stops and holiday-specific order handling UNKNOWN."
+  unpublished_necessary_parameters: "Auction participation and order submission details, execution slippage, notional or risk sizing and stop behavior UNKNOWN."
+signal_and_execution_clock:
+  original_reported: "US equity regular cash close to next regular session open (overnight), or open to close (intraday). No predictive trigger; continuous holding schedule."
+  clock_parity_qualified: false
+sizing:
+  source: "Not disclosed; author's normalized hypothetical exposure cannot be assumed equivalent to a specified account sizing/risk policy."
+cost_assumptions:
+  source_or_required: "Auction spreads/impact, commission, taxes, financing and distributions. No such executable economics quantified in article."
+  source_measured_costs: "UNKNOWN"
+baseline:
+  predeclared_future_comparator: "Matched-capital passive SPY exposure and open-to-close segment, with non-overlapping interval and risk accounting."
+development_evaluation:
+  source_reported_tests:
+    - "Kris Longmore re-analyzed SPY from 2000-01-01 through 2024-05-30 using Yahoo daily data and R; illustrated compound daily return segment decomposition."
+    - "Author reports that most long-run SPY returns accrued overnight and most large losses also occurred overnight; adjusted-price analysis appeared more pronounced."
+    - "No after-fee investment track record, confidence intervals, drawdown table, stop model, independent OOS or author-executed live strategy is established."
+  empirical_run_completed: false
+primary_falsifier:
+  future_test_not_executed: "Net overnight return premium is non-positive after realistic auction costs and leverage/capital normalization, or explained by matched unconditional equity gap exposure with no economically distinct edge."
+acceptance_and_stop_rules:
+  descriptive: "THESIS_CAPTURED only. A source-report with unknown execution costs is not a backtest approval."
+  stop_on: ["Source discrepancy", "Misuse of retrospective open after the fact as an actionable close signal", "Missing distribution/auction evidence"]
+parity_and_causality_tests:
+  required: ["Calendar and dividend adjustment parity", "Closing-auction actionable decision vs measured close", "No same-close fantasy execution", "Examine tails and time instability with predeclared partitions only at later research gate"]
+known_adaptations:
+  - "No instrument conversion. Modeling the illustrative decomposition as a hypothetical schedule is explicitly unqualified for execution."
+verified_facts:
+  - "The linked article contains dated author-authored code for Close/Open and Open/lag(Close) return decomposition and refers to Yahoo SPY data starting 2000-01-01."
+assumptions:
+  - "Risk-premium interpretation is the author's proposed explanation, not independent identification of counterparties."
+unresolved_blockers:
+  - "Source is a descriptive historical return decomposition, not a causal standalone alpha."
+  - "Opening/closing auction fill prices and costs unavailable."
+  - "Risk adjustment for overnight gap tails and selection-family comparison to any existing SPX overnight event thesis."

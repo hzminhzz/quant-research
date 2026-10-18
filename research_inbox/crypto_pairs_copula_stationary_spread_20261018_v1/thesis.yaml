@@ -1,0 +1,38 @@
+identity:
+  candidate_id: crypto_pairs_copula_stationary_spread_20261018_v1
+  selection_family_id: nonlinear_cointegrated_pair_dislocation
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: Copula-Based Trading of Cointegrated Cryptocurrency Pairs
+      authors: Masood Tadi and Jiri Witzany
+      publication_date: "2023"
+      url: https://arxiv.org/abs/2305.06961
+economic_thesis:
+  mechanism: Nonlinear conditional dependence of cointegrated cryptocurrency price spreads may create temporary pairwise dislocations.
+  source_claimed_strategy: "Fit stationary BTCUSDT-minus-beta-altcoin spreads on 20 USDT-margined futures; filter Engle-Granger/KSS cointegration, rank with Kendall tau, trade two selected altcoins as opposite legs using copula conditional probabilities. BTC is a reference, not a trading leg; three-week formation and one-week trading with hourly conditional mispricing observations."
+markets_and_data:
+  instruments: "Author's sample of around 20 Binance USDT-margined cryptocurrency futures; exact pairs UNKNOWN"
+  timeframe: "1h; multiweek formation and roughly 1-week trading window"
+  data_requirements: "Historically as-of tradable pairs, hourly price alignment, contract identity and actual cost sources"
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  long_selection: "Relatively undervalued leg under source copula conditional mispricing; numeric formula/threshold UNKNOWN until full-text mapping"
+  short_selection: "Relatively overvalued leg; precise rule UNKNOWN"
+  basket_construction: "Two altcoin legs, one long and one short; BTCUSDT reference cancels algebraically. Source initializes up to about 20,000 USDT per leg at each trading week and keeps quantities fixed within that week; no guarantee of constant dollar neutrality."
+  signal_and_execution_clock: "Conditional copula index on hourly spread observations; exact exchange-fill latency, order type and lookahead-safe close availability UNKNOWN"
+  exits_sizing_costs: "Author tests entry alpha1 10/15/20 percent, holds exit alpha2 at 10 percent; closes all positions at end of trading week; includes commission fees but full spread/slippage/funding and executable order accounting UNKNOWN"
+  unresolved_blockers: "Exact conditional-copula Table 3/4 sign-to-order mapping and fitted model per formation week, as-of coin selection, intrabar fills and effective costs need executable transcription; no ATS basket protocol inferred"
+research_evaluation:
+  original_author_results: UNVERIFIED
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "No OOS stationary spread and no after-friction conditional copula mean reversion"
+scientific_integrity:
+  contrary_evidence: "Fil and Kristoufek 2020 report conventional cryptocurrency pair strategies often underperform after trading costs; https://doi.org/10.1109/access.2020.3024619"
+  novelty: "Nonlinear copula conditional mispricing on stationary spreads differs from simple pairwise return correlation or generic mean reversion."
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

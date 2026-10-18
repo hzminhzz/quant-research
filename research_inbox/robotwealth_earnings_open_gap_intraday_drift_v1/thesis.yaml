@@ -1,0 +1,71 @@
+candidate_id: "robotwealth_earnings_open_gap_intraday_drift_v1"
+selection_family_id: "us_equity_postearnings_open_gap_intraday_drift"
+status: "DRAFT_UNVERIFIED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: "robotwealth_pead_2018_notebook"
+    author: "Robot Wealth (article author not explicit in the notebook)"
+    publication_date: "UNKNOWN; article hosted under 2018/04 path"
+    title: "Equity Event Studies - Post Earnings Announcement Drift"
+    primary_https_url: "https://robotwealth.com/wp-content/uploads/2018/04/pead-analysis.nb_.html"
+economic_thesis:
+  local_hypothesis: "Following out-of-market-hours earnings news, the next cash-session open gap may only partially impound the information, leading to same-day directional drift except at extreme gaps where illiquidity and overreaction may dominate."
+  null_hypothesis: "Signed after-open continuation among historically eligible post-earnings events does not exceed matched control conditional opening gaps after realistic tradability and selection tests."
+mechanism:
+  plausible_economic_process: "Delayed institutional information digestion and order splitting after earnings; extreme gap reversal may instead reflect bad prints and adverse-selection microstructure."
+  counterparty: "UNKNOWN"
+instruments:
+  original_product: "US individual equities with out-of-hours earnings releases; NOT index ETFs or crypto."
+  product_substitution: "NONE"
+data_requirements:
+  needed: "Point-in-time pre/post-market earnings release timestamp and revisions; delisted-listed universe; unadjusted and corporate-action adjusted daily bars, opening auction and bid/ask; 90-day rolling overnight volatility and corporate-event identifier."
+  verified_availability: false
+feature_contracts:
+  source_conditions:
+    - "Original source restricts observations to earnings announced while US cash market closed, 1999 through May 2016."
+    - "Overnight jump = next regular market open / prior regular market close - 1; standardized jump = overnight jump / standard deviation of preceding 90 overnight returns."
+    - "Source tests positive vs negative jump signs, then bins standardized jump magnitudes using source's arbitrary bins, then compares historical subperiods."
+  availability_note: "Signal derives from the first official open: cannot preposition at that same print after observing it. Point-in-time time-stamped post-open order quote is required."
+strategy_rules:
+  original_author_rules:
+    - "HYPOTHESIS, not production rule: condition on nonzero sign of post-earnings opening gap, then measure same-session Open-to-Close return signed with the gap."
+    - "Investigate sensitivity to normalised jump magnitude and time period; author did not freeze an entry cutoff or executable position rule."
+    - "The source explicitly notes no costs and hypothetically buying the first opening print, which is not an eligible ex-post fill."
+  unpublished_necessary_parameters: "Entry after observation of open, exit, event lag / timestamp, sizing, allowable liquidity and stop rules all UNKNOWN; don't invent."
+signal_and_execution_clock:
+  original_reported: "After-hours earnings event precedes next open; next opening print is used as both a feature and hypothetical fill in source diagnostic; must move fill strictly later in any future causal study."
+  clock_parity_qualified: false
+sizing:
+  source: "UNKNOWN; analysis reports mean per-event returns rather than investable portfolio."
+cost_assumptions:
+  source_or_required: "Earnings opening spreads, slippage, auction liquidity, corporate actions, borrowing and market impact required; source analysis ignores commissions/costs."
+  source_measured_costs: "None in illustrated diagnostic (NOT zero real costs)."
+baseline:
+  predeclared_future_comparator: "Non-earnings overnight gap events, matched by ticker volatility, size and event clock; unconditional same-day stock drift."
+development_evaluation:
+  source_reported_tests:
+    - "Author-assembled Yahoo earnings data from 1999 through May 2016, restricted to out-of-hours announcements; R notebook groups standardized opening jumps and studies same-day returns."
+    - "Source found weak mean positive intraday return following positive gaps and approximately -0.2% mean after negative gaps in its uncosted sample; this is retrospective author-reported conditional evidence."
+    - "Source reports extreme positive and negative standardized jumps reverted, possibly anomalous prices; behavior changed across early vs 2010s subperiods."
+    - "Notebook explicitly states the simplest executable strategy has not yet been shown tradable; calls for benchmarks and costs."
+  empirical_run_completed: false
+primary_falsifier:
+  future_test_not_executed: "Nonpositive incremental signed executable post-open to close net drift among preregistered out-of-hours earnings events versus size/volatility/calendar matched non-earnings gaps."
+acceptance_and_stop_rules:
+  descriptive: "THESIS_CAPTURED only; retrospective event study, not executable strategy."
+  stop_on: ["Inability to recover authentic announcement as-of timestamps", "Same-print opening leakage", "Illiquid stale/erroneous quote dependence"]
+parity_and_causality_tests:
+  required: ["Correct release-vs-market-open ordering", "Survivorship and event-ticker mapping PIT", "Timestamped executable post-open quote vs first-print proxy", "Normalised jump only using preceding 90 completed sessions", "Familywise multiplicity for multiple gap bins"]
+known_adaptations:
+  - "Future source-faithful execution protocol must delay entry beyond informative opening print and remains UNSPECIFIED; do not claim author tested it."
+verified_facts:
+  - "The notebook uses a 1999-May 2016 earnings sample, 90-session rolling overnight volatility, and uncosted Open-to-Close event returns."
+assumptions:
+  - "Article host path contains 2018/04 but explicit notebook publication date and writer name are not verifiable from this page."
+unresolved_blockers:
+  - "PIT earnings announcement calendar plus delisted tickers."
+  - "Open quote timing and massive earnings-spread/slippage uncertainty."
+  - "Multiple arbitrary standardized-gap bins and historical regime decay."
+  - "Original unadjusted event price and corporate-action parity."

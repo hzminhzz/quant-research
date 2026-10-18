@@ -164,3 +164,11 @@ def test_corrupted_ledger_never_authoritative(tmp_path):
     view = inspect_case(tmp_path, list_jobs=lambda: set())
     assert view["status"] == "BLOCKED"
     assert any(x["reason_code"] == "LEDGER_INTEGRITY_FAILURE" for x in view["unknowns"])
+
+
+def test_blocked_execution_projected_and_integrity_verified(tmp_path):
+    fixture(tmp_path, status="BLOCKED_EXECUTION")
+    view = inspect_case(tmp_path, list_jobs=lambda: set())
+    assert view["research"][0]["status"] == "BLOCKED_EXECUTION"
+    assert view["research"][0]["evidence_access"] == "INTEGRITY_VERIFIED"
+    assert view["research"][0]["status_authority"] == "TRIAL_LEDGER_VERIFIED"

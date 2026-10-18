@@ -1,0 +1,76 @@
+candidate_id: crypto_ml_djienne_15m_btc_lgbm_hysteresis_2026_v1
+selection_family_id: crypto_ml_transfer_lgbm_15m_quantile_hysteresis
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: djienne_lightgbm_crypto_btc_jansen
+    url: https://github.com/djienne/ML_Trading_Strategy_Crypto_BTC_LightGBM_Jansen
+    strategy_spec: https://github.com/djienne/ML_Trading_Strategy_Crypto_BTC_LightGBM_Jansen/blob/main/STRATEGY.md
+    reported_results: https://github.com/djienne/ML_Trading_Strategy_Crypto_BTC_LightGBM_Jansen/blob/main/EXPECTED_PERFORMANCE.md
+    authors: djienne (GitHub repository owner)
+    source_role: AUTHOR_OWNED_DEPLOYMENT_CONTRACT_AND_PERFORMANCE_CAUTION
+    publication: "GitHub repository; precise initial publication date UNKNOWN; performance report references 2026-07-04 and deployed artifact dated 2026-08-13"
+economic_thesis:
+  source_claim: A pooled BTC+ETH-trained LightGBM return regressor may identify unusually high next-15m BTC return forecasts; a rolling upper-tail percentile entry and hysteresis exit may hold valuable bursts longer than continuous threshold flipping.
+  evidence_class: SOURCE_REPORTED_UNREPLICATED
+mechanism:
+  source: Pooled cross-instrument training increases comparable price-action samples; nonlinear return/indicator interactions drive a tail forecast, while entry/exit hysteresis controls churn.
+  uncertainty: Inference is on BTC alone, not a crypto cross-sectional rank; positive author's historic backtest does not establish cross-asset transferable alpha.
+instruments:
+  training: BTCUSDT and ETHUSDT used for training.
+  inference_trading: BTCUSDT futures only, original 15-minute bars, long-only.
+  transfer: A multi-coin long/short basket or prop CFD execution would be a separate adaptation not in source.
+data_requirements:
+  source: Historical 15-minute OHLCV with consistent BTC/ETH contract identity; rolling 480-bar rank feature, market-calendar month boundaries and causal intrabar feature availability.
+  local: Local OHLCV has related information in some timeframes, but this exact venue, 15m coverage, model training archive and Freqtrade signals were not verified as an ATS data contract.
+feature_contracts:
+  source: Simple returns for 1–10 bars, BOP, CCI, MFI, RSI, StochRSI, stochastic K/D, normalized ATR, alpha054 and alpha001 (480-bar fixed trailing rank).
+  target: Next-bar simple open-to-close BTC/ETH return as defined by fwd1bar=ret1bar.shift(-1).
+  model: LightGBM regression with 12-month rolling train, one-month test, first 20 bars of each test month embargoed and last 10 percent of training split reserved as inner validation.
+  frozen_contract: Author's documented settings include 15m, 31 leaves, min leaf 50, learning rate 0.01, 100 bins, entry quantile 100, exit below 90, quantile_method rolling, stop loss -20 percent.
+  retrain: Calendar-month rolling training described; current live artifact ownership enforced by model_info.json and available parity review.
+strategy_rules:
+  source_original:
+    - Train return predictor on BTC plus ETH 15m data, but predict and trade BTC alone.
+    - For completed 15m bars, score the next-bar simple open-to-close return and map forecasts to rolling quantile bins.
+    - Enter long when predicted return quantile reaches 100; remain long until quantile falls below 90.
+    - Force close on the last bar of every calendar month and block fresh entries during first hour of the new month.
+    - Use long-only stoploss set to -20 percent in source artifact contract; live Freqtrade stop mechanics differ from vectorized research.
+  excluded: No long/short multi-coin ranking and no funding-based alpha feature is described in the strategy spec.
+signal_and_execution_clock:
+  source: 15m completed-bar features, next-bar execution lag and month-end force-close.
+  parity: Author reports 18 of 20 dry-run trades bar-exactly matched artifact-aware replay with mean absolute PnL difference 0.12 percentage points; this is source-reported signal-parity evidence only.
+  caution: Intrabar stop-loss and unfilled limit orders cause different actual live execution than vectorized fills.
+sizing:
+  source: BTC long or flat via hysteresis, not multi-leg dollar-neutral allocation; risk fraction and leverage parity for prop firm not source-confirmed.
+cost_assumptions:
+  source: Source-author vector backtest assumes fee 0.03 percent per transition; older 0.05 percent case is substantially worse.
+  execution_gap: Real slippage, maker/taker mix, unfilled quotes, futures financing and stop differences are not fully modeled in source's generic vectorized backtest.
+baseline:
+  source: Historical quantile/hysteresis signal architecture compared within author's grid search, not a demonstrated fair model-free baseline.
+  future_null: Rolling historical return-tail quantile or simple lagged 15m momentum threshold with SAME hysteresis, month-end flattening, signal delay and realistic fees.
+development_evaluation:
+  status: NOT_RUN
+  source_report: Author's stale artifact study through 2026-07-04 reports net +277.4 percent and Sharpe 1.33 under 0.03 percent fee per transition; source explicitly warns published live model dated 2026-08-13 is newer, so do not attribute these to live performance.
+  adverse: 0.05 percent assumed fee yields reported Sharpe 0.83; grid-search winners are selected on same OOF returns without untouched holdout, and source documents earlier alpha001 expanding-rank feature parity leak corrected in June 2026.
+primary_falsifier:
+  future_test: A frozen, genuinely chronological OOF single-BTC forecast with identical 15m clock does not beat a model-free return-tail quantile+hysteresis baseline after full next-open long-only execution and financing.
+acceptance_and_stop_rules:
+  only_descriptive: Do not claim independent profits, universal parameter stability or direct ATS model readiness.
+  protocol: BLOCKED_PROTOCOL for current ATS fixed dollar-neutral cross-sectional allocator; this is a stateful long-only instrument-specific hysteresis program.
+parity_and_causality_tests:
+  future:
+    - Verify model_info.json/feature flags and training windows, per-fold identity, OOF predictions, preprocessing and 20-bar embargo sufficiency for one-bar target.
+    - Reproduce window-invariant alpha001 480-bar rank and live/replay state alignment without relying on future bars.
+    - Preserve true historical earliest fill, trading exchange clock, long-only risk sizing, realistic futures/CFD costs and protected boundary.
+verified_facts:
+  - Author repository STRATEGY.md and EXPECTED_PERFORMANCE.md directly inspected in 2026-10-18 source discovery, but code was NOT run and results NOT independently verified.
+known_adaptations:
+  - Multi-instrument crypto long/short scoring based on this pooled model is NEW speculation and cannot replace original long-only BTC thesis.
+  - Funding is a potential contract cashflow in real futures execution, but funding rates do NOT enter this captured alpha signal.
+unresolved_blockers:
+  - No local exact 15m model artifact, OOF provenance, data/contract parity, or clean untouched final test is certified.
+  - Stateful long/flat hysteresis and month-end order semantics do not map to current ATS dollar-neutral rank protocol.
+  - Prop-firm permitted BTC instrument, stop risk, financing and margin constraints unverified.

@@ -11,6 +11,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
+from src.connectors_bootstrap import ensure_connectors
+
 ROOT = Path(__file__).resolve().parents[1]
 PATTERNS = (
     "test_ats*.py", "test_dual_mode_*.py", "test_m8*.py",
@@ -39,8 +41,10 @@ def main():
     parser.add_argument("--output-root", type=Path, default=ROOT / "run_log/ats7/regressions")
     args = parser.parse_args()
     args.output_root.mkdir(parents=True, exist_ok=True)
+    connector_path = ensure_connectors()
+    extra_pp = f":{connector_path}" if connector_path else ""
     env = {"PATH": str(Path(sys.executable).parent) + ":/usr/bin:/bin",
-           "PYTHONPATH": str(ROOT) + ":/home/quant/.devspace/worktrees/trading-connector-d0370150",
+           "PYTHONPATH": str(ROOT) + extra_pp,
            "OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "POLARS_MAX_THREADS": "2"}
     # ATS-2 tests exercise existing systemd user scopes. Preserve only these
     # session prerequisites; the separate ATS-6 shadow worker still clears all.

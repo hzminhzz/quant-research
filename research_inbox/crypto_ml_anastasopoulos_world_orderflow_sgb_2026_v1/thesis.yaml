@@ -1,0 +1,62 @@
+candidate_id: crypto_ml_anastasopoulos_world_orderflow_sgb_2026_v1
+selection_family_id: crypto_ml_international_orderflow_forward_return_rank
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: anastasopoulos_gradojevic_liu_maynard_tsiakas_2026_jfm_orderflow
+    url: https://doi.org/10.1016/j.finmar.2026.101047
+    title: Order flow and cryptocurrency returns
+    authors: Alexia Anastasopoulos; Nikola Gradojevic; Fred Liu; Alex Maynard; Ilias Tsiakas
+    publication: Journal of Financial Markets, volume 79, 2026
+    source_role: ORIGINAL_OPEN_ACCESS_PUBLISHER_HTML
+    inspection_scope: Full publisher HTML article (research methods, portfolio sorts and reported costs); no data/code replication.
+economic_thesis:
+  source_claim: Global order flow across fiat trading currencies conveys persistent information on crypto returns beyond past returns and fundamentals; nonlinear forecast models can sort forward crypto returns more usefully than linear models.
+  status: SOURCE_REPORTED_UNVERIFIED
+  economic_mechanism: Net informed demand and internationally fragmented price discovery may have a lasting predictive component after controlling for short-term price pressure/reversal.
+  why_ml: Nonlinear interactions across geographically denominated signed order flows and returns are poorly summarized by one linear flow coefficient; stochastic gradient boosted trees and nonlinear forecast combinations are compared to linear/null alternatives.
+source_original:
+  instruments: 84 cryptocurrencies from a multi-exchange global market dataset, not an identified Binance USD-M perpetual or a prop-firm instrument set.
+  sample: 2018-01-01 to 2022-06-30 historical daily cross-sectional crypto sample; study describes February 18 2020 to June 30 2022 out-of-sample forecasts.
+  signals: Daily one-day-ahead returns from expanding-window forecasting conditioned on lagged international flows in 11 fiat currencies and lagged returns.
+  orderflow: Net buyer-initiated versus seller-initiated transaction volumes by currency; source compares world-aggregate and 11 disaggregated international flow signals.
+  methods: OLS, ridge, lasso, elastic net, principal-component regression, random forest, stochastic gradient boosted regression trees, neural networks (1-4 hidden layers), and linear/nonlinear forecast combinations.
+  positions: Cross-sectional predicted-return portfolio sorts including top-versus-bottom quintile LONG/SHORT and a long-only top quintile alternative. Original results are daily; the exact rebalance/fill convention and CFD portability need evidence.
+  funding_signal: None; this is order-flow-based alpha, not funding/basis/carry.
+label_and_prediction_contract:
+  target: Future daily crypto return, with a forecast horizon of one day.
+  event_time: The order-flow publication/availability cutoff and earliest venue-executable subsequent fill must be demonstrated; contemporaneous flow cannot be used before its close.
+  source_preprocessing: Standardization from training-window means/variances, with expanding-window out-of-sample estimation described.
+  source_model_choice: Study compares many specifications; choosing the best after reading outcomes is a new model-selection exposure and cannot be treated as one pristine independent trial.
+source_reported_results_unverified:
+  - Source reports 0.39 percent out-of-sample R-squared for boosted regression trees and nonlinear forecast combinations using order flows; not independently reproduced.
+  - Source reports long-short annualized Sharpe 3.68 for order-flow stochastic gradient boosting and 3.61 for its nonlinear forecast combination; not equivalent to local after-cost performance.
+  - Source reports higher long-short turnover and lower break-even transaction costs than the long-only arm; tradeability depends on realistic instruments and costs.
+simple_baseline:
+  original: Linear order-flow regression, naive zero-return forecast, and controls with lagged returns/economic fundamentals, as compared by authors.
+  recommended_future_null: Same PIT universe and daily forecast clock with lagged-return/reversal rank, and a linear order-flow model on the same exact fiat flow inputs, with same allocation/costs.
+local_data_and_prop_fit:
+  local_1h_ohlcv: Cannot reconstruct the authors' international 11-fiat signed order flows from OHLCV aggregate volumes alone.
+  data_status: BLOCKED_DATA; original global multi-fiat signed order-flow history not verified available in local canonical vault.
+  futures_to_cfd: Product identity, tradeable shorts, simultaneous hedge permission, commission/spread, financing, daily equity-loss account rules and execution availability UNKNOWN.
+  portfolio_fit: Original source is cross-sectional long-short, but daily quintile size and true venue instruments may not match native ATS top-K dollar-neutral allocator.
+source_and_model_risks:
+  - Dataset/code are available on request according to the publisher; not locally reproduced.
+  - Source cross-coin flow aggregation and venue timing require PIT availability provenance; a USD-only taker-volume proxy is NOT source parity.
+  - Strong author-reported Sharpe may degrade materially after borrow, spreads, per-asset turnover and prop-firm position constraints.
+  - Sources span a different historical period; later holdout exposure cannot be reset by rediscovering this paper.
+  - Chronological OOF or true past-trained model snapshots are necessary; sampled ATS prefix tests alone do not establish train/test independence.
+primary_falsifier:
+  future_test: No incremental cross-sectional predictive rank IC or after-cost basket improvement over lagged-return and linear order-flow baselines when international flow inputs and decision-time availability are faithfully reproduced.
+acceptance_and_stop_rules:
+  current: THESIS_CAPTURED only; no model fitted, artifact frozen, IC or simulation.
+  executable_status: BLOCKED_DATA and BLOCKED_SPEC until source-equivalent PIT global order-flow inputs, label/fit/fill clock, firm costs and exact candidate model are established.
+unresolved_blockers:
+  - Original 11-fiat signed order-flow history and vintage availability not present in verified local market-data inventory.
+  - Source-specific exact executed model/hyperparameters and chronological predictions are not frozen in this handoff.
+  - Native current data/protocol does not establish CFD/perp equivalence or prop-firm contract permissions.
+verified_facts:
+  - Original journal article text and quantitative claims inspected 2026-10-18; results are source-reported, not locally tested.
+  - No funding feature or funding mechanism was extracted from this source.

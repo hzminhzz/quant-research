@@ -1,0 +1,40 @@
+identity:
+  candidate_id: crypto_xs_btc_regime_momentum_arnal_20261018_v1
+  selection_family_id: regime_sized_cross_sectional_momentum_ensemble
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: Cross-Sectional Crypto Momentum Strategy
+      authors: Matias Arnal
+      publication_date: UNKNOWN
+      url: https://github.com/matiasjarnal/crypto-momentum-strategy
+      evidence_scope: Original project README and linked notebook; notebook code not independently audited
+economic_thesis:
+  mechanism: Cross-sectional winners-versus-losers returns conditional on BTC trend and 30-day realized coin volatility can diversify directional beta while controlling crypto crash exposure.
+  source_claimed_strategy: "Rank 35 liquid cryptocurrencies by 10/20/60-day momentum, cross-sectional z-score winsorized at 3 SD, ensemble top-three in-sample configurations. Long top ranks, short bottom ranks; soften scores with softmax and inverse-vol weighting. Reduce gross exposure and holding count in BTC below-200d-MA state; smooth weights and volatility-target the portfolio."
+markets_and_data:
+  instruments: "35 liquid crypto spot tickers sourced by author's yfinance notebook; no proof these are identical Binance perpetual contracts"
+  timeframe: "Daily trailing lookbacks, daily gross/vol targeting; exact order/rebalance execution timestamp UNKNOWN"
+  data_requirements: "As-of tradable assets and ADV, 365 calendar days of history, 60-day median USD ADV >= $5m, BTC 200-day MA, 30-day per-asset volatility."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  long_selection: "Rank compound 10/20/60-day momentum, long top-ranked subset (author selected top K=10 in 3 in-sample specs); exact ensemble rank-to-side handling in notebook needs review."
+  short_selection: "Short bottom ranked subset, 35 instrument eligible set after rolling 60-day median ADV >= $5m and 365d age."
+  basket_construction: "Within basket softmax score, 30d inverse-vol, exponential smoothing alpha=0.25, portfolio vol target 20 percent annualized with max 3x leverage."
+  regime_and_risk: "BTC > 200d MA bull gross 1.0, momentum tilt; BTC < 200d MA bear gross 0.5, low-vol tilt, top K count 30 percent lower."
+  source_parameters: "10/20/60d momentum candidates; in-sample best specifications cited as 20d+60d volatility K10, 20d+30d vol K10, 10d+30d vol K10."
+  author_costs: "20bps per trade claimed (7bps commission + 13bps slippage); actual borrow/funding and execution venue UNKNOWN."
+  unresolved_blockers: "Notebook code/README parity, yfinance historical availability, actual shortable contracts, training selection and trade fill timing, consistency of BTC regime and portfolio neutrality"
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: 2023-2024 OOS Sharpe 1.12, MDD -25.3 percent; 2018-2022 train selection; claimed annual return 24.1 percent."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "Dynamic PIT universe and next-bar execution plus realistic financing/execution eliminate post-cost advantage or market beta remains material."
+scientific_integrity:
+  contrary_evidence: "prams2104/crypto-momentum-backtest reports failure of a separate 20-day crypto cross-sectional momentum rule in 2025-2026 and transaction-cost destruction of 1-day reversal; https://github.com/prams2104/crypto-momentum-backtest"
+  novelty: "A source-implemented BTC regime shrinkage plus train-selected multi-window rank ensemble, distinct portfolio recipe from bare residual momentum."
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

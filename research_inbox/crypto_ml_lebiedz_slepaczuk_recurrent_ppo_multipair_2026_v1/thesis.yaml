@@ -1,0 +1,67 @@
+candidate_id: crypto_ml_lebiedz_slepaczuk_recurrent_ppo_multipair_2026_v1
+selection_family_id: crypto_ml_recurrent_rl_pair_execution_overlay
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: lebiedz_slepaczuk_dynamic_multipair_drl_2026
+    url: https://arxiv.org/abs/2606.04574
+    title: Dynamic Multi-Pair Trading Strategy in Cryptocurrency Markets with Deep Reinforcement Learning
+    authors: Damian Lebiedz; Robert Slepaczuk
+    publication: arXiv 2606.04574, posted 2026-06-03; author university working paper
+    source_role: PRIMARY_AUTHOR_ARXIV_FULL_HTML_TEXT
+economic_thesis:
+  source_claim: A bounded recurrent PPO execution policy can time spread entries/exits better than a fixed heuristic within statistically filtered cryptocurrency pairs.
+  distinguish_from_rank_model: Predicts/actions depend on individual pair-spread state and existing risk inventory; NOT a scalar cross-sectional next-return rank signal.
+mechanism:
+  proposed: Cointegrated related coins can diverge and revert; adaptive bounded execution may improve realized spread capture while limiting irreversible trend divergence.
+  rival: The baseline's deterministic z-score entry, exit and time stop may be sufficient without recurrent neural policy.
+instruments:
+  original: Binance USDT-margined futures (USD-M), dynamic liquid cryptocurrency pairs.
+  research_product: Perpetual/futures derivative study; exact contract matrix, margin currency and prop-firm permissions require firm-specific checks.
+data_requirements:
+  source: One-hour OHLCV, formation history two prior calendar months, monthly top 100 by lagged USDT volume and completeness, source-reported 2024 train and 2025 out-of-sample.
+  known_clock: Each 1h candle becomes observable after it closes; source reports signal-on-close and execute-on-next-open.
+feature_contracts:
+  source_pair_filter: Each potential pair scored from Engle-Granger cointegration p-value and squared correlation with equal 0.5 component weights; economic criteria and additional Hurst/risk filters described in original text.
+  learned_state: Pair-spread z-score, Hurst, position/risk state and elapsed holding time, as possible actor observation components; exact selected input subspace must match original agent variant.
+  learner: Recurrent PPO using an LSTM policy as a bounded execution overlay, not model to select raw return winners.
+  validation: Actor fitted on 2024 only in reported setup, evaluated on 2025; independent full policy/episode and normalizer provenance not performed locally.
+strategy_rules:
+  source_original:
+    - Select the liquid universe monthly using only preceding two months, then rank related pairs by cointegration and correlation strength.
+    - Use a deterministic Fixed Risk, Adaptive Mean z-score spread equilibrium framework with locked re-entry after stop and a time-decay stop.
+    - Compare heuristic execution to a PPO-LSTM actor that controls permitted trade actions while deterministic risk shielding bounds it.
+    - Measure a multi-pair portfolio, rather than independent unnetted contracts, using paper-declared risk and fees.
+  not_source: Do not convert recurrent pair policy into top-five/bottom-five asset return ranks or a standalone trend-following score.
+signal_and_execution_clock:
+  original: One-hour completed candle, decision on close, fill at following open, pair-wise spread and state transitions.
+  future: Need exact broker OHLCV open/close timestamp mapping, pair hedge and fill precedence verification.
+sizing:
+  original: Source baseline uses leverage in experiments (10x in reported OOS significance comparison); risk allocation, beta-hedge, pair overlap and stops are stateful.
+  prop: High-leverage multi-pair basket may violate maximum daily equity drawdown, simultaneous positions or hedge rules.
+cost_assumptions:
+  source_report: Article compares 0.05% baseline commission and a 0.10% friction stress proxy; other modeling assumptions must be verified before transfer.
+  local: Fees, spread, slippage, swaps, margin and liquidation are NOT independently qualified; no funding alpha signal.
+baseline:
+  source: Deterministic fixed-risk adaptive-mean spread baseline with selected pairs, same time clock and fees.
+development_evaluation:
+  status: NOT_RUN
+  source_claim: A 2025 OOS block-bootstrap Sharpe-difference p value around 0.0603 (10% threshold met, 5% not met), large author reported performance under 10x source leverage; not externally replicated.
+primary_falsifier:
+  future_test: Recurrent PPO yields no source-consistent incremental after-cost value against identical stat-arb heuristic, across chronologically valid pair-formation periods and fixed daily-risk envelopes.
+acceptance_and_stop_rules:
+  capture_only: Source claims do not establish deployability or model readiness.
+  protocol: BLOCKED_PROTOCOL in current native ATS generic XS allocator because pair-level recurrent position inventory, spread entry/exit, hedge netting and dynamic stops require an event/path-dependent protocol with independent fill oracle.
+parity_and_causality_tests:
+  future: Monthly source-history PIT selection, cointegration estimation cutoff, episode isolation, fold-only PPO and running normalizer, action mask/risk shield, no future returns in state, pair hedge fill and all-in costs.
+known_adaptations:
+  - Prop-compatible lower leverage, fewer pairs or fixed daily-loss budget would be new research variants rather than source replication.
+verified_facts:
+  - Primary arXiv full HTML sections on pair selection, RL architecture, 1h signal clock, fee sensitivity and OOS significance inspected 2026-10-18.
+assumptions:
+  - RNN state might improve adaptive execution only if training and inference causal clocks are preserved; NOT observed locally.
+unresolved_blockers:
+  - No frozen trained recurrent PPO actor, normalizer, OOF trajectory record, exact source fills or approved prop-firm account rulebook.
+  - Current generic ATS cross-sectional IC is not a valid scientific test of learned pair-execution policy.

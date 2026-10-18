@@ -1,0 +1,70 @@
+candidate_id: crypto_ml_lee_chang_transformer_cluster_statarb_2026_v1
+selection_family_id: crypto_ml_end_to_end_cluster_statarb
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: lee_chang_ieee_access_2026_3678064
+    url: https://doi.org/10.1109/ACCESS.2026.3678064
+    accessible_original_record: https://snu.elsevierpure.com/en/publications/an-end-to-end-deep-learning-model-for-clustering-based-statistica/
+    title: An End-to-End Deep Learning Model for Clustering-Based Statistical Arbitrage
+    authors: Hyunju Lee; Woojin Chang
+    publication: IEEE Access 14 (2026), 47301-47318
+    source_role: UNIVERSITY_AUTHOR_RECORD_WITH_PUBLISHED_ABSTRACT
+economic_thesis:
+  source_hypothesis: Jointly learned clustering and trading can detect temporary relative-price dislocations across related cryptocurrency futures and improve market-neutral statistical arbitrage compared with separately constructed groups and trading rules.
+  status: SOURCE_REPORTED_UNVERIFIED
+mechanism:
+  source_interpretation: Relationships among similar futures and nonpersistent relative-price deviations enable reversion or correction; learned clustering may recognize changes missed by static pair grouping.
+  economic_counterparty: UNKNOWN in inspected abstract; no independently established arbitrage.
+instruments:
+  original: Cryptocurrency futures market with a multi-asset relative-value portfolio.
+  specific_exchange_contracts: UNKNOWN from university abstract; do not assume Binance USDT perpetual identity or prop-firm access.
+data_requirements:
+  original: Historical crypto futures prices sufficient to estimate relationships, clustering, temporal dependencies and an executable spread portfolio.
+  local_proxy: Broad local crypto perpetual hourly coverage is a proxy only; source match, synchrony, labels and transaction fees unverified.
+feature_contracts:
+  original: Learned clustering and transformer-encoder temporal representations across related assets.
+  target: End-to-end jointly optimized arbitrage portfolio/trade allocation objective; not necessarily a scalar next-period return forecast.
+  exact_lookbacks_weights_training_split: UNKNOWN from accessible original abstract.
+  ml_causal_requirement: Chronological cluster estimation, train-only transforms, actual prediction-time model snapshots, label maturity and out-of-fold evidence.
+strategy_rules:
+  source_original:
+    - Learn related-asset clusters inside one end-to-end stat-arb architecture.
+    - Use a transformer encoder to model temporal dependence across assets.
+    - Jointly optimize portfolio selection and trade allocation under a stat-arb motivated objective.
+    - Seek approximately market-neutral exposure to divergences among related crypto futures.
+  not_source: Fixed top-five/bottom-five return rank, ATR stops, exact holding hours and static equal-weight basket were not confirmed.
+signal_and_execution_clock:
+  original: Model outputs and trade frequencies not stated in inspected published abstract.
+  future: Every decision must be timestamped after input availability and followed by a permitted exchange/prop-firm fill.
+sizing:
+  source: Model-integrated allocation aiming market neutrality; exact neutrality, gross limits, clustering overlap and position netting UNKNOWN.
+cost_assumptions:
+  source_claim: Authors report Sharpe 2.516 and cumulative return 3.310 after their transaction-cost model; source-reported, NOT independently reproduced.
+  local: Futures funding, exchange basis, market impact, shorting costs and prop-firm financing still require an audited cost policy, even though they are NOT source alpha drivers.
+baseline:
+  source_claim: Comparison against benchmark stat-arb strategies and reported ablation of clustering/end-to-end objective.
+  future_independent_proposal: Matched PIT rolling-correlation or cointegration cluster with deterministic spread z-score trading and identical leverage/costs.
+development_evaluation:
+  status: NOT_RUN
+  model_training: NONE
+  source_study_claim: University record reports annualized Sharpe 2.516 after costs; no local verification or OOF proof.
+primary_falsifier:
+  future_test: After source-matched crypto futures data and strict chronological model training, learned clusters fail to improve robust after-cost relative-value returns over simple fixed or causal rolling peer clusters.
+acceptance_and_stop_rules:
+  capture_only: Do not claim execution parity or science qualification.
+  protocol: BLOCKED_PROTOCOL until end-to-end learned portfolio/synchronization/netting and execution semantics are supported by an explicitly qualified ATS scientific protocol.
+parity_and_causality_tests:
+  future: Cluster label timing, no future-aware similarity matrix, loss/train leakage, simultaneous cross-asset information, model versioning, fill chronology and portfolio neutrality.
+known_adaptations:
+  - Converting model-selected spread baskets to current ATS scalar cross-sectional forward-return ranking would be a new hypothesis, NOT exact paper replication.
+verified_facts:
+  - University publication record and its abstract reviewed on 2026-10-18.
+assumptions:
+  - Better clustering is a plausible but unverified economic explanation for paper-reported results.
+unresolved_blockers:
+  - Full article tables/code and exact source clock, contracts, hedges, learning objective and risk budget not inspected.
+  - No trained model, chronological OOF predictions or verified source-equivalent cost and liquidity data.
+  - Current generic ATS neutral equal-count rank allocator is not the source's learned end-to-end allocation protocol.
