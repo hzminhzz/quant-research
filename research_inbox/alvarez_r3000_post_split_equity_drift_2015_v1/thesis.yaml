@@ -1,0 +1,72 @@
+candidate_id: "alvarez_r3000_post_split_equity_drift_2015_v1"
+selection_family_id: "equity_corporate_action_split_followthrough"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: "alvarez_trading_stock_splits_2015"
+    url: "https://alvarezquanttrading.com/blog/trading-stock-splits/"
+    title: "Trading stock splits"
+    author: "Cesar Alvarez"
+    publication_date: "2015-01-28"
+    source_role: "PRIMARY_AUTHOR_WEB_ARTICLE"
+    source_location: "Finding a stock split; Test parameters; Before the split. After the split; N-Month hold test; Profit Stops/Stop Losses; Nagging thoughts"
+economic_thesis:
+  hypothesis: "Equities that recently executed forward stock splits may exhibit a different subsequent drift from otherwise matched equities because splits co-occur with investor attention and strong prior trends."
+  null_hypothesis: "No incremental after-cost performance versus comparable non-split stocks with similar prior momentum, size, liquidity and beta."
+  source_classification: "LOCAL_INFERENCE_NOT_AUTHOR_PROVEN_CAUSALITY"
+mechanism:
+  source_fact: "The author's tested event is a 2-for-1 to 10-for-1 split of a Russell 3000 constituent."
+  local_inference: "Attention and signaling associated with splits might condition drift; no identified counterparty or independent causal test."
+  counterparty: "UNKNOWN"
+instruments:
+  original_product: "Russell 3000 constituent common stocks (2005-01-01 through 2014-12-31)"
+  original_horizon: "Enter in the two weeks AFTER split; 1, 3, 6 or 12 month time exit are separately author-tested variants"
+  adaptation_proposal: "NONE"
+data_requirements:
+  original: "Point-in-time index membership, split effective dates, as-traded vs adjusted prices, dollar volume, delistings and dividends"
+  availability: "UNKNOWN; no local or protected market data read"
+feature_contracts:
+  source_fact: "Forward split ratio between 2:1 and 10:1; preceding 21-session average of Close times Volume greater than 1,000,000."
+  pit_caveat: "The original author inferred split dates by reconciling as-traded and adjusted series and manually checked 20 examples; independently sourced effective dates are required."
+strategy_rules:
+  original_author_rules:
+    - "Universe: stocks in the Russell 3000 as of the historical test; forward split between 2-for-1 and 10-for-1."
+    - "Within two weeks AFTER the effective split, consider entry when the stated liquidity condition and available portfolio capacity are satisfied; BUY at next open."
+    - "Maximum 10 simultaneously held equities, target 10% portfolio capital per position."
+    - "Original distinct time-exit experiments sell after 1, 3, 6, or 12 months."
+    - "Separate optional stop/profit experiments exit next open after a closing mark loss of at least 10%, closing gain of at least 50% or 100%, or 3, 6, or 12 month time exit."
+  not_specified: "Precise monthly date convention, competing event priority, open execution/slippage and stock split effective time remain UNKNOWN; no variant chosen for executable research."
+signal_and_execution_clock:
+  source_fact: "First eligible AFTER-split order is next open after a known split day, subject to published 2-week event window."
+  local_causality_note: "Do not use split-date information retroactively for pre-split entries. Earlier pre-split experiments assumed announcement at least two weeks early without verifying it."
+sizing:
+  source_fact: "Author tested 10% per stock, maximum 10 positions."
+cost_assumptions:
+  source: "Executable commissions, spreads, impact, corporate-action data latency and borrow not quantified; do not invent a zero-cost result."
+baseline:
+  adaptation_proposal: "Compare matched non-split prior winners with the same sector, size, momentum and event-date exposure; original paper compares SPY and a 500-run random-entry control."
+development_evaluation:
+  status: "DESCRIPTIVE_ONLY_NO_BACKTEST"
+  author_reported_unverified:
+    - "Author reports substantially higher return than SPY at similar risk for some holding periods, particularly twelve months."
+    - "Author reports drawdowns remain too large for many traders even with loss/profit stops."
+    - "Author's 500-run random-entry control was a check, not an independent causal demonstration."
+primary_falsifier:
+  future_question: "Is post-split drift incremental to prior equity momentum and matched controls after realizable costs and event-date PIT verification?"
+acceptance_and_stop_rules:
+  capture: "Descriptive evidence only; no ATS execution approval."
+parity_and_causality_tests:
+  needed: "Independent announcement/effective dates, PIT membership and split adjustment, source-to-fill timing, event/cost model."
+known_adaptations:
+  - "NONE implemented or proposed for current execution."
+verified_facts:
+  - "Primary practitioner article reviewed from source URL; author claims are not independent evidence of alpha."
+assumptions:
+  - "Corporate-action attention mechanism is local conjecture rather than demonstrated causal identification."
+unresolved_blockers:
+  - "Reliable independent event-date panel and PIT Russell membership."
+  - "Historical announcement-timing verification for pre-split variations; do not use them by default."
+  - "Price adjustment/total-return and realistic open-execution conventions."
+  - "Control for prior momentum and survivorship in the purported split effect."

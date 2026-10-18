@@ -1,0 +1,65 @@
+candidate_id: "alvarez_r3000_low_volume_oversold_reversal_2022_v1"
+selection_family_id: "equity_oversold_mean_reversion_volume_condition"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: "alvarez_volume_mean_reversion_2022"
+    url: "https://alvarezquanttrading.com/blog/volume-and-mean-reversion/"
+    title: "Volume and Mean Reversion"
+    author: "Cesar Alvarez"
+    publication_date: "2022-12-07"
+    source_location: "The Rules; Results Above/Below the 200-Day Moving Average; Adding Finding to a Portfolio; Final Thoughts"
+economic_thesis:
+  hypothesis: "Within severely oversold Russell 3000 stocks, unusually low contemporaneous volume may distinguish temporarily exhausted selling from high-information selloffs; this is a conjecture about conditional liquidity, not a proved edge."
+  null_hypothesis: "Volume PercentRank conditioning does not improve a matched RSI2 mean-reversion signal after costs and changes in trade opportunity."
+mechanism:
+  source_fact: "Author found fewer setups but higher mean per-trade performance in low-volume percentile groups."
+  local_inference: "Low turnover might indicate attenuated selling pressure; unverified economic explanation."
+  counterparty: "UNKNOWN"
+instruments:
+  original_product: "Russell 3000 constituent US common stocks, tested 2007-01-01 to 2022-10-31"
+  original_horizon: "Daily; exit on next open following RSI2 >70"
+  adaptation_proposal: "NONE"
+data_requirements:
+  original: "Point-in-time index constituents, daily volume, prices, split adjustment, cash-session opens, costs"
+  availability: "UNKNOWN"
+feature_contracts:
+  original: "RSI(2)<1; prior 21-day average Close*Volume > $1m; Close>$3; condition studied above and below 200-day SMA; PercentRank(Volume,20) measured on setup day."
+strategy_rules:
+  original_author_rules:
+    - "Original event universe: Russell 3000 members, RSI2 <1, price above $3, 21-day dollar volume average above $1m; separate above/below 200-day SMA cohorts."
+    - "Buy at NEXT market open following close-based setup; exit NEXT market open following RSI2 >70."
+    - "Research comparison: PercentRank(Volume,20) below 20 as an added filter, or a preference/rank for low-volume setups instead of a hard filter."
+  not_disclosed: "Study of all qualifying trades is not a sized portfolio; a separate private portfolio application is not completely disclosed."
+signal_and_execution_clock:
+  original: "Signals use completed day prices and volume; open of next eligible US equity trading session."
+sizing:
+  original: "No common portfolio sizing for the public all-trades study; UNKNOWN."
+cost_assumptions:
+  source: "No qualified spread, impact or fees for long portfolios; UNKNOWN."
+baseline:
+  adaptation_proposal: "Compare RSI2 base with no volume conditioning, same universe, same signals and opportunity-set weighting."
+development_evaluation:
+  status: "DESCRIPTIVE_ONLY_NO_BACKTEST"
+  author_reported_unverified:
+    - "Above-SMA trades in Volume PercentRank 0–39 had author-reported average 0.64% vs 0.54% for all trades, but were only 18% of trades."
+    - "Private portfolio hard PercentRank <20 filter reduced exposure from 25% to 5%; ranking preference showed only small improvement."
+    - "Author explicitly judged the added complexity not worthwhile and declined the change."
+primary_falsifier:
+  future_question: "Does low-volume filtering improve after-cost conditional net expectancy without excessive loss of capacity or exposure?"
+acceptance_and_stop_rules:
+  capture: "Descriptive admission only; not ATS trial or executable."
+parity_and_causality_tests:
+  needed: "Point-in-time volume and RSI availability, next-open fills, PIT delistings, tick-size and gap impact."
+known_adaptations:
+  - "NONE implemented"
+verified_facts:
+  - "Original authored article reviewed and paraphrased; source results unverified independently."
+assumptions:
+  - "Liquidity-exhaustion hypothesis is local inference."
+unresolved_blockers:
+  - "Separate all-trades analysis and undisclosed portfolio method cannot be equated."
+  - "Unqualified opening spread/slippage and high-volatility event costs."
+  - "PIT Russell membership, split-adjusted volume and price conventions."
