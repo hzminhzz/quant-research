@@ -1,0 +1,68 @@
+candidate_id: davey_cl_adx_slope_breakout_fade_2010_v1
+selection_family_id: crude_oil_adx_slope_breakout_fade
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: davey_active_trader_2010_march
+    author: "Kevin J. Davey"
+    publication_date: "2010-03"
+    title: "Refining crude-oil breakouts"
+    primary_https_url: "https://kjtradingsystems.com/Act/davey0310.pdf"
+    locations: "Printed pages 30, 32, 34-35; rule numbered 1-4 and Tables 1-3."
+economic_thesis:
+  local_hypothesis: "Following a price-channel breakout when directional strength does not decline, but fading it when strength declines, may distinguish trend persistence from false breakouts."
+  null: "ADX switching provides no post-cost incremental predictive benefit over channel continuation or reversal controls."
+mechanism:
+  source: "Regime-dependent response to price-channel extremes."
+  causal_counterparty: "UNKNOWN"
+instruments:
+  original_product: "Crude oil (CL) futures"
+  timeframe: "30-minute bars; 09:00 to 14:30 Eastern trading window in original study"
+  substitutions: "NONE"
+data_requirements:
+  required: "PIT 30-minute CL futures bars, historical rolls, exchange session calendar, fees, bid/ask and opening fills"
+  current_availability: "UNKNOWN"
+feature_contracts:
+  observed: "Current closed bar equals x-bar highest or lowest closing price; compare ADX(11) to its value Y bars ago."
+  author_selected_parameters: "x=34 closing bars; Y=10 lag bars, from source-described in-sample search."
+strategy_rules:
+  source_rules:
+    - "At highest close of x-bar channel, go LONG next bar open if ADX(11) >= lagged ADX(11)[Y]; otherwise go SHORT."
+    - "At lowest close of x-bar channel, go SHORT next bar open if ADX(11) >= lagged ADX(11)[Y]; otherwise go LONG."
+    - "Opposite signal exits and reverses prior holding (stop-and-reverse)."
+    - "Later variant: re-entry signal not allowed until eight bars after prior exit, chosen by searching delays 2-11."
+  unknown: "Interaction between chosen delay and existing stop-and-reverse positions; TradeStation source not available."
+signal_and_execution_clock:
+  source: "30-minute bar close determines signal; next eligible bar open is author-reported fill clock."
+  unknown: "Source exchange calendar, exact overnight position treatment, DST, and holiday bars."
+sizing:
+  original: "UNKNOWN. No quantity or portfolio leverage inferred."
+cost_assumptions:
+  author_reported: "Simulation includes USD 45 commissions and slippage per round-trip."
+  current_execution: "UNKNOWN"
+baseline:
+  author_comparison: "Original channel/ADX strategy, linear-regression selection, rolling optimization, ATR-adapted channels, delayed entry."
+development_evaluation:
+  author_reported_unverified:
+    - "2003-11-01 to 2008-11-01 in-sample and 2008-11-01 to 2009-11-01 out-of-sample."
+    - "Final delayed entry variant: out-of-sample 115 trades, USD 16,325 net, 1.15 profit factor, USD 19,320 maximum drawdown (Table 3)."
+    - "Walk-forward variant increased drawdown compared to baseline (Table 1)."
+    - "Channel 10-50 and lag 2 or 10 searched; eight-bar delay chosen after further search 2-11."
+  locally_tested: false
+primary_falsifier:
+  later_test: "ADX regime switch fails after costs versus always-follow/always-fade nulls, properly counting all source parameter selection."
+acceptance_and_stop_rules:
+  descriptive_admission: "THESIS_CAPTURED, untested and not execution-approved."
+parity_and_causality_tests:
+  needed: "Source ADX/channel semantics, causal session clock and fill, contract roll, original stop-reverse management, costs and out-of-sample control."
+known_adaptations:
+  - "NONE"
+verified_facts:
+  - "Author-hosted original six-page paper inspected; reported results not independently reproduced."
+assumptions:
+  - "Directional strength change is a proposed conditioning mechanism only."
+unresolved_blockers:
+  - "Original TradeStation code and post-exit delay semantics unavailable."
+  - "Session gaps, fills, roll, sizing, cost, and selection bias unresolved."
