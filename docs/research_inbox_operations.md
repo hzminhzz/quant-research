@@ -22,6 +22,42 @@ its proper gate. Preserve all raw sources, versions and adverse evidence.
 
 Publish via an isolated research branch after a prepublication validator pass;
 never overwrite an existing candidate or discard untracked staging evidence.
+
+## Hourly source publication reliability CLI
+
+The three descriptive thesis factories (general, crypto, ML) share the bounded
+publisher `scripts/research_source_publication.py`. After the candidate pairs
+are staged, checked for source novelty, and committed on a clean task-owned
+`research/<name>` branch based on current `origin/main`, run:
+
+```sh
+.venv/bin/python scripts/research_source_publication.py publish --factory ml --run-id <unique-hourly-invocation-id>
+# Valid no-new-source outcome after a documented screen:
+.venv/bin/python scripts/research_source_publication.py no-op --factory general --run-id <unique-id> --reason 'all sourced candidates were duplicates'
+```
+
+Use `--repo PATH` for the isolated checkout; use the Python interpreter from the
+main repository's virtual environment if the worktree has none, with
+`PYTHONPATH` set to the checkout root. The script checks committed new two-file
+pairs, strictly validates flat handoffs or source-only admission, refreshes
+remote research refs to detect candidate-ID collisions, and refuses stale
+main bases, unsafe paths, modified existing sources, remote ref collisions,
+merged histories and dirty tracked work. It non-force-pushes only the chosen
+research branch, reconciles ambiguous push responses against exact remote SHA,
+and verifies both file hashes before returning `REMOTE_PUBLICATION_VERIFIED`.
+A successful schema check is **not** ATS ingestion, model training or execution
+approval. Mechanism-level novelty still requires research review.
+
+Each invocation writes an exclusive, fsynced JSON receipt to the shared main
+checkout `run_log/source_publications/<factory>/`, regardless of success,
+publication block or no-op. The receipt includes run identity, timestamp,
+branch, code/source hashes, transport attempts, remote SHA, verification,
+reason, and zero authorized scientific/protected/order effects. Exit codes:
+`0` verified publication or explicit documented no-op, `2` publication blocked,
+`3` receipt persistence failed. `NOT_PUBLISHED` is *never* a success. Preserve
+failed drafts and use a new invocation ID for each retry; receipts are immutable.
+Do not run this command for the ATS scientific runner, merge to main, or infer
+canonical queue admission merely because a remote discovery branch exists.
 Future hourly discovery must publish exactly `research_inbox/<candidate_id>/`
 with `thesis.yaml` and `brief.md`, and must not claim a valid handoff when the
 validator is unavailable or rejects the input.
