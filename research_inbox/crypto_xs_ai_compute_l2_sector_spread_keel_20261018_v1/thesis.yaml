@@ -1,0 +1,79 @@
+candidate_id: "crypto_xs_ai_compute_l2_sector_spread_keel_20261018_v1"
+selection_family_id: "crypto_sector_narrative_spread_static_long_short"
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: "keel_ai_compute_l2_original_20260512"
+    url: "https://usekeel.io/indexes/long-ai-short-l2"
+    author: "Keel Research Team"
+    publication_date: "2026-05-12"
+    title: "Long AI Compute / Short L2 — Sector Rotation Crypto Index (Backtested)"
+    evidence_scope: "Original public Keel page; self-reported backtest, not independently reproduced"
+economic_thesis:
+  source_original: "Static relative narrative exposure: long decentralized AI-compute tokens, short Layer-2 scaling tokens; earn positive return only if AI-compute basket outperforms L2 basket over the same period."
+  local_hypothesis: "Differential crypto-sector attention and capital rotation may move thematic baskets unevenly, but a narrative selected after the evaluation period can be an ex-post fit."
+  null_hypothesis: "The predeclared sector spread has nonpositive net prospective return after costs, beta control, and changes in token composition."
+mechanism:
+  source_claim: "The author contrasts an active AI-infrastructure narrative with a prior-cycle L2-scaling narrative, explicitly acknowledging that narrative reversal is the failure mode."
+  counterparty: "UNKNOWN; the author does not identify a stable arbitrage counterparty."
+instruments:
+  original_product: "Eight named crypto assets on the Keel/Hyperliquid strategy page, using Hyperliquid historical prices: VVV, RENDER, TAO, IO, POL, ARB, STRK, OP."
+  product_substitution: "NONE; venue contract identifiers, executable contract availability and specific prop-firm permissions UNKNOWN."
+data_requirements:
+  needed: "Point-in-time sector labels and token listings, contemporaneous Hyperliquid tradability, price history, historical contracts and transaction cost/financing schedules; no market data examined here."
+feature_contracts:
+  original_author_conditions:
+    - "Static thematic selection: VVV, RENDER, TAO, IO on long AI-compute side."
+    - "Static thematic selection: POL, ARB, STRK, OP on short L2-scaling side."
+    - "No published causal automatic sector-selection or momentum rank threshold; these must not be invented."
+  availability: "The page is dated after its Jan-May retrospective interval; exact as-of asset-selection timestamp UNKNOWN."
+strategy_rules:
+  original_author_rules:
+    - "Long VVV, RENDER, TAO, IO with +12.5% target portfolio weight each."
+    - "Short POL, ARB, STRK, OP with -12.5% target portfolio weight each."
+    - "Net dollar weight 0, gross absolute weight 1.0, equal within each leg."
+    - "Source implements two parallel baskets with a positive baseline forecast on long side and negative on short; exact forecast computation UNKNOWN."
+    - "Dollar balance is not beta or volatility neutrality."
+  unpublished_necessary_parameters: "Rebalance schedule, start-of-trading eligibility, fills, lookbacks, benchmark, leverage/margin details and end-of-sample treatment UNKNOWN."
+signal_and_execution_clock:
+  source: "Historical author backtest window 2026-01-01 through 2026-05-01; precise signal publication times, bar decision interval, rebalance events and earliest executable fills UNKNOWN."
+  noncausal_risk: "The page was updated 2026-05-12 after the reported testing period; avoid representing hindsight thematic selection as a live causal selector."
+sizing:
+  original: "Per asset +12.5% long or -12.5% short; total long +0.5, short -0.5, gross 1.0; no claimed beta-neutral hedge."
+cost_assumptions:
+  author_description: "Keel generally advertises fee, slippage and funding-aware modeling; this page does not disclose contract-specific fees, swap/funding values or implementation evidence. UNKNOWN."
+  funding_alpha: "NONE. Funding/financing is a potential cost only, not a signal, ranking, entry or exit determinant."
+  zero_cost_assumption: "Never infer zero fees/financing from missing specifications."
+baseline:
+  proposed_control: "Unchanged eight-asset selection over the exact same interval, compared against both leg-alone portfolios and risk/beta-matched alternatives; proposed diagnostic only, NOT RUN."
+development_evaluation:
+  source_reported_claims:
+    - "AUTHOR_REPORTED_TEST_UNVERIFIED: 2026-01-01 through 2026-05-01 backtest total return +60.7%."
+    - "AUTHOR_REPORTED_TEST_UNVERIFIED: Sharpe 4.47; maximum drawdown -8.4%; 53 trades."
+    - "No original source evidence of genuinely prospective asset selection or independent audited fills."
+  empirical_run_completed: false
+primary_falsifier:
+  predeclared_future_test: "The preselected AI-compute minus L2 spread fails after token listing, beta/vol, sector-selection hindsight, actual fees/financing and prospective rebalance-timing controls."
+acceptance_and_stop_rules:
+  descriptive_intake: "Structure-only, not an executable strategy, trial authorization, profit claim, or ATS scientific qualification."
+  stop_conditions:
+    - "Do not run any ATS stage, empirical trial, protected read or order."
+    - "Do not substitute arbitrary crypto futures contracts or invent a causal sector rank rule."
+parity_and_causality_tests:
+  future_requirements:
+    - "Confirm source asset/contract identity, listing and delisting times."
+    - "Prove sector choice and weight selection were known before each purported fill."
+    - "Disclose exact side-level costs, financing, rebalance clock, actual tradeability and prop-account constraints."
+known_adaptations:
+  - "NONE. A future dynamic sector-selection system would be a separate ADAPTATION_PROPOSAL."
+verified_facts:
+  - "SOURCE_FACT: Keel's original public page names all eight tokens and +/-12.5% weights, and distinguishes dollar neutrality from beta neutrality."
+  - "SOURCE_FACT: Publication/update date and backtest reporting interval appear on the original page."
+assumptions:
+  - "LOCAL_INFERENCE: Any persistent crypto-sector attention premium is unverified."
+unresolved_blockers:
+  - "Ex-post source sample and as-of sector/universe selection not established."
+  - "Exact rebalance/execution timing, historical contract identity, availability, financing and costs UNKNOWN."
+  - "Shorting, hedging, eligible crypto contracts, leverage/margin, risk limits and overnight/weekend rules for the particular prop firm UNKNOWN."
