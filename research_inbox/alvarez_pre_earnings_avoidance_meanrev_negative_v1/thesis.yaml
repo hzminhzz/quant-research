@@ -1,0 +1,71 @@
+candidate_id: alvarez_pre_earnings_avoidance_meanrev_negative_v1
+selection_family_id: equity_pre_earnings_event_risk_conditioning
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: alvarez_avoiding_trades_before_earnings_2019
+    url: https://alvarezquanttrading.com/blog/avoiding-trades-before-earnings/
+    title: Avoiding Trades Before Earnings
+    author: Cesar Alvarez
+    publication_date: '2019-04-24'
+    source_role: PRIMARY_AUTHOR_WEB_ARTICLE
+    source_location: 'A large dose of salt, Quantopian Information, Base Test, Avoiding Earnings, Results Avoiding Earnings and April 24-25 comments'
+economic_thesis:
+  hypothesis: 'Restricting equity mean-reversion exposure ahead of known earnings might reduce event-gap losses, but the original author reported worse outcomes.'
+  null_hypothesis: 'No after-cost, exposure-controlled improvement versus the same baseline without earnings exclusions.'
+  classification: SOURCE_REPORTED_NEGATIVE_RESULT_WITH_UNPROVEN_CAUSALITY
+mechanism:
+  source_fact: 'Earnings events create scheduled information/gap risk, but the article reports the tested avoidance treatment underperformed.'
+  local_inference: 'Avoiding earnings could remove volatile recoveries as well as losses, or simply substitute other stocks in a capacity-constrained strategy.'
+  counterparty: UNKNOWN
+instruments:
+  original_product: 'Quantopian Q500US stock universe; long US equities, not a contemporary PIT S&P 500 constituent list.'
+  original_horizon: 'Daily close signal; next trading-day 09:32 minute-bar execution; hold up to more than 15 days or RSI exit.'
+  adaptation_proposal: NONE
+data_requirements:
+  original: 'Point-in-time earnings announcements/availability dates, Q500US membership, historical stock bars including 09:32 prices and delistings.'
+  locally_qualified: false
+feature_contracts:
+  source_fact: 'RSI(2) crosses under one of 1, 3, or 8 (separate author configurations); close above 200-day moving average; rank buy signals by historical volatility over 100 days.'
+  pit_caveat: 'Known-as-of historical earnings date schedule, intraday bar timestamp and original RSI calculations must be verified.'
+strategy_rules:
+  original_author_rules:
+    - 'Baseline: member of Quantopian Q500US; RSI(2) crosses under source-tested 1, 3, or 8; close above 200-day average; rank by highest 100-day historical volatility.'
+    - 'Enter at next trading-day 09:32 minute bar.'
+    - 'Exit if RSI(2) > 80 or position is held for more than 15 days, using next-day 09:32 bar.'
+    - 'Avoid-entry treatment: next scheduled earnings must be more than 7 days away.'
+    - 'Early-exit treatment: if earnings in two days, exit next trading day (one day before earnings).'
+  not_disclosed: 'Portfolio capacity/weights, RSI crossing equivalence, actual 09:32 executable fills and audited historical earnings-date publication times.'
+signal_and_execution_clock:
+  source_fact: 'After completed daily close, next day 09:32 bar; earnings schedule must be available as of decision.'
+  uncertainty: 'Original Quantopian historical event availability and halt/gap handling not independently reproduced.'
+sizing:
+  original: 'Rank candidates by highest 100-day historical volatility; exact positions/weights not established from public article.'
+cost_assumptions:
+  original: 'Original Quantopian simulation and 09:32 executable spread/slippage not independently audited; no zero-cost assumption made.'
+baseline:
+  source_fact: 'Otherwise identical RSI2 equity mean-reversion strategy without the earnings-exclusion and early-exit rules.'
+development_evaluation:
+  status: DESCRIPTIVE_ONLY_NO_BACKTEST
+  author_reported_unverified:
+    - 'Quantopian reported sample 2007-01-01 to 2013-12-31 with three RSI entry thresholds.'
+    - 'Author reports large CAR declines in two of three settings; worse maximum drawdown and Sharpe in all three.'
+    - 'Author expressly warns his Python code could contain bugs; article commenter questions count of skipped trades.'
+primary_falsifier:
+  future_test: 'Earnings-avoidance fails to improve risk-adjusted net economics at matched exposure after PIT earnings availability checks.'
+acceptance_and_stop_rules:
+  descriptive_status: 'Negative-source evidence only; no strategy/execution approval.'
+parity_and_causality_tests:
+  needed: 'Announcement-as-of timestamps, original Quantopian universe/fills and RSI semantics, capacity normalization, event-gap/cost realism.'
+known_adaptations:
+  - NONE
+verified_facts:
+  - 'SOURCE_FACT: Primary 2019-04-24 author article directly inspected; original rule directions and negative author-reported outcomes preserved.'
+assumptions:
+  - 'LOCAL_INFERENCE: Reallocation to replacement trades and rare jump events could explain paradoxical deterioration; not verified.'
+unresolved_blockers:
+  - 'UNKNOWN historical earnings event publication vintages, Q500US PIT membership and delisted coverage.'
+  - 'UNKNOWN capacity, stop/exit precedence and executable 09:32 fills.'
+  - 'The implementation-bug caveat raised by the source author remains unresolved.'

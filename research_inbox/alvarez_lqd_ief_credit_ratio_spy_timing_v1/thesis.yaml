@@ -1,0 +1,70 @@
+candidate_id: alvarez_lqd_ief_credit_ratio_spy_timing_v1
+selection_family_id: equity_timing_credit_vs_treasury_stress
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: alvarez_market_timing_2019_credit_ratio
+    url: https://alvarezquanttrading.com/blog/market-timing-with-a-canary-gold-copper-lqd-ief-and-much-more/
+    title: Market Timing with a Canary, Gold, Copper, LQD, IEF and much more
+    author: Cesar Alvarez
+    publication_date: '2019-06-12'
+    source_role: PRIMARY_AUTHOR_WEB_ARTICLE
+    source_location: 'The Test (month-end/next-open rule), LQD/IEF Ratio (exact formula/5-day rule), Potential Issues (small sample)'
+economic_thesis:
+  hypothesis: 'LQD/IEF relative strength may condition subsequent SPY equity exposure because corporate credit reprices risk appetite.'
+  null_hypothesis: 'No exposure-matched, after-cost increment over equity-only market-timing controls.'
+  classification: LOCAL_INFERENCE_NOT_CAUSALITY_PROVEN
+mechanism:
+  source_fact: 'Author tests corporate-bond ETF LQD divided by 7-10-year Treasury ETF IEF as a risk-on timing indicator.'
+  local_inference: 'Changes in credit spread and bond-duration risk may lead or coincide with equity risk appetite.'
+  counterparty: UNKNOWN
+instruments:
+  original_product: 'SPY ETF held long or cash, with daily LQD and IEF ETF adjusted closes as indicators.'
+  original_horizon: 'Monthly position switches using completed daily inputs; next opening session fills.'
+  adaptation_proposal: NONE
+data_requirements:
+  original: 'Point-in-time LQD, IEF and SPY daily prices/distributions, valid US exchange calendar and realistic next-open execution prices.'
+  locally_qualified: false
+feature_contracts:
+  source_fact: 'ratio[t]=close(LQD,t)/close(IEF,t); compare with 200-day exponential average of ratio for at least 5 consecutive completed trading days.'
+  unresolved: 'Exact EMA warmup/adjustment and equality semantics not established by source.'
+strategy_rules:
+  original_author_rules:
+    - 'Evaluate market-timing signal on the last trading day of each month.'
+    - 'Buy SPY if LQD/IEF ratio closed above its 200-day EMA for at least five consecutive days.'
+    - 'Sell SPY if ratio closed below the 200-day EMA for at least five consecutive days.'
+    - 'Execute change at the next open; otherwise remain in SPY or cash earning no interest.'
+  not_disclosed: 'Exact EMA warmup and price adjustment, signal equality handling, fill slippage and sizing nuances.'
+signal_and_execution_clock:
+  source_fact: 'Month-end decision after completed close; next regular-session open is the stated execution time.'
+  unavailable: 'Source calendar/DST/holiday and as-of data implementation parity not verified.'
+sizing:
+  source_fact: 'Long SPY when signaled, otherwise uninvested cash; no-interest cash in original article.'
+cost_assumptions:
+  source_fact: 'Source does not establish executable open spread/slippage/taxes; no local zero-cost assumption permitted.'
+baseline:
+  source_fact: 'Article compares SPY buy-and-hold and 200-day SMA timing with five-day confirmation among other methods.'
+  adaptation_proposal: 'Later normalize exposure and costs for a fair equity-only benchmark.'
+development_evaluation:
+  status: DESCRIPTIVE_ONLY_NO_BACKTEST
+  author_reported_unverified:
+    - 'Test period 2004-01-01 to 2018-12-31 on dividend-inclusive SPY.'
+    - 'Author warns that tested methods produce only 6 to 26 trades, too few for reliable inference.'
+    - 'LQD/IEF ranked favorably on several risk/return comparisons; independently reproducible edge not established.'
+primary_falsifier:
+  future_test: 'No incremental post-cost, exposure-controlled value versus SPY-only timing and buy/hold.'
+acceptance_and_stop_rules:
+  descriptive_status: 'Source capture only, never research/execution approval.'
+parity_and_causality_tests:
+  needed: 'Publication/source identity, as-of dividend and ETF price convention, EMA parity, month-end calendar, next-open executable fills, selection bias.'
+known_adaptations:
+  - NONE
+verified_facts:
+  - 'SOURCE_FACT: Primary author web page directly checked; article sections provide monthly next-open and LQD/IEF 200EMA five-day rules.'
+assumptions:
+  - 'LOCAL_INFERENCE: Corporate-vs-Treasury relative strength may proxy credit risk appetite; not a causal finding.'
+unresolved_blockers:
+  - 'UNKNOWN exact warmup/equality conventions, cost/cash handling and realistic next-open fills.'
+  - 'UNKNOWN historical data provenance and whether credit timing adds anything after exposure matching.'
