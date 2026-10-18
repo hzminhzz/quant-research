@@ -1,0 +1,77 @@
+candidate_id: equity_ml_celeny_marechal_cyber_disclosure_doc2vec_2024_v1
+selection_family_id: equity_cyber_disclosure_semantic_risk_premium
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: celeny_marechal_arxiv_2402_04775_v2
+    url: https://arxiv.org/html/2402.04775
+    title: Cyber risk and the cross-section of stock returns
+    author: Daniel Celeny and Loic Marechal
+    publication_date: '2024-03-05'
+    accessed: '2026-10-18'
+  - id: author_owned_marechal_project
+    url: https://www.loicmarechal.dev/project/internal-project10/
+economic_thesis:
+  SOURCE_FACT: Author tests whether firms with high measured semantic cyber risk have higher future average stock returns than low-risk firms.
+  LOCAL_INFERENCE: Investors might demand a premium for cybersecurity risk; priced risk is not demonstrated market mispricing.
+mechanism:
+  SOURCE_FACT: Paragraph Vector (Doc2Vec) embeddings of SEC 10-K passages and MITRE ATTACK descriptions capture threat semantics missed by simple word dictionaries.
+  incremental_ml: Distinct contextual similarity information across all report sections rather than a keyword-only cyber score.
+  UNKNOWN: Whether this factor survives executable post-cost portfolio construction.
+instruments:
+  original: US-listed equities from CRSP/Compustat with historical SEC 10-K reports, not crypto or CFDs.
+  prop_firm: Product access, short borrow and drawdown rules UNKNOWN.
+data_requirements:
+  SOURCE_FACT: Paper uses over 7000 US equity firms, monthly returns in 2007-2022 and annual filing texts.
+  UNKNOWN: Local PIT text, CRSP delisting coverage, filing-vintage and stock borrow data unavailable for verified evaluation.
+feature_contracts:
+  source: Use Doc2Vec paragraph vectors and their maximum positive cosine similarity to 785 MITRE ATTACK tactic descriptions; average the top 1 percent paragraph scores per 10-K.
+  label: Source examines subsequent monthly excess stock returns and cyber-risk premium; NO supervised model forward-return label is claimed.
+  cadence: Source refreshes the score upon new 10-K disclosures and rebalances portfolios quarterly. Exact Doc2Vec retraining cadence UNKNOWN.
+strategy_rules:
+  SOURCE_FACT:
+    - Sort US stocks on cyber score from each most recent available 10-K into five value-weighted portfolios.
+    - Rebalance quarterly for new filings, listings and delistings.
+    - Compare highest-risk quintile long versus lowest-risk quintile short.
+  UNKNOWN: Original broker order timing and filled transaction prices.
+signal_and_execution_clock:
+  source: Latest publicly available SEC filing, subsequent quarterly portfolio rebalance and monthly returns.
+  UNKNOWN: SEC filing publication-to-trade delay and precise trade crossing time.
+sizing:
+  source: Value-weighted quintiles; original high-minus-low exposure.
+  UNKNOWN: Margin, financing and borrow treatment.
+cost_assumptions:
+  author_evidence: Historical paper excess-return estimates are not independent after-broker-cost portfolio PnL.
+  UNKNOWN: Spread, slippage, commission, dividend, impact, borrow and financing costs.
+baseline:
+  source: Compare with Florackis et al dictionary-based cyber score and established Fama-French style factors.
+  PROPOSED_ADAPTATION: Recompute both risk portfolios with identical PIT universe, quarterly clock and borrow-inclusive costs.
+development_evaluation:
+  status: NOT_RUN
+  AUTHOR_TEST_UNVERIFIED: Paper reports high-risk-quintile annual excess return 18.72 percent and high-minus-low annual excess return 6.93 percent; stronger reported pre-2020 risk spread.
+  adverse: Risk compensation need not be abnormal alpha; results may weaken after publication and after costs.
+primary_falsifier:
+  future_only: PIT semantic scores fail to improve risk-factor explanation or cost-matched high-minus-low returns versus word-dictionary scores and standard controls.
+acceptance_and_stop_rules:
+  admission: Descriptive handoff only; never executable, MODEL_READY or an ATS Stage pass.
+  blockers: BLOCKED_DATA; BLOCKED_PROTOCOL; REQUIRES_TRAINING_WORKFLOW for scientific replication.
+parity_and_causality_tests:
+  future:
+    - Record per-filing SEC availability clock, text and MITRE vintages, and delisting membership.
+    - Fit embedding representation only using appropriately available training documents and preserve model provenance.
+    - If future supervised return modeling is added, require chronological OOF forecasts and label-overlap controls.
+    - Compare dictionary-only portfolios and financing-inclusive costs with identical risk weights.
+known_adaptations:
+  - Training a future-return model on the cyber score would be an independent new proposal, not replication.
+  - No cryptocurrency funding/basis/carry alpha; original equity short financing remains a cost.
+verified_facts:
+  - Original author arXiv HTML and author project inspected on 2026-10-18.
+  - No model training, market return data read, scientific evaluation or trading performed.
+assumptions:
+  - Cyber risk could be a compensated cross-sectional risk exposure, not necessarily a tradable price inefficiency.
+unresolved_blockers:
+  - Historical SEC 10-K / MITRE corpus vintages and licensed CRSP/Compustat PIT equity data not qualified.
+  - Doc2Vec historical training provenance and corporate-action/borrow cost model UNKNOWN.
+  - Generic ATS return IC does not natively implement textual embeddings or prove their OOF provenance.
