@@ -1,0 +1,70 @@
+candidate_id: edgealchemy_hl_extreme_negative_funding_price_continuation_2025_v1
+selection_family_id: hyperliquid_funding_informed_flow_vs_carry
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: edgealchemy_2025_hyperliquid_carry_looks_trendy
+    url: https://edgealchemy.robotwealth.com/p/hyperliquid-carry-looks-trendy
+    title: Hyperliquid Carry Looks Trendy
+    author: Kris Longmore / Edge Alchemy
+    publication_date: '2025-09-14'
+    source_role: PRIMARY_AUTHOR_RESEARCH_POST
+    source_location: 'Key Points; Crypto dumping ground; Potential Trades; Caveats; update dated 2025-09-15'
+economic_thesis:
+  hypothesis: 'Extremely negative funding on Hyperliquid perpetuals may be a proxy for informed short selling and subsequently continuing price weakness, not an exploitable carry premium.'
+  null_hypothesis: 'No incremental conditional predictive price continuation after comparing matched Binance funding, market direction and trading costs.'
+  claim_class: SOURCE_REPORTED_VENUE_SPECIFIC_EFFECT_UNVERIFIED
+mechanism:
+  causal_hypothesis: 'HL short-paying-long perps may reflect informed selling and price decline, while Binance extreme funding more often represents retail crowded positioning that mean reverts.'
+  counterparty: 'Potentially less informed liquidity demand opposing informed HL short sellers; counterparties not proven.'
+instruments:
+  original_product: 'Hyperliquid perpetual futures and comparison to Binance perpetuals, common overlapping universe.'
+  original_horizon: 'Funding-sorted carry portfolios; exact rebalance cadence and holding duration UNKNOWN.'
+  local_product_adaptation: NONE_PROPOSED
+data_requirements:
+  original: 'Time-aligned venue-specific historical perps funding, prices and tradable liquidity, asset listings and comparable fee assumptions.'
+  data_qualified: false
+feature_contracts:
+  original_features: 'Venue-specific perpetual funding rate; original author discusses extreme shorts-pay-longs funding buckets 16 to 20 and price trend.'
+  availability: 'Settlement/forecast funding timing and full cross-venue point-in-time availability must be verified.'
+strategy_rules:
+  original_author_rules:
+    - 'Compare funding-sorted carry on Hyperliquid versus Binance, including overlapping instruments.'
+    - 'Author observes extreme shorts-pay-longs Hyperliquid funding linked with further price declines; considers using it as a trend overlay, not a validated executable strategy.'
+    - 'Binance carry signal applied to both overlapping venue universes aligns portfolio behavior more closely.'
+    - 'Original author did not publish a frozen independent short-entry, sizing or exit rule for the proposed trend overlay.'
+  not_disclosed: 'Exact cutoff for negative funding, future horizon, signal/settlement clock, trading fees, portfolio size and exit policy UNKNOWN.'
+signal_and_execution_clock:
+  original_or_inferred: 'Signal could become known at venue-specific funding publication or settlement, but author does not freeze a causal execution protocol.'
+  dst_and_holiday: 'Continuous perps, exchange maintenance and publication clock UNKNOWN.'
+sizing:
+  original: 'Original carry-factor comparison and speculative overlay; sizing for executable overlay UNKNOWN.'
+cost_assumptions:
+  original: 'Author explicitly shows frictionless factor comparisons in article; production cost and capacity remain unknown.'
+  local_assumption: NONE
+baseline:
+  predeclared_design: 'Venue-matched funding and trend baseline under identical causal timestamp and risk constraints; proposal only.'
+development_evaluation:
+  phase: DESIGN_ONLY_NO_BACKTEST
+  method: 'Source intake only.'
+  source_reported_results:
+    - 'AUTHOR_REPORTED_UNVERIFIED: After early 2024, HL funding-based carry underperformed Binance; unfavorable underlying price changes swamped receipts on HL despite higher funding.'
+    - 'AUTHOR_REPORTED_UNVERIFIED: Source plot corrections published September 15, 2025 for underestimated carry returns.'
+primary_falsifier:
+  hypothesis_test: 'Extreme negative HL funding fails to predict continued downside beyond price trend and synchronized Binance funding controls after trading costs.'
+acceptance_and_stop_rules:
+  research_capture: 'Preserve source claims and no executable grant.'
+  stop: 'No fabricated thresholds or after-cost return claims.'
+parity_and_causality_tests:
+  required: 'Exact funding event effective timestamps per venue, lookback rank formation, perpetual listing survivorship and slippage/cost model.'
+known_adaptations:
+  - NONE_PROPOSED
+verified_facts:
+  - 'SOURCE_FACT: Primary article directly inspected 2026-10-18; explicitly labels suggested trades as potential and reports correction on September 15, 2025.'
+assumptions:
+  - 'LOCAL_INFERENCE: Funding may encode informed order flow, but cannot distinguish information from liquidation/market beta without controls.'
+unresolved_blockers:
+  - 'Original effect is not an after-cost trade simulation, and source does not disclose executable entry/exit.'
+  - 'Overlap with generic funding carry/exhaustion factors must be evaluated before further independent testing.'

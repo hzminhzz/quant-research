@@ -1,0 +1,69 @@
+candidate_id: robotwealth_ng_boil_winter_short_roll_drag_2025_v1
+selection_family_id: natural_gas_winter_seasonality_and_roll_decay
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: longmore_2025_winter_natural_gas
+    url: https://edgealchemy.robotwealth.com/p/lessons-from-a-volatile-seasonality
+    title: Lessons from a Volatile Seasonality Trade
+    author: Kris Longmore / Edge Alchemy
+    publication_date: '2025-12-20'
+    source_role: PRIMARY_AUTHOR_WEB_ARTICLE
+    source_location: 'Article opening paragraphs and This Years Ride, lines 17-62 in primary page inspected 2026-10-18'
+economic_thesis:
+  hypothesis: 'A short position in winter-exposed natural gas (author prefers short BOIL ETF) may capture seasonal price pressure, futures-curve roll-down and leveraged-fund volatility drag.'
+  null_hypothesis: 'The return of the source-described winter short exposure is nonpositive after realistic short borrow, execution and risk constraints.'
+  claim_class: SOURCE_GROUNDED_ECONOMIC_HYPOTHESIS_UNVERIFIED
+mechanism:
+  causal_hypothesis: 'Winter natural gas prices expose short sellers to a seasonal premium; futures roll-down and daily leverage volatility decay are distinct possible contributors.'
+  counterparty: 'Long natural-gas exposure holders and leveraged ETF traders; actual identity UNKNOWN.'
+instruments:
+  original_product: 'Natural gas futures short; preferred expressed product BOIL, a leveraged long natural-gas ETF, shorted in cash equities.'
+  original_horizon: 'Approximately four months per year during winter; exact open/close dates UNKNOWN.'
+  local_product_adaptation: NONE_PROPOSED
+data_requirements:
+  original: 'BOIL adjusted ETF prices or dated natural gas futures contracts, roll information, actual borrow availability, trading calendars and execution quotes; none locally qualified.'
+  data_qualified: false
+feature_contracts:
+  original_features: 'Winter season/calendar and natural gas curve roll-down; no explicit quantitative forecast formula published.'
+  availability: 'Seasonal calendar known in advance; futures curve data and borrow locate availability not verified.'
+strategy_rules:
+  original_author_rules:
+    - 'Hold a short natural gas exposure around winter months; author states he prefers short BOIL rather than direct futures.'
+    - 'Target approximately constant dollar short exposure by rebalancing after position drift; no precise trigger or frequency stated.'
+    - 'Author says invested for four months of the year without specifying exact start/end dates.'
+  not_disclosed: 'Exact winter entry/exit dates, position size, rebalance interval, stop, risk cap, security lending and borrow rules, futures maturity schedule all UNKNOWN.'
+signal_and_execution_clock:
+  original_or_inferred: 'Calendar-conditioned position with rebalancing; exact trading-day clock and next executable fill UNKNOWN.'
+  dst_and_holiday: 'US equity and natural-gas futures calendars differ; exact original calendar UNKNOWN.'
+sizing:
+  original: 'Roughly constant dollar exposure; actual dollar amount and rebalancing threshold UNKNOWN.'
+cost_assumptions:
+  original: 'No implementable borrow, fee, slippage or financing model disclosed in text.'
+  local_assumption: NONE
+baseline:
+  predeclared_design: 'Same-duration, same-instrument unconditioned short exposure with identical borrowing and sizing rules; proposal, not source rule.'
+development_evaluation:
+  phase: DESIGN_ONLY_NO_BACKTEST
+  method: 'Future work only; verify executable season dates and venue-specific data first.'
+  source_reported_results:
+    - 'AUTHOR_REPORTED_UNVERIFIED: Approximately 12% CAGR, 0.5 Sharpe, 50% annualized volatility, deployed approximately four months annually; source analysis method/cost treatment not fully specified.'
+primary_falsifier:
+  hypothesis_test: 'No positive seasonal return after short-borrow costs and tail-risk provisions relative to an unconditioned exposure.'
+acceptance_and_stop_rules:
+  research_capture: 'Descriptive evidence only; no executable approval.'
+  stop: 'Do not infer omitted timing/sizing; source fidelity and identity mandatory.'
+parity_and_causality_tests:
+  required: 'Exact original winter dates, curve observations, BOIL distributions and borrowing, market-session execution and short rebalancing chronology.'
+known_adaptations:
+  - NONE_PROPOSED
+verified_facts:
+  - 'SOURCE_FACT: Source page directly inspected 2026-10-18; author describes short BOIL alternative to short winter natural-gas futures and constant dollar exposure via rebalancing.'
+assumptions:
+  - 'LOCAL_INFERENCE: Seasonal natural-gas risk and leveraged ETF decay could be economically different sources of return; attribution untested.'
+unresolved_blockers:
+  - 'UNKNOWN exact entry and exit dates and trade clock.'
+  - 'UNKNOWN rebalance interval, dollar size and short locate rules.'
+  - 'Tail exposure to freezing weather, supply disruption and leveraged product squeezes.'

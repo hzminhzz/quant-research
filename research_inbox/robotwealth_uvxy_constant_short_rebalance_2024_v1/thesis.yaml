@@ -1,0 +1,69 @@
+candidate_id: robotwealth_uvxy_constant_short_rebalance_2024_v1
+selection_family_id: leveraged_volatility_etf_short_risk_premium
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: robotwealth_longmore_uvxy_excel_2024
+    url: https://robotwealth.com/modelling-uvxy-trading-strategies-with-excel/
+    title: Modelling UVXY trading strategies with Excel
+    author: Kris Longmore / Robot Wealth
+    publication_date: '2024-11-30'
+    source_role: PRIMARY_AUTHOR_RESEARCH_ARTICLE
+    source_location: 'Short that thing and conclusions in source article'
+economic_thesis:
+  hypothesis: 'Periodically rebalanced short UVXY may capture compensation for short-volatility exposure and leveraged-fund drag.'
+  null_hypothesis: 'After borrow and risk constraints the proposed position has no attainable premium.'
+  claim_class: SOURCE_GROUNDED_UNVERIFIED
+mechanism:
+  causal_hypothesis: 'UVXY is leveraged exposure to constant-maturity VIX futures; short traders accept rare extreme volatility losses.'
+  counterparty: 'Investors seeking leveraged long volatility; not independently identified.'
+instruments:
+  original_product: 'UVXY US-listed exchange-traded fund, not VIX futures or spot index.'
+  original_horizon: 'Continuously short and compare daily, weekly and monthly notional rebalance.'
+  local_product_adaptation: NONE_PROPOSED
+data_requirements:
+  original: 'UVXY adjusted prices, splits, borrow availability, margin and executable quotes.'
+  data_qualified: false
+feature_contracts:
+  original_features: 'Short dollar exposure with periodic rebalance to user-defined target.'
+  availability: 'Exact signal/fill conventions not disclosed.'
+strategy_rules:
+  original_author_rules:
+    - 'Short UVXY and choose a target dollar short position.'
+    - 'Restore target periodically; author compares monthly, weekly, daily rebalancing.'
+    - 'UVXY target was 2x before 2018 and 1.5x after 2018.'
+    - 'Separate short-UVXY/SVXY tracking-error trade is distinct and should not be merged.'
+  not_disclosed: 'No single recommended rebalance frequency, entry clock, stop, sizing amount or borrow rule.'
+signal_and_execution_clock:
+  original_or_inferred: 'Periodic dollar-notional rebalance; precise observation and fill time UNKNOWN.'
+  dst_and_holiday: 'US listed ETF session required but source simulation clock UNKNOWN.'
+sizing:
+  original: 'Source spreadsheet accepts user-defined target dollars; no optimal target given.'
+cost_assumptions:
+  original: 'Trading and stock-borrow costs explicitly omitted from the author spreadsheet.'
+  local_assumption: NONE
+baseline:
+  predeclared_design: 'Constant-share short position with the same financing and risk budget, proposed comparison only.'
+development_evaluation:
+  phase: DESIGN_ONLY_NO_BACKTEST
+  method: 'Source capture only.'
+  source_reported_results:
+    - 'AUTHOR_REPORTED_UNVERIFIED: Monthly rebalance short position temporarily grew to about seven times desired exposure during Volmageddon; more frequent rebalancing reduced drift before fees.'
+primary_falsifier:
+  hypothesis_test: 'Net short-volatility risk premium fails after borrow and tail-loss requirements.'
+acceptance_and_stop_rules:
+  research_capture: 'Descriptive source intake only.'
+  stop: 'No ATS approval or orders.'
+parity_and_causality_tests:
+  required: 'UVXY leverage target changes, split-adjusted prices, borrow locate, account margin and rebalance clock.'
+known_adaptations:
+  - NONE_PROPOSED
+verified_facts:
+  - 'SOURCE_FACT: Original author article read directly 2026-10-18; short-and-rebalance mechanics distinguish from paired tracking-error strategy.'
+assumptions:
+  - 'LOCAL_INFERENCE: Protection demand may support long-run short-volatility premium, but losses are structural.'
+unresolved_blockers:
+  - 'UNKNOWN short borrow costs, margins, execution timing, rebalancing choice.'
+  - 'Extremely large squeeze and margin risk.'
