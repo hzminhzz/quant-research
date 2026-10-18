@@ -1,0 +1,73 @@
+candidate_id: "qoppac_futures_longlookback_skew_absolute_v1"
+selection_family_id: "futures_distributional_skew_factor"
+status: "DRAFT_UNVERIFIED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    source_id: "qoppac_skew_kurtosis_2020"
+    author: "Rob Carver"
+    publication_date: "2020-01-13"
+    title: "Skew and Kurtosis as trading rules"
+    url: "https://qoppac.blogspot.com/2020/01/skew-and-kurtosis-as-trading-rules.html"
+economic_thesis:
+  hypothesis: "The negative of trailing standardized futures-return skew, smoothed causally, may provide a slow diversifying forecast versus outright trend/carry."
+  null_hypothesis: "No positive incremental post-cost contribution over risk-matched trend-and-carry portfolio."
+mechanism:
+  plausible_process: "Tail-asymmetry risk premium or behavioral response to recent third-moment asymmetry may persist, independently from EWMAC/carry."
+  counterparty: "UNKNOWN; volatility/tail protection sellers-buyers are inferred, not established by source."
+instruments:
+  original_product: "Multi-asset-class exchange-traded futures research portfolio; S&P 500 used for per-rule cost and correlation screening."
+  original_horizon: "Daily-return trailing skew windows; 14,30,90,180,365 days retained after 7-day removal."
+  product_substitution: "NONE"
+data_requirements:
+  needed: "Daily PIT contract-adjusted prices and as-of rolls, raw returns, robust factor-vol normalizer, execution costs, futures instrument classifications."
+  access_verified: false
+feature_contracts:
+  source_math: "Source code calculates skew factor on daily returns; demeaning options abs, ts, cs, rv and lookbacks 7,14,30,90,180,365 days. Factor = negative skew for standalone rule; normalize by robust volatility of skew factor itself; EWMA smoothing with span ceiling(lookback_days/10). Implementation parity required."
+  availability: "Point-in-time source availability and exact feature parity still UNKNOWN"
+strategy_rules:
+  original_author_rules:
+    - "Calculate negative raw return-skew for each futures instrument on historical returns, using candidate windows 14,30,90,180,365 days; 7-day family was screened out on cost."
+    - "Demean versus cross-market historical average for the absolute-skew forecast; normalize factor by robust factor volatility, then smooth EWMA span ceil(lookback/10)."
+    - "Use proportional signed forecasts inside author's multi-instrument risk-targeted trading system; the author compared all variants instead of declaring one universally preferred variant."
+  unpublished_necessary_parameters: "Exact robust_vol_calc, historical mean training window, forecast scale/clip, individual contract cost settings, final weights and fill timestamps."
+signal_and_execution_clock:
+  source_or_needed: "Daily trailing returns observed after close/settlement; earliest next eligible trade UNKNOWN pending parity."
+  calendar_and_DST: "UNKNOWN pending original venue qualification"
+sizing:
+  original: "Original author's systematic futures volatility-scaled portfolio; exact allocated exposures UNKNOWN."
+cost_assumptions:
+  source: "Author estimated S&P 500 forecast trading cost in Sharpe-ratio units; 7-day variants exceeded his 0.13 SR cost cutoff; underlying commissions and slippage not independently reproduced."
+  zero_cost_assumption: false
+baseline:
+  predeclared_future_control: "Original EWMAC plus carry forecast portfolio and matched no-skew portfolio."
+development_evaluation:
+  source_reported_claims:
+    - "Source reports SR about 0.33 for skew_abs_365 and around 0.35 for slow relative-value skew, substantially worse for faster lookbacks."
+    - "Adding selected skew families changed total system Sharpe by approximately 0.07; source notes exploratory/fitting risks."
+  empirical_run_completed: false
+primary_falsifier:
+  predeclared_future_test: "No positive incremental net improvement on a precommitted slow-skew ensemble after proper multiple-selection adjustment against trend/carry."
+acceptance_and_stop_rules:
+  descriptive_intake: "THESIS_CAPTURED is provenance-only, not scientific or execution approval"
+  stop_conditions:
+    - "Reject source identity/content mismatch"
+    - "No model/backtest/order until later independent specification and evidence gates"
+parity_and_causality_tests:
+  required:
+    - "Source rules/timezone/availability proof"
+    - "Original instrument identity and eligible fill chronology"
+    - "Realistic spread, slippage, fees and financing"
+    - "Original-code calculation parity before empirical trials"
+known_adaptations:
+  - "NONE approved; any adaptation must be separately specified"
+verified_facts:
+  - "Original practitioner page directly inspected and cited in brief; author statistics are source claims."
+assumptions:
+  - "Economic causal story is a hypothesis, not independently demonstrated."
+unresolved_blockers:
+  - "Exact robust_vol_calc, historical mean training window, forecast scale/clip, individual contract cost settings, final weights and fill timestamps."
+  - "Data provenance and exact executable transaction costs"
+  - "Original portfolio sizing and engine parity are not qualified"

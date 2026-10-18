@@ -1,0 +1,65 @@
+candidate_id: qoppac_futures_relative_carry_within_assetclass_v1
+selection_family_id: futures_cross_assetclass_relative_carry
+status: DRAFT_UNVERIFIED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: qoppac_some_more_trading_rules_2017
+    author: Rob Carver
+    publication_date: "2017-06-22"
+    title: Some more trading rules
+    url: "https://qoppac.blogspot.com/2017/06/some-more-trading-rules.html"
+economic_thesis:
+  hypothesis: "Futures with carry above the contemporaneous within-asset-class median can earn a relative premium against futures with below-median carry, potentially diversifying absolute carry."
+  null_hypothesis: "Within-class relative carry has no incremental positive net economic contribution versus absolute-carry or risk-matched zero-signal controls."
+mechanism:
+  source_process: "Cross-sectional ranking of forward-curve carry reflects differential hedging pressure and term-structure compensation; causal explanation is LOCAL_INFERENCE."
+  counterparty: "UNKNOWN; hedging and inventory-transfer counterparties are plausible, not demonstrated."
+instruments:
+  original_product: "Exchange-traded futures across several asset classes, per original author's multi-market dataset."
+  original_horizon: "Daily research forecasts smoothed over 90 business days; rebalance/fill specifics UNKNOWN."
+  substitution: "NONE; do not treat spot, synthetic continuous-price spreads, or CFDs as interchangeable."
+data_requirements:
+  needed: "Dated multi-expiry futures settlements and roll calendars, contract multiplier, bid/ask, actual carry formula, liquidity and funding; source data access NOT VERIFIED."
+feature_contracts:
+  source_math: "First compute the author's absolute futures carry forecast C[x,t], smoothed over 90 business days. Relative carry R[x,t]=C[x,t]-median(C[a,t] for a in same asset class). Original contract-specific C calculation and vol scaling require code/book parity."
+  availability: "All carry and group medians must use the same as-of snapshot; no hindsight contract roll or stale constituents."
+strategy_rules:
+  original_author_rules:
+    - "Within each futures asset class compute 90-business-day-smoothed carry forecast."
+    - "Subtract contemporaneous asset-class median smoothed carry to form relative carry signal."
+    - "Use relative carry as a proportional signed predictor within the author's multi-rule systematic futures portfolio."
+  missing_rules: "Order timing, per-instrument forecast scalar, exact leverage/risk allocation, lookback for raw carry and eligible contracts UNKNOWN here."
+signal_and_execution_clock:
+  original: "Daily/slow smoothed relative carry; exact decision and earliest tradable futures fills require parity with original pysystemtrade implementation."
+  timezones_and_dst: "Exchange-specific sessions/holidays and roll availability UNKNOWN."
+sizing:
+  source: "Integrated into author's futures risk/forecast-weighting system; standalone long-short dollar-neutral weights NOT supplied."
+cost_assumptions:
+  source: "Source uses proprietary/backtest trading cost modeling; actual commissions/slippage/roll spread/margin financing not reproduced."
+  zero_cost_assumption: false
+baseline:
+  control: "Original absolute carry forecaster with matching contracts, leverage, drawdown-risk and transaction cost assumptions."
+development_evaluation:
+  source_reported_tests:
+    - "Author reports absolute-plus-relative carry Sharpe 0.524 versus 0.508 for absolute carry alone (monthly-return annualized); original research test only, not independent validation."
+    - "Relative carry alone underperformed absolute carry; author estimated predictor correlation about 0.6 and roughly 40% relative-carry model weight in paired optimizer."
+  independent_run_completed: false
+primary_falsifier:
+  future_test: "Net relative-carry incremental risk-adjusted contribution is nonpositive after matched absolute carry, instrument-class and contract-roll controls."
+acceptance_and_stop_rules:
+  descriptive_intake: "THESIS_CAPTURED is not an executable ATS CandidateSpec, research approval or live authority."
+  stop_conditions: ["Provenance mismatch", "Missing native contract carry inputs", "Unqualified PIT roll and fills"]
+parity_and_causality_tests:
+  required: ["Raw futures carry implementation parity", "Within-class median as-of membership", "Daily forecast versus tradable settlement/next fill", "Roll and transaction-cost reconciliation"]
+known_adaptations:
+  - "NONE chosen; any transfer to CFDs or crypto perpetuals must be a separately labeled proposal and new selection-family review."
+verified_facts:
+  - "Original article directly inspected; author/date/formula and source-reported comparisons found in its Relative carry section."
+assumptions:
+  - "Counterparty and structural carry rationale are local inference, not established by author's backtest."
+unresolved_blockers:
+  - "Original carry forecast raw implementation and exact futures panel sample."
+  - "Point-in-time contract maps, expiry/roll algorithm, usable bid/ask and commissions."
+  - "Original portfolio risk-weighting and fill clock."
