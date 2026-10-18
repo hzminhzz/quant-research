@@ -76,7 +76,7 @@ def _cohort(run_log: Path, spec: CandidateSpec) -> tuple[dict[str, dict[str, pl.
             or record.get('label_horizon_bars') != spec.label_horizon_bars):
             continue
         trial = record.get('spec_hash')
-        if trial == spec.spec_hash or 'daily_returns' not in record:
+        if trial == spec.spec_hash or not record.get('daily_returns'):
             continue
         pieces = {}
         for window, artifact in record['daily_returns'].items():

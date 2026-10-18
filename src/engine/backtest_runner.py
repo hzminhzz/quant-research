@@ -298,7 +298,7 @@ def run_native(panel: pl.DataFrame, targets: pl.DataFrame, spec: CandidateSpec,
                *, funding: pl.DataFrame | None = None) -> NativeRun:
     if importlib.metadata.version('ml4t-backtest') != ENGINE_VERSION:
         raise QuantError('INVALID_CAPABILITY', 'Private native lifecycle adapter needs version requalification')
-    prices = panel.filter(pl.col('is_tradable')).sort('symbol', 'timestamp')
+    prices = panel.filter(pl.col('open').is_not_null() & (pl.col('open') > 0)).sort('symbol', 'timestamp')
     times = prices['timestamp'].unique().sort().to_list()
     if len(times) < 3:
         raise QuantError('BLOCKED_DATA', 'Native simulation needs at least three tradable timestamps')
