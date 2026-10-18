@@ -1,0 +1,164 @@
+schema_version: 1
+candidate_id: ats_crypto_xs_90d_high_anchoring_local_adaptation_20261018
+selection_family_id: cross_sectional_risk_premia
+market_scope: BINANCE_UM_USDT_PERP
+source_spec_status: local_adaptation
+thesis: >-
+  Test whether the point-in-time cross-sectional rank of close divided by the
+  trailing 2160-hour high predicts next-open 72-hour returns for Binance USDT
+  perpetuals. This is a local adaptation of the 90-day-high anchoring handoff.
+panel_root: /tmp/ats-crypto-xs-90d-high-anchoring-development
+windows:
+  train: {start: '2020-04-01T00:00:00Z', end: '2024-01-01T00:00:00Z'}
+  validation: {start: '2024-01-01T00:00:00Z', end: '2026-01-01T00:00:00Z'}
+  protected: {start: '2026-01-01T00:00:00Z', end: '2026-10-01T00:00:00Z'}
+universe:
+  top_n: 40
+  minimum_assets: 40
+  lookback_bars: 720
+  minimum_history_bars: 720
+  minimum_dollar_volume: 0
+features:
+  - name: atr_24h
+    native: atr
+    params: {period: 24}
+  - name: high_90d
+    expr:
+      op: rolling_max
+      window: 2160
+      args: [{op: col, name: high}]
+  - name: high_watermark_ratio
+    expr:
+      op: div
+      args:
+        - {op: col, name: close}
+        - {op: col, name: high_90d}
+  - name: high_watermark_rank
+    expr: {op: xs_rank, args: [{op: col, name: high_watermark_ratio}]}
+  - name: momentum_72h_baseline
+    expr:
+      op: pct_change
+      periods: 72
+      args: [{op: col, name: close}]
+signal: high_watermark_rank
+baseline: momentum_72h_baseline
+allocation:
+  long_count: 5
+  short_count: 5
+  gross_exposure: 1.0
+  rebalance_bars: 72
+  atr_feature: atr_24h
+  atr_multiple: 3.0
+  timing_lag: 1
+  netting_rule: weight_delta
+costs:
+  commission_bps_one_way: 5.0
+  slippage_bps_one_way: 4.0
+  spread_bps: 0.0
+  spread_included_in_slippage: true
+gates:
+  minimum_ic: 0.0
+  minimum_hac_t: 2.0
+  minimum_ic_observations: 30
+  require_baseline_ic_improvement: true
+  dsr_probability: 0.95
+  maximum_abs_beta: 0.15
+  maximum_short_stop_fraction: 0.2
+  minimum_completed_trades: 1500
+  require_baseline_sharpe_improvement: true
+  minimum_daily_observations: 365
+label_horizon_bars: 72
+bar_seconds: 3600
+periods_per_year: 365
+benchmark: BTCUSDT_PERP
+initial_cash: 100000
+seed: 42
+cutoff_checks: 3
+prior_trial_ids:
+  - crypto_xs_amihud_asymmetry_basket_v1
+  - crypto_xs_amihud_illiquidity_premium_basket_v1
+  - crypto_xs_betting_against_beta_basket_v1
+  - crypto_xs_bipower_jump_variation_basket_v1
+  - crypto_xs_btc_residual_momentum_basket_v1
+  - crypto_xs_capital_gain_overhang_basket_v1
+  - crypto_xs_corwin_schultz_spread_basket_v1
+  - crypto_xs_downside_correlation_asymmetry_basket_v1
+  - crypto_xs_extreme_tail_beta_basket_v1
+  - crypto_xs_funding_beta_basket_v1
+  - crypto_xs_funding_carry_exhaustion_basket_v1
+  - crypto_xs_funding_convexity_skew_basket_v1
+  - crypto_xs_funding_innovation_shock_basket_v1
+  - crypto_xs_funding_kurtosis_tail_basket_v1
+  - crypto_xs_funding_memory_persistence_basket_v1
+  - crypto_xs_funding_velocity_dislocation_basket_v1
+  - crypto_xs_hill_tail_index_basket_v1
+  - crypto_xs_idiosyncratic_volatility_basket_v1
+  - crypto_xs_illiquidity_innovation_basket_v1
+  - crypto_xs_information_delay_basket_v1
+  - crypto_xs_information_discreteness_fip_basket_v1
+  - crypto_xs_kyles_lambda_basket_v1
+  - crypto_xs_liquidity_beta_lcapm_basket_v1
+  - crypto_xs_max_return_salience_basket_v1
+  - crypto_xs_momentum_lifecycle_turnover_basket_v1
+  - crypto_xs_pairwise_correlation_basket_v1
+  - crypto_xs_quadratic_market_beta_basket_v1
+  - crypto_xs_range_efficiency_basket_v1
+  - crypto_xs_realized_kurtosis_tail_basket_v1
+  - crypto_xs_realized_quarticity_basket_v1
+  - crypto_xs_realized_semibeta_asymmetry_basket_v1
+  - crypto_xs_realized_skewness_basket_v1
+  - crypto_xs_relative_downside_beta_basket_v1
+  - crypto_xs_return_synchronicity_basket_v1
+  - crypto_xs_session_drift_divergence_basket_v1
+  - crypto_xs_signed_jump_variation_basket_v1
+  - crypto_xs_stealth_trade_size_basket_v1
+  - crypto_xs_systematic_cokurtosis_basket_v1
+  - crypto_xs_systematic_coskewness_basket_v1
+  - crypto_xs_systematic_jump_beta_basket_v1
+  - crypto_xs_taker_flow_imbalance_basket_v1
+  - crypto_xs_variance_ratio_basket_v1
+  - crypto_xs_vol_of_vol_risk_premium_basket_v1
+  - crypto_xs_volatility_asymmetry_basket_v1
+  - crypto_xs_volatility_feedback_asymmetry_basket_v1
+  - crypto_xs_volatility_of_liquidity_basket_v1
+  - crypto_xs_volume_return_correlation_basket_v1
+  - crypto_xs_volume_volatility_basket_v1
+  - crypto_xs_vpin_adverse_selection_basket_v1
+  - crypto_xs_vwap_tracking_error_basket_v1
+  - crypto_xs_wick_asymmetry_basket_v1
+assumptions:
+  - >-
+    SOURCE_ID=origin/feat/ats-inbox-62-copy-20261018:research_inbox/crypto_xs_90d_high_anchoring_basket_v1/thesis.yaml
+  - SOURCE_SHA256=0a64270bef0c43e4f11caeeb3c116d19205a1e52ae668c18a78479f06f4b4e6c
+  - >-
+    LOCAL_ADAPTATION: source raw history begins in 2020, so train begins 2020-04-01
+    to retain a full 2160-hour high-watermark warmup; source's proposed 2019-10-01
+    train start is not represented.
+  - >-
+    LOCAL_ADAPTATION: the nested source does not specify an executable cross-sectional
+    baseline. Compare with 72-hour close momentum, an explicit conventional signal
+    baseline, and require candidate IC improvement.
+  - >-
+    LOCAL_ADAPTATION: use the documented native convention of 5 bps one-way taker
+    commission plus 4 bps one-way slippage, totaling 18 bps round trip. Separate
+    spread is zero because the 4 bps slippage assumption includes spread; this is
+    an assumption, not measured execution.
+  - >-
+    Funding marks use the documented trade_open_proxy policy when source marks are
+    absent; substituted marks are labeled in the immutable panel provenance.
+  - >-
+    The 40-name PIT universe is ranked by trailing 720-hour close-times-volume
+    proxy; source coverage and historical listing completeness remain unverified.
+  - >-
+    The source claims a 62-hypothesis selection family. This branch identifies 52
+    cross-sectional thesis IDs including the selected source (51 prior IDs); ten
+    claimed IDs have no matching thesis YAML here. Their return artifacts are also
+    absent, so Stage 3 must remain blocked pending selection-family reconciliation.
+  - >-
+    The original source also requires low-liquidity-regime falsification, annualized
+    net Sharpe >= 1, maximum drawdown <= 20%, and positive alpha after attribution.
+    The current native factory gates do not encode all of these checks; any Stage 3
+    result is adaptation evidence and cannot satisfy or waive those source gates.
+  - >-
+    Stage 1/2 are development-only. No protected partition is read and no live
+    order or deployment authority is created. Existing 2026 exposure is disclosed.

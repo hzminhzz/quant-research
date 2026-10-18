@@ -1,0 +1,42 @@
+identity:
+  candidate_id: crypto_xs_news_peer_opposite_shock_20261018_v1
+  selection_family_id: news_coupled_peer_competition_opposite_shock
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: News-driven peer co-movement in crypto markets
+      authors: Gustavo Schwenkler and H. Zheng
+      publication_date: "2025-07"
+      url: https://doi.org/10.1016/j.jcorpfin.2025.102772
+      evidence_scope: Publisher open-access article and abstract; trading-rule transcription incomplete
+economic_thesis:
+  mechanism: News co-mentioned peer cryptocurrencies exhibit contemporaneous opposite-sign abnormal moves following a major idiosyncratic shock to another peer, then the induced mispricing reverses over subsequent weeks.
+  source_claimed_strategy: Authors identify peers with NLP of historical financial-news co-mentions, identify abnormally shocked assets, and construct a trading strategy around subsequent reversal in shocked peers. Exact author portfolio entry/exit and leg directions require full-text rule extraction.
+markets_and_data:
+  instruments: Multiple cryptocurrencies and their news-linked peers; venue and tradable derivatives market UNKNOWN
+  timeframe: Weekly shock/reversal framing, mispricing decay over roughly three weeks; exact decision and fill clock UNKNOWN
+  data_requirements: Point-in-time published news co-mentions, news timestamp availability, returns to estimate idiosyncratic shocks, historic asset eligibility, eligible tradable crypto instruments
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  peer_definition: Assets co-mentioned by contemporary news; actual source NLP and formation window UNKNOWN
+  signal: Abnormally large idiosyncratic return shock to focal cryptocurrency and opposite-signed contemporaneous peer response
+  long_selection: UNKNOWN; do not infer source author long allocation from directional interpretation
+  short_selection: UNKNOWN; do not infer source author short allocation from directional interpretation
+  basket_construction: Peer grouping by news; exact published portfolio weights and neutrality UNKNOWN
+  signal_and_execution_clock: UNKNOWN
+  sizing: UNKNOWN
+  exits_costs_stops: UNKNOWN
+  unresolved_blockers: Exact source signal and reversal trade schedule, causal news availability, universe, weighting, venue and fee/slippage assumptions require source mapping before any strict handoff
+research_evaluation:
+  original_author_results: SOURCE_REPORTED_UNVERIFIED
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: Peer-relative reversal disappears under publication-time joins, tradable contemporaneous universe membership, and realistic frictions
+scientific_integrity:
+  adverse_evidence: Peer news network may be selected using future co-mentions; smaller illiquid peers and news latency could explain claimed returns; original peer groups may not map to prop-firm listed derivatives
+  novelty: Source-derived NLP peer-competition and post-shock reversal rather than price-only clustering or static correlation
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

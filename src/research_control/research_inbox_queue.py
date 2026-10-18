@@ -16,6 +16,7 @@ import tempfile
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
+from urllib.parse import urlparse
 from uuid import uuid4
 
 import yaml
@@ -27,7 +28,7 @@ from src.engine.common import (
     json_bytes,
     runtime_identity,
 )
-from src.engine.research_handoff import validate_handoff
+from src.engine.research_handoff import _UniqueKeyLoader, validate_handoff
 from src.engine.spec_parser import parse_spec
 from src.engine.thesis_ingest import convert_thesis
 from src.oracle.research_protocols import parse_research_spec
@@ -36,10 +37,13 @@ REPO = Path(__file__).resolve().parents[2]
 TERMINAL = frozenset({
     "DUPLICATE", "BLOCKED_HANDOFF", "BLOCKED_SPEC", "BLOCKED_PROTOCOL",
     "BLOCKED_DATA", "BLOCKED_EVIDENCE", "BLOCKED_SECURITY", "BLOCKED_DRIFT",
-    "BLOCKED_RECOVERY", "ENGINEERING_ERROR", "FALSIFIED", "INCONCLUSIVE",
+    "BLOCKED_RECOVERY", "BLOCKED_EXECUTION", "ENGINEERING_ERROR", "FALSIFIED", "INCONCLUSIVE",
     "DEVELOPMENT_QUALIFIED",
 })
-TRIAL_TERMINAL = frozenset({"FALSIFIED", "INCONCLUSIVE", "DEVELOPMENT_QUALIFIED"})
+TRIAL_TERMINAL = frozenset({"FALSIFIED", "INCONCLUSIVE", "DEVELOPMENT_QUALIFIED", "BLOCKED_EXECUTION"})
+NESTED_SECTIONS = frozenset({"identity", "economic_thesis", "markets_and_data",
+                             "deterministic_strategy_specification", "research_evaluation",
+                             "scientific_integrity"})
 UNSUPPORTED_EVENT = (
     "General single-instrument event execution is not a qualified ATS-4 factory "
     "protocol. Add and qualify a typed event spec, session/DST clock, causal next-fill "
@@ -94,6 +98,9 @@ def _semantic_id(doc: dict) -> str:
             "development_evaluation", "primary_falsifier",
             "acceptance_and_stop_rules", "parity_and_causality_tests",
             "known_adaptations", "assumptions", "unresolved_blockers",
+            "identity", "economic_thesis", "markets_and_data",
+            "deterministic_strategy_specification", "research_evaluation",
+            "scientific_integrity",
         )
     })
 
@@ -147,6 +154,197 @@ def _declared_blockers(doc: dict) -> list[str]:
         return [str(declared)]
     return [str(item.get("question") or item.get("id") or item)
             if isinstance(item, dict) else str(item) for item in declared]
+
+
+def _nested_field_evidence(document: dict) -> list[dict]:
+    """Record explicit source paths and values; aliases never imply equivalence."""
+    aliases = {
+        "candidate_id": ("identity.candidate_id",),
+        "source_anchors": ("identity.source_references",),
+        "economic_hypothesis": ("economic_thesis.hypothesis",),
+        "instruments": ("markets_and_data.instruments",),
+        "data": ("markets_and_data.raw_market_data", "markets_and_data.data_sources",
+                 "markets_and_data.timeframe"),
+        "features": ("deterministic_strategy_specification.mathematical_feature_definitions",
+                     "deterministic_strategy_specification.exact_parameters"),
+        "clock": ("deterministic_strategy_specification.signal_timing",
+                  "deterministic_strategy_specification.earliest_execution_time",
+                  "deterministic_strategy_specification.execution_timing"),
+        "costs": ("research_evaluation.cost_model_requirements",
+                  "markets_and_data.cost_assumptions"),
+        "baseline": ("research_evaluation.simple_comparable_baseline",
+                     "research_evaluation.baseline"),
+        "falsifier": ("research_evaluation.primary_economic_falsifier",
+                      "research_evaluation.falsification_conditions"),
+        "development_windows": ("research_evaluation.proposed_periods",
+                                "research_evaluation.windows"),
+        "protocol": ("scientific_integrity.research_protocol_classification",),
+    }
+    output = []
+    for field, paths in aliases.items():
+        for path in paths:
+            value: object = document
+            for part in path.split("."):
+                value = value.get(part) if isinstance(value, dict) else None
+            if value is not None:
+                value_type = ("mapping" if isinstance(value, dict) else
+                              "sequence" if isinstance(value, list) else
+                              "boolean" if isinstance(value, bool) else
+                              "number" if isinstance(value, (int, float)) else "string")
+                output.append({"field": field, "source_path": path, "value": value,
+                               "value_type": value_type,
+                               "normalization": "source_value_preserved",
+                               "evidence_sha256": hashlib.sha256(
+                                   json_bytes({"path": path, "value": value})).hexdigest()})
+    return output
+
+
+def _valid_nested_source_anchors(value: object) -> bool:
+    anchors = []
+
+    def visit(item: object) -> None:
+        if isinstance(item, dict):
+            if any(key in item for key in ("url", "doi", "source_id", "id")):
+                anchors.append(item)
+            else:
+                for child in item.values():
+                    visit(child)
+        elif isinstance(item, list):
+            for child in item:
+                visit(child)
+
+    visit(value)
+    if not anchors:
+        return False
+    for anchor in anchors:
+        if not any(isinstance(anchor.get(key), str) and anchor[key].strip()
+                   for key in ("title", "id", "source_id", "doi")):
+            return False
+        url = anchor.get("url")
+        if url is not None:
+            parsed = urlparse(url) if isinstance(url, str) else None
+            if (parsed is None or parsed.scheme != "https" or not parsed.hostname
+                    or parsed.username or parsed.password
+                    or parsed.hostname in {"localhost", "example.com", "example.org", "example.net"}
+                    or parsed.hostname.endswith((".localhost", ".local", ".invalid"))):
+                return False
+    return True
+
+
+def _brief_links_source(candidate_id: str, brief: Path, references: object) -> bool:
+    """Require the brief to cite the exact candidate ID or a declared HTTPS source URL."""
+    text = brief.read_text(encoding="utf-8")
+    if candidate_id in text:
+        return True
+
+    def visit(value: object) -> bool:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if (key in {"url", "primary_https_url"} and isinstance(item, str)
+                        and item.startswith("https://") and item in text):
+                    return True
+                if visit(item):
+                    return True
+        if isinstance(value, list):
+            return any(visit(item) for item in value)
+        return False
+
+    return visit(references)
+
+
+def _validate_flat_capture(document: dict, candidate_id: str, brief: Path) -> None:
+    """Admit descriptive flat captures/drafts, never executable handoffs."""
+    if (document.get("candidate_id") != candidate_id
+            or document.get("status") not in {"THESIS_CAPTURED", "DRAFT_UNVERIFIED"}
+            or document.get("research_mode") != "SOURCE_CAPTURE_ONLY"
+            or document.get("not_execution_approved") is not True
+            or document.get("not_a_frozen_session") is not True):
+        raise QuantError("INVALID_SOURCE", "Flat descriptive capture identity or safety markers invalid")
+    references = document.get("source_references")
+    if not isinstance(references, list) or not references:
+        raise QuantError("INVALID_SOURCE", "Flat capture requires declared source references")
+    for reference in references:
+        reference_id = reference.get("source_id", reference.get("id")) if isinstance(reference, dict) else None
+        if not isinstance(reference_id, str) or not reference_id.strip():
+            raise QuantError("INVALID_SOURCE", "Flat capture source reference lacks identity")
+        links = [reference[key] for key in ("url", "primary_https_url") if key in reference]
+        if not links:
+            raise QuantError("INVALID_SOURCE", "Flat capture source reference lacks URL")
+        for url in links:
+            parsed = urlparse(url) if isinstance(url, str) else None
+            if (parsed is None or parsed.scheme != "https" or not parsed.hostname
+                    or parsed.username or parsed.password
+                    or parsed.hostname in {"localhost", "example.com", "example.org", "example.net"}
+                    or parsed.hostname.endswith((".localhost", ".local", ".invalid"))):
+                raise QuantError("INVALID_SOURCE", "Flat capture source URL is invalid")
+    if not _brief_links_source(candidate_id, brief, references):
+        raise QuantError("INVALID_SOURCE", "Flat capture brief lacks candidate or exact source URL anchor")
+
+
+def _contains_yaml_cycle(value: object, active: set[int] | None = None,
+                         visited: set[int] | None = None) -> bool:
+    if not isinstance(value, (dict, list)):
+        return False
+    active = active if active is not None else set()
+    visited = visited if visited is not None else set()
+    identity = id(value)
+    if identity in active:
+        return True
+    if identity in visited:
+        return False
+    active.add(identity)
+    children = (child for key, item in value.items() for child in (key, item)) if isinstance(value, dict) else value
+    if any(_contains_yaml_cycle(child, active, visited) for child in children):
+        return True
+    active.remove(identity)
+    visited.add(identity)
+    return False
+
+
+def _nested_reasons(document: dict) -> list[str]:
+    """Reasons are evidence gates, not semantic repairs or inferred permission."""
+    reasons = []
+    strategy = document.get("deterministic_strategy_specification", {})
+    text = json.dumps(strategy, sort_keys=True, default=str).lower()
+    import re
+
+    clocks = re.findall(r"\b(?:next[_ -]?bar|00:01|next\s+hour|following\s+bar)\b", text)
+    market_text = json.dumps(document.get("markets_and_data", {}), sort_keys=True,
+                             default=str).lower()
+    hourly = "1h" in market_text or "hourly" in market_text
+    if (hourly and "00:01" in clocks
+            and any("next_bar" in item or "next-bar" in item for item in clocks)):
+        reasons.append("CONTRADICTORY_RULES")
+    atr = re.findall(r"(?<![\w.])(\d+(?:\.\d+)?)\s*(?:x\s*)?atr", text)
+    if len({float(value) for value in atr}) > 1:
+        reasons.append("CONTRADICTORY_RULES")
+    identity = document.get("identity", {})
+    refs = identity.get("source_references") if isinstance(identity, dict) else None
+    if not isinstance(refs, (dict, list)) or not refs:
+        reasons.append("UNRESOLVED_SOURCE")
+    integrity = document.get("scientific_integrity", {})
+    # URL and bibliography presence do not verify source content or its fit to the claim.
+    reasons.append("UNRESOLVED_SOURCE")
+    markets = document.get("markets_and_data", {})
+    market_text = json.dumps(markets, sort_keys=True, default=str).lower()
+    if any(term in market_text for term in ("unavailable", "not provided", "unknown", "unverified")):
+        reasons.append("UNAVAILABLE_DATA")
+    declared_panel = next((markets.get(key) for key in ("canonical_vault", "vault_root", "panel_root")
+                           if isinstance(markets, dict) and isinstance(markets.get(key), str)), None)
+    # shortcut: manifest presence only, add source-specific Stage 0 checks when qualified.
+    panel_manifest = (REPO / declared_panel / "manifest.json").resolve() if declared_panel else None
+    if (panel_manifest is None or not panel_manifest.is_relative_to(REPO)
+            or not panel_manifest.is_file()):
+        reasons.append("UNAVAILABLE_DATA")
+    protocol = str(integrity.get("research_protocol_classification", "")).lower() if isinstance(integrity, dict) else ""
+    if (not protocol
+            or not any(term in protocol for term in ("cross-sectional", "cross sectional"))
+            or not all(key in strategy for key in ("mathematical_feature_definitions", "exact_parameters"))):
+        reasons.append("UNQUALIFIED_PROTOCOL")
+    # No typed adapter currently compiles this nested source contract into a
+    # frozen native spec, even when its descriptive labels look complete.
+    reasons.append("UNQUALIFIED_PROTOCOL")
+    return list(dict.fromkeys(reasons))
 
 
 def _fsync_dir(path: Path) -> None:
@@ -339,23 +537,69 @@ class InboxQueue:
 
     def _admit(self, directory: Path) -> tuple[dict, dict | None]:
         candidate_id = directory.name
-        # The exact function used by quant.py validate-handoff.
+        source_hash = None
         try:
+            source_file = directory / "thesis.yaml"
+            brief_file = directory / "brief.md"
+            if (directory.is_symlink() or any(path.is_symlink() or not path.is_file()
+                                              for path in (source_file, brief_file))):
+                raise QuantError("INVALID_SOURCE", "thesis.yaml and brief.md must be regular files")
+            if any(path.stat().st_size > 512_000 for path in (source_file, brief_file)):
+                raise QuantError("INVALID_SOURCE", "source file exceeds the bounded admission size")
             source_hash = _source_hash(directory)
-            admitted = validate_handoff(directory)
-            document = yaml.safe_load((directory / "thesis.yaml").read_text(encoding="utf-8"))
+            document = yaml.load(source_file.read_text(encoding="utf-8"), Loader=_UniqueKeyLoader)
+            if not isinstance(document, dict):
+                raise QuantError("INVALID_SOURCE", "thesis YAML root must be a mapping")
+            if _contains_yaml_cycle(document):
+                raise QuantError("INVALID_SOURCE", "YAML aliases must not create cyclic values")
+            nested = set(document) == NESTED_SECTIONS
+            flat_capture = (not nested and
+                            document.get("status") in {"THESIS_CAPTURED", "DRAFT_UNVERIFIED"})
+            if nested:
+                identity = document.get("identity")
+                if (not isinstance(identity, dict) or identity.get("candidate_id") != candidate_id
+                        or not _valid_nested_source_anchors(identity.get("source_references"))
+                        or not _brief_links_source(candidate_id, brief_file,
+                                                   identity.get("source_references"))):
+                    raise QuantError("INVALID_SOURCE", "nested identity, source anchors, or brief candidate id is invalid")
+                validation = {"status": "SOURCE_ADMITTED",
+                              "validation": "SOURCE_STRUCTURE_HASHES_AND_DECLARED_ANCHORS",
+                              "authority": "NO_EXECUTION_OR_TRADING_APPROVAL"}
+            elif flat_capture:
+                _validate_flat_capture(document, candidate_id, brief_file)
+                validation = {"status": "SOURCE_ADMITTED",
+                              "validation": "FLAT_CAPTURE_STRUCTURE_HASHES_AND_DECLARED_ANCHORS",
+                              "authority": "NO_EXECUTION_OR_TRADING_APPROVAL"}
+            else:
+                validation = validate_handoff(directory)
             if _source_hash(directory) != source_hash:
                 raise QuantError('INVALID_HANDOFF', 'Source changed during admission; no trial registered')
+            field_evidence = _nested_field_evidence(document) if nested else []
+            reason_codes = (_nested_reasons(document) if nested else
+                            ["UNVERIFIED_EXECUTABLE_SPEC", "UNRESOLVED_SOURCE",
+                             "UNAVAILABLE_DATA", "UNQUALIFIED_PROTOCOL"] if flat_capture else [])
+            source_references = (document.get("source_references") if not nested else
+                                 document["identity"]["source_references"])
             return {
                 "candidate_id": candidate_id, "source_hash": source_hash,
-                "semantic_id": _semantic_id(document), "source_references": document["source_references"],
-                "handoff_status": admitted["status"], "protocol": classify(document),
+                "source_files_sha256": {"thesis.yaml": _sha(source_file),
+                                        "brief.md": _sha(brief_file)},
+                "semantic_id": _semantic_id(document),
+                "source_references": source_references,
+                "source_anchor_sha256": digest(source_references),
+                "handoff_status": validation["status"],
+                "protocol": "nested_unqualified" if nested else "flat_unqualified" if flat_capture else classify(document),
                 "source_path": str(directory), "admitted": True,
-                "required_adaptations": _declared_blockers(document),
+                "source_format": "nested_descriptive" if nested else "flat_descriptive" if flat_capture else "legacy_flat_handoff",
+                "source_declared_status": (document.get("status") if not nested else
+                                           document["identity"].get("status")),
+                "field_evidence": field_evidence, "reason_codes": reason_codes,
+                "required_adaptations": _declared_blockers(document) if not nested else [],
                 "authority": "DEVELOPMENT_RESEARCH_ONLY",
             }, document
-        except (QuantError, OSError, ValueError, yaml.YAMLError) as exc:
+        except (QuantError, OSError, ValueError, TypeError, RecursionError, yaml.YAMLError) as exc:
             return {"candidate_id": candidate_id, "admitted": False, "protocol": "unknown",
+                    **({"source_hash": source_hash} if source_hash else {}),
                     "source_path": str(directory), "status": "BLOCKED_HANDOFF",
                     "reason": str(exc), "holdout_access": False}, None
 
@@ -367,6 +611,7 @@ class InboxQueue:
         protocol = info["protocol"]
         if protocol != "cross_sectional":
             return {**info, "status": "BLOCKED_PROTOCOL",
+                    "code_version": runtime_identity(),
                     "reason": UNSUPPORTED_EVENT if protocol == "single_instrument_event" else UNSUPPORTED_PATH,
                     "holdout_access": False}, None
 
@@ -526,12 +771,15 @@ class InboxQueue:
                 disposition = "DEVELOPMENT_QUALIFIED"
             elif raw.startswith(("INCONCLUSIVE", "PARTIALLY_")):
                 disposition = "INCONCLUSIVE"
+            elif raw == "BLOCKED_EXECUTION":
+                disposition = "BLOCKED_EXECUTION"
             elif raw.startswith("BLOCKED"):
                 disposition = "BLOCKED_DATA"
             else:
                 raise ValueError(f"Unsupported native research decision: {raw}")
             return self._save({**state, "status": disposition,
                                "native_status": raw, "casefile": str(casefile),
+                               "stages": case.get("stages", {}),
                                "casefile_sha256": _sha(casefile), "returncode": result.returncode,
                                "native_evidence_verified": True,
                                "independently_verified": False,
@@ -553,10 +801,16 @@ class InboxQueue:
         processed = 0
         with self._owner():
             seen = {}
-            for candidate in self._candidates():
+            intake = [(path, *self._admit(path)) for path in self._candidates()]
+            intake.sort(key=lambda item: (
+                0 if item[1].get("source_format") == "legacy_flat_handoff"
+                and item[1].get("protocol") == "cross_sectional"
+                and not item[1].get("required_adaptations") else 1,
+                item[0].name,
+            ))
+            for candidate, info, doc in intake:
                 if max_candidates is not None and processed >= max_candidates:
                     break
-                info, doc = self._admit(candidate)
                 name = info["candidate_id"]
                 try:
                     previous = self._load(name)
@@ -571,12 +825,17 @@ class InboxQueue:
                 if previous:
                     if (info.get("source_hash") and
                             info["source_hash"] != previous.get("source_hash")):
-                        if previous["status"] != "BLOCKED_DRIFT":
-                            self._save({**previous, "status": "BLOCKED_DRIFT",
-                                        "reason": "Source bytes changed after admission; prior trial untouched",
-                                        "prior_status": previous["status"]})
-                        processed += 1
-                        continue
+                        if previous["status"] == "BLOCKED_HANDOFF" and doc is not None:
+                            previous = self._save({**info, "status": "THESIS_CAPTURED",
+                                                   "source_revision_of": previous.get("source_hash"),
+                                                   "attempts": [], "holdout_access": False})
+                        else:
+                            if previous["status"] != "BLOCKED_DRIFT":
+                                self._save({**previous, "status": "BLOCKED_DRIFT",
+                                            "reason": "Source bytes changed after admission; prior trial untouched",
+                                            "prior_status": previous["status"]})
+                            processed += 1
+                            continue
                     if (doc is not None and "required_adaptations" not in previous):
                         previous = self._save({**previous,
                                                "required_adaptations": info["required_adaptations"]})
@@ -596,13 +855,33 @@ class InboxQueue:
                                 self._save({**previous, "status": "BLOCKED_EVIDENCE",
                                             "prior_status": previous["status"],
                                             "reason": f"Saved terminal evidence drift: {exc}"})
-                        elif doc is not None and previous["status"] in {"BLOCKED_PROTOCOL", "BLOCKED_SPEC", "BLOCKED_DATA"}:
+                        elif (doc is not None and previous.get("source_format") not in {"nested_descriptive", "flat_descriptive"}
+                              and previous["status"] in {"BLOCKED_PROTOCOL", "BLOCKED_SPEC", "BLOCKED_DATA"}):
+                            update = {}
                             materialized = self._auto_materialize_for_document(doc)
                             if materialized and "materialized_development_vaults" not in previous:
-                                self._save({**previous, "materialized_development_vaults": materialized})
-                        continue  # terminal items do not consume the bounded actionable quota
+                                update["materialized_development_vaults"] = materialized
+                            current_code = runtime_identity()
+                            if previous.get("code_version") and previous["code_version"] != current_code:
+                                ready, spec_path = self._preflight(info, doc, candidate)
+                                if ready["status"] != previous["status"]:
+                                    previous = self._save({
+                                        **previous, **ready,
+                                        "prior_status": previous["status"],
+                                        "code_version": current_code,
+                                        "reconsidered_utc": _now(),
+                                    })
+                                    if spec_path is not None:
+                                        pass
+                                    else:
+                                        continue
+                            if update:
+                                self._save({**previous, **update})
+                            continue
+                        else:
+                            continue
                 else:
-                    previous = self._save({**info, "status": "ADMITTED" if doc else "BLOCKED_HANDOFF",
+                    previous = self._save({**info, "status": "THESIS_CAPTURED" if info.get("source_format") in {"nested_descriptive", "flat_descriptive"} else "ADMITTED" if doc else "BLOCKED_HANDOFF",
                                            "attempts": [], "holdout_access": False})
                 if doc is None:
                     processed += 1
@@ -610,6 +889,26 @@ class InboxQueue:
                 if duplicate_of != name:
                     self._save({**previous, "status": "DUPLICATE", "duplicate_of": duplicate_of,
                                 "reason": "Identical source/logic/instrument/clock/cost identity; no second trial"})
+                    processed += 1
+                    continue
+                if info.get("source_format") in {"nested_descriptive", "flat_descriptive"}:
+                    if previous.get("status") == "THESIS_CAPTURED":
+                        previous = self._save({**previous, "status": "SOURCE_ADMITTED",
+                                               "admitted": True,
+                                               "triage_status": "TRIAGED",
+                                               "holdout_access": False})
+                    codes = info.get("reason_codes", [])
+                    if "CONTRADICTORY_RULES" in codes or "UNVERIFIED_EXECUTABLE_SPEC" in codes:
+                        status = "BLOCKED_SPEC"
+                    elif "UNAVAILABLE_DATA" in codes:
+                        status = "BLOCKED_DATA"
+                    elif "UNQUALIFIED_PROTOCOL" in codes:
+                        status = "BLOCKED_PROTOCOL"
+                    else:
+                        status = "BLOCKED_SPEC"
+                    self._save({**previous, **info, "status": status,
+                                "reason": "Source admitted; executable preparation withheld: " + ", ".join(codes),
+                                "triage_status": "BLOCKED", "holdout_access": False})
                     processed += 1
                     continue
                 ready, spec_path = self._preflight(info, doc, candidate)
@@ -642,11 +941,12 @@ class InboxQueue:
 
     def report(self) -> dict:
         cases = []
-        counts = {
-            "total": 0, "admitted": 0, "executable": 0, "falsified": 0,
-            "inconclusive": 0, "blocked": 0, "independently_verified": 0,
-            "duplicates": 0, "pending": 0,
-        }
+        counts = {"total": 0, "captured": 0, "admitted": 0, "trial_started": 0,
+                  "stage1": 0, "stage2": 0, "stage3": 0, "stage4": 0,
+                  "native_runs": 0, "executable": 0, "falsified": 0,
+                  "inconclusive": 0, "blocked": 0, "blocked_execution": 0,
+                  "independently_verified": 0, "duplicates": 0, "pending": 0}
+        reason_counts: dict[str, int] = {}
         for folder in self._candidates():
             try:
                 state = self._load(folder.name)
@@ -656,24 +956,37 @@ class InboxQueue:
                 state = {"candidate_id": folder.name, "status": "PENDING"}
             status = state["status"]
             counts["total"] += 1
+            counts["captured"] += int(bool(state.get("source_hash")))
             counts["admitted"] += int(bool(state.get("admitted")))
             counts["executable"] += int(bool(state.get("spec_hash")))
+            counts["trial_started"] += int(bool(state.get("attempts")))
+            counts["native_runs"] += int(bool(state.get("native_evidence_verified")))
+            stages = state.get("stages", {})
+            for stage in ("1", "2", "3", "4"):
+                counts[f"stage{stage}"] += int(isinstance(stages, dict) and stage in stages)
+            for code in state.get("reason_codes", []):
+                reason_counts[code] = reason_counts.get(code, 0) + 1
             counts["falsified"] += int(status == "FALSIFIED")
             counts["inconclusive"] += int(status == "INCONCLUSIVE")
             counts["blocked"] += int(status.startswith("BLOCKED") or status in {"BROKEN_EVIDENCE", "ENGINEERING_ERROR"})
+            counts["blocked_execution"] += int(status == "BLOCKED_EXECUTION")
             counts["independently_verified"] += int(state.get("independently_verified") is True)
             counts["duplicates"] += int(status == "DUPLICATE")
             counts["pending"] += int(status == "PENDING")
             cases.append({
                 key: state.get(key) for key in (
-                    "candidate_id", "status", "protocol", "reason", "attempt_id",
+                    "candidate_id", "status", "handoff_status", "triage_status",
+                    "protocol", "reason", "attempt_id",
                     "casefile", "source_hash", "spec_hash", "duplicate_of", "revision",
                     "native_evidence_verified", "independently_verified",
-                    "required_adaptations",
+                    "required_adaptations", "admitted", "source_format",
+                    "source_declared_status", "field_evidence",
+                    "reason_codes", "stages", "attempts", "source_files_sha256",
+                    "source_anchor_sha256",
                 ) if key in state
             })
         return {
             "schema_version": 1, "scope": "DEVELOPMENT_ONLY_NO_PROTECTED_NO_ORDERS",
             "inbox": str(self.inbox), "state_root": str(self.root),
-            "counts": counts, "cases": cases,
+            "counts": counts, "reason_counts": reason_counts, "cases": cases,
         }

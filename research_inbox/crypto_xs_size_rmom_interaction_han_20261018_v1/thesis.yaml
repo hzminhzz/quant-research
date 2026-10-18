@@ -1,0 +1,42 @@
+identity:
+  candidate_id: crypto_xs_size_rmom_interaction_han_20261018_v1
+  selection_family_id: size_conditioned_risk_adjusted_momentum_double_sort
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "On the (almost) stochastic dominance of cryptocurrency factor portfolios and implications for cryptocurrency asset pricing"
+      authors: "Weihao Han, David Newton, Emmanouil Platanakis, Charles Sutcliffe, Xiaoxia Ye"
+      first_publication_date: "2023-06-01"
+      publication_year_volume: "2024, European Financial Management 30(3)"
+      url: https://doi.org/10.1111/eufm.12431
+      evidence_scope: "Original open access journal sections 5 and 8.2, tables 2 and 16"
+economic_thesis:
+  mechanism: "Coin size and Sharpe-scaled formation returns jointly characterize cryptocurrency cross-sectional return differences, with smaller high-risk-adjusted-momentum names disproportionately exposed to a short-horizon size-momentum interaction."
+  source_claimed_strategy: "The article studies 29 individual weekly factor long-short sorts; for interaction analysis it first splits coins at sample median market cap into small/big and then splits each size group at 30th and 70th percentiles of risk-adjusted momentum. It evaluates low/high RMOM by 1-, 2-, and 4-week formation horizons, yielding 12 small/big low/high groups by horizon after discarding medium ranks. Separately its simplified mispricing factor averages the source MARCAP and RMOM1/RMOM2/RMOM4 factor-portfolio returns; this is a factor-pricing construction, not a documented one-shot single-coin trading score."
+markets_and_data:
+  product_venue: "CoinMarketCap broad crypto price and market-cap sample; precise executable spot/perpetual exchange is NOT DEFINED"
+  timeframe: "Weekly rebalancing/forward one-week returns; interaction windows 1/2/4 weeks. No source 5m/15m/1h rule."
+  sample: "2,353 cryptocurrencies at > USD 1 million capitalization, 2014 to June 2021"
+  data_requirements: "Point-in-time market cap, listing dates, weekly formation returns, reproducible Sharpe denomination and risk-free series, delisted names and contemporaneous tradability."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  weekly_factor_portfolio: "Source: every week rank by each stated characteristic into quintiles, market-cap-weight constituents; long minus short between high and low quintiles for individual factor payoffs. Sign orientation may depend on historical characteristics and should not be reversed after seeing outcomes."
+  size_rmom_interaction: "Source: first size split at median market cap; within each size group cut RMOM formation signal at 30/70 percentiles; compare small-low, small-high, big-low, big-high, for each 1/2/4-week RMOM lookback."
+  long_selection: "The published 29-factor portfolio leg for positively oriented risk-adjusted momentum takes higher RMOM quintile; double-sort section is an analysis of bucket returns, not an independently specified tradable combined basket."
+  short_selection: "Corresponding lower RMOM quintile for the analyzed standalone risk-adjusted momentum factor; exact size-RMOM joint basket short construction UNKNOWN."
+  basket_construction: "Source individual factor sorts use market-cap weighting, rebalance weekly, and measure next-week excess returns. No executable 5m/15m/1h long-short margin or position limits specified."
+  clock_and_costs: "Formation information at prior week-end, next week's holding return. Market orders, spread, slippage and futures funding costs NOT SPECIFIED."
+  unresolved_blockers: "No uniquely pre-registered size+RMOM live basket in original article; price/return adjusted Sharpe conventions, weekly risk-free and market cap as-of vintage; capitalization cutoff survivor bias; inability to short 2353 mostly illiquid names; post-selection factor dominance and factor-sign selection."
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: authors say 8/29 factors dominate four comparators under almost first-order stochastic dominance; size and risk-adjusted momentum form their simplified mispricing risk factor; their small/high RMOM group outperforms small/low in tables but no independent net executable OOS return was validated here."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "Interaction becomes insignificant after causal cap/listing filters, small-name short feasibility and realistic liquid-only execution; selected factor dominance disappears under multiple-testing correction."
+scientific_integrity:
+  contrary_evidence: "Large small-cap universe has major listing/survivorship and short access restrictions; source's 29 characteristics and multi-horizon dominance selection are selection-bias hazards."
+  novelty: "Specifically size-conditioned RMOM at separate tercile cuts and weekly cap-weighted quintile factor construction, not generic 1h altcoin momentum ranking; share momentum family with existing inbox so dedup must still check exact sources and mechanisms."
+  adaptation_proposal: "OPTIONAL DISTINCT PROPOSAL ONLY: a future PIT eligible long/short size-RMOM-interaction factor using a liquid perp subset; this was NOT defined or tested by the original article."
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

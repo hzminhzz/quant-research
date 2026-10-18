@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import shutil
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -38,7 +39,8 @@ def _copy_handoff(tmp_path: Path, name: str = "audusd_policy_carry_cfd_v1") -> P
 
 def _queue(tmp_path: Path) -> InboxQueue:
     _copy_handoff(tmp_path)
-    return InboxQueue(tmp_path / "inbox", tmp_path / "log")
+    return InboxQueue(tmp_path / "inbox", tmp_path / "log", vault_root=tmp_path / "vault",
+                       store=tmp_path / "absent-store")
 
 
 def test_real_handoffs_are_valid_and_blocked_without_backtest(tmp_path, monkeypatch):
@@ -49,13 +51,15 @@ def test_real_handoffs_are_valid_and_blocked_without_backtest(tmp_path, monkeypa
         shutil.copytree(ROOT / "research_inbox" / name, tmp_path / "inbox" / name)
     # The seven historical event candidates are a fixed regression corpus.
     # Adding future executable handoffs must not break this safety test.
-    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log")
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", vault_root=tmp_path / "vault",
+                       store=tmp_path / "absent-store")
     first = queue.run()
-    assert first["counts"] == {
-        "total": 7, "admitted": 7, "executable": 0, "falsified": 0,
-        "inconclusive": 0, "blocked": 7, "independently_verified": 0,
-        "duplicates": 0, "pending": 0,
-    }
+    assert first["counts"]["total"] == first["counts"]["captured"] == 7
+    assert first["counts"]["admitted"] == 7
+    assert first["counts"]["native_runs"] == first["counts"]["trial_started"] == 0
+    assert first["counts"]["stage1"] == first["counts"]["stage2"] == 0
+    assert first["counts"]["stage3"] == first["counts"]["stage4"] == 0
+    assert first["counts"]["blocked"] == 7
     assert all(c["status"] == "BLOCKED_PROTOCOL" for c in first["cases"])
     before = {p.name: len(list((queue._folder(p.name) / "events").glob("*.json")))
               for p in queue._candidates()}
@@ -91,6 +95,18 @@ def test_bad_candidate_directory_is_blocked_without_aborting_queue(tmp_path):
     assert queue.run() == report
 
 
+def test_yaml_alias_cycle_is_rejected_as_invalid_source(tmp_path):
+    candidate = tmp_path / "inbox" / "cyclic_source"
+    candidate.mkdir(parents=True)
+    (candidate / "thesis.yaml").write_text("cycle: &cycle [*cycle]\n", encoding="utf-8")
+    (candidate / "brief.md").write_text("cyclic_source\n", encoding="utf-8")
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", store=tmp_path / "absent-store")
+    report = queue.run()
+    assert report["cases"][0]["status"] == "BLOCKED_HANDOFF"
+    assert "cyclic values" in report["cases"][0]["reason"]
+    assert report["counts"]["trial_started"] == 0
+
+
 def test_source_revision_during_admission_blocks_without_native_execution(tmp_path, monkeypatch):
     queue = _queue(tmp_path)
     import src.research_control.research_inbox_queue as module
@@ -108,6 +124,158 @@ def test_source_revision_during_admission_blocks_without_native_execution(tmp_pa
     assert report["cases"][0]["status"] == "BLOCKED_HANDOFF"
     assert "changed during admission" in report["cases"][0]["reason"]
     assert not (queue.run_log / "trial_ledger.jsonl").exists()
+
+
+def test_full_source_corpus_is_captured_without_schema_blocking(tmp_path):
+    inbox = ROOT / "research_inbox"
+    documents = [yaml.safe_load(path.read_text(encoding="utf-8"))
+                 for path in sorted(inbox.glob("*/thesis.yaml"))]
+    expected_nested = sum("identity" in doc for doc in documents)
+    expected_strict = sum("identity" not in doc and
+                          doc.get("status") == "THESIS_READY_UNVERIFIED" for doc in documents)
+    expected_flat = sum("identity" not in doc and
+                        doc.get("status") in {"THESIS_CAPTURED", "DRAFT_UNVERIFIED"}
+                        for doc in documents)
+    assert len(documents) == expected_nested + expected_strict + expected_flat
+    assert expected_nested >= 62 and expected_strict == 8 and expected_flat >= 5
+    target = tmp_path / "inbox"
+    shutil.copytree(inbox, target)
+    queue = InboxQueue(target, tmp_path / "log", vault_root=tmp_path / "vault",
+                       store=tmp_path / "absent-store")
+    report = queue.run()
+    assert report["counts"]["total"] == report["counts"]["captured"] == len(documents)
+    # One published abstract cites its DOI only in the brief and a different
+    # publisher URL in YAML. Keep it source-visible but fail closed on linkage.
+    blocked_handoff = [case for case in report["cases"] if not case.get("admitted")]
+    assert {case["candidate_id"] for case in blocked_handoff} == {
+        "crypto_ml_fieberg_ctrend_price_volume_factor_2025_v1"}
+    assert all("brief lacks candidate or exact source URL anchor" in case["reason"]
+               for case in blocked_handoff)
+    assert report["counts"]["admitted"] == len(documents) - len(blocked_handoff)
+    status_counts = Counter(case["status"] for case in report["cases"])
+    assert status_counts["BLOCKED_HANDOFF"] == len(blocked_handoff)
+    assert status_counts["BLOCKED_PROTOCOL"] >= expected_strict
+    assert sum(status_counts.values()) == len(documents)
+    print("ISOLATED_SOURCE_TRIAGE_COUNTS", json.dumps(dict(sorted(status_counts.items()))))
+    assert report["counts"]["native_runs"] == report["counts"]["trial_started"] == 0
+    assert report["counts"]["stage1"] == report["counts"]["stage2"] == 0
+    assert report["counts"]["stage3"] == report["counts"]["stage4"] == 0
+    assert sum(case.get("source_format") == "nested_descriptive" for case in report["cases"]) == expected_nested
+    assert sum(case.get("source_format") == "legacy_flat_handoff" for case in report["cases"]) == expected_strict
+    assert sum(case.get("source_format") == "flat_descriptive" for case in report["cases"]) == expected_flat - len(blocked_handoff)
+    nested = [case for case in report["cases"] if case.get("source_format") == "nested_descriptive"]
+    flat = [case for case in report["cases"] if case.get("source_format") == "legacy_flat_handoff"]
+    flat_captures = [case for case in report["cases"] if case.get("source_format") == "flat_descriptive"]
+    assert all(case["source_hash"] and case["field_evidence"] and case["reason_codes"]
+               for case in nested)
+    assert all(set(case["source_files_sha256"]) == {"thesis.yaml", "brief.md"}
+               and len(case["source_anchor_sha256"]) == 64 for case in nested)
+    assert all(case["status"] == "BLOCKED_PROTOCOL" for case in flat)
+    assert all(case["status"] == "BLOCKED_SPEC" and case["handoff_status"] == "SOURCE_ADMITTED"
+               and case["triage_status"] == "BLOCKED" for case in flat_captures)
+    assert sum(case["source_declared_status"] == "DRAFT_UNVERIFIED" for case in flat_captures) == sum(
+        "identity" not in doc and doc.get("status") == "DRAFT_UNVERIFIED" for doc in documents)
+    assert all("UNVERIFIED_EXECUTABLE_SPEC" in case["reason_codes"] for case in flat_captures)
+    assert all(case["handoff_status"] == "SOURCE_ADMITTED"
+               and case["triage_status"] == "BLOCKED" for case in nested)
+    assert all(case["handoff_status"] == "SOURCE_ADMITTED"
+               and case["triage_status"] == "BLOCKED" for case in nested)
+    bta = next(case for case in flat if case["candidate_id"] == "bta_nq_monday_bb10_atr5_cfd_v1")
+    assert bta["required_adaptations"]
+    assert all(case["status"] != "BLOCKED_HANDOFF" for case in nested)
+    for code in ("UNRESOLVED_SOURCE", "UNAVAILABLE_DATA", "UNQUALIFIED_PROTOCOL"):
+        assert report["reason_counts"][code] == sum(
+            code in case.get("reason_codes", []) for case in report["cases"])
+    assert report["reason_counts"]["UNVERIFIED_EXECUTABLE_SPEC"] == expected_flat - len(blocked_handoff)
+    assert any("CONTRADICTORY_RULES" in case.get("reason_codes", []) for case in nested)
+    assert queue.run() == report
+
+
+@pytest.mark.parametrize("name", [
+    "alvarez_sp500_ibs_filtered_oversold_v1",
+    "alvarez_sector_etf_middle_rank_1m_rotation_v1",
+])
+@pytest.mark.parametrize("field,value", [
+    ("not_execution_approved", False),
+    ("research_mode", "EXECUTABLE"),
+    ("source_references", [{"source_id": "fake", "url": "https://example.com/invalid"}]),
+])
+def test_flat_capture_rejects_unsafe_authority_or_source(tmp_path, monkeypatch, name, field, value):
+    import subprocess
+
+    target = tmp_path / "inbox" / name
+    shutil.copytree(ROOT / "research_inbox" / name, target)
+    doc = yaml.safe_load((target / "thesis.yaml").read_text(encoding="utf-8"))
+    doc[field] = value
+    (target / "thesis.yaml").write_text(yaml.safe_dump(doc), encoding="utf-8")
+    monkeypatch.setattr(subprocess, "run", lambda *args, **kwargs: pytest.fail("native runner must not execute"))
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", store=tmp_path / "absent-store")
+    report = queue.run()
+    assert report["cases"][0]["status"] == "BLOCKED_HANDOFF"
+    assert report["counts"]["admitted"] == report["counts"]["trial_started"] == 0
+    assert report["counts"]["stage4"] == 0
+
+
+@pytest.mark.parametrize("candidate_id", [
+    "crypto_ml_alessandretti_pooled_xgboost_2018_v1",
+    "crypto_pairs_copula_stationary_spread_20261018_v1",
+])
+def test_descriptive_source_without_brief_anchor_fails_closed(tmp_path, monkeypatch, candidate_id):
+    import subprocess
+
+    target = tmp_path / "inbox" / candidate_id
+    shutil.copytree(ROOT / "research_inbox" / candidate_id, target)
+    (target / "brief.md").write_text("Unrelated note about a different paper.\n", encoding="utf-8")
+    monkeypatch.setattr(subprocess, "run", lambda *a, **k: pytest.fail("No native run authorized"))
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", store=tmp_path / "absent-store")
+    result = queue.run()
+    assert result["cases"][0]["status"] == "BLOCKED_HANDOFF"
+    assert result["counts"]["admitted"] == result["counts"]["trial_started"] == 0
+    assert result["counts"]["stage4"] == 0
+
+
+def test_runnable_cross_sectional_handoff_gets_bounded_queue_priority(tmp_path, monkeypatch):
+    inbox = tmp_path / "inbox"
+    (inbox / "a_event").mkdir(parents=True)
+    (inbox / "z_cross_sectional").mkdir()
+    queue = InboxQueue(inbox, tmp_path / "log", store=tmp_path / "absent-store")
+
+    def admit(directory):
+        protocol = "cross_sectional" if directory.name == "z_cross_sectional" else "single_instrument_event"
+        return ({"candidate_id": directory.name, "source_hash": directory.name,
+                 "semantic_id": directory.name, "admitted": True,
+                 "source_format": "legacy_flat_handoff", "protocol": protocol,
+                 "required_adaptations": [], "holdout_access": False},
+                {"economic_thesis": directory.name})
+
+    monkeypatch.setattr(queue, "_admit", admit)
+    monkeypatch.setattr(queue, "_preflight", lambda info, doc, directory: (
+        {**info, "status": "BLOCKED_SPEC", "reason": "test preflight"}, None))
+    report = queue.run(max_candidates=1)
+    states = {case["candidate_id"]: case["status"] for case in report["cases"]}
+    assert states == {"a_event": "PENDING", "z_cross_sectional": "BLOCKED_SPEC"}
+    assert report["counts"]["trial_started"] == report["counts"]["native_runs"] == 0
+
+
+def test_source_revision_after_failed_envelope_is_append_only_and_retriaged(tmp_path):
+    target = tmp_path / "inbox" / "crypto_xs_funding_innovation_shock_basket_v1"
+    target.mkdir(parents=True)
+    (target / "thesis.yaml").write_text("candidate_id: invalid\n")
+    (target / "brief.md").write_text("invalid source")
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", store=tmp_path / "absent-store")
+    first = queue.run()
+    assert first["cases"][0]["status"] == "BLOCKED_HANDOFF"
+    old_event = queue._folder(target.name) / "events" / "000001.json"
+    old_bytes = old_event.read_bytes()
+    source = ROOT / "research_inbox" / target.name
+    (target / "thesis.yaml").write_bytes((source / "thesis.yaml").read_bytes())
+    (target / "brief.md").write_bytes((source / "brief.md").read_bytes())
+    report = queue.run()
+    state = queue._load(target.name)
+    assert state["status"] in {"BLOCKED_SPEC", "BLOCKED_DATA", "BLOCKED_PROTOCOL"}
+    assert state["source_revision_of"] == first["cases"][0]["source_hash"]
+    assert old_event.read_bytes() == old_bytes
+    assert report["counts"]["admitted"] == 1
 
 
 def test_deduplication_preserves_distinct_experiment_windows_and_falsifiers():
@@ -133,7 +301,8 @@ def test_deduplication_preserves_distinct_experiment_windows_and_falsifiers():
 def test_semantic_duplicate_preserves_one_trial_identity(tmp_path):
     _copy_handoff(tmp_path)
     _copy_handoff(tmp_path, "audusd_policy_carry_cfd_v2")
-    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log")
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", vault_root=tmp_path / "vault",
+                       store=tmp_path / "absent-store")
     report = queue.run()
     assert report["counts"]["total"] == 2
     assert report["counts"]["duplicates"] == 1
@@ -224,7 +393,8 @@ def test_native_verifier_rejects_holdout_or_misleading_evidence(tmp_path, tamper
 def test_bounded_resume_advances_past_terminal_entries(tmp_path):
     _copy_handoff(tmp_path)
     _copy_handoff(tmp_path, "audusd_policy_carry_cfd_v2")
-    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log")
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", vault_root=tmp_path / "vault",
+                       store=tmp_path / "absent-store")
     first = queue.run(max_candidates=1)
     assert first["counts"]["admitted"] == 1
     assert first["counts"]["pending"] == 1
@@ -303,3 +473,33 @@ def test_persisted_blocked_protocol_triggers_development_materialization(tmp_pat
     assert "materialized_development_vaults" in state
     assert "index_1h" in state["materialized_development_vaults"]
     assert "index_1m" in state["materialized_development_vaults"]
+
+
+def test_version_aware_reconsideration_transitions_blocked_candidate(tmp_path, monkeypatch):
+    handoff_name = "oil_to_cad_daily_delayed_adjustment_20261015_v1"
+    target_inbox = tmp_path / "inbox" / handoff_name
+    shutil.copytree(ROOT / "research_inbox" / handoff_name, target_inbox)
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log", vault_root=tmp_path / "vaults", store=tmp_path / "store")
+    info, _doc = queue._admit(target_inbox)
+    assert info is not None
+    # Save prior blocked state with an outdated code_version
+    queue._save({**info, "status": "BLOCKED_SPEC", "code_version": "stale_hash_00000000",
+                 "attempts": [], "holdout_access": False})
+    # Running queue reconsiders the candidate under the new code version
+    queue.run()
+    state = queue._load(handoff_name)
+    assert state is not None
+    assert state["status"] in {"BLOCKED_PROTOCOL", "BLOCKED_SPEC"}
+    assert state.get("reconsidered_utc") is not None
+
+
+def test_blocked_execution_is_terminal_and_ledger_verified(tmp_path):
+    from src.research_control.research_inbox_queue import TERMINAL, TRIAL_TERMINAL
+    assert "BLOCKED_EXECUTION" in TERMINAL
+    assert "BLOCKED_EXECUTION" in TRIAL_TERMINAL
+    queue = InboxQueue(tmp_path / "inbox", tmp_path / "log")
+    (tmp_path / "inbox" / "test_cand").mkdir(parents=True, exist_ok=True)
+    queue._save({"candidate_id": "test_cand", "status": "BLOCKED_EXECUTION",
+                 "admitted": True, "attempts": ["att-1"], "holdout_access": False})
+    report = queue.report()
+    assert report["counts"]["blocked_execution"] == 1

@@ -1,0 +1,76 @@
+candidate_id: "alvarez_january_losers_rebound_v1"
+selection_family_id: "equity_tax_loss_reversal_year_turn"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    source_id: "alvarez_january_losers_rebound_original"
+    author: "Cesar Alvarez"
+    publication_date: "2021-12-22"
+    title: "January tax-loss-loser rebound basket"
+    primary_https_url: "https://alvarezquanttrading.com/blog/january-effect-on-stocks/"
+economic_thesis:
+  local_hypothesis: "Year-end tax-loss selling may leave extreme losers temporarily depressed, followed by early January buying and liquidity normalization; relative performance vs prior winners is the testable component."
+  null_hypothesis: "No incremental tradable net return versus predeclared control."
+mechanism:
+  plausible_economic_process: "Year-end tax-loss selling may leave extreme losers temporarily depressed, followed by early January buying and liquidity normalization; relative performance vs prior winners is the testable component."
+  counterparty: "UNKNOWN; assumed mechanism not experimentally established."
+instruments:
+  original_product: "Index constituent common stocks from S&P 500, NASDAQ 100, Russell 3000 and Russell 2000"
+  product_substitution: "NONE"
+data_requirements:
+  needed: "Original product/venue point-in-time source and executable cost data; access NOT VERIFIED"
+feature_contracts:
+  original_author_conditions:
+    - "At last trading day of December rank each index's constituents on calendar-year-to-date price performance ascending."
+    - "Buy worst-performing 10 stocks at OPEN of first exchange trading day in January, using last-year data already known."
+    - "Exit at OPEN of first trading day in February; compare buying ten best year-to-date stocks as the published baseline."
+  calculation_availability: "UNKNOWN where not published; must prove timestamp causality"
+strategy_rules:
+  original_author_rules:
+    - "At last trading day of December rank each index's constituents on calendar-year-to-date price performance ascending."
+    - "Buy worst-performing 10 stocks at OPEN of first exchange trading day in January, using last-year data already known."
+    - "Exit at OPEN of first trading day in February; compare buying ten best year-to-date stocks as the published baseline."
+  unpublished_necessary_parameters: "UNKNOWN, not filled with invented values"
+signal_and_execution_clock:
+  source_or_needed: "Rank as of last Dec exchange session close; enter Jan first-day open; exit February first-day open."
+  timezones_and_dst: "Original broker/venue calendar requires source confirmation"
+sizing:
+  original: "Ten names within each source universe; author precise portfolio weights not established."
+cost_assumptions:
+  source: "No executable spread/impact/fee numbers supplied; opening liquidity on distressed prior losers likely material."
+  zero_cost_assumption: "NEVER inferred from missing costs"
+baseline:
+  proposed_control: "Same universe, buy prior calendar-year best-ten, identical rebalancing and stock availability"
+development_evaluation:
+  source_reported_claims:
+    - "AmiBroker + Norgate original test spans 2007-01-01 through 2020-12-31."
+    - "Worst-ten basket outperformed best-ten in 8/14 observed years, not every year."
+    - "For DIFFERENT longer exit variant S&P 500 December exit, author reports 5.1% CAR and 85% max drawdown. This is NOT evidence about the January-only return/drawdown."
+    - "Author finds a Russell 2000 long-hold result driven by 2 extremely large stock gains; exclusion destroys purported average edge."
+  empirical_run_completed: false
+primary_falsifier:
+  predeclared_future_test: "Worst-ten minus best-ten net January basket expectancy is nonpositive after tradable liquidity, PIT constituents and market/size/distress exposure control."
+acceptance_and_stop_rules:
+  descriptive_intake: "Only THESIS_CAPTURED; no scientific or execution approval"
+  stop_conditions:
+    - "Reject fabrication/source mismatch."
+    - "Require PIT and executed price/size/cost qualification before empirical trials."
+parity_and_causality_tests:
+  required:
+    - "Source rules and instrument identity as-of verification"
+    - "Signal-vs-fill chronology; exchange session and DST parity"
+    - "Costs and suitable model rather than substituting another instrument"
+known_adaptations:
+  - "NONE proposed; source and local causal hypothesis separated"
+verified_facts:
+  - "Primary source page read and its descriptive signal paraphrased. Authored results are unverified."
+assumptions:
+  - "Economic causal interpretation is local hypothesis, not a verified mechanism."
+unresolved_blockers:
+  - "PIT universe mapping, delistings, pre-January market caps and actual stock split conventions"
+  - "Initial capital distribution and intra-month rebalancing not published"
+  - "Bid/ask open slippage, borrow/carry assumptions, commission, taxes"
+  - "Price ranking conventions including adjusted dividend/reinvestment choice"

@@ -1,0 +1,85 @@
+candidate_id: "alvarez_sp500_hilo40_breadth_mr_gate_v1"
+selection_family_id: "us_equity_breadth_hilo_mr_gate"
+status: "DRAFT_UNVERIFIED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    id: "alvarez_hilo_2015"
+    author: "Cesar Alvarez"
+    publication_date: "2015-11-11"
+    title: "Hi-Lo Index as a Market Timing Indicator"
+    primary_https_url: "https://alvarezquanttrading.com/blog/hi-lo-index-as-a-market-timing-indicator/"
+economic_thesis:
+  local_hypothesis: "When cross-sectional new-high participation collapses, an oversold-stock reversion strategy may have unfavorable crash-tail and clustering risk. A smoothed high-low breadth gate may reduce exposure in those states without merely replicating index SMA200 timing."
+  null_hypothesis: "No incremental net tradable advantage over preregistered same-market baseline."
+mechanism:
+  plausible_economic_process: "Breadth weakening can proxy common liquidation stress and correlated stock sell-offs. Counterparty and causal mechanism NOT verified."
+  counterparty: "UNKNOWN"
+instruments:
+  original_product: "Point-in-time S&P 500 common stocks; S&P 500 constituent breadth series; SPX as an alternative market-timing comparator. No CFD substitution."
+  product_substitution: "NONE"
+data_requirements:
+  needed: "Point-in-time S&P 500 constituents including exited members, contemporaneous 3-month highs/lows (lookback convention unknown), daily adjusted and unadjusted OHLCV, dollar volume, historical volatility, RSI, equity opening bid/ask and limit fill evidence."
+  verified_availability: false
+feature_contracts:
+  source_conditions:
+    - "Source base universe: S&P 500 constituent; price > $1; 21-day mean dollar volume > $10 million; close > stock SMA(200); close in bottom 20% of own daily high-low range; stock RSI(2) < 20."
+    - "Rank eligible stocks by 100-day historical volatility descending; at most 10 positions, 10% capital each, no margin."
+    - "For next trading session place buy limits a further 0.25 times ATR(10) below prior close; exact brokerage order-validity conventions not given."
+    - "Exit at next opening when RSI(2)>80 on preceding close."
+    - "Added market gate for NEW positions only: calculate for each S&P 500 constituent if price makes a 3-month high or low, high count minus low count divided by current constituent count; simple 40-day moving average above 5% allows entries, otherwise skip new positions."
+  availability_note: "All conditions require point-in-time and adjustment verification; not calculated in this intake"
+strategy_rules:
+  original_author_rules:
+    - "Source base universe: S&P 500 constituent; price > $1; 21-day mean dollar volume > $10 million; close > stock SMA(200); close in bottom 20% of own daily high-low range; stock RSI(2) < 20."
+    - "Rank eligible stocks by 100-day historical volatility descending; at most 10 positions, 10% capital each, no margin."
+    - "For next trading session place buy limits a further 0.25 times ATR(10) below prior close; exact brokerage order-validity conventions not given."
+    - "Exit at next opening when RSI(2)>80 on preceding close."
+    - "Added market gate for NEW positions only: calculate for each S&P 500 constituent if price makes a 3-month high or low, high count minus low count divided by current constituent count; simple 40-day moving average above 5% allows entries, otherwise skip new positions."
+  unpublished_necessary_parameters: "UNKNOWN - see blockers; never invent details"
+signal_and_execution_clock:
+  original_reported: "Daily market-data signals after completed US equity close; next-session limits, next-open exit; no same-close fills. Exact order expiration and bar-level fill model UNKNOWN."
+  clock_parity_qualified: false
+sizing:
+  source: "Maximum 10 long stocks at 10% of starting allocation per position, no margin; competition among limits and capital reserve behavior UNKNOWN."
+cost_assumptions:
+  source_or_required: "Commissions, spread, impact, limits not filled and cash drag are unverified; do not imply zero cost. PIT breadth calculation is especially source-dependent."
+  source_measured_costs: "UNKNOWN"
+baseline:
+  predeclared_future_comparator: "Same stock mean-reversion orders, rank and sizing with no breadth gate; additional comparator SPX SMA200 regime gate from source."
+development_evaluation:
+  source_reported_tests:
+    - "Author used AmiBroker and Norgate, tested 2005-01-01 to 2015-09-30."
+    - "Reported average of five worst drawdowns improved from 16.30 to 12.20 for selected Hi-Lo filter comparison, roughly 25%; not independent verification."
+    - "Reported comparable CAR versus an SPX SMA200 gate with somewhat improved MDD and higher average trade gain; specific complete trade-level tables unavailable in accessible post."
+    - "Author tried other Hi-Lo smoothing/threshold combinations. Compared SPX moving averages as alternative regime filters."
+  empirical_run_completed: false
+primary_falsifier:
+  future_test_not_executed: "No robust incremental reduction in left-tail episode loss, or no incremental risk-adjusted payoff after conditioning on exposure and SPX SMA200 gate with fixed costs."
+acceptance_and_stop_rules:
+  descriptive: "THESIS_CAPTURED only; no executable, scientific or trade approval"
+  stop_on:
+    - "Source mismatch"
+    - "Unqualified product conversion"
+    - "Lookahead/adjustment ambiguity"
+    - "Missing executable costs"
+parity_and_causality_tests:
+  required:
+    - "Exact source-product signal clock and earliest eligible fill"
+    - "Native fee/calendar/data qualification"
+    - "PIT historical universe and indicator parity"
+    - "Multiple-testing record and selection-family overlap"
+known_adaptations:
+  - "NONE in this source-faithful capture"
+verified_facts:
+  - "Original linked article text was inspected for this batch; reported results are author claims, not independently replicated"
+assumptions:
+  - "Economic interpretation is local hypothesis, not a source-verified causal counterparty"
+unresolved_blockers:
+  - "PIT S&P500 constituents and delisting history"
+  - "Exact 3-month high/low rolling convention and ties"
+  - "ATR/RSI/HV computational parity and adjusted-price conventions"
+  - "Limit-order fill priority, partial fills and fees"
+  - "Survivorship, dividend timing, event availability and historical transaction costs"

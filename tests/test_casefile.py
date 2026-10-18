@@ -110,3 +110,10 @@ def test_held_lease_missing_process_never_becomes_pass(tmp_path):
                             list_jobs=lambda: visibility[0])
     assert result["status"] == "BLOCKED"
     assert result["reason_code"] == "LEASE_UNCERTAIN"
+
+
+def test_blocked_execution_reason_and_remedy():
+    blocker = explain_blocker({"status": "BLOCKED_EXECUTION", "reason_code": "BLOCKED_EXECUTION"})
+    assert blocker["status"] == "BLOCKED"
+    assert blocker["reason_code"] == "BLOCKED_EXECUTION"
+    assert "Qualify native order execution" in blocker["next_safe_action"]

@@ -64,6 +64,7 @@ def explain_blocker(value: Any) -> dict[str, Any]:
             "FEATURE_NUMERICAL_MISMATCH": "Check independent numerical oracle, not only gateway output.",
             "SOURCE_IDENTITY_CONFLICT": "Resolve exact catalog/vendor identity before feature execution.",
             "ASSERTED_SUCCESS_NOT_EVIDENCE": "Verify original worker logs, artifacts and gate proofs.",
+            "BLOCKED_EXECUTION": "Qualify native order execution, broker session calendar, and cost models before replay.",
         }.get(
             reason,
             "Inspect the linked evidence and clear this blocker before execution.",
@@ -92,9 +93,9 @@ def build_casefile(
     uncertain = (
         unknown
         or bool(active)
-        or any(a["status"] in ("BLOCKED", "FAILED", "ABORTED") for a in attempts)
+        or any(a["status"] in ("BLOCKED", "FAILED", "ABORTED", "BLOCKED_EXECUTION") for a in attempts)
     )
-    terminal = [t for t in trials if t["status"] in ("completed", "failed")]
+    terminal = [t for t in trials if t["status"] in ("completed", "failed", "BLOCKED_EXECUTION")]
     if unknown:
         status, reason = "BLOCKED", "JOB_VISIBILITY_UNKNOWN"
         action = "Restore tmux visibility before any run or resume."

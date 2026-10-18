@@ -1,0 +1,59 @@
+candidate_id: crypto_ml_mingchelee_multicrypto_tft_onchain_2025_v1
+selection_family_id: crypto_ml_onchain_technical_tft_daily_direction
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: ming_che_lee_mdpi_systems_2025_multicrypto_tft
+    url: https://doi.org/10.3390/systems13060474
+    title: "Temporal Fusion Transformer-Based Trading Strategy for Multi-Crypto Assets Using On-Chain and Technical Indicators"
+    authors: Ming Che Lee
+    publication: Systems 2025 volume 13 issue 6 article 474, 16 June 2025
+    source_role: ORIGINAL_OPEN_ACCESS_JOURNAL_HTML
+    inspection_scope: Full article on publisher including data, original strategy, training, costs, performance, acknowledged limitations.
+economic_thesis:
+  source_claim: Attention-based Temporal Fusion Transformer forecasts one-day coin price movements from heterogeneous time-varying on-chain, sentiment, technical and market inputs, potentially improving directional trading over simpler models.
+  status: SOURCE_REPORTED_UNVERIFIED
+  mechanism: On-chain realized profitability, network activity, exchange flows and DeFi locking may contain lagged behavior/information about future risk sentiment beyond simple chart trend.
+  why_ml: TFT attention and variable-selection gates are designed to combine heterogeneous feature histories, nonlinear interactions and covariates on different timescales.
+source_original:
+  original_commodities: BTC, ETH, USDT, XRP and BNB; includes USDT stablecoin — unlike a diversified portfolio of five risk assets.
+  sample: Author reports a 2022–2024 study with daily trading outcomes.
+  inputs: OHLCV/price technical indicators RSI and MACD, on-chain SOPR, TVL, active addresses, exchange net flow, realized-cap HODL waves and Crypto Fear and Greed index.
+  architecture: Multi-asset Temporal Fusion Transformer forecasting next-day closing prices, compared with LSTM, GRU, SVR and XGBoost; applies standardized predicted return/z-score threshold to buy/hold/sell for each coin.
+  execution: Paper says decision at daily t close and open/execute immediately at same close; hold until next day and rebalance/reset each day. This is a source-original claimed convention, NOT causal executable next-open equivalence.
+  allocation: Equal-weighted signal-selected assets, with no leverage; NOT original cross-sectional top/bottom ranking or a dollar-neutral long/short basket.
+  friction: Author applies fixed 0.2% round-trip transaction cost; explicitly omits liquidity limits, slippage and latency.
+  annualization: Paper Sharpe uses 252 trading-day convention despite 24/7 crypto markets; independent 365-day reporting is a possible separate adaptation, not the published result.
+  funding_signal: None. On-chain network and sentiment factors are not funding/basis proxies in source proposal.
+source_reported_results_unverified:
+  - TFT aggregate historical cumulative return 38.6% and Sharpe 1.06 with maximum drawdown about -22.4% over author's 2022–2024 experiment.
+  - Study reports LSTM 34.2% return SR 0.98; GRU 31.5% SR 0.91, naive momentum 26.4% SR 0.75 under source setup.
+  - Results are multi-asset averages, not separately established prop-firm account equity or a verified local trading PnL.
+simple_baseline:
+  original: Author compares LSTM, GRU, SVR, XGBoost; and naive momentum / buy-hold trading approaches.
+  recommended_future: Same original signal selection and transaction/clock assumptions with simple lagged momentum and linear regression using train-available features only.
+data_and_protocol:
+  input_status: BLOCKED_DATA — PIT historical on-chain SOPR/TVL/netflows/index vintages and publication latencies not verified available in local vault; Binance OHLCV only is not thesis parity.
+  native_protocol: BLOCKED_PROTOCOL — original thresholded daily multi-asset directional position decisions differ from native rank long-top/short-bottom dollar-neutral fixed-count allocation.
+  train_provenance: BLOCKED_SPEC — paper describes rolling training but frozen per-cutoff model and train-only preprocess hashes not supplied in this intake.
+  original_fit: Daily OHLCV-plus-onchain, not 5m/15m/1h; shorter clock requires separately labeled adaptation.
+  original_portfolio: Reported -22.4% max drawdown exceeds common prop-firm 10% style maximum drawdown, but no particular firm rules established.
+leakage_adverse_findings:
+  - Several on-chain metrics described as known future covariates must be available before prediction; historical release timestamps and revisions are essential.
+  - Execution at the same close used as an input is optimistic unless closing-auction or pre-close causal signal availability is proven.
+  - Source's reported 0.2% fixed fee does not include realized slippage/latency or asymmetric directional financing.
+  - Inclusion of USDT stablecoin and 252d annualization may distort representativeness for perpetual short/long basket deployment.
+  - Baseline improvement is source reported, not necessarily incremental net alpha under equivalent PIT data and proper execution.
+primary_falsifier:
+  future_test: Under true publication-time features, next-executable fill, and realistic costs, TFT fails to improve holdout-safe directional trade selection versus simple train-only technical/on-chain regression and momentum baselines.
+acceptance_and_stop_rules:
+  descriptive: THESIS_CAPTURED only; no ML training, empirical diagnostics, ATS execution or promotion.
+  executable: BLOCKED_DATA, BLOCKED_SPEC and BLOCKED_PROTOCOL until nonleaking on-chain vintage, original model checkpoints, causal execution clock and compatible event strategy protocol are qualified.
+unresolved_blockers:
+  - Source-original PIT on-chain and sentiment vintages are unavailable/uncertified locally.
+  - Same-close execution versus input-close data lacks a qualified earliest-executable order clock.
+  - Source original directional portfolio incompatible with current ATS cross-sectional long/short allocator.
+verified_facts:
+  - Publisher full text read 2026-10-18. All numerical trading metrics are unverified author claims.

@@ -1,0 +1,66 @@
+candidate_id: crypto_ml_fieberg_ctrend_price_volume_factor_2025_v1
+selection_family_id: crypto_ml_learned_multihorizon_trend_factor
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: fieberg_liedtke_poddig_walker_zaremba_2025_ctrend
+    url: https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/trend-factor-for-the-cross-section-of-cryptocurrency-returns/4C1509ACBA33D5DCAF0AC24379148178
+    title: A Trend Factor for the Cross Section of Cryptocurrency Returns
+    authors: Christian Fieberg; Gerrit Liedtke; Thorsten Poddig; Thomas Walker; Adam Zaremba
+    published_online: 2025-07-15
+    publication: Journal of Financial and Quantitative Analysis 60(7), 3116-3153
+    source_role: PRIMARY_PUBLISHER_ABSTRACT_ONLY
+economic_thesis:
+  original_claim: CTREND aggregates price and volume indicators across several time horizons with machine-learning methods and is related to the cross-section of cryptocurrency returns.
+  local_hypothesis: A learned multi-horizon trend composite may forecast relative future returns beyond any one transparent momentum or volume indicator in liquid crypto markets.
+  evidence_class: AUTHOR_CLAIM_UNREPLICATED
+mechanism:
+  source_description: Information in price-volume history across multiple horizons is not fully summarized by existing crypto risk-factor models.
+  economic_counterparty: UNKNOWN; trend continuation versus delayed attention is a LOCAL explanation, not causally proven in accessible abstract.
+instruments:
+  original_market: Authors evaluate more than 3000 cryptocurrencies, unspecified exchange/product intersection in accessible abstract.
+  original_portfolio: CTREND factor, not a published exact dollar-neutral ATS portfolio in the available abstract.
+  prop_firm_transfer: UNKNOWN; using only permitted liquid perps/CFDs is a separate hypothesis.
+data_requirements:
+  source: Price and trading volume across multiple horizons plus full indicator and model definitions from full paper.
+  local: Hourly crypto panel MAY provide price/volume inputs, but source data identity, coverage and training vintage must be qualified.
+feature_contracts:
+  source: ML learns combination of technical price/volume characteristics over distinct lookback horizons.
+  exact_features: UNKNOWN_FROM_ABSTRACT; do not invent moving-average lengths, model type, ranks, or weights.
+  required_training_control: Fold-local feature selection, realistic purging, time-ordered OOF and model/feature manifest.
+strategy_rules:
+  original: CTREND is proposed as a factor and reported to predict cross-sectional crypto returns.
+  unpublished: Exact model, feature pipeline, target horizon, rebalancing, portfolio sorting/legs/sizing are UNKNOWN from the read abstract.
+  proposed_adaptation_only: Rank PIT liquid coins by a frozen CTREND-like prediction; form a separate ATS long/short basket if independently designed and authorized, not claim author replication.
+signal_and_execution_clock:
+  original: UNKNOWN; source abstract does not declare observation-to-fill chronology.
+  scientific_need: Lagged completed bars, no future-data fit, exact target availability, next eligible executable fill.
+sizing:
+  original: UNKNOWN; factor is not itself a position-sizing rule.
+cost_assumptions:
+  source_reported: Authors claim CTREND survives tested transaction costs and remains predictive in large liquid coins.
+  actual_local: No broker/perp spread, commission, financing or prop-firm eligibility qualified.
+baseline:
+  proposal: Simple price momentum and volume-adjusted momentum ranking on same PIT universe, horizon and fees.
+development_evaluation:
+  status: NOT_RUN
+  authors_claims_not_verified_locally: Significant explanatory incremental factor value over known crypto factors across subperiods/states; not a local market result.
+primary_falsifier:
+  test: Learned multi-horizon combination does not outperform matched single-feature momentum and volume baselines net of costs within the liquid tradable universe.
+acceptance_and_stop_rules:
+  source_only: Capture abstracts faithfully; no executable declaration or empirical approval.
+  stop: Source-specific exact CTREND recipe and clock must be obtained before a replication claim or ML training.
+parity_and_causality_tests:
+  required: Input availability, exact portfolio mapping, train-only transformations, OOF replay, liquid universe and delisting coverage.
+known_adaptations:
+  - Any LightGBM-based approximation or 1h crypto long/short basket is a NEW local design, not the published CTREND factor unless exact rules are obtained.
+verified_facts:
+  - Cambridge publisher abstract directly read 2026-10-18; no full-text indicator table or code verified.
+assumptions:
+  - Learning cross-horizon interactions could be useful; whether nonlinear ML beats a hand-built factor is an untested local hypothesis.
+unresolved_blockers:
+  - Original factor construction, training target and model family UNKNOWN.
+  - Target availability and rebalance/portfolio rules UNKNOWN.
+  - No model artifact, OOF scores, ATS spec or qualified prop-firm cost data.

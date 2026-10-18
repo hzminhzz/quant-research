@@ -1,0 +1,42 @@
+identity:
+  candidate_id: crypto_xs_liquidity_risk_return_interactions_20261018_v1
+  selection_family_id: interaction_double_sorts_liquidity_risk_past_returns
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: Cross-sectional interactions in cryptocurrency returns
+      authors: Aleksander Mercik, Sitara Karim, Barbara Bedowska-Sojka, Adam Zaremba
+      publication_date: "2025"
+      url: https://doi.org/10.1016/j.irfa.2024.103809
+      research_manuscript: https://open.icm.edu.pl/handle/123456789/25545
+      evidence_scope: Institutional repository authors and abstract; no source-exact double-sort specification transcribed
+economic_thesis:
+  mechanism: Non-additive cross-sectional interactions between past returns, liquidity, and asset risk may discriminate relative winners and losers beyond individual standalone factors.
+  source_claimed_strategy: Authors examine double-sorted portfolios across 40 cryptocurrency characteristics, and describe an out-of-sample long-short portfolio selecting leading and lagging interactions. Source-exact interaction selection and portfolio logic require full-text extraction.
+markets_and_data:
+  instruments: More than 500 cryptocurrency coins/tokens in original 2017-2023 data; exact contemporaneous tradability and venue UNKNOWN
+  timeframe: Original evaluation period 2017-2023; exact signal lookback and rebalance frequency UNKNOWN
+  data_requirements: PIT returns, risk measures, turnover/liquidity, historical universe and as-of availability; whether circulating supply/cap metrics required UNKNOWN
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  alpha_signal: Double-sort interaction terms across price/past-return, liquidity and risk characteristic families; exact source formulas UNKNOWN
+  long_selection: Top-ranked cross-characteristic interaction portfolio described by authors; actual source cell selection UNKNOWN
+  short_selection: Bottom-ranked cross-characteristic interaction portfolio described by authors; actual source cell selection UNKNOWN
+  basket_construction: Long-short cross-sectional portfolio; source weights, gross/net exposure and neutrality UNKNOWN
+  signal_and_execution_clock: UNKNOWN
+  sizing: UNKNOWN
+  transaction_costs: UNKNOWN
+  unresolved_blockers: Original double sorts and interaction ranking, multiplicity-adjusted selection, holdings, cost assumptions, as-of characteristics and listing history require source-specific transcription
+research_evaluation:
+  original_author_results: UNVERIFIED; author claims OOS Sharpe exceeding one, not independently reproduced
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: Apparent interaction predictability vanishes in liquid tradable subset or after model-selection correction and realistic turnover
+scientific_integrity:
+  adverse_evidence: The source explicitly cautions that low liquidity and transaction costs impede anomaly harvesting. Forty predictors and interaction mining make multiple testing central.
+  novelty: Interaction-sorted basket is not a newly invented momentum or Amihud standalone indicator; its unit is cross-characteristic nonlinearity.
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

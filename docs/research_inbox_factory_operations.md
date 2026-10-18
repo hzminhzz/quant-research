@@ -153,3 +153,57 @@ development-only thesis run is conditional on one complete compatible
 candidate and qualified native data. No such eligible candidate was present
 in the initial seven. Do not weaken native gates just to produce a positive
 test or describe unsupported handoffs as falsified.
+
+## Nested source admission and triage (2026-10-18)
+
+The queue accepts the original flat ATS handoff format and the captured nested
+format (`identity`, `economic_thesis`, `markets_and_data`,
+`deterministic_strategy_specification`, `research_evaluation`,
+`scientific_integrity`). Nested admission verifies bounded regular files,
+unique YAML keys, directory/source identity, declared source anchors, and
+SHA-256 identities for both files. It records source-preserving, typed field
+aliases with exact YAML paths and a digest of each value. Those aliases are
+triage evidence only; they are never converted to `CandidateSpec`.
+
+`quant.py validate-handoff` remains strict and flat. Nested sources enter queue
+state as `THESIS_CAPTURED` then `SOURCE_ADMITTED`, followed by explicit triage.
+Reason codes include `UNRESOLVED_SOURCE` (a URL or bibliography is not verified
+evidence), `CONTRADICTORY_RULES` (including hourly next-bar/00:01),
+`UNAVAILABLE_DATA` (no declared development vault with a manifest), and
+`UNQUALIFIED_PROTOCOL`. A newer source after `BLOCKED_HANDOFF` appends a linked
+revision event; the earlier event is retained. Other terminal evidence remains
+frozen.
+
+Reports distinguish captured and admitted sources, queue trial starts, native
+evidence runs, Stage 1–4 receipts, and reason-code counts. `native_runs` counts
+verified ATS Casefiles, not inbox rows. Stage 4 is absent from this
+development-only queue.
+
+### 2026-10-18 source-corpus reproduction
+
+On `origin/main` `4693f96a`, the pre-existing 69-source baseline was 62 nested
+sources rejected by the flat envelope and seven admitted event handoffs blocked
+by protocol, with zero native trials. The BTA handoff on `main` adds one more
+legacy flat event source, making 70 sources after reconciliation. The 62 source
+directories were imported from the published Git commit without rewriting
+their files; the seven existing handoffs and BTA source also retain their
+committed bytes.
+
+The development-only queue pass recorded 70 captured, 70 admitted, 62
+`BLOCKED_SPEC`, eight `BLOCKED_PROTOCOL`, zero executable specs, zero trial
+starts, zero native runs, zero Stage 1/2/3/4 receipts, and zero holdout reads.
+All 62 nested items carry explicit source, data, and protocol reasons. The
+hourly next-bar/00:01 conflict was detected from nested clock declarations.
+Each nested source has one count for each of `UNRESOLVED_SOURCE`,
+`CONTRADICTORY_RULES`, `UNAVAILABLE_DATA`, and `UNQUALIFIED_PROTOCOL`; per-item
+codes remain in the evidence journal. The eight flat event items retain their
+declared protocol adaptations. In
+particular, BTA remains `BLOCKED_PROTOCOL`: its preserved ATS-4 adapter reports
+hourly CFD stop-order matching and session/cost evidence are not qualified. No
+Stage 1–3 real-market candidate was compatible with the admitted sources and
+current data/protocol contracts, so none was started.
+
+The inbox regression also exercises synthetic positive native development-only
+Stage 3 and negative Stage 2 fixtures. They establish the no-Stage-4 boundary
+and are not economic evidence for any inbox source. Data materialization was
+disabled for the corpus reproduction.

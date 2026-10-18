@@ -1,0 +1,75 @@
+candidate_id: "quantinsti_spy_monthturn_one_day_v1"
+selection_family_id: "us_etf_one_day_month_boundary"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    source_id: "quantinsti_spy_monthturn_one_day_original"
+    author: "QuantInsti / Quantra (course co-author Quantpedia)"
+    publication_date: "UNKNOWN"
+    title: "SPY month-end to first-day close exposure"
+    primary_https_url: "https://quantra.quantinsti.com/glossary/-Trading-the-Turn-of-the-Month-Effect"
+economic_thesis:
+  local_hypothesis: "Scheduled cash inflows around month end may induce temporary index demand into the first trading day; market-closed-to-market-closed calendar edge could appear in unhedged SPY ETF returns."
+  null_hypothesis: "No incremental tradable net return versus predeclared control."
+mechanism:
+  plausible_economic_process: "Scheduled cash inflows around month end may induce temporary index demand into the first trading day; market-closed-to-market-closed calendar edge could appear in unhedged SPY ETF returns."
+  counterparty: "UNKNOWN; assumed mechanism not experimentally established."
+instruments:
+  original_product: "SPY US-listed equity ETF, NOT ES future / US500 CFD"
+  product_substitution: "NONE"
+data_requirements:
+  needed: "Original product/venue point-in-time source and executable cost data; access NOT VERIFIED"
+feature_contracts:
+  original_author_conditions:
+    - "Buy SPY at final trading day's CLOSE of each calendar month."
+    - "Sell SPY at first trading day's CLOSE the next calendar month."
+    - "Separate enhancement tests a 200-session simple moving-average trend rule; filter is an AUTHOR VARIANT, not part of base strategy."
+  calculation_availability: "UNKNOWN where not published; must prove timestamp causality"
+strategy_rules:
+  original_author_rules:
+    - "Buy SPY at final trading day's CLOSE of each calendar month."
+    - "Sell SPY at first trading day's CLOSE the next calendar month."
+    - "Separate enhancement tests a 200-session simple moving-average trend rule; filter is an AUTHOR VARIANT, not part of base strategy."
+  unpublished_necessary_parameters: "UNKNOWN, not filled with invented values"
+signal_and_execution_clock:
+  source_or_needed: "Last trading session closing auction to first next-month closing auction, schedule known ahead of time; if rule uses final close to decide same-close purchase then timing is invalid."
+  timezones_and_dst: "Original broker/venue calendar requires source confirmation"
+sizing:
+  original: "Original weight/position sizing detail UNKNOWN; typical long-when-window only is an INFERENCE, not new constraint."
+cost_assumptions:
+  source: "Unreported; US-listed ETF spread, commissions and market-close auction fill must be qualified."
+  zero_cost_assumption: "NEVER inferred from missing costs"
+baseline:
+  proposed_control: "SPY buy-hold calendar-matched windows and equal number of randomly or systematically matched adjacent sessions"
+development_evaluation:
+  source_reported_claims:
+    - "Original author states backtest uses SPY ETF history from 1993 through 2023."
+    - "Reports 2.87% CAGR and 11.97% max drawdown for unfiltered base."
+    - "Reports filtered CAGR 2.71% and max drawdown 5.56%, but exact execution and calculation of filter on closing bar not qualified."
+  empirical_run_completed: false
+primary_falsifier:
+  predeclared_future_test: "First-of-month close-to-close after-cost exposure provides no incremental mean signed return against matched non-month-boundary closes."
+acceptance_and_stop_rules:
+  descriptive_intake: "Only THESIS_CAPTURED; no scientific or execution approval"
+  stop_conditions:
+    - "Reject fabrication/source mismatch."
+    - "Require PIT and executed price/size/cost qualification before empirical trials."
+parity_and_causality_tests:
+  required:
+    - "Source rules and instrument identity as-of verification"
+    - "Signal-vs-fill chronology; exchange session and DST parity"
+    - "Costs and suitable model rather than substituting another instrument"
+known_adaptations:
+  - "NONE proposed; source and local causal hypothesis separated"
+verified_facts:
+  - "Primary source page read and its descriptive signal paraphrased. Authored results are unverified."
+assumptions:
+  - "Economic causal interpretation is local hypothesis, not a verified mechanism."
+unresolved_blockers:
+  - "Closing auction executable decision timing when end-of-month close is only final bar value"
+  - "Original capital/cash assumptions and dividends, exact annualization"
+  - "SPY corporate action total-return data and original quoted costs"
+  - "Exact source publication date and underlying author empirical data source"

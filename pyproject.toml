@@ -41,7 +41,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-pythonpath = ["."]
+pythonpath = [".", "/home/quant/dev/trading-connector", ".ci/trading-connector"]
 testpaths = ["tests"]
 markers = [
     "data: requires the external, gitignored ml4t-data store",

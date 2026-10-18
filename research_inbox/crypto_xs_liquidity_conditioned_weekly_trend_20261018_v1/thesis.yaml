@@ -1,0 +1,47 @@
+identity:
+  candidate_id: "crypto_xs_liquidity_conditioned_weekly_trend_20261018_v1"
+  selection_family_id: "liquidity_interaction_momentum_reversal"
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  captured_on: "2026-10-18"
+  source_references:
+    original:
+      title: "Liquidity-conditioned cryptocurrency weekly momentum and reversal"
+      authors: "Milan Fičura"
+      publication_date: "2023"
+      url: "https://wp.ffu.vse.cz/artkey/wps-202301-0003.php"
+      evidence_scope: "Original university working paper"
+economic_thesis:
+  hypothesis: "Cross-sectional serial dependence changes sign with coin size and trading activity: less-liquid/smaller coins can mean-revert while larger/liquid coins may exhibit return continuation."
+  source_claimed_strategy: "The original study analyzes conditional weekly momentum and reversal differences by cryptocurrency size and volume. A complete executable dollar-neutral basket specification with frozen rank bins and turnover limits was not established in the publicly inspected summary."
+  performance_status: SOURCE_REPORTED_TEST_UNVERIFIED
+markets_and_data:
+  venue_and_product: "Cross-section of cryptocurrencies partitioned by size and volume; precise historical sample and selection criteria UNKNOWN."
+  timeframe_and_horizon: "Weekly return effects; 1h/5m translation is NOT source-faithful."
+  data_requirements: "Historical listing-aware prices, traded volume and ex-ante size/liquidity measures; no substitute capitalization from future information."
+  prop_firm_account_permissions: UNKNOWN
+deterministic_strategy_specification:
+  strategy_rules: "The original study analyzes conditional weekly momentum and reversal differences by cryptocurrency size and volume. A complete executable dollar-neutral basket specification with frozen rank bins and turnover limits was not established in the publicly inspected summary."
+  source_long_selection: "UNKNOWN: no source-verified portfolio long cutoffs; weekly sign patterns are empirical findings, not an authored rank rule."
+  source_short_selection: "UNKNOWN: no source-verified portfolio short cutoffs."
+  basket_construction: "Conditional return relationships by size and activity groups; exact portfolio weights/exits UNKNOWN."
+  signal_and_execution_clock: UNKNOWN
+  sizing: UNKNOWN
+  cost_assumptions: UNKNOWN
+  exits_and_stops: UNKNOWN
+  unresolved_blockers: "Source-exact portfolio/causal-clock/cost rules require future independent specification; source-only capture, not executable."
+research_evaluation:
+  baseline: UNKNOWN
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "Opposite-sign momentum/reversal pattern not stable across causal liquidity cohorts or vanishes in realistically tradable subsets."
+  acceptance_and_stop_rules: NOT_SPECIFIED_BY_THIS_CAPTURE
+scientific_integrity:
+  source_reported_tests: "Original empirical findings are author-reported and UNVERIFIED independently."
+  contrary_evidence_and_limitations: "Potential bid/ask bounce among illiquid coins, nontrivial market-impact/capacity, survivor-universe selection, and overlap with existing momentum factors."
+  novelty_vs_existing_source_corpus: "Explicit liquidity-by-momentum SIGN INTERACTION differs from standalone volume/momentum factor or unconditional reversal, provided one conditional specification is source-verified."
+  adaptation_proposal_not_source_fact: "Possible future long liquid winners versus short illiquid winners/losers is NOT specified by the author in the inspected evidence; independently preregister any basket."
+  parity_and_causality_tests: NOT_PERFORMED
+  empirically_verified_locally: false
+  funding_or_basis_alpha_signal: false
+  sealed_holdout_read: false
+  ATS_runner_interacted_with: false

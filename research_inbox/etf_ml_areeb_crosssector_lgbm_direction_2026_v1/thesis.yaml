@@ -1,0 +1,75 @@
+candidate_id: etf_ml_areeb_crosssector_lgbm_direction_2026_v1
+selection_family_id: etf_ml_crosssector_relative_sign_lgbm
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: areebarshad_systematic_sector_alpha
+    url: https://github.com/areebarshad/systematic-sector-alpha
+    title: Systematic Sector Alpha - walk-forward LightGBM relative sector signals
+    authors: Areeb Arshad (author-identified GitHub owner)
+    source_role: AUTHOR_OWNED_CODE_AND_README_METHODOLOGY
+    publication: Repository date UNKNOWN; sample reports cover 2008-2025
+economic_thesis:
+  source_claim: A shared LightGBM classifier trained on regime and cross-sector spread features can forecast the direction of a sector ETF's next five-day return and produce portfolio weight differences, instead of relying on one static rotation factor.
+  evidence_class: SOURCE_REPORTED_UNREPLICATED
+mechanism:
+  source: Economic-sector relationships and lead-lag return spreads vary across macro/volatility states; nonlinear conditional interactions of relative momentum, beta, skew, VIX and rates may forecast sector leadership.
+  uncertainty: Source's reported portfolio Sharpe is modest and below SPY; probability-to-expected-return mapping is heuristic and author reports negative mapped regression R-squared.
+instruments:
+  original: U.S. sector ETFs XLK, XLF, XLV, XLP, XLI, XLB, XLU, XLRE, XLY; SPY is broad-market benchmark.
+  product: Yahoo Finance adjusted-close daily ETF price data, not broker CFD or futures fills.
+  prop_firm: Exchange-listed ETF or corresponding CFD permission, dividend/swap costs and short inventory are UNKNOWN.
+data_requirements:
+  source: Daily adjusted OHLCV/close for nine sector ETFs from 2008 through 2025, SPY benchmark, VIX, U.S. 10-year Treasury yield and release-aligned calendar features.
+  local: No verified native ATS sector-ETF panel, historical dividend-adjustment vintage, VIX/TNX source clocks, or multi-product cost adapter has been established.
+  historical_bias: XLRE postdates beginning of the stated study window; actual tradable sector availability and calendar alignment need validation, not fabricated backfilled prices.
+feature_contracts:
+  source: Lagged 1-60d statistical moments, momentum, volatility/beta vs SPY, drawdown, cross-sector return spreads and rolling correlations, 1-5 day macro signal lags, VIX and Treasury yield rolling z-scores.
+  model: Pooled LightGBM binary direction classifier with sector one-hot encoding; fold-local scaler/PCA, train-only ADF/correlation pruning and 5 expanding TimeSeriesSplit folds.
+  target: Binary indicator that forward five-day average return exceeds zero; probabilities mapped heuristically to expected returns as (P(up)-0.5)*2*rolling_vol.
+  validation: Reported walk-forward OOF sequence; actual source code, overlapping five-day labels and purge/embargo behavior were NOT independently verified.
+strategy_rules:
+  source_original:
+    - Compute sector-local trailing market/return/volatility features and lagged peer-sector spreads, plus macro regime data.
+    - Predict probability of positive 5-day forward average return for each ETF using LightGBM trained on earlier folds.
+    - Map predictions to signed continuous return scores and allocate by the documented proportional signed weights or top-three long/top-three short portfolio.
+    - Form decision-time weights then apply them to next-day returns in author's vectorized portfolio evaluation.
+  source_unknown: Exact long-short portfolio gross/net exposure policy, borrowing and transaction fees, rebalance crossing time, available asset history and protected test details are not all verified.
+signal_and_execution_clock:
+  source: Daily close features lagged at least one trading day; k=5 forward target, next-day strategy return evaluation and daily-rebalanced weights.
+  needed: Audit whether 5-day overlapping labels have effective purge/embargo, and whether all source fields were public before the trade time.
+sizing:
+  source: Either proportional signed forecast weights (sum absolute weight normalization) or top-3 long/short strategy.
+  ats_gap: Native ATS uses fixed equal-weight dollar-neutral top/bottom counts, which may approximate top-3 mode but cannot reproduce proportional mode and source costs without qualified adapter.
+cost_assumptions:
+  source: README does not establish a fully independently verified executed-ETF fee/borrow model for its top-3 portfolio figures.
+  future: Commission, spread, impact, borrow/dividend/total-return basis, and CFD directional swaps require qualification before performance claims.
+baseline:
+  source: Passive SPY benchmark as documented; portfolio Sharpe compared against SPY in README.
+  future_null: Equal-cost, same-sector, lagged simple cross-sectional momentum/relative-strength rank and SPY buy/hold reference.
+development_evaluation:
+  status: NOT_RUN
+  source_report: Author reports mean AUC about 0.520; proportional signed-weight portfolio Sharpe 0.66, top-3 long/short Sharpe 0.28, versus SPY Sharpe 0.69. All are source self-reported and have NOT been independently reproduced.
+  adverse: All mapped R-squared values strongly negative; source calls overlapping 5-day per-sector directional Sharpes indicative, not tradeable. Top-3 long/short has -36.4 percent maximum drawdown in source report.
+primary_falsifier:
+  future_test: Purged chronological OOF LightGBM sector rank does not outperform equal-cost simple relative-strength ranks on contemporaneously available ETFs; any positive model-only accuracy vanishes after brokerage short costs and correct fills.
+acceptance_and_stop_rules:
+  source_only: Do not interpret author training/CV assertions as proven absence of leakage, or reported return numbers as ATS backtests.
+  protocol: BLOCKED_DATA for actual source ETF and VIX/TNX panel; only a faithful top-3 mode may map to existing ATS return-rank allocator after independent labels, score/weight parity and cost qualification.
+parity_and_causality_tests:
+  future:
+    - Confirm availability of ETF, VIX and yield data and that changes in adjusted-price snapshots do not silently rewrite past information.
+    - Verify train-only scaler, PCA, sector dummies and ADF selection; purge for overlapping 5-day labels.
+    - Reproduce OOF prediction chronology and native next-open versus source next-day execution and proportional-vs-top3 selection.
+    - Evaluate short borrow, commissions, holding calendar, 2008–2015 XLRE absence and prop restrictions without touching protected data.
+verified_facts:
+  - Author-owned GitHub README and file listing reviewed on 2026-10-18; charts/notebooks were not executed or numerically re-audited.
+known_adaptations:
+  - Translating a daily 9-sector ETF model into 1h crypto baskets is NEW, not a source-authored crypto backtest.
+  - No funding/basis alpha signals are used.
+unresolved_blockers:
+  - Native exact historical ETF point-in-time panel and source-verified product costs unavailable.
+  - Overlapping target label purging, OOF artifact identity and score-to-weight fill parity unverified.
+  - ETF versus prop CFD borrow/dividend/swap and simultaneous long/short permission unknown.

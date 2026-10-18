@@ -1,0 +1,60 @@
+candidate_id: crypto_ml_peng_cryptogat_price_graph_2026_v1
+selection_family_id: crypto_ml_price_only_graph_attention_forecasting
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: peng_khushi_poon_2026_cryptogat
+    url: https://arxiv.org/abs/2606.27670
+    title: "CryptoGAT: Are Time Series Models Effective for Cryptocurrency Forecasting?"
+    authors: Yu Peng; Matloob Khushi; Josiah Poon
+    publication: arXiv 2606.27670, June 2026
+    source_role: ORIGINAL_AUTHOR_PAPER_HTML
+  - source_id: cryptogat_original_implementation
+    url: https://github.com/FanBroWell/CryptoGAT
+    title: CryptoGAT original code and released dataset link
+    source_role: AUTHOR_OWNED_IMPLEMENTATION_README
+economic_thesis:
+  source_claim: Crypto returns may be better predicted from contemporaneous cross-asset price relationships than from complex single-asset temporal models; learned graph attention can exploit changing peer relevance.
+  status: SOURCE_REPORTED_UNVERIFIED
+  why_ml: Graph-attention aggregation assigns learned weights to neighbor coins based on trailing return correlation; FGAT adds indicator mixing before the graph aggregator.
+source_original:
+  original_market: Binance USDT-denominated crypto pairs, product type/shortability parity with Binance USDT-M perpetuals NOT established.
+  universe: Authors select 66 major cryptocurrencies with continuous daily history 2023-04-15 through 2026-01-08 from an initial top-1000 market-cap screen and minimum capitalization USD 200 million.
+  data: Daily OHLCV normalized relative to previous closing price; augmented FGAT input mixes indicators.
+  model: Graph Attention Network (GAT) and FeatureMixer Graph Attention Network (FGAT).
+  graph: Pearson return/price correlation adjacency with an absolute-correlation cutoff; source algorithm builds graph from a specified training price matrix.
+  target: Next-day closing price and derived one-day return for each graph node; 30-day feature lookback.
+  training: Chronological 60/20/20 train/validation/test separation with PyTorch implementation.
+  portfolio: 'LONG ONLY; daily rank by predicted return and hold equal weights in the top five coins. No source-original short leg or dollar-neutral basket.'
+  trading_costs: Paper compares no-cost with a modeled 10 bps per side cost sensitivity for GAT; actual broker spreads and slippage not independently qualified.
+  funding_signal: None; price-based network alpha only.
+author_reported_results_unverified:
+  - GAT source reports Pearson IC 0.037, FGAT 0.047 and annualized no-cost Sharpe 3.128/3.892 under paper conventions.
+  - GAT source reports annualized Sharpe 2.759 at 10 bps per side, approximately 39 percent maximum drawdown with cost.
+  - These are author-reported daily long-only backtests, not a demonstrated market-neutral or prop-firm strategy.
+economic_and_scientific_risks:
+  - Filtering for assets with complete historical coverage throughout the analysis window is a potential survivorship and hindsight eligibility bias.
+  - A Pearson-correlation graph computed using a final full sample would leak; graph training timestamps and rolling as-of edge calculations must be verified in implementation.
+  - The model outputs price/return predictions; the original paper uses long-only top-5 ranking and cannot honestly be presented as demonstrated long-short alpha.
+  - 2026 sample includes previously explored history and cannot be newly declared protected/untouched.
+  - Graph inference requires whole-cross-section synchronized PIT feature panels; exported Python inference callback/graph/model artifact compatibility is unverified.
+  - Paper's original 2023–2026 1D clock and 66 source coins are not interchangeable with the local 1h Binance perpetual universe.
+benchmark:
+  original: LSTM, ALSTM, GRU, PatchTST, iTransformer, StockMixer, RSR, TGN, Graphormer and other cited baselines.
+  recommended_simple_null: Historical lagged-return rank and trailing-correlation peer-average return, on exactly the same PIT universe, long-only ranking/costs.
+ats_transfer:
+  original_strategy_status: BLOCKED_PROTOCOL; native dollar-neutral equal-count long/short allocator cannot emulate original top-five long-only source portfolio.
+  model_adapter_status: BLOCKED_SPEC; serialized synchronized graph/model inference and train/fold provenance not produced or verified.
+  hypothetical_short_extension: A short-bottom group is an explicitly NEW, untested adaptation; never label it paper-original.
+  prop_firm: Original approximately 39 percent drawdown fails typical prop-firm loss tolerance without independent sizing/risk work. Firm-specific allowed pairs, short rules and financing UNKNOWN.
+primary_falsifier:
+  future_test: Graph attention yields no incremental chronologically OOF cross-sectional IC and after-cost long-only top-five portfolio benefit versus naive peer momentum/correlation and simpler temporal models with identical PIT universe.
+unresolved_blockers:
+  - Original historical universe appears selected using complete-period history; requires unbiased eligibility reconstruction.
+  - Exact cutoff timing of learned graph, repeated fitting, inference dependencies and matching model artifacts not verified.
+  - Source-original long-only allocation is not native ATS cross-sectional long/short protocol.
+verified_facts:
+  - Original arXiv HTML and author-maintained GitHub README inspected 2026-10-18.
+  - Source implementation and dataset are referenced publicly, but not downloaded, trained, tested, or reproducibility audited.

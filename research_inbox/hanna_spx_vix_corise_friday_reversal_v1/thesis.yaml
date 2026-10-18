@@ -1,0 +1,69 @@
+candidate_id: "hanna_spx_vix_corise_friday_reversal_v1"
+selection_family_id: "us_equity_vix_divergence"
+status: "THESIS_CAPTURED"
+research_mode: "SOURCE_CAPTURE_ONLY"
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  -
+    source_id: "hanna_spx_vix_corise_friday_reversal_primary"
+    url: "https://quantifiableedges.com/what-fridays-vix-action-hinted-at/"
+    title: "What Friday's VIX Action Hinted At"
+    author: "Rob Hanna"
+    publication_date: "2012-02-27"
+    source_role: "PRIMARY_AUTHOR_WEB_ARTICLE"
+economic_thesis:
+  hypothesis: "When SPX and VIX both advance on a Friday despite their usual inverse relationship, demand for downside insurance may anticipate equity weakness over the next few sessions; this is a testable interpretation, not demonstrated causation."
+  null_hypothesis: "The asserted incremental conditional opportunity has zero economic benefit after appropriate matched baseline and friction."
+  claim_class: "LOCAL_HYPOTHESIS_NOT_INDEPENDENTLY_VALIDATED"
+mechanism:
+  causal_hypothesis: "Friday options hedging and volatility demand can diverge from rising index price, potentially foreshadowing short-horizon risk repricing."
+  counterparty: "UNKNOWN; directional mechanism alone does not identify a specific losing counterparty."
+instruments:
+  original_product: "S&P 500 index (SPX) signal with VIX index observation; execution product not specified"
+  original_horizon: "Friday close to following sessions; exact exit UNKNOWN"
+  local_product_adaptation: "NONE_PROPOSED"
+data_requirements:
+  original: "Original venue-matched, point-in-time prices and the article's causal inputs; access NOT VERIFIED"
+  data_qualified: false
+feature_contracts:
+  original_features: "Friday indicator; lagged SPX/VIX close-to-close signs; source long-term trend filter UNKNOWN."
+  availability: "Only known after specified full source observation; implementation parity UNKNOWN"
+strategy_rules:
+  original_author_rules:
+    - "Source studies Fridays when both SPX and VIX close higher than their preceding respective closes."
+    - "A long-term uptrend filter was included, but public text does not specify its exact lookback/threshold."
+    - "Author describes downside tendency over the next few days, not a complete order-entry/exit system."
+  not_disclosed: "Unpublished fields remain UNKNOWN; this descriptive capture is not executable."
+signal_and_execution_clock:
+  original_or_inferred: "Friday official SPX/VIX closing values; first feasible transaction is no earlier than next liquid session; original source does not identify tradable fill."
+  dst_and_holiday: "UNKNOWN until instrument calendar and source timezone qualified"
+sizing:
+  original: "UNKNOWN in source; source describes signal study, not executable position policy."
+cost_assumptions:
+  original: "UNKNOWN; must identify an authorized executable SPX proxy first."
+  local_assumption: "NONE; costs must be obtained before a trial"
+baseline:
+  predeclared_design: "Other uptrend Fridays without simultaneous SPX/VIX advances, matched on realized volatility and prior SPX return."
+development_evaluation:
+  phase: "DESIGN_ONLY_NO_BACKTEST"
+  method: "Event-conditioned / fill-aware matching selected by original strategy mechanics; no empirical tests performed."
+  source_reported_results:
+    - "Original author reports a short-term downside tendency even in an uptrend; results occur in a graphic without a publicly readable numeric trade/sample table."
+primary_falsifier:
+  hypothesis_test: "Conditional forward signed SPX proxy return after the Friday co-rise event is not lower than matched Fridays under the identical qualified trend filter, net of specified frictions."
+acceptance_and_stop_rules:
+  research_capture: "Store only source-faithful text; any research-ready/executable status is separate"
+  stop: "Reject if source semantics or provenance mismatch; no market data access authorized"
+parity_and_causality_tests:
+  required: "Point-in-time signal and next eligible executable fill chronology; original product and session; instrument-level costs."
+known_adaptations:
+  - "NONE; source claims remain distinct from any future executable translation"
+verified_facts:
+  - "Primary article was directly read in this run, and its original rules are paraphrased in brief.md. No independently confirmed alpha or data access."
+assumptions:
+  - "Economic interpretation is a hypothesis rather than the author's demonstrated causal explanation."
+unresolved_blockers:
+  - "Exact trend filter/decision cutoffs, source study horizon and measured dates"
+  - "Execution instrument: SPX itself is a non-tradable index; any ETF/CFD/future is a new study"
+  - "Weekend calendar, price availability, returns measurement, source costs and sample count"

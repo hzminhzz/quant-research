@@ -1,0 +1,69 @@
+candidate_id: crypto_ml_cakici_multicharacteristic_forecast_2024_v1
+selection_family_id: crypto_ml_cross_section_characteristic_prediction
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: cakici_shahzad_bedowska_zaremba_2024_original
+    url: https://doi.org/10.1016/j.irfa.2024.103244
+    title: Machine learning and the cross-section of cryptocurrency returns
+    authors: Nusret Cakici; Syed Jawad Hussain Shahzad; Barbara Bedowska-Sojka; Adam Zaremba
+    published: 2024-07
+    journal: International Review of Financial Analysis 94, 103244
+    source_role: PRIMARY_PUBLISHER_ABSTRACT_AND_EXCERPTS
+economic_thesis:
+  original_claim: Models aggregating multiple coin characteristics forecast the cross-section of cryptocurrency returns; economic alpha is concentrated in low-liquidity small volatile coins, predominantly the long leg.
+  local_falsifiable_hypothesis: A model combining strictly lagged, tradeable coin characteristics may improve relative-return ranking over a matched simple factor score in a realistically liquid crypto universe.
+  status: SOURCE_REPORTED_RESULTS_UNVERIFIED_LOCALLY
+mechanism:
+  original_author_interpretation: Price inefficiencies persist when limits to arbitrage prevent capital from correcting them; price, past alpha, illiquidity, momentum matter more than sophisticated model complexity.
+  independent_causal_proof: NOT_ESTABLISHED
+instruments:
+  source_universe: More than 500 coins and tokens on about 250 exchanges across 2017-2023; source is not Binance perpetuals.
+  source_portfolios: Forecast-sorted long-short portfolios, value-weighted combination of model forecasts among other strategies; gains chiefly long-leg.
+  local_prop_firm_compatibility: POOR_AS_IS; the source itself warns extreme dependence on illiquid volatile coins, sharp downside and difficult short-leg economics.
+data_requirements:
+  source: Market prices, past alpha, trading activity, liquidity and 40 characteristics; full exact feature list requires reading original supplement.
+  local_proxy: Binance perpetual OHLCV can only be assessed separately; volume, price unit and investable universe are not the authors' original exchange-crossing dataset.
+  verified_local_panel: NOT_CHECKED_FOR_THIS_SOURCE
+feature_contracts:
+  source_reported: Multiple grouped return, illiquidity and momentum characteristics aggregate into eight machine-learning forecasters; simple characteristics dominate.
+  source_model_classes: Includes regressions, tree models and neural networks; model-specific combination details unavailable in accessible publisher excerpt.
+  required_ml_preconditions: Fold-local preprocessing, purged chronological out-of-fold historical predictions, frozen code/feature map/model hashes, never in-sample fitted predictions treated as Stage 2 IC.
+  training_provenance: UNKNOWN_NOT_TRAINED
+strategy_rules:
+  source_portfolio_description: Sort predicted cross-sectional returns; form top-minus-bottom portfolios; equal-combine model forecast outputs for the reported combination strategy.
+  local_executable_rule: UNMAPPED; exact coefficients, features, forecast alignment, tail counts and weighting timing not available in reviewed excerpt.
+  local_ml_adaptation: Candidate could fit a simpler boosted regressor then rank a liquid PIT set; this is not an original paper rule.
+signal_and_execution_clock:
+  original: Weekly returns and turnover discussed; exact observation cutoffs/fill clock UNKNOWN from accessible excerpt.
+  necessary: Coin-time decision inputs must predate next tradable fill, label end, and each rolling fit.
+sizing:
+  source: Value-weighted strategy variants; exact published long-short gross/net targets and caps UNKNOWN.
+cost_assumptions:
+  source_reported: Costs can consume more than half of long-short payoff; paper reports severe downside and difficult market capacity.
+  local: No executable broker or perp cost model qualified; fees, spread, swaps, liquidation and market impact UNKNOWN.
+baseline:
+  predeclared_local_design: One-factor momentum, past-alpha or illiquidity ranking on exactly same universe/fills/costs; do not compare to unhedged buy-and-hold alone.
+development_evaluation:
+  status: NOT_RUN
+  source_reported_results_unverified: Source claims an ensemble value-weighted long-short weekly mean return near 2.37% and annualized Sharpe 1.66; says potential drawdowns of 70-80%, profits depend on extreme small illiquid assets.
+  scientific_requirement: Chronological OOF prediction evidence and leak-free train/validation; simple-baseline and liquid-only cohort comparisons before any empirical ATS claim.
+primary_falsifier:
+  test: On an actually permitted and tradable point-in-time universe, ML ranking adds no robust net IC or investable long-short economic benefit beyond simple factors, especially after excluding thin coins.
+acceptance_and_stop_rules:
+  descriptive: Capture accurate source facts with UNKNOWNs; not a backtest or approval.
+  stop: Halt any future executable translation if unavailable full model/clock/cost semantics would be invented.
+parity_and_causality_tests:
+  required: PIT listing and delisting coverage; non-leaking label/pipeline; OOF versus frozen inference; duplicate selection accounting; economic invariance to thin-coin filtering.
+known_adaptations:
+  - Any transfer to Binance perps, 1h signals, liquid-only universe, dollar-neutral equal weights or prop-firm rules is a NEW LOCAL HYPOTHESIS, not source replication.
+verified_facts:
+  - Publisher abstract and accessible publisher article excerpts reviewed 2026-10-18; original author's empirical claims not independently replicated.
+assumptions:
+  - Nonlinear interactions may matter, but source states added model complexity has limited benefits.
+unresolved_blockers:
+  - Complete original 40-feature list, model configurations and training rebalancing not checked against full supplementary paper.
+  - Original source product/portfolio differs from local perp ATS product; cost and account-rule transfer unqualified.
+  - No fitted model, OOF historical predictions, reproducible artifact or frozen CandidateSpec.

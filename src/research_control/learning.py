@@ -332,7 +332,9 @@ class LessonStore:
         include_superseded: bool = False,
         include_invalid: bool = False,
     ) -> list[LessonQueryResult]:
-        """Deterministic query for lessons relevant to an error, file, or protocol."""
+        """Deterministic query for lessons strictly conditional on an observed failure error code."""
+        if not error_code or not error_code.strip():
+            return []
         results: list[LessonQueryResult] = []
 
         for lesson in self._lessons.values():

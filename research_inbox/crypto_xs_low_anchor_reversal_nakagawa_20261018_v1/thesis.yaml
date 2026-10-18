@@ -1,0 +1,41 @@
+identity:
+  candidate_id: crypto_xs_low_anchor_reversal_nakagawa_20261018_v1
+  selection_family_id: behavioral_low_price_anchored_cross_sectional_reversal
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: New behaviorally-based cross-sectional reversal portfolios in the cryptocurrency market and market uncertainty
+      authors: Kei Nakagawa and Ryuta Sakemoto
+      publication_date: "2025"
+      url: https://doi.org/10.1016/j.frl.2025.107800
+      additional_source: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5001299
+      evidence_scope: Author abstract/publisher metadata; full 20-page paper formula and exact portfolio rules not accessible
+economic_thesis:
+  mechanism: A low-price reference within the formation period alters investors' reaction to crypto price losses and cross-sectional loser rebound, unlike generic cumulative-return ranking.
+  source_claimed_strategy: "Decompose conventional crypto cross-sectional reversal portfolios using lowest historical price during the formation interval as behavioral anchoring point; test across formation periods and compare with unanchored reversal. Actual decomposition formulas and portfolio weights UNKNOWN."
+markets_and_data:
+  instruments: "Cryptocurrency cross-section; exact venue, sample symbols, derivatives tradability UNKNOWN"
+  timeframe: "Formation and holding periods varied; exact lengths, decision clock and exit UNKNOWN"
+  data_requirements: "Historically as-of crypto universe, OHLC low observations, close returns, formation period lows without lookahead, actual tradable fee/carry inputs"
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  anchor: "Lowest price in the formation window; precise raw price definition and behavioral component formula UNKNOWN"
+  long_selection: "Cross-sectional reversal / lowest-price component as in source, sign-to-leg rule UNKNOWN without full formula"
+  short_selection: "Cross-sectional reversal relative to source ranks; source's exact short leg UNKNOWN"
+  basket_construction: "Source describes cross-sectional reversal portfolios; weights, counts and neutralization UNKNOWN"
+  execution_clock: UNKNOWN
+  exits_sizing_costs: "Author claims conservative transaction cost robustness, but exact costs, rebalance and holds UNKNOWN"
+  unresolved_blockers: "Get complete source strategy definition, portfolio construction and PIT universe rather than insert a generic loser-minus-winner heuristic"
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: anchored reversal outperforms conventional reversal, hedges rising stock and gold uncertainty; no numeric Sharpe asserted."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "The decomposition provides no incremental causal information over ordinary reversal after PIT asset membership, costs and realistic execution."
+scientific_integrity:
+  contrary_evidence: "prams2104/crypto-momentum-backtest reports nominal 1-day reversal profits wiped out by high turnover; distinct rule, adverse implementation risk."
+  novelty: "Lowest formation-price behavioral anchor vs existing 90-day-high anchor, high watermark and plain rank-reversal; exact source component mapping required."
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0

@@ -1,0 +1,41 @@
+identity:
+  candidate_id: crypto_xs_cojump_clustering_saef_20261018_v1
+  selection_family_id: high_frequency_cojump_clusters_multiexchange_crypto
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  source_references:
+    original:
+      title: "Understanding temporal dynamics of jumps in cryptocurrency markets: evidence from tick-by-tick data"
+      authors: "Danial Saef, Odett Nagy, Sergej Sizov, Wolfgang Karl Hardle"
+      publication_date: "2024-08-08"
+      correction_date: "2025-05-06"
+      url: https://doi.org/10.1007/s42521-024-00116-1
+      correction_url: https://doi.org/10.1007/s42521-025-00131-w
+      evidence_scope: "Original open-access Digital Finance paper sections 3/4/6/7; not an order-rule publication"
+economic_thesis:
+  mechanism: "Large cryptocurrency returns exhibit statistically clustered jumps and cross-coin co-occurrences (not automatically tradable lead-lag); common shocks may generate simultaneous multivariate tail events."
+  source_claimed_strategy: "NONE. The authors estimate tick-price jump indicators, self-excitation and multivariate co-jump/conditional jump association; they do not define a long/short basket, return forecast, or trading rules. Descriptive risk/research mechanism only."
+markets_and_data:
+  product_venue: "BTC, BCH, ETC, ETH, LTC, XRP versus USDT on Binance, Bitfinex, Bitstamp, Coinbase Pro, HitBTC, OKEx and Poloniex, subject to actual product identity"
+  timeframe: "Tick-level source events with daily co-jump aggregation; 2019-04-12 to 2021-09-27"
+  data_requirements: "Underlying time-stamped exchange ticks and quote/trade filters to reproduce robust jump estimators; 1h OHLCV CANNOT replicate tick jump tests or causal same-day conditional jump timing."
+  prop_firm_rules: UNKNOWN
+deterministic_strategy_specification:
+  long_selection: UNKNOWN
+  short_selection: UNKNOWN
+  basket_construction: UNKNOWN
+  clock_and_horizon: "Source clusters overlapping and same-day jumps; no demonstrated timestamp ordering to enter any altcoin after BTC jump before co-jump occurrence."
+  model: "Jump test on tick series with microstructure-noise protections and Bonferroni multiple-testing correction; sample includes 1,760,537,789 source observations before aggregation per paper."
+  unresolved_blockers: "NO ORIGINAL STRATEGY. Tick-data temporal ordering/availability, distinct exchange symbol identifiers and execution feasibility, same-day conditioning leakage, source correction impact; cannot create source-faithful deterministic orders."
+research_evaluation:
+  original_author_results: "SOURCE_REPORTED_UNVERIFIED: jump clusters and frequent co-occurrences particularly BTC/ETH; no Sharpe, net strategy PnL, or profitable trading test is claimed."
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "A supposed trade signal based on same-day conditional co-jump events would be noncausal without verified event-time ordering."
+scientific_integrity:
+  contrary_evidence: "Co-occurrence is not directed causality or executable predictability; paper cautions that precise altcoin sequencing is difficult due to liquidity. A 2025 correction must be inspected before any numerical usage."
+  novelty: "True multiexchange tick jump association, unlike hourly proxy signed-jump factor portfolios in existing inbox; not executable without a distinct explicitly labeled hypothesis later."
+  adaptation_proposal: NONE
+  funding_or_basis_alpha_signal: false
+  empirical_backtests_locally: 0
+  protected_reads: 0
+  orders: 0
