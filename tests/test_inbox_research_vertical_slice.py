@@ -208,4 +208,3 @@ def test_inbox_vertical_slice_real_scientific_execution(tmp_path: Path):
     completed_trials2 = [r for r in ledger_records2 if r.get("event") == "completed"]
     assert len(completed_trials2) == 1  # exactly 1, no duplicate trial added!
     assert report2["counts"]["trial_started"] == report["counts"]["trial_started"]
-
