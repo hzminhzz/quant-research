@@ -1,0 +1,27 @@
+candidate_id: crypto_ml_qiu_liquidity_crowding_alarm_2025_v1
+selection_family_id: crypto_ml_liquidity_spillover_systemic_risk
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_ONLY_DISCOVERY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: qiu_fang_arxiv_2510_20066
+    url: https://arxiv.org/html/2510.20066
+    authors: "Yimeng Qiu; Feihuang Fang"
+    publication: "arXiv:2510.20066v1; 2025-10-22"
+    inspection: "Primary HTML methods, target definitions, models and author metrics. Not independently replicated."
+economic_thesis: "SOURCE_FACT: An engineered daily panel of 1,462 observations x 74 columns (2021-2025; source does not establish 74 distinct assets) and Granger/PageRank network models core-asset crypto liquidity spillovers to predict a market-wide volatility crowding risk state, NOT price returns. AUTHOR_TEST_UNVERIFIED: XGBoost PR-AUC ~0.522 vs logistic ~0.44; logistic higher ROC-AUC ~0.899 vs XGB ~0.74; persistence dominates some continuous risk regression."
+mechanism: "LOCAL_INFERENCE: core-asset illiquidity and vol shocks may interact to propagate crowded risk nonlinearly. Null: simple realized-vol persistence and logistic already capture it."
+instruments: "Original Yahoo Finance/CoinMarketCap daily crypto panel (74 engineered columns, not verified count of coins), with core ETH, BTC, YFI, DOT, XEM, BNB, ARK; not an exchange-specific trading basket. No funding/basis/carry alpha."
+data_requirements: "PIT price and volume panel, Amihud, turnover, Parkinson/GARCH volatility, historical delistings, train-only PageRank and PCA selection; BLOCKED_DATA."
+feature_contracts: "Original 5-lag directed Granger network, central assets, liquidity/volatility PCs and ten-day index using trailing shocks. Model XGBoost vs logistic/persistence/HAR-X; refit frequency UNKNOWN."
+strategy_rules: "Original research is systemic risk alarm with no author-tested return strategy. PROPOSED future risk veto on an independently fixed primary signal only; NOT an original basket."
+signal_and_execution_clock: "Source index H=10 formula uses TRAILING inputs; whether author label truly forecasts future risk by t+10 is UNKNOWN. No invented forward outcome, venue entry or holding period."
+sizing: "No source positions. Future risk overlay sizing and lost-opportunity costs require separate approval."
+cost_assumptions: "No source trading economics. Any future filter must compare fees, turnover and foregone winners on identical portfolio clock."
+baseline: "Same-information logistic, realized volatility fixed threshold, and persistence/HAR-X; ROC and F1 disadvantage to logistic is adverse evidence."
+development_evaluation: "No local training, OOF, metrics or backtests. Requires forward-label disambiguation, point-in-time fold-local network/PCA selection and purged walk-forward OOF."
+primary_falsifier: "When source-aligned target truly forward and train-only transforms enforced, XGB fails to improve useful risk veto economics over logistic or vol persistence."
+acceptance_and_stop_rules: "HANDOFF_VALID_UNVERIFIED only means syntax. BLOCKED_PROTOCOL, BLOCKED_SPEC and REQUIRES_TRAINING_WORKFLOW; no model ready or direction alpha."
+parity_and_causality_tests: "Audit source risk index equation vs future target; freeze source 70/15/15 split, PC/core selection, model selection and threshold on train/validation only."
+unresolved_blockers: "Exact forward label/event timestamp, original code/data vintages, OOF trained model and generalized risk-overlay protocol unverified."

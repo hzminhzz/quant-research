@@ -1,0 +1,27 @@
+candidate_id: crypto_ml_sak_whale_attention_btc_event_2026_v1
+selection_family_id: crypto_ml_btc_whale_retail_attention_event
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_ONLY_DISCOVERY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: sak_whales_retail_attention_2026
+    url: https://dergipark.org.tr/en/pub/joeep/article/1837177
+    authors: Ahmet Furkan Sak
+    publication: "JOEEP 11(1), 465-474, 2026-06-25"
+    inspection: "Primary publisher abstract; author results not independently reproduced"
+economic_thesis: "SOURCE_FACT: Bitcoin whale-transfer and Google Trends shocks studied over 1, 7, 14 and 28 day events. AUTHOR_TEST_UNVERIFIED: whale events associated with +0.79, +1.66, +2.44 percentage points at 7/14/28d; attention events +1.76, +2.36 at 14/28d. Original study not ML trading."
+mechanism: "LOCAL_INFERENCE: whale transactions and slower retail attention may have nonlinear joint persistence/reversal. Null: events reflect BTC momentum, endogenous attention or overlapping observations."
+instruments: "One BTC asset only; no source trading venue established. Never convert to basket or use funding/basis/carry alpha."
+data_requirements: "Historical top-100 noncustodial whale list as known then, transaction first-observed timestamps, past-vintage Google Trends, BTC venue quotes. BLOCKED_DATA."
+feature_contracts: "Source top-holder transfers and Google interest. PROPOSED: past-only event magnitude, lagged attention change, BTC trend, volatility; shallow event classifier vs logistic."
+strategy_rules: "Original observational event study, NOT executable trading. Proposed future BTC single-instrument long/cash event meta-labeling; trading threshold UNKNOWN."
+signal_and_execution_clock: "Original 1/7/14/28 calendar day abnormal return event windows. First-released whale and Trends inputs, entry fill and label end timestamps UNKNOWN; no invented daily midnight trade."
+sizing: "No original position weights or leverage; proposed long/cash needs explicit controls."
+cost_assumptions: "Original event comparisons do not establish executable after-cost profits. Need same-fill venue spread, delay, commissions and impact."
+baseline: "Whale-event fixed threshold and Google-only threshold, same-information logistic interaction and BTC exposure with identical clocks/costs."
+development_evaluation: "NOT_RUN. Requires PIT wallet selection and Trends vintages, event-wise purged OOF with matured labels, train-only feature fitting; no holdout."
+primary_falsifier: "Nonlinear event model adds no OOF and net-after-cost BTC event selection benefit versus fixed or logistic baselines."
+acceptance_and_stop_rules: "Descriptive HANDOFF_VALID_UNVERIFIED if schema valid. BLOCKED_PROTOCOL, BLOCKED_DATA and REQUIRES_TRAINING_WORKFLOW; never MODEL_READY."
+parity_and_causality_tests: "Prove as-of whale membership, Google revisions, event definitions, abnormal-return market model, first executable price and event-label overlaps."
+unresolved_blockers: "Original market instrument, decision clock, wallet history, social-vintage data and generalized event ML protocol unknown."

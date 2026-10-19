@@ -1,0 +1,26 @@
+candidate_id: crypto_ml_li_mvrv_address_factor_rank_2026_v1
+selection_family_id: crypto_ml_onchain_factor_return_sort
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_ONLY_DISCOVERY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: li_liu_liu_zhu_yan_pacfin_2026
+    url: https://doi.org/10.1016/j.pacfin.2025.103033
+    authors: "Xingyi Li; Zhuang Liu; Yujun Liu; Shushang Zhu; Jingzhou Yan"
+    date: "2026"
+economic_thesis: "SOURCE_FACT: return forecasting with 12 models and long/short and long-only portfolios. AUTHOR_TEST_UNVERIFIED: RF predicts best, neural portfolio earns most."
+mechanism: "LOCAL_INFERENCE: MVRV and new/active address growth may interact nonlinearly; null is price-driven activity."
+instruments: "Multiple cryptocurrencies; source exchange, universe and contract identity UNKNOWN. No funding/basis/carry alpha."
+data_requirements: "PIT MVRV, new/active addresses, delistings and tradable quotes; BLOCKED_DATA."
+feature_contracts: "SOURCE_FACT: on-chain valuation and address metrics; proposed shallow RF vs Ridge; exact formula and refits UNKNOWN."
+strategy_rules: "Source has both long-short and long-only portfolios; weights, rank cutoffs and exact rules UNKNOWN."
+signal_and_execution_clock: "Future cross-sectional return label; original horizon and first-executable time UNKNOWN; purge overlapping outcomes."
+sizing: "Original sizing UNKNOWN; separate explicit authorization required."
+cost_assumptions: "Match source-eligible trades and realistic fees, spread, slippage, impact to simple model."
+baseline: "PIT MVRV rank, lagged return rank, same-feature Ridge on same eligible universe."
+development_evaluation: "NO TRAINING OR TESTS. Future chronological OOF requires source label clock, train-only preprocessing and matured labels."
+primary_falsifier: "RF has no net incremental OOS return rank or after-cost portfolio advantage over same-feature Ridge and fixed ranks."
+acceptance_and_stop_rules: "Descriptive only; REQUIRES_TRAINING_WORKFLOW and BLOCKED_DATA, not MODEL_READY."
+parity_and_causality_tests: "Reconstruct source original universe, labels, historical metric vintages, exact portfolio clock and costs."
+unresolved_blockers: "Full original methods, historical data availability, trained OOF model and executable adapter unknown."
