@@ -152,8 +152,10 @@ variants:
   sleeve_id: af30_s22_value
   cadence: 1h
   classes:
-    indices: Value needs a yield or earnings anchor; index price-only data lacks it.
-    metals: Real-rate value for gold needs the rate curve, which is available.
+    indices: Long-horizon reversal is measurable on index price proxies; no fundamental
+      anchor is required for this definition.
+    metals: Long-horizon reversal is measurable on metal price proxies; leasing is
+      priced separately in carry.
 - book_strategy: 23
   sleeve_id: af30_s23_acceleration
   cadence: 1h

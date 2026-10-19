@@ -119,6 +119,14 @@ def load_frozen(directory: str | Path) -> tuple[dict[str, Any], str]:
     return matrix, sha
 
 
+def require_symbols(market_class: MarketClass, vault_symbols: set[str]) -> None:
+    """A declared symbol must exist in the materialized source at that cadence."""
+    missing = set(market_class.symbols) - set(vault_symbols)
+    if missing:
+        raise QuantError('INVALID_SPEC',
+                         f'{market_class.name} lacks declared symbols: {sorted(missing)}')
+
+
 def require_declaration(matrix: dict[str, Any], spec: TimeSeriesSpec,
                         market_class: MarketClass, *, matrix_sha: str,
                         expected_sha: str) -> dict[str, Any]:
