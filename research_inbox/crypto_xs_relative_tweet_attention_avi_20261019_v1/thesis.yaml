@@ -1,0 +1,92 @@
+format: descriptive_source_handoff
+candidate_id: crypto_xs_relative_tweet_attention_avi_20261019_v1
+selection_family_id: cross_sectional_relative_retail_attention
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_DISCOVERY_ONLY_NO_EXECUTION
+created_on: "2026-10-19"
+not_a_frozen_session: true
+not_execution_approved: true
+source_references:
+  - id: AVI_MUKESH_PRIMARY_REPO
+    role: original_hourly_investigation_and_signal_description
+    author: avi-mukesh
+    title: Crypto Cross-Sectional Momentum
+    publication_date: UNKNOWN
+    url: https://github.com/avi-mukesh/crypto-quant-project
+economic_thesis:
+  source_claim: Each coin's share of Twitter mentions relative to the investigated universe contains slowly arriving attention information predictive of cross-sectional relative returns.
+  local_mechanism: Relative attention shifts may capture distributed retail discovery not fully reflected in price, or may merely proxy selection and trend.
+  status: Standalone tweet-share tradable alpha not demonstrated by this README.
+mechanism:
+  source_information_set: Hourly token-specific tweet mention counts, hourly universe shares, price and Binance volume information.
+  predicted_effect: Delayed relative attention-price response rather than basis, funding, or carry.
+  falsification_routes:
+    - Incremental prediction disappears after current price momentum and market beta.
+    - Historical tweets are missing, edited, survivorship-screened, or available later than assumed.
+    - Return spread is too small for venue fees, spread, slippage and short expense.
+instruments:
+  original_training_universe: BTC, ETH, SOL, ADA, BNB, LINK, SHIB, DOGE; 8 coins, 2022-2024.
+  original_expanded_oos: 17 coins over January 2025 to May 2026; expanded from top 35 by May 2026 CoinMarketCap capitalization.
+  source_product: Binance hourly cryptocurrency price observations; historical exact spot/perp product identity UNKNOWN.
+  prop_firm_permissions: UNKNOWN.
+data_requirements:
+  price: Binance hourly OHLCV, 2022-2026 as author describes.
+  attention: Hourly tweet mention counts via Twitter API, token disambiguation, coverage changes, bots, edits and actual collection times.
+  point_in_time: Source OOS enlarged universe selection uses May 2026 knowledge; must not be called PIT without separate reconstruction.
+feature_contracts:
+  - id: original_tweet_share_momentum
+    label: SOURCE_FACT
+    source_description: Each coin's share of Twitter mentions across its universe, evaluated with a 7-hour lag; exact transformation/smoothing formula UNKNOWN from inspected README.
+    result_status: SOURCE_REPORTED_PREDICTIVE_ASSOCIATION_NOT_NET_TRADING
+    avoid_invention: Do not replace share momentum with unverified thresholds, interaction weights, or funding inputs.
+strategy_rules:
+  source_original_attention_study:
+    feature: Relative tweet-mention share, 7-hour lag reported.
+    exact_attention_feature_formula: UNKNOWN; inspect original notebook before executable mapping.
+    original_attention_specific_long_short_basket: UNKNOWN; no separate fully specified attention-only portfolio evidenced in README.
+  separate_source_original_price_strategy:
+    source_description: Primary price-momentum strategy ranks approximately half of crypto universe long/short and uses a BTC regime filter to damp short exposure in bull conditions.
+    rule_boundary: It is a distinct price signal; do not misattribute its portfolio rules or trading PnL to tweet-share signal.
+  adaptations:
+    proposed_attention_portfolio: A long-high-attention-vs-short-low-attention basket would be a new independent design and is NOT an author-tested strategy.
+signal_and_execution_clock:
+  source_granularity: Hourly Twitter counts and hourly Binance prices.
+  author_observation: A reported 7-hour tweet lag has cross-sectional association with returns.
+  clock_uncertainty: Exact count collection timestamp, downstream feature calculation, price execution timestamp, holding horizon and latency UNKNOWN.
+  no_future_peeking: Any later experiment must use tweet counts actually collected before each decision; retrospective rehydration is insufficient.
+sizing:
+  original_tweet_basket_weights: UNKNOWN
+  original_price_strategy: About half of the universe held as a long/short portfolio; precise weights and beta cannot be attributed to the tweet-only analysis.
+  prop_firm: Symbol admissibility, maximum risk/drawdown and notional limits UNKNOWN.
+cost_assumptions:
+  source_tweet_only: No independently supported after-cost portfolio performance or explicit fee schedule found for the tweet-share signal in the inspected README.
+  future_cost_scope: Commission, realized bid/ask spread, latency, impact, shorting, margin and financing. Never assume financing zero.
+baseline:
+  future_only: Same-universe plain 2-week relative price momentum, contemporaneous tweet-share level and lagged volume-conditioned momentum; original author's price benchmark is not the tweet signal itself.
+primary_falsifier:
+  future_only: Tweet share does not predict relative returns beyond causal price momentum in as-of universe, or the measured incremental signal is not tradable after both-leg expenses.
+development_evaluation:
+  status: NOT_PERFORMED
+  author_reported_test_unverified:
+    tweet_share_lag_hours: 7
+    cross_sectional_ic_range: "0.012 to 0.016"
+    claim_scope: Association reported as consistent across years; it is not a Sharpe or net basket return.
+acceptance_and_stop_rules:
+  descriptive_gate: Do not run ATS, IC, model training, Stage 1-4, trials or protected reads from this capture.
+  conversion_block: Exact notebook formula, source clock, PIT membership, weights, fees, instrument identity and falsification controls remain unresolved.
+parity_and_causality_tests:
+  future_requirements:
+    - Reproduce actual notebook tweet-share feature only after independent approval.
+    - Require creation/collection timestamps as-of the decision.
+    - Separate attention-only contribution from price momentum and BTC regime.
+    - Confirm current delisted and historical social-data coverage without future labels.
+unresolved_blockers:
+  - Original notebook-level tweet-share formula and full asset-eligibility process.
+  - Valid time-stamped historical Twitter API archive and revision behavior.
+  - Proven unique tradeable after-cost basket and shorting venue.
+verified_facts:
+  source_fact: Original README describes eight training tokens, hourly Binance prices and hourly Twitter mention shares, with expanded 17-token evaluation sample.
+  author_reported_test_unverified: Tweet-share 7-hour-lag rank IC about 0.012 to 0.016 is reported without independent replication.
+  local_inference: A weak signal may not support portfolio turnover in a prop-firm account.
+known_adaptations:
+  proposal: Long/short ranking by relative attention is not asserted to have been traded or tested by the author.

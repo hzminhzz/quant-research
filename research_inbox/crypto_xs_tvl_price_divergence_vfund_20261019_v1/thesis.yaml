@@ -1,0 +1,98 @@
+format: descriptive_source_handoff
+candidate_id: crypto_xs_tvl_price_divergence_vfund_20261019_v1
+selection_family_id: onchain_tvl_relative_valuation
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_DISCOVERY_ONLY_NO_EXECUTION
+created_on: "2026-10-19"
+not_a_frozen_session: true
+not_execution_approved: true
+source_references:
+  - id: VFUND_PRIMARY_CODE
+    role: original_implemented_signal
+    author: Abdirahmanjabdi
+    title: VFund CrossSectional TVLDivergence source class
+    publication_date: UNKNOWN
+    url: https://github.com/Abdirahmanjabdi/VFund/blob/main/vfund/strategy/cross_sectional.py
+  - id: VFUND_ORIGINAL_RESEARCH_REPORT
+    role: author_reported_adverse_and_positive_results
+    author: Abdirahmanjabdi
+    title: VFund case study
+    publication_date: UNKNOWN
+    url: https://github.com/Abdirahmanjabdi/VFund/blob/main/docs/CASE_STUDY.md
+economic_thesis:
+  source_fact: TVL growth minus token-price growth may order protocol tokens by relative fundamental usage rather than price momentum alone.
+  local_inference: Protocol adoption may affect token valuations with delay, but TVL can reflect reversible incentives, collateral price inflation or token-price feedback rather than organic usage.
+  source_scope: Cross-sectional relative-value scores for protocol-associated crypto assets; not a funding or basis signal.
+mechanism:
+  information_set: Source-defined DefiLlama protocol total value locked and token close prices.
+  why_it_might_pay: Misalignment of protocol capital use and token pricing might subsequently normalize; economic rationale is an author hypothesis, not causal proof.
+  who_pays: UNKNOWN; a proposed counterparty is traders who react to token price more quickly than protocol fundamentals.
+  failure_modes:
+    - Circular TVL measurement using token prices and reward incentives.
+    - Retroactively revised protocol histories or token-to-protocol mismatches.
+    - Shorting costs, slippage, market beta, and small-cap capacity remove any payoff.
+instruments:
+  source_original: VFund author-defined rolling cross-sectional crypto panel mapped to protocols; exact per-date symbol membership and contract class UNKNOWN.
+  explicit_limit: Do not substitute today's token list for a historically eligible universe or infer perpetual availability from spot prices.
+  target_prop_firm: UNKNOWN; no claim of access to source coins or borrowability.
+data_requirements:
+  price_and_tvl: End-of-day token closes and DefiLlama protocol TVL matched by point-in-time protocol-token identity and availability timestamps.
+  provenance: Actual historical TVL publication/recorded-at timestamps and later revisions UNKNOWN; current API history is not a certified as-of vintage.
+  source_original_frequency: Daily source data described by author; lookback is 60 OBSERVATION ROWS, not 60 hourly bars.
+  source_data_coverage: UNKNOWN at per-asset level.
+feature_contracts:
+  - id: original_tvl_price_gap
+    label: SOURCE_FACT
+    formula: "(TVL[t] / TVL[t-60] - 1) - (close[t] / close[t-60] - 1)"
+    lookback_observations: 60
+    missing_zero_policy: "The implementation requires TVL[t-60] > 0; otherwise NaN. Missing data must not be imputed."
+    original_module: TVLDivergence.scores
+strategy_rules:
+  source_original:
+    score_ranking: Larger TVL-minus-price growth implies relatively cheaper usage-to-price; score higher for long side and lower for short side.
+    basket: Generic CrossSectionalBacktester supports dollar-neutral ranked long/short, but exact tested candidate weights, number of positions, and rebalance cadence require source configuration readback.
+    default_class_lookback: 60
+    exact_author_experiment_selection: UNKNOWN
+    hard_stop_and_take_profit: UNKNOWN
+  adaptations: No intraday conversion or hypothetical top-bottom cutoffs in this capture.
+signal_and_execution_clock:
+  original: Completed daily TVL and price observations drive score; VFund describes next-bar price execution and one-bar lag for on-chain observations.
+  unresolved: Exact TVL update/publish UTC clock and historical lag sufficiency are unverified; earliest causal executable time cannot yet be certified.
+  proposal_not_original: A 1h/15m rebalance using last certified daily data would be a different experiment, NOT source tested.
+sizing:
+  original: Generic author engine permits normalized dollar-neutral long/short exposure; selected experiment exposure, concentration and hard-to-short overrides UNKNOWN.
+  prop_limits: Intraday daily loss, trailing drawdown, margin and symbol-specific short eligibility need independent checks before any research approval.
+cost_assumptions:
+  source: Author reports modeling commissions, slippage, financing, capacity and hard-to-short restrictions at framework level; exact isolated TVLDivergence trade costs UNKNOWN.
+  guardrail: Financing or borrow expense must not be set to zero as fact. No funding, carry or basis alpha enters the signal.
+baseline:
+  future_comparison: Compare with same-universe price-only momentum and TVL-only momentum, both under identical lag, fill, risk and cost conditions.
+  source_adverse: Author explicitly reports naive TVL momentum failed.
+primary_falsifier:
+  future_only: Correct as-of vintages and contract mapping eliminate independent after-cost benefit over price-only ranking, or the source-reported result is driven by illiquid/ineligible tokens.
+development_evaluation:
+  status: NOT_PERFORMED
+  author_reported_test_unverified:
+    source: VFund case study
+    in_sample_sharpe: 1.09
+    out_of_sample_sharpe: 0.44
+    caveat: Standalone figures are author claims, not an ATS result and not proof of venue-executable alpha.
+acceptance_and_stop_rules:
+  descriptive_gate: Publication establishes source capture only; no frozen experiment, trial ledger, native ATS Stage, holdout, or trade is allowed by this file.
+  executable_gate: Source configuration, revisions, point-in-time availability, instruments, selection, costs and parity must be independently resolved.
+parity_and_causality_tests:
+  future_requirements:
+    - Match exact source scoring and per-date token mappings.
+    - Reject future-revised or delayed TVL as if available at event time.
+    - Compare source-native cross-sectional construction with any eventual port.
+    - Bound losses under prop-firm daily and trailing drawdowns.
+unresolved_blockers:
+  - Verified contemporaneous DefiLlama vintages and protocol-token as-of mappings.
+  - Exact source research configuration, daily rebalance, exposure and financing inputs.
+  - Tradable venue contract identities, price conversion and borrowable/shortable universe.
+verified_facts:
+  source_fact: TVLDivergence class implements 60-observation TVL growth minus price growth with positive denominator requirement.
+  author_reported_test_unverified: VFund case study states 1.09 in-sample and 0.44 OOS Sharpe for TVL divergence, without independent ATS reproduction.
+  local_inference: The information set differs from OHLCV-only relative momentum but measurement circularity may dominate.
+known_adaptations:
+  proposed_15m_1h: Never treat intraday decision frequency as original author backtest. It is only an explicitly untested proposal.
