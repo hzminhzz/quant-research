@@ -1,0 +1,13 @@
+schema_version: 1
+portfolio_id: af30_combined_portfolio
+selection_family_id: af30_time_series
+scope: >-
+  Frozen inclusion and weighting rule for the combined portfolio. Composition is
+  per asset class; class returns are reported separately and never pooled into a
+  single cross-class series.
+inclusion: QUALIFIED_ONLY
+per_class_weighting: equal_weight
+class_weights:
+  indices: 1.0
+  metals: 0.0
+  crypto: 0.0
