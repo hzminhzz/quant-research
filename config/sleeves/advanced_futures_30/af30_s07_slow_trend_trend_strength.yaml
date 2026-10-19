@@ -1,0 +1,142 @@
+schema_version: 1
+spec_kind: time_series
+sleeve_id: af30_s07_slow_trend_trend_strength
+selection_family_id: af30_time_series
+book_strategy: 7
+thesis: Squaring the normalized slow trend preserves sign while weighting conviction.
+market_classes:
+- name: indices
+  symbols:
+  - DAX
+  - ES
+  - EUSIDXEUR
+  - HK33
+  - NIKKEI225
+  - NQ
+  panel_root: data/vault/markets_20261015/index_1h
+  bar_seconds: 3600
+  periods_per_year: 252
+  carry:
+    mode: modeled
+    curve: bonds_daily_US10Y
+    tenor: US10Y
+- name: metals
+  symbols:
+  - XAUUSD
+  - XAGUSD
+  panel_root: data/vault/markets_20261015/metals_1h
+  bar_seconds: 3600
+  periods_per_year: 252
+  carry:
+    mode: modeled
+    curve: bonds_daily_US10Y
+    tenor: US10Y
+- name: crypto
+  symbols:
+  - BTCUSDT
+  - ETHUSDT
+  - SOLUSDT
+  - BNBUSDT
+  - XRPUSDT
+  - ADAUSDT
+  - DOGEUSDT
+  - AVAXUSDT
+  panel_root: data/vault/crypto_perps_1h
+  bar_seconds: 3600
+  periods_per_year: 365
+  carry:
+    mode: observed
+windows:
+  train:
+    start: '2020-04-01T00:00:00Z'
+    end: '2024-01-01T00:00:00Z'
+  validation:
+    start: '2024-01-01T00:00:00Z'
+    end: '2026-01-01T00:00:00Z'
+  protected:
+    start: '2026-01-01T00:00:00Z'
+    end: '2026-10-01T00:00:00Z'
+features:
+- name: ema_16
+  native: ema
+  params:
+    period: 16
+- name: ema_64
+  native: ema
+  params:
+    period: 64
+- name: atr_14
+  native: atr
+  params:
+    period: 14
+- name: vol_240
+  expr:
+    op: rolling_std
+    args:
+    - op: pct_change
+      args:
+      - op: col
+        name: close
+    window: 240
+    min_samples: 60
+- name: trend_raw
+  expr:
+    op: div
+    args:
+    - op: sub
+      args:
+      - op: col
+        name: ema_16
+      - op: col
+        name: ema_64
+    - op: col
+      name: close
+- name: trend_norm
+  expr:
+    op: div
+    args:
+    - op: col
+      name: trend_raw
+    - op: lit
+      value: 0.01
+- name: trend_strength
+  expr:
+    op: mul
+    args:
+    - op: col
+      name: trend_norm
+    - op: abs
+      args:
+      - op: col
+        name: trend_norm
+forecast:
+  feature: trend_strength
+  horizon_bars: 1
+  scaling:
+    kind: bounded_tanh
+    scale: 1.0
+    cap: 20.0
+volatility_target: 0.1
+risk_allocation:
+  method: inverse_volatility
+  per_instrument_cap: 0.35
+  gross_exposure: 1.0
+  volatility_feature: vol_240
+stops:
+  feature: atr_14
+  multiple: 3.0
+rebalance_bars: 504
+costs:
+  commission_bps_one_way: 1.0
+  slippage_bps_one_way: 2.0
+  spread_bps: 0.0
+  spread_included_in_slippage: true
+label_horizon_bars: 1
+assumptions:
+- Prices are research proxies, not exchange-certified tradable contracts.
+- Modeled financing requires binding the carry sidecar rate into carry_rate before
+  feature compilation.
+- The crypto panel root must be materialized from the local store before a run.
+- Costs are declared assumptions, not observed venue spreads.
+- Row-based rolling windows span observed bars, not wall-clock time; session-bound
+  index and metal feeds have gaps.

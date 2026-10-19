@@ -18,6 +18,7 @@ from src.engine.funnel import ResearchFunnel
 from src.engine.research_handoff import validate_handoff
 from src.engine.spec_parser import CandidateSpec, parse_spec
 from src.engine.thesis_ingest import convert_thesis
+from src.engine.ts_spec import TimeSeriesSpec
 from src.oracle.research_protocols import parse_research_spec
 
 STORE = '/home/quant/dev/quant/ml4t-data/.data/store'
@@ -175,9 +176,15 @@ def main(argv=None) -> int:
                               'entries': len(manifest['entries']), 'excluded': manifest['excluded']}, sort_keys=True))
             return 0
         spec = parse_research_spec(args.spec)
-        is_event = not isinstance(spec, CandidateSpec)
+        is_ts = isinstance(spec, TimeSeriesSpec)
+        is_event = not isinstance(spec, (CandidateSpec, TimeSeriesSpec))
         if args.command == 'validate':
-            if is_event:
+            if is_ts:
+                print(json.dumps({'status': 'VALID_SPEC', 'sleeve_id': spec.sleeve_id,
+                                  'spec_hash': spec.spec_hash,
+                                  'book_strategy': spec.book_strategy,
+                                  'market_classes': [c.name for c in spec.market_classes]}))
+            elif is_event:
                 print(json.dumps({'status': 'VALID_SPEC', 'candidate_id': spec.strategy_id,
                                   'spec_hash': spec.spec_hash, 'source_spec_status': 'exact',
                                   'protocol': spec.protocol}))
@@ -185,6 +192,9 @@ def main(argv=None) -> int:
                 print(json.dumps({'status': 'VALID_SPEC', 'candidate_id': spec.candidate_id,
                                   'spec_hash': spec.spec_hash, 'source_spec_status': spec.source_spec_status}))
             return 0
+        if is_ts:
+            raise QuantError('INVALID_SPEC',
+                             'Time-series sleeves use the sleeve runner, not the v1 funnel')
         if is_event and args.build_if_missing:
             raise QuantError('INVALID_SPEC', 'Frozen event authority cannot be rebuilt by --build-if-missing')
         if args.build_if_missing and not (Path(spec.panel_root) / 'manifest.json').exists():
