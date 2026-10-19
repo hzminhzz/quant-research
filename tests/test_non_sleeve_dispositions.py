@@ -51,7 +51,10 @@ def test_no_contract_curve_exists_in_the_canonical_schema_or_vault():
     record = disposition_for(30, records())
     vault = next(i for i in record['evidence'] if i['kind'] == 'vault_single_series')
     import json
-    manifest = json.loads((Path(__file__).parents[1] / vault['vault_root'] / 'manifest.json').read_text())
+    path = Path(__file__).parents[1] / vault['vault_root'] / 'manifest.json'
+    if not path.is_file():
+        pytest.skip('external vault is not mounted in this checkout')
+    manifest = json.loads(path.read_text())
     assert manifest['entries']
     for entry in manifest['entries']:
         keys = set(entry) | set(entry.get('provenance', {}))

@@ -34,7 +34,10 @@ def specs() -> dict[int, Path]:
 
 
 def vault_symbols(name: str) -> set[str]:
-    manifest = json.loads((VAULT / name / 'manifest.json').read_text())
+    path = VAULT / name / 'manifest.json'
+    if not path.is_file():
+        pytest.skip('external vault is not mounted in this checkout')
+    manifest = json.loads(path.read_text())
     return {entry['symbol'] for entry in manifest['entries'] if entry.get('symbol')}
 
 
