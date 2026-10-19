@@ -1,0 +1,115 @@
+candidate_id: robotwealth_triangulated_stat_arb_depth_20260822_v1
+selection_family_id: equity_network_pair_convergence_triangulation
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: robotwealth_mispricing_20260601
+    author: "Kris Longmore"
+    publication_date: "2026-06-01"
+    title: "When Is a Mispricing Not a Mispricing?"
+    primary_https_url: "https://robotwealth.com/when-is-a-mispricing-not-a-mispricing/"
+    evidence_role: original_practitioner_source_network_rule_and_cautions
+  - source_id: robotwealth_very_small_crowds_20260822
+    author: "Kris Longmore"
+    publication_date: "2026-08-22"
+    title: "The Wisdom of Very Small Crowds"
+    primary_https_url: "https://edgealchemy.robotwealth.com/p/the-wisdom-of-very-small-crowds"
+    evidence_role: original_practitioner_followup_depth_results_and_negative_evidence
+  - source_id: robotwealth_metamorphosis_20260202
+    author: "Kris Longmore"
+    publication_date: "2026-02-02"
+    title: "The Metamorphosis"
+    primary_https_url: "https://edgealchemy.robotwealth.com/p/the-metamorphosis"
+    evidence_role: source_author_explanation_pairs_to_portfolio
+economic_thesis:
+  local_hypothesis: >-
+    Multiple genuinely independent-ish relative-value spread relationships
+    may identify temporarily dislocated individual stock legs more reliably
+    than isolated pairs; depth and agreement may separate mispriced equities
+    from shared spread noise.
+  null_hypothesis: >-
+    Network-aggregated individual-equity long/short signals fail to improve
+    net outcomes over matched ordinary pairs, random pair networks and
+    equal-exposure individual stock reversals once factor risks and costs
+    are controlled.
+mechanism:
+  source_description: >-
+    The author attributes some price divergences to price-insensitive
+    fund flows and inventory pressure, and explicitly distinguishes
+    permanent fundamental/news repricing that should not be faded.
+  local_inference: "Market-neutral-looking basket performance may still contain sector/market beta and correlated pair exposures."
+  effective_payer: "Potential temporary liquidity demander; not verified directly."
+instruments:
+  original_product: >-
+    Individual common stocks in overlapping economically linked pairs
+    (examples include XOM and SLB; author discusses tens to hundreds of
+    equities). Source is NOT futures, CFDs, or crypto.
+  product_substitution: NONE
+data_requirements:
+  needed: >-
+    PIT tradable stock universe, economically sensible pair history,
+    correctly adjusted EOD and possibly intraday quotes, earnings event
+    calendar, corporate actions, borrow data, fill/turnover/cost evidence.
+    No available qualified local stock vault asserted.
+feature_contracts:
+  original_author_conditions:
+    - "Construct good related-stock pair relationships with historically tradable diverge/converge behavior; exact score and pair selection details are NOT fully public."
+    - "Convert each selected spread's rich/cheap signal into ticker-level votes and aggregate across all participating pairs."
+    - "One example consistency metric is absolute mean of signs of votes (sign in {-1, +1}); it loses information at very low node depth."
+    - "The Aug 2026 follow-up discusses consistency times square-root of pair depth as a standardized agreement measure, with correlated-vote caveat."
+  calculation_availability: "Spread normalization/hedge ratio/z-score lookbacks, universe refresh and signal-to-weight mapping UNKNOWN in public evidence."
+strategy_rules:
+  source_direction:
+    - "Long stocks judged cheap relative to multiple neighbors and short stocks judged rich relative to neighbors; not necessarily trade both legs of each pair."
+    - "Portfolio-level aggregation of spread votes rather than independent pair-by-pair spread positions."
+    - "The follow-up reports monthly refresh of the selected pairs; this is NOT an asserted universal monthly trade holding period."
+    - "The author's 80-name, depth >=4 observation is one reported portfolio configuration, NOT a proven universal optimized rule."
+  unpublished_necessary_parameters: "Exact spread estimation, entry/exit thresholds, weights, risk scaling, stops, borrow/sector neutralization, and signal execution clock UNKNOWN."
+signal_and_execution_clock:
+  source_or_needed: "Selected pairs refreshed monthly in author implementation; trading decisions and fill times not specified in accessible public sources."
+  timezones_and_dst: "Exchange calendars and earnings announcement time of day unverified."
+sizing:
+  original: "Long/short individual stock book with ticker-level network signal strengths; exact per-name target weights and gross/net caps UNKNOWN."
+cost_assumptions:
+  source: "Author reports simulations dependent on Interactive Brokers-like favorable costs; exact commissions/borrow, market impact and timing unspecified."
+  zero_cost_assumption: "No implied zero spread, borrow or short cost."
+baseline:
+  proposed_control: "Same PIT universe/sector, funding and costs: (a) traditional two-leg pairs book, (b) aggregate spread votes without depth weighting, (c) randomized matched pair network."
+development_evaluation:
+  source_reported_claims:
+    - "June 2026 author charts are explicit gross factor comparisons without cost/friction; author says they are NOT backtests."
+    - "Aug 2026 author reports about 2.7 simulated after-cost Sharpe for roughly 80 names versus roughly 1.2 for 150 names with lower network depth; results not independently reproduced."
+    - "Author reports live Sharpe over 3 during a roughly 10-month early sample and warns strongly that the period is too short to infer durable performance."
+    - "Author emphasizes pair selection, high turnover, missing names/data vendor failures and genuine repricing after earnings as key adverse mechanisms."
+    - "The apparent independent-vote binomial logic is only an illustration: pairs share underlying stocks and correlated exposures, so votes are not independent."
+  empirical_run_completed: false
+primary_falsifier:
+  predeclared_future_test: >-
+    Depth-adjusted ticker-level network signals fail to outperform
+    matched two-leg pairs and unweighted aggregate baselines net of
+    realistic stock borrow/impact costs after PIT universe, earnings
+    event and correlated-pair controls.
+acceptance_and_stop_rules:
+  descriptive_intake: "THESIS_CAPTURED only; no research qualification or live trading permission."
+  stop_conditions:
+    - "Do not treat illustrative gross factor curves as friction-adjusted backtests."
+    - "Do not transfer author live Sharpe claims to independent evidence."
+    - "No model fitting or backtest in this capture-only workflow."
+parity_and_causality_tests:
+  required:
+    - "Source-faithful pair selection and rolling PIT universe with no lookahead."
+    - "Actual asynchronous earnings/price timing, split adjustment and borrow costs."
+    - "Network node-depth and pair vote correlation tests against null baselines."
+known_adaptations:
+  - "None: preserve common-equity market and author-reported network logic."
+verified_facts:
+  - "Primary author June source, February explanation and August follow-up read; empirical outcomes remain source-reported and unverified."
+assumptions:
+  - "Price-insensitive liquidity flow is plausible, not observed in the source test for each individual trade."
+unresolved_blockers:
+  - "Public source does not specify full pair selection score and spread estimation."
+  - "Full signal-to-weight mapping, execution clock, turnover/borrowing and historical delistings."
+  - "Causal earnings-surprise exclusion and corporate action adjustments."
+  - "Independence of pair evidence; sector beta and correlated-node exposure."

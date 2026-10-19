@@ -1,0 +1,116 @@
+candidate_id: quantitativo_twin_momentum_fundamental_price_20261018_v1
+selection_family_id: us_equity_twin_price_fundamental_momentum
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: quantitativo_less_wrong_20261018
+    author: Quantitativo
+    publication_date: "2026-10-18"
+    title: "Less Wrong"
+    primary_https_url: "https://www.quantitativo.com/p/less-wrong"
+    evidence_role: source_author_replication_with_explicit_cost_caveats
+  - source_id: huang_zhang_zhou_twin_momentum_2017_repository
+    author: "Dashan Huang, Huacheng Zhang, Guofu Zhou"
+    publication_date: "2017-08"
+    title: "Twin momentum: Fundamental trends matter"
+    primary_https_url: "https://ink.library.smu.edu.sg/lkcsb_research/5157/"
+    evidence_role: original_research_abstract
+economic_thesis:
+  local_hypothesis: >-
+    Investor underreaction to firm-level accounting trends can reinforce price
+    momentum; equities with both favorable price and fundamental-implied
+    forecasts may outperform opposing cross-sectional ranks.
+  null_hypothesis: >-
+    Joint fundamental and price-momentum sorts have no additional net
+    predictive value beyond separately formed price-only and fundamental-only
+    sorts in a point-in-time tradable US equity universe.
+mechanism:
+  source_description: >-
+    The source paper and practitioner describe two largely distinct
+    predictability channels: price momentum and momentum implied by trends in
+    firm fundamentals. The causal explanation is not independently identified.
+  local_inference: "Slow information processing and fundamental updating are hypotheses, not proven counterparties."
+  effective_payer: "UNKNOWN."
+instruments:
+  original_product: "US-listed individual common equities (long and short stocks), not index CFDs or perpetual contracts."
+  product_substitution: NONE
+data_requirements:
+  needed: >-
+    Historical point-in-time US listed equity universe including delistings,
+    CRSP-style stock returns, as-reported quarterly accounting release dates
+    and vintages, corporate actions, stock borrow/locates and historical
+    executable transaction costs. No qualified local vault is asserted.
+feature_contracts:
+  source_rule_summary:
+    - "Price momentum is prior 12-to-1-month equity return, per Quantitativo's 2026 public summary."
+    - "Fundamental-implied return (FIR) is an estimated cross-sectional next-month return forecast from 28 transformations of seven quarterly fundamental variables over 1/2/4/8-quarter windows."
+    - "Exact seven input variable names, time availability lags, vintage rules and fitting-window details were not visible in the public source excerpts; UNKNOWN, not inferred."
+  calculation_availability: "Point-in-time quarterly releases and regression train/forecast chronology must be established independently."
+strategy_rules:
+  original_paper_as_described_by_practitioner:
+    - "Rebalance monthly at the last trading day of each month."
+    - "Independently sort stocks into price-momentum quintiles and FIR quintiles."
+    - "Long top-price AND top-FIR intersection; short bottom-price AND bottom-FIR intersection."
+  practitioner_friction_aware_variant:
+    - "Quantitativo compares value-weighted/volatility-targeted portfolios and suggests $500k minimum ADV, $1 minimum share price, and excluding SPACs."
+    - "Practitioner uses an illustrative 5 bps per side cost, not verified fill costs."
+    - "A 50/50 allocation with the S&P 500 rebalanced annually is a SEPARATE blended portfolio, NOT the standalone twin-momentum signal."
+  unpublished_necessary_parameters: >-
+    Exact paper variable definitions, historical training window, return/price
+    adjustments, treatment of monthly reporting cutoffs, portfolio weight
+    normalization and turnover implementation UNKNOWN; no invented defaults.
+signal_and_execution_clock:
+  source_or_needed: >-
+    Month-end source rebalance; fundamentals must have actually become public
+    before estimation, and any signal using month-end closes cannot fill at
+    that same close without a justified execution mechanism. Earliest
+    executable quote/auction clock not specified by accessible sources.
+  timezones_and_dst: "US exchange calendars and release timestamps need proof."
+sizing:
+  original: "Long-short joint extreme-quintile intersection. Original portfolio weighting must be checked in full paper."
+  practitioner: "Value weighting and volatility targeting are examined, but implementation details remain partially paywalled."
+cost_assumptions:
+  source: "Quantitativo illustrates 5 bps per side; author explicitly excludes borrow fees, hard-to-borrow names and some short-side costs."
+  zero_cost_assumption: "Missing financing or borrow costs are not zero."
+baseline:
+  proposed_control: >-
+    Price-only and FIR-only quintile long-short portfolios with identical
+    universe, weights, rebalance timing, transaction costs and PIT release
+    schedule; also an explicitly separate 50/50 index blend comparison.
+development_evaluation:
+  source_reported_claims:
+    - "The practitioner paraphrases original academic +1.81% monthly joint strategy return (t=4.5); not independently reproduced."
+    - "The SMU original working-paper repository abstract reports positive fundamental momentum and a combined twin-momentum effect."
+    - "Quantitativo reports Sharpe 1.15 only for a value/volatility-adjusted and transaction-cost-modeled 50/50 blend of Twin Momentum with S&P 500, NOT the standalone strategy."
+    - "Practitioner explicitly warns borrow fees and harder short fills are omitted, costs may be optimistic, and original sample ends in 2019."
+    - "Paid-subscriber code and full numerical trade logs are not publicly inspected."
+  empirical_run_completed: false
+primary_falsifier:
+  predeclared_future_test: >-
+    On genuinely point-in-time historical financial statements and executable
+    bid-ask/borrow economics, the incremental twin-sort portfolio fails to
+    exceed either single-factor matched comparator net of costs after proper
+    multiple-testing accounting.
+acceptance_and_stop_rules:
+  descriptive_intake: "THESIS_CAPTURED only; not an ATS-qualified handoff, trained signal, or executable strategy."
+  stop_conditions:
+    - "Preserve original paper and practitioner portfolio variants as separate claims."
+    - "No training, validation, backtesting or trading in this source-capture task."
+parity_and_causality_tests:
+  required:
+    - "Reproduce public quarter-by-quarter disclosure availability and restatement vintages."
+    - "Verify monthly price information cutoff and first executable fill."
+    - "Independent source fact verification and PIT survivorship/borrow/cost checks before scientific work."
+known_adaptations:
+  - "No CFD, futures or crypto mapping proposed."
+verified_facts:
+  - "Primary practitioner public page and original institutional repository abstract inspected; cited sources are claim locators, not proof of profitability."
+assumptions:
+  - "Economic underreaction interpretation and baseline are local hypotheses."
+unresolved_blockers:
+  - "Exact seven fundamentals and regression training specifications from full paper/code."
+  - "PIT quarterly fundamentals, delisted names and release-date revisions."
+  - "Actual borrow/locate costs, short restrictions, share-price adjustment and liquidity."
+  - "Order entry clock, value/vol-target weighting, and standalone versus blended performance distinction."
