@@ -1,0 +1,88 @@
+candidate_id: crypto_ml_dunnes_eth_fee_demand_state_2026_v1
+selection_family_id: crypto_ml_eth_protocol_fee_state_prediction
+status: THESIS_READY_UNVERIFIED
+research_mode: SOURCE_ONLY_DISCOVERY_NO_MODEL_OR_EMPIRICAL_RUN
+created_on: '2026-10-19'
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: dunnes_felsenstein_eckberg_ssrn_7003998
+    url: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7003998
+    authors: Lucas Dünnes; Jens Felsenstein-Eckberg
+    title: Demand-Side Fee Flows and Return Predictability on Ethereum
+    date_written: '2026-06-26'
+    date_posted: '2026-07-18'
+    evidence_class: SOURCE_FACT_ABSTRACT_AUTHOR_TEST_UNVERIFIED
+    source_limits: SSRN abstract reviewed via indexed result; full SSRN article bytes not independently downloaded or hashed.
+  - id: dunnes_author_methodology_page_2026
+    url: https://www.majorkeycapital.com/ethereum/valuation-terminal/methodology
+    authors: Lucas Dünnes; Jens Felsenstein-Eckberg
+    evidence_class: AUTHOR_METHOD_DESCRIPTION_UNVERIFIED
+    source_limits: Authors' promotional methodology page, not independent replication or executable order evidence.
+economic_thesis:
+  source_fact: Ethereum protocol-native demand-side fees scaled by circulating ETH supply and compared against their trailing historical median predict future ETH returns in the authors' reported expanding-window research.
+  author_test_unverified: The paper abstract reports expanding-window OOS R-squared of 14.4 percent at 45 days and in-sample R-squared up to 22.8 percent; no independent OOF predictions or trading profitability were reproduced.
+  proposed_adaptation: Test whether state-conditioned nonlinear effects of ETH fee-flow deviations and their persistence incrementally predict 45-day ETH returns compared with the original simple fee-deviation forecast and price-momentum controls.
+  incremental_ml_is_unproven: This paper does not demonstrate a trained nonlinear ML model beating the original simple fee-ratio rule. Small effective post-Dencun sample could make boosted models worse.
+mechanism:
+  source_fact: Post-Dencun execution and data-availability fees are separated; demand-side activity measured in ETH per ETH supply may transmit incremental information about value slowly over weeks.
+  local_inference: Persistence, sign and network-usage regime may condition the price response nonlinearly, but the incremental model mechanism is a new falsifiable hypothesis.
+  null: Fee intensity is merely price-following activity or the same information as ETH momentum, with no future incremental alpha.
+instruments:
+  original: One Ethereum token ETH, not a top-K crypto basket, not a cross-sectional long-short portfolio; no verified exchange or derivative venue in the source abstract.
+  proposed: Preserve one ETH instrument in a future long/cash comparative study only after exact spot/perpetual venue and contract identity are qualified.
+  excluded: No funding, basis or carry used as alpha signal.
+data_requirements:
+  source: Daily ETH-denominated demand fees including execution and blob-data availability where applicable, historical circulating ETH supply, historical ETH prices, post-Dencun chain chronology, documented source vintage.
+  point_in_time: Each daily fee/supply observation requires block-end, finalized/accessible timestamp and first permissible decision time; do not join current revised totals to earlier signal dates.
+  blockers: Historical on-chain fee vintage, chain reorg/finality policy, ETH supply definitions and after-cost executable ETH venue data are not validated in the ATS development vault.
+feature_contracts:
+  source_authored: Daily fee intensity equals ETH-native fees divided by circulating ETH supply; authors describe smoothing with 30-day trailing average, benchmark 90-day trailing median and log deviation of smoothed intensity from the benchmark.
+  proposed_ml: Lagged deviations, only as-of fee-intensity persistence, usage-shock magnitude, ETH relative strength and binary post-Dencun market structure indicator; exact feature release/fill clocks not yet frozen.
+  model_complexity: Start with source simple linear fee rule and Ridge; only then assess a shallow low-capacity tree for nonlinear interactions, with train-fold preprocessing and complexity frozen before any evaluation.
+  retraining: Author reports expanding-window OOS, but source-authored exact fit cadence and label maturity are not established; propose a separately approved chronological refit plan, not an assertion about the paper.
+strategy_rules:
+  source_original: Single-instrument ETH 10-to-60-day return prediction from trailing protocol fee-flow demand; not an author-documented executable portfolio rule.
+  proposed_adaptation: Compare a single ETH long/cash decision or held ETH exposure against the same venue's fixed fee-deviation and momentum baselines. Specific score thresholds, trade cutoffs and position rules remain unresolved and must not be invented.
+  conversion_to_position: Predictive forecasts are not positions; convert only after an explicit single-ETH execution and cost protocol is independently specified.
+signal_and_execution_clock:
+  source_label: ETH future return at 10, 20, 30, 45 and 60 days; 45-day horizon is the authors' strongest reported OOS R-squared.
+  proposal_target: Forward 45-calendar-day ETH return after a decision timestamp whose daily fee inputs have been finalized and published.
+  unknown: Exact source ETH return-price definition, end-of-day chain snapshot timezone, earliest executable ETH fill and source training/refit timestamps are not fully specified by inspected abstract/methodology; no implied midnight fill.
+  overlap: Forty-five-day forward labels heavily overlap; train examples cannot use any label whose realized endpoint is later than the fold's training cutoff.
+sizing:
+  original: No source-authored trading weights, leverage or stop-loss established.
+  future: Long/cash sizing must be proposed and cost-matched, with risk constraints and broker product verified separately.
+cost_assumptions:
+  source: Forecast explanatory power is NOT net trading PnL, and the inspected source does not certify fees, spread, slippage, impact, financing, liquidation or market hours for any venue.
+  future: Measure real fee/spread/slippage and any relevant financing costs from a named ETH venue for identical model and rule benchmark turnovers; exclude financing data as alpha predictors.
+baseline:
+  author: Trailing fee-intensity log deviation and conventional risk/momentum controls reported by authors.
+  compulsory_future: Same as-of ETH fee series with fixed deviation-threshold rule, linear or Ridge return forecast, ETH momentum and ETH buy/hold; identical source clocks, eligible days and executed costs.
+development_evaluation:
+  status: NO_LOCAL_TRAINING_NO_BACKTEST_NO_OOF
+  author_test_unverified: Expanding-window OOS R-squared 14.4 percent at 45 days and post-Dencun in-sample R-squared 22.8 percent; the authors also report 76.4 percent direction accuracy in their own methodological presentation.
+  oos_prerequisite: Specify post-Dencun chronological training/validation windows; generate immutable training-cutoff-only OOF forecasts with purging based on true 45-day event endpoints and fold-local features/scalers.
+  statistical_caveat: Post-March-2024 45-day overlapping returns imply low effective independent sample; use serial-dependence-robust inference and selection-aware comparison if later authorized.
+  last_holdout: Never access protected holdout during this source-discovery task.
+primary_falsifier:
+  decisive: Nonlinear model has no reliable incremental point-in-time forecasting or net risk-adjusted single-ETH performance over the simple fee-deviation and ETH-momentum baselines at identical trade clocks/costs.
+  reject_conditions: Unverifiable fee vintage or impossible trade clock; pre-Dencun trained feature leakage; nonmatured labels; temporal instability; low sample size; model complexity without independent incremental value.
+acceptance_and_stop_rules:
+  status: HANDOFF_VALID_UNVERIFIED can authorize source triage only; this capture remains BLOCKED_DATA and REQUIRES_TRAINING_WORKFLOW, NOT MODEL_READY or executable.
+  stop: No model fit, OOF generation, market-return analysis, ATS Stage 1-4, orders or native simulator use in discovery.
+parity_and_causality_tests:
+  needed: Match the authors' daily execution/blob fee construction and ETH supply vintage, 30-day smoothing and 90-day trailing median exactly; observe Dencun timing; freeze label/entry/exit clocks; purge overlapping 45-day labels; reproduce simple baseline before nonlinear candidate; verify expected transaction cost and comparable ETH product.
+known_adaptations:
+  - The nonlinear tree and its extra interactions are PROPOSED_ADAPTATION, not demonstrated by the source.
+  - Any crypto cross-sectional long-short basket would change the original single-ETH thesis and is not authorized by this capture.
+verified_facts:
+  - SSRN indexed primary abstract and author-owned methodology webpage were examined 2026-10-19; claimed outcomes are author assertions, not independent backtest evidence.
+  - No funding/basis/carry alpha mechanism is used.
+assumptions:
+  - Strong fee deviations may predict persistent ETH-specific repricing, but structural-change instability and reverse causation may erase the relationship.
+unresolved_blockers:
+  - No full publisher-article byte SHA-256 or source dataset/code reproduction; URLs and source excerpts are the available provenance anchors.
+  - Historical PIT ETH fee and supply data and exactly executable ETH instrument have not been qualified.
+  - Original prediction, 45-day label maturity and trade/fill clocks not independently reconstructed.
+  - No authorized trained model, OOF predictions or qualified single-ETH protocol; classify REQUIRES_TRAINING_WORKFLOW and BLOCKED_DATA.
