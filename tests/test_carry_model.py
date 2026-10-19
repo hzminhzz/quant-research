@@ -52,6 +52,13 @@ def test_positive_rate_charges_longs_and_pays_shorts():
     assert carry_cashflow(10.0, 100.0, -0.0001) == pytest.approx(0.1)
 
 
+def test_index_carry_requires_an_explicit_income_yield():
+    product = CarryProduct(symbol='DAX', class_name='indices', kind='spot_cfd')
+    with pytest.raises(QuantError) as exc:
+        _ = product.annual_carry(0.05)
+    assert exc.value.status == 'BLOCKED_DATA'
+
+
 def test_daily_rate_and_income_adjustment():
     sidecar = build_carry_sidecar(prices(), curve([(0, 5.0), (1, 5.0), (2, 5.0), (3, 5.0)]),
                                   [DAX, NQ], CONFIG, start=START, end=END)

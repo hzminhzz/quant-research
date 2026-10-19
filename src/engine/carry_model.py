@@ -31,11 +31,14 @@ class CarryProduct(Model):
     symbol: str
     class_name: Literal['indices', 'metals']
     kind: Literal['spot_cfd', 'continuous_future']
-    income_yield_bps: float = 0.0
+    income_yield_bps: float | None = None
     lease_rate_bps: float | None = None
 
     def annual_carry(self, risk_free: float) -> float:
         if self.class_name == 'indices':
+            if self.income_yield_bps is None:
+                raise QuantError('BLOCKED_DATA',
+                                 f'{self.symbol}: income-yield assumption is required')
             return risk_free - self.income_yield_bps / 10_000
         if self.lease_rate_bps is None:
             raise QuantError(
