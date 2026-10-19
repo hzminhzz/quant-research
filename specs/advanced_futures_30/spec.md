@@ -172,6 +172,9 @@ cannot answer whether any of it works on indices, gold or crypto.
   transformation, its source curve (`bonds_daily_US10Y`/`US2Y` or an explicitly
   named alternative), tenor mapping and per-instrument sign are recorded per
   sleeve.
+- **Carry coverage.** Each settlement requires a prior rate-curve observation and
+  a prior price mark for every modeled symbol. Missing inputs block the entire
+  sidecar; partial settlement series are not accepted.
 - **Development-only until the portfolio read.** Sleeve research may read only
   certified development partitions; the sole protected access is acceptance
   criterion 12.
