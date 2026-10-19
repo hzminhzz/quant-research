@@ -1,0 +1,54 @@
+candidate_id: bis_offshore_ndf_demand_onshore_spillover_20261016_v1
+selection_family_id: emerging_fx_offshore_orderflow_transmission
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: bis_wp1383_ferrara_schrimpf_viswanathnatraj_wang_20261016
+    author: "Gerardo Ferrara, Andreas Schrimpf, Ganesh Viswanath-Natraj, Zijie Wang"
+    publication_date: "2026-10-16"
+    title: "Offshore forwards and exchange rate transmission in emerging markets"
+    url: https://www.bis.org/publications/working-paper-1383-offshore-forwards-and-exchange-rate-transmission-emerging-markets
+economic_thesis:
+  SOURCE_FACT: "BIS Working Paper 1383 documents rapid transmission of signed offshore NDF order flow into onshore EM spot FX rates and offshore-onshore price gaps, conditioned by bank intermediation and capital controls."
+  AUTHOR_REPORTED_UNVERIFIED: "Authors estimate that USD 1 billion net long-USD offshore flow corresponds to roughly 10 bps domestic spot depreciation and 18 bps offshore NDF adjustment, within minutes. These are price-impact estimates, not tradeable after-cost profits."
+  LOCAL_INFERENCE: "If signed offshore demand pressure were causally observable before onshore repricing, a short-horizon price-discovery information lead might exist; simultaneity could eliminate all exploitable time."
+  null: "Any observed onshore adjustment is contemporaneous or anticipates offshore flow, not a tradable forward prediction net of market frictions."
+mechanism:
+  SOURCE_FACT: "Offshore demand pressure moves NDF and spot through dealer hedging; balance-sheet tightness amplifies spot impact and restrictions alter offshore-onshore intermediation spreads."
+  adverse_context: "Four policy episodes span China, Malaysia and India, and indicate nonstationary bank-access rules."
+instruments:
+  original_product: "Offshore non-deliverable forwards and domestic spot exchange rates for ten emerging market currencies; study names RMB, MYR and INR policy cases."
+  substitutions: "No claim that listed forex CFDs, liquid FX majors or crypto perps replicate restricted EM NDF exposure."
+data_requirements:
+  SOURCE_FACT: "Signed, transaction-level LCH ForexClear centrally cleared NDF trades; onshore spot and offshore NDF quotes; interdealer balance-sheet proxies; policy event dates."
+  UNKNOWN: "Privileged signed-flow access for a trader, precise per-pair timestamps and depth, capital-control legality and live pricing are unverified."
+feature_contracts:
+  SOURCE_FACT: "Net signed offshore dollar order flow, contemporaneous NDF and spot responses, offshore-onshore basis, bank access and balance-sheet constraint state."
+  UNKNOWN: "Exact flow aggregation bins, ten contract identifiers, quote convention and published specification coefficients."
+strategy_rules:
+  original_author_rules: "Source reports empirical price transmission and regulatory episodes; it does NOT specify a predictive execution rule, entry, stop or fill protocol."
+  ADAPTATION_PROPOSAL: "Only if legally accessible signed flow is causally prior to traded quotes could a new, separately labeled observational lead-lag hypothesis be designed."
+signal_and_execution_clock:
+  SOURCE_FACT: "The estimated transmission occurs within minutes; recorded clearing timestamps and trader-available timestamps are not necessarily equal."
+  UNKNOWN: "Whether LCH signed clearing flow was public in real time, relative quote timestamps, market hours and earliest realistic position entry."
+sizing:
+  UNKNOWN: "No source-approved trading position sizes or stop levels."
+cost_assumptions:
+  UNKNOWN: "NDF transaction fees, spot bid-ask, offshore funding/counterparty credit, settlement, hedging and market access constraints."
+baseline:
+  ADAPTATION_PROPOSAL: "No-flow spot momentum, quote-only NDF/spot basis, and simultaneous-price-information controls on the same currencies and clocks."
+development_evaluation:
+  AUTHOR_REPORTED_UNVERIFIED: "Paper reports 2013-2025 in its abstract but the BIS publication-page focus says 2014-2025; exact sample endpoints must be reconciled from the full paper. This capture has no local test."
+  local_calculations: false
+primary_falsifier:
+  ADAPTATION_PROPOSAL: "Signed NDF flow is not trader-observable ahead of spot adjustment, or forecast advantage vanishes at executable feed timestamps/costs."
+acceptance_and_stop_rules:
+  current: "THESIS_CAPTURED; no execution or data claim."
+  stop_on: ["Signed cleared flow is privileged or hindsight-only", "No timing lead after as-of correction", "Restricted market or NDF access", "Cost or capital-control constraints prohibitive"]
+parity_and_causality_tests:
+  needed: ["Spot/NDF tenor and forward points", "Clearing time versus actual trade/feed time", "Dealer hedge simultaneity", "Controls and policy regime switches", "Currency quotation direction", "Institutional data licensing"]
+unresolved_blockers:
+  - "Main explanatory variable is confidential-sounding signed transaction flow; public real-time availability unverified."
+  - "Price impact during minutes is not evidence of a profitable post-observation signal."

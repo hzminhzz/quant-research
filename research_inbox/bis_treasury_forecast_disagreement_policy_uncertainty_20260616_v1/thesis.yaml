@@ -1,0 +1,54 @@
+candidate_id: bis_treasury_forecast_disagreement_policy_uncertainty_20260616_v1
+selection_family_id: treasury_macro_news_state_dependence
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: bis_wp1361_hordahl_kisacikoglu_xia_20260616
+    author: "Peter Hordahl, Burcin Kisacikoglu, Dora Xia"
+    publication_date: "2026-06-16"
+    title: "Bond yield responses to macro news: the role of macro forecast disagreement and monetary policy uncertainty"
+    url: https://www.bis.org/publications/working-paper-1361-bond-yield-responses-macro-news-role-macro-forecast-disagreement-and-monetary-policy-uncertainty
+economic_thesis:
+  SOURCE_FACT: "BIS WP 1361 examines intraday US Treasury futures or yield responses to surprise components of six major US economic announcements, including inflation, employment and GDP, using observations from 1998-2024."
+  AUTHOR_REPORTED_UNVERIFIED: "Greater pre-release disagreement among forecasters dampens yield-curve response magnitude to the same macro surprise; higher monetary-policy rate uncertainty amplifies response magnitude. This is conditional response sensitivity, not reported positive trading PnL."
+  LOCAL_INFERENCE: "The same signed macro surprise may have materially different price impact depending on the information environment known before the release; opportunity may involve impact magnitude or risk sizing rather than directional alpha."
+  null: "Pre-release disagreement and policy uncertainty do not improve causal prediction of absolute or signed Treasury-futures event response after regime and release controls."
+mechanism:
+  SOURCE_FACT: "Authors describe Bayesian learning: widely dispersed forecasts can make releases less informative about future policy, whereas high monetary policy uncertainty raises news diagnosticity."
+  adverse_regime: "Inflation response sensitivity changed after the pandemic, while jobs releases weakened; constant coefficients across regimes are not source-faithful."
+instruments:
+  original_product: "US Treasury futures/yield curve around scheduled US macro releases; source summary does not identify exact contract tickers."
+  substitutions: "No Treasury CFD, ETF or duration-equivalent product is claimed here."
+data_requirements:
+  SOURCE_FACT: "Real-time forecast distribution BEFORE each release, independent measure of policy-rate uncertainty, official actual-vs-consensus surprises, precise Treasury futures quotes and release timestamps."
+  UNKNOWN: "Forecast survey availability timestamps, revision vintages, contract/duration conventions, executable quote history and cost data are unverified."
+feature_contracts:
+  SOURCE_FACT: "State variables are pre-announcement forecast dispersion and monetary-policy uncertainty; outcome is intraday Treasury yield/futures response to macro surprises."
+  UNKNOWN: "Original normalization, estimators, released indicators, horizons and parameter coefficients cannot be inferred from publication summary alone."
+strategy_rules:
+  original_author_rules: "No deterministic entry, exit, sizing, stop, or profitable trading strategy is specified by the BIS publication page; it reports a conditional market-response relationship."
+  ADAPTATION_PROPOSAL: "Only after original estimator and PIT data are verified, consider a separate registered conditional surprise-response hypothesis; do not infer event-time fills or trade direction."
+signal_and_execution_clock:
+  SOURCE_FACT: "Forecast disagreement and policy uncertainty must be observable BEFORE each scheduled economic announcement; macro actual surprise is only available at/after dissemination."
+  UNKNOWN: "Exact economic release milliseconds, futures reaction window, dissemination latency and earliest admissible trading time are not specified."
+sizing:
+  UNKNOWN: "No positions or sizing rules established in source."
+cost_assumptions:
+  UNKNOWN: "No verifiable bid-ask, impact, latency or exchange fee schedule for event-time trading."
+baseline:
+  ADAPTATION_PROPOSAL: "Macro-surprise-only response benchmark on identical events plus time- and regime-matched controls; never imply source authors backtested this strategy."
+development_evaluation:
+  AUTHOR_REPORTED_UNVERIFIED: "Response effects estimated on 1998-2024 historical event observations; not a tradable after-cost out-of-sample strategy."
+  local_calculations: false
+primary_falsifier:
+  ADAPTATION_PROPOSAL: "Pre-release information states fail to add causal event-response forecasting improvement over the surprise-only null, or the information cannot be obtained PIT."
+acceptance_and_stop_rules:
+  current: "THESIS_CAPTURED; no execution or scientific qualification."
+  stop_on: ["No as-of consensus dispersion", "No valid release/futures clock", "State effect vanishes under regime controls", "Event-time costs or data inaccessible"]
+parity_and_causality_tests:
+  needed: ["Exact release clock and feed dissemination", "Forecast and monetary uncertainty vintage", "Post-COVID regime interactions", "Cash yield vs futures price sign and duration parity", "Announcements selection and hindsight"]
+unresolved_blockers:
+  - "Exact contracts, event windows, implementable direction and data vendors unverified."
+  - "The source studies conditional impact magnitude, not verified exploitable alpha."
