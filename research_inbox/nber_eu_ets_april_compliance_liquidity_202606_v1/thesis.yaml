@@ -1,0 +1,65 @@
+candidate_id: nber_eu_ets_april_compliance_liquidity_202606_v1
+selection_family_id: eu_ets_compliance_window_inelastic_demand
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: nber_w35356
+    title: Trading Frictions in Dynamic Cap-and-Trade Markets
+    author: Nicola Borri, Yukun Liu, Aleh Tsyvinski, Xi Wu
+    publication_date: June 2026
+    doi: 10.3386/w35356
+    url: https://www.nber.org/papers/w35356
+  - id: arxiv_2606_03767
+    title: Trading Frictions in Dynamic Cap-and-Trade Markets
+    author: Nicola Borri, Yukun Liu, Aleh Tsyvinski, Xi Wu
+    publication_date: June 2, 2026
+    url: https://arxiv.org/abs/2606.03767
+economic_thesis:
+  SOURCE_FACT: "Study covers 2.7 million EU ETS registry transfers from 2005–2021; purchase demand clusters in April compliance season when returns were reported systematically high."
+  AUTHOR_REPORTED_UNVERIFIED: "Authors say about 40 percent of operators do not trade annually, and operator flow predicts future EUA returns; no independent replication."
+  LOCAL_INFERENCE: "Compliance operators with limited market access may create seasonally inelastic buying pressure near allowance surrender, not fully absorbed by intermediaries."
+  null: "A public, causal calendar proxy for compliance purchases provides no incremental post-cost return beyond generic EUA seasonality and energy/volatility controls."
+mechanism:
+  SOURCE_FACT: "Authors model costly participation, limited intermediation and heterogeneous information producing surrender-month premium."
+  counterparty: "EU ETS compliance operators and intermediaries; real-time marginal counterparty unverified."
+instruments:
+  original_product: "EU ETS emission allowances, registry transactions and prices, not equity, FX, or crypto."
+  substitute_product: "NONE. ICE allowance futures and CFDs are separate unverified instruments with roll/basis/carry differences."
+data_requirements:
+  needed: "PIT EU ETS compliance vintages and registry publication times, allowance market prices, April surrender calendar, contemporaneous tradable futures quotes if adapted, spreads, basis, regulation changes and energy controls."
+  verified_availability: false
+feature_contracts:
+  SOURCE_FACT: "April purchase concentration and elevated returns; past operator flow predicts future returns in retrospective author analysis."
+  UNKNOWN: "Exact return windows, operator-flow data latency, historical vintages and amount of actual calendar-exposed premium."
+strategy_rules:
+  original_author_finding: "Structural pricing and registry-flow evidence; paper does not specify a retail-entry day, exit clock, position size or stop."
+  ADAPTATION_PROPOSAL: "Later assess preregistered April compliance calendar hypothesis using as-of published rules, without assuming transaction-level registry data were visible live."
+  executable_strategy_spec: "NONE"
+signal_and_execution_clock:
+  source_window: "April compliance window during 2005–2021 study sample, not a stated intraday clock."
+  data_timestamp_qualified: false
+sizing:
+  source: UNKNOWN
+cost_assumptions:
+  source: "UNKNOWN; allowance spreads, futures/spot basis, financing, market impact and expiry rolls unqualified."
+baseline:
+  proposed: "Unconditional EUA monthly seasonality and same-month prior-year controls versus oil/gas price and energy risk."
+development_evaluation:
+  author_reported_unverified: "Authors report April high returns and flow predictability, but study was not independently replicated."
+  local_calculations: false
+primary_falsifier:
+  proposed_not_executed: "No causal after-cost compliance-season premium after controlling for seasonal commodity effects and evolving EU ETS rules."
+acceptance_and_stop_rules:
+  current: "Descriptive capture only; observational finding, not executable signal."
+  stop_on: ["Only post-hoc registry flow is available", "Compliance dates/vintages not as-of", "Allowance price product cannot be linked to executable instrument"]
+parity_and_causality_tests:
+  needed: ["Registry data event-vs-publication timestamps", "Current versus past EU ETS compliance dates", "Spot EUA versus futures contract identity", "Maturity roll and financing", "Commodity risk and seasonal placebo"]
+verified_facts:
+  - "NBER Working Paper 35356 has four listed authors, June 2026 issue and arXiv preprint."
+  - "Abstract states 2.7 million EU ETS transfers over 2005–2021, April purchase clustering, elevated contemporaneous returns and predictive operator flows."
+unresolved_blockers:
+  - "Operator flows in a retrospective registry file are not proven point-in-time public signals."
+  - "Post-2021 regulation and asset-pricing regime may differ substantially."
+  - "No source-provided deterministic trade entry, exit, cost or sizing."

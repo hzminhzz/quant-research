@@ -1,0 +1,65 @@
+candidate_id: bis_gilt_issuance_prenews_yield_drift_20241205_v1
+selection_family_id: uk_gilt_issuance_conditioned_prenews_drift
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: bis_wp1232
+    title: Bond supply, yield drifts and liquidity provision before macroeconomic announcements
+    author: Dong Lou, Gabor Pinter, Semih Uslu, Danny Walker
+    publication_date: December 5, 2024
+    url: https://www.bis.org/publications/working-paper-1232-bond-supply-yield-drifts-and-liquidity-provision-macroeconomic-announcements
+  - id: boe_swp998
+    title: Bond supply, yield drifts and liquidity provision before macroeconomic announcements
+    author: Dong Lou, Gabor Pinter, Semih Uslu, Danny Walker
+    publication_date: October 21, 2022; updated October 2024
+    url: https://www.bankofengland.co.uk/working-paper/2022/bond-supply-price-drifts-and-liquidity-provision-before-central-bank-announcements
+economic_thesis:
+  SOURCE_FACT: "Official summaries report UK government bond yields rising over two pre-announcement days, strongest in periods with new gilt issuance."
+  AUTHOR_REPORTED_UNVERIFIED: "Authors attribute the yield drift mainly to term premia as dealer inventory constraints reduce dealer accumulation before news, with composition of liquidity providers shifting."
+  LOCAL_INFERENCE: "Publicly scheduled issuance combined with pre-news inventory aversion could put temporary downward pressure on UK cash-gilt prices."
+  null: "Issuance-conditioned pre-news gilt price drift fails to exceed duration-matched event controls after realizable costs."
+mechanism:
+  SOURCE_FACT: "Dealers avoid carrying inventory when new bond supply arrives shortly before information risk; more passive buyers replace hedge funds during these windows."
+  counterparty: "Bond dealers, hedge funds and passive buyers described by authors; marginal tradable counterparty remains UNKNOWN."
+instruments:
+  original_product: "UK government cash bonds / gilt secondary and issuance transactions."
+  substitute_product: "NONE; gilt futures or CFDs would be a separate basis/financing adaptation."
+data_requirements:
+  needed: "PIT UK DMO issuance/auction calendar, scheduled labor-market and BoE announcements, dated gilt bond yields/prices/DV01, quotes, term structure and carrying costs."
+  verified_availability: false
+feature_contracts:
+  SOURCE_FACT: "Two-day window before scheduled macro releases, especially around gilt issuance. Yield up; cash bond price down for constant duration."
+  UNKNOWN: "Precise cash-bond maturity, event definitions, return horizon and term-premium identification."
+strategy_rules:
+  original_author_finding: "Observed pre-announcement upward yield drift conditional on issuance; original paper is not a retail trade specification."
+  ADAPTATION_PROPOSAL: "Later test whether causal issuance and news calendars distinguish pre-news price pressure beyond matched duration, announcement and issue-date baselines."
+  original_entry_exit_order_stop: UNKNOWN
+signal_and_execution_clock:
+  source_horizon: "Two days preceding scheduled UK macro news; exact open/close and publication cutoff not verified."
+  causal_data_rule: "Only bond issue information and release schedules already available to traders may enter a signal."
+sizing:
+  source: "UNKNOWN; bond DV01 and leverage not specified."
+cost_assumptions:
+  source: "UNKNOWN for implementation; bond bid/ask, funding, carry and event gaps require independent measurements."
+baseline:
+  proposed: "UK gilt price change before macro news on days without issuance, plus duration-matched non-event periods."
+development_evaluation:
+  AUTHOR_REPORTED_UNVERIFIED: "Official abstracts summarize pre-news yield drift, term-premium and intermediary behavior using transaction-level data; no independent replication."
+  local_calculations: false
+primary_falsifier:
+  proposed_not_executed: "No incremental issuance-conditioned pre-news price pressure after realistic executable pricing and term-premium controls."
+acceptance_and_stop_rules:
+  current: "Descriptive capture only; do not route to ATS runner."
+  stop_on: ["Issuer-calendar information not published in advance", "Instrument identity and duration unavailable", "Broker/basis/carry assumptions unqualified"]
+parity_and_causality_tests:
+  needed: ["Issue/announcement as-of publication timestamps", "London local calendar DST", "Price-versus-yield duration conversion", "Cash-to-futures basis if ever adapted", "Controls for broad UK rate risk"]
+verified_facts:
+  - "BIS published Working Paper 1232 on December 5, 2024."
+  - "BoE SWP 998 was first published October 21, 2022 and updated October 2024."
+  - "Official abstracts report two-day pre-news yield drift, strongest with gilt issuance."
+unresolved_blockers:
+  - "No author-defined entry/exit or trade sizing in checked summaries."
+  - "Historical transaction-level data and term-premium estimates may not be replicable from public data."
+  - "Cash gilt market is not exchange futures or broker CFDs."

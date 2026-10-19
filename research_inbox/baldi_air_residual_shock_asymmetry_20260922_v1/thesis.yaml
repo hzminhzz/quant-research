@@ -1,0 +1,63 @@
+candidate_id: baldi_air_residual_shock_asymmetry_20260922_v1
+selection_family_id: equity_asymmetric_residual_reversal
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: nber_w35840
+    title: Asymmetric Reversals
+    author: Federico Baldi-Lanfranchi, Pierre Collin-Dufresne, Kent D. Daniel
+    publication_date: October 2026
+    doi: 10.3386/w35840
+    url: https://www.nber.org/papers/w35840
+  - id: ssrn_7523679
+    title: Asymmetric Reversals
+    author: Federico Baldi-Lanfranchi, Pierre Collin-Dufresne, Kent D. Daniel
+    publication_date: September 25, 2026
+    url: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7523679
+economic_thesis:
+  SOURCE_FACT: "Authors distinguish systematic/public-news-linked individual stock returns (SYS), which continue, from orthogonal residual returns (RES), which reverse."
+  AUTHOR_REPORTED_UNVERIFIED: "Negative residual shocks reverse faster than positive shocks. AIR factor reportedly subsumes idiosyncratic volatility and several short-horizon anomalies."
+  LOCAL_INFERENCE: "Firm-specific transitory price pressure may revert asymmetrically as liquidity providers absorb sell pressure."
+  null: "A causal, cost-adjusted sign-dependent residual reversal does not outperform conventional symmetric residual reversal."
+mechanism:
+  SOURCE_FACT: "Paper associates short-horizon reversals with liquidity provision while isolating the systematic information component."
+  counterparty: UNKNOWN
+instruments:
+  original_product: "US individual company stocks (paper says individual firm stock returns); no substitution to ETFs, indices or crypto."
+data_requirements:
+  needed: "Point-in-time survivorship-free stocks, public announcement chronology, factor exposures known at signal time, executable quotes, spread and borrow history."
+  verified_availability: false
+feature_contracts:
+  SOURCE_FACT: "SYS and RES are distinct; positive and negative residual-return shocks differ in reversal speed."
+  UNKNOWN: "Precise decomposition, estimation sample, thresholds, portfolios and holding periods not verified from full paper."
+strategy_rules:
+  original_research: "Short-horizon RES reversal, asymmetric negative versus positive; SYS continuation. Observational/factor evidence, NOT a complete executable strategy."
+  ADAPTATION_PROPOSAL: "Later, compare sign-conditioned residual-shock baskets with symmetric residual reversal using past-only SYS/RES estimates."
+  author_entry_exit_size_cost: UNKNOWN
+signal_and_execution_clock:
+  source: "Short horizon unspecified in the checked abstract; exact signal close and fill time UNKNOWN."
+  qualified: false
+sizing:
+  source: UNKNOWN
+cost_assumptions:
+  source: "No independently verified tradable cost, borrow or impact evidence in checked abstract."
+baseline:
+  proposed: "Symmetric idiosyncratic reversal, with same causal inputs, holdings and costs."
+development_evaluation:
+  author_reported_unverified: "Authors report a distinctive AIR factor; no replication or backtest performed locally."
+  local_calculations: false
+primary_falsifier:
+  future_not_executed: "No incremental, causal, cost-adjusted reversal from negative versus positive RES after symmetric baseline and liquidity controls."
+acceptance_and_stop_rules:
+  current: "THESIS_CAPTURED only; not executable or ATS-qualified."
+  stop_on: ["No causal SYS/RES decomposition", "Survivor universe only", "Missing borrowing or executable price evidence"]
+parity_and_causality_tests:
+  needed: ["Past-only estimation windows", "News timestamp availability", "Delayed fill after signal", "Survivorship and borrow", "Predeclared multiple-testing family"]
+verified_facts:
+  - "Official NBER record names three authors, working paper 35840, issue October 2026."
+  - "Official abstract reports SYS continuation, RES reversal and faster negative residual reversal."
+unresolved_blockers:
+  - "Full-paper portfolio and decomposition definitions not independently checked."
+  - "Actual trade clock, position direction, weights, cost and capacity unknown."
