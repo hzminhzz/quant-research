@@ -1,0 +1,72 @@
+schema_version: 1
+scope: >-
+  Written dispositions for the five book items that are not time-series
+  sleeves. Each one names the evidence that makes it a non-sleeve, so the
+  exclusion is documented rather than silent.
+records:
+  - book_strategy: 24
+    title: 'Skew - a case study'
+    disposition: DIAGNOSTIC
+    reason: >-
+      The book presents strategy 24 as a case study of skew rather than a
+      deployable trading rule, so it produces a diagnostic, not a sleeve.
+    evidence:
+      - kind: book_structure
+        reference: 'Advanced Futures Trading Strategies, Strategy 24'
+        detail: >-
+          The chapter analyses skew as an empirical study; it declares no
+          position rule, forecast scale or instrument selection to execute.
+  - book_strategy: 25
+    title: 'Dynamic optimisation (for when you cannot trade the Jumbo portfolio)'
+    disposition: PORTFOLIO_MODE
+    reason: >-
+      Strategy 25 is the portfolio-construction fallback for an untradeable
+      Jumbo portfolio, implemented here as the allocator's risk-budget and
+      gross-exposure mode rather than a standalone signal.
+    evidence:
+      - kind: code_marker
+        path: src/engine/ts_allocator.py
+        marker: 'def allocate_ts('
+        detail: 'Portfolio construction and risk allocation live in the time-series allocator.'
+      - kind: code_marker
+        path: src/engine/ts_allocator.py
+        marker: 'capped_budgets('
+        detail: 'Dynamic risk budgets are enforced by water-filled per-instrument caps.'
+  - book_strategy: 28
+    title: 'Cross instrument spreads'
+    disposition: BLOCKED_MULTILEG
+    reason: >-
+      A cross-instrument spread needs two simultaneous legs; the native adapter
+      holds and marks one position per symbol, so no spread position can exist.
+    evidence:
+      - kind: code_marker
+        path: src/engine/backtest_runner.py
+        marker: 'broker.get_position('
+        detail: 'Positions are looked up and submitted per single symbol; there is no leg or spread object.'
+  - book_strategy: 29
+    title: 'Cross instrument triplets'
+    disposition: BLOCKED_MULTILEG
+    reason: >-
+      A triplet needs three simultaneous legs; the native adapter holds and
+      marks one position per symbol, so no triplet position can exist.
+    evidence:
+      - kind: code_marker
+        path: src/engine/backtest_runner.py
+        marker: 'broker.get_position('
+        detail: 'Positions are looked up and submitted per single symbol; there is no leg or triplet object.'
+  - book_strategy: 30
+    title: 'Calendar trading strategies'
+    disposition: BLOCKED_NO_CONTRACT_CURVE
+    reason: >-
+      Calendar strategies trade a dated contract curve. The canonical consumer
+      schema and every local vault hold one continuous series per symbol, so
+      front and back month cannot be identified.
+    evidence:
+      - kind: schema_absence
+        path: src/data_vault/panel_builder.py
+        marker: 'CANONICAL_COLUMNS = '
+        absent_fields: [expiry, contract_month, contract_symbol, maturity, delivery_month]
+        detail: 'The twelve canonical columns carry no contract identity.'
+      - kind: vault_single_series
+        vault_root: data/vault/markets_20261015/index_1h
+        detail: 'Manifest entries describe one continuous series per symbol and carry no expiry field.'

@@ -1,0 +1,138 @@
+schema_version: 1
+spec_kind: time_series
+sleeve_id: af30_s26_fast_mean_reversion
+selection_family_id: af30_time_series
+book_strategy: 26
+thesis: A one-hour z-score reversal on minute bars tests short-horizon overreaction.
+market_classes:
+- name: indices
+  symbols:
+  - DAX
+  - ES
+  - EUSIDXEUR
+  - HK33
+  - NIKKEI225
+  - NQ
+  panel_root: data/vault/markets_20261015/index_1m
+  bar_seconds: 60
+  periods_per_year: 252
+  carry:
+    mode: modeled
+    curve: bonds_daily_US10Y
+    tenor: US10Y
+- name: metals
+  symbols:
+  - XAUUSD
+  - XAGUSD
+  panel_root: data/vault/markets_20261015/metals_1m
+  bar_seconds: 60
+  periods_per_year: 252
+  carry:
+    mode: modeled
+    curve: bonds_daily_US10Y
+    tenor: US10Y
+- name: crypto
+  symbols:
+  - BTCUSDT
+  - ETHUSDT
+  - SOLUSDT
+  - BNBUSDT
+  - XRPUSDT
+  - ADAUSDT
+  - DOGEUSDT
+  - AVAXUSDT
+  panel_root: data/vault/crypto_perps_1m
+  bar_seconds: 60
+  periods_per_year: 365
+  carry:
+    mode: observed
+windows:
+  train:
+    start: '2020-04-01T00:00:00Z'
+    end: '2024-01-01T00:00:00Z'
+  validation:
+    start: '2024-01-01T00:00:00Z'
+    end: '2026-01-01T00:00:00Z'
+  protected:
+    start: '2026-01-01T00:00:00Z'
+    end: '2026-10-01T00:00:00Z'
+features:
+- name: atr_14
+  native: atr
+  params:
+    period: 14
+- name: vol_60
+  expr:
+    op: rolling_std
+    args:
+    - op: pct_change
+      args:
+      - op: col
+        name: close
+    window: 60
+    min_samples: 30
+- name: mean_60
+  expr:
+    op: rolling_mean
+    args:
+    - op: col
+      name: close
+    window: 60
+    min_samples: 60
+- name: std_60
+  expr:
+    op: rolling_std
+    args:
+    - op: col
+      name: close
+    window: 60
+    min_samples: 60
+- name: zscore_60
+  expr:
+    op: div
+    args:
+    - op: sub
+      args:
+      - op: col
+        name: close
+      - op: col
+        name: mean_60
+    - op: col
+      name: std_60
+- name: reversion
+  expr:
+    op: neg
+    args:
+    - op: col
+      name: zscore_60
+forecast:
+  feature: reversion
+  horizon_bars: 1
+  scaling:
+    kind: bounded_linear
+    scale: 1.0
+    cap: 20.0
+volatility_target: 0.1
+risk_allocation:
+  method: inverse_volatility
+  per_instrument_cap: 0.35
+  gross_exposure: 1.0
+  volatility_feature: vol_60
+stops:
+  feature: atr_14
+  multiple: 3.0
+rebalance_bars: 5
+costs:
+  commission_bps_one_way: 1.0
+  slippage_bps_one_way: 2.0
+  spread_bps: 0.0
+  spread_included_in_slippage: true
+label_horizon_bars: 1
+assumptions:
+- Prices are research proxies, not exchange-certified tradable contracts.
+- Modeled financing requires binding the carry sidecar rate into carry_rate before
+  feature compilation.
+- The crypto panel root must be materialized from the local store before a run.
+- Costs are declared assumptions, not observed venue spreads.
+- Row-based rolling windows span observed bars, not wall-clock time; session-bound
+  index and metal feeds have gaps.

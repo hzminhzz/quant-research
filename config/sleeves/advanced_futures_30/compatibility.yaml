@@ -1,0 +1,179 @@
+schema_version: 1
+selection_family_id: af30_time_series
+scope: Frozen declaration of which asset classes each book strategy is economically
+  compatible with, and at which cadence. A pair absent here must not run.
+variants:
+- book_strategy: 1
+  sleeve_id: af30_s01_buy_hold_single
+  cadence: 1h
+  classes:
+    indices: Baseline long index exposure; no forecast is required to test it.
+    metals: Baseline long gold/silver exposure; tests the carry-adjusted hold.
+    crypto: Baseline long perpetual exposure; measured against observed funding.
+- book_strategy: 2
+  sleeve_id: af30_s02_buy_hold_risk_scaled
+  cadence: 1h
+  classes:
+    indices: Risk-scaled hold tests volatility targeting on index beta.
+    metals: Risk-scaled hold tests volatility targeting on metal beta.
+    crypto: Risk-scaled hold tests volatility targeting on crypto beta.
+- book_strategy: 3
+  sleeve_id: af30_s03_buy_hold_variable_risk
+  cadence: 1h
+  classes:
+    indices: Variable risk scaling tests regime-dependent index exposure.
+    metals: Variable risk scaling tests regime-dependent metal exposure.
+    crypto: Variable risk scaling tests regime-dependent crypto exposure.
+- book_strategy: 4
+  sleeve_id: af30_s04_buy_hold_portfolio_scaling
+  cadence: 1h
+  classes:
+    indices: Portfolio risk scaling needs several index instruments to diversify.
+    metals: Two metals already test the diversification mechanism thinly.
+    crypto: A broad perpetual panel is the natural diversification test.
+- book_strategy: 5
+  sleeve_id: af30_s05_slow_trend_long_only
+  cadence: 1h
+  classes:
+    indices: Long-only trend tests upward persistence in equity indices.
+    metals: Long-only trend tests upward persistence in precious metals.
+    crypto: Long-only trend tests upward persistence in crypto beta.
+- book_strategy: 6
+  sleeve_id: af30_s06_slow_trend_long_short
+  cadence: 1h
+  classes:
+    indices: Long/short trend tests two-sided persistence in index proxies.
+    metals: Long/short trend tests two-sided persistence in metals.
+    crypto: Long/short trend tests two-sided persistence in crypto.
+- book_strategy: 7
+  sleeve_id: af30_s07_slow_trend_trend_strength
+  cadence: 1h
+  classes:
+    indices: Trend-strength weighting tests conviction scaling on indices.
+    metals: Trend-strength weighting tests conviction scaling on metals.
+    crypto: Trend-strength weighting tests conviction scaling on crypto.
+- book_strategy: 8
+  sleeve_id: af30_s08_fast_trend_trend_strength
+  cadence: 1h
+  classes:
+    indices: Faster trend rules test whether index drift persists hourly.
+    metals: Faster trend rules test whether metal drift persists hourly.
+    crypto: Faster trend rules test whether crypto drift persists hourly.
+- book_strategy: 9
+  sleeve_id: af30_s09_multiple_trend_rules
+  cadence: 1h
+  classes:
+    indices: Combining trend rules tests forecast stability on indices.
+    metals: Combining trend rules tests forecast stability on metals.
+    crypto: Combining trend rules tests forecast stability on crypto.
+- book_strategy: 10
+  sleeve_id: af30_s10_basic_carry
+  cadence: 1h
+  classes:
+    indices: Modeled financing yield is measurable against the rate curve.
+    metals: Needs a declared lease proxy; carry is not a zero default.
+    crypto: Observed funding on perpetuals gives a direct carry measure.
+- book_strategy: 11
+  sleeve_id: af30_s11_combined_carry_trend
+  cadence: 1h
+  classes:
+    indices: Carry and trend are separable with modeled financing and prices.
+    metals: Carry and trend are separable once a lease proxy is declared.
+    crypto: Observed funding and prices allow a clean carry-trend split.
+- book_strategy: 12
+  sleeve_id: af30_s12_adjusted_trend
+  cadence: 1h
+  classes:
+    indices: Volatility-adjusted trend tests forecast normalisation on indices.
+    metals: Volatility-adjusted trend tests forecast normalisation on metals.
+    crypto: Volatility-adjusted trend tests forecast normalisation on crypto.
+- book_strategy: 13
+  sleeve_id: af30_s13_trend_carry_regimes
+  cadence: 1h
+  classes:
+    indices: Regime conditioning needs both a trend and a financing state.
+    metals: Regime conditioning needs both a trend and a lease state.
+    crypto: Funding regimes are directly observable for conditioning.
+- book_strategy: 14
+  sleeve_id: af30_s14_spot_trend
+  cadence: 1h
+  classes:
+    indices: Spot-versus-forward trend needs a spot price proxy, which exists.
+    metals: Spot metal trend is directly available from the vault.
+    crypto: Perpetual-versus-spot trend needs both series; only perp is local.
+- book_strategy: 15
+  sleeve_id: af30_s15_accurate_carry
+  cadence: 1h
+  classes:
+    indices: Accurate carry needs income and rate data recorded as assumptions.
+    metals: Accurate carry needs a lease proxy; otherwise the sleeve blocks.
+    crypto: Observed funding cadence provides the accurate carry series.
+- book_strategy: 16
+  sleeve_id: af30_s16_trend_carry_allocation
+  cadence: 1h
+  classes:
+    indices: Allocating between trend and carry needs both measured on indices.
+    metals: Allocating between trend and carry needs both measured on metals.
+    crypto: Allocating between trend and carry needs both measured on perps.
+- book_strategy: 17
+  sleeve_id: af30_s17_normalised_trend
+  cadence: 1h
+  classes:
+    indices: Normalised trend tests scale-free signals across index vols.
+    metals: Normalised trend tests scale-free signals across metal vols.
+    crypto: Normalised trend tests scale-free signals across crypto vols.
+- book_strategy: 18
+  sleeve_id: af30_s18_trend_asset_classes
+  cadence: 1h
+  classes:
+    indices: Class-level trend evidence is reported separately, never pooled.
+    metals: Class-level trend evidence is reported separately, never pooled.
+    crypto: Class-level trend evidence is reported separately, never pooled.
+- book_strategy: 19
+  sleeve_id: af30_s19_xs_momentum
+  cadence: 1h
+  classes:
+    indices: Six index series give a rankable cross-section.
+    crypto: A broad perpetual panel gives the deepest cross-section.
+- book_strategy: 20
+  sleeve_id: af30_s20_xs_carry
+  cadence: 1h
+  classes:
+    indices: Carry ranks are meaningful across index financing states.
+    crypto: Funding-rank carry is the cleanest cross-sectional carry test.
+- book_strategy: 21
+  sleeve_id: af30_s21_breakout
+  cadence: 1h
+  classes:
+    indices: Channel breakouts test range expansion in index proxies.
+    metals: Channel breakouts test range expansion in metals.
+    crypto: Channel breakouts test range expansion in crypto.
+- book_strategy: 22
+  sleeve_id: af30_s22_value
+  cadence: 1h
+  classes:
+    indices: Long-horizon reversal is measurable on index price proxies; no fundamental
+      anchor is required for this definition.
+    metals: Long-horizon reversal is measurable on metal price proxies; leasing is
+      priced separately in carry.
+- book_strategy: 23
+  sleeve_id: af30_s23_acceleration
+  cadence: 1h
+  classes:
+    indices: Acceleration tests second-order price change in indices.
+    metals: Acceleration tests second-order price change in metals.
+    crypto: Acceleration tests second-order price change in crypto.
+- book_strategy: 26
+  sleeve_id: af30_s26_fast_mean_reversion
+  cadence: 1m
+  classes:
+    indices: Minute bars are required for an intraday reversion horizon.
+    metals: Minute bars are required for an intraday reversion horizon.
+    crypto: Minute source data exists and must be materialized before the run.
+- book_strategy: 27
+  sleeve_id: af30_s27_safer_fast_mean_reversion
+  cadence: 1m
+  classes:
+    indices: The safer variant keeps the minute horizon and adds a stop rule.
+    metals: The safer variant keeps the minute horizon and adds a stop rule.
+    crypto: The safer variant keeps the minute horizon and adds a stop rule.

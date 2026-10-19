@@ -11,7 +11,7 @@ import importlib.metadata
 import math
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Any
+from typing import Any, Protocol
 from zoneinfo import ZoneInfo
 
 import polars as pl
@@ -30,9 +30,17 @@ from ml4t.diagnostic.metrics import sharpe_ratio
 from src.portfolio.barrier_controller import barrier_leverage_scale
 
 from .common import QuantError
-from .spec_parser import CandidateSpec
 
 ENGINE_VERSION = '0.1.7'
+
+
+class NativeSpec(Protocol):
+    """Attributes the shared native adapter reads; v1 and time-series specs both match."""
+    barrier_overlay_enabled: bool
+    bar_seconds: int
+    initial_cash: float
+    periods_per_year: int
+    costs: object
 
 
 @dataclass
@@ -47,7 +55,7 @@ class NativeRun:
 
 
 class TargetStrategy(Strategy):
-    def __init__(self, targets: pl.DataFrame, spec: CandidateSpec, timestamps: list):
+    def __init__(self, targets: pl.DataFrame, spec: NativeSpec, timestamps: list):
         self.spec = spec
         self.targets = {p['timestamp'][0]: {r['symbol']: r for r in p.iter_rows(named=True)}
                         for p in targets.partition_by('timestamp', maintain_order=True)}
@@ -294,11 +302,11 @@ def _funding_hook(engine: Engine, events: pl.DataFrame, panel: pl.DataFrame) -> 
     return records
 
 
-def run_native(panel: pl.DataFrame, targets: pl.DataFrame, spec: CandidateSpec,
+def run_native(panel: pl.DataFrame, targets: pl.DataFrame, spec: NativeSpec,
                *, funding: pl.DataFrame | None = None) -> NativeRun:
     if importlib.metadata.version('ml4t-backtest') != ENGINE_VERSION:
         raise QuantError('INVALID_CAPABILITY', 'Private native lifecycle adapter needs version requalification')
-    prices = panel.filter(pl.col('is_tradable')).sort('symbol', 'timestamp')
+    prices = panel.filter(pl.col('open').is_not_null() & (pl.col('open') > 0)).sort('symbol', 'timestamp')
     times = prices['timestamp'].unique().sort().to_list()
     if len(times) < 3:
         raise QuantError('BLOCKED_DATA', 'Native simulation needs at least three tradable timestamps')

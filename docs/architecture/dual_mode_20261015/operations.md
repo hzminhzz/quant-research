@@ -222,3 +222,40 @@ strategy migration, asymmetric broker swaps, liquidation and passive queue
 models are outside the demonstrated qualification. Original files and old
 contracts remain available; see `migration.md` for exact mapping and cutover
 status. No live broker request or trading order is authorized by this runtime.
+
+## Time-series book route: Advanced Futures 30
+
+`Advanced Futures Trading Strategies` (Robert Carver) is implemented as 25
+declarative time-series sleeves plus five written non-sleeve dispositions.
+The contract is `specs/advanced_futures_30/spec.md`, the plan is `plan.md`, and
+the criterion-by-criterion evidence is `verification.md`.
+
+```bash
+# validate one sleeve without reading market data
+uv run python scripts/quant.py validate config/sleeves/advanced_futures_30/af30_s06_slow_trend_long_short.yaml
+
+# execute every declared class development-only
+uv run python scripts/quant.py run config/sleeves/advanced_futures_30/af30_s06_slow_trend_long_short.yaml \
+    --development-only --run-log run_log
+```
+
+The route shares the canonical development vaults, the feature grammar and
+causal proof, the native `ml4t-backtest` lifecycle adapter, and the hash-chained
+trial ledger. Each run writes a casefile only after the seven gates are
+evaluated; a blocked pair writes a ledger disposition with its reason and no
+casefile. Financing is modeled from `bonds_daily_US10Y` for indices and observed
+funding for perps; metals remain blocked until a lease proxy is declared in
+`config/sleeves/advanced_futures_30/carry_products.yaml`.
+
+Class compatibility and cadence are frozen in `compatibility.yaml`
+(sha `55a2a781...`). A sleeve cannot run a pair or cadence that the frozen
+matrix does not declare. The combined portfolio rule is frozen separately in
+`portfolio_rule.yaml`; only `QUALIFIED` sleeves may enter, and the one protected
+read is reserved by `src/engine/holdout.py` before any protected row is opened.
+
+Current real-data outcome: every declared pair stops with `BLOCKED_DATA` —
+mixed-session index portfolios have a held symbol without an opening
+observation, metals lack a lease proxy, and the crypto panel root is not
+materialized. These are research dispositions, not silent exclusions. No live
+order, broker credential, paper harness or deployment approval is granted by
+this route; status remains `NOT_APPROVED`.

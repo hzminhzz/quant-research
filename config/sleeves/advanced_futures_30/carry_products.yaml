@@ -1,0 +1,36 @@
+# Declared carry economics per modeled symbol.
+# Index income yields are explicit assumptions: the simulated series is a price
+# index, so a zero income yield is declared rather than left as a placeholder.
+# XAUUSD/XAGUSD intentionally carry no lease_rate_bps: without a defensible
+# lease proxy the metal sleeve is BLOCKED instead of receiving zero carry.
+products:
+  DAX:
+    class_name: indices
+    kind: spot_cfd
+    income_yield_bps: 0.0
+  ES:
+    class_name: indices
+    kind: spot_cfd
+    income_yield_bps: 0.0
+  EUSIDXEUR:
+    class_name: indices
+    kind: spot_cfd
+    income_yield_bps: 0.0
+  HK33:
+    class_name: indices
+    kind: spot_cfd
+    income_yield_bps: 0.0
+  NIKKEI225:
+    class_name: indices
+    kind: spot_cfd
+    income_yield_bps: 0.0
+  NQ:
+    class_name: indices
+    kind: spot_cfd
+    income_yield_bps: 0.0
+  XAUUSD:
+    class_name: metals
+    kind: spot_cfd
+  XAGUSD:
+    class_name: metals
+    kind: spot_cfd

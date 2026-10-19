@@ -86,6 +86,9 @@ def parse_research_spec(source):
     except (OSError, yaml.YAMLError) as exc:
         from src.engine.common import QuantError
         raise QuantError('INVALID_SPEC', str(exc)) from exc
+    if isinstance(payload, dict) and payload.get('spec_kind') == 'time_series':
+        from src.engine.ts_spec import parse_ts_spec
+        return parse_ts_spec(path)
     if isinstance(payload, dict) and 'protocol' in payload:
         from src.engine.event_protocol import parse_event_spec
         return parse_event_spec(path)

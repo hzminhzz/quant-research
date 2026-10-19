@@ -143,6 +143,8 @@ def stage3(features: pl.DataFrame, spec: CandidateSpec, *, funding: pl.DataFrame
             return {'status': 'BLOCKED_DATA', 'reason': f'{name} window has no panel observations'}, outputs
         events = (funding.filter((pl.col('timestamp') >= window.start) & (pl.col('timestamp') < window.end))
                   if funding.height else funding)
+        if events.height and 'mark_price' in events.columns:
+            events = events.filter(pl.col('mark_price').is_not_null() & (pl.col('mark_price') > 0))
         arms = {}
         for arm, signal in [('candidate', spec.signal), ('baseline', spec.baseline)]:
             targets = allocate(panel, spec, signal=signal)

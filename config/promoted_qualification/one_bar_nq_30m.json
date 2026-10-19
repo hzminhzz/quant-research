@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "candidate_id": "one_bar_nq_30m:B0_FIXED_50_POINT_STOP",
+  "frozen_before_new_outcome_review": true,
+  "source_files": [
+    {"path": "AGENTS.md", "sha256": "77f2b852f9e0d8397f32971cdd61d8ca070aa811c2811845b6dba054a8ce50cd"},
+    {"path": "README.md", "sha256": "e6b56f78f85b3b1d967b6cd7839155d2749b4778aea61b117c799f85e4a8d9c5"},
+    {"path": "STATUS.md", "sha256": "7a52221d860ae27ea8ef02eccc918b5dc54351917b50142bdc6373e7f8593920"},
+    {"path": "strategy.yaml", "sha256": "3a7589d5dd64dc6280853ce09c178416553966f3587a394d17600919289fd356"},
+    {"path": "src/run_one_bar_dukascopy_phase567_20261011.py", "sha256": "95324362fcd293d1e40b77fbc4276dc6cb68aede87e3d437ae7b34d89b48ddaa"},
+    {"path": "src/run_one_bar_practical_yearly_20261012.py", "sha256": "bc08ab710585afb0028474150bc1c934615f7829a5027ba998475e5ce0d7cbe4"},
+    {"path": "data/data_manifest.json", "sha256": "f06ac85cbc41d5b6afdf0e9beb1b2e7aea36d5317ec16b70091d0dd13bc309c8"},
+    {"path": "backtests/practical_yearly/frozen_spec.json", "sha256": "e555a00e24dfc0df463cfc1523a9136bccf7cd8477f7be0752cc0b5f56d1b480"},
+    {"path": "backtests/practical_yearly/trial_ledger.json", "sha256": "b8e22dde721e89ec6703be21364689902d5220c1eb15e1fcaa54f6f283c30206"}
+  ],
+  "verdict": "INCONCLUSIVE",
+  "account_risk_replay": "INCONCLUSIVE",
+  "frozen_package_provenance": {
+    "manifest_path": "provenance/manifest.json",
+    "manifest_sha256": "7eef986ceba1a03d894ac4b90925190c0aac903417d03a13eccc85a2c61bf496",
+    "status": "FAIL_README_HASH_MISMATCH",
+    "expected_readme_sha256": "fc642e243851dd34d32f6c598e4fa3c8b14918c21840a678a0fcd1223434e35a",
+    "observed_readme_sha256": "e6b56f78f85b3b1d967b6cd7839155d2749b4778aea61b117c799f85e4a8d9c5"
+  },
+  "cross_gates": {
+    "ATS2": "BLOCKED_NO_B0_BOUNDED_OPERATION",
+    "ATS4": "BLOCKED_NO_B0_PROTOCOL_M8_IS_NOT_EQUIVALENT",
+    "ATS5": "INCONCLUSIVE_MISSING_CERTIFIED_CONTINUOUS_ACCOUNT_MARKS",
+    "ATS6": "BLOCKED_NO_ACCOUNT_SPECIFIC_TERMS_OR_SHADOW_GRANT",
+    "ATS7": "BLOCKED_UNSUPPORTED_STOP_OCO_STRATEGY_FEED"
+  },
+  "barriers": [
+    "BID_ONLY_DUKASCOPY_CFD_PROXY_NOT_CME_NQ",
+    "ONE_MINUTE_OHLC_PATH_AND_BID_ASK_UNRESOLVED",
+    "NATIVE_BROKER_HAS_NO_ATOMIC_OCO",
+    "98_DELAYED_SCHEDULED_EXITS",
+    "YEARLY_ACCOUNT_RESETS_BREAK_CONTINUOUS_ACCOUNT_HISTORY",
+    "NO_CERTIFIED_ACCOUNT_WIDE_MARK_COVERAGE",
+    "NO_SIGNED_ACCOUNT_SPECIFIC_RULEBOOK",
+    "NO_B0_SPECIFIC_ATS7_STRATEGY_ADAPTER",
+    "FROZEN_PACKAGE_README_PROVENANCE_HASH_MISMATCH"
+  ]
+}

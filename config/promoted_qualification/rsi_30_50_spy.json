@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "candidate_id": "rsi_30_50_spy:DUKASCOPY_ES_CFD_PROXY_NO_RISING_MA",
+  "frozen_before_new_outcome_review": true,
+  "source_files": [
+    {"path": "README.md", "sha256": "4b1558c606b459eb746d2742076b1284fb9d6881422b8c80fb6b7bcf16446789"},
+    {"path": "STATUS.md", "sha256": "900654a5bfcd8b8f1472b7189fb8eee9a00a65803f1ee52a67c45cb814b3fcbb"},
+    {"path": "strategy.yaml", "sha256": "d9dfd8b9e0283d6a78151e1e869dbe9363b74469ddd37dee6df9d2cbe3558a1b"},
+    {"path": "audits/evidence.md", "sha256": "7ccc45d941b45fabf1fb0a2ded7131f0c4c4fd678622efdb4f70a9938156bb00"},
+    {"path": "provenance/data_manifest.json", "sha256": "2812164c90db7ca258e866f629b6191fd90bd5f32e1380344b9ba1a324e34a70"},
+    {"path": "provenance/manifest.json", "sha256": "568ef5c893c4e4f16a8f419b9b2b44275be2d13c858aa8b57b4eb90574612f39"},
+    {"path": "reports/native_summary.json", "sha256": "4c82500e0bc117031c59d56ba9fd223c3305f426bd5b04369508dffb075a8f51"},
+    {"path": "reports/cost_stress.json", "sha256": "cb5770e93484a8ac15db6014bb1f43181ccceebf6e3ac8e48209877e1989e4bb"},
+    {"path": "src/independent_seven_native_features.py", "sha256": "0c2a10c764ca38b72219a08da254a478ab4d8ce742f5fd5ece8c9e448f6294bd"},
+    {"path": "src/run_independent_five_full_history_20261014.py", "sha256": "fecda1358202b5ddc533b7610a408a074227830ca8d5afa74413d606df80a5ce"}
+  ],
+  "verdict": "BLOCKED_EXTERNAL_DATA",
+  "archival_native_evidence": {
+    "status": "VERIFIED_ARCHIVE_NOT_NEW_RESULT",
+    "instrument": "Dukascopy ES index/CFD price proxy",
+    "not_instrument": "SPY ETF or CME ES futures",
+    "closed_trades": 101,
+    "sharpe_252": "0.7835938000318212",
+    "total_return_pct": "101.55076469788153",
+    "selection_family_known_trials": 7,
+    "author_trial_count": "UNKNOWN"
+  },
+  "mapping": {
+    "source_symbol_name": "SPY",
+    "tested_symbol": "ES",
+    "tested_product_class": "cfd_price_proxy",
+    "cme_translation_registered": false,
+    "continuous_adjusted_series_priced_as_contract": false,
+    "rising_ma_filter_present": false
+  },
+  "barriers": [
+    "NO_VERIFIED_BID_ASK_OR_BROKER_SPREAD_HISTORY",
+    "NO_DIRECTIONAL_CFD_FINANCING_OR_SWAP_SCHEDULE",
+    "NO_BROKER_LOT_TICK_MARGIN_OR_COMMISSION_CONTRACT",
+    "NO_SPY_ADJUSTED_PRICE_DIVIDEND_PARITY",
+    "NO_CME_DATED_CONTRACT_ROLL_SESSION_MARGIN_COMMISSION_OR_BASIS_DATA",
+    "SOURCE_AUTHOR_TRIAL_COUNT_UNKNOWN",
+    "HISTORY_THROUGH_2026_ALREADY_EXPOSED"
+  ]
+}
