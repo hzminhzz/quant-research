@@ -28,6 +28,7 @@ REQUIRED_SECTIONS = ('identity', 'feature_proof', 'costs', 'carry',
 CARRY_STATUSES = {'MODELED', 'OBSERVED', 'NOT_APPLIED', 'UNKNOWN_NOT_MODELLED'}
 COST_STATUSES = {'EXECUTION_QUALIFIED', 'DECLARED_ASSUMPTIONS'}
 GATE_STATUSES = {'QUALIFIED', 'FALSIFIED', 'INCONCLUSIVE'}
+PROFIT_STATUSES = {'AVAILABLE', 'UNAVAILABLE', 'INCONCLUSIVE', 'BLOCKED'}
 
 
 def _hex64(value: Any, name: str) -> None:
@@ -92,13 +93,34 @@ def validate_casefile(casefile: dict[str, Any]) -> None:
         raise QuantError('INVALID_EVIDENCE', 'ledger must record attempts and the last hash')
     _hex64(ledger['last_hash'], 'ledger.last_hash')
 
+    # Optional, explicitly non-gating explanatory evidence. It is validated here
+    # so a casefile cannot smuggle a diagnostic into the gate/disposition surface.
+    diagnostic = casefile.get('profit_concentration')
+    if diagnostic is not None:
+        if not isinstance(diagnostic, dict):
+            raise QuantError('INVALID_EVIDENCE', 'profit_concentration must be a mapping')
+        if diagnostic.get('status') not in PROFIT_STATUSES:
+            raise QuantError('INVALID_EVIDENCE', 'profit_concentration.status is not terminal')
+        if diagnostic.get('gating') is not False:
+            raise QuantError('INVALID_EVIDENCE', 'profit_concentration must be non-gating')
+        _hex64(diagnostic.get('artifact_sha256'), 'profit_concentration.artifact_sha256')
+        hashes = diagnostic.get('source_hashes')
+        if not isinstance(hashes, dict) or not hashes:
+            raise QuantError('INVALID_EVIDENCE', 'profit_concentration needs source hashes')
+        for key, value in hashes.items():
+            _hex64(value, f'profit_concentration.source_hashes.{key}')
+        if diagnostic['status'] in ('BLOCKED', 'INCONCLUSIVE') and not diagnostic.get('reason'):
+            raise QuantError('INVALID_EVIDENCE',
+                             'A blocked/inconclusive profit diagnostic needs a reason')
+
 
 def build_casefile(*, spec: TimeSeriesSpec, market_class: MarketClass,
                    feature_proof: dict[str, Any], qualification: dict[str, Any],
                    carry_metadata: dict[str, Any] | None, gate_report: dict[str, Any],
                    disposition: dict[str, Any], code_hash: str, panel_hash: str,
                    vault_root: str, attempts: list[dict[str, Any]],
-                   last_hash: str) -> dict[str, Any]:
+                   last_hash: str,
+                   profit_concentration: dict[str, Any] | None = None) -> dict[str, Any]:
     carry = (carry_metadata or {}).get('status', 'NOT_APPLIED')
     casefile = {
         'schema_version': 1,
@@ -126,6 +148,8 @@ def build_casefile(*, spec: TimeSeriesSpec, market_class: MarketClass,
                     'vault_root': vault_root, 'holdout_access': False},
         'ledger': {'attempts': attempts, 'last_hash': last_hash},
     }
+    if profit_concentration is not None:
+        casefile['profit_concentration'] = profit_concentration
     validate_casefile(casefile)
     casefile['casefile_sha256'] = digest({k: v for k, v in casefile.items()
                                           if k != 'casefile_sha256'})

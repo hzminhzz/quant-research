@@ -176,6 +176,17 @@ Native/custom features are verified through one `compile_and_verify` interface.
 Existing callers can use `FeatureGateway.compute_runtime` as a compatibility
 bridge. Old `ResearchContractV1` calls retain their frozen historical semantics.
 
+## Profit-concentration diagnostics
+
+AF30 sleeve and qualified-portfolio runs write a non-gating
+`profit_concentration.json` with monthly net-return contributions, top-1/top-2
+concentration, richest-month ablation metrics and, for sleeves, native
+instrument attribution reconciled to daily equity. The casefile or portfolio
+record retains its hash, source hashes and availability. Definitions, denominator
+guards and limitations are in
+[profit-concentration diagnostics](profit_concentration.md). The diagnostic
+never changes a gate, disposition, trial, weight or protected read.
+
 ## Accounting and causality interpretation
 
 A panel timestamp denotes bar opening; complete-bar features become usable at

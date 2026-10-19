@@ -16,6 +16,11 @@ import polars as pl
 import yaml
 
 from .common import QuantError, digest, file_hash, read_json, write_json
+from .profit_concentration import (
+    diagnose_portfolio,
+    frame_sha256,
+    write_profit_concentration,
+)
 from .ts_casefile import validate_casefile
 from .ts_gates import class_dsr
 
@@ -135,6 +140,29 @@ def build_portfolio(run_log: str | Path, market_class: str, *,
     aligned.with_columns(portfolio).write_parquet(temporary)
     temporary.replace(daily_path)
 
+    diagnostic = diagnose_portfolio(
+        timestamps=aligned['timestamp'], returns=portfolio,
+        periods_per_year=PERIODS[market_class],
+        source_hashes={
+            'portfolio_returns': frame_sha256(aligned.with_columns(portfolio),
+                                              sort_by=['timestamp']),
+            **{f'sleeve:{item["sleeve_id"]}': file_hash(item['returns_path'])
+               for item in included},
+        },
+        identity={'portfolio_id': rule['portfolio_id'],
+                  'selection_family_id': rule['selection_family_id'],
+                  'market_class': market_class,
+                  'included': [item['sleeve_id'] for item in included]},
+        provenance={'rule_sha256': rule_digest(rule),
+                    'development_window_only': True,
+                    'weights': weights,
+                    'method': 'frozen QUALIFIED_ONLY composition'})
+    diagnostic_written = write_profit_concentration(diagnostic, folder)
+    diagnostic_summary = {
+        **diagnostic_written['summary'],
+        'artifact': str(diagnostic_written['path'].relative_to(log)),
+    }
+
     periods = PERIODS[market_class]
     family = class_dsr(aligned, periods)
     single = class_dsr(aligned.with_columns(portfolio).select('timestamp', 'portfolio'), periods)
@@ -152,6 +180,7 @@ def build_portfolio(run_log: str | Path, market_class: str, *,
         'class_dsr': family,
         'portfolio_psr': single,
         'backtest_sha256': file_hash(daily_path),
+        'profit_concentration': diagnostic_summary,
         'status': 'COMPOSED',
     }
     write_json(folder / 'portfolio_record.json', record)

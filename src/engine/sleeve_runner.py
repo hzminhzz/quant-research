@@ -21,6 +21,7 @@ from .carry_model import CarryConfig, CarryProduct, build_carry_sidecar, load_ra
 from .common import QuantError, digest, file_hash, read_json
 from .cost_qualification import qualify_costs, run_qualified_ts
 from .holdout import guard_development_read
+from .profit_concentration import diagnose_sleeve, write_profit_concentration
 from .sleeve_matrix import load_frozen, require_declaration, require_symbols
 from .ts_allocator import allocate_ts
 from .ts_casefile import build_casefile, read_trials, record_attempt, write_casefile
@@ -223,6 +224,24 @@ def run_sleeve(spec_path: str | Path, market_class_name: str, *,
                        status='RETURNS', artifacts={
                            'returns': str(returns_path.relative_to(log)),
                            'sha256': file_hash(returns_path)})
+        # Explanatory only. A diagnostic failure is recorded as BLOCKED and never
+        # feeds the seven gates, the disposition, the trial ledger or selection.
+        diagnostic = diagnose_sleeve(
+            daily=result.daily, periods_per_year=market_class.periods_per_year,
+            initial_cash=spec.initial_cash, panel=panel, fills=result.fills,
+            funding=result.funding,
+            identity={'sleeve_id': spec.sleeve_id, 'spec_hash': spec.spec_hash,
+                      'market_class': market_class.name,
+                      'selection_family_id': spec.selection_family_id},
+            provenance={'engine': 'ml4t-backtest==0.1.7 native fills/equity',
+                        'development_window_only': True,
+                        'daily_source': str(returns_path.relative_to(log))},
+            strict=False)
+        diagnostic_written = write_profit_concentration(diagnostic, folder)
+        diagnostic_summary = {
+            **diagnostic_written['summary'],
+            'artifact': str(diagnostic_written['path'].relative_to(log)),
+        }
         matrix_frame, trials = _trial_returns(log, market_class)
         dsr_result = class_dsr(matrix_frame, market_class.periods_per_year)
         dsr_path = folder / 'dsr_inputs.parquet'
@@ -261,7 +280,8 @@ def run_sleeve(spec_path: str | Path, market_class_name: str, *,
             qualification=qualification.to_dict(), carry_metadata=carry_metadata,
             gate_report=report, disposition=disposition,
             code_hash=_code_hash(), panel_hash=qualification_manifest.get('manifest_hash', digest(market_class.panel_root)),
-            vault_root=market_class.panel_root, attempts=attempts, last_hash=last_hash)
+            vault_root=market_class.panel_root, attempts=attempts, last_hash=last_hash,
+            profit_concentration=diagnostic_summary)
         write_casefile(casefile, folder)
         record_attempt(log, spec=spec, market_class=market_class, event='outcome',
                        status=report['status'], artifacts={
@@ -269,7 +289,8 @@ def run_sleeve(spec_path: str | Path, market_class_name: str, *,
                            'sha256': casefile['casefile_sha256']})
         return {'sleeve_id': spec.sleeve_id, 'market_class': market_class.name,
                 'status': report['status'], 'declaration': declaration,
-                'casefile_sha256': casefile['casefile_sha256'], 'report': report}
+                'casefile_sha256': casefile['casefile_sha256'], 'report': report,
+                'profit_concentration': diagnostic_summary}
     except QuantError as exc:
         record_attempt(log, spec=spec, market_class=market_class, event='outcome',
                        status=exc.status, reason=exc.reason)
