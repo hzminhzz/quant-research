@@ -8,6 +8,7 @@ Strict governance:
 """
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import tempfile
@@ -18,8 +19,10 @@ from uuid import uuid4
 import polars as pl
 
 from src.data_vault import DataVault
+from src.data_vault.panel_builder import CANONICAL_COLUMNS
 
-from .common import QuantError, file_hash
+from .common import QuantError, file_hash, write_json
+from .feature_compiler import MODEL_CONTRACT_SCHEMA, MODEL_ROW_KEYS
 from .spec_parser import CandidateSpec, PythonFeatureArtifact, export_spec, parse_spec
 
 REPO = Path(__file__).resolve().parents[2]
@@ -60,10 +63,13 @@ class ColabTrainer:
         if df.is_empty():
             raise QuantError("BLOCKED_DATA", f"No training data found in vault between {train_start} and {train_end}")
 
-        # Ensure no timestamp in dataframe exceeds train_end
+        # Enforce both half-open bounds, independently of the vault adapter.
         leak_count = df.filter(pl.col("timestamp") >= train_end).height
         if leak_count > 0:
             raise QuantError("INVALID_EVIDENCE", f"Data contains {leak_count} rows at or beyond train_end: {train_end}")
+        early_count = df.filter(pl.col("timestamp") < train_start).height
+        if early_count > 0:
+            raise QuantError("INVALID_EVIDENCE", f"Data contains {early_count} rows before train_start: {train_start}")
 
         output_file.parent.mkdir(parents=True, exist_ok=True)
         df.write_ipc(output_file)
@@ -74,6 +80,60 @@ class ColabTrainer:
             "end": train_end.isoformat(),
             "sha256": file_hash(output_file),
         }
+
+    def training_contract(self) -> dict[str, Any]:
+        """Serializable train-only contract for any remote training script."""
+        return {
+            "schema": "model_training_contract_v1",
+            "signal": self.spec.signal,
+            "baseline": self.spec.baseline,
+            "atr_feature": self.spec.allocation.atr_feature,
+            "train_start": self.spec.windows.train.start.isoformat(),
+            "train_end": self.spec.windows.train.end.isoformat(),
+            "validation_start": self.spec.windows.validation.start.isoformat(),
+            "label_horizon_bars": self.spec.label_horizon_bars,
+            "bar_seconds": self.spec.bar_seconds,
+            "seed": self.spec.seed,
+            "declared_features": [feature.name for feature in self.spec.features],
+        }
+
+    def model_contract(self, artifact_sha256: str, *,
+                       training_provenance: dict[str, Any] | None = None) -> dict[str, Any]:
+        """Explicit output contract stored beside the immutable model bytes."""
+        aliases = ({"lgb_return_pred": self.spec.signal}
+                   if self.spec.signal == "lgb_signal" else {})
+        payload = {
+            "schema": MODEL_CONTRACT_SCHEMA,
+            "model_sha256": artifact_sha256,
+            "signal": self.spec.signal,
+            "baseline": self.spec.baseline,
+            "atr_feature": self.spec.allocation.atr_feature,
+            "row_keys": list(MODEL_ROW_KEYS),
+            "predictor_output": self.spec.signal,
+            "legacy_output_aliases": aliases,
+            "canonical_columns": list(CANONICAL_COLUMNS),
+        }
+        if training_provenance is not None:
+            payload["training_provenance"] = training_provenance
+        return payload
+
+    def write_model_contract(self, artifact_sha256: str,
+                             directory: str | Path | None = None,
+                             *, training_provenance: dict[str, Any] | None = None) -> Path:
+        """Write/verify the deterministic contract sidecar for an artifact hash."""
+        folder = Path(directory) if directory is not None else self.run_log / "python_features"
+        folder.mkdir(parents=True, exist_ok=True)
+        path = folder / f"{artifact_sha256}.json"
+        payload = self.model_contract(artifact_sha256,
+                                      training_provenance=training_provenance)
+        if path.exists():
+            existing = json.loads(path.read_text(encoding="utf-8"))
+            if existing != payload:
+                raise QuantError("INVALID_EVIDENCE",
+                                 "Existing model contract differs from the frozen specification")
+        else:
+            write_json(path, payload)
+        return path
 
     def train(
         self,
@@ -101,9 +161,18 @@ class ColabTrainer:
         with tempfile.TemporaryDirectory(prefix="colab-train-") as tmpdir:
             tmppath = Path(tmpdir)
             train_arrow = tmppath / "train.arrow"
-            self.prepare_training_data(train_arrow)
+            train_receipt = self.prepare_training_data(train_arrow)
+            provenance = {
+                "training_data_sha256": train_receipt["sha256"],
+                "training_rows": train_receipt["rows"],
+                "training_symbols": train_receipt.get("symbols"),
+                "training_script_sha256": file_hash(script_path),
+            }
+            train_meta = tmppath / "train_meta.json"
+            write_json(train_meta, {**self.training_contract(), **provenance})
 
             remote_arrow = "/content/train.arrow"
+            remote_meta = "/content/train_meta.json"
             remote_model = "/content/model.pkl"
             local_model = tmppath / "model.pkl"
 
@@ -115,12 +184,14 @@ class ColabTrainer:
                     err_msg = res_new.stderr.strip() or res_new.stdout.strip()
                     raise QuantError("BLOCKED_COMPUTE", f"Failed to allocate Colab {gpu} session: {err_msg}")
 
-                # 2. Upload training partition
-                cmd_up = [self.colab_bin, "upload", "-s", session_id, str(train_arrow), remote_arrow]
-                res_up = subprocess.run(cmd_up, capture_output=True, text=True, check=False)
-                if res_up.returncode != 0:
-                    err_msg = res_up.stderr.strip() or res_up.stdout.strip()
-                    raise QuantError("BLOCKED_COMPUTE", f"Failed to upload training data to Colab: {err_msg}")
+                # 2. Upload the train-only partition and its explicit contract.
+                for source, remote in ((train_arrow, remote_arrow), (train_meta, remote_meta)):
+                    cmd_up = [self.colab_bin, "upload", "-s", session_id, str(source), remote]
+                    res_up = subprocess.run(cmd_up, capture_output=True, text=True, check=False)
+                    if res_up.returncode != 0:
+                        err_msg = res_up.stderr.strip() or res_up.stdout.strip()
+                        raise QuantError("BLOCKED_COMPUTE",
+                                         f"Failed to upload {source.name} to Colab: {err_msg}")
 
                 # 3. Execute training script
                 cmd_exec = [
@@ -154,15 +225,27 @@ class ColabTrainer:
                 if res_dl.returncode != 0 or not local_model.is_file():
                     err_msg = res_dl.stderr.strip() or res_dl.stdout.strip()
                     raise QuantError("BLOCKED_COMPUTE", f"Failed to download trained model from Colab: {err_msg}")
+                size = local_model.stat().st_size
+                if size <= 0 or size > 2 * 1024**3:
+                    raise QuantError("INVALID_FEATURE",
+                                     f"Downloaded model artifact has invalid size: {size} bytes")
 
-                # 5. Cryptographic hash and permanent storage
+                # 5. Cryptographic hash, immutable storage and explicit contract.
                 sha = file_hash(local_model)
                 permanent_path = features_dir / f"{sha}.pkl"
-                if not permanent_path.exists():
-                    shutil.copy2(local_model, permanent_path)
+                if permanent_path.exists():
+                    if file_hash(permanent_path) != sha:
+                        raise QuantError("INVALID_EVIDENCE",
+                                         "Existing model artifact differs from downloaded bytes")
+                else:
+                    with permanent_path.open("xb") as handle:
+                        handle.write(local_model.read_bytes())
+                contract_file = self.write_model_contract(
+                    sha, features_dir, training_provenance=provenance)
 
                 rel_path = f"python_features/{sha}.pkl"
-                artifact = PythonFeatureArtifact(path=rel_path, sha256=sha)
+                artifact = PythonFeatureArtifact(path=rel_path, sha256=sha,
+                                                 contract_sha256=file_hash(contract_file))
 
                 # Attach to candidate spec
                 updated_spec = self.spec.model_copy(
@@ -173,8 +256,10 @@ class ColabTrainer:
                 if output_candidate_path:
                     out_p = Path(output_candidate_path).resolve()
                     export_spec(updated_spec, out_p)
+                    # Return the portable, re-parsed identity that callers will load.
+                    updated_spec = parse_spec(out_p)
 
-                return artifact, updated_spec
+                return updated_spec.python_feature_artifact, updated_spec
 
             finally:
                 # Guaranteed cleanup: always terminate session

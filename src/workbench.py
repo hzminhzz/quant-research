@@ -7,8 +7,6 @@ from pathlib import Path
 from typing import Literal
 from uuid import uuid4
 
-REPO = Path(__file__).resolve().parents[1]
-
 import cloudpickle
 import polars as pl
 import yaml
@@ -18,7 +16,6 @@ from src.engine.backtest_runner import run_native
 from src.engine.common import (
     QuantError,
     append_trial,
-    beneath,
     file_hash,
     runtime_identity,
     write_json,
@@ -149,7 +146,8 @@ class Workbench:
         trainer = ColabTrainer(self.spec, run_log=self.run_log)
         artifact, updated_spec = trainer.train(training_script=training_script, gpu=gpu, timeout=timeout)
         self.spec = updated_spec
-        self.spec._base_dir = REPO
+        # train() returns an artifact relative to the run-log root.
+        self.spec._base_dir = trainer.run_log
         self._custom_python = True
         self.feature_panel = None
         self._record('train_colab', 'COMPLETED', artifact_sha256=artifact.sha256, gpu=gpu)
@@ -233,23 +231,8 @@ class Workbench:
                 raise QuantError('INVALID_SPEC', 'Export/reimport changed the event specification')
             self._record('export', 'COMPLETED', exported_path=str(target))
             return target
-        if self.spec.python_feature_artifact is not None:
-            target = Path(path).resolve()
-            target.parent.mkdir(parents=True, exist_ok=True)
-            artifact = self.spec.python_feature_artifact
-            source = beneath(self.spec._base_dir, artifact.path, must_exist=True)
-            blob = source.read_bytes()
-            if hashlib.sha256(blob).hexdigest() != artifact.sha256:
-                raise QuantError('INVALID_EVIDENCE', 'Python feature artifact was modified')
-            filename = target.stem + '.features-' + artifact.sha256[:16] + '.pkl'
-            destination = target.parent / filename
-            if not destination.exists():
-                with destination.open('xb') as handle:
-                    handle.write(blob)
-            if file_hash(destination) != artifact.sha256:
-                raise QuantError('INVALID_EVIDENCE', 'Export would replace a different feature artifact')
-            self.spec = self.spec.model_copy(update={'python_feature_artifact': PythonFeatureArtifact(path=filename, sha256=artifact.sha256)})
-            self.spec._base_dir = target.parent
+        # export_spec owns portable artifact relocation (pkl plus model contract
+        # sidecar) so this path stays identical to the factory CLI.
         exported = export_spec(self.spec, path)
         self._record('export', 'COMPLETED', exported_path=str(exported))
         return exported

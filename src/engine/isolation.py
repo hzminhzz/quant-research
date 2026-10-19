@@ -30,13 +30,32 @@ class SerializedFeature:
 
 
 def feature_function(spec):
-    from .feature_compiler import FeatureCompiler
+    """Build the feature callable without deserializing an untrusted model.
+
+    A remote-model contract sidecar (same stem as the artifact) switches to the
+    composed pipeline: trusted PIT/canonical/baseline/ATR compiler followed by
+    the model, with validated signal output. Workbench custom callables without
+    a contract sidecar keep their historical whole-panel semantics.
+    """
+    from .feature_compiler import FeatureCompiler, composed_model_pipeline
     artifact = spec.python_feature_artifact
     if artifact is None:
         return FeatureCompiler(spec)
     path = beneath(spec._base_dir, artifact.path, must_exist=True)
     if file_hash(path) != artifact.sha256:
         raise QuantError('INVALID_EVIDENCE', 'Exported Python feature artifact changed')
+    contract_path = path.with_suffix('.json')
+    if artifact.contract_sha256 is not None:
+        if (not contract_path.is_file() or contract_path.is_symlink()
+                or file_hash(contract_path) != artifact.contract_sha256):
+            raise QuantError('INVALID_EVIDENCE', 'Model feature contract sidecar is missing or changed')
+        try:
+            contract = json.loads(contract_path.read_text(encoding='utf-8'))
+        except (OSError, ValueError) as exc:
+            raise QuantError('INVALID_FEATURE', f'Unreadable model feature contract: {exc}') from exc
+        return composed_model_pipeline(spec, path.read_bytes(), contract, artifact.sha256)
+    if contract_path.exists():
+        raise QuantError('INVALID_EVIDENCE', 'Unexpected unbound model contract sidecar')
     return SerializedFeature(path.read_bytes())
 
 
