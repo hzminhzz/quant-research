@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
-from pydantic import Field, field_validator, model_validator
+from pydantic import Field, PrivateAttr, field_validator, model_validator
 
 from .common import QuantError, digest, safe_name
 from .spec_parser import Costs, Feature, Model, PythonFeatureArtifact, Windows
@@ -61,7 +61,8 @@ class MarketClass(Model):
 
 
 class ForecastScaling(Model):
-    kind: Literal['bounded_linear', 'bounded_tanh', 'zscore_clipped']
+    """Bounded forecast transform: linear clip or tanh, both divided by `scale`."""
+    kind: Literal['bounded_linear', 'bounded_tanh']
     scale: float = Field(gt=0)
     cap: float = Field(gt=0)
 
@@ -75,7 +76,7 @@ class Forecast(Model):
 
 class RiskAllocation(Model):
     """How instrument-level risk is allocated before portfolio combination."""
-    method: Literal['equal_weight', 'inverse_volatility', 'forecast_weighted', 'manual']
+    method: Literal['equal_weight', 'inverse_volatility', 'forecast_weighted', 'manual'] = 'equal_weight'
     per_instrument_cap: float = Field(default=1.0, gt=0, le=1)
     diversification_multiplier: float = Field(default=1.0, gt=0, le=10)
     weights: dict[str, float] | None = None
@@ -125,6 +126,7 @@ class SleeveGates(Model):
 
 class TimeSeriesSpec(Model):
     """Strictly additive sibling of `CandidateSpec`; selected by `spec_kind`."""
+    _base_dir: Path = PrivateAttr(default_factory=Path.cwd)
     schema_version: Literal[1] = 1
     spec_kind: Literal['time_series']
     sleeve_id: str
@@ -134,6 +136,7 @@ class TimeSeriesSpec(Model):
     market_classes: list[MarketClass] = Field(min_length=1)
     windows: Windows
     features: list[Feature] = Field(min_length=1)
+    cross_sectional: bool = False
     forecast: Forecast
     volatility_target: float = Field(default=0.10, gt=0, le=0.5)
     risk_allocation: RiskAllocation = Field(default_factory=RiskAllocation)
@@ -164,6 +167,8 @@ class TimeSeriesSpec(Model):
         names = [f.name for f in self.features]
         if len(names) != len(set(names)):
             raise ValueError('Feature output names must be unique')
+        if 'forecast' in names:
+            raise ValueError('`forecast` is reserved for the scaled projection')
         if self.forecast.feature not in names:
             raise ValueError('Forecast must name a declared feature output')
         classes = [c.name for c in self.market_classes]
@@ -189,7 +194,9 @@ def parse_ts_spec(path: str | Path) -> TimeSeriesSpec:
     try:
         with Path(path).open(encoding='utf-8') as handle:
             payload: Any = yaml.safe_load(handle)
-        return TimeSeriesSpec.model_validate(payload)
+        spec = TimeSeriesSpec.model_validate(payload)
+        spec._base_dir = Path(path).resolve().parent
+        return spec
     except (OSError, yaml.YAMLError, ValueError, TypeError) as exc:
         raise QuantError('INVALID_SPEC', str(exc)) from exc
 

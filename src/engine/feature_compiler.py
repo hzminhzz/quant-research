@@ -61,33 +61,12 @@ def compile_and_verify(panel: pl.DataFrame, spec: CandidateSpec, *, isolate: boo
     return full, proof
 
 
-class FeatureCompiler:
+class _ExpressionCompiler:
     """Each operation becomes one intermediate column; nested window expressions work."""
-    def __init__(self, spec: CandidateSpec):
-        self.spec = spec
+    def __init__(self):
         self._counter = 0
 
-    def __call__(self, panel: pl.DataFrame) -> pl.DataFrame:
-        frame = point_in_time_universe(panel, self.spec)
-        reserved = set(frame.columns)
-        self._counter = 0
-        for feature in self.spec.features:
-            if feature.name in reserved or feature.name.startswith('__'):
-                raise QuantError('INVALID_SPEC', f'Feature shadows protected field: {feature.name}')
-            if feature.native is not None:
-                try:
-                    frame = compute_features(frame, [{'name': feature.native, 'params': feature.params,
-                                                       'output': feature.name}],
-                                             group_col='symbol', timestamp_col='timestamp')
-                except Exception as exc:
-                    raise QuantError('INVALID_FEATURE', f'Native {feature.native}: {exc}') from exc
-            else:
-                frame, expression = self._compile(frame, feature.expr, depth=0)
-                frame = frame.with_columns(expression.alias(feature.name))
-            reserved.add(feature.name)
-        return frame.select(*CANONICAL_COLUMNS, 'in_pit_universe', *[f.name for f in self.spec.features]).sort('symbol', 'timestamp')
-
-    def _compile(self, frame: pl.DataFrame, node: dict[str, Any], depth: int):
+    def compile(self, frame: pl.DataFrame, node: dict[str, Any], depth: int = 0):
         if not isinstance(node, dict) or depth > 30:
             raise QuantError('INVALID_SPEC', 'Expression must be a bounded operation tree')
         op = node.get('op')
@@ -108,7 +87,7 @@ class FeatureCompiler:
             raise QuantError('INVALID_SPEC', f'Unknown expression arguments: {set(node) - allowed}')
         args = []
         for arg in node.get('args', []):
-            frame, expr = self._compile(frame, arg, depth + 1)
+            frame, expr = self.compile(frame, arg, depth + 1)
             args.append(expr)
         binary = {'add': lambda a,b:a+b, 'sub': lambda a,b:a-b, 'mul': lambda a,b:a*b,
                   'div': lambda a,b:pl.when(b != 0).then(a/b).otherwise(None),
@@ -139,3 +118,37 @@ class FeatureCompiler:
         self._counter += 1
         name = f'__expr_{self._counter}'
         return frame.with_columns(result.alias(name)), pl.col(name)
+
+
+def apply_declared_features(frame: pl.DataFrame, features) -> pl.DataFrame:
+    """Compile a declared feature list onto a frame that already exposes `in_pit_universe`."""
+    reserved = set(frame.columns)
+    compiler = _ExpressionCompiler()
+    for feature in features:
+        if feature.name in reserved or feature.name.startswith('__'):
+            raise QuantError('INVALID_SPEC', f'Feature shadows protected field: {feature.name}')
+        if feature.native is not None:
+            try:
+                frame = compute_features(frame, [{'name': feature.native, 'params': feature.params,
+                                                   'output': feature.name}],
+                                         group_col='symbol', timestamp_col='timestamp')
+            except Exception as exc:
+                raise QuantError('INVALID_FEATURE', f'Native {feature.native}: {exc}') from exc
+        else:
+            frame, expression = compiler.compile(frame, feature.expr)
+            frame = frame.with_columns(expression.alias(feature.name))
+        reserved.add(feature.name)
+    return frame.select(*CANONICAL_COLUMNS, 'in_pit_universe',
+                        *[f.name for f in features]).sort('symbol', 'timestamp')
+
+
+class FeatureCompiler:
+    """Point-in-time cross-sectional universe plus the declared feature list."""
+    def __init__(self, spec: CandidateSpec):
+        self.spec = spec
+
+    def __call__(self, panel: pl.DataFrame) -> pl.DataFrame:
+        return self.apply_features(point_in_time_universe(panel, self.spec))
+
+    def apply_features(self, frame: pl.DataFrame) -> pl.DataFrame:
+        return apply_declared_features(frame, self.spec.features)
