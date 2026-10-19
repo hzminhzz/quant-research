@@ -26,51 +26,80 @@ never overwrite an existing candidate or discard untracked staging evidence.
 ## Hourly source publication reliability CLI
 
 The three descriptive thesis factories (general, crypto, ML) share the bounded
-publisher `scripts/research_source_publication.py`. After the candidate pairs
-are staged, checked for source novelty, and committed on a clean task-owned
-`research/<name>` branch based on current `origin/main`, run:
+publisher `scripts/research_source_publication.py`. It is the publication step
+only: it does not stage candidates, write theses or run science. Direct
+`python scripts/...` execution bootstraps this checkout itself, so it works when
+`PYTHONPATH` contains only the pinned connector path (as in CI); no repository
+`PYTHONPATH` entry is required. Use `--repo PATH` for an isolated checkout.
 
-```sh
-<quant-research>/.venv/bin/python \
-  <quant-research>/scripts/research_source_publication.py publish \
-  --repo <isolated-checkout> --factory ml --run-id <unique-hourly-invocation-id>
-# Valid no-new-source outcome after a documented screen:
-<quant-research>/.venv/bin/python \
-  <quant-research>/scripts/research_source_publication.py no-op \
-  --repo <isolated-checkout> --factory general --run-id <unique-id> \
-  --reason 'all sourced candidates were duplicates'
-```
+### Hourly integration contract (general, crypto and ML)
 
-Pass `--repo PATH` for the isolated checkout. The script resolves its own
-checkout root from `__file__`, so it is self-contained: invoke it by absolute
-path from any working directory with an interpreter that has the locked
-dependencies, without setting `PYTHONPATH` and without changing into the
-repository. If the isolated worktree has no virtual environment, use the main
-repository's `.venv/bin/python` as shown. The script checks committed new
-two-file pairs, strictly validates flat handoffs or source-only admission,
-refreshes remote research refs to detect candidate-ID collisions, and refuses
-stale main bases, unsafe paths, modified existing sources, remote ref
-collisions, merged histories and dirty tracked work. It non-force-pushes only
-the chosen research branch, reconciles ambiguous push responses against exact
-remote SHA, and verifies both file hashes before returning
-`REMOTE_PUBLICATION_VERIFIED`. A successful schema check is **not** ATS
-ingestion, model training or execution approval. Mechanism-level novelty still
-requires research review.
+1. Create an isolated worktree/checkout on a clean task-owned
+   `research/<unique-name>` branch based on the current `origin/main`. Fetch
+   `origin` first; do not rebase or force-push an existing published branch.
+2. Commit exactly `research_inbox/<candidate_id>/` pairs containing
+   `thesis.yaml` and `brief.md`: 1-8 pairs, added files only, no merge commits,
+   at most four commits over `origin/main`. Do not modify an existing candidate,
+   do not discard raw sources or untracked staging evidence, and leave tracked
+   worktree files byte-identical to the commit.
+3. Run the publisher from the repository root (or pass `--repo`):
+
+   ```sh
+   .venv/bin/python scripts/research_source_publication.py publish \
+     --factory ml --run-id <unique-hourly-invocation-id>
+   ```
+
+4. Exit `0` with `REMOTE_PUBLICATION_VERIFIED` is the only publish success.
+   The CLI has already verified the live base SHA, pushed without force, and
+   re-read both payload hashes from the exact fetched remote commit. Do not
+   merge the branch yourself.
+5. When a factual screen found no novel source, record it instead of inventing
+   a candidate:
+
+   ```sh
+   .venv/bin/python scripts/research_source_publication.py no-op \
+     --factory general --run-id <unique-id> \
+     --reason '<what was screened and why nothing was novel>'
+   ```
+
+   A no-op requires no research branch and no clean worktree, and exits `0`
+   with `NO_NOVEL_SOURCE`.
+6. Exit `2` with `NOT_PUBLISHED` is blocked, never success. Read `reason` and
+   `error_type`, preserve the branch and staging evidence, fix the stated cause
+   and retry with a new invocation ID. Never bypass a block by deleting
+   receipts, editing committed sources to match the worktree, force-pushing or
+   publishing from a stale `origin/main`.
+7. Exit `3` `RECEIPT_FAILED` means the outcome could not be durably recorded.
+   Treat the invocation as unauthorized and unresolved even if the remote ref
+   moved, and record manual recovery.
+
+Before any push the script strictly validates the pair (flat capture,
+source-only or nested source admission, or `HANDOFF_VALID_UNVERIFIED`), rejects
+out-of-scope or incomplete pairs, dirty tracked work, unsafe branches and
+non-descendant histories, prunes and refreshes only
+`refs/remotes/origin/research/*`, refuses a candidate ID already present on
+another remote research branch, and refuses an existing remote ref at a
+different SHA. Ambiguous transport responses are reconciled against the exact
+remote SHA; a stale base blocks instead of rebasing.
+
+### Receipts and authority
 
 Each invocation writes an exclusive, fsynced JSON receipt to the shared main
 checkout `run_log/source_publications/<factory>/`, regardless of success,
-publication block or no-op. The receipt includes run identity, timestamp,
-branch, commit identity when publishing, source hashes, transport attempts,
-remote SHA, verification, reason, and zero authorized scientific/protected/order
-effects. Exit codes:
-`0` verified publication or explicit documented no-op, `2` publication blocked,
-`3` receipt persistence failed. `NOT_PUBLISHED` is *never* a success. Preserve
-failed drafts and use a new invocation ID for each retry; receipts are immutable.
-Do not run this command for the ATS scientific runner, merge to main, or infer
-canonical queue admission merely because a remote discovery branch exists.
-Future hourly discovery must publish exactly `research_inbox/<candidate_id>/`
-with `thesis.yaml` and `brief.md`, and must not claim a valid handoff when the
-validator is unavailable or rejects the input.
+publication block, no-op or unexpected failure. The receipt includes run
+identity, timestamp, branch, head and base SHAs, candidate validation kinds and
+per-file SHA-256, transport attempts, remote SHA, readback verification,
+reason/error type, its own path, and zero authorized effects. Receipts are
+immutable; never edit or delete one.
+
+`REMOTE_PUBLICATION_VERIFIED` proves only that the bounded pair is committed and
+readable at an exact remote research branch SHA. It is **not** ATS ingestion,
+queue admission, model training, a backtest, a protected/holdout read,
+deployment or trading authority; each of those requires its own gate
+([factory operations](research_inbox_factory_operations.md)). Mechanism-level
+novelty and source claims still require research review. A successful schema
+check must never be reported as a valid handoff when the validator is
+unavailable or rejected the input.
 
 This command is separate from `quant.py ingest`, which translates a complete
 cross-sectional thesis into an executable `CandidateSpec`. Handoff validation
