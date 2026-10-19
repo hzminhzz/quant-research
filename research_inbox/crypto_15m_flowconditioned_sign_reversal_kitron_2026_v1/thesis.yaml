@@ -1,0 +1,52 @@
+candidate_id: crypto_15m_flowconditioned_sign_reversal_kitron_2026_v1
+selection_family_id: crypto_15m_microstructure_directional_reversal
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - source_id: kitron_wengrowicz_2026_arxiv_2608_21888_v1
+    url: https://arxiv.org/html/2608.21888
+    title: "Short-horizon mean reversion in cryptocurrency markets: a matched cross-market measurement"
+    authors: Nadav A. Kitron; Jonathan M. Wengrowicz
+    source_date: "2026-08-22"
+    evidence_class: SOURCE_FACT
+  - source_id: kitron_wengrowicz_replication_repository
+    url: https://github.com/nadav2/short-horizon-reversion
+    evidence_class: SOURCE_FACT
+    caveat: Repository URL is identified in paper data-availability statement; no code audit in this run.
+source_original:
+  instruments: 183 highest-volume Binance USDT spot pairs, with matched comparison to 187 US stocks and ETFs; supplemental focal coins, other venues and USDT perpetuals.
+  dataset_clock: 15-minute bar observations primarily 2025-01-01 through 2026-02-11; author separately evaluates earlier focal histories and a 2026-02 through 2026-08 frozen continuation.
+  original_test: Walk-forward direction models predict next 15-minute bar direction from prior returns; source includes a simple previous-bar sign reversal baseline and a constrained logit; not an approved trading system.
+  feature_mechanism: Reversal is more pronounced after aggressive taker flow agreeing with price direction; adding twelve imbalance lags provided no OOS improvement over the price-sign path in authors' tests.
+  portfolio_construction: UNKNOWN; paper tests per-instrument directional predictability and execution-cost capture, not a published dollar-neutral multi-coin portfolio.
+  sizing_weights_rebalance: UNKNOWN as executable portfolio orders; statistical clock is 15-minute adjacent bars.
+  original_execution: No live orders proven; conditional confidence-threshold cost comparisons are research evaluations, not fills.
+  author_reported_results_unverified: About 90 percent of 183 Binance spot pairs significant directional reversal; gross edge reaches about 1.3 bps/trade; no individual pair clears the authors' 5-bp maker round-trip benchmark at any confidence threshold; 5-minute tests performed worse.
+economic_thesis:
+  type: SOURCE_FACT
+  mechanism: Transitory aggressive-flow-induced prices partially revert in the next 15-minute candle; consistent with compensation for immediacy, not conclusive causal identification.
+  expected_alpha: Directional reversal is statistically detectable before costs; source explicitly reports it is NOT profitable after benchmark spot fees.
+  null_and_falsifier: No persistent sign reversal beyond base-rate, stale prints and beta adjustments; or realized net edge fails even the cheapest executable fee/spread schedule.
+  adverse_evidence: AUTHOR_REPORTED_TEST_UNVERIFIED - observed gross reversal fails 5-bp maker and larger taker spot cost bands; the common-factor and flat-bar artifacts were explicitly tested.
+causal_and_cost_contract:
+  observable_at_decision: Fully closed prior 15-minute candle price sign and taker-buy volume; no future candle direction or later book snapshot.
+  original_horizon: One adjacent 15-minute candle; flow information is conditioned on same closed candle.
+  adaptation_fill_clock: Hypothetical order after candle closure at a genuinely available subsequent quote; bar-close fill is not established by source.
+  fee_assumption_source: Authors compare gross directional return to a 5-bp maker round-trip reference and larger taker fees; NOT a zero-fee strategy.
+  shorting_and_financing: Spot original cannot assume costless shorting; perpetual implementation is a separate proposal and would require funding financing, borrow and liquidation accounting although funding must not form the signal.
+  prop_firm_fit: UNKNOWN; raw source edge smaller than even cited maker cost benchmark; presume nonviable without independently established rebate or execution improvement.
+adaptation_proposal:
+  status: ADAPTATION_PROPOSAL_NOT_SOURCE
+  idea: Compare cross-coin signs of fully completed flow-driven 15-minute moves; investigate relative-value ranking of temporary pressure versus a market-neutral benchmark.
+  eligibility_weights_rebalance: UNKNOWN; no ranks, top-bottom counts, gross leverage, stops, or weights inferred from this paper.
+  research_disposition: Cost-negative source finding is a strong early falsifier, not evidence of a tradeable basket.
+source_integrity:
+  evidence_boundary: SOURCE_FACT is author-stated method only; AUTHOR_REPORTED_TEST_UNVERIFIED results are not independently reproduced. LOCAL_INFERENCE and ADAPTATION_PROPOSAL cannot be passed off as source rules.
+  known_bias: Download-date high-volume selection and missing delisted pairs can induce survivorship; paper supplies sensitivity but not a full delisting-complete repair.
+  unresolved_fields:
+    - Exact historical member list, all original fitted signal parameters and confidence grid were not transcribed or audited here.
+    - Multi-coin basket weights, execution fees, leverage, risk limits and realized fill quality UNKNOWN.
+    - Authored replication GitHub repository has not been independently checked out or run.
+  publication_only: No empirical computation, ATS runs, trial ledger interaction, protected reads, models trained or orders.
