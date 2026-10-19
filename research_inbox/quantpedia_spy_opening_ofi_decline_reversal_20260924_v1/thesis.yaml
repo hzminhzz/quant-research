@@ -1,0 +1,63 @@
+candidate_id: quantpedia_spy_opening_ofi_decline_reversal_20260924_v1
+selection_family_id: spy_morning_trade_initiator_flow_reversal
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: quantpedia_demko_belobrad_ofi_reversal_20260924
+    author: "Jakub Demko and David Belobrad"
+    publication_date: "2026-09-24"
+    title: "Can Weakening Morning Order Flow Predict SPY Reversals?"
+    url: https://quantpedia.com/can-weakening-morning-order-flow-predict-spy-reversals/
+economic_thesis:
+  SOURCE_FACT: "Study tests US SPY ETF long-only overnight/next-day reversal after two consecutive daily deteriorations in opening-session aggressor-side order flow."
+  AUTHOR_REPORTED_UNVERIFIED: "Author reports higher risk-adjusted returns and lower drawdown than three price and passive comparators for two-day first-30-minute deterioration and next-trading-day close exit; exact table numbers have not been independently reproduced."
+  LOCAL_INFERENCE: "Persistent sell-initiated morning activity might represent temporary exhaustion or liquidity provision rather than permanent information."
+  null: "Two-day declining OFI conditional SPY long has no independently persistent net advantage over matched negative-return and exposure controls."
+mechanism:
+  source_claim: "Opening-period imbalance may reflect concentrated reaction to overnight news and temporary price pressure."
+  alternative: "Risk regime and market beta timing could explain favorable drawdown without alpha."
+instruments:
+  original_product: "SPY US-listed ETF, regular US equity trading session. Not US500 CFD, futures, or a cross-sectional equity strategy."
+  product_substitution: "NONE."
+data_requirements:
+  needed: "Algoseek US Equities Trade and Quote Extended Minute Bar with contemporaneous trade-at-ask, trade-at-bid and minute volume; SPY adjusted prices and executable late-day closing spreads."
+  source_sample: "2021-04-01 through 2026-04-15; 1-minute TAQ-derived source."
+  verified_availability: false
+feature_contracts:
+  SOURCE_FACT:
+    - "OFI = Trade At Ask - Trade At Bid."
+    - "Other source comparisons: Aggressor Ratio = ask / (ask + bid); Normalized OFI = (ask - bid) / volume; Ask-Bid Ratio = ask / bid."
+    - "Aggregate selected order-flow metric within signal window: 09:30-10:00 ET, 09:30-15:00 ET or 09:30-15:30 ET."
+  UNKNOWN: "Ties, zero denominators, missing-minute handling and vendor reporting latency are unspecified."
+strategy_rules:
+  original_author_rules:
+    - "For each SPY trading day, derive daily opening-window OFI from minute trade-at-bid/ask volumes."
+    - "Long only when the metric deteriorates for two consecutive trading days; author also explores one- and three-day runs with weaker results."
+    - "Trade entry at 15:59 Eastern exchange-session time, on signal day; source exit alternatives: next trading day 09:31 or next trading day 15:59."
+    - "Strongest author-reported configuration combines 09:30-10:00 first-half-hour OFI decline with exit at next trading day's 15:59."
+  ADAPTATION_PROPOSAL: "No daily OHLCV proxy: Aggressor trade classification is an indispensable source information set."
+signal_and_execution_clock:
+  source_clock: "NYSE local exchange session 09:30-10:00 source feature, 15:59 entry, next trading day 15:59 or 09:31 exit; DST-aware ET."
+  UNKNOWN: "End-of-bar versus start-of-bar execution on the exact 15:59 minute and when Algoseek-derived values are actually available."
+sizing:
+  source: "Long-or-cash SPY timing; exact capital allocation, costs, and concurrent portfolio rules UNKNOWN."
+cost_assumptions:
+  UNKNOWN: "Commissions, spreads, short rebates not applicable to long-only rule, intraday/overnight crossing and financing not independently evidenced."
+baseline:
+  source_competitors: ["SPY buy and hold", "Two-day negative price-return reversal with same holds", "Two-day negative 09:30-10:00 price-return reversal with same holds"]
+development_evaluation:
+  author_reported_unverified: "Selected two-day OFI reversal outperforms chosen baseline alternatives on risk-adjusted terms; one-day and three-day deteriorations are weaker."
+  local_calculations: false
+primary_falsifier:
+  not_run: "After proper feature latency and net costs, open-session OFI trend does not beat price-only negative-morning and daily-reversal matched-exposure controls."
+acceptance_and_stop_rules:
+  current: "THESIS_CAPTURED only; no data claim or trade approval."
+  stop_on: ["Vendor order-flow is not obtainable as-of decision time", "Reported edge vanishes once multiple configurations counted", "Late-day same-bar fill is causally invalid"]
+parity_and_causality_tests:
+  needed: ["Actual classification availability", "ET/DST/holiday windows", "One/two/three-day selection-family ledger", "Closing minute quote feasibility", "Bid/ask and impact", "Equal exposure of price-based controls"]
+unresolved_blockers:
+  - "Historical proprietary Algoseek minute trade classification is unverified locally."
+  - "Exact 15:59 decision-to-fill lag and closed-interval convention missing."
+  - "Source reports selected configuration, not prespecified unseen holdout."

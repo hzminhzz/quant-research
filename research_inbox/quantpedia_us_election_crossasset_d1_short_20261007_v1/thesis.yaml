@@ -1,0 +1,61 @@
+candidate_id: quantpedia_us_election_crossasset_d1_short_20261007_v1
+selection_family_id: us_federal_election_postvote_risk_basket_repricing
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: quantpedia_dujava_election_multia_20261007
+    author: Cyril Dujava
+    publication_date: "2026-10-07"
+    title: "Trading the Multi-Asset Drift Around U.S. Elections"
+    url: https://quantpedia.com/trading-the-multi-asset-drift-around-u-s-elections/
+economic_thesis:
+  SOURCE_FACT: "Author constructs US federal election day D0 and following-day D+1 close-to-close cross-asset ETF event returns and proposes an equally weighted risk-asset short basket on D+1."
+  AUTHOR_REPORTED_UNVERIFIED: "For 9 full-coverage election cycles (2008-2024), author reports 1.86 percent annualized performance, 0.31 Sharpe, -4.16 percent maximum drawdown for seven-leg equal-weight D+1 short; only nine full-basket events."
+  LOCAL_INFERENCE: "Resolution of uncertainty may reverse temporary pre-election hedging and portfolio flows; this causal explanation is unverified."
+  null: "The seven-leg D+1 short carries no independently stable after-cost return across elections when correlated beta, crises and small-event-sample uncertainty are considered."
+mechanism:
+  source_claim: "Political uncertainty premium built into risk assets unwinds as results become known; duration shows a separate opposite rotation."
+  adverse_alternative: "Any effect may be driven by the few high-volatility election events or correlated macro news."
+instruments:
+  original_product: "Original ETF spread legs: XLK minus SPY, EEM minus SPY, IYR minus SPY; absolute legs HYG, GLD, USO, UDN. IEF Treasury duration rotation is separately discussed but not part of this captured seven-leg risk short."
+  product_substitution: "NONE; no automatic conversion to futures, crypto, US500 CFD or FX spot."
+data_requirements:
+  needed: "As-of US federal election calendar with next NYSE trading day, ETF adjusted price history and inception, bid/ask quotes, ETF borrow/financing, spread-leg hedge definitions, closing time."
+  verified_availability: false
+feature_contracts:
+  SOURCE_FACT:
+    - "D0 is federal election trading day, D+1 next US equity trading session. D+1 return measured close D0 to close D+1."
+    - "Complete seven-leg basket exists only 2008 onward because some ETFs launched later."
+  UNKNOWN: "Tradable prices at exact D0 close before the after-close vote outcome and next open gap versus close-to-close model."
+strategy_rules:
+  original_author_rules:
+    - "On election D0 close initiate equal-weight SHORT exposures to each of seven risk-return series: XLK-SPY, EEM-SPY, IYR-SPY, HYG, GLD, USO, UDN."
+    - "For a spread short XLK-SPY (etc.), short the first ETF and long the SPY comparator as dictated by spread sign; do not silently turn it into a naked ETF short."
+    - "Exit all legs at D+1 close after one trading day; no outcome-party prediction required."
+    - "The D0 long is an author-evaluated control, not recommended source trade. Separate IEF D-4-to-D-1 short and D0-to-D+2 long is context, not a second capture here."
+  ADAPTATION_PROPOSAL: "None. The election event horizon and ETF spread structure must not be changed in source capture."
+signal_and_execution_clock:
+  original_reported: "Preannounced US federal election date; enter close D0, exit close D+1. Event return is close-to-close, not next-day intraday."
+  UNKNOWN: "Whether same D0 closing execution is attainable at assumed marks and how election-result timing changes after-hours exposure."
+sizing:
+  author: "Equal weights across seven constituent risk-return legs; exact spread-leg gross capital, net market beta and financing implementation UNKNOWN."
+cost_assumptions:
+  UNKNOWN: "Short locate/borrow, ETF spread hedges, bid/ask gap slippage and gross cash usage not independently demonstrated."
+baseline:
+  proposed_not_executed: "Other fixed November and Tuesday controls with matched asset exposure, and D0 passive/event-neutral basket comparison; no parameter search authorized."
+development_evaluation:
+  author_reported_unverified: "Thirteen federal elections 2000-2024, nine events with seven-leg coverage from 2008-2024; author's thin D0 long control Sharpe 0.19 and D+1 short Sharpe 0.31 are retrospective."
+  local_calculations: false
+primary_falsifier:
+  not_run: "D+1 post-vote signed basket differential indistinguishable from matched-date returns, or wiped out by borrow, spreads and gap execution."
+acceptance_and_stop_rules:
+  current: "THESIS_CAPTURED only; deliberately low confidence due to 9 fully observed historical event trades."
+  stop_on: ["Cannot reconcile tradeable ETF inception/product series", "Event date or D0/D+1 timing changes", "Source spreads cannot be hedged or borrowed", "Single crisis episode explains reported outcome"]
+parity_and_causality_tests:
+  needed: ["Statutory election-vs-trading-calendar clock", "D0 close execution and overnight gap", "Per-ETF inception eligibility", "Exact SPY hedge of sector spreads", "Cash financing short collateral", "Election-vs-November placebo and 2008/2020 exclusion"]
+unresolved_blockers:
+  - "Nine full-universe historical events cannot support strong robustness claims."
+  - "Author's seven spread/absolute return series need an executable gross notional construction, not assumed zero-cost self financing."
+  - "No native protocol or broker/borrow qualification; 2026 election not an approved holdout."

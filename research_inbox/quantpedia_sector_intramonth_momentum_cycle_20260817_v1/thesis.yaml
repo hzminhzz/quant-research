@@ -1,0 +1,59 @@
+candidate_id: quantpedia_sector_intramonth_momentum_cycle_20260817_v1
+selection_family_id: us_sector_etf_intramonth_rank_calendar_cycle
+status: THESIS_CAPTURED
+research_mode: SOURCE_CAPTURE_ONLY
+not_execution_approved: true
+not_a_frozen_session: true
+source_references:
+  - id: quantpedia_dujava_sector_cycle_20260817
+    author: Cyril Dujava
+    publication_date: "2026-08-17"
+    title: "Sectoral Intramonth Momentum Cycle: Exploiting Turn-of-the-Month Patterns in Sector ETF Strategies"
+    url: https://quantpedia.com/sectoral-intramonth-momentum-cycle/
+economic_thesis:
+  SOURCE_FACT: "The original article tests trailing 252-trading-day sector ETF momentum conditioned on specific trading days around calendar month-end, with first-day continuation, days two-three reversal and pre-month-end continuation."
+  AUTHOR_REPORTED_UNVERIFIED: "For 1998-12-22 to 2026-06-30, author reports long-top3/short-bottom3 composite 5.99 percent annualized, Sharpe 0.55 and maximum drawdown -21.72 percent; no independent reproduction or verified net-of-cost accounting."
+  LOCAL_INFERENCE: "Institutional month-end flows might temporarily redistribute demand among sector ETF winners and losers; both mechanism and persistence remain unverified."
+  null: "Once clock, costs, exposure and prior search are accounted for, no incremental sector-spread advantage remains over continuous momentum and date-matched controls."
+mechanism:
+  source_claim: "Authors attribute month-start winner flows, following two-day reversal and pre-month-end momentum to predictable institutional liquidity demand."
+  counterparty: "Hypothesized institutional allocators and liquidity providers, not verified matched counterparties."
+instruments:
+  original_product: "Nine US Select Sector SPDR ETFs XLB, XLE, XLF, XLI, XLK, XLP, XLU, XLV, XLY; SPY is comparison/short hedge."
+  product_substitution: "NONE; CFD and futures versions not source-equivalent."
+data_requirements:
+  needed: "As-of adjusted ETF prices and distributions, actual trading calendar and historical membership, borrow/financing and executable spreads for every ETF and SPY."
+  verified_availability: false
+feature_contracts:
+  SOURCE_FACT: "At each month-end cash close, rank nine sectors by trailing 252-trading-day total returns; retain these rankings for next month's calendar legs."
+  UNKNOWN: "Precise historical vendor total-return reconstruction, closing-auction availability and executable borrow conditions."
+strategy_rules:
+  original_author_rules:
+    - "Two source variants: Strat1-SPY long equal-weight top-three sectors and short SPY for equal notional; Strat2 long equal-weight top-three sectors and short equal-weight bottom-three sectors, equal notional."
+    - "At close D-10 trading days before month-end, enter current-month winner-minus-loser/benchmark momentum position using ranking from the PREVIOUS month-end; exit close D-5."
+    - "At final trading-day close D0, recompute trailing-252-day ranks and enter winners-long spread; close D+1 (first trading day of new month)."
+    - "At close D+1, reverse the spread (bottom-three long, top-three short for Strat2; SPY long, top-three short for Strat1); hold through close D+3 and close all."
+    - "Source invests only on these windows; no positions between them."
+  ADAPTATION_PROPOSAL: "None; no CFD conversion, sizing optimizations or altered time windows."
+signal_and_execution_clock:
+  source_clock: "US exchange trading-day calendar; month-end D0 close computes ranks; pre-month-end D-10 trade uses most recent prior month-end's frozen ranks."
+  UNKNOWN: "Close print signal and fill causality at D0 and other exact closes; eligible post-close execution is not proven."
+sizing:
+  author: "Equal weights inside the long and short side, equal dollar notional, zero net dollar exposure; no extra leverage specified."
+cost_assumptions:
+  UNKNOWN: "Article does not establish independently verified bid/ask, close auction fills, short borrow, market impact or tax-inclusive net returns."
+baseline:
+  future_comparison_not_executed: "Same sectors and 252-day ranking held continuously and identical timestamp matched placebo windows, with costs and exposure held equal."
+development_evaluation:
+  author_reported_unverified: "Three selected legs and composite on 1998-2026 same sample; authors report composite Sharpe about 0.54-0.55, not separately independently OOS."
+  local_calculations: false
+primary_falsifier:
+  not_run: "Correct-clock, same-risk after-cost composite fails to improve net risk-adjusted outcomes over date-matched controls and ordinary sector momentum."
+acceptance_and_stop_rules:
+  current: "THESIS_CAPTURED; literature capture only."
+  stop_on: ["Closing-print simultaneity with month-end ranking", "Cannot reconstruct total-return series", "Costs erase modest paper edge", "Unquantified calendar-window selection"]
+parity_and_causality_tests:
+  needed: ["Trading-day D offsets across holidays", "Prior-month rank at D-10", "Rank close-availability versus fill", "ETF inception and corporate actions", "Actual short availability and costs", "Multiple-testing family ledger"]
+unresolved_blockers:
+  - "No verified executable closes, borrow costs, data provenance or historical parameter-selection count."
+  - "Related sector ETF rotation already exists in inbox but is a different 1-month middle-rank long-only mechanism."
