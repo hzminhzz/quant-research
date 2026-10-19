@@ -52,14 +52,22 @@ def align_carry_events(events: pl.DataFrame, panel: pl.DataFrame) -> pl.DataFram
                .join_asof(feed, left_on='timestamp', right_on='feed_at', strategy='forward'))
     if aligned['feed_at'].null_count():
         raise QuantError('BLOCKED_DATA', 'A carry settlement falls after the last native instant')
-    if aligned.select(pl.struct('feed_at', 'symbol').n_unique()).item() != aligned.height:
-        raise QuantError('BLOCKED_DATA', 'Two carry settlements for one symbol map to the same instant')
-    columns = [pl.col('feed_at').alias('timestamp'), pl.col('timestamp').alias('source_event_at'),
-               'symbol', 'funding_rate', 'mark_price']
+    # Session-bound feeds skip nights and weekends, so several calendar
+    # settlements can become effective at the same bar. Their accrual sums; the
+    # last causal mark is used and the count is retained for provenance.
+    aggregations = [
+        pl.col('funding_rate').sum().alias('funding_rate'),
+        pl.col('mark_price').last().alias('mark_price'),
+        pl.col('timestamp').min().alias('source_event_at'),
+        pl.col('timestamp').max().alias('last_scheduled_at'),
+        pl.len().alias('settlement_count'),
+    ]
     for name in ('curve_at', 'mark_at', 'curve_name'):
         if name in aligned.columns:
-            columns.append(pl.col(name))
-    return aligned.select(columns).sort('timestamp', 'symbol')
+            aggregations.append(pl.col(name).last())
+    return (aligned.group_by('feed_at', 'symbol').agg(aggregations)
+            .with_columns(pl.col('feed_at').alias('timestamp')).drop('feed_at')
+            .sort('timestamp', 'symbol'))
 
 
 def run_native_ts(panel: pl.DataFrame, targets: pl.DataFrame, spec: TimeSeriesSpec,

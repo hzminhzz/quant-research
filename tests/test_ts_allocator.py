@@ -147,6 +147,13 @@ def test_gross_exposure_scales_the_target():
     assert abs(latest['target_weight'].abs().sum() - 0.75) < 1e-12
 
 
+def test_partial_eligibility_holds_flat_instead_of_raising():
+    spec = make_spec(symbols=('A', 'B', 'C'), per_instrument_cap=0.5)
+    features = make_features({'A': 1.0, 'B': None, 'C': None}, {'A': 0.1, 'B': 0.2, 'C': 0.3})
+    targets = allocate_ts(features, spec, spec.market_classes[0])
+    assert targets['target_weight'].abs().sum() == 0.0
+
+
 def test_unreachable_cap_is_rejected():
     spec = make_spec(symbols=('A',), per_instrument_cap=0.5)
     with pytest.raises(QuantError) as exc:

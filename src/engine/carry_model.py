@@ -102,7 +102,8 @@ def load_rate_curve(store: str | Path, name: str, *, start: datetime,
                     end: datetime) -> pl.DataFrame:
     """Read a named daily government curve as `timestamp, rate_pct`, no future rows."""
     safe_name(name)
-    root = Path(store).resolve() / f'bonds_daily_{name}'
+    alias = name.removeprefix('bonds_daily_')
+    root = Path(store).resolve() / f'bonds_daily_{alias}'
     files = sorted(root.glob('year=*/month=*/data.parquet'))
     if not files:
         raise QuantError('BLOCKED_DATA', f'Rate curve dataset is absent: {root}')
@@ -175,11 +176,12 @@ def build_carry_sidecar(prices: pl.DataFrame, curve: pl.DataFrame,
             raise QuantError('BLOCKED_DATA', f'{product.symbol}: no marks inside the carry window')
         joined = curve_joined.join_asof(marks, left_on='join_at', right_on='mark_key',
                                         strategy='backward')
-        if joined.height != len(grid) or joined.filter(
-            pl.col('curve_rate_pct').is_null() | pl.col('mark_price').is_null()
-        ).height:
-            raise QuantError('BLOCKED_DATA',
-                             f'{product.symbol}: missing curve or mark at a carry settlement')
+        # A panel begins at its first bar, so the first settlements have no causal
+        # mark yet. Drop only that leading prefix; an as-of join cannot leave an
+        # interior gap once a mark exists.
+        joined = joined.filter(pl.col('mark_price').is_not_null())
+        if joined.is_empty():
+            raise QuantError('BLOCKED_DATA', f'{product.symbol}: no causal mark in the window')
         for row in joined.iter_rows(named=True):
             risk_free = row['curve_rate_pct'] / 100 if config.annual_rate_is_percent else row['curve_rate_pct']
             annual = product.annual_carry(risk_free)

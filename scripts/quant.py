@@ -193,8 +193,10 @@ def main(argv=None) -> int:
                                   'spec_hash': spec.spec_hash, 'source_spec_status': spec.source_spec_status}))
             return 0
         if is_ts:
-            raise QuantError('INVALID_SPEC',
-                             'Time-series sleeves use the sleeve runner, not the v1 funnel')
+            from src.engine.sleeve_runner import run_spec
+            report = run_spec(args.spec, run_log=args.run_log)
+            print(json.dumps(report, sort_keys=True))
+            return 0 if report['status'] == 'COMPLETED' else 3
         if is_event and args.build_if_missing:
             raise QuantError('INVALID_SPEC', 'Frozen event authority cannot be rebuilt by --build-if-missing')
         if args.build_if_missing and not (Path(spec.panel_root) / 'manifest.json').exists():

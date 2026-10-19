@@ -133,14 +133,16 @@ def test_invalid_mark_is_blocked_before_execution():
     assert exc.value.status == 'BLOCKED_DATA'
 
 
-def test_duplicate_settlement_mapping_is_blocked():
+def test_settlements_mapping_to_one_instant_merge_and_sum():
     missing = [START + timedelta(hours=4), START + timedelta(hours=5)]
     panel = make_panel().filter(~pl.col('timestamp').is_in(missing))
-    first = make_events(hour=4)
-    second = make_events(hour=5)
-    with pytest.raises(QuantError) as exc:
-        align_carry_events(pl.concat([first, second]), panel)
-    assert exc.value.status == 'BLOCKED_DATA'
+    first = make_events(hour=4, rate=0.0002)
+    second = make_events(hour=5, rate=0.0003)
+    merged = align_carry_events(pl.concat([first, second]), panel)
+    assert merged.height == 2
+    assert merged['timestamp'].unique().to_list() == [START + timedelta(hours=6)]
+    assert merged['funding_rate'].unique().to_list() == pytest.approx([0.0005])
+    assert merged['settlement_count'].unique().to_list() == [2]
 
 
 def test_two_runs_are_identical():

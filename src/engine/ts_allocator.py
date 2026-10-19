@@ -91,8 +91,17 @@ def capped_budgets(raw: dict[str, float], cap: float) -> dict[str, float]:
     return budgets
 
 
-def _weights(eligible: pl.DataFrame, spec: TimeSeriesSpec) -> dict[str, tuple[float, float]]:
+def _weights(eligible: pl.DataFrame, spec: TimeSeriesSpec,
+             declared_count: int) -> dict[str, tuple[float, float]]:
     allocation = spec.risk_allocation
+    if declared_count * allocation.per_instrument_cap < 1 - 1e-12:
+        raise QuantError('INVALID_ALLOCATION',
+                         'Per-instrument caps make the declared gross exposure unreachable '
+                         'for the declared universe')
+    if len(set(eligible['symbol'].to_list())) * allocation.per_instrument_cap < 1 - 1e-12:
+        # Warm-up or a session gap can leave too few eligible names at one
+        # rebalance; hold flat rather than emit an under-invested book.
+        return {}
     budgets = capped_budgets(_raw_budgets(eligible, spec), allocation.per_instrument_cap)
     gross = allocation.gross_exposure
     result = {}
@@ -120,7 +129,7 @@ def allocate_ts(features: pl.DataFrame, spec: TimeSeriesSpec,
     records = []
     for block in scheduled.partition_by('timestamp', maintain_order=True):
         timestamp = block['timestamp'][0]
-        weights = _weights(_eligible(block, spec), spec)
+        weights = _weights(_eligible(block, spec), spec, len(market_class.symbols))
         for row in block.iter_rows(named=True):
             weight, distance = weights.get(row['symbol'], (0.0, 0.0))
             records.append({'timestamp': timestamp, 'symbol': row['symbol'],

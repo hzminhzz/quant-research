@@ -123,14 +123,25 @@ def class_dsr(trial_returns: pl.DataFrame, periods_per_year: int,
     if not np.isfinite(matrix).all():
         raise QuantError('INVALID_DIAGNOSTIC',
                          'DSR trial returns contain null or nonfinite values; align or exclude the trial')
-    result = deflated_sharpe_ratio(matrix, frequency='daily',
-                                   periods_per_year=periods_per_year,
-                                   confidence_level=confidence)
+    variances = matrix.std(axis=0)
+    excluded = [trials[i] for i, value in enumerate(variances)
+                if not np.isfinite(value) or value <= 0]
+    kept = [name for name in trials if name not in excluded]
+    if not kept:
+        raise QuantError('INVALID_DIAGNOSTIC', 'Every trial in the DSR matrix has zero variance')
+    try:
+        result = deflated_sharpe_ratio(trial_returns.select(kept).to_numpy().astype(float),
+                                       frequency='daily',
+                                       periods_per_year=periods_per_year,
+                                       confidence_level=confidence)
+    except ValueError as exc:
+        raise QuantError('INVALID_DIAGNOSTIC', f'DSR unavailable: {exc}') from exc
     return {'probability': float(result.probability), 'trials': int(result.n_trials),
             'observations': int(result.n_samples),
             'leader_sharpe_annualized': float(result.sharpe_ratio_annualized),
             'confidence': confidence,
-            'trials_declared': trials}
+            'trials_declared': kept,
+            'excluded_zero_variance': excluded}
 
 
 def gate_checks(spec: TimeSeriesSpec, *, train_sharpe: float | None,
