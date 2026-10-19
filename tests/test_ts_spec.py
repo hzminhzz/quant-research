@@ -40,6 +40,10 @@ def payload() -> dict:
         },
         'features': [
             {'name': 'ema_32', 'native': 'ema', 'params': {'period': 32}},
+            {'name': 'atr_14', 'native': 'atr', 'params': {'period': 14}},
+            {'name': 'vol_20', 'expr': {'op': 'rolling_std', 'window': 20, 'args': [
+                {'op': 'pct_change', 'periods': 1, 'args': [{'op': 'col', 'name': 'close'}]},
+            ]}},
         ],
         'forecast': {
             'feature': 'ema_32',
@@ -47,8 +51,9 @@ def payload() -> dict:
             'scaling': {'kind': 'bounded_linear', 'scale': 1.0, 'cap': 20.0},
         },
         'volatility_target': 0.10,
-        'risk_allocation': {'method': 'inverse_volatility', 'per_instrument_cap': 0.5},
-        'portfolio_combination': {'method': 'risk_weighted_sum'},
+        'risk_allocation': {'method': 'inverse_volatility', 'per_instrument_cap': 0.5,
+                            'volatility_feature': 'vol_20'},
+        'stops': {'feature': 'atr_14', 'multiple': 3.0},
         'costs': {
             'commission_bps_one_way': 2.0,
             'slippage_bps_one_way': 3.0,

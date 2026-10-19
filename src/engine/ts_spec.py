@@ -75,14 +75,20 @@ class Forecast(Model):
 
 
 class RiskAllocation(Model):
-    """How instrument-level risk is allocated before portfolio combination."""
+    """Instrument risk budgets, scaled to the declared gross exposure."""
     method: Literal['equal_weight', 'inverse_volatility', 'forecast_weighted', 'manual'] = 'equal_weight'
     per_instrument_cap: float = Field(default=1.0, gt=0, le=1)
-    diversification_multiplier: float = Field(default=1.0, gt=0, le=10)
+    gross_exposure: float = Field(default=1.0, gt=0, le=2)
+    volatility_feature: str | None = None
     weights: dict[str, float] | None = None
 
     @model_validator(mode='after')
     def manual_weights(self):
+        needs_vol = self.method in ('inverse_volatility', 'forecast_weighted')
+        if needs_vol and not self.volatility_feature:
+            raise ValueError(f'{self.method} allocation requires a volatility feature')
+        if not needs_vol and self.volatility_feature is not None:
+            raise ValueError('A volatility feature is only meaningful for volatility-weighted allocation')
         if self.method == 'manual':
             if not self.weights:
                 raise ValueError('Manual risk allocation requires explicit weights')
@@ -95,9 +101,10 @@ class RiskAllocation(Model):
         return self
 
 
-class PortfolioCombination(Model):
-    method: Literal['sum', 'risk_weighted_sum'] = 'sum'
-    forecast_weighted_exposure: bool = False
+class Stops(Model):
+    """Frozen protective distance: multiple x declared stop feature over price."""
+    feature: str
+    multiple: float = Field(gt=0)
 
 
 class SleeveCosts(Costs):
@@ -140,7 +147,8 @@ class TimeSeriesSpec(Model):
     forecast: Forecast
     volatility_target: float = Field(default=0.10, gt=0, le=0.5)
     risk_allocation: RiskAllocation = Field(default_factory=RiskAllocation)
-    portfolio_combination: PortfolioCombination = Field(default_factory=PortfolioCombination)
+    stops: Stops
+    rebalance_bars: int = Field(default=1, ge=1)
     costs: SleeveCosts
     gates: SleeveGates = Field(default_factory=SleeveGates)
     label_horizon_bars: int = Field(default=1, ge=1)
@@ -171,6 +179,11 @@ class TimeSeriesSpec(Model):
             raise ValueError('`forecast` is reserved for the scaled projection')
         if self.forecast.feature not in names:
             raise ValueError('Forecast must name a declared feature output')
+        if self.stops.feature not in names:
+            raise ValueError('Stop distance must name a declared feature output')
+        vol = self.risk_allocation.volatility_feature
+        if vol is not None and vol not in names:
+            raise ValueError('Volatility feature must name a declared feature output')
         classes = [c.name for c in self.market_classes]
         if len(classes) != len(set(classes)):
             raise ValueError('Each market class may be declared once')

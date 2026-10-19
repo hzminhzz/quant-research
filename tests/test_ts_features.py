@@ -41,12 +41,18 @@ def spec_payload(**forecast: object) -> dict:
                 'op': 'sub',
                 'args': [{'op': 'col', 'name': 'close'}, {'op': 'lit', 'value': 100.0}],
             }},
+            {'name': 'atr_14', 'native': 'atr', 'params': {'period': 3}},
+            {'name': 'vol_20', 'expr': {'op': 'rolling_std', 'window': 3, 'args': [
+                {'op': 'pct_change', 'periods': 1, 'args': [{'op': 'col', 'name': 'close'}]},
+            ]}},
         ],
         'forecast': {
             'feature': 'close_minus_100',
             'horizon_bars': 1,
             'scaling': {'kind': 'bounded_linear', 'scale': 10.0, 'cap': 2.0},
         },
+        'risk_allocation': {'method': 'inverse_volatility', 'volatility_feature': 'vol_20'},
+        'stops': {'feature': 'atr_14', 'multiple': 3.0},
         'costs': {
             'commission_bps_one_way': 1.0,
             'slippage_bps_one_way': 1.0,
@@ -132,9 +138,13 @@ def test_compile_runs_three_cutoff_proofs():
 
 def test_cross_sectional_operation_requires_declaration():
     payload = spec_payload()
-    payload['features'] = [{'name': 'rank_close', 'expr': {
-        'op': 'xs_rank', 'args': [{'op': 'col', 'name': 'close'}],
-    }}]
+    payload['features'] = [
+        {'name': 'rank_close', 'expr': {
+            'op': 'xs_rank', 'args': [{'op': 'col', 'name': 'close'}],
+        }},
+        {'name': 'atr_14', 'expr': {'op': 'col', 'name': 'close'}},
+        {'name': 'vol_20', 'expr': {'op': 'col', 'name': 'close'}},
+    ]
     payload['forecast']['feature'] = 'rank_close'
     spec = TimeSeriesSpec.model_validate(payload)
     with pytest.raises(QuantError) as exc:
@@ -150,9 +160,13 @@ def test_cross_sectional_operation_requires_declaration():
 
 def test_look_ahead_expression_is_rejected():
     payload = spec_payload()
-    payload['features'] = [{'name': 'future_close', 'expr': {
-        'op': 'shift', 'periods': -1, 'args': [{'op': 'col', 'name': 'close'}],
-    }}]
+    payload['features'] = [
+        {'name': 'future_close', 'expr': {
+            'op': 'shift', 'periods': -1, 'args': [{'op': 'col', 'name': 'close'}],
+        }},
+        {'name': 'atr_14', 'expr': {'op': 'col', 'name': 'close'}},
+        {'name': 'vol_20', 'expr': {'op': 'col', 'name': 'close'}},
+    ]
     payload['forecast']['feature'] = 'future_close'
     spec = TimeSeriesSpec.model_validate(payload)
     with pytest.raises(QuantError) as exc:
@@ -171,9 +185,13 @@ def test_declared_python_artifact_compiles_and_proves_causality(tmp_path: Path):
     path = tmp_path / 'artifact.pkl'
     path.write_bytes(cloudpickle.dumps(artifact))
     payload = spec_payload()
-    payload['features'] = [{'name': 'raw_signal', 'expr': {
-        'op': 'sub', 'args': [{'op': 'col', 'name': 'close'}, {'op': 'lit', 'value': 100.0}],
-    }}]
+    payload['features'] = [
+        {'name': 'raw_signal', 'expr': {
+            'op': 'sub', 'args': [{'op': 'col', 'name': 'close'}, {'op': 'lit', 'value': 100.0}],
+        }},
+        {'name': 'atr_14', 'expr': {'op': 'col', 'name': 'close'}},
+        {'name': 'vol_20', 'expr': {'op': 'col', 'name': 'close'}},
+    ]
     payload['forecast']['feature'] = 'raw_signal'
     payload['python_feature_artifact'] = {
         'path': path.name,
@@ -200,9 +218,11 @@ def test_artifact_reading_future_rows_fails_causality(tmp_path: Path):
     path = tmp_path / 'lookahead.pkl'
     path.write_bytes(cloudpickle.dumps(look_ahead))
     payload = spec_payload()
-    payload['features'] = [{'name': 'raw_signal', 'expr': {
-        'op': 'col', 'name': 'close',
-    }}]
+    payload['features'] = [
+        {'name': 'raw_signal', 'expr': {'op': 'col', 'name': 'close'}},
+        {'name': 'atr_14', 'expr': {'op': 'col', 'name': 'close'}},
+        {'name': 'vol_20', 'expr': {'op': 'col', 'name': 'close'}},
+    ]
     payload['forecast']['feature'] = 'raw_signal'
     payload['python_feature_artifact'] = {
         'path': path.name,
