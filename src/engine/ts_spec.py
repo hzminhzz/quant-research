@@ -152,6 +152,7 @@ class TimeSeriesSpec(Model):
     costs: SleeveCosts
     gates: SleeveGates = Field(default_factory=SleeveGates)
     label_horizon_bars: int = Field(default=1, ge=1)
+    initial_cash: float = Field(default=100000, gt=0)
     seed: int = Field(default=42, ge=0)
     cutoff_checks: int = Field(default=3, ge=3, le=1000)
     assumptions: list[str] = Field(default_factory=list)

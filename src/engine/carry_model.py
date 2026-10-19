@@ -105,11 +105,13 @@ def load_rate_curve(store: str | Path, name: str, *, start: datetime,
         raise QuantError('BLOCKED_DATA', f'Rate curve dataset is absent: {root}')
     frame = (pl.concat([pl.read_parquet(path) for path in files])
              .select('timestamp', pl.col('close').alias('rate_pct'))
-             .filter((pl.col('timestamp') >= utc(start)) & (pl.col('timestamp') < utc(end)))
+             .filter(pl.col('timestamp') < utc(end))
              .sort('timestamp')
              .unique('timestamp', keep='last'))
+    prior = frame.filter(pl.col('timestamp') < utc(start)).tail(1)
+    frame = pl.concat([prior, frame.filter(pl.col('timestamp') >= utc(start))])
     if frame.is_empty():
-        raise QuantError('BLOCKED_DATA', f'Rate curve {name} has no observations in the window')
+        raise QuantError('BLOCKED_DATA', f'Rate curve {name} has no observations before window end')
     if frame.select(pl.col('rate_pct').is_null().any() | pl.col('rate_pct').is_finite().not_().any()).item():
         raise QuantError('BLOCKED_DATA', f'Rate curve {name} contains null or nonfinite yields')
     return frame
@@ -155,6 +157,10 @@ def build_carry_sidecar(prices: pl.DataFrame, curve: pl.DataFrame,
             .rename({'timestamp': 'curve_key'}).sort('curve_key'))
     curve_joined = settlements.join_asof(rate, left_on='join_at', right_on='curve_key',
                                          strategy='backward')
+    missing_curve = curve_joined.filter(pl.col('curve_rate_pct').is_null())
+    if missing_curve.height:
+        instant = missing_curve['timestamp'][0]
+        raise QuantError('BLOCKED_DATA', f'Missing curve observation before carry settlement {instant}')
     curve_sha256 = digest(rate.select('curve_at', 'curve_rate_pct').to_dicts())
     events = []
     for product in products:
@@ -166,7 +172,11 @@ def build_carry_sidecar(prices: pl.DataFrame, curve: pl.DataFrame,
             raise QuantError('BLOCKED_DATA', f'{product.symbol}: no marks inside the carry window')
         joined = curve_joined.join_asof(marks, left_on='join_at', right_on='mark_key',
                                         strategy='backward')
-        joined = joined.filter(pl.col('curve_rate_pct').is_not_null() & pl.col('mark_price').is_not_null())
+        if joined.height != len(grid) or joined.filter(
+            pl.col('curve_rate_pct').is_null() | pl.col('mark_price').is_null()
+        ).height:
+            raise QuantError('BLOCKED_DATA',
+                             f'{product.symbol}: missing curve or mark at a carry settlement')
         for row in joined.iter_rows(named=True):
             risk_free = row['curve_rate_pct'] / 100 if config.annual_rate_is_percent else row['curve_rate_pct']
             annual = product.annual_carry(risk_free)
