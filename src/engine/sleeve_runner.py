@@ -20,6 +20,7 @@ import yaml
 from .carry_model import CarryConfig, CarryProduct, build_carry_sidecar, load_rate_curve
 from .common import QuantError, digest, file_hash, read_json
 from .cost_qualification import qualify_costs, run_qualified_ts
+from .holdout import guard_development_read
 from .sleeve_matrix import load_frozen, require_declaration, require_symbols
 from .ts_allocator import allocate_ts
 from .ts_casefile import build_casefile, read_trials, record_attempt, write_casefile
@@ -168,6 +169,7 @@ def run_sleeve(spec_path: str | Path, market_class_name: str, *,
     warmup = _lookback(spec.features) * market_class.bar_seconds
     start = spec.windows.train.start - timedelta(seconds=warmup)
     end = spec.windows.validation.end
+    guard_development_read(end, spec.windows.protected.start)
     try:
         panel = panel_loader(market_class, start, end)
         require_symbols(market_class, set(panel['symbol'].unique().to_list()))
