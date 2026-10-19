@@ -17,6 +17,12 @@ from uuid import uuid4
 
 import yaml
 
+# Allow direct execution by absolute path (hourly schedulers, bare scripts) to
+# import this checkout's ``src`` package without PYTHONPATH or a repo-root cwd.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from src.engine.research_handoff import _UniqueKeyLoader, validate_handoff
 from src.research_control.research_inbox_queue import (
     NESTED_SECTIONS,

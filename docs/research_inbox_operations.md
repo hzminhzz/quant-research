@@ -31,28 +31,38 @@ are staged, checked for source novelty, and committed on a clean task-owned
 `research/<name>` branch based on current `origin/main`, run:
 
 ```sh
-.venv/bin/python scripts/research_source_publication.py publish --factory ml --run-id <unique-hourly-invocation-id>
+<quant-research>/.venv/bin/python \
+  <quant-research>/scripts/research_source_publication.py publish \
+  --repo <isolated-checkout> --factory ml --run-id <unique-hourly-invocation-id>
 # Valid no-new-source outcome after a documented screen:
-.venv/bin/python scripts/research_source_publication.py no-op --factory general --run-id <unique-id> --reason 'all sourced candidates were duplicates'
+<quant-research>/.venv/bin/python \
+  <quant-research>/scripts/research_source_publication.py no-op \
+  --repo <isolated-checkout> --factory general --run-id <unique-id> \
+  --reason 'all sourced candidates were duplicates'
 ```
 
-Use `--repo PATH` for the isolated checkout; use the Python interpreter from the
-main repository's virtual environment if the worktree has none, with
-`PYTHONPATH` set to the checkout root. The script checks committed new two-file
-pairs, strictly validates flat handoffs or source-only admission, refreshes
-remote research refs to detect candidate-ID collisions, and refuses stale
-main bases, unsafe paths, modified existing sources, remote ref collisions,
-merged histories and dirty tracked work. It non-force-pushes only the chosen
-research branch, reconciles ambiguous push responses against exact remote SHA,
-and verifies both file hashes before returning `REMOTE_PUBLICATION_VERIFIED`.
-A successful schema check is **not** ATS ingestion, model training or execution
-approval. Mechanism-level novelty still requires research review.
+Pass `--repo PATH` for the isolated checkout. The script resolves its own
+checkout root from `__file__`, so it is self-contained: invoke it by absolute
+path from any working directory with an interpreter that has the locked
+dependencies, without setting `PYTHONPATH` and without changing into the
+repository. If the isolated worktree has no virtual environment, use the main
+repository's `.venv/bin/python` as shown. The script checks committed new
+two-file pairs, strictly validates flat handoffs or source-only admission,
+refreshes remote research refs to detect candidate-ID collisions, and refuses
+stale main bases, unsafe paths, modified existing sources, remote ref
+collisions, merged histories and dirty tracked work. It non-force-pushes only
+the chosen research branch, reconciles ambiguous push responses against exact
+remote SHA, and verifies both file hashes before returning
+`REMOTE_PUBLICATION_VERIFIED`. A successful schema check is **not** ATS
+ingestion, model training or execution approval. Mechanism-level novelty still
+requires research review.
 
 Each invocation writes an exclusive, fsynced JSON receipt to the shared main
 checkout `run_log/source_publications/<factory>/`, regardless of success,
 publication block or no-op. The receipt includes run identity, timestamp,
-branch, code/source hashes, transport attempts, remote SHA, verification,
-reason, and zero authorized scientific/protected/order effects. Exit codes:
+branch, commit identity when publishing, source hashes, transport attempts,
+remote SHA, verification, reason, and zero authorized scientific/protected/order
+effects. Exit codes:
 `0` verified publication or explicit documented no-op, `2` publication blocked,
 `3` receipt persistence failed. `NOT_PUBLISHED` is *never* a success. Preserve
 failed drafts and use a new invocation ID for each retry; receipts are immutable.

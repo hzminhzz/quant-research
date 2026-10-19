@@ -48,14 +48,23 @@ def environment(tmp_path: Path):
     return repo, bare, tmp_path / "receipts"
 
 
-def invoke(environment, *extra: str):
+def run_cli(environment, action: str, factory: str, run_id: str, *extra: str):
+    """Invoke the CLI as a bare script: no PYTHONPATH and no repo-root cwd."""
     repo, _, receipts = environment
     env = os.environ.copy()
-    env["PYTHONPATH"] = str(REPO)
-    command = [sys.executable, str(SCRIPT), "publish", "--repo", str(repo),
-               "--receipt-root", str(receipts), "--factory", "ml",
-               "--run-id", "fixture-run", *extra]
-    p = subprocess.run(command, capture_output=True, text=True, env=env, check=False)
+    env.pop("PYTHONPATH", None)
+    assert "PYTHONPATH" not in env
+    cwd = receipts.parent
+    assert cwd != repo and repo not in cwd.parents
+    command = [sys.executable, str(SCRIPT), action, "--repo", str(repo),
+               "--receipt-root", str(receipts), "--factory", factory,
+               "--run-id", run_id, *extra]
+    return subprocess.run(command, capture_output=True, text=True, env=env,
+                          cwd=str(cwd), check=False)
+
+
+def invoke(environment, *extra: str):
+    p = run_cli(environment, "publish", "ml", "fixture-run", *extra)
     return p, json.loads(p.stdout)
 
 
@@ -93,12 +102,17 @@ def test_incomplete_candidate_blocks_and_writes_receipt(environment):
 
 
 def test_no_op_durable_receipt(environment):
-    repo, _, receipts = environment
-    p = subprocess.run([sys.executable, str(SCRIPT), "no-op", "--repo", str(repo),
-                        "--receipt-root", str(receipts), "--factory", "crypto",
-                        "--run-id", "empty-run", "--reason", "screened candidates all duplicate"],
-                       capture_output=True, text=True, check=False)
-    assert p.returncode == 0
+    _, _, receipts = environment
+    p = run_cli(environment, "no-op", "crypto", "empty-run",
+                "--reason", "screened candidates all duplicate")
+    assert p.returncode == 0, p.stderr + p.stdout
+    assert "ModuleNotFoundError" not in p.stderr
     result = json.loads(p.stdout)
     assert result["status"] == "NO_NOVEL_SOURCE"
-    assert (receipts / "crypto").exists()
+    assert result["reason"] == "screened candidates all duplicate"
+    assert result["scope"] == {"scientific_trials": 0, "protected_reads": 0, "orders": 0}
+    written = list((receipts / "crypto").glob("*.json"))
+    assert len(written) == 1
+    assert json.loads(written[0].read_text()) == {
+        key: value for key, value in result.items() if key != "receipt_path"
+    }
