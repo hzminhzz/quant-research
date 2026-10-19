@@ -1,0 +1,52 @@
+identity:
+  candidate_id: crypto_xs_unlock_recipient_event_dispersion_keyrock_v1
+  selection_family_id: crypto_token_unlock_supply_shock_dispersion
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  not_execution_approved: true
+  source_references:
+    original:
+      title: "From Locked to Liquidity: What 16,000+ Token Unlocks Teach Us"
+      author: "Keyrock research team"
+      publication_date: "UNKNOWN; source page has no verified dateline"
+      url: https://keyrock.com/from-locked-to-liquidity-what-16000-token-unlocks-teach-us/
+      evidence_access: "Public full article inspected 2026-10-19; event-level data and code not independently audited."
+    related:
+      title: "The Impact of Token Unlock Events on Cryptocurrency Prices: An Empirical Analysis"
+      author: "Animoca Brands Research"
+      date: "2025-01-08"
+      url: https://www.smartkarma.com/insights/the-impact-of-token-unlock-events-on-cryptocurrency-prices-an-empirical-analysis
+      difference: "Animoca >1% of circulating supply threshold differs from Keyrock classification and cannot be combined mechanically."
+economic_thesis:
+  source_fact: "Keyrock studies 16,000+ unlock events across 40 tokens using -30/+30 days of daily prices relative to ETH; separates vesting cliffs and linear unlocks and recipient classes."
+  author_reported_test_unverified: "Reports approximately 90% negative price pressure; team releases most negative and ecosystem-development releases comparatively favorable. These are source-authored claims without local replication or net trade PnL."
+  source_original_guidance: "For a major unlock, Keyrock suggests exiting long exposure about 30 days before and considering entry about 14 days after. These are practitioner timing recommendations, not tested fills."
+  local_inference: "Announced changes to near-term free float and recipient incentives might cause coin-relative price dispersion beyond common BTC/ETH moves."
+  null_hypothesis: "Announced unlock features have no incremental future cross-coin explanatory value after beta, prior returns, availability and costs."
+markets_and_data:
+  original: "40 original tokens (full member list, venues, contract identity and sample window UNKNOWN); illustrative APE and OP events are not mandatory basket components."
+  original_clock: "Daily -30/+30 calendar-day event study; no source-established 1h, 15m or 5m predictive entry."
+  source_taxonomy: "Medium 1-5%, large 5-10%, huge >10% of supply in Keyrock's published size classification; historical total-versus-circulating denominator requires verification."
+  required: "Timestamped versioned unlock calendars as known then, recipient labels, exact event amendments and release history, coin listing/delisting, market price and executable quote information."
+  target_prop_venue: UNKNOWN
+deterministic_strategy_specification:
+  source_original: "Single-token exit/entry timing advice around supply unlocks; no original traded multi-coin long/short basket."
+  signal: "Scheduled major token unlock and recipient category, publication time as known then."
+  original_position_size: UNKNOWN
+  original_stops: UNKNOWN
+  source_defined_long_short_basket: NONE
+  adaptation_proposal: "Potential future relative-value basket among concurrently eligible coins contrasting disclosed team-heavy approaching unlocks against low-pressure or ecosystem releases. Exact rank, side, weights, limits, rebalancing and execution clock UNDEFINED."
+  unresolved_blockers: "No versioned historical unlock calendar, original full universe, raw event dataset, original trade ledger, source-consistent net return, PIT token eligibility, venue/cost/risk sizing or deterministic basket rule."
+research_evaluation:
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "After event publication timestamp correction and beta/momentum/liquidity controls, event-classified coin ranks do not improve after-cost future relative returns."
+  comparable_baseline: "Same PIT eligible symbols, execution clock and turnover using price momentum or ETH-relative return without unlock information."
+  cost_requirement: "Fees, spread, impact, short borrow and perp financing if applicable require actual instrument-specific estimates; none are assumed zero."
+scientific_integrity:
+  evidence_labels: [SOURCE_FACT, AUTHOR_REPORTED_TEST_UNVERIFIED, LOCAL_INFERENCE, ADAPTATION_PROPOSAL]
+  known_adaptations: ["Original long exposure timing guidance is NOT a tested long/short, hourly or prop-firm portfolio."]
+  caveats: "Keyrock is commercially interested, sample data uninspected, ETH normalization is retrospective not an executable hedge, vesting schedules revise, overlapping unlocks and token survivorship bias."
+  funding_carry_basis_alpha_signals: FORBIDDEN
+  no_local_empirical_research: true
+  no_trial_or_holdout_use: true
+  not_a_frozen_session: true

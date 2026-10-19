@@ -1,0 +1,66 @@
+identity:
+  candidate_id: crypto_xs_btc_whale_alert_transmission_magner_2025_v1
+  selection_family_id: crypto_crossasset_whale_transfer_information_transmission
+  status: THESIS_CAPTURED
+  research_mode: SOURCE_CAPTURE_ONLY
+  not_execution_approved: true
+  source_references:
+    original:
+      source_id: magner_sanhueza_2025_whale_contagion_frl_107906
+      title: "The Moby Dick effect: Contagious Bitcoin whales in the crypto market"
+      authors: "Nicolás Magner; Aliro Sanhueza"
+      publication: "Finance Research Letters 85, part PB (2025)"
+      publication_date: "2025; exact date UNKNOWN"
+      doi: "10.1016/j.frl.2025.107906"
+      primary_publisher_url: https://doi.org/10.1016/j.frl.2025.107906
+      indexed_abstract_url: https://econpapers.repec.org/article/eeefinlet/v_3a85_3ay_3a2025_3ai_3apb_3as154461232501164x.htm
+      evidence_access: "Publisher full text not inspected; indexed abstract corroborated."
+    independent_adverse:
+      source_id: baur_hoang_spillovers_correlations_2024
+      title: "Cryptocurrency spillovers and correlations: inefficiency and co-movement"
+      authors: "Dirk G. Baur; Lai T. Hoang"
+      publication: "Digital Finance 6, 203-224 (2024); published online 2023-12-13"
+      primary_url: https://link.springer.com/article/10.1007/s42521-023-00099-5
+      relation: "General crypto lagged spillovers found small relative to contemporaneous correlations; different information event and sample."
+economic_thesis:
+  source_fact: "The authors define a BTC whale-transfer signal using Whale Alert Telegram records of transfers between wallets and exchanges in both directions. They examine return contagion among 15 high-market-cap cryptocurrencies with a time-varying-parameter VAR over 1h, 6h and 24h post-transfer windows."
+  author_reported_test_unverified: "The public abstract reports significant contagion chiefly at 6h and 24h. This is NOT verified excess return or a trading-system result."
+  local_inference: "A publicly observed BTC inventory-transfer event might alter information or risk appetite across alts before all prices fully adjust, but the paper does not establish a causal executable forecast."
+  economic_counterparty: "UNKNOWN; one conjecture is liquidity-demanding BTC holders and slower altcoin risk re-pricing."
+  null: "Conditional lagged altcoin returns contain no reproducible incremental signal beyond synchronized BTC beta/common news and executable costs."
+markets_and_data:
+  source_instruments: "15 largest-cap cryptocurrencies examined by authors; exact historical ticker list, base/quote pairs, venue, spot-versus-derivative status and membership as of the original event dates UNKNOWN."
+  signal_instrument: "BTC transfer records between wallet and exchange addresses, both directions, from Whale Alert Telegram; label provenance and alert publication timestamp not validated."
+  original_clock: "Author response horizons 1h, 6h and 24h AFTER transfer; source does not expose real-time alert arrival, chain confirmation delays, or signal cutoff."
+  local_target_clock: "ADAPTATION_PROPOSAL only: closed 1h bars and alert-availability timestamp, with possible 6h/24h economic response windows; 5m/15m not established by source."
+  data_required: "Immutable timestamped original Whale Alert posts and chain-transfer metadata with availability clock; historical exchange-wallet address vintages; PIT 15-coin universe, exact bar quote/volume and eventual tradable contract terms."
+  venue_for_prop_execution: UNKNOWN
+deterministic_strategy_specification:
+  source_original: "Event study / time-varying-parameter VAR of cross-cryptocurrency return responses; NO published deterministic entries, side-selection map, dollar-neutral weights, stop-loss or cost-aware returns in accessible abstract."
+  signal_direction: UNKNOWN
+  long_selection: UNKNOWN
+  short_selection: UNKNOWN
+  basket_construction: UNKNOWN
+  sizing: UNKNOWN
+  rebalance: UNKNOWN
+  adaptation_proposal: "After author-method retrieval, test whether post-publication BTC whale-transfer intensity/direction conditionally ranks *subsequent* returns of eligible liquid altcoins in an independently specified long/short basket; do not infer which leg should win."
+  no_signal_proxies: "No funding, carry, basis or funding-derived variables as alpha inputs."
+  unresolved_blockers:
+    - "Original full study, exact definition of whale threshold, signed transfer side, event filtering, 15 assets and reported coefficients not inspected."
+    - "Telegram post published-at versus chain event timestamp, exchange label PIT quality and execution data not established."
+    - "No pre-specified causal rank formula, hedge, universe filters, weights, monthly/1h turnover or risk limits."
+research_evaluation:
+  development_evaluation: NOT_PERFORMED
+  primary_falsifier: "Lead-lag response vanishes after controlling coincident market/BTC movement, alert posting latency and market availability, or possible spread/fee/slippage/financing costs exceed attainable signal."
+  suggested_null_comparison: "Same live PIT coin set, same decision clock and turnover, conditioned on generic BTC price-shock magnitude WITHOUT transfer alert."
+  adverse_evidence: "Baur and Hoang (2024) report crypto connectivity is mostly correlation with little lagged spillover; conditional whale events may differ and must be separately checked."
+  cost_requirements: "Maker/taker fees, effective bid-ask spread, event-time slippage, impact, and actual perpetual financing (if used) UNKNOWN; none may be assumed zero."
+scientific_integrity:
+  evidence_labels: [SOURCE_FACT, AUTHOR_REPORTED_TEST_UNVERIFIED, LOCAL_INFERENCE, ADAPTATION_PROPOSAL]
+  original_claims_are_trade_profit: false
+  known_adaptations: ["Original study uses 15 largest-cap cryptocurrencies and no reported tested basket; the proposed tradeable long/short portfolio is a distinct untested idea."]
+  selection_and_provenance_risks: "Historic addresses can be back-labeled; messages may be selected after market movement; largest-cap survivorship and event overlap/common BTC factor can create spurious lead-lag."
+  source_verification_limits: "Original indexed abstract was read; original publisher PDF and complete methods were not accessible during discovery."
+  no_local_empirical_research: true
+  no_trial_or_holdout_use: true
+  not_a_frozen_session: true
