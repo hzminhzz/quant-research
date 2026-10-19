@@ -1,0 +1,99 @@
+candidate_id: crypto_ml_kurihara_btc_alt_one_minute_delay_2026_v1
+selection_family_id: crypto_btc_to_illiquid_alt_lag_classifier
+status: THESIS_READY_UNVERIFIED
+research_mode: DESCRIPTIVE_SOURCE_DISCOVERY_ONLY
+created_on: '2026-10-19'
+not_a_frozen_session: true
+not_execution_approved: true
+source_references:
+  - id: kurihara_matsumoto_2026_btc_alt_lag
+    category: peer_reviewed_original_publisher
+    title: 'Price Transmission from Bitcoin to Altcoins: High-Frequency Evidence and Implications for Trading Strategy'
+    author: 'Tomoki Kurihara; Takuji Matsumoto'
+    published_at: '2026-03-10'
+    doi: '10.1007/s10690-026-09589-z'
+    url: 'https://doi.org/10.1007/s10690-026-09589-z'
+    source_verification: 'Publisher HTML inspected on 2026-10-19; the article itself and its results are not independently reproduced or SHA-hashed as publisher bytes.'
+economic_thesis:
+  source_fact: 'A BTC return shock can propagate to illiquid altcoin prices over approximately one minute when scarce trading and attention delay price incorporation.'
+  local_inference: 'The same BTC shock does not create uniformly tradable alpha; lag strength and spread/quote staleness could interact nonlinearly with recent BTC and altcoin moves.'
+  predicted_alpha: 'Only a conditional entry-or-hold decision beating a same-information fixed BTC-lag rule after true low-liquidity costs would imply incremental ML usefulness.'
+  null_hypothesis: 'A deterministic BTC lag rule, or regularized logistic regression on identical lagged BTC and altcoin returns, performs at least as well after equivalent fills and costs.'
+  source_scope: 'Author studies single-name altcoin positions, NOT a cross-sectional return-ranking or dollar-neutral basket.'
+mechanism:
+  source_fact: 'Lower one-minute trade counts are associated with slower BTC-shock incorporation in some Binance altcoins.'
+  proposed_ml_increment: 'Shallow decision trees can represent nonmonotonic interactions between BTC lagged log return, altcoin lagged log return and inventory entry/hold state, unlike one unconditioned direction threshold.'
+  alternative_explanation: 'Stale last-trade prices, bid-ask bounce, and non-executable prints rather than persistent tradable information delay.'
+instruments:
+  source_original: 'Binance API one-minute BTC and altcoin data; small-alt subset QKC, GNO, PIVX, CITY, BIFI; ETH and LTC comparisons.'
+  source_product_and_quote: 'BTC denominated in USDT; exact individual market type (spot or perpetual), quote currency per altcoin, and actual trading lot contracts require confirmation.'
+  product_substitution: 'NONE; replacing low-trade-count small altcoins with liquid prop-firm perpetuals changes the hypothesis.'
+data_requirements:
+  original_features: 'One-minute synchronized BTC and each altcoin completed log returns; source also uses per-minute trade count for selection and responsiveness tests.'
+  original_training_history: 'Bull Feb 25-Mar 25 2024; Bear Jun 22-Jul 19 2024; Sideways Aug 24-Sep 24 2024; Crash Jan 30-Mar 1 2025. Each regime uses first roughly three weeks for fit/threshold selection, last week for source-reported OOS.'
+  required_asof: 'Historical exchange trade timestamps and one-minute completed bars; trustworthy quote bid/ask and trade counts with product identity; PIT pair listing and delisting.'
+  availability_status: 'NOT VERIFIED in ATS local certified data; 1m OHLCV alone cannot show executable low-liquidity fills or contemporaneous spread.'
+feature_contracts:
+  source_fact:
+    - 'At original step t use only logarithmic BTC return from t-1.'
+    - 'At original step t use only logarithmic individual altcoin return from t-1.'
+  proposed_future_ablation:
+    - 'Same two lagged returns only; separately compare any ex-ante trade-count/liquidity gate with the source rule.'
+    - 'No same-minute t close, next minute realized return, or future trade-count rank may enter features.'
+  future_preprocessing: 'Any normalization, liquidity selection and hyperparameter choice fit inside the historical training fold, not globally.'
+strategy_rules:
+  original_author:
+    - 'Train per-altcoin LightGBM entry classifier and hold classifier using realized next-one-minute altcoin return exceeding separately grid-selected thresholds.'
+    - 'Inventory remains either long one asset or flat; entry model applies when flat, hold model when invested.'
+    - 'Entry threshold grid {-0.0001,0,0.0001,0.0002}; hold threshold grid {-0.0002,-0.0001,0,0.0001}; choose using first three regime weeks and apply to last week.'
+    - 'Trading simulation subtracts a per-trade fee upon an inventory transition and compares to buy-and-hold.'
+  proposed_adaptation: 'NONE authorized. Do not build a basket, shorting model, or larger horizon from this source without registering a new hypothesis.'
+signal_and_execution_clock:
+  source_equations: 'Source equations (4)-(10): x_{t-1}=[BTC log return t-1, ALT log return t-1], classify next r_ALT,t and apply holding omega_t.'
+  source_timestamp_alignment: 'Exact Binance candle time label and executable order timestamp after x_{t-1} completes are not proven by paper equations alone.'
+  future_required: 'For return interval t, prove both features were known at t interval start, that order could fill after their publication, and that spread/slippage were charged at executable price.'
+  target_and_horizon: 'Separate entry/hold binary outcomes of one subsequent one-minute altcoin return exceeding the source threshold; not a 5m or daily label.'
+sizing:
+  source: 'Binary invested or flat for each analyzed altcoin. Source economic simulation defines omega_t in {0,1}; actual notional allocation across altcoins not certified.'
+  proposal: 'No increase or short position is assumed. Any capital allocation is future design-only.'
+cost_assumptions:
+  source_fact: 'The paper charges a symbolic per-transition fee in its cumulative log-return formula; source-reported returns are not independent fill-level profit.'
+  critical_missing: 'Ex-ante bid/ask quotes, stale-price avoidance, liquidity participation, market impact, trading minimum size and filled-order latency.'
+  future_cost_falsifier: 'Net incremental edge must clear recorded spread, one-way fees, slippage, queue effects and opportunity cost relative to simple baselines.'
+baseline:
+  author_benchmark: 'Buy-and-hold for the same altcoin.'
+  missing_null: 'Mechanical trade on sign/threshold of lagged BTC return, with identical long/flat state transitions, venue clock, tuning budget and costs.'
+  additional_control: 'Logistic regression on the exact two lagged returns, and the same deterministic hysteresis without learning nonlinear interactions.'
+development_evaluation:
+  author_test_unverified:
+    - 'Authors report one-minute lagged BTC influence is more evident in relatively low-trade-count altcoins than in ETH/LTC.'
+    - 'Authors report the trained lag strategy outperforms buy-and-hold for small altcoins in bull, sideways and crash sample windows; weakest source performance in sideways period.'
+    - 'Only approximately one last week per selected regime is the source OOS evaluation; robustness across continuous multiyear history is not established.'
+  proposed_future_protocol: 'Independent chronological walk-forward OOF predictions; train-fitted feature transforms; one-minute label maturity purge; no post-event pair selection; fixed model family and equal trial budget.'
+  falsifier: 'LightGBM conditional entry/hold does not improve OOS cost-matched expectancy/after-cost returns over fixed lag and logistic baselines.'
+  empirical_test_this_capture: false
+primary_falsifier:
+  condition: 'No incremental after-cost advantage beyond same-clock fixed lag entry/hold when unfilled quotes, realistic spreads and price bounce are modeled.'
+acceptance_and_stop_rules:
+  admission_status: 'HANDOFF_VALID_UNVERIFIED is structural research triage only; this is not an executable model or ATS Stage-1-to-4 candidate.'
+  blockers: 'BLOCKED_PROTOCOL; BLOCKED_DATA; REQUIRES_TRAINING_WORKFLOW'
+  stops:
+    - 'Do not train, forecast, backtest, inspect protected prices or place orders in source discovery.'
+    - 'Do not claim a long-short basket or Binance USD-M perpetual source strategy.'
+parity_and_causality_tests:
+  future:
+    - 'Check per-altcoin exchange product and aligned timezone/bar-end publication.'
+    - 'Reject any x_t feature applied to r_ALT,t or unrealizable one-minute fill.'
+    - 'Prevent pair selection based on future trade-count, listing survivor universe or reported profitability.'
+    - 'Use chronological purged OOF predictions, fold-local preprocessing, source replication and independent cost oracle.'
+verified_facts:
+  - 'Read original publisher open-access article methodology and conclusion on 2026-10-19.'
+  - 'Read ATS scientific handoff validator, source inbox instructions and model/Workbench source; no training or empirical tests performed.'
+assumptions:
+  - 'Local inference of an ML interaction advantage is unproven by source comparisons.'
+  - 'A source-described fee does not imply a realistic quote-to-fill cost model.'
+unresolved_blockers:
+  - 'Exact Binance instruments, source quote currency and spot/perpetual product identity.'
+  - 'Independent timestamped bid/ask and trade-level executable prices in extremely illiquid coins.'
+  - 'PIT market selection, OOF fitted snapshots and label-maturity purging.'
+  - 'Native generalized single-instrument inventory/entry-hold ML research protocol not certified.'

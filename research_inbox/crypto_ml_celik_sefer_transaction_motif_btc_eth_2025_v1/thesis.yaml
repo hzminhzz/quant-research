@@ -1,0 +1,87 @@
+candidate_id: crypto_ml_celik_sefer_transaction_motif_btc_eth_2025_v1
+selection_family_id: crypto_transaction_network_motif_vs_simple_price_predictor
+status: THESIS_READY_UNVERIFIED
+research_mode: DESCRIPTIVE_SOURCE_DISCOVERY_ONLY
+created_on: '2026-10-19'
+not_a_frozen_session: true
+not_execution_approved: true
+source_references:
+  - id: celik_sefer_2025_transaction_motif
+    category: peer_reviewed_original_open_access_publisher
+    author: 'Peker Celik; Emre Sefer'
+    title: 'Analyzing Transaction Graphs via Motif-Based Graph Representation Learning for Cryptocurrency Price Prediction'
+    online_publication: '2025-04-18'
+    journal_issue: 'Computational Economics volume 67 (2026)'
+    url: 'https://doi.org/10.1007/s10614-025-10940-1'
+    read_scope: 'Open access publisher HTML, data methods and evaluation sections inspected 2026-10-19; source publisher bytes have not been hashed.'
+economic_thesis:
+  source_fact: 'Subgraph motif distributions and connectivity in native BTC/ETH transaction graphs encode economically relevant participant network activity that price-only autoregressive models omit.'
+  plausible_mechanism: 'Changes in how distinct wallets transfer value might signal changing participation and information dispersion before price adjustment.'
+  null_hypothesis: 'Price-only time-series predictors and simple historical on-chain counts/flow statistics provide equivalent prospective directional predictive value.'
+  no_source_alpha_claim: 'Authors report price and price-direction forecast metrics, not an after-cost trading strategy.'
+  nonbasket: 'Separate BTC and ETH forecasting exercises; neither is cross-sectional ranking or relative-value basket.'
+mechanism:
+  proposed_incremental_ml: 'Contextual wallet transaction motifs may interact nonlinearly over time; GNN motif embeddings plus self-attention LSTM can represent structural patterns beyond univariate transaction count.'
+  alternative_explanation: 'Additional parameters, hindsight graph construction, address clustering artifacts or shared market trend rather than genuine predictive network information.'
+  data_dependency: 'Point-in-time weekly blockchain transaction graphs; daily source price data alone cannot replicate it.'
+instruments:
+  source_original: 'Bitcoin BTC and Ethereum ETH blockchain networks; Yahoo Finance daily BTC and ETH price series, not an identified executable Binance or derivative product.'
+  intended_trading_instrument: 'UNKNOWN; publication describes forecasting, not an exchange trading simulation.'
+  substitution_policy: 'No auto-substitution with Binance USDT perpetual futures or a dollar-neutral basket.'
+data_requirements:
+  source_graphs: 'BTC and Ethereum public blockchain APIs, 2016 to end-2024; account/address vertices and value transfer edges aggregated into weekly timestamped transaction graphs.'
+  source_prices: 'Daily BTC and ETH Yahoo Finance prices, 2016-2024.'
+  source_data_availability: 'Paper says full datasets available from authors on reasonable request; local point-in-time transaction graphs and original code unavailable or unverified.'
+  causality_hazards: 'Weekly graph closes may postdate the daily forecast target; all blocks, confirmation latencies, updated wallet labels, motif dictionaries and graph normalization must be fitted only as-of the prediction timestamp.'
+feature_contracts:
+  author_method: 'Unsupervised sampled motif dictionary and motif convolution from attributed relational transaction graphs, GNN embeddings, self-attention LSTM combined with historical daily prices.'
+  original_ablation: 'Source compares price-only SVM, LSTM, HLSTM, GRU; also compares GNN embedding methods.'
+  future_simple_controls: 'Price-only autoregressive rule; lagged weekly transaction count and volume; linear/Ridge on simple causal graph summary and daily price lags.'
+strategy_rules:
+  source_original: 'Predict BTC and ETH future price levels and price directions from weekly blockchain-transaction network motif embeddings combined with historical prices; paper does not supply an executable trading rule.'
+  proposed_future_adaptation: 'One independently defined and registered directional or abstain-on-low-confidence signal on original BTC/ETH markets, only after explicit source-aligned forecast label horizon and exchange fill clock are documented.'
+  no_invented_conversion: 'No basket, stop loss, daily/weekly rebalance or threshold is asserted to be author tested.'
+signal_and_execution_clock:
+  source_graph_aggregation: 'Weekly historical transaction graphs based on timestamped blockchain records.'
+  source_price_aggregation: 'Daily Yahoo Finance BTC and ETH prices.'
+  target_horizon_status: 'UNKNOWN: article asserts future price and direction prediction but no exact executable forecast/entry clock was independently certified by this capture.'
+  future_asof: 'Only finalized blocks, released graph features and closed daily prices existing before each forecast can be used; the next exchange-executable price must be independently time-stamped.'
+sizing:
+  source: 'NONE: study is forecasting, not a strategy with specified positions or portfolio weights.'
+  future_proposal: 'Only separately authorized, single-instrument, bounded long/flat policy after source-exact label and cost evidence.'
+cost_assumptions:
+  source: 'Author reports prediction accuracy, MAE/MSE/RMSE and direction precision/recall/F1 rather than net returns or execution costs.'
+  missing: 'Product venue, spreads, trading fees, execution fills, size/impact, shorting rights, slippage, and leverage.'
+baseline:
+  author: 'Price-only SVM, LSTM, hierarchical LSTM and GRU, plus graph embedding ablations.'
+  required_simple: 'Unconditional/persistence direction, simple price momentum or return model, regularized price+lagged on-chain transaction count/volume, compared at identical labels and information clock.'
+development_evaluation:
+  author_test_unverified: 'Paper uses rolling two-year training and following one-year evaluation with yearly forward shifts; reports motif graph plus LSTM outperforms studied price-only baselines in forecast accuracy/direction. No independent replication.'
+  author_retraining: 'Rolling annual retraining from consecutive two-year histories; the motif extraction timing within folds must be separately audited.'
+  future_procedure: 'Regenerate week-level motif dictionaries using training-only graph snapshots, force label maturity, chronological purged OOF predictions, fold-local graph preprocessing, independent price/time-split checks and exact source venue as-of.'
+  no_results_this_capture: true
+primary_falsifier:
+  condition: 'Causal motif features fail to outperform simple PIT wallet transaction flow summaries and price-only predictors on directional forecasts or added trading profitability after proper costs.'
+acceptance_and_stop_rules:
+  status: 'HANDOFF_VALID_UNVERIFIED only; not a trained or executable artifact.'
+  current_blocks: 'BLOCKED_DATA; BLOCKED_PROTOCOL; REQUIRES_TRAINING_WORKFLOW'
+  stops:
+    - 'No training, daily predictions, SHAP, IC, backtest, protected window or orders during discovery.'
+    - 'Do not claim the original paper establishes profitable trading, an execution venue, or an exact target horizon.'
+parity_and_causality_tests:
+  future:
+    - 'Validate day/week cutoffs and blockchain block confirmation timestamps against daily target period.'
+    - 'Hash immutable, time-stamped source-transaction graphs and source price versions.'
+    - 'Fit graph dictionary, embeddings, scalers and hyperparameters per training fold.'
+    - 'Obtain chronological OOF predictions, source-relevant leakage tests and a baseline-matched cost/fill oracle.'
+verified_facts:
+  - 'Original open-access publisher article read 2026-10-19, with study methods and evaluation described.'
+  - 'Original target is BTC/ETH forecasting; no trading-cost returns claimed.'
+assumptions:
+  - 'Value-flow network topology may predict returns, but mechanism remains conjectural.'
+  - 'The model might beat simple lagged transaction statistics; original paper does not provide this exact source-match economic test.'
+unresolved_blockers:
+  - 'Source-specific target lead time and earliest fill/clock, trading contract and position conversion.'
+  - 'Historical as-of blockchain graphs, wallet-identity revisions, motif feature versions, original price history.'
+  - 'Author original data/code not independently reproduced, compute/GPU requirements and funding for model training not approved.'
+  - 'Native ATS cross-sectional IC research path not a qualified single BTC/ETH graph model execution evaluator.'
