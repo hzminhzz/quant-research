@@ -176,6 +176,62 @@ Native/custom features are verified through one `compile_and_verify` interface.
 Existing callers can use `FeatureGateway.compute_runtime` as a compatibility
 bridge. Old `ResearchContractV1` calls retain their frozen historical semantics.
 
+## Remote LightGBM model artifacts (Colab)
+
+```bash
+uv run python scripts/quant.py train-remote config/candidates/my_ml_candidate.yaml \
+  --gpu T4 --run-log run_log -o config/candidates/my_ml_candidate_trained.yaml
+
+# Development-only: Stage 1 causal check, native Stage 2, then Stage 3 only if qualified.
+uv run python scripts/quant.py run config/candidates/my_ml_candidate_trained.yaml \
+  --run-log run_log --development-only
+```
+
+Training uploads **only** the certified `[train.start, train.end)` development
+window, never the validation or protected partitions. Colab also receives
+`train_meta.json` with the declared signal, split boundary, label horizon,
+seed, source Arrow SHA-256 and training-script SHA-256. The default LightGBM
+label matches the native Stage 2 next-opening entry/exit convention; rows
+with labels ending at/after the train boundary or spanning missing bars are
+excluded. The trainer records the artifact hash and the training provenance.
+
+The remote model owns **only** `spec.signal`. Its callable must return
+`timestamp`, `symbol` and exactly that signal column; the engine builds the
+other declared features (including `spec.baseline` and
+`allocation.atr_feature`) plus all canonical columns and
+`in_pit_universe` using the existing point-in-time compiler. The ML signal's
+declarative placeholder is not evaluated. Unexpected names, row changes,
+nonfinite signals and modifications to supplied canonical/PIT fields fail
+closed. A narrowly declared `lgb_return_pred` legacy alias remains supported
+by the model-contract sidecar, not by guessing output names.
+
+`train-remote -o` exports a self-contained YAML and adjacent
+`.pkl`/`.json` sidecars. The `python_feature_artifact` in the YAML
+binds both the model SHA-256 and contract SHA-256. Modifying either sidecar
+invalidates the specification; unbound historical Workbench callables keep
+their separate legacy replay path. Python model code is deserialized **only**
+in the Linux Bubblewrap worker, not the host process. Workbench
+`train_colab()` and `export_yaml()` use the same artifact resolution.
+
+**Prerequisites and limits:** authenticate the installed `colab` CLI
+through its supported OAuth/ADC flow, confirm GPU entitlement/available
+compute units, and verify that `new`, `upload`, `exec`, `download` and
+`stop` work with the active Colab account. The VPS needs Linux Bubblewrap,
+Polars, Cloudpickle and compatible LightGBM versions for isolated inference.
+The default training script uses deterministic **CPU** LightGBM even if a
+T4/L4/A100 Colab machine is allocated; GPU-accelerated LightGBM requires a
+separate supported CUDA/OpenCL build, explicit device setting and measurement.
+The local synthetic contract tests do not authenticate Colab, allocate a GPU
+or verify remote package compatibility.
+
+**Scientific boundary:** a frozen model fitted on all training rows still
+produces *in-sample* training predictions; reaching Stage 2 is not evidence
+of out-of-sample predictive value. A separately governed purged walk-forward
+or CPCV out-of-fold training protocol, validation evaluation and complete
+selection-family accounting are required before interpreting IC/Sharpe or
+considering a protected-holdout read. No remote-training result authorizes
+live orders.
+
 ## Accounting and causality interpretation
 
 A panel timestamp denotes bar opening; complete-bar features become usable at

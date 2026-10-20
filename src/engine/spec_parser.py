@@ -15,7 +15,7 @@ from pydantic import (
     model_validator,
 )
 
-from .common import QuantError, digest, safe_name, utc
+from .common import QuantError, beneath, digest, file_hash, safe_name, utc
 
 
 class Model(BaseModel):
@@ -117,6 +117,9 @@ class Gates(Model):
 class PythonFeatureArtifact(Model):
     path: str
     sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+    # Keep existing frozen YAML/spec hashes stable when no model contract exists.
+    contract_sha256: str | None = Field(default=None, pattern=r'^[0-9a-f]{64}$',
+                                        exclude_if=lambda value: value is None)
 
 
 class CandidateSpec(Model):
@@ -182,11 +185,63 @@ def parse_spec(path: str | Path) -> CandidateSpec:
         raise QuantError('INVALID_SPEC', str(exc)) from exc
 
 
+def _portable_artifact(spec: CandidateSpec, payload: dict[str, Any],
+                       target: Path) -> dict[str, Any]:
+    """Relocate a referenced Python artifact beside the exported YAML.
+
+    A run-log-relative path such as ``python_features/<sha>.pkl`` is meaningless
+    once the YAML lives elsewhere. Copy the immutable bytes (and an optional
+    model contract sidecar) next to the target and record a target-relative
+    path. Existing frozen specs with no artifact are byte-for-byte unaffected.
+    """
+    artifact = payload.get('python_feature_artifact')
+    if artifact is None:
+        return payload
+    source = beneath(spec._base_dir, artifact['path'], must_exist=True)
+    if file_hash(source) != artifact['sha256']:
+        raise QuantError('INVALID_EVIDENCE', 'Python feature artifact was modified')
+    sidecar_source = source.with_suffix('.json')
+    contract_sha = artifact.get('contract_sha256')
+    if contract_sha is not None:
+        if not sidecar_source.is_file() or sidecar_source.is_symlink() or file_hash(sidecar_source) != contract_sha:
+            raise QuantError('INVALID_EVIDENCE', 'Model contract sidecar is missing or changed')
+    elif sidecar_source.exists():
+        raise QuantError('INVALID_EVIDENCE', 'Unbound model contract sidecar is not portable')
+    parent = target.parent.resolve()
+    parent.mkdir(parents=True, exist_ok=True)
+    if source.resolve().parent == parent:
+        destination = source.resolve()
+    else:
+        destination = parent / (f'{target.stem}.features-{artifact["sha256"][:16]}.pkl')
+        if destination.is_symlink():
+            raise QuantError('INVALID_PATH', 'Refusing a symlink feature destination')
+        if destination.exists():
+            if file_hash(destination) != artifact['sha256']:
+                raise QuantError('INVALID_EVIDENCE', 'Export would replace a different feature artifact')
+        else:
+            with destination.open('xb') as handle:
+                handle.write(source.read_bytes())
+        if contract_sha is not None:
+            sidecar_target = destination.with_suffix('.json')
+            sidecar_bytes = sidecar_source.read_bytes()
+            if sidecar_target.exists():
+                if sidecar_target.is_symlink() or sidecar_target.read_bytes() != sidecar_bytes:
+                    raise QuantError('INVALID_EVIDENCE',
+                                     'Export would replace a different model contract sidecar')
+            else:
+                with sidecar_target.open('xb') as handle:
+                    handle.write(sidecar_bytes)
+    artifact['path'] = str(destination.relative_to(parent))
+    return payload
+
+
 def export_spec(spec: CandidateSpec, path: str | Path) -> Path:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
+    payload = _portable_artifact(spec, spec.model_dump(mode='json'), target)
+    normalized = CandidateSpec.model_validate(payload)
     # Preserve canonical explicit exclusive endpoints on every export.
-    target.write_text(yaml.safe_dump(spec.model_dump(mode='json'), sort_keys=False), encoding='utf-8')
-    if parse_spec(target).spec_hash != spec.spec_hash:
+    target.write_text(yaml.safe_dump(normalized.model_dump(mode='json'), sort_keys=False), encoding='utf-8')
+    if parse_spec(target).spec_hash != normalized.spec_hash:
         raise QuantError('INVALID_SPEC', 'Export/reimport changed the specification')
     return target
