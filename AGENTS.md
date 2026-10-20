@@ -44,6 +44,13 @@ the pre-backtest signal decision; a Workbench experiment is not factory qualific
    handoff, use `python scripts/quant.py ingest <thesis.yaml> -o <candidate.yaml>`;
    review any explicit unmapped-choice failure instead of guessing a formula. Specify the
    economic mechanism, baseline, falsifier, instruments, windows and costs.
+   When a descriptive thesis blocks with `INVALID_THESIS`, run
+   `python scripts/draft_candidate_from_thesis.py <thesis.yaml>` first: it maps only
+   fields that already carry their executable shape and prints every remaining gap by
+   dotted path (exit 3 while gaps remain, exit 0 when complete). It never writes a
+   formula, gate, window or cost that the source does not state, so a `GAPS` result is
+   the authoring work list, not a partial candidate. Both thesis dialects (flat and
+   nested `identity`/`markets_and_data`/... sections) are read.
    Locate the exact requested source. A similarly named strategy is not a
    replacement. Label any example or assumed formula explicitly.
 3. Load the relevant ML4T skills and inspect installed signatures. Record
