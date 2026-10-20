@@ -1,8 +1,6 @@
 """Deterministic, PIT-only, dollar-neutral target weights; execution owns netting."""
 from __future__ import annotations
 
-import math
-
 import polars as pl
 
 from .common import QuantError
@@ -10,43 +8,88 @@ from .spec_parser import CandidateSpec
 
 TARGET_COLUMNS = ['timestamp', 'symbol', 'target_weight', 'stop_loss_dist_pct']
 
+_NEUTRALITY_TOLERANCE = 1e-12
+
 
 def allocate(features: pl.DataFrame, spec: CandidateSpec, *, signal: str | None = None) -> pl.DataFrame:
     signal = signal or spec.signal
     anchor = int(spec.windows.train.start.timestamp())
     cadence = spec.bar_seconds * spec.allocation.rebalance_bars
     scheduled = features.filter(((pl.col('timestamp').dt.epoch('s') - anchor) % cadence) == 0)
-    records = []
-    for cross_section in scheduled.partition_by('timestamp', maintain_order=True):
-        timestamp = cross_section['timestamp'][0]
-        eligible = cross_section.filter(pl.col('in_pit_universe') & pl.col('is_tradable')
-                                        & pl.col(signal).is_not_null() & pl.col(signal).is_finite()
-                                        & pl.col(spec.allocation.atr_feature).is_not_null()
-                                        & pl.col(spec.allocation.atr_feature).is_finite()
-                                        & (pl.col(spec.allocation.atr_feature) > 0)
-                                        # A 3x ATR long protective stop must remain
-                                        # above zero. Exclude unrepresentable assets
-                                        # before ranking, using decision-time prices.
-                                        & (spec.allocation.atr_multiple *
-                                           pl.col(spec.allocation.atr_feature) < pl.col('close')))
-        ordered = eligible.sort([signal, 'symbol'], descending=[True, False])
-        weights: dict[str, float] = {}
-        if ordered.height >= max(spec.universe.minimum_assets,
-                                 spec.allocation.long_count + spec.allocation.short_count):
-            half = spec.allocation.gross_exposure / 2
-            weights.update({s: half / spec.allocation.long_count
-                            for s in ordered.head(spec.allocation.long_count)['symbol']})
-            weights.update({s: -half / spec.allocation.short_count
-                            for s in ordered.tail(spec.allocation.short_count)['symbol']})
-        if abs(sum(weights.values())) > 1e-12:
-            raise QuantError('INVALID_ALLOCATION', 'Market-neutral target failed')
-        for row in cross_section.iter_rows(named=True):
-            weight = weights.get(row['symbol'], 0.0)
-            distance = (spec.allocation.atr_multiple * row[spec.allocation.atr_feature] / row['close']) if weight else 0.0
-            if weight and (not math.isfinite(distance) or not 0 < distance < 1):
-                raise QuantError('INVALID_ALLOCATION', 'Non-positive or unrepresentable ATR stop')
-            records.append({'timestamp': timestamp, 'symbol': row['symbol'],
-                            'target_weight': weight, 'stop_loss_dist_pct': distance})
-    schema = {'timestamp': pl.Datetime('us', 'UTC'), 'symbol': pl.String,
-              'target_weight': pl.Float64, 'stop_loss_dist_pct': pl.Float64}
-    return pl.DataFrame(records, schema=schema).sort('timestamp', 'symbol')
+    atr_feature = spec.allocation.atr_feature
+    atr_multiple = spec.allocation.atr_multiple
+    long_count = spec.allocation.long_count
+    short_count = spec.allocation.short_count
+    half = spec.allocation.gross_exposure / 2
+    minimum_assets = max(spec.universe.minimum_assets, long_count + short_count)
+
+    # Eligible rows are ranked cross-sectionally. The whole expression is evaluated
+    # once by Polars; rank/order are the same [signal desc, symbol asc] contract as
+    # the former per-timestamp Python sort.
+    eligible = scheduled.filter(
+        pl.col('in_pit_universe') & pl.col('is_tradable')
+        & pl.col(signal).is_not_null() & pl.col(signal).is_finite()
+        & pl.col(atr_feature).is_not_null()
+        & pl.col(atr_feature).is_finite()
+        & (pl.col(atr_feature) > 0)
+        # A 3x ATR long protective stop must remain above zero. Exclude
+        # unrepresentable assets before ranking, using decision-time prices.
+        & (atr_multiple * pl.col(atr_feature) < pl.col('close'))
+    ).select('timestamp', 'symbol', signal)
+
+    ranked = eligible.sort(['timestamp', signal, 'symbol'],
+                           descending=[False, True, False], maintain_order=True)
+    ranked = ranked.with_columns(
+        pl.int_range(pl.len()).over('timestamp').alias('_rank'),
+        pl.len().over('timestamp').cast(pl.Int64).alias('_count'),
+    ).with_columns(
+        (pl.col('_rank') < long_count).alias('_head'),
+        (pl.col('_rank') >= pl.col('_count') - short_count).alias('_tail'),
+    ).filter((pl.col('_count') >= minimum_assets)
+             & (pl.col('_head') | pl.col('_tail')))
+
+    # One weight per symbol per timestamp. Head rows are written first and tail rows
+    # second, so a symbol present in both windows keeps the short-side assignment,
+    # matching the former per-symbol dict order. That state is only reachable through
+    # a repeated (timestamp, symbol) row, which the panel contract forbids upstream;
+    # such a row also breaks the basket sum checked immediately below.
+    weights = ranked.with_columns(
+        pl.when(pl.col('_head')).then(pl.lit(half / long_count))
+        .otherwise(pl.lit(-half / short_count)).alias('target_weight'),
+        pl.when(pl.col('_head')).then(0).otherwise(1).alias('_phase'),
+    ).sort(['timestamp', '_phase', '_rank'], maintain_order=True).unique(
+        subset=['timestamp', 'symbol'], keep='last', maintain_order=True,
+    ).select('timestamp', 'symbol', 'target_weight')
+
+    exposure = weights.group_by('timestamp').agg(pl.col('target_weight').sum())
+    if (exposure['target_weight'].abs() > _NEUTRALITY_TOLERANCE).any():
+        raise QuantError('INVALID_ALLOCATION', 'Market-neutral target failed')
+
+    # The projection aliases its inputs so a feature whose name collides with a
+    # panel column (for example ``atr_feature: close``) cannot produce a duplicate
+    # output name. Distance is computed in double precision regardless of the
+    # stored column dtype, matching the former per-row Python arithmetic.
+    distance = atr_multiple * pl.col('_atr') / pl.col('_close')
+    weighted = pl.col('target_weight') != 0
+    targeted = scheduled.select(
+        pl.col('timestamp'),
+        pl.col('symbol'),
+        pl.col('close').cast(pl.Float64).alias('_close'),
+        pl.col(atr_feature).cast(pl.Float64).alias('_atr'),
+    ).join(
+        weights, on=['timestamp', 'symbol'], how='left',
+    ).with_columns(pl.col('target_weight').fill_null(0.0))
+
+    invalid = targeted.filter(
+        weighted & (distance.is_null() | ~distance.is_finite()
+                    | (distance <= 0) | (distance >= 1))
+    )
+    if invalid.height:
+        raise QuantError('INVALID_ALLOCATION', 'Non-positive or unrepresentable ATR stop')
+
+    return targeted.select(
+        pl.col('timestamp').cast(pl.Datetime('us', 'UTC')),
+        pl.col('symbol').cast(pl.String),
+        pl.col('target_weight').cast(pl.Float64),
+        pl.when(weighted).then(distance).otherwise(0.0).cast(pl.Float64).alias('stop_loss_dist_pct'),
+    ).sort('timestamp', 'symbol')
