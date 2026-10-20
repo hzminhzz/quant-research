@@ -5,17 +5,26 @@ ledger, broker or live order path. It generates deterministic synthetic panels,
 runs ``allocate`` / ``allocate_ts`` repeatedly, and reports:
 
 * wall-clock timings (warm-up + fixed repeats, min/median/mean/stdev),
-* an exact output fingerprint (schema + bit pattern of every value),
+* an exact output fingerprint (schema + bit pattern of every value) for **every**
+  repeat, not only the last one,
 * optional coarse phase timings when the allocator exposes ``phase_timings``.
 
-The fingerprint is the equivalence contract: a refactor may only merge if the
-before and after fingerprints are identical for every case.
+Fingerprints are the equivalence contract: a refactor may only merge if the
+before and after fingerprints are identical for every case and every repeat.
+A repeat whose fingerprint differs from the first repeat is reported as a
+failure rather than silently averaged into the timing table.
+
+``--allocator original`` measures the pinned pre-change implementation extracted
+from git (see ``scripts/qualify_ats_allocator_equivalence.py``) in this same
+interpreter, so before/after pairs differ only in the allocator module.
+``allocate_ts`` is unchanged by the refactor and is reported as a negative
+control: its before/after drift is the noise floor of the measurement.
 
 Usage (installed interpreter, this worktree on PYTHONPATH):
 
     PY=/home/quant/dev/quant/quant-research/.venv/bin/python
-    PYTHONPATH=$PWD $PY -B scripts/benchmark_ats_allocators.py \
-        --repeats 5 --json .workspace/perf/after.json
+    PYTHONPATH=$PWD POLARS_MAX_THREADS=8 $PY -B scripts/benchmark_ats_allocators.py \
+        --repeats 5 --allocator head --json .workspace/perf/after.json
 
 No file outside this worktree is written unless ``--json`` names a path.
 """
@@ -25,9 +34,11 @@ import argparse
 import hashlib
 import inspect
 import json
+import os
 import platform
 import statistics
 import sys
+import tempfile
 import time
 from collections.abc import Callable
 from datetime import UTC, datetime
@@ -41,7 +52,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.engine.signal_allocator import allocate
+from qualify_ats_allocator_equivalence import DEFAULT_REF, extract_original
+
+from src.engine.signal_allocator import allocate as head_allocate
 from src.engine.spec_parser import CandidateSpec
 from src.engine.ts_allocator import allocate_ts
 from src.engine.ts_spec import TimeSeriesSpec
@@ -54,8 +67,12 @@ def _panel(symbols: list[str], bars: int, seed: int) -> pl.DataFrame:
     """Deterministic synthetic cross-section; explicitly not market evidence."""
     rng = np.random.default_rng(seed)
     n = len(symbols)
-    # Timestamp-major layout, the natural feature-compiler output order.
-    timestamps = np.repeat(np.arange(bars, dtype=np.int64) * 3_600_000_000_000,
+    # Timestamp-major layout, the natural feature-compiler output order. The panel
+    # starts at the declared train start: an epoch-based clock would contradict
+    # ``signal_spec()['windows']['train']['start']`` and misrepresent the cadence
+    # anchor that production features actually carry.
+    start_ns = int(START.timestamp()) * 1_000_000_000
+    timestamps = np.repeat(start_ns + np.arange(bars, dtype=np.int64) * 3_600_000_000_000,
                            n).astype('datetime64[ns]')
     symbol_index = np.tile(np.arange(n), bars)
     log_returns = rng.normal(0.0, 0.0015, size=(bars, n))
@@ -85,6 +102,7 @@ def _panel(symbols: list[str], bars: int, seed: int) -> pl.DataFrame:
         'candidate': candidate, 'baseline': baseline,
         'atr_24h': atr, 'vol_20': vol, 'forecast': forecast,
     })
+    assert frame['timestamp'].min() == START, 'panel must start at the declared train start'
     return frame.sort('timestamp', 'symbol')
 
 
@@ -168,18 +186,24 @@ def _run(fn: Callable[[dict[str, float] | None], pl.DataFrame], repeats: int,
         fn(None)
     times: list[float] = []
     phases: list[dict[str, float]] = []
+    digests: list[str] = []
     result: pl.DataFrame | None = None
     for _ in range(repeats):
         timings: dict[str, float] | None = {} if timing else None
         start = time.perf_counter_ns()
         result = fn(timings)
         times.append((time.perf_counter_ns() - start) / 1e6)
+        # Every repeat is fingerprinted: a deterministic allocator may not emit a
+        # different answer on repeat 4 and still be timed as if it were stable.
+        digests.append(fingerprint(result)['sha256'])
         if timings:
             phases.append({key: value * 1e3 for key, value in timings.items()})
     assert result is not None
     digest = fingerprint(result)
     return {
         **digest,
+        'repeat_sha256': digests,
+        'repeats_identical': len(set(digests)) == 1,
         'repeats': repeats,
         'times_ms': [round(value, 4) for value in times],
         'min_ms': round(min(times), 4),
@@ -199,11 +223,35 @@ CASES: dict[str, tuple[int, int, int]] = {
 }
 
 
+def workload_digest(frame: pl.DataFrame) -> str:
+    """Digest of the benchmark input, so a timing row names its exact workload."""
+    digest = hashlib.sha256()
+    digest.update(repr([(name, str(dtype)) for name, dtype in frame.schema.items()]).encode())
+    digest.update(str(frame.height).encode())
+    for name in frame.columns:
+        series = frame[name]
+        digest.update(name.encode())
+        digest.update(str(series.dtype).encode())
+        if series.dtype == pl.String:
+            for value in series.to_list():
+                encoded = value.encode('utf-8')
+                digest.update(len(encoded).to_bytes(8, 'big'))
+                digest.update(encoded)
+        elif series.dtype == pl.Datetime:
+            digest.update(series.to_numpy().astype('int64').tobytes())
+        elif series.dtype == pl.Float64:
+            digest.update(np.ascontiguousarray(series.to_numpy()).view('uint64').tobytes())
+        else:
+            digest.update(np.ascontiguousarray(series.to_numpy()).tobytes())
+    return digest.hexdigest()
+
+
 def _supports_timing(fn: Callable[..., Any]) -> bool:
     return 'phase_timings' in inspect.signature(fn).parameters
 
 
-def build_cases(names: list[str]) -> dict[str, dict[str, Any]]:
+def build_cases(names: list[str], allocate_fn: Callable[..., pl.DataFrame],
+                ) -> dict[str, dict[str, Any]]:
     cases: dict[str, dict[str, Any]] = {}
     for name in names:
         symbols_count, bars, cadence = CASES[name]
@@ -212,13 +260,15 @@ def build_cases(names: list[str]) -> dict[str, dict[str, Any]]:
         panel = _panel(symbols, bars, seed)
         signal = signal_spec(cadence)
         ts = ts_spec(symbols, cadence)
-        signal_timing = _supports_timing(allocate)
+        signal_timing = _supports_timing(allocate_fn)
         ts_timing = _supports_timing(allocate_ts)
+        workload = workload_digest(panel)
 
-        def run_signal(timings, panel=panel, signal=signal, supported=signal_timing):
+        def run_signal(timings, panel=panel, signal=signal, supported=signal_timing,
+                       allocate_impl=allocate_fn):
             if timings is not None and supported:
-                return allocate(panel, signal, phase_timings=timings)
-            return allocate(panel, signal)
+                return allocate_impl(panel, signal, phase_timings=timings)
+            return allocate_impl(panel, signal)
 
         def run_ts(timings, panel=panel, ts=ts, supported=ts_timing):
             if timings is not None and supported:
@@ -228,26 +278,87 @@ def build_cases(names: list[str]) -> dict[str, dict[str, Any]]:
         cases[f'signal_{name}'] = {
             'fn': run_signal, 'timing_supported': signal_timing,
             'input_rows': panel.height, 'symbols': symbols_count, 'bars': bars,
-            'rebalance_bars': cadence,
+            'rebalance_bars': cadence, 'workload_sha256': workload,
+            'control': False,
         }
         cases[f'ts_{name}'] = {
             'fn': run_ts, 'timing_supported': ts_timing,
             'input_rows': panel.height, 'symbols': symbols_count, 'bars': bars,
-            'rebalance_bars': cadence,
+            'rebalance_bars': cadence, 'workload_sha256': workload,
+            'control': True,
         }
     return cases
 
 
 def git_state() -> dict[str, Any]:
     import subprocess
+
+    def git(*args: str) -> str:
+        return subprocess.run(['git', '-C', str(ROOT), *args], check=True,
+                              capture_output=True, text=True).stdout.strip()
+
     try:
-        sha = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'],
-                             check=True, capture_output=True, text=True).stdout.strip()
-        dirty = bool(subprocess.run(['git', '-C', str(ROOT), 'status', '--porcelain'],
-                                    check=True, capture_output=True, text=True).stdout.strip())
+        lock = hashlib.sha256((ROOT / 'uv.lock').read_bytes()).hexdigest()
+        return {'sha': git('rev-parse', 'HEAD'), 'branch': git('rev-parse', '--abbrev-ref', 'HEAD'),
+                'dirty': bool(git('status', '--porcelain')), 'uv_lock_sha256': lock}
     except Exception:  # noqa: BLE001  # pragma: no cover - diagnostic only
-        sha, dirty = 'unknown', None
-    return {'sha': sha, 'dirty': dirty}
+        return {'sha': 'unknown', 'dirty': None}
+
+
+def environment() -> dict[str, Any]:
+    cpu = 'unknown'
+    try:
+        with open('/proc/cpuinfo', encoding='utf-8') as handle:
+            cpu = next(line.split(':', 1)[1].strip() for line in handle
+                       if line.startswith('model name'))
+    except (OSError, StopIteration):  # pragma: no cover - non-Linux host
+        pass
+    affinity = None
+    if hasattr(os, 'sched_getaffinity'):
+        affinity = sorted(os.sched_getaffinity(0))
+    try:
+        load = os.getloadavg()
+    except OSError:  # pragma: no cover - unusual host
+        load = None
+    return {'python': platform.python_version(), 'polars': pl.__version__,
+            'numpy': np.__version__, 'platform': platform.platform(),
+            'cpu_model': cpu, 'cpu_count': os.cpu_count(), 'affinity': affinity,
+            'polars_threads': pl.thread_pool_size(),
+            'polars_max_threads_env': os.environ.get('POLARS_MAX_THREADS'),
+            'loadavg_1_5_15': load}
+
+
+def compare_reports(pairs: list[list[Path]]) -> int:
+    """Print medians, speedups and fingerprint agreement for matched cases."""
+    failures = 0
+    for before_path, after_path in pairs:
+        before = json.loads(before_path.read_text())
+        after = json.loads(after_path.read_text())
+        print(f"pair: {before_path.name} ({before.get('allocator')}) -> "
+              f"{after_path.name} ({after.get('allocator')})")
+        print(f"{'case':<24}{'before_ms':>12}{'after_ms':>12}{'speedup':>10}"
+              f"{'before_cv':>11}{'after_cv':>10}  fingerprints")
+        for name, case in before['cases'].items():
+            other = after['cases'].get(name)
+            if other is None or 'median_ms' not in case or 'median_ms' not in other:
+                print(f'{name:<24} incomplete case in one report')
+                failures += 1
+                continue
+            speedup = case['median_ms'] / other['median_ms']
+            before_cv = case['stdev_ms'] / case['median_ms'] if case['median_ms'] else 0.0
+            after_cv = other['stdev_ms'] / other['median_ms'] if other['median_ms'] else 0.0
+            same = case['sha256'] == other['sha256']
+            if not same:
+                failures += 1
+            label = 'identical' if same else 'DIFFERENT'
+            control = ' control' if case.get('control') else ''
+            print(f'{name:<24}{case["median_ms"]:>12.2f}{other["median_ms"]:>12.2f}'
+                  f'{speedup:>9.1f}x{100 * before_cv:>10.1f}%{100 * after_cv:>9.1f}%'
+                  f'  {label}{control}')
+            if case.get('workload_sha256') != other.get('workload_sha256'):
+                print(f'{name:<24} WORKLOAD MISMATCH')
+                failures += 1
+    return 1 if failures else 0
 
 
 def main() -> int:
@@ -260,38 +371,65 @@ def main() -> int:
                         help='request allocator phase timings when exposed')
     parser.add_argument('--json', type=Path, default=None)
     parser.add_argument('--label', default='')
+    parser.add_argument('--allocator', choices=('head', 'original'), default='head',
+                        help='measure the worktree allocator or the pinned pre-change one')
+    parser.add_argument('--original-ref', default=DEFAULT_REF)
+    parser.add_argument('--compare', nargs=2, type=Path, metavar=('BEFORE', 'AFTER'),
+                        action='append',
+                        help='compare two saved reports instead of timing; repeatable')
     args = parser.parse_args()
+    if args.compare:
+        return compare_reports(args.compare)
     names = list(CASES) if args.cases == 'all' else args.cases.split(',')
     unknown = [name for name in names if name not in CASES]
     if unknown:
         parser.error(f'unknown cases: {unknown}')
 
+    identity: dict[str, Any] | None = None
+    allocate_fn: Callable[..., pl.DataFrame] = head_allocate
+    tempdir: tempfile.TemporaryDirectory[str] | None = None
+    if args.allocator == 'original':
+        tempdir = tempfile.TemporaryDirectory()
+        allocate_fn, identity = extract_original(args.original_ref,
+                                                 Path(tempdir.name) / 'legacy_allocator.py')
+
     report: dict[str, Any] = {
         'label': args.label,
         'generated_at': datetime.now(UTC).isoformat(),
         'scope': 'synthetic development-only; no vault, protected window, casefile or broker',
+        'allocator': args.allocator,
+        'original_identity': identity,
         'git': git_state(),
-        'environment': {'python': platform.python_version(), 'polars': pl.__version__,
-                        'numpy': np.__version__, 'platform': platform.platform()},
+        'environment': environment(),
         'repeats': args.repeats, 'warmup': args.warmup, 'timing': args.timing,
         'cases': {},
     }
     failures = 0
-    for name, case in build_cases(names).items():
+    for name, case in build_cases(names, allocate_fn).items():
         try:
             result = _run(case['fn'], args.repeats, args.warmup, args.timing and case['timing_supported'])
             result.update({'input_rows': case['input_rows'], 'symbols': case['symbols'],
                            'bars': case['bars'],
                            'rebalance_bars': case['rebalance_bars'],
-                           'timing_supported': case['timing_supported']})
+                           'timing_supported': case['timing_supported'],
+                           'workload_sha256': case['workload_sha256'],
+                           'control': case['control']})
             report['cases'][name] = result
-            print(f'{name}: input_rows={case["input_rows"]} output_rows={result["rows"]} '
+            if not result['repeats_identical']:
+                failures += 1
+                print(f'{name}: NONDETERMINISTIC repeat fingerprints '
+                      f'{[item[:16] for item in result["repeat_sha256"]]}', file=sys.stderr)
+            print(f'{name}{" (control)" if case["control"] else ""}: '
+                  f'input_rows={case["input_rows"]} output_rows={result["rows"]} '
                   f'median={result["median_ms"]:.2f}ms '
-                  f'min={result["min_ms"]:.2f}ms fp={result["sha256"][:16]}')
+                  f'min={result["min_ms"]:.2f}ms stdev={result["stdev_ms"]:.2f}ms '
+                  f'fp={result["sha256"][:16]}')
         except Exception as exc:  # noqa: BLE001  # report honestly, continue other cases
             failures += 1
             report['cases'][name] = {'error': f'{type(exc).__name__}: {exc}'}
             print(f'{name}: ERROR {type(exc).__name__}: {exc}', file=sys.stderr)
+    if tempdir is not None:
+        tempdir.cleanup()
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
         args.json.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')

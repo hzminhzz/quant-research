@@ -48,8 +48,11 @@ def allocate(features: pl.DataFrame, spec: CandidateSpec, *, signal: str | None 
     ).filter((pl.col('_count') >= minimum_assets)
              & (pl.col('_head') | pl.col('_tail')))
 
-    # Head weights are inserted first, then short weights override on a repeated
-    # symbol, matching the former per-symbol dict assignment order.
+    # One weight per symbol per timestamp. Head rows are written first and tail rows
+    # second, so a symbol present in both windows keeps the short-side assignment,
+    # matching the former per-symbol dict order. That state is only reachable through
+    # a repeated (timestamp, symbol) row, which the panel contract forbids upstream;
+    # such a row also breaks the basket sum checked immediately below.
     weights = ranked.with_columns(
         pl.when(pl.col('_head')).then(pl.lit(half / long_count))
         .otherwise(pl.lit(-half / short_count)).alias('target_weight'),
@@ -62,9 +65,18 @@ def allocate(features: pl.DataFrame, spec: CandidateSpec, *, signal: str | None 
     if (exposure['target_weight'].abs() > _NEUTRALITY_TOLERANCE).any():
         raise QuantError('INVALID_ALLOCATION', 'Market-neutral target failed')
 
-    distance = atr_multiple * pl.col(atr_feature) / pl.col('close')
+    # The projection aliases its inputs so a feature whose name collides with a
+    # panel column (for example ``atr_feature: close``) cannot produce a duplicate
+    # output name. Distance is computed in double precision regardless of the
+    # stored column dtype, matching the former per-row Python arithmetic.
+    distance = atr_multiple * pl.col('_atr') / pl.col('_close')
     weighted = pl.col('target_weight') != 0
-    targeted = scheduled.select('timestamp', 'symbol', 'close', atr_feature).join(
+    targeted = scheduled.select(
+        pl.col('timestamp'),
+        pl.col('symbol'),
+        pl.col('close').cast(pl.Float64).alias('_close'),
+        pl.col(atr_feature).cast(pl.Float64).alias('_atr'),
+    ).join(
         weights, on=['timestamp', 'symbol'], how='left',
     ).with_columns(pl.col('target_weight').fill_null(0.0))
 
@@ -79,5 +91,5 @@ def allocate(features: pl.DataFrame, spec: CandidateSpec, *, signal: str | None 
         pl.col('timestamp').cast(pl.Datetime('us', 'UTC')),
         pl.col('symbol').cast(pl.String),
         pl.col('target_weight').cast(pl.Float64),
-        pl.when(weighted).then(distance).otherwise(0.0).alias('stop_loss_dist_pct'),
+        pl.when(weighted).then(distance).otherwise(0.0).cast(pl.Float64).alias('stop_loss_dist_pct'),
     ).sort('timestamp', 'symbol')
