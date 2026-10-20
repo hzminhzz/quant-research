@@ -28,7 +28,7 @@ output. None of those occurred.
 | --- | --- |
 | `origin/main` at fetch (also PR merge-base) | `1e8d0cc33f5f3469eb83a78fcc2b79505bff8e9b` |
 | PR head at start of qualification | `ffe2c258d4cf3ea45e9f3039ed09292a0f6261d8` |
-| Final head (this commit) | see `git log -1` on the branch; recorded in §12 |
+| Head under test | `ffe2c258…` plus the qualification commit that carries this report (PR #89 head after push) |
 | Original `signal_allocator.py` git blob | `956fd849cf6b7b70ff49caf46167c7fdbfe9fb7e` |
 | Original `signal_allocator.py` sha256 | `820a2abfae50d9a29d0a05665b746bd36a1ced6d04870e09f4ad1d53f4c00c5f` |
 | Qualified `src/engine/signal_allocator.py` sha256 | `3d8668f06458355ad614f231c2a0c6f0b140e8dd45595fc5b3fa13dc21db3498` |
