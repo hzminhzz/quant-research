@@ -5,6 +5,20 @@
 **Scope:** MVP Research only. This prompt does not authorize protected holdout
 access, strategy promotion, production changes, or live orders.
 
+## Quick-start prompt (reuse for each Gemini thesis)
+
+Paste this into ChatGPT Web with the Gemini thesis attached or included.
+The full implementation and verification instructions follow below.
+
+```text
+Mode: MVP Research.
+Execute the attached Gemini research thesis using the workflow in `docs/prompts/gemini_to_ml4t_mvp.md`.
+Act as the principal engineer and research lead. Use DevSpace directly for implementation, native ML4T feature engineering, backtesting, debugging, and validation.
+Use Codex selectively for long-running or independent tasks.
+Continue autonomously until REJECT, INCONCLUSIVE, or VALIDATE.
+Gemini thesis: [paste or attach]
+```
+
 ## Copy-ready prompt
 
 ```text
