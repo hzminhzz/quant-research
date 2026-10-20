@@ -1,11 +1,17 @@
 """Non-executing qualification and triage pass across all 112 inbox theses."""
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
-from src.research_control.research_inbox_queue import InboxQueue
-
+# Direct ``python scripts/...`` execution must not depend on the caller's
+# PYTHONPATH. Bootstrap this checkout before importing src, matching the
+# convention used by the other repository CLIs.
 REPO = Path(__file__).resolve().parents[1]
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
+
+from src.research_control.research_inbox_queue import InboxQueue
 
 
 def generate_triage_audit() -> str:
