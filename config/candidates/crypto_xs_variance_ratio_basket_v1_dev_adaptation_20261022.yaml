@@ -1,0 +1,177 @@
+schema_version: 1
+candidate_id: ats_crypto_xs_variance_ratio_dev_adaptation_20261022
+selection_family_id: cross_sectional_risk_premia
+market_scope: BINANCE_UM_USDT_PERP
+source_spec_status: local_adaptation
+thesis: >-
+  Test whether the Lo-MacKinlay variance ratio VR(24) measured on trailing 14 days of
+  Binance USDT perpetual 1h bars separates persistent, autocorrelated multi-day drift
+  from transient noise-trader whipsaw. Source direction: long high-VR, short low-VR in
+  a 72-hour dollar-neutral basket. Adapted from research_inbox/
+  crypto_xs_variance_ratio_basket_v1.
+panel_root: /home/quant/.devspace/worktrees/quant-research-25440f7a/data/vault/full_530_20261015
+windows:
+  train: {start: '2020-04-01T00:00:00Z', end: '2024-01-01T00:00:00Z'}
+  validation: {start: '2024-01-01T00:00:00Z', end: '2026-01-01T00:00:00Z'}
+  protected: {start: '2026-01-01T00:00:00Z', end: '2026-10-01T00:00:00Z'}
+universe:
+  top_n: 40
+  minimum_assets: 40
+  lookback_bars: 720
+  minimum_history_bars: 720
+  minimum_dollar_volume: 0
+features:
+  - name: atr_24h
+    native: atr
+    params: {period: 24}
+  - name: ret_1h
+    expr: {op: pct_change, periods: 1, args: [{op: col, name: close}]}
+  - name: ret_24h
+    expr: {op: pct_change, periods: 24, args: [{op: col, name: close}]}
+  - name: std_1h_336h
+    expr:
+      op: rolling_std
+      window: 336
+      args: [{op: col, name: ret_1h}]
+  - name: var_1h_336h
+    expr:
+      op: mul
+      args:
+        - {op: col, name: std_1h_336h}
+        - {op: col, name: std_1h_336h}
+  - name: std_24h_336h
+    expr:
+      op: rolling_std
+      window: 336
+      args: [{op: col, name: ret_24h}]
+  - name: var_24h_336h
+    expr:
+      op: mul
+      args:
+        - {op: col, name: std_24h_336h}
+        - {op: col, name: std_24h_336h}
+  - name: scaled_var_1h_336h
+    expr:
+      op: mul
+      args:
+        - {op: col, name: var_1h_336h}
+        - {op: lit, value: 24.0}
+  - name: variance_denominator
+    expr:
+      op: where
+      args:
+        - {op: gt, args: [{op: col, name: scaled_var_1h_336h}, {op: lit, value: 1.0e-8}]}
+        - {op: col, name: scaled_var_1h_336h}
+        - {op: lit, value: 1.0e-8}
+  - name: variance_ratio_24
+    expr:
+      op: div
+      args:
+        - {op: col, name: var_24h_336h}
+        - {op: col, name: variance_denominator}
+  - name: momentum_baseline_168h
+    expr:
+      op: sub
+      args:
+        - op: div
+          args:
+            - {op: col, name: close}
+            - {op: shift, periods: 168, args: [{op: col, name: close}]}
+        - {op: lit, value: 1.0}
+signal: variance_ratio_24
+baseline: momentum_baseline_168h
+allocation:
+  long_count: 5
+  short_count: 5
+  gross_exposure: 1.0
+  rebalance_bars: 72
+  atr_feature: atr_24h
+  atr_multiple: 3.0
+  timing_lag: 1
+  netting_rule: weight_delta
+costs:
+  commission_bps_one_way: 5.0
+  slippage_bps_one_way: 4.0
+  spread_bps: 0.0
+  spread_included_in_slippage: true
+gates:
+  minimum_ic: 0.015
+  minimum_hac_t: 2.0
+  minimum_ic_observations: 30
+  require_baseline_ic_improvement: true
+  dsr_probability: 0.95
+  maximum_abs_beta: 0.15
+  maximum_short_stop_fraction: 0.20
+  minimum_completed_trades: 1500
+  require_baseline_sharpe_improvement: true
+  minimum_daily_observations: 365
+label_horizon_bars: 72
+bar_seconds: 3600
+periods_per_year: 365
+benchmark: BTCUSDT_PERP
+initial_cash: 100000
+seed: 42
+cutoff_checks: 3
+prior_trial_ids: []
+assumptions:
+  - >-
+    SOURCE_ID=research_inbox/crypto_xs_variance_ratio_basket_v1/thesis.yaml
+    SHA256=9469e931cdab9487560951d9799e71dcd3286966874d35d4f89a9c94e974e15e;
+    brief.md SHA256=c4599cad1c31268d8f1e017d7161f0faf54e83108f81cf11dfffdef7dccb64f2.
+    The source is a descriptive thesis, not a validated executable rule; its citations are
+    not evidence that these formulas reproduce the cited papers.
+  - >-
+    SOURCE FACTS PRESERVED: 1h Binance USDT perpetual bars; Top-40 liquid PIT universe;
+    72-hour rebalanced dollar-neutral basket; long high-ranked / short low-ranked;
+    VR(24)=Var(r_24h)/(24*Var(r_1h)) over trailing 14 days; 5 bps taker + 4 bps slippage
+    per leg (18 bps round trip); 3x ATR(24) frozen catastrophic stop; HAC>=2.0 and
+    DSR>0.95 falsifiers; train/validation/protected split boundaries.
+  - >-
+    RESEARCHER CHOICES (not in the source): returns are simple close-to-close pct_change
+    because the compiler has no logarithm; Var(r_24h) uses a 336-bar rolling standard
+    deviation of overlapping 24h returns (source text says k=0..312); the max(.,1e-8)
+    denominator is expressed as a where/gt floor because the expression grammar has no
+    max; ranking is native descending score with symbol-ascending tie-break; the basket
+    is 5 long / 5 short at equal weight and 1x gross because the source gives no count.
+  - >-
+    CLOCK: bar timestamp t is the bar OPEN. A feature computed on bar t is usable only
+    after it closes, and the native allocator rebalances on bars whose epoch is 0 modulo
+    72h from train start, so a 00:00 UTC decision bar fills at the 01:00 UTC next-bar
+    open. This replaces the source's impossible 00:01 same-bar clock explicitly; no order
+    uses the high/low of its own entry bar. Boundary fills assume zero processing delay.
+  - >-
+    BASELINE CHOICE: the source offers only an equal-weight universe basket or benchmark
+    buy-and-hold, neither of which is a ranked cross-sectional feature. A 168h cross-
+    sectional momentum baseline is used so the comparison is a real competing signal
+    rather than a constant score; this is a researcher departure and makes
+    require_baseline_ic_improvement stricter, not weaker.
+  - >-
+    UNIVERSE: 40 highest trailing-720h close*base_volume names among the 530 snapshotted
+    symbols, requiring 720 uninterrupted tradable bars; minimum_assets=40 so the runtime
+    abstains instead of silently narrowing. Dollar-volume ranking is a turnover proxy, and
+    historical delisting completeness of the source archive is unknown.
+  - >-
+    COSTS/CARRY: 5 bps one-way commission plus 4 bps one-way slippage, spread declared 0
+    and folded into slippage (no double charge). Funding is the snapshot's observed
+    settled carry_rate event impulse, never forward-filled; trade_open_proxy marks and the
+    1000ms settlement normalization are snapshot assumptions. No crypto spread was
+    measured, and the 530-symbol manifest carries no aggregate execution_qualified key
+    (per-entry provenance records execution_qualified=false). Stage 3 here therefore
+    measures MODELED-COST development economics, not venue execution qualification, and
+    cannot produce a QUALIFIED disposition.
+  - >-
+    WINDOWS: source proposes 2019-10-01 onward, but this snapshot begins 2020-01-01, so
+    train starts 2020-04-01 after 720h of warmup history. Validation ends 2026-01-01.
+    No protected row is read, claimed or simulated.
+  - >-
+    MULTIPLICITY: prior_trial_ids is empty because the earlier same-scope, same-horizon
+    trials in the shared ledger (90d-high anchoring, maximum-return salience, wick
+    asymmetry) produced no daily-return artifacts, so they cannot enter an aligned DSR
+    cohort. The factory still counts every registered attempt in (market_scope,
+    label_horizon_bars) automatically. The native DSR gate additionally requires at least
+    10 prior attempts and 10 return-aligned priors, which this workspace does not have;
+    Stage 3 is therefore expected to be INCONCLUSIVE on DSR evidence even if the
+    economics are favourable. That is reported, not worked around.
+  - >-
+    DEVELOPMENT ONLY: executed with --development-only against a certified development
+    partition. No holdout claim, Stage 4, promotion, deployment or live trading.
