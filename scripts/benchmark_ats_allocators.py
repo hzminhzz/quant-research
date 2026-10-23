@@ -14,11 +14,12 @@ before and after fingerprints are identical for every case and every repeat.
 A repeat whose fingerprint differs from the first repeat is reported as a
 failure rather than silently averaged into the timing table.
 
-``--allocator original`` measures the pinned pre-change implementation extracted
-from git (see ``scripts/qualify_ats_allocator_equivalence.py``) in this same
+``--allocator original`` / ``original-ts`` measures the pinned pre-change
+implementation extracted from git (see ``scripts/qualify_ats_*.py``) in this same
 interpreter, so before/after pairs differ only in the allocator module.
-``allocate_ts`` is unchanged by the refactor and is reported as a negative
-control: its before/after drift is the noise floor of the measurement.
+``--subject`` names the allocator this work unit changes; the other one is
+reported as a negative control, and its before/after drift is the noise floor of
+the measurement.
 
 Usage (installed interpreter, this worktree on PYTHONPATH):
 
@@ -53,6 +54,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from qualify_ats_allocator_equivalence import DEFAULT_REF, extract_original
+from qualify_ats_ts_allocator_equivalence import DEFAULT_REF as TS_DEFAULT_REF
+from qualify_ats_ts_allocator_equivalence import extract_original as extract_original_ts
 
 from src.engine.signal_allocator import allocate as head_allocate
 from src.engine.spec_parser import CandidateSpec
@@ -251,7 +254,8 @@ def _supports_timing(fn: Callable[..., Any]) -> bool:
 
 
 def build_cases(names: list[str], allocate_fn: Callable[..., pl.DataFrame],
-                ) -> dict[str, dict[str, Any]]:
+                allocate_ts_fn: Callable[..., pl.DataFrame] = allocate_ts,
+                subject: str = 'ts') -> dict[str, dict[str, Any]]:
     cases: dict[str, dict[str, Any]] = {}
     for name in names:
         symbols_count, bars, cadence = CASES[name]
@@ -261,7 +265,7 @@ def build_cases(names: list[str], allocate_fn: Callable[..., pl.DataFrame],
         signal = signal_spec(cadence)
         ts = ts_spec(symbols, cadence)
         signal_timing = _supports_timing(allocate_fn)
-        ts_timing = _supports_timing(allocate_ts)
+        ts_timing = _supports_timing(allocate_ts_fn)
         workload = workload_digest(panel)
 
         def run_signal(timings, panel=panel, signal=signal, supported=signal_timing,
@@ -270,22 +274,23 @@ def build_cases(names: list[str], allocate_fn: Callable[..., pl.DataFrame],
                 return allocate_impl(panel, signal, phase_timings=timings)
             return allocate_impl(panel, signal)
 
-        def run_ts(timings, panel=panel, ts=ts, supported=ts_timing):
+        def run_ts(timings, panel=panel, ts=ts, supported=ts_timing,
+                   allocate_impl=allocate_ts_fn):
             if timings is not None and supported:
-                return allocate_ts(panel, ts, ts.market_classes[0], phase_timings=timings)
-            return allocate_ts(panel, ts, ts.market_classes[0])
+                return allocate_impl(panel, ts, ts.market_classes[0], phase_timings=timings)
+            return allocate_impl(panel, ts, ts.market_classes[0])
 
         cases[f'signal_{name}'] = {
             'fn': run_signal, 'timing_supported': signal_timing,
             'input_rows': panel.height, 'symbols': symbols_count, 'bars': bars,
             'rebalance_bars': cadence, 'workload_sha256': workload,
-            'control': False,
+            'control': subject != 'signal',
         }
         cases[f'ts_{name}'] = {
             'fn': run_ts, 'timing_supported': ts_timing,
             'input_rows': panel.height, 'symbols': symbols_count, 'bars': bars,
             'rebalance_bars': cadence, 'workload_sha256': workload,
-            'control': True,
+            'control': subject != 'ts',
         }
     return cases
 
@@ -371,9 +376,14 @@ def main() -> int:
                         help='request allocator phase timings when exposed')
     parser.add_argument('--json', type=Path, default=None)
     parser.add_argument('--label', default='')
-    parser.add_argument('--allocator', choices=('head', 'original'), default='head',
-                        help='measure the worktree allocator or the pinned pre-change one')
-    parser.add_argument('--original-ref', default=DEFAULT_REF)
+    parser.add_argument('--allocator', choices=('head', 'original', 'original-ts'),
+                        default='head',
+                        help='measure the worktree allocator, the pinned pre-change signal '
+                             'allocator, or the pinned pre-change time-series allocator')
+    parser.add_argument('--subject', choices=('signal', 'ts'), default='ts',
+                        help='which allocator this work unit changes; the other is the control')
+    parser.add_argument('--original-ref', default=None,
+                        help='git ref holding the pinned original (default: per allocator)')
     parser.add_argument('--compare', nargs=2, type=Path, metavar=('BEFORE', 'AFTER'),
                         action='append',
                         help='compare two saved reports instead of timing; repeatable')
@@ -387,11 +397,18 @@ def main() -> int:
 
     identity: dict[str, Any] | None = None
     allocate_fn: Callable[..., pl.DataFrame] = head_allocate
+    allocate_ts_fn: Callable[..., pl.DataFrame] = allocate_ts
     tempdir: tempfile.TemporaryDirectory[str] | None = None
-    if args.allocator == 'original':
+    if args.allocator in ('original', 'original-ts'):
         tempdir = tempfile.TemporaryDirectory()
-        allocate_fn, identity = extract_original(args.original_ref,
-                                                 Path(tempdir.name) / 'legacy_allocator.py')
+        if args.allocator == 'original':
+            allocate_fn, identity = extract_original(
+                args.original_ref or DEFAULT_REF,
+                Path(tempdir.name) / 'legacy_allocator.py')
+        else:
+            allocate_ts_fn, identity = extract_original_ts(
+                args.original_ref or TS_DEFAULT_REF,
+                Path(tempdir.name) / 'legacy_ts_allocator.py')
 
     report: dict[str, Any] = {
         'label': args.label,
@@ -405,7 +422,8 @@ def main() -> int:
         'cases': {},
     }
     failures = 0
-    for name, case in build_cases(names, allocate_fn).items():
+    for name, case in build_cases(names, allocate_fn, allocate_ts_fn,
+                                  args.subject).items():
         try:
             result = _run(case['fn'], args.repeats, args.warmup, args.timing and case['timing_supported'])
             result.update({'input_rows': case['input_rows'], 'symbols': case['symbols'],
