@@ -28,9 +28,10 @@ never overwrite an existing candidate or discard untracked staging evidence.
 The three descriptive thesis factories (general, crypto, ML) share the bounded
 publisher `scripts/research_source_publication.py`. It is the publication step
 only: it does not stage candidates, write theses or run science. Direct
-`python scripts/...` execution bootstraps this checkout itself, so it works when
-`PYTHONPATH` contains only the pinned connector path (as in CI); no repository
-`PYTHONPATH` entry is required. Use `--repo PATH` for an isolated checkout.
+execution by absolute path bootstraps this checkout itself, so it works when
+`PYTHONPATH` contains only the pinned connector path (as in CI) and from any
+working directory; no repository `PYTHONPATH` entry is required. Use
+`--repo PATH` for an isolated checkout.
 
 ### Hourly integration contract (general, crypto and ML)
 
@@ -42,11 +43,13 @@ only: it does not stage candidates, write theses or run science. Direct
    at most four commits over `origin/main`. Do not modify an existing candidate,
    do not discard raw sources or untracked staging evidence, and leave tracked
    worktree files byte-identical to the commit.
-3. Run the publisher from the repository root (or pass `--repo`):
+3. Run the publisher by absolute path from any working directory; pass the
+   isolated checkout explicitly:
 
    ```sh
-   .venv/bin/python scripts/research_source_publication.py publish \
-     --factory ml --run-id <unique-hourly-invocation-id>
+   <quant-research>/.venv/bin/python \
+     <quant-research>/scripts/research_source_publication.py publish \
+     --repo <isolated-checkout> --factory ml --run-id <unique-hourly-invocation-id>
    ```
 
 4. Exit `0` with `REMOTE_PUBLICATION_VERIFIED` is the only publish success.
@@ -57,8 +60,9 @@ only: it does not stage candidates, write theses or run science. Direct
    a candidate:
 
    ```sh
-   .venv/bin/python scripts/research_source_publication.py no-op \
-     --factory general --run-id <unique-id> \
+   <quant-research>/.venv/bin/python \
+     <quant-research>/scripts/research_source_publication.py no-op \
+     --repo <isolated-checkout> --factory general --run-id <unique-id> \
      --reason '<what was screened and why nothing was novel>'
    ```
 

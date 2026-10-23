@@ -242,3 +242,37 @@ def test_receipt_persistence_failure_exits_three(environment):
     assert p.returncode == 3
     assert p.stdout.strip() == ""
     assert "RECEIPT_FAILED" in p.stderr
+
+
+def test_unexpected_admission_failure_still_writes_receipt(environment):
+    # A cyclic YAML alias can exhaust recursion outside the narrow admission
+    # error tuple; it must still block with a durable receipt, not a bare traceback.
+    dest = environment.repo / "research_inbox" / "cyclic_nested_candidate_v1"
+    dest.mkdir()
+    (dest / "thesis.yaml").write_text(
+        """identity:
+  candidate_id: cyclic_nested_candidate_v1
+  source_references:
+    - &loop
+      title: Cyclic Anchor
+      id: loop-anchor
+      children: [*loop]
+economic_thesis: {}
+markets_and_data: {}
+deterministic_strategy_specification: {}
+research_evaluation: {}
+scientific_integrity: {}
+"""
+    )
+    (dest / "brief.md").write_text("No candidate identity or source URL anchor.\n")
+    git(environment.repo, "add", "research_inbox")
+    git(environment.repo, "commit", "-m", "cyclic nested source pair")
+    p, record = invoke(environment)
+    assert p.returncode == 2, p.stderr + p.stdout
+    assert record["status"] == "NOT_PUBLISHED"
+    assert record["error_type"] == "RecursionError"
+    assert "Traceback" not in p.stderr
+    stored = receipts_for(environment)
+    assert len(stored) == 1
+    assert stored[0]["status"] == "NOT_PUBLISHED"
+    assert stored[0]["error_type"] == "RecursionError"
