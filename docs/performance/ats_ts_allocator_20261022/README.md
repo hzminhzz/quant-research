@@ -128,3 +128,43 @@ PYTHONPATH=$PWD <py> -B scripts/benchmark_ats_allocators.py \
 * Equivalence is exact on the 81-case matrix and 24 seeded fuzz panels, not a
   formal proof for arbitrary programs.
 * No protected partition was opened and no holdout claim was reserved.
+
+## 7. Deliberately not done: scheduler concurrency, phase telemetry
+
+**No scheduler concurrency was introduced.** The allocator is called once per
+candidate inside a sequential pull queue (`InboxQueue.run` walks admitted
+candidates; `--max-runtime-seconds` bounds each trial). Parallelising
+rebalances inside `allocate_ts` would not remove the remaining cost, which is
+the per-rebalance Python budget loop; that loop is GIL-bound, order-dependent
+for compensated `sum()` and water-filling, and defines error precedence. A
+thread or process pool would therefore add scheduling noise and a new
+determinism surface while changing neither the declared gross exposure nor the
+emitted frame. Queue-level concurrency is the credible next step, but it needs
+isolated run directories, per-trial resource budgets and a trials-per-hour
+acceptance metric, not an allocator microbenchmark. It is out of scope here.
+
+**No production phase-timing API was added.** Timing hooks inside the allocator
+would create a new public surface for no scientific gain; the immutable
+casefile and trial ledger remain untouched. Diagnostics stay in the benchmark
+harness and in `cProfile` on a development panel. If phase telemetry is later
+required, add it as an explicit opt-in argument with a contract test that proves
+the emitted frame and fingerprints are unchanged.
+
+**Next benchmarks (not run here):**
+
+1. Scale the synthetic universe to 500 symbols and 5–10 years of hourly bars to
+   locate the per-rebalance Python loop's scaling knee (the current largest case
+   is 192×3000).
+2. Time the three phases separately on a development feature panel
+   (schedule + eligibility, per-rebalance budgets, output construction) rather
+   than inferring them from the end-to-end delta.
+3. Measure peak memory and chunking for native 1-second panels, where row counts
+   are two to three orders of magnitude larger.
+4. Evaluate queue-level concurrency end to end (trials/hour, isolated run
+   directories, per-trial budgets), with the allocator held fixed so the result
+   is attributable to scheduling rather than to this refactor.
+
+This work unit claims allocator-phase speed only. It does **not** claim a
+production trials-per-hour improvement: PR #89 measured the cross-sectional
+allocator at 0.72% of a development pipeline before its own optimization, and
+the time-series allocator's share of a full trial was not re-measured here.
