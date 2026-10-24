@@ -166,12 +166,25 @@ def allocate_ts(features: pl.DataFrame, spec: TimeSeriesSpec,
     vol_name = spec.risk_allocation.volatility_feature
     value_names = list(dict.fromkeys(
         ['forecast', stop_name, 'close'] + ([vol_name] if vol_name is not None else [])))
+
+    # These names are internal only, but input frames may carry unrelated
+    # columns with the same names. Select collision-free names once per call.
+    reserved_names = set(scheduled.columns)
+    row_index_name = '_ats_row_index'
+    while row_index_name in reserved_names:
+        row_index_name += '_'
+    reserved_names.add(row_index_name)
+    eligible_name = '_ats_eligible'
+    while eligible_name in reserved_names:
+        eligible_name += '_'
+
     # One evaluation of the exact eligibility expression. A null result means
     # "not eligible", matching ``DataFrame.filter``; cast to a plain boolean mask
     # so the per-rebalance loop does no further Polars work.
-    prepared = scheduled.with_row_index('_row').select(
+    prepared = scheduled.with_row_index(row_index_name).select(
         pl.col('timestamp'), pl.col('symbol'), *[pl.col(name) for name in value_names],
-        pl.col('_row'), _eligible_expr(spec).fill_null(False).alias('_eligible'),
+        pl.col(row_index_name),
+        _eligible_expr(spec).fill_null(False).alias(eligible_name),
     ).sort('timestamp', maintain_order=True)
 
     symbols = prepared['symbol'].to_list()
@@ -179,9 +192,9 @@ def allocate_ts(features: pl.DataFrame, spec: TimeSeriesSpec,
     stops = prepared[stop_name].to_list()
     closes = prepared['close'].to_list()
     vols = prepared[vol_name].to_list() if vol_name is not None else None
-    eligible = prepared['_eligible'].to_numpy()
+    eligible = prepared[eligible_name].to_numpy()
     ticks = prepared['timestamp'].cast(pl.Int64).to_numpy()
-    original_rows = prepared['_row'].to_numpy()
+    original_rows = prepared[row_index_name].to_numpy()
 
     weight_values = np.zeros(len(symbols), dtype=np.float64)
     distance_values = np.zeros(len(symbols), dtype=np.float64)

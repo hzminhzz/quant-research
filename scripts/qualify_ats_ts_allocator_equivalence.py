@@ -61,8 +61,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.engine.ts_allocator import allocate_ts as optimized_allocate
-from src.engine.ts_spec import TimeSeriesSpec
+from src.engine.ts_allocator import allocate_ts as optimized_allocate  # noqa: E402
+from src.engine.ts_spec import TimeSeriesSpec  # noqa: E402
 
 #: Branch base for the allocator refactor (``git rev-parse <ref>:<path>``).
 DEFAULT_REF = '9771b7372e9be950193c121708e1fd65fada6142'
@@ -675,6 +675,19 @@ def cases() -> list[dict[str, Any]]:
                   for index, symbol in enumerate(six)]
     add('multi_timestamp_eligibility_varies', frame(mixed),
         build_spec(symbols=six, method='equal_weight', per_instrument_cap=0.2))
+
+    temp_name_rows = [
+        row(START, symbol, float(index + 1), _row=index,
+            _ats_row_index=index + 10, _ats_eligible=index % 2 == 0)
+        for index, symbol in enumerate(('A', 'B', 'C', 'D'))
+    ]
+    add('temporary_column_names_do_not_collide',
+        frame(temp_name_rows, overrides={
+            '_row': pl.Int64, '_ats_row_index': pl.Int64, '_ats_eligible': pl.Boolean,
+        }),
+        build_spec(symbols=('A', 'B', 'C', 'D'), method='equal_weight',
+                   per_instrument_cap=0.34, volatility_feature=None),
+        expected_gross=1.0)
 
     out.extend(fuzz_cases())
     return out

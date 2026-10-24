@@ -341,6 +341,18 @@ def test_error_precedence_across_timestamps_is_deterministic():
 # --------------------------------------------------------------------------- #
 # Empty / flat frames and per-section invariants
 # --------------------------------------------------------------------------- #
+@pytest.mark.parametrize('extra_name', ['_row', '_ats_row_index', '_ats_eligible'])
+def test_internal_temporary_column_names_do_not_collide_with_input(extra_name):
+    symbols = tuple('ABCD')
+    spec = make_spec(symbols, method='equal_weight', vol_feature=None, cap=0.34)
+    baseline = allocate_ts(make_panel(symbols), spec, spec.market_classes[0])
+    panel = make_panel(symbols).with_columns(pl.lit(7).alias(extra_name))
+
+    actual = allocate_ts(panel, spec, spec.market_classes[0])
+
+    assert actual.equals(baseline)
+
+
 def test_empty_and_only_ineligible_frames_keep_the_published_contract():
     symbols = tuple('ABCD')
     spec = make_spec(symbols, method='equal_weight', vol_feature=None, cap=0.34)
