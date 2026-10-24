@@ -1,8 +1,17 @@
 # ATS time-series allocator vectorization — 2026-10-22
 
-**Verdict:** merge-ready on synthetic and contract evidence; no merge performed.
-Development-only work: no vault, protected window, casefile, ledger, broker or
-live-order path was read or written.
+**Original PR #92 verdict (Oct 22):** merge-ready on synthetic and contract
+evidence. That was the submitted-head assessment and is superseded by the
+independent requalification in §8.
+
+**Independent requalification (Oct 24):** eligible for merge review after the
+collision fix in `c26d3a133c5823b2e912524c15fffe8a6856d6c2`. The broader
+non-data/non-slow lane still has four unrelated collection/environment
+failures, and full ATS trial throughput remains unmeasured. No merge performed.
+
+Qualification used development partitions only, with the loaded panel ending
+before the protected-window start. No protected partition, holdout, casefile,
+ledger, broker or live-order path was read or written.
 
 ---
 
@@ -164,7 +173,74 @@ the emitted frame and fingerprints are unchanged.
    directories, per-trial budgets), with the allocator held fixed so the result
    is attributable to scheduling rather than to this refactor.
 
-This work unit claims allocator-phase speed only. It does **not** claim a
-production trials-per-hour improvement: PR #89 measured the cross-sectional
-allocator at 0.72% of a development pipeline before its own optimization, and
-the time-series allocator's share of a full trial was not re-measured here.
+This work unit does **not** claim a production trials-per-hour improvement.
+The independent development-panel run in §8 estimates a 2.63% reduction in the
+feature-to-target component sum; the complete trial, including native
+simulation and downstream gates, was not timed. PR #89 measured the
+cross-sectional allocator at 0.72% of a development pipeline before its own
+optimization, and this time-series allocator's share of a full trial remains
+unmeasured.
+
+## 8. Independent requalification (2026-10-24)
+
+### Source review and compatibility fix
+
+The submitted allocator matched the original on the documented arithmetic,
+duplicate `(timestamp, symbol)` assignment behavior and first-appearance
+rebalance error precedence. Independent execution found one input-compatibility
+regression: `with_row_index('_row')` raised Polars `DuplicateError` when an
+otherwise valid feature panel already carried an unrelated `_row` column. The
+original allocator returned the expected rows. The same class of collision
+could occur for `_ats_row_index` and `_ats_eligible`.
+
+Follow-up commit `c26d3a133c5823b2e912524c15fffe8a6856d6c2` chooses internal
+names absent from the scheduled input columns. Three regression cases and one
+differential-oracle case cover those collisions. Financial arithmetic and
+eligibility rules are unchanged.
+
+### Correctness and regression evidence
+
+The oracle pins the original allocator blob and SHA-256 listed in §2, imports
+that source from git, and compares ordered schema, row count, exception type,
+`QuantError` status/reason, exact float64 bit patterns, and exact timestamp
+ticks. After adding the collision case, **82/82 cases were bit-identical**, with
+zero divergences and zero failures. This includes the 24 seeded fuzz panels,
+duplicate-row semantics, shuffled inputs, extreme and null values, and
+rebalance-order error precedence.
+
+The focused allocator/engine regression group passed **100 tests**, with six
+SHAP deprecation warnings. All **92 allocator/engine-related cases** in the
+broader non-data/non-slow lane passed. That lane reported 1,044 passed, 6
+skipped, 2 failures and 2 collection errors among 1,054 cases: the collection
+errors were missing `connectors` in `tests.test_ats3_audit_broker` and
+`tests.test_ats7_faults`; the failures were `JOB_VISIBILITY_UNKNOWN` in two
+`tests/test_managed_rebuild` cases. Those four results do not touch the
+allocator, but the broad lane is not green. Ruff checks for the allocator,
+oracle and edge-contract tests passed, as did `git diff --check`.
+
+### Development-only composed workload
+
+The benchmark used the existing `af30_s01_buy_hold_single` TimeSeriesSpec and
+its index 1-hour development vault. `DataVault.load()` opened 348 development
+files and produced a 146,789-row, six-instrument panel from 2020-03-31 10:00
+UTC through 2024-12-31 23:00 UTC. The panel's latest timestamp was before the
+spec's protected-window start; every opened file was under `/development/`.
+The development manifest SHA-256 was
+`8939586c7e2b39ea87f2540c12f76c8ff882d330febfc3cdbfc36dfbaaad3711`. The
+schedule contained 168 target rows. The optimized result matched the pinned
+original exactly.
+
+| Component | Original | Vectorized | Evidence |
+| --- | ---: | ---: | --- |
+| Cold development-vault load | 1,902.79 ms | 1,902.79 ms | one observed load |
+| Causal feature compile with prefix checks | 384.44 ms | 384.44 ms | one observed compile; 3 cutoffs passed |
+| Allocator | 67.61 ms | 5.65 ms | median of 5 alternating calls; **11.97×** |
+| Feature-to-target component sum | 2,354.84 ms | 2,292.88 ms | derived from the components above; **2.63% lower latency** |
+
+The 2.63% result is a component-summed estimate for this pre-simulation
+workload, not an observed full-trial throughput change. The corresponding
+1.027× throughput ratio is a projection that assumes later trial costs remain
+fixed. Native PnL, carry/execution qualification, Stage 3, holdout and trading
+paths were not run; no protected data was accessed. The evidence supports a
+real allocator speedup and a modest development-path reduction, but does not
+establish a production trials-per-hour gain.
